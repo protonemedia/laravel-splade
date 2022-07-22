@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/protonemedia/laravel-splade/main/logo.svg?token=GHSAT0AAAAAABVGPXSAXN7PUDHCVSEVBEBWYW2LYVQ" />
+<img src="https://raw.githubusercontent.com/protonemedia/laravel-splade/main/logo.svg" />
 
 # Laravel Splade
 
