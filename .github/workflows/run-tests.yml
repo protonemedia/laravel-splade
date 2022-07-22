@@ -87,28 +87,28 @@ jobs:
 
       - name: Upload Screenshots
         if: failure()
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: screenshots
           path: app/tests/Browser/screenshots
 
       - name: Upload Snapshots
         if: failure()
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: snapshots
           path: app/tests/Browser/__snapshots__
 
       - name: Upload Console Logs
         if: failure()
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: console
           path: app/tests/Browser/console
 
       - name: Upload Logs
         if: failure()
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: logs
           path: app/storage/logs
