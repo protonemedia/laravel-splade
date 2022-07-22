@@ -95,9 +95,6 @@ class SpladeInstallCommand extends Command
     /**
      * Install the middleware to a group in the application Http Kernel.
      *
-     * @param  string  $after
-     * @param  string  $name
-     * @param  string  $group
      * @return void
      */
     protected function installRouteMiddleware()
