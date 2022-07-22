@@ -2,10 +2,17 @@
 
 namespace App\Events;
 
+use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Broadcasting\PrivateChannel;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
+use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Queue\SerializesModels;
 use ProtoneMedia\Splade\Facades\Splade;
 
-class OrderWasShipped implements ShouldBroadcastNow
+class RedirectEvent implements ShouldBroadcastNow
 {
+    use Dispatchable, InteractsWithSockets, SerializesModels;
+
     public function broadcastOn()
     {
         return new PrivateChannel('Splade');
@@ -14,13 +21,7 @@ class OrderWasShipped implements ShouldBroadcastNow
     public function broadcastWith()
     {
         return [
-            Splade::refreshOnEvent(),
-
             Splade::redirectOnEvent()->route('navigation.one'),
-
-            Splade::toastOnEvent('Your order was shipped!')
-                ->rightBottom()
-                ->info(),
         ];
     }
 }
