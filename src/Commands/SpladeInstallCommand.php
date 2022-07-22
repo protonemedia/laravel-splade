@@ -22,15 +22,15 @@ class SpladeInstallCommand extends Command
         $this->updateNodePackages(function ($packages) {
             return [
                 '@protonemedia/laravel-splade' => '^0.1.0',
-                '@tailwindcss/forms'      => '^0.5.2',
-                '@tailwindcss/typography' => '^0.5.2',
-                '@vitejs/plugin-vue'      => '^3.0.0',
-                'autoprefixer'            => '^10.4.7',
-                'laravel-vite-plugin'     => '^0.5.0',
-                'postcss'                 => '^8.4.14',
-                'tailwindcss'             => '^3.1.0',
-                'vite'                    => '^3.0.0',
-                'vue'                     => '^3.2.37',
+                '@tailwindcss/forms'           => '^0.5.2',
+                '@tailwindcss/typography'      => '^0.5.2',
+                '@vitejs/plugin-vue'           => '^3.0.0',
+                'autoprefixer'                 => '^10.4.7',
+                'laravel-vite-plugin'          => '^0.5.0',
+                'postcss'                      => '^8.4.14',
+                'tailwindcss'                  => '^3.1.0',
+                'vite'                         => '^3.0.0',
+                'vue'                          => '^3.2.37',
             ] + $packages;
         });
 
