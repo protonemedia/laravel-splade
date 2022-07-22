@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/protonemedia/laravel-splade-package/main/logo.svg?token=GHSAT0AAAAAABV6MWHVHPJIPUX55YQ3H66AYWZJM2Q" />
+<img src="https://raw.githubusercontent.com/protonemedia/laravel-splade/main/logo.svg" />
 
 # Laravel Splade
 
@@ -6,7 +6,6 @@
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/protonemedia/laravel-splade.svg?style=flat-square)](https://packagist.org/packages/protonemedia/laravel-splade)
 [![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/protonemedia/laravel-splade/run-tests?label=tests)](https://github.com/protonemedia/laravel-splade/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/workflow/status/protonemedia/laravel-splade/Check%20&%20fix%20styling?label=code%20style)](https://github.com/protonemedia/laravel-splade/actions?query=workflow%3A"Check+%26+fix+styling"+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/protonemedia/laravel-splade.svg?style=flat-square)](https://packagist.org/packages/protonemedia/laravel-splade)
 
 ## Support Splade.

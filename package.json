@@ -1,6 +1,6 @@
 {
   "name": "@protonemedia/laravel-splade",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Laravel Splade: the magic of Inertia.js with the simplicity of Blade.",
   "author": "Pascal Baljet <pascal@protone.media>",
   "license": "MIT",
@@ -23,7 +23,7 @@
   },
   "peerDependencies": {
     "@headlessui/vue": "^1.6.7",
-    "axios": "^0.25",
+    "axios": "^0.27",
     "vue": "^3.2.37"
   },
   "devDependencies": {
