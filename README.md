@@ -14,7 +14,7 @@ We proudly support the community by developing Laravel packages and giving them 
 
 ## Documentation
 
-You can find the documentation at [Splade.dev]([https://splade.dev/).
+You can find the documentation at [Splade.dev](https://splade.dev/).
 
 ## Changelog
 
