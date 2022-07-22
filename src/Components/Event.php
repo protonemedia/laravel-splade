@@ -13,17 +13,19 @@ class Event extends Component
     /**
      * Create a new component instance.
      *
-     * @return void
+     * @param mixed $listen
      */
-    public function __construct(public string $listen, public string $scope = '{ subscribed, events }')
+    public function __construct(public $listen, public string $scope = '{ subscribed, events }')
     {
-        if (is_string($listen)) {
-            $this->listeners = collect(explode(',', $listen))
-                ->map(fn ($key) => trim($key))
-                ->all();
-        } else {
+        if (!is_string($listen)) {
             $this->listeners = $this->parseJsonData($listen);
+            
+            return;
         }
+
+        $this->listeners = collect(explode(',', $listen))
+            ->map('trim')
+            ->all();
     }
 
     /**
