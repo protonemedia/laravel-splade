@@ -4,9 +4,12 @@
 
 ComponentDefer
 
-<x-data default="{ counter: 1 }">
-    <button @click="data.counter++">Increase</button>
-    <x-defer url="/defer/api" v-bind:request="data" poll="5000" method="POST" />
-</x-data>
+<x-splade-data scope="requestData" v-bind:default="{ api: 'one' }">
+    <x-splade-defer url="/defer/api" v-bind:request="requestData" method="post">
+        <p v-if="processing">Loading...</p>
+        <p v-text="response" />
+        <button dusk="reload" @click.prevent="() => { requestData.api = 'two'; reload(); }">Again!</button>
+    </x-splade-defer>
+</x-splade-data>
 
 @endsection
