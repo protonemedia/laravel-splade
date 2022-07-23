@@ -12,10 +12,8 @@ class Event extends Component
 
     /**
      * Create a new component instance.
-     *
-     * @param mixed $listen
      */
-    public function __construct(public $listen, public string $scope = '{ subscribed, events }')
+    public function __construct(public mixed $listen, public string $scope = '{ subscribed, events }')
     {
         if (!is_string($listen)) {
             $this->listeners = $this->parseJsonData($listen);
