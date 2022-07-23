@@ -21,7 +21,7 @@ use ProtoneMedia\Splade\SpladeToast;
  * @method static self reset()
  * @method static self setModalKey(string $key)
  * @method static self share($key, $value)
- * @method static self SpladeToast toast(string $message = '')
+ * @method static SpladeToast toast(string $message = '')
  * @method static SpladeToast toastOnEvent(string $message = '')
  * @method static string getModalKey()
  * @method static string modalType()
