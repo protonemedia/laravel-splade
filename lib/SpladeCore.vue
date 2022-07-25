@@ -247,20 +247,16 @@ function request(url, method, data, headers) {
             newPageFromResponse(response);
         })
         .catch((error) => {
-            const spladeData = error.response.data.splade;
-
-            if (spladeData) {
+            if (spladeData = error.response?.data?.splade) {
                 setSpladeData(spladeData);
             }
 
-            if (error.response.status == 422) {
+            if (error.response?.status == 422) {
                 return;
             }
 
             onServerError(
-                error.response.data.html
-                    ? error.response.data.html
-                    : error.response.data
+                error.response?.data?.html || error.response?.data
             );
         });
 
