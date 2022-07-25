@@ -34,6 +34,8 @@ Route::middleware('splade')->group(function () {
     Route::view('data/rememberWithDefault', 'data.rememberWithDefault')->name('data.rememberWithDefault');
 
     Route::view('defer', 'defer')->name('defer');
+    Route::view('defer/requestAttribute', 'deferRequestAttribute')->name('defer.requestAttribute');
+
     Route::view('errors', 'errors')->name('errors');
 
     Route::view('event', 'event')->name('event');
