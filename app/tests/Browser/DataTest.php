@@ -62,6 +62,24 @@ class DataTest extends DuskTestCase
     }
 
     /** @test */
+    public function it_can_remember_the_state_of_the_data_with_a_default_dataset()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('/data/rememberWithDefault')
+                ->waitForText('DataRememberWithDefault')
+                ->assertChecked('checkbox')
+                ->uncheck('checkbox')
+                ->click('@binding')
+                ->waitForText('DataBinding')
+                ->assertRouteIs('data.binding')
+                ->click('@rememberWithDefault')
+                ->waitForText('DataRememberWithDefault')
+                ->assertRouteIs('data.rememberWithDefault')
+                ->assertNotChecked('checkbox');
+        });
+    }
+
+    /** @test */
     public function it_can_remember_the_state_of_the_data_in_local_storage()
     {
         $this->browse(function (Browser $browser) {

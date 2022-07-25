@@ -10,5 +10,6 @@ DataBinding
 </x-splade-data>
 
 <Link dusk="remember" href="/data/remember">Remember</Link>
+<Link dusk="rememberWithDefault" href="/data/rememberWithDefault">RememberWithDefault</Link>
 
 @endsection

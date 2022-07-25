@@ -31,6 +31,7 @@ Route::middleware('splade')->group(function () {
     Route::view('data/eloquent', 'data.eloquent')->name('data.eloquent');
     Route::view('data/remember', 'data.remember')->name('data.remember');
     Route::view('data/localStorage', 'data.localStorage')->name('data.localStorage');
+    Route::view('data/rememberWithDefault', 'data.rememberWithDefault')->name('data.rememberWithDefault');
 
     Route::view('defer', 'defer')->name('defer');
     Route::view('errors', 'errors')->name('errors');

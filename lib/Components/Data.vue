@@ -40,7 +40,7 @@ export default {
                 restoredData = {};
             }
 
-            this.values = Object.assign({}, { ...restoredData });
+            this.values = Object.assign({}, { ...this.default, ...restoredData });
         } else {
             this.values = Object.assign({}, { ...this.default });
         }
