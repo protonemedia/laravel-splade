@@ -17,7 +17,7 @@
     }
   },
   "scripts": {
-    "dev": "vite",
+    "dev": "vite build --watch",
     "build": "vite build",
     "eslint": "./node_modules/.bin/eslint lib/ --ext .js,.vue --fix"
   },

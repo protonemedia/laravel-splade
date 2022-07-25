@@ -129,6 +129,7 @@ export default {
         },
 
         request() {
+            this.processing = true;
             this.wasSuccessful = false;
             this.recentlySuccessful = false;
             clearTimeout(this.recentlySuccessfulTimeoutId)
@@ -152,11 +153,13 @@ export default {
                         this.reset();
                     }
 
+                    this.processing = false;
                     this.wasSuccessful = true;
                     this.recentlySuccessful = true;
                     this.recentlySuccessfulTimeoutId = setTimeout(() => this.recentlySuccessful = false, 2000)
                 })
                 .catch((error) => {
+                    this.processing = false;
                     this.$emit("error", error);
                 });
         },

@@ -7,6 +7,7 @@ use App\Events\ToastEvent;
 use App\Http\Controllers\BackFormController;
 use App\Http\Controllers\FileFormController;
 use App\Http\Controllers\SimpleFormController;
+use App\Http\Controllers\SlowFormController;
 use App\Http\Controllers\ToastController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
@@ -46,6 +47,7 @@ Route::middleware('splade')->group(function () {
 
     Route::view('form/simple', 'form.simple')->name('form.simple');
     Route::post('form/simple', SimpleFormController::class)->name('form.simple.submit');
+    Route::post('form/slow', SlowFormController::class)->name('form.slow.submit');
     Route::post('form/back', BackFormController::class)->name('form.back.submit');
 
     Route::view('form/confirm', 'form.confirm')->name('form.confirm');
@@ -54,6 +56,7 @@ Route::middleware('splade')->group(function () {
     Route::post('form/file', FileFormController::class)->name('form.file.submit');
     Route::view('form/restore', 'form.restore')->name('form.restore');
     Route::view('form/reset', 'form.reset')->name('form.reset');
+    Route::view('form/processing', 'form.processing')->name('form.processing');
 
     Route::view('form/array', 'form.array')->name('form.array');
     Route::view('form/arrayable', 'form.arrayable')->name('form.arrayable');
