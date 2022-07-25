@@ -439,7 +439,6 @@ const Oe = {
       ln(Oe, { html: ee(n) }, null, 8, ["html"]),
       (z(!0), He(ke, null, un(ee(m).currentStack, (h) => (z(), Se(Oe, {
         key: `modal.${h}`,
-        class: "z-20",
         type: l.value[h].type,
         html: l.value[h].html,
         stack: h,
@@ -1562,7 +1561,7 @@ const Ii = {
   mounted() {
     if (this.remember) {
       let e = m.restore(this.remember, this.localStorage);
-      e || (e = {}), this.values = Object.assign({}, { ...e });
+      e || (e = {}), this.values = Object.assign({}, { ...this.default, ...e });
     } else
       this.values = Object.assign({}, { ...this.default });
   },
@@ -2119,7 +2118,9 @@ const ol = {
     action: {
       type: String,
       required: !1,
-      default: location.href
+      default() {
+        return location ? location.href : "";
+      }
     },
     method: {
       type: String,
@@ -2205,14 +2206,14 @@ const ol = {
       });
     },
     request() {
-      this.wasSuccessful = !1, this.recentlySuccessful = !1, clearTimeout(this.recentlySuccessfulTimeoutId);
+      this.processing = !0, this.wasSuccessful = !1, this.recentlySuccessful = !1, clearTimeout(this.recentlySuccessfulTimeoutId);
       const e = this.forceFormData || ct(this.values) ? kr(this.values) : this.values;
       m.request(this.action, this.method.toUpperCase(), e, {
         Accept: "application/json"
       }).then((t) => {
-        this.$emit("success", t), this.restoreOnSuccess && this.restore(), this.resetOnSuccess && this.reset(), this.wasSuccessful = !0, this.recentlySuccessful = !0, this.recentlySuccessfulTimeoutId = setTimeout(() => this.recentlySuccessful = !1, 2e3);
+        this.$emit("success", t), this.restoreOnSuccess && this.restore(), this.resetOnSuccess && this.reset(), this.processing = !1, this.wasSuccessful = !0, this.recentlySuccessful = !0, this.recentlySuccessfulTimeoutId = setTimeout(() => this.recentlySuccessful = !1, 2e3);
       }).catch((t) => {
-        this.$emit("error", t);
+        this.processing = !1, this.$emit("error", t);
       });
     }
   },
@@ -2303,8 +2304,10 @@ const ol = {
     ], 8, il));
   }
 }, ll = {
-  provide: {
-    stack: () => globalThis.stack
+  provide() {
+    return {
+      stack: this.stack
+    };
   },
   props: {
     type: {
