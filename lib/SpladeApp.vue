@@ -16,7 +16,6 @@
   <Render
     v-for="stack in Splade.currentStack"
     :key="`modal.${stack}`"
-    class="z-20"
     :type="modals[stack].type"
     :html="modals[stack].html"
     :stack="stack"

@@ -7,11 +7,12 @@ import {
 } from "@headlessui/vue";
 
 export default {
-    provide: {
-        stack: () => {
-            return this.stack;
-        },
+    provide() {
+        return {
+            stack: this.stack
+        }
     },
+
     props: {
         type: {
             type: String,

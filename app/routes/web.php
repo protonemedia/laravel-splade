@@ -80,6 +80,7 @@ Route::middleware('splade')->group(function () {
     Route::view('modal/one', 'modal.one')->name('modal.one');
     Route::view('modal/two', 'modal.two')->name('modal.two');
     Route::view('modal/slideover', 'modal.slideover')->name('modal.slideover');
+    Route::view('modal/validation', 'modal.validation')->name('modal.validation');
 
     Route::post('state', function () {
         Splade::share('info', 'This is invalid');

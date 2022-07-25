@@ -1,7 +1,7 @@
 <!--START-SPLADE-MODAL-{{ $key }}-->
 <SpladeModal {{ $baseAttributes }}>
     <template #default="modal">
-        <component :is="modal.TransitionRoot" appear as="template" :show="modal.isOpen">
+        <component :dusk="`modal.${modal.stack}`" :is="modal.TransitionRoot" appear as="template" :show="modal.isOpen">
             <component :is="modal.Dialog" as="div" @close="modal.setIsOpen" class="relative z-20">
                 <!-- The backdrop, rendered as a fixed sibling to the panel container -->
                 <component

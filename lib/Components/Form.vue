@@ -14,7 +14,9 @@ export default {
         action: {
             type: String,
             required: false,
-            default: location.href,
+            default() {
+                return location ? location.href : ""
+            },
         },
 
         method: {
