@@ -6,7 +6,7 @@ import { renderToString } from "vue/server-renderer";
 // import { renderSpladeApp, SpladePlugin, startServer } from "../../../dist/protone-media-laravel-splade";
 
 // for build
-import { renderSpladeApp, SpladePlugin } from "@protonemedia/laravel-splade";
+import { renderSpladeApp, SpladePlugin, startServer } from "@protonemedia/laravel-splade";
 
 startServer(createServer, renderToString, 9000, (props) => {
     return createSSRApp({
