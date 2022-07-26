@@ -58,7 +58,7 @@ export default {
         return this.$slots.default(
             new Proxy(this.values, {
                 ownKeys() {
-                    return Object.keys(self.values)
+                    return Object.keys(self.values);
                 },
                 get(target, name) {
                     return get(self.values, name);

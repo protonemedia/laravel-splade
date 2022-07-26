@@ -10,7 +10,7 @@ export default {
     provide() {
         return {
             stack: this.stack
-        }
+        };
     },
 
     props: {

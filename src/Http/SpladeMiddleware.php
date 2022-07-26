@@ -4,9 +4,11 @@ namespace ProtoneMedia\Splade\Http;
 
 use Closure;
 use Illuminate\Contracts\Session\Session;
+use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use ProtoneMedia\Splade\SpladeCore;
@@ -79,11 +81,32 @@ class SpladeMiddleware
                 $bladePrefix .= '-';
             }
 
-            $rendered = view('root', [
+            $html = $response->original instanceof Htmlable
+                ? ($response->original->toHtml() ?: "")
+                : "";
+
+            $viewData = [
                 'components' => Blade::render("<x-{$bladePrefix}confirm /><x-{$bladePrefix}toast-wrapper />"),
-                'html'       => $response->original ?: '',
+                'html'       => $html,
                 'splade'     => $spladeData,
-            ])->render();
+                'ssrHead'    => null,
+                'ssrBody'    => null,
+            ];
+
+            if (config('splade.ssr.enabled')) {
+                $data = rescue(
+                    callback: fn () => Http::post(config('splade.ssr.server'), $viewData)->throw()->json(),
+                    report: false
+                );
+
+                $viewData['ssrBody'] = $data['body'] ?? null;
+            }
+
+            if (!$viewData['ssrBody'] && config('splade.ssr.blade_fallback')) {
+                $viewData['ssrBody'] = $html;
+            }
+
+            $rendered = view('root', $viewData)->render();
 
             return $response->setContent($rendered);
         }

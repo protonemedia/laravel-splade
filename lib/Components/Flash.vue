@@ -12,11 +12,11 @@ export default {
     },
 
     render() {
-        const self = this
+        const self = this;
 
         return this.$slots.default({
             has(key) {
-                return has(self.values, key)
+                return has(self.values, key);
             },
             ...this.values,
         });

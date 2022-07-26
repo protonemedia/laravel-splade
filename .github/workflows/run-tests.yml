@@ -10,9 +10,10 @@ jobs:
       matrix:
         php: [8.1, 8.0]
         laravel: [9.*]
+        ssr: [true, false]
         dependency-version: [prefer-lowest, prefer-stable]
 
-    name: P${{ matrix.php }} - ${{ matrix.dependency-version }}
+    name: P${{ matrix.php }} - L${{ matrix.laravel }} - SSR${{ matrix.ssr }} - ${{ matrix.dependency-version }}
 
     steps:
       - name: Checkout code
@@ -74,6 +75,13 @@ jobs:
         run: |
           cd app
           php artisan websockets:serve &
+
+      - name: Start SSR server
+        run: |
+          cd app
+          sed -i -e "s|SPLADE_SSR_ENABLED=false|SPLADE_SSR_ENABLED=true|g" .env
+          node bootstrap/ssr/ssr.js &
+        if: matrix.ssr == true
 
       - name: Run Laravel Server
         run: |

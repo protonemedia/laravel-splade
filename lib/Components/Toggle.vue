@@ -11,7 +11,7 @@ export default {
 
     data() {
         return {
-            toggles: {...this.default},
+            toggles: { ...this.default },
         };
     },
 
@@ -37,7 +37,7 @@ export default {
                 {},
                 {
                     ownKeys() {
-                        return Object.keys(self.toggles)
+                        return Object.keys(self.toggles);
 
                     },
                     get(target, name) {
