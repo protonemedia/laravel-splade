@@ -1,6 +1,18 @@
 <template>
   <div>
-    <Render :html="initialHtml" />
+    <!-- main -->
+    <component
+      :is="Splade.isSsr ? 'div' : 'keep-alive'"
+      :max="$spladeOptions.max_keep_alive"
+    >
+      <Render
+        :key="`visit.${Splade.pageVisitId}`"
+        :class="{
+          'transition ease-in-out blur-sm': Splade.currentStack > 0,
+        }"
+        :html="html"
+      />
+    </component>
 
     <Render :html="components" />
 

@@ -13,7 +13,7 @@ jobs:
         ssr: [true, false]
         dependency-version: [prefer-lowest, prefer-stable]
 
-    name: P${{ matrix.php }} - L${{ matrix.laravel }} - SSR${{ matrix.ssr }} - ${{ matrix.dependency-version }}
+    name: P${{ matrix.php }} - L${{ matrix.laravel }} - SSR ${{ matrix.ssr }} - ${{ matrix.dependency-version }}
 
     steps:
       - name: Checkout code
