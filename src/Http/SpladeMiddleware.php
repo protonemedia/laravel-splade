@@ -82,8 +82,8 @@ class SpladeMiddleware
             }
 
             $html = $response->original instanceof Htmlable
-                ? ($response->original->toHtml() ?: "")
-                : "";
+                ? ($response->original->toHtml() ?: '')
+                : '';
 
             $viewData = [
                 'components' => Blade::render("<x-{$bladePrefix}confirm /><x-{$bladePrefix}toast-wrapper />"),
