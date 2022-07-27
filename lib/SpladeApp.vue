@@ -6,7 +6,7 @@
       :max="$spladeOptions.max_keep_alive"
     >
       <Render
-        :key="`visit.${Splade.pageVisitId}`"
+        :key="`visit.${Splade.pageVisitId.value}`"
         :class="{
           'transition ease-in-out blur-sm': Splade.currentStack > 0,
         }"
@@ -103,11 +103,10 @@ function closeModal(stack) {
     Splade.popStack();
 }
 
+
 const $spladeOptions = inject("$spladeOptions") || {};
 
 Splade.setOnHtml((newHtml, scrollY) => {
-    console.error("New html!");
-
     modals.value = [];
     html.value = newHtml;
 

@@ -79,7 +79,6 @@ export default {
                 if (spladeRedirect) {
                     Splade.visit(spladeRedirect);
                 } else if (spladeRefresh) {
-                    console.error("Refresh event detected");
                     Splade.refresh();
                 } else {
                     this.events.push({ name, data: e });

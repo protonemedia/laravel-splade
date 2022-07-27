@@ -60,7 +60,7 @@ class SpladeMiddleware
                 );
 
                 if ($response->exception instanceof ValidationException) {
-                    $newData->splade['errors'] = $response->original['errors'];
+                    $newData['splade']->errors = $response->original['errors'];
                 }
 
                 return $response->setData($newData);
