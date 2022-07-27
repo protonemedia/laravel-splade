@@ -174,7 +174,7 @@ jobs:
       - name: Start SSR server
         run: |
           echo "SPLADE_SSR_ENABLED=true" >> .env
-          node bootstrap/ssr/ssr.js &
+          node bootstrap/ssr/ssr.mjs &
 
       - name: Run Test command
         run: php artisan splade:ssr-test
