@@ -40,30 +40,30 @@ export default {
 
     computed: {
         hasConfirmModal: () => {
-            return Splade.confirmModal ? true : false;
+            return Splade.confirmModal.value ? true : false;
         },
 
         title: function () {
-            return Splade.confirmModal?.title
-                ? Splade.confirmModal.title
+            return Splade.confirmModal.value?.title
+                ? Splade.confirmModal.value.title
                 : this.defaultTitle;
         },
 
         text: function () {
-            return Splade.confirmModal?.text
-                ? Splade.confirmModal.text
+            return Splade.confirmModal.value?.text
+                ? Splade.confirmModal.value.text
                 : this.defaultText;
         },
 
         confirmButton: function () {
-            return Splade.confirmModal?.confirmButton
-                ? Splade.confirmModal.confirmButton
+            return Splade.confirmModal.value?.confirmButton
+                ? Splade.confirmModal.value.confirmButton
                 : this.defaultConfirmButton;
         },
 
         cancelButton: function () {
-            return Splade.confirmModal?.cancelButton
-                ? Splade.confirmModal.cancelButton
+            return Splade.confirmModal.value?.cancelButton
+                ? Splade.confirmModal.value.cancelButton
                 : this.defaultCancelButton;
         },
     },
@@ -78,12 +78,12 @@ export default {
 
     methods: {
         cancel() {
-            Splade.confirmModal.rejectPromise();
+            Splade.confirmModal.value.rejectPromise();
             this.setIsOpen(false);
         },
 
         confirm() {
-            Splade.confirmModal.resolvePromise();
+            Splade.confirmModal.value.resolvePromise();
             this.setIsOpen(false);
         },
 

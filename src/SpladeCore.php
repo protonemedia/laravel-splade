@@ -27,6 +27,20 @@ class SpladeCore
 
     private array $toasts = [];
 
+    private string $rootView = 'root';
+
+    public function getRootView(): string
+    {
+        return $this->rootView;
+    }
+
+    public function setRootView(string $view): self
+    {
+        $this->rootView = $view;
+
+        return $this;
+    }
+
     public function reset(): self
     {
         $this->modalKey = null;

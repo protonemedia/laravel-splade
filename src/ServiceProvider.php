@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use ProtoneMedia\Splade\Commands\SpladeInstallCommand;
+use ProtoneMedia\Splade\Commands\SsrTestCommand;
+use ProtoneMedia\Splade\Http\BladeDirectives;
 
 class ServiceProvider extends BaseServiceProvider
 {
@@ -26,7 +28,10 @@ class ServiceProvider extends BaseServiceProvider
             ], 'views');
         }
 
-        $this->commands([SpladeInstallCommand::class]);
+        $this->commands([
+            SpladeInstallCommand::class,
+            SsrTestCommand::class,
+        ]);
 
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'splade');
 
@@ -42,9 +47,7 @@ class ServiceProvider extends BaseServiceProvider
             return $app->make(SpladeCore::class)->toastBuilder();
         });
 
-        Blade::directive('splade', function () {
-            return '<div id="app" data-components="{{ json_encode($components) }}" data-html="{{ json_encode($html) }}" data-splade="{{ json_encode($splade) }}" />';
-        });
+        (new BladeDirectives)->registerHandlers();
 
         Route::get(config('splade.event_redirect_route'), function ($uuid) {
             $data = Cache::pull(EventRedirect::class . $uuid);

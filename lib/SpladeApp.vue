@@ -1,34 +1,39 @@
 <template>
-  <!-- main -->
-  <keep-alive :max="$spladeOptions.max_keep_alive">
+  <div>
+    <!-- main -->
+    <component
+      :is="Splade.isSsr ? 'div' : 'keep-alive'"
+      :max="$spladeOptions.max_keep_alive"
+    >
+      <Render
+        :key="`visit.${Splade.pageVisitId.value}`"
+        :class="{
+          'transition ease-in-out blur-sm': Splade.currentStack > 0,
+        }"
+        :html="html"
+      />
+    </component>
+
+    <Render :html="components" />
+
+    <!-- modals -->
     <Render
-      :key="`visit.${Splade.pageVisitId}`"
-      :class="{
-        'transition ease-in-out blur-sm': Splade.currentStack > 0,
-      }"
-      :html="html"
+      v-for="stack in Splade.currentStack.value"
+      :key="`modal.${stack}`"
+      :type="modals[stack].type"
+      :html="modals[stack].html"
+      :stack="stack"
+      :on-top-of-stack="Splade.currentStack.value === stack"
+      @close="closeModal(stack)"
     />
-  </keep-alive>
 
-  <Render :html="components" />
-
-  <!-- modals -->
-  <Render
-    v-for="stack in Splade.currentStack"
-    :key="`modal.${stack}`"
-    :type="modals[stack].type"
-    :html="modals[stack].html"
-    :stack="stack"
-    :on-top-of-stack="Splade.currentStack === stack"
-    @close="closeModal(stack)"
-  />
-
-  <!-- server errors -->
-  <ServerError
-    v-if="serverErrorHtml"
-    :html="serverErrorHtml"
-    @close="closeServerError"
-  />
+    <!-- server errors -->
+    <ServerError
+      v-if="serverErrorHtml"
+      :html="serverErrorHtml"
+      @close="closeServerError"
+    />
+  </div>
 </template>
 
 <script setup>
@@ -41,15 +46,47 @@ import ServerError from "./ServerError.vue";
 const props = defineProps({
     el: {
         type: [String, Object],
-        required: true,
+        required: false,
+        default: "",
+    },
+
+    components: {
+        type: String,
+        required: false,
+        default: (props) => {
+            if(!Splade.isSsr) {
+                const $el = isString(props.el) ? document.getElementById(props.el) : props.el;
+
+                return JSON.parse($el.dataset.components) || "";
+            }
+        },
+    },
+
+    initialHtml: {
+        type: String,
+        required: false,
+        default: (props) => {
+            if(!Splade.isSsr) {
+                const $el = isString(props.el) ? document.getElementById(props.el) : props.el;
+
+                return JSON.parse($el.dataset.html) || "";
+            }
+        },
+    },
+
+    initialSpladeData: {
+        type: Object,
+        required: false,
+        default: (props) => {
+            if(!Splade.isSsr) {
+                const $el = isString(props.el) ? document.getElementById(props.el) : props.el;
+
+                return JSON.parse($el.dataset.splade) || {};
+            }
+        },
     },
 });
 
-const $el = isString(props.el) ? document.getElementById(props.el) : props.el;
-
-const components = JSON.parse($el.dataset.components);
-const initialHtml = JSON.parse($el.dataset.html);
-const initialSpladeData = JSON.parse($el.dataset.splade);
 
 provide("stack", 0);
 
@@ -66,14 +103,17 @@ function closeModal(stack) {
     Splade.popStack();
 }
 
-const $spladeOptions = inject("$spladeOptions");
+
+const $spladeOptions = inject("$spladeOptions") || {};
 
 Splade.setOnHtml((newHtml, scrollY) => {
     modals.value = [];
     html.value = newHtml;
 
     nextTick(() => {
-        window.scrollTo(0, scrollY);
+        if (!Splade.isSsr){
+            window.scrollTo(0, scrollY);
+        }
 
         if ($spladeOptions.transform_anchors) {
             [...document.querySelectorAll("a")].forEach((anchor) => {
@@ -99,12 +139,12 @@ Splade.setOnHtml((newHtml, scrollY) => {
 });
 
 Splade.setOnModal(function (html, type) {
-    modals.value[Splade.currentStack] = { html, type };
+    modals.value[Splade.currentStack.value] = { html, type };
 });
 
 Splade.setOnServerError(function (html) {
     serverErrorHtml.value = html;
 });
 
-Splade.init(initialHtml, initialSpladeData);
+Splade.init(props.initialHtml, props.initialSpladeData);
 </script>

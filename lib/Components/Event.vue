@@ -45,8 +45,8 @@ export default {
             : window.Echo.channel(this.channel);
 
         this.subscription.on("pusher:subscription_succeeded", () => {
-            this.subscribed = true
-        })
+            this.subscribed = true;
+        });
 
         this.listeners.forEach((name) => {
             const listener = this.subscription.listen(name, (e) => {
@@ -81,7 +81,7 @@ export default {
                 } else if (spladeRefresh) {
                     Splade.refresh();
                 } else {
-                    this.events.push({name, data: e});
+                    this.events.push({ name, data: e });
                 }
 
                 if (spladeToasts.length > 0) {
@@ -93,7 +93,7 @@ export default {
                 this.$root.$emit(`event.${name}`, e);
             });
 
-            this.subscriptions.push(listener)
+            this.subscriptions.push(listener);
         });
     },
 

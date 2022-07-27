@@ -10,9 +10,10 @@ jobs:
       matrix:
         php: [8.1, 8.0]
         laravel: [9.*]
+        ssr: [true, false]
         dependency-version: [prefer-lowest, prefer-stable]
 
-    name: P${{ matrix.php }} - ${{ matrix.dependency-version }}
+    name: Test P${{ matrix.php }} - L${{ matrix.laravel }} - SSR ${{ matrix.ssr }} - ${{ matrix.dependency-version }}
 
     steps:
       - name: Checkout code
@@ -75,12 +76,24 @@ jobs:
           cd app
           php artisan websockets:serve &
 
+      - name: Start SSR server
+        run: |
+          cd app
+          sed -i -e "s|SPLADE_SSR_ENABLED=false|SPLADE_SSR_ENABLED=true|g" .env
+          node bootstrap/ssr/ssr.js &
+        if: matrix.ssr == true
+
       - name: Run Laravel Server
         run: |
           cd app
           php artisan serve &
 
-      - name: Execute tests
+      - name: Execute Feature/Unit tests
+        run: |
+          cd app
+          php artisan test
+
+      - name: Execute Dusk tests
         run: |
           cd app
           php artisan dusk
@@ -112,3 +125,56 @@ jobs:
         with:
           name: logs
           path: app/storage/logs
+
+  stub-tests:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: true
+      matrix:
+        php: [8.1, 8.0]
+        laravel: [9.*]
+        dependency-version: [prefer-lowest, prefer-stable]
+
+    name: Test Stubs P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.dependency-version }}
+
+    steps:
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick, mysql, mysqli, pdo_mysql
+          coverage: none
+
+      - name: Setup Laravel
+        run: |
+          composer create-project laravel/laravel:^9 .
+          composer require protonemedia/laravel-splade
+          rm -rf vendor/protonemedia/laravel-splade
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          path: "vendor/protonemedia/laravel-splade"
+
+      - name: Install Splade
+        run: |
+          composer dump
+          php artisan splade:install
+
+      - name: Install NPM dependencies
+        run: |
+          npm i
+          rm -rf node_modules/@protonemedia/laravel-splade/dist
+          cp -R vendor/protonemedia/laravel-splade/dist node_modules/@protonemedia/laravel-splade/
+
+      - name: Compile assets
+        run: npm run build
+
+      - name: Start SSR server
+        run: |
+          echo "SPLADE_SSR_ENABLED=true" >> .env
+          node bootstrap/ssr/ssr.mjs &
+
+      - name: Run Test command
+        run: php artisan splade:ssr-test

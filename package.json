@@ -2,6 +2,7 @@
   "name": "@protonemedia/laravel-splade",
   "version": "0.1.2",
   "description": "Laravel Splade: the magic of Inertia.js with the simplicity of Blade.",
+  "private": false,
   "author": "Pascal Baljet <pascal@protone.media>",
   "license": "MIT",
   "type": "module",
@@ -19,7 +20,7 @@
   "scripts": {
     "dev": "vite build --watch",
     "build": "vite build",
-    "eslint": "./node_modules/.bin/eslint lib/ --ext .js,.vue --fix"
+    "eslint": "./node_modules/.bin/eslint app/resources/js/ lib/ stubs/ --ext .js,.vue --fix"
   },
   "peerDependencies": {
     "@headlessui/vue": "^1.6.7",
@@ -28,9 +29,9 @@
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^3.0.0",
-    "lodash-es": "^4.17.21",
-    "vite": "^3.0.0",
     "eslint": "^8.20.0",
-    "eslint-plugin-vue": "^9.2.0"
+    "eslint-plugin-vue": "^9.2.0",
+    "lodash-es": "^4.17.21",
+    "vite": "^3.0.0"
   }
 }

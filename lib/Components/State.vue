@@ -1,7 +1,7 @@
 <script>
 import { Splade } from "../Splade.js";
-import has from "lodash-es/has"
-import mapValues from "lodash-es/mapValues"
+import has from "lodash-es/has";
+import mapValues from "lodash-es/mapValues";
 
 export default {
     inject: ["stack"],
@@ -9,7 +9,7 @@ export default {
     render() {
         const rawErrors = Splade.validationErrors(this.stack);
         const flash = Splade.flashData(this.stack);
-        const shared = Splade.sharedData;
+        const shared = Splade.sharedData.value;
 
         const errors = mapValues(rawErrors, (errors) => {
             return errors.join("\n");
@@ -21,13 +21,13 @@ export default {
             rawErrors,
             shared,
             hasError(key) {
-                return has(rawErrors, key)
+                return has(rawErrors, key);
             },
             hasFlash(key) {
-                return has(flash, key)
+                return has(flash, key);
             },
             hasShared(key) {
-                return has(shared, key)
+                return has(shared, key);
             },
             hasErrors: Object.keys(rawErrors).length > 0,
         });

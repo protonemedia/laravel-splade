@@ -18,12 +18,12 @@ const positions = [
 export default {
     computed: {
         toasts: function () {
-            return Splade.toastsReversed;
+            return Splade.toastsReversed.value;
         },
 
         hasBackdrop: function () {
             return (
-                Splade.toasts.filter((toast) => {
+                Splade.toasts.value.filter((toast) => {
                     return !toast.dismissed && toast.backdrop && toast.html;
                 }).length > 0
             );
