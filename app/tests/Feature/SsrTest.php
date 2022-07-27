@@ -15,11 +15,11 @@ class SsrTest extends TestCase
             return $this->markTestSkipped('SSR not enabled');
         }
 
-        $data = (new Ssr)->render([
-            'components' => SpladeMiddleware::renderedComponents(),
-            'html'       => view('form.default')->render(),
-            'splade'     => (object) [],
-        ]);
+        $data = (new Ssr)->render(
+            components:  SpladeMiddleware::renderedComponents(),
+            html:        view('form.default')->render(),
+            splade:      (object) [],
+        );
 
         $this->assertArrayHasKey('body', $data);
 

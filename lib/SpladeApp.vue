@@ -106,6 +106,8 @@ function closeModal(stack) {
 const $spladeOptions = inject("$spladeOptions") || {};
 
 Splade.setOnHtml((newHtml, scrollY) => {
+    console.error("New html!");
+
     modals.value = [];
     html.value = newHtml;
 

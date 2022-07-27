@@ -66,7 +66,7 @@ class SpladeMiddleware
                 return $response->setData($newData);
             }
 
-            $content = $response->content() ?: '';
+            $content = $response->getContent() ?: '';
 
             return $response->setContent(json_encode([
                 'html'   => $this->splade->isModalRequest() ? $this->parseModalContent($content) : $content,
@@ -88,7 +88,11 @@ class SpladeMiddleware
             ];
 
             if (config('splade.ssr.enabled')) {
-                $data = $this->ssr->render($viewData);
+                $data = $this->ssr->render(
+                    $viewData['components'],
+                    $viewData['html'],
+                    $viewData['splade'],
+                );
 
                 $viewData['ssrBody'] = $data['body'] ?? null;
             }
@@ -116,7 +120,7 @@ class SpladeMiddleware
         );
     }
 
-    private function spladeData(Session $session): array
+    private function spladeData(Session $session): object
     {
         $flashData = config('splade.share_session_flash_data')
             ? collect($session->get('_flash.old', []))
@@ -126,7 +130,7 @@ class SpladeMiddleware
             ->mapWithKeys(fn ($key) => [$key => $session->get($key)])
             ->toArray();
 
-        return [
+        return (object) [
             'modal'   => $this->splade->isModalRequest() ? $this->splade->modalType() : null,
             'refresh' => $this->splade->isRefreshRequest() || (bool) $session->pull(static::FORCE_REFRESH_NEXT_REQUEST),
             'flash'   => (object) $flash,
@@ -136,7 +140,6 @@ class SpladeMiddleware
                 $session->pull(static::FLASH_TOASTS, []),
                 $this->splade->getToasts(),
             ),
-
         ];
     }
 
