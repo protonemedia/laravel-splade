@@ -18,6 +18,7 @@ class SsrTest extends TestCase
         $data = (new Ssr)->render([
             'components' => SpladeMiddleware::renderedComponents(),
             'html'       => view('form.default')->render(),
+            'splade'     => (object) [],
         ]);
 
         $this->assertArrayHasKey('body', $data);
