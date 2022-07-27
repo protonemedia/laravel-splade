@@ -88,7 +88,12 @@ jobs:
           cd app
           php artisan serve &
 
-      - name: Execute tests
+      - name: Execute Feature/Unit tests
+        run: |
+          cd app
+          php artisan test
+
+      - name: Execute Dusk tests
         run: |
           cd app
           php artisan dusk

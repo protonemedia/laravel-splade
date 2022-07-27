@@ -8,10 +8,10 @@ use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Blade;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use ProtoneMedia\Splade\SpladeCore;
+use ProtoneMedia\Splade\Ssr;
 use Symfony\Component\HttpFoundation\Response;
 
 class SpladeMiddleware
@@ -20,7 +20,7 @@ class SpladeMiddleware
 
     const FORCE_REFRESH_NEXT_REQUEST = 'splade.forceRefreshNextRequst';
 
-    public function __construct(private SpladeCore $splade)
+    public function __construct(private SpladeCore $splade, private Ssr $ssr)
     {
     }
 
@@ -75,18 +75,12 @@ class SpladeMiddleware
         }
 
         if ($response->isSuccessful()) {
-            $bladePrefix = config('splade.blade.component_prefix');
-
-            if ($bladePrefix) {
-                $bladePrefix .= '-';
-            }
-
             $html = $response->original instanceof Htmlable
                 ? ($response->original->toHtml() ?: '')
                 : '';
 
             $viewData = [
-                'components' => Blade::render("<x-{$bladePrefix}confirm /><x-{$bladePrefix}toast-wrapper />"),
+                'components' => static::renderedComponents(),
                 'html'       => $html,
                 'splade'     => $spladeData,
                 'ssrHead'    => null,
@@ -94,10 +88,7 @@ class SpladeMiddleware
             ];
 
             if (config('splade.ssr.enabled')) {
-                $data = rescue(
-                    callback: fn () => Http::post(config('splade.ssr.server'), $viewData)->throw()->json(),
-                    report: false
-                );
+                $data = $this->ssr->render($viewData);
 
                 $viewData['ssrBody'] = $data['body'] ?? null;
             }
@@ -147,5 +138,16 @@ class SpladeMiddleware
             ),
 
         ];
+    }
+
+    public static function renderedComponents(): string
+    {
+        $bladePrefix = config('splade.blade.component_prefix');
+
+        if ($bladePrefix) {
+            $bladePrefix .= '-';
+        }
+
+        return Blade::render("<x-{$bladePrefix}confirm /><x-{$bladePrefix}toast-wrapper />");
     }
 }
