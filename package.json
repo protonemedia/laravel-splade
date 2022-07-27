@@ -20,7 +20,7 @@
   "scripts": {
     "dev": "vite build --watch",
     "build": "vite build",
-    "eslint": "./node_modules/.bin/eslint app/resources/js/ lib/ --ext .js,.vue --fix"
+    "eslint": "./node_modules/.bin/eslint app/resources/js/ lib/ stubs/ --ext .js,.vue --fix"
   },
   "peerDependencies": {
     "@headlessui/vue": "^1.6.7",

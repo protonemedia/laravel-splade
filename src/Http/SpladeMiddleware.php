@@ -101,9 +101,9 @@ class SpladeMiddleware
                 $viewData['ssrBody'] = $html;
             }
 
-            $rendered = view('root', $viewData)->render();
-
-            return $response->setContent($rendered);
+            return $response->setContent(
+                view($this->splade->getRootView(), $viewData)->render()
+            );
         }
 
         return $response;

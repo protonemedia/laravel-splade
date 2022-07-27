@@ -11,3 +11,4 @@ testbench.yaml
 vendor
 node_modules
 protonemedia-laravel-splade-*.tgz
+app/bootstrap/ssr*

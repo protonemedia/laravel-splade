@@ -61,6 +61,7 @@ class SpladeInstallCommand extends Command
         copy(__DIR__ . '/../../stubs/resources/views/root.blade.php', resource_path('views/root.blade.php'));
         copy(__DIR__ . '/../../stubs/resources/css/app.css', resource_path('css/app.css'));
         copy(__DIR__ . '/../../stubs/resources/js/app.js', resource_path('js/app.js'));
+        copy(__DIR__ . '/../../stubs/resources/js/ssr.js', resource_path('js/ssr.js'));
 
         $this->comment('All done');
         $this->comment('Please execute "npm install && npm run dev" to build your assets.');
