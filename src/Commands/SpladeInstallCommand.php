@@ -34,6 +34,9 @@ class SpladeInstallCommand extends Command
             ] + $packages;
         });
 
+        // Add SSR build step...
+        $this->updateNodeScript();
+
         // Tailwind Configuration...
         copy(__DIR__ . '/../../stubs/tailwind.config.js', base_path('tailwind.config.js'));
         copy(__DIR__ . '/../../stubs/postcss.config.js', base_path('postcss.config.js'));
@@ -119,6 +122,20 @@ class SpladeInstallCommand extends Command
                 '        ' . $routeMiddleware . ',' . PHP_EOL . $routeMiddlewareAfter,
                 $httpKernel
             )
+        );
+    }
+
+    protected function updateNodeScript()
+    {
+        if (!file_exists(base_path('package.json'))) {
+            return;
+        }
+
+        $packageFile = file_get_contents(base_path('package.json'));
+
+        file_put_contents(
+            base_path('package.json'),
+            str_replace('"vite build"', '"vite build && vite build --ssr"', $packageFile)
         );
     }
 

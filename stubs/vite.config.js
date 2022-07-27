@@ -18,6 +18,9 @@ export default defineConfig({
             },
         }),
     ],
+    ssr: {
+        noExternal: ["vue", "@protonemedia/laravel-splade"]
+    },
     resolve: {
         alias: {
             vue: "vue/dist/vue.esm-bundler"
