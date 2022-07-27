@@ -31,12 +31,14 @@ class SsrTestCommand extends Command
             (object) []
         );
 
-        if (Str::contains($result['body'] ?? "", '<p>Test</p>')) {
+        if (Str::contains($result['body'] ?? '', '<p>Test</p>')) {
             $this->info('OK');
+
             return 0;
         }
 
-        $this->error("Wrong response.");
+        $this->error('Wrong response.');
+
         return 1;
     }
 }
