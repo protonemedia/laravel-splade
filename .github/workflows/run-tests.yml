@@ -163,7 +163,10 @@ jobs:
           php artisan splade:install
 
       - name: Install NPM dependencies
-        run: npm i
+        run: |
+          npm i
+          rm -rf node_modules/@protonemedia/laravel-splade/dist
+          cp -R vendor/protonemedia/laravel-splade/dist node_modules/@protonemedia/laravel-splade/
 
       - name: Compile assets
         run: npm run build
