@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use ProtoneMedia\Splade\Commands\SpladeInstallCommand;
+use ProtoneMedia\Splade\Commands\SsrTestCommand;
 use ProtoneMedia\Splade\Http\BladeDirectives;
 
 class ServiceProvider extends BaseServiceProvider
@@ -27,7 +28,10 @@ class ServiceProvider extends BaseServiceProvider
             ], 'views');
         }
 
-        $this->commands([SpladeInstallCommand::class]);
+        $this->commands([
+            SpladeInstallCommand::class,
+            SsrTestCommand::class,
+        ]);
 
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'splade');
 
