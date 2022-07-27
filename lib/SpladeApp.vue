@@ -53,37 +53,40 @@ const props = defineProps({
     components: {
         type: String,
         required: false,
-        default: "",
+        default: (props) => {
+            if(!Splade.isSsr) {
+                const $el = isString(props.el) ? document.getElementById(props.el) : props.el;
+
+                return JSON.parse($el.dataset.components) || "";
+            }
+        },
     },
+
     initialHtml: {
         type: String,
         required: false,
-        default: "",
+        default: (props) => {
+            if(!Splade.isSsr) {
+                const $el = isString(props.el) ? document.getElementById(props.el) : props.el;
+
+                return JSON.parse($el.dataset.html) || "";
+            }
+        },
     },
+
     initialSpladeData: {
         type: Object,
         required: false,
-        default: () => {
-            return {};
+        default: (props) => {
+            if(!Splade.isSsr) {
+                const $el = isString(props.el) ? document.getElementById(props.el) : props.el;
+
+                return JSON.parse($el.dataset.splade) || {};
+            }
         },
     },
 });
 
-let components = "";
-let initialHtml = "";
-let initialSpladeData = {};
-
-if(Splade.isSsr) {
-    components = props.components;
-    initialHtml = props.initialHtml;
-    initialSpladeData = props.initialSpladeData;
-} else {
-    const $el = isString(props.el) ? document.getElementById(props.el) : props.el;
-
-    components = JSON.parse($el.dataset.components);
-    initialHtml = JSON.parse($el.dataset.html);
-    initialSpladeData = JSON.parse($el.dataset.splade);
-}
 
 provide("stack", 0);
 
@@ -142,5 +145,5 @@ Splade.setOnServerError(function (html) {
     serverErrorHtml.value = html;
 });
 
-Splade.init(initialHtml, initialSpladeData);
+Splade.init(props.initialHtml, props.initialSpladeData);
 </script>
