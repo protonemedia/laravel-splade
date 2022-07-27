@@ -15,14 +15,17 @@ class Event extends Component
      */
     public function __construct(public mixed $listen, public string $scope = '{ subscribed, events }')
     {
+        $this->listeners = $this->parseListeners($listen);
+    }
+
+    private function parseListeners(mixed $listen)
+    {
         if (!is_string($listen)) {
-            $this->listeners = $this->parseJsonData($listen);
-            
-            return;
+            return $this->parseJsonData($listen);
         }
 
-        $this->listeners = collect(explode(',', $listen))
-            ->map('trim')
+        return collect(explode(',', $listen))
+            ->map(fn ($key) => trim($key))
             ->all();
     }
 
