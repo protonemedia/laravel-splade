@@ -12,12 +12,16 @@ class Defer extends Component
 
     public $json;
 
+    public $requestData;
+
+    public $requestJson;
+
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct($default = null, public string $scope = '{ processing, response, reload }')
+    public function __construct($default = null, $request = null, public string $scope = '{ processing, response, reload }')
     {
         $parsed = $this->parseJsonData($default);
 
@@ -25,6 +29,16 @@ class Defer extends Component
             $this->data = $parsed;
         } else {
             $this->json = $default ?: '{}';
+        }
+
+        //
+
+        $parsed = $this->parseJsonData($request);
+
+        if ($parsed) {
+            $this->requestData = $parsed;
+        } else {
+            $this->requestJson = $request ?: '{}';
         }
     }
 

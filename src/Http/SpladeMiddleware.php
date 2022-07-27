@@ -4,12 +4,14 @@ namespace ProtoneMedia\Splade\Http;
 
 use Closure;
 use Illuminate\Contracts\Session\Session;
+use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use ProtoneMedia\Splade\SpladeCore;
+use ProtoneMedia\Splade\Ssr;
 use Symfony\Component\HttpFoundation\Response;
 
 class SpladeMiddleware
@@ -18,7 +20,7 @@ class SpladeMiddleware
 
     const FORCE_REFRESH_NEXT_REQUEST = 'splade.forceRefreshNextRequst';
 
-    public function __construct(private SpladeCore $splade)
+    public function __construct(private SpladeCore $splade, private Ssr $ssr)
     {
     }
 
@@ -58,13 +60,13 @@ class SpladeMiddleware
                 );
 
                 if ($response->exception instanceof ValidationException) {
-                    $newData['splade']['errors'] = $response->original['errors'];
+                    $newData['splade']->errors = $response->original['errors'];
                 }
 
                 return $response->setData($newData);
             }
 
-            $content = $response->content() ?: '';
+            $content = $response->getContent() ?: '';
 
             return $response->setContent(json_encode([
                 'html'   => $this->splade->isModalRequest() ? $this->parseModalContent($content) : $content,
@@ -73,19 +75,35 @@ class SpladeMiddleware
         }
 
         if ($response->isSuccessful()) {
-            $bladePrefix = config('splade.blade.component_prefix');
+            $html = $response->original instanceof Htmlable
+                ? ($response->original->toHtml() ?: '')
+                : '';
 
-            if ($bladePrefix) {
-                $bladePrefix .= '-';
+            $viewData = [
+                'components' => static::renderedComponents(),
+                'html'       => $html,
+                'splade'     => $spladeData,
+                'ssrHead'    => null,
+                'ssrBody'    => null,
+            ];
+
+            if (config('splade.ssr.enabled')) {
+                $data = $this->ssr->render(
+                    $viewData['components'],
+                    $viewData['html'],
+                    $viewData['splade'],
+                );
+
+                $viewData['ssrBody'] = $data['body'] ?? null;
             }
 
-            $rendered = view('root', [
-                'components' => Blade::render("<x-{$bladePrefix}confirm /><x-{$bladePrefix}toast-wrapper />"),
-                'html'       => $response->original ?: '',
-                'splade'     => $spladeData,
-            ])->render();
+            if (!$viewData['ssrBody'] && config('splade.ssr.blade_fallback')) {
+                $viewData['ssrBody'] = $html;
+            }
 
-            return $response->setContent($rendered);
+            return $response->setContent(
+                view($this->splade->getRootView(), $viewData)->render()
+            );
         }
 
         return $response;
@@ -102,7 +120,7 @@ class SpladeMiddleware
         );
     }
 
-    private function spladeData(Session $session): array
+    private function spladeData(Session $session): object
     {
         $flashData = config('splade.share_session_flash_data')
             ? collect($session->get('_flash.old', []))
@@ -112,7 +130,7 @@ class SpladeMiddleware
             ->mapWithKeys(fn ($key) => [$key => $session->get($key)])
             ->toArray();
 
-        return [
+        return (object) [
             'modal'   => $this->splade->isModalRequest() ? $this->splade->modalType() : null,
             'refresh' => $this->splade->isRefreshRequest() || (bool) $session->pull(static::FORCE_REFRESH_NEXT_REQUEST),
             'flash'   => (object) $flash,
@@ -122,7 +140,17 @@ class SpladeMiddleware
                 $session->pull(static::FLASH_TOASTS, []),
                 $this->splade->getToasts(),
             ),
-
         ];
+    }
+
+    public static function renderedComponents(): string
+    {
+        $bladePrefix = config('splade.blade.component_prefix');
+
+        if ($bladePrefix) {
+            $bladePrefix .= '-';
+        }
+
+        return Blade::render("<x-{$bladePrefix}confirm /><x-{$bladePrefix}toast-wrapper />");
     }
 }

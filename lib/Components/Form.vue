@@ -14,7 +14,13 @@ export default {
         action: {
             type: String,
             required: false,
-            default: location.href,
+            default() {
+                if(Splade.isSsr) {
+                    return "";
+                }
+
+                return location.href;
+            }
         },
 
         method: {
@@ -76,6 +82,7 @@ export default {
 
     emits: ["success", "error"],
 
+
     data() {
         return {
             values: Object.assign({}, { ...this.default }),
@@ -98,9 +105,11 @@ export default {
         },
     },
 
+
+
     methods: {
         hasError(key) {
-            return has(this.errors, key)
+            return has(this.errors, key);
         },
 
         reset() {
@@ -129,9 +138,10 @@ export default {
         },
 
         request() {
+            this.processing = true;
             this.wasSuccessful = false;
             this.recentlySuccessful = false;
-            clearTimeout(this.recentlySuccessfulTimeoutId)
+            clearTimeout(this.recentlySuccessfulTimeoutId);
 
             const data =
                 this.forceFormData || hasFiles(this.values)
@@ -152,11 +162,13 @@ export default {
                         this.reset();
                     }
 
+                    this.processing = false;
                     this.wasSuccessful = true;
                     this.recentlySuccessful = true;
-                    this.recentlySuccessfulTimeoutId = setTimeout(() => this.recentlySuccessful = false, 2000)
+                    this.recentlySuccessfulTimeoutId = setTimeout(() => this.recentlySuccessful = false, 2000);
                 })
                 .catch((error) => {
+                    this.processing = false;
                     this.$emit("error", error);
                 });
         },
@@ -170,7 +182,7 @@ export default {
                 {},
                 {
                     ownKeys() {
-                        return Object.keys(self.values)
+                        return Object.keys(self.values);
                     },
                     get(target, name) {
                         const preservedKeys = [

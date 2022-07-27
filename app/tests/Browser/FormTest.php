@@ -161,4 +161,20 @@ class FormTest extends DuskTestCase
                 ->assertInputValue('@name', 'Splade');
         });
     }
+
+    /** @test */
+    public function it_can_show_the_forms_state()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('/form/processing')
+                ->waitForText('FormProcessing')
+                ->press('Submit')
+                ->waitForText('Form is processing')
+                ->waitUntilMissing('Form is processing')
+                ->waitForText('Form was successful')
+                ->assertSee('Form recently successful')
+                ->waitUntilMissing('Form recently successful')
+                ->assertSee('Form was successful');
+        });
+    }
 }

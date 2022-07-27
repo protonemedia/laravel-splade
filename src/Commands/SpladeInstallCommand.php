@@ -21,7 +21,7 @@ class SpladeInstallCommand extends Command
         // Install NPM packages...
         $this->updateNodePackages(function ($packages) {
             return [
-                '@protonemedia/laravel-splade' => '^0.1.1',
+                '@protonemedia/laravel-splade' => '^0.1.2',
                 '@tailwindcss/forms'           => '^0.5.2',
                 '@tailwindcss/typography'      => '^0.5.2',
                 '@vitejs/plugin-vue'           => '^3.0.0',
@@ -33,6 +33,9 @@ class SpladeInstallCommand extends Command
                 'vue'                          => '^3.2.37',
             ] + $packages;
         });
+
+        // Add SSR build step...
+        $this->updateNodeScript();
 
         // Tailwind Configuration...
         copy(__DIR__ . '/../../stubs/tailwind.config.js', base_path('tailwind.config.js'));
@@ -61,6 +64,7 @@ class SpladeInstallCommand extends Command
         copy(__DIR__ . '/../../stubs/resources/views/root.blade.php', resource_path('views/root.blade.php'));
         copy(__DIR__ . '/../../stubs/resources/css/app.css', resource_path('css/app.css'));
         copy(__DIR__ . '/../../stubs/resources/js/app.js', resource_path('js/app.js'));
+        copy(__DIR__ . '/../../stubs/resources/js/ssr.js', resource_path('js/ssr.js'));
 
         $this->comment('All done');
         $this->comment('Please execute "npm install && npm run dev" to build your assets.');
@@ -95,9 +99,6 @@ class SpladeInstallCommand extends Command
     /**
      * Install the middleware to a group in the application Http Kernel.
      *
-     * @param  string  $after
-     * @param  string  $name
-     * @param  string  $group
      * @return void
      */
     protected function installRouteMiddleware()
@@ -121,6 +122,20 @@ class SpladeInstallCommand extends Command
                 '        ' . $routeMiddleware . ',' . PHP_EOL . $routeMiddlewareAfter,
                 $httpKernel
             )
+        );
+    }
+
+    protected function updateNodeScript()
+    {
+        if (!file_exists(base_path('package.json'))) {
+            return;
+        }
+
+        $packageFile = file_get_contents(base_path('package.json'));
+
+        file_put_contents(
+            base_path('package.json'),
+            str_replace('"vite build"', '"vite build && vite build --ssr"', $packageFile)
         );
     }
 

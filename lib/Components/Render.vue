@@ -3,7 +3,7 @@
 </template>
 
 <script setup>
-import { compile, h, ref, watch } from "vue";
+import { h, ref, watch } from "vue";
 
 const props = defineProps({
     html: {
@@ -17,7 +17,7 @@ const render = ref(null);
 
 function updateRender() {
     render.value = h({
-        render: compile(props.html),
+        template: props.html
     });
 }
 

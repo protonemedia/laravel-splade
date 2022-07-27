@@ -1,7 +1,7 @@
 <script>
 import { Splade } from "../Splade.js";
-import has from "lodash-es/has"
-import first from "lodash-es/first"
+import has from "lodash-es/has";
+import first from "lodash-es/first";
 
 export default {
     inject: ["stack"],
@@ -13,14 +13,14 @@ export default {
     },
 
     render() {
-        const self = this
+        const self = this;
 
         return this.$slots.default({
             has(key) {
-                return has(self.values, key)
+                return has(self.values, key);
             },
             first(key) {
-                return first(self.values[key] || [])
+                return first(self.values[key] || []);
             },
             all: { ...this.values },
             ...this.values,

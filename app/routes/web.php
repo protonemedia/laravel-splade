@@ -7,6 +7,7 @@ use App\Events\ToastEvent;
 use App\Http\Controllers\BackFormController;
 use App\Http\Controllers\FileFormController;
 use App\Http\Controllers\SimpleFormController;
+use App\Http\Controllers\SlowFormController;
 use App\Http\Controllers\ToastController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
@@ -30,8 +31,11 @@ Route::middleware('splade')->group(function () {
     Route::view('data/eloquent', 'data.eloquent')->name('data.eloquent');
     Route::view('data/remember', 'data.remember')->name('data.remember');
     Route::view('data/localStorage', 'data.localStorage')->name('data.localStorage');
+    Route::view('data/rememberWithDefault', 'data.rememberWithDefault')->name('data.rememberWithDefault');
 
     Route::view('defer', 'defer')->name('defer');
+    Route::view('defer/requestAttribute', 'deferRequestAttribute')->name('defer.requestAttribute');
+
     Route::view('errors', 'errors')->name('errors');
 
     Route::view('event', 'event')->name('event');
@@ -46,6 +50,7 @@ Route::middleware('splade')->group(function () {
 
     Route::view('form/simple', 'form.simple')->name('form.simple');
     Route::post('form/simple', SimpleFormController::class)->name('form.simple.submit');
+    Route::post('form/slow', SlowFormController::class)->name('form.slow.submit');
     Route::post('form/back', BackFormController::class)->name('form.back.submit');
 
     Route::view('form/confirm', 'form.confirm')->name('form.confirm');
@@ -54,6 +59,7 @@ Route::middleware('splade')->group(function () {
     Route::post('form/file', FileFormController::class)->name('form.file.submit');
     Route::view('form/restore', 'form.restore')->name('form.restore');
     Route::view('form/reset', 'form.reset')->name('form.reset');
+    Route::view('form/processing', 'form.processing')->name('form.processing');
 
     Route::view('form/array', 'form.array')->name('form.array');
     Route::view('form/arrayable', 'form.arrayable')->name('form.arrayable');
@@ -74,6 +80,7 @@ Route::middleware('splade')->group(function () {
     Route::view('modal/one', 'modal.one')->name('modal.one');
     Route::view('modal/two', 'modal.two')->name('modal.two');
     Route::view('modal/slideover', 'modal.slideover')->name('modal.slideover');
+    Route::view('modal/validation', 'modal.validation')->name('modal.validation');
 
     Route::post('state', function () {
         Splade::share('info', 'This is invalid');

@@ -12,5 +12,8 @@ module.exports = {
         "vue/require-default-prop": 0,
         "indent": ["error", 4],
         "quotes": ["error", "double"],
+        "object-curly-spacing": ["error", "always"],
+        "semi": ["error", "always"],
+        "comma-spacing": ["error", { "before": false, "after": true }]
     }
-}
+};

@@ -118,4 +118,20 @@ class ModalTest extends DuskTestCase
             ]);
         });
     }
+
+    /** @test */
+    public function it_shows_the_form_validation_inside_the_modal()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('/modal/base')
+                ->resize(1024, 768)
+                ->waitForText('ModalComponent')
+                ->click('@validation')
+                ->waitForText('ModalComponentValidation')
+                ->pause(500)
+                ->press('Submit')
+                ->waitForText('The name field is required.')
+                ->assertSeeIn('@modal.1', 'The name field is required.');
+        });
+    }
 }
