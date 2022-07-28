@@ -5,7 +5,7 @@
         "build": "vite build && vite build --ssr"
     },
     "devDependencies": {
-        "@protonemedia/laravel-splade": "file:../protonemedia-laravel-splade-0.1.2.tgz",
+        "@protonemedia/laravel-splade": "file:../protonemedia-laravel-splade-0.2.0.tgz",
         "@tailwindcss/forms": "^0.5.2",
         "@tailwindcss/typography": "^0.5.2",
         "@vitejs/plugin-vue": "^2.3.3",
