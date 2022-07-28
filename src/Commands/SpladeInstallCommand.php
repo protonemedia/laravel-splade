@@ -74,9 +74,9 @@ class SpladeInstallCommand extends Command
 
     protected function installExceptionHandler()
     {
-        $exceptionHandler = file_get_contents(app_path('Exceptions/Handler.php'));
+        $exceptionHandler = str_replace("\r\n", "\n", file_get_contents(app_path('Exceptions/Handler.php')));
 
-        $search = 'public function register()' . PHP_EOL . '    {';
+        $search =  str_replace("\r\n", "\n", 'public function register()' . PHP_EOL . '    {');
 
         $registerMethodAfter = Str::after($exceptionHandler, $search);
 
@@ -103,9 +103,9 @@ class SpladeInstallCommand extends Command
      */
     protected function installRouteMiddleware()
     {
-        $httpKernel = file_get_contents(app_path('Http/Kernel.php'));
+        $httpKernel = str_replace("\r\n", "\n", file_get_contents(app_path('Http/Kernel.php')));
 
-        $search = 'protected $routeMiddleware = [' . PHP_EOL;
+        $search = str_replace("\r\n", "\n", 'protected $routeMiddleware = [' . PHP_EOL);
 
         $routeMiddlewareAfter = Str::after($httpKernel, $search);
 
