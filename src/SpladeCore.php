@@ -29,6 +29,8 @@ class SpladeCore
 
     private string $rootView = 'root';
 
+    private Head $head;
+
     public function getRootView(): string
     {
         return $this->rootView;
@@ -52,6 +54,7 @@ class SpladeCore
 
     public function __construct(private $requestResolver)
     {
+        $this->head = new Head;
     }
 
     private function request(): Request
@@ -94,6 +97,11 @@ class SpladeCore
     public function toastBuilder(): SpladeToastBuilder
     {
         return new SpladeToastBuilder($this);
+    }
+
+    public function head(): Head
+    {
+        return $this->head;
     }
 
     public function toast(string $message = ''): SpladeToast
