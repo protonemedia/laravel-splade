@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 0.2.0 - 2022-07-28
+
+- Support for [Server-side rendering (SSR)](https://splade.dev/docs/ssr).
+- Support for [title and meta tags](https://splade.dev/docs/title-meta).
+- Migrated `SpladeCore.vue` to `Splade.js` to prevent mulitple Vue instances.
+
 ## 0.1.2 - 2022-07-25
 
 - Fix `processing` prop in Form component (#11)
