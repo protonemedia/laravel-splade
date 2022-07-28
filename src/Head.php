@@ -11,6 +11,7 @@ use JsonSerializable;
 class Head implements Arrayable, JsonSerializable
 {
     private string $title;
+
     private array $meta = [];
 
     public function __construct()
