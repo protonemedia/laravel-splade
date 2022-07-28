@@ -23,9 +23,6 @@
         "laravel/pint": "^1.0",
         "nunomaduro/collision": "^6.0",
         "nunomaduro/larastan": "^2.0.1",
-        "orchestra/testbench": "^7.0",
-        "pestphp/pest": "^1.21",
-        "pestphp/pest-plugin-laravel": "^1.1",
         "phpunit/phpunit": "^9.5"
     },
     "autoload": {
@@ -57,8 +54,9 @@
                 "ProtoneMedia\\Splade\\ServiceProvider"
             ],
             "aliases": {
-                "Toast": "ProtoneMedia\\Splade\\Facades\\Toast",
-                "Splade": "ProtoneMedia\\Splade\\Facades\\Splade"
+                "SEO": "ProtoneMedia\\Splade\\Facades\\SEO",
+                "Splade": "ProtoneMedia\\Splade\\Facades\\Splade",
+                "Toast": "ProtoneMedia\\Splade\\Facades\\Toast"
             }
         }
     },

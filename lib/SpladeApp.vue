@@ -37,9 +37,10 @@
 </template>
 
 <script setup>
-import isString from "lodash-es/isString";
 import { ref, provide, nextTick, inject } from "vue";
 import { Splade } from "./Splade.js";
+import forOwn from "lodash-es/forOwn";
+import isString from "lodash-es/isString";
 import Render from "./Components/Render.vue";
 import ServerError from "./ServerError.vue";
 
@@ -103,8 +104,44 @@ function closeModal(stack) {
     Splade.popStack();
 }
 
-
 const $spladeOptions = inject("$spladeOptions") || {};
+
+function findOrCreateMeta(attribute, content)
+{
+    let $el = document.querySelector(`meta[${attribute}="${content}"]`);
+
+    if($el) {
+        return $el;
+    }
+
+    $el = document.createElement("meta");
+    $el[attribute] = content;
+    document.getElementsByTagName("head")[0].appendChild($el);
+
+    return $el;
+}
+
+function updateMetaElement(meta) {
+    const $el = meta.name
+        ? findOrCreateMeta("name", meta.name)
+        : findOrCreateMeta("property", meta.property);
+
+    forOwn(meta, (value, key) => {
+        $el[key] = value;
+    });
+}
+
+Splade.setOnHead((newHead) => {
+    if(Splade.isSsr) {
+        return;
+    }
+
+    document.title = newHead.title;
+
+    newHead.meta.forEach((meta) => {
+        updateMetaElement(meta);
+    });
+});
 
 Splade.setOnHtml((newHtml, scrollY) => {
     modals.value = [];

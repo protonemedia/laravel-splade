@@ -131,6 +131,7 @@ class SpladeMiddleware
             ->toArray();
 
         return (object) [
+            'head'    => $this->splade->head()->toArray(),
             'modal'   => $this->splade->isModalRequest() ? $this->splade->modalType() : null,
             'refresh' => $this->splade->isRefreshRequest() || (bool) $session->pull(static::FORCE_REFRESH_NEXT_REQUEST),
             'flash'   => (object) $flash,
