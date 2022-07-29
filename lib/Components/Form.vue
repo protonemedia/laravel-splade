@@ -186,6 +186,7 @@ export default {
                     },
                     get(target, name) {
                         const preservedKeys = [
+                            "$attrs",
                             "errors",
                             "restore",
                             "reset",
