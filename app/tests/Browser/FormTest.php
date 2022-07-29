@@ -177,4 +177,14 @@ class FormTest extends DuskTestCase
                 ->assertSee('Form was successful');
         });
     }
+
+    /** @test */
+    public function it_renders_classes_on_the_form_element()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('/form/simple')
+                ->waitForText('FormSimple')
+                ->assertAttribute('form', 'class', 'form-simple');
+        });
+    }
 }

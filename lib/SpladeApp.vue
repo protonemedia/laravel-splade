@@ -2,7 +2,7 @@
   <div>
     <!-- main -->
     <component
-      :is="Splade.isSsr ? 'div' : 'keep-alive'"
+      :is="Splade.isSsr ? 'div' : KeepAlive"
       :max="$spladeOptions.max_keep_alive"
     >
       <Render
@@ -37,7 +37,7 @@
 </template>
 
 <script setup>
-import { ref, provide, nextTick, inject } from "vue";
+import { ref, provide, nextTick, inject, KeepAlive } from "vue";
 import { Splade } from "./Splade.js";
 import forOwn from "lodash-es/forOwn";
 import isString from "lodash-es/isString";
