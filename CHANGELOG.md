@@ -2,6 +2,11 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 0.2.1 - 2022-07-29
+
+- Default close button for Modal and Slideover components (#14)
+- Fix for rendering classes on the Form component (#17)
+
 ## 0.2.0 - 2022-07-28
 
 - Support for [Server-side rendering (SSR)](https://splade.dev/docs/ssr).
