@@ -134,4 +134,28 @@ class ModalTest extends DuskTestCase
                 ->assertSeeIn('@modal.1', 'The name field is required.');
         });
     }
+
+    /** @test */
+    public function it_can_optionally_hide_the_close_button()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('/modal/base')
+                ->resize(1024, 768)
+                ->waitForText('ModalComponent')
+                ->click('@one')
+                ->waitForText('ModalComponentOne')
+                ->within('@modal.1', function (Browser $browser) {
+                    $browser->assertPresent('@close-modal-button');
+                })
+                ->click('@two')
+                ->waitForText('ModalComponentTwo')
+                ->within('@modal.2', function (Browser $browser) {
+                    $browser->assertMissing('@close-modal-button');
+                })
+                ->click('@close-two')
+                ->waitUntilMissingText('ModalComponentTwo')
+                ->click('@close-modal-button')
+                ->waitUntilMissingText('ModalComponentOne');
+        });
+    }
 }

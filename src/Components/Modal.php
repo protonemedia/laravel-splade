@@ -12,7 +12,7 @@ class Modal extends Component
      *
      * @return void
      */
-    public function __construct(public SpladeCore $splade)
+    public function __construct(public SpladeCore $splade, public bool $closeButton = true)
     {
     }
 
@@ -33,6 +33,7 @@ class Modal extends Component
             ? view(
                 $this->splade->modalType() === SpladeCore::MODAL_TYPE_MODAL ? 'splade::modal' : 'splade::slideover',
                 [
+                    'closeButton' => $this->closeButton,
                     'modalKey'    => $this->splade->getModalKey(),
                     'wrapperName' => $prefix . 'modal-wrapper',
                 ]
