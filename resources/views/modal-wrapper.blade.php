@@ -1,5 +1,5 @@
 <!--START-SPLADE-MODAL-{{ $key }}-->
-<SpladeModal {{ $baseAttributes }}>
+<SpladeModal {{ $baseAttributes }} v-bind:close-button="@js($closeButton)">
     <template #default="modal">
         <component :dusk="`modal.${modal.stack}`" :is="modal.TransitionRoot" appear as="template" :show="modal.isOpen">
             <component :is="modal.Dialog" as="div" @close="modal.setIsOpen" class="relative z-20">
