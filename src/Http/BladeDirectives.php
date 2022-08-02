@@ -9,6 +9,7 @@ class BladeDirectives
     public function registerHandlers()
     {
         Blade::directive('splade', [$this, 'splade']);
+        Blade::directive('spladeHead', [$this, 'spladeHead']);
     }
 
     public function splade($expression = '')
@@ -20,5 +21,10 @@ class BladeDirectives
         $template[] = '</div>';
 
         return implode(PHP_EOL, $template);
+    }
+
+    public function spladeHead()
+    {
+        return '{{ app(\'laravel-splade-seo\')->renderHead() }}';
     }
 }

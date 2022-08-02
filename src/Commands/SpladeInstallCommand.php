@@ -21,7 +21,7 @@ class SpladeInstallCommand extends Command
         // Install NPM packages...
         $this->updateNodePackages(function ($packages) {
             return [
-                '@protonemedia/laravel-splade' => '^0.1.2',
+                '@protonemedia/laravel-splade' => '^0.2.0',
                 '@tailwindcss/forms'           => '^0.5.2',
                 '@tailwindcss/typography'      => '^0.5.2',
                 '@vitejs/plugin-vue'           => '^3.0.0',

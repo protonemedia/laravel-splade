@@ -24,9 +24,9 @@ class SsrTest extends TestCase
         $this->assertArrayHasKey('body', $data);
 
         // evaluated form
-        $this->assertStringContainsString('<form><input dusk="name" value="Splade"></form>', $data['body']);
+        $this->assertStringContainsString('<form><input dusk="name" value="Splade"></form>', $data['body'] ?? '');
 
         // rendered components
-        $this->assertStringContainsString('grid grid-cols-3 grid-flow-row-3', $data['body']);
+        $this->assertStringContainsString('grid grid-cols-3 grid-flow-row-3', $data['body'] ?? '');
     }
 }

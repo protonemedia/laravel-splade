@@ -47,6 +47,12 @@ class ServiceProvider extends BaseServiceProvider
             return $app->make(SpladeCore::class)->toastBuilder();
         });
 
+        $this->app->singleton(Head::class, function ($app) {
+            return $app->make(SpladeCore::class)->head();
+        });
+
+        $this->app->alias(Head::class, 'laravel-splade-seo');
+
         (new BladeDirectives)->registerHandlers();
 
         Route::get(config('splade.event_redirect_route'), function ($uuid) {

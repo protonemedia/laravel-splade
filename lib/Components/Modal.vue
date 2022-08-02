@@ -14,6 +14,12 @@ export default {
     },
 
     props: {
+        closeButton: {
+            type: Boolean,
+            required: false,
+            default: true
+        },
+
         type: {
             type: String,
             required: true,
@@ -74,6 +80,7 @@ export default {
             onTopOfStack: this.onTopOfStack,
             maxWidth: this.maxWidth,
             emitClose: this.emitClose,
+            closeButton: this.closeButton,
             Dialog,
             DialogPanel,
             TransitionRoot,

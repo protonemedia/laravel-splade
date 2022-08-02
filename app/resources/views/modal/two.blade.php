@@ -2,7 +2,7 @@
 
 @section('content')
 
-<x-splade-modal>
+<x-splade-modal :close-button="false">
     ModalComponentTwo
 
     <button @click.prevent="modal.close" dusk="close-two">Close</button>

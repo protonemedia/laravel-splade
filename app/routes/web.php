@@ -6,6 +6,8 @@ use App\Events\SimpleEvent;
 use App\Events\ToastEvent;
 use App\Http\Controllers\BackFormController;
 use App\Http\Controllers\FileFormController;
+use App\Http\Controllers\ModalController;
+use App\Http\Controllers\NavigationController;
 use App\Http\Controllers\SimpleFormController;
 use App\Http\Controllers\SlowFormController;
 use App\Http\Controllers\ToastController;
@@ -69,18 +71,19 @@ Route::middleware('splade')->group(function () {
     Route::view('form/jsonable', 'form.jsonable')->name('form.jsonable');
     Route::view('form/jsonSerializable', 'form.jsonSerializable')->name('form.jsonSerializable');
 
-    Route::view('navigation/one', 'navigation.one')->name('navigation.one');
-    Route::view('navigation/two', 'navigation.two')->name('navigation.two');
-    Route::view('navigation/three', 'navigation.three')->name('navigation.three');
-    Route::view('navigation/form', 'navigation.form')->name('navigation.form');
+    Route::get('navigation/one', [NavigationController::class, 'one'])->name('navigation.one');
+    Route::get('navigation/two', [NavigationController::class, 'two'])->name('navigation.two');
+    Route::get('navigation/three', [NavigationController::class, 'three'])->name('navigation.three');
+    Route::get('navigation/form', [NavigationController::class, 'form'])->name('navigation.form');
+
     Route::get('navigation/notFound', fn () => abort(404))->name('navigation.notFound');
     Route::get('navigation/serverError', fn () => throw new Exception('Whoops!'))->name('navigation.serverError');
 
-    Route::view('modal/base', 'modal.base')->name('modal.base');
-    Route::view('modal/one', 'modal.one')->name('modal.one');
-    Route::view('modal/two', 'modal.two')->name('modal.two');
-    Route::view('modal/slideover', 'modal.slideover')->name('modal.slideover');
-    Route::view('modal/validation', 'modal.validation')->name('modal.validation');
+    Route::get('modal/base', [ModalController::class, 'base'])->name('modal.base');
+    Route::get('modal/one', [ModalController::class, 'one'])->name('modal.one');
+    Route::get('modal/two', [ModalController::class, 'two'])->name('modal.two');
+    Route::get('modal/slideover', [ModalController::class, 'slideover'])->name('modal.slideover');
+    Route::get('modal/validation', [ModalController::class, 'validation'])->name('modal.validation');
 
     Route::post('state', function () {
         Splade::share('info', 'This is invalid');
