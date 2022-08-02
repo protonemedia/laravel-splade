@@ -72,11 +72,21 @@ class SpladeInstallCommand extends Command
         return self::SUCCESS;
     }
 
+    /**
+     * End of line symbol.
+     *
+     * @return string
+     */
+    private static function eol(): string
+    {
+        return windows_os() ? "\n" : PHP_EOL;
+    }
+
     protected function installExceptionHandler()
     {
         $exceptionHandler = file_get_contents(app_path('Exceptions/Handler.php'));
 
-        $search = 'public function register()' . PHP_EOL . '    {';
+        $search = 'public function register()' . static::eol() . '    {';
 
         $registerMethodAfter = Str::after($exceptionHandler, $search);
 
@@ -90,7 +100,7 @@ class SpladeInstallCommand extends Command
             app_path('Exceptions/Handler.php'),
             str_replace(
                 $registerMethodAfter,
-                PHP_EOL . '        ' . $renderable . PHP_EOL . $registerMethodAfter,
+                static::eol() . '        ' . $renderable . static::eol() . $registerMethodAfter,
                 $exceptionHandler
             )
         );
@@ -105,11 +115,11 @@ class SpladeInstallCommand extends Command
     {
         $httpKernel = file_get_contents(app_path('Http/Kernel.php'));
 
-        $search = 'protected $routeMiddleware = [' . PHP_EOL;
+        $search = 'protected $routeMiddleware = [' . static::eol();
 
         $routeMiddlewareAfter = Str::after($httpKernel, $search);
 
-        $routeMiddleware = "'splade'           => \ProtoneMedia\Splade\Http\SpladeMiddleware::class";
+        $routeMiddleware = "'splade' => \ProtoneMedia\Splade\Http\SpladeMiddleware::class";
 
         if (Str::contains($httpKernel, $routeMiddleware)) {
             return;
@@ -119,7 +129,7 @@ class SpladeInstallCommand extends Command
             app_path('Http/Kernel.php'),
             str_replace(
                 $routeMiddlewareAfter,
-                '        ' . $routeMiddleware . ',' . PHP_EOL . $routeMiddlewareAfter,
+                '        ' . $routeMiddleware . ',' . static::eol() . $routeMiddlewareAfter,
                 $httpKernel
             )
         );
@@ -165,7 +175,7 @@ class SpladeInstallCommand extends Command
 
         file_put_contents(
             base_path('package.json'),
-            json_encode($packages, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) . PHP_EOL
+            json_encode($packages, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) . static::eol()
         );
     }
 }
