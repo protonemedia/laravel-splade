@@ -1,15 +1,6 @@
 <template>
   <div
-    class="
-            w-screen
-            h-screen
-            fixed
-            p-8
-            bg-black bg-opacity-75
-            inset-0
-            z-[200000]
-            box-border
-        "
+    style="position: fixed; top: 0px; right: 0px; bottom: 0px; left: 0px; z-index: 200000; box-sizing: border-box; height: 100vh; width: 100vw; background-color: rgb(0 0 0 / 0.75); padding: 2rem;"
     @click="hide"
   >
     <iframe

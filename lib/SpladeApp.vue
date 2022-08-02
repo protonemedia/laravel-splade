@@ -7,9 +7,7 @@
     >
       <Render
         :key="`visit.${Splade.pageVisitId.value}`"
-        :class="{
-          'transition ease-in-out blur-sm': Splade.currentStack > 0,
-        }"
+        :style="backdropStyling"
         :html="html"
       />
     </component>
@@ -37,7 +35,7 @@
 </template>
 
 <script setup>
-import { ref, provide, nextTick, inject, KeepAlive } from "vue";
+import { ref, provide, nextTick, inject, KeepAlive, computed } from "vue";
 import { Splade } from "./Splade.js";
 import forOwn from "lodash-es/forOwn";
 import isString from "lodash-es/isString";
@@ -94,6 +92,19 @@ provide("stack", 0);
 const html = ref();
 const modals = ref([]);
 const serverErrorHtml = ref(null);
+
+const backdropStyling = computed(() => {
+    if(Splade.currentStack.value < 1) {
+        return [];
+    }
+
+    return {
+        filter: "blur(4px)",
+        "transition-property": "filter",
+        "transition-duration": "150ms",
+        "transition-timing-function": "cubic-bezier(0.4, 0, 0.2, 1)",
+    };
+});
 
 function closeServerError() {
     serverErrorHtml.value = null;
