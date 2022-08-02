@@ -24,7 +24,7 @@ function retry($times, callable $callback, $sleepMilliseconds = 0, $when = null)
     try {
         return $callback($attempts);
     } catch (Exception $e) {
-        if ($times < 1 || ($when && ! $when($e))) {
+        if ($times < 1 || ($when && !$when($e))) {
             throw $e;
         }
 
@@ -43,7 +43,7 @@ function get()
     $contents = file_get_contents('http://127.0.0.1:8000/');
 
     if (!$contents) {
-        throw new Exception("No contents");
+        throw new Exception('No contents');
     }
 
     return $contents;
@@ -61,12 +61,12 @@ $missing = [];
 foreach ($needles as $needle) {
     if (!str_contains($home, $needle)) {
         $missing[] = $needle;
-        echo "Not found: " . $needle . PHP_EOL;
+        echo 'Not found: ' . $needle . PHP_EOL;
     }
 }
 
 if (empty($missing)) {
-    echo "OK";
+    echo 'OK';
     exit(0);
 }
 
