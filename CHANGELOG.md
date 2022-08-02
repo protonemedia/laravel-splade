@@ -2,6 +2,11 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 0.2.2 - 2022-08-02
+
+- Fixed automatic installer on Windows (#18) and added Windows to GitHub Actions.
+- Removed Tailwind classes in Vue components (#26)
+
 ## 0.2.1 - 2022-07-29
 
 - Default close button for Modal and Slideover components (#14)
