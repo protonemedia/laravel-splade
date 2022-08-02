@@ -137,21 +137,29 @@ jobs:
         laravel: [9.*]
         dependency-version: [prefer-lowest, prefer-stable]
 
-    name: Test Stubs P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.dependency-version }}
+    name: Test Stubs ${{ matrix.os }} - P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.dependency-version }}
 
     steps:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
-          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick, mysql, mysqli, pdo_mysql
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick, mysql, mysqli, pdo_mysql, fileinfo
           coverage: none
 
       - name: Setup Laravel
         run: |
-          composer create-project laravel/laravel:^9 .
+          composer create-project laravel/laravel:^9.3 .
           composer require protonemedia/laravel-splade
-          rm -rf vendor/protonemedia/laravel-splade
+
+      - name: Remove installed Splade (Unix)
+        run: rm -rf vendor/protonemedia/laravel-splade
+        if: matrix.os == 'ubuntu-latest'
+
+      - name: Remove installed Splade (Windows)
+        run: rd "vendor/protonemedia/laravel-splade" /s /q
+        shell: cmd
+        if: matrix.os == 'windows-2019'
 
       - name: Checkout code
         uses: actions/checkout@v2
@@ -164,13 +172,30 @@ jobs:
           php artisan splade:install
 
       - name: Install NPM dependencies
+        run: npm i
+
+      - name: Remove installed Splade and copy front-end build from Checkout (Unix)
         run: |
-          npm i
           rm -rf node_modules/@protonemedia/laravel-splade/dist
           cp -R vendor/protonemedia/laravel-splade/dist node_modules/@protonemedia/laravel-splade/
+        if: matrix.os == 'ubuntu-latest'
+
+      - name: Remove installed Splade and copy front-end build from Checkout (Windows)
+        run: |
+          rd "node_modules/@protonemedia/laravel-splade/dist" /s /q
+          mkdir "node_modules/@protonemedia/laravel-splade/dist"
+          xcopy "vendor/protonemedia/laravel-splade/dist" "node_modules/@protonemedia/laravel-splade/dist" /E /I
+        shell: cmd
+        if: matrix.os == 'windows-2019'
 
       - name: Compile assets
         run: npm run build
+
+      - name: Run Laravel Server
+        run: php artisan serve &
+
+      - name: Run Test
+        run: php vendor/protonemedia/laravel-splade/TestStubs.php
 
       - name: Start SSR server
         run: |
