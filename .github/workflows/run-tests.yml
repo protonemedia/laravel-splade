@@ -210,6 +210,7 @@ jobs:
         run: |
           echo "SPLADE_SSR_ENABLED=true" >> .env
           node bootstrap/ssr/ssr.mjs &
+        if: matrix.os == 'ubuntu-latest'
 
       - name: Run Test command (Unix)
         run: php artisan splade:ssr-test

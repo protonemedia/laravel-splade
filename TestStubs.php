@@ -66,6 +66,7 @@ foreach ($needles as $needle) {
 }
 
 if (empty($missing)) {
+    echo "OK";
     exit(0);
 }
 
