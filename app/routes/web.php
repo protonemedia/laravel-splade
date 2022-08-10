@@ -10,6 +10,7 @@ use App\Http\Controllers\ModalController;
 use App\Http\Controllers\NavigationController;
 use App\Http\Controllers\SimpleFormController;
 use App\Http\Controllers\SlowFormController;
+use App\Http\Controllers\TableController;
 use App\Http\Controllers\ToastController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
@@ -113,4 +114,6 @@ Route::middleware('splade')->group(function () {
     Route::view('toggle/multipleDefaults', 'toggle.multipleDefaults')->name('toggle.multipleDefaults');
     Route::view('toggle/single', 'toggle.single')->name('toggle.single');
     Route::view('toggle/multiple', 'toggle.multiple')->name('toggle.multiple');
+
+    Route::get('table/users', [TableController::class, 'users'])->name('table.users');
 });

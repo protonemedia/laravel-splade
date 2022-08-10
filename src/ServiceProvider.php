@@ -76,6 +76,7 @@ class ServiceProvider extends BaseServiceProvider
             Components\Modal::class,
             Components\ModalWrapper::class,
             Components\State::class,
+            Components\Table::class,
             Components\Toast::class,
             Components\ToastWrapper::class,
             Components\Toggle::class,
