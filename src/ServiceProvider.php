@@ -94,7 +94,6 @@ class ServiceProvider extends BaseServiceProvider
 
         Blade::components([
             Components\ButtonWithDropdown::class,
-            Components\Cell::class,
             Components\Confirm::class,
             Components\Data::class,
             Components\Defer::class,
