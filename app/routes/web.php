@@ -10,8 +10,8 @@ use App\Http\Controllers\ModalController;
 use App\Http\Controllers\NavigationController;
 use App\Http\Controllers\SimpleFormController;
 use App\Http\Controllers\SlowFormController;
-use App\Http\Controllers\TableController;
 use App\Http\Controllers\ToastController;
+use App\Http\UserTableView;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
@@ -115,5 +115,11 @@ Route::middleware('splade')->group(function () {
     Route::view('toggle/single', 'toggle.single')->name('toggle.single');
     Route::view('toggle/multiple', 'toggle.multiple')->name('toggle.multiple');
 
-    Route::get('table/users', [TableController::class, 'users'])->name('table.users');
+    Route::prefix('table')->group(function () {
+        $table = new UserTableView;
+
+        Route::get('/users/eloquent', fn () => $table(paginateMethod: 'paginate'));
+        Route::get('/users/eloquent/simple', fn () => $table(paginateMethod: 'simplePaginate'));
+        Route::get('/users/eloquent/cursor', fn () => $table(paginateMethod: 'cursorPaginate'));
+    });
 });

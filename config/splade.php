@@ -7,6 +7,8 @@ return [
 
     'blade' => [
         'component_prefix' => 'splade',
+
+        'table_cell_directive' => 'cell',
     ],
 
     'seo' => [
