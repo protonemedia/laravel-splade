@@ -4,7 +4,7 @@ namespace App\Http;
 
 use App\Models\User;
 use Illuminate\Support\Collection;
-use ProtoneMedia\Splade\Table;
+use ProtoneMedia\Splade\SpladeTable;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -30,7 +30,7 @@ class UserTableView
             ->withQueryString();
 
         return view('table.users', [
-            'users' => Table::for($users)
+            'users' => SpladeTable::for($users)
                 ->withGlobalSearch()
                 ->defaultSort('name')
                 ->column(key: 'name', searchable: true, sortable: true, canBeHidden: false)

@@ -4,7 +4,8 @@
             <th
                 v-show="table.columnIsVisible(@js($column->key))"
                 scope="col"
-                class="px-6 py-3 text-left text-xs font-medium tracking-wide text-gray-500">
+                class="px-6 py-3 text-left text-xs font-medium tracking-wide text-gray-500"
+            >
                 @if($column->sortable)
                     <Link dusk="sort-{{ $column->key }}" href="{{ $sortBy($column) }}">
                 @endif

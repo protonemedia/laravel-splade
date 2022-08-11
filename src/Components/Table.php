@@ -6,7 +6,7 @@ use Illuminate\Contracts\Pagination\CursorPaginator;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\View\Component;
-use ProtoneMedia\Splade\Table as SpladeTable;
+use ProtoneMedia\Splade\SpladeTable;
 
 class Table extends Component
 {
@@ -15,7 +15,7 @@ class Table extends Component
      *
      * @return void
      */
-    public function __construct(public SpladeTable $for, public string $scope = 'table')
+    public function __construct(public SpladeTable $for, public bool $striped = false, public string $scope = 'table')
     {
     }
 
@@ -28,6 +28,26 @@ class Table extends Component
     public function isLengthAware(): bool
     {
         return $this->for->resource instanceof LengthAwarePaginator;
+    }
+
+    public function hasControls(): bool
+    {
+        return $this->for->isSorted()
+            || $this->for->page() > 1
+            || $this->for->hasPerPageQuery()
+            || $this->for->hasFilters()
+            || $this->for->hasToggleableColumns()
+            || $this->for->hasToggleableSearchInputs()
+            || $this->for->searchInputs('global');
+    }
+
+    public function canResetTable(): bool
+    {
+        return $this->for->isSorted()
+            || $this->for->page() > 1
+            || $this->for->hasPerPageQuery()
+            || $this->for->hasFiltersEnabled()
+            || $this->for->hasSearchFiltersEnabled();
     }
 
     public function sortBy($column): string

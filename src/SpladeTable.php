@@ -11,7 +11,7 @@ use ProtoneMedia\Splade\Table\Column;
 use ProtoneMedia\Splade\Table\Filter;
 use ProtoneMedia\Splade\Table\SearchInput;
 
-class Table
+class SpladeTable
 {
     private string $name = 'default';
 

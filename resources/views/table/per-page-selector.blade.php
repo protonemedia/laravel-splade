@@ -8,4 +8,4 @@
             {{ $perPage }} {{ __('per page') }}
         </option>
     @endforeach
-  </select>
+</select>

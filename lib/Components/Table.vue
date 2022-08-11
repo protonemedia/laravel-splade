@@ -13,6 +13,12 @@ import startsWith from "lodash-es/startsWith";
 
 export default {
     props: {
+        striped: {
+            type: Boolean,
+            required: false,
+            default: false
+        },
+
         columns: {
             type: Object,
             required: true
@@ -250,6 +256,7 @@ export default {
             isForcedVisible: this.isForcedVisible,
             reset: this.reset,
             showSearchInput: this.showSearchInput,
+            striped: this.striped,
             toggleColumn: this.toggleColumn,
             updateQuery: this.updateQuery,
             visit: Splade.visit,

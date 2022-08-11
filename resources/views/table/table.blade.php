@@ -1,8 +1,10 @@
 <SpladeTable {!! $attributes !!}
+    :striped="@js($striped)"
     :columns="@js($table->columns())"
-    :default-visible-toggleable-columns="@js($table->defaultVisibleToggleableColumns())">
+    :default-visible-toggleable-columns="@js($table->defaultVisibleToggleableColumns())"
+>
     <template #default="{!! $scope !!}">
-        @if($table->isSorted() || $table->page() > 1 || $table->hasFilters() || $table->searchInputs('global') || $table->hasToggleableSearchInputs() || $table->hasToggleableColumns() || $table->hasPerPageQuery())
+        @if($hasControls())
             @include('splade::table.controls')
         @endif
 

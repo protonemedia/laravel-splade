@@ -12,7 +12,7 @@
     @endif
 
     <button
-        v-show="@js($table->isSorted() || $table->page() > 1 || $table->hasFiltersEnabled() || $table->hasSearchFiltersEnabled() || $table->hasPerPageQuery()) || table.columnsAreToggled || table.hasForcedVisibleSearchInputs"
+        v-show="@js($canResetTable()) || table.columnsAreToggled || table.hasForcedVisibleSearchInputs"
         type="button"
         class="order-5 sm:order-3 ml-auto sm:mr-3 bg-white border rounded-md shadow-sm px-4 py-2 inline-flex justify-center text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 border-gray-300"
         @click.prevent="table.reset"
