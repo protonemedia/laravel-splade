@@ -76,7 +76,7 @@ class ServiceProvider extends BaseServiceProvider
 
             $splitted = preg_split('/\],(\s*)/', $arguments);
 
-            $slotArguments = trim($splitted[0]  ?? '');
+            $slotArguments = trim($splitted[0]       ?? '');
             $slotUses      = trim(ltrim($splitted[1] ?? '', '['));
 
             $function = "function ({$slotArguments})";
