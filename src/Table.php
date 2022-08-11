@@ -13,17 +13,22 @@ use ProtoneMedia\Splade\Table\SearchInput;
 
 class Table
 {
-    private string $name          = 'default';
+    private string $name = 'default';
+
     private array $perPageOptions = [15, 30, 50, 100];
 
     public $resource;
 
     private Collection $columns;
+
     private Collection $filters;
+
     private Collection $searchInputs;
+
     public Collection $rowLinks;
 
     private string $defaultSort = '';
+
     private Request $request;
 
     private static bool|string $defaultGlobalSearch = false;
@@ -47,8 +52,8 @@ class Table
     /**
      * Retrieve a query string item from the request.
      *
-     * @param string $key
-     * @param mixed|null $default
+     * @param  string  $key
+     * @param  mixed|null  $default
      * @return mixed
      */
     private function query(string $key, $default = null)
@@ -62,7 +67,7 @@ class Table
     /**
      * Name for this table.
      *
-     * @param string $name
+     * @param  string  $name
      * @return self
      */
     public function name(string $name): self
@@ -75,7 +80,7 @@ class Table
     /**
      * Per Page options for this table.
      *
-     * @param array $perPageOptions
+     * @param  array  $perPageOptions
      * @return self
      */
     public function perPageOptions(array $perPageOptions): self
@@ -88,7 +93,7 @@ class Table
     /**
      * Set a default for global search.
      *
-     * @param bool|string $label
+     * @param  bool|string  $label
      * @return void
      */
     public static function defaultGlobalSearch(bool|string $label = 'Search...')
@@ -99,7 +104,7 @@ class Table
     /**
      * Helper method to add a global search input.
      *
-     * @param string|null $label
+     * @param  string|null  $label
      * @return self
      */
     public function withGlobalSearch(string $label = null): self
@@ -183,13 +188,13 @@ class Table
     }
 
     /**
-    * Add a search input to query builder.
-    *
-    * @param string $key
-    * @param string|null $label
-    * @param string|null $defaultValue
-    * @return self
-    */
+     * Add a search input to query builder.
+     *
+     * @param  string  $key
+     * @param  string|null  $label
+     * @param  string|null  $defaultValue
+     * @return self
+     */
     public function searchInput(string $key, string $label = null, string $defaultValue = null): self
     {
         $this->searchInputs = $this->searchInputs->reject(function (SearchInput $searchInput) use ($key) {
@@ -255,12 +260,12 @@ class Table
     /**
      * Add a select filter to the query builder.
      *
-     * @param string $key
-     * @param array $options
-     * @param string|null $label
-     * @param string|null $defaultValue
-     * @param bool $noFilterOption
-     * @param string|null $noFilterOptionLabel
+     * @param  string  $key
+     * @param  array  $options
+     * @param  string|null  $label
+     * @param  string|null  $defaultValue
+     * @param  bool  $noFilterOption
+     * @param  string|null  $noFilterOptionLabel
      * @return self
      */
     public function selectFilter(string $key, array $options, string $label = null, string $defaultValue = null, bool $noFilterOption = true, string $noFilterOptionLabel = null): self
@@ -281,8 +286,8 @@ class Table
     }
 
     /**
-    * @return \Illuminate\Support\Collection
-    */
+     * @return \Illuminate\Support\Collection
+     */
     public function filters(): Collection
     {
         $queryFilters = $this->query('filter', []);
