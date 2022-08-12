@@ -10,7 +10,9 @@ use App\Http\Controllers\ModalController;
 use App\Http\Controllers\NavigationController;
 use App\Http\Controllers\SimpleFormController;
 use App\Http\Controllers\SlowFormController;
+use App\Http\Controllers\TableController;
 use App\Http\Controllers\ToastController;
+use App\Http\UserTableView;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
@@ -71,7 +73,7 @@ Route::middleware('splade')->group(function () {
     Route::view('form/jsonable', 'form.jsonable')->name('form.jsonable');
     Route::view('form/jsonSerializable', 'form.jsonSerializable')->name('form.jsonSerializable');
 
-    Route::get('navigation/one', [NavigationController::class, 'one'])->name('navigation.one');
+    Route::get('navigation/one/{id?}', [NavigationController::class, 'one'])->name('navigation.one');
     Route::get('navigation/two', [NavigationController::class, 'two'])->name('navigation.two');
     Route::get('navigation/three', [NavigationController::class, 'three'])->name('navigation.three');
     Route::get('navigation/form', [NavigationController::class, 'form'])->name('navigation.form');
@@ -113,4 +115,15 @@ Route::middleware('splade')->group(function () {
     Route::view('toggle/multipleDefaults', 'toggle.multipleDefaults')->name('toggle.multipleDefaults');
     Route::view('toggle/single', 'toggle.single')->name('toggle.single');
     Route::view('toggle/multiple', 'toggle.multiple')->name('toggle.multiple');
+
+    Route::prefix('table')->group(function () {
+        $table = new UserTableView;
+
+        Route::get('/custom', [TableController::class, 'custom'])->name('table.custom');
+        Route::get('/rowLink', [TableController::class, 'rowLink'])->name('table.rowLink');
+
+        Route::get('/users/eloquent', fn () => $table(paginateMethod: 'paginate'));
+        Route::get('/users/eloquent/simple', fn () => $table(paginateMethod: 'simplePaginate'));
+        Route::get('/users/eloquent/cursor', fn () => $table(paginateMethod: 'cursorPaginate'));
+    });
 });

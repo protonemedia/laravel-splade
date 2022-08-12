@@ -65,7 +65,35 @@ class ServiceProvider extends BaseServiceProvider
             return Redirect::to($data['target'])->with($data['with'] ?? []);
         })->name('splade.eventRedirect')->middleware('signed');
 
+        $cellDirectiveName = config('splade.blade.table_cell_directive');
+
+        Blade::directive($cellDirectiveName, function ($expression) {
+            preg_match("/('|\")(\w+)('|\")(,)(\s*)(.*)/", $expression, $matches);
+
+            $name = trim($matches[2]);
+
+            $arguments = trim($matches[6], '\[\]');
+
+            $splitted = preg_split('/\],(\s*)/', $arguments);
+
+            $slotArguments = trim($splitted[0]       ?? '');
+            $slotUses      = trim(ltrim($splitted[1] ?? '', '['));
+
+            $function = "function ({$slotArguments})";
+
+            if ($slotUses) {
+                $function .= " use ({$slotUses})";
+            }
+
+            return "<?php \$__env->slot('spladeTableCell{$name}', {$function} { ?>";
+        });
+
+        Blade::directive('end' . $cellDirectiveName, function () {
+            return '<?php }); ?>';
+        });
+
         Blade::components([
+            Components\ButtonWithDropdown::class,
             Components\Confirm::class,
             Components\Data::class,
             Components\Defer::class,
@@ -76,6 +104,8 @@ class ServiceProvider extends BaseServiceProvider
             Components\Modal::class,
             Components\ModalWrapper::class,
             Components\State::class,
+            Components\Table::class,
+            Components\TableWrapper::class,
             Components\Toast::class,
             Components\ToastWrapper::class,
             Components\Toggle::class,
