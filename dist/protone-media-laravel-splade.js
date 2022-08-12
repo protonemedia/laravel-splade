@@ -3583,6 +3583,11 @@ function td(e, t, r) {
 }
 const rd = {
   props: {
+    striped: {
+      type: Boolean,
+      required: !1,
+      default: !1
+    },
     columns: {
       type: Object,
       required: !0
@@ -3697,6 +3702,7 @@ const rd = {
       isForcedVisible: this.isForcedVisible,
       reset: this.reset,
       showSearchInput: this.showSearchInput,
+      striped: this.striped,
       toggleColumn: this.toggleColumn,
       updateQuery: this.updateQuery,
       visit: g.visit
