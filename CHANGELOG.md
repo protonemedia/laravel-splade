@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 0.3.1 - 2022-08-12
+
+Bump npm package
+
 ## 0.3.0 - 2022-08-12
 
 - [Table component](https://splade.dev/docs/table-overview) with support auto-fill, searching, filtering, sorting, toggling columns, and pagination.
