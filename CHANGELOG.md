@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 0.3.0 - 2022-08-12
+
+- [Table component](https://splade.dev/docs/table-overview) with support auto-fill, searching, filtering, sorting, toggling columns, and pagination.
+
 ## 0.2.2 - 2022-08-02
 
 - Fixed automatic installer on Windows (#18) and added Windows to GitHub Actions.
