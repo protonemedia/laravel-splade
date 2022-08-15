@@ -7,6 +7,7 @@
 /.gitignore         export-ignore
 /phpunit.xml.dist   export-ignore
 /art                export-ignore
+/app                export-ignore
 /docs               export-ignore
 /tests              export-ignore
 /.editorconfig      export-ignore

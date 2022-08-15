@@ -6,6 +6,7 @@ use App\Events\SimpleEvent;
 use App\Events\ToastEvent;
 use App\Http\Controllers\BackFormController;
 use App\Http\Controllers\FileFormController;
+use App\Http\Controllers\FormComponentsController;
 use App\Http\Controllers\ModalController;
 use App\Http\Controllers\NavigationController;
 use App\Http\Controllers\SimpleFormController;
@@ -72,6 +73,12 @@ Route::middleware('splade')->group(function () {
     Route::view('form/json', 'form.json')->name('form.json');
     Route::view('form/jsonable', 'form.jsonable')->name('form.jsonable');
     Route::view('form/jsonSerializable', 'form.jsonSerializable')->name('form.jsonSerializable');
+
+    Route::get('form/components/simple', [FormComponentsController::class, 'simple'])->name('form.components.simple');
+    Route::get('form/components/libraries', [FormComponentsController::class, 'libraries'])->name('form.components.libraries');
+    Route::get('form/components/custom', [FormComponentsController::class, 'custom'])->name('form.components.custom');
+    Route::get('form/components/defaults', [FormComponentsController::class, 'defaults'])->name('form.components.defaults');
+    Route::post('form/components', [FormComponentsController::class, 'submit'])->name('form.components.submit');
 
     Route::get('navigation/one/{id?}', [NavigationController::class, 'one'])->name('navigation.one');
     Route::get('navigation/two', [NavigationController::class, 'two'])->name('navigation.two');

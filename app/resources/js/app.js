@@ -4,6 +4,8 @@ import "../css/app.css";
 import { createApp } from "vue";
 
 // for dev
+import "../../../lib/Components/choices.scss";
+import "../../../lib/Components/flatpickr.styl";
 // import { renderSpladeApp, SpladePlugin } from "../../../dist/protone-media-laravel-splade";
 
 // for build
