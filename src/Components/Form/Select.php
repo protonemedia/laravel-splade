@@ -55,7 +55,7 @@ class Select extends Component
         return array_merge(
             [
                 'allowHTML'        => false,
-                'itemSelectText'   => "",
+                'itemSelectText'   => '',
                 'removeItemButton' => true,
                 'shouldSort'       => false,
             ],
