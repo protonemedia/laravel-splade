@@ -64,7 +64,7 @@ export default {
                 this.flatpickrInstance = flatpickr(
                     element,
                     Object.assign({}, this.flatpickr, this.jsFlatpickrOptions, {
-                        onChange: (selectedDates, newValue, instance) => {
+                        onChange: (selectedDates, newValue) => {
                             if (newValue != this.modelValue) {
                                 this.$emit("update:modelValue", newValue);
                             }
