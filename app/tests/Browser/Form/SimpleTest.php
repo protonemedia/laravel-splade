@@ -34,7 +34,7 @@ class SimpleTest extends DuskTestCase
                 ->type('name', 'Name')
                 ->type('password', 'Password')
                 ->type('date', '2022-12-31')
-                ->type('time', '11:00 AM')
+                ->type('time', '11:00AM')
                 ->type('biography', 'Biography')
                 ->check('options[]')
                 ->radio('language', 'nl')
