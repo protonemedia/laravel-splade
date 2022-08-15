@@ -54,7 +54,7 @@ class LibrariesTest extends DuskTestCase
             $browser->visit('form/components/custom')
                 ->waitForText('FormComponents')
                 ->click("div.choices__inner[data-select-name='country1']")
-                ->within("div.choices__list.is-active", function (Browser $browser) {
+                ->within('div.choices__list.is-active', function (Browser $browser) {
                     $browser->assertPresent('div[data-select-text="Please select!"]');
                 });
         });
@@ -67,7 +67,7 @@ class LibrariesTest extends DuskTestCase
             $browser->visit('form/components/custom')
                 ->waitForText('FormComponents')
                 ->click("div.choices__inner[data-select-name='country2']")
-                ->within("div.choices__list.is-active", function (Browser $browser) {
+                ->within('div.choices__list.is-active', function (Browser $browser) {
                     $browser->assertPresent('div[data-select-text="Please select!"]');
                 });
         });
