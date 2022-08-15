@@ -172,7 +172,9 @@ jobs:
           php artisan splade:install
 
       - name: Install NPM dependencies
-        run: npm i
+        run: |
+          npm i
+          npm i autosize choices.js flatpickr
 
       - name: Remove installed Splade and copy front-end build from Checkout (Unix)
         run: |
