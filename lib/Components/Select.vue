@@ -126,15 +126,11 @@ export default {
 
         // show/hide placeholder when there is/isn't a selection...
         handlePlaceholderVisibility() {
-            if(!this.placeholder) {
-                return;
-            }
-
             const placeholderElement = this.choicesInstance.containerInner.element.querySelector(
-                "input[placeholder]"
+                "input.choices__input"
             );
 
-            if (!placeholderElement) {
+            if (!this.placeholder && !placeholderElement) {
                 return;
             }
 
@@ -144,7 +140,7 @@ export default {
 
             const hasItems = this.choicesInstance.getValue().length;
 
-            placeholderElement.placeholder = hasItems ? "" : this.placeholderText;
+            placeholderElement.placeholder = hasItems ? "" : (this.placeholderText ? this.placeholderText : "");
             placeholderElement.style.minWidth = "0";
             placeholderElement.style.width = hasItems ? "1px" : "auto";
             placeholderElement.style.paddingTop = hasItems ? "0px" : "1px";
