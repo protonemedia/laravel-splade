@@ -11,17 +11,22 @@ trait InteractsWithFormElement
         return str_replace(['[', ']'], ['.', ''], $name);
     }
 
-    public function validationName()
+    public function validationName(): string
     {
-        return property_exists($this, 'validationName')
-            ? ($this->validationName ?: $this->name)
-            : $this->name;
+        if (property_exists($this, 'validationName') && $this->validationName) {
+            return $this->validationName;
+        }
+
+        return $this->name;
     }
 
-    public function vueModel()
+    public function relationName(string $name): string
     {
-        $name = $this->convertBracketsToDots(Str::before($this->name, '[]'));
+        return $this->convertBracketsToDots(Str::before($name, '[]'));
+    }
 
-        return "form.{$name}";
+    public function vueModel(): string
+    {
+        return "form.{$this->relationName($this->name)}";
     }
 }

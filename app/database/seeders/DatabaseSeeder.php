@@ -2,6 +2,9 @@
 
 namespace Database\Seeders;
 
+use Database\Factories\KeywordFactory;
+use Database\Factories\TagFactory;
+use Database\Factories\UserFactory;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -13,11 +16,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        \App\Models\User::factory()->create([
+        KeywordFactory::new()->count(10)->create();
+
+        TagFactory::new()->count(10)->create();
+
+        UserFactory::new()->create([
             'name'  => 'Test User',
             'email' => 'test@example.com',
         ]);
 
-        \App\Models\User::factory()->count(99)->create();
+        UserFactory::new()->count(99)->create();
     }
 }

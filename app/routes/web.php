@@ -7,6 +7,7 @@ use App\Events\ToastEvent;
 use App\Http\Controllers\BackFormController;
 use App\Http\Controllers\FileFormController;
 use App\Http\Controllers\FormComponentsController;
+use App\Http\Controllers\FormRelationsController;
 use App\Http\Controllers\ModalController;
 use App\Http\Controllers\NavigationController;
 use App\Http\Controllers\SimpleFormController;
@@ -79,6 +80,11 @@ Route::middleware('splade')->group(function () {
     Route::get('form/components/custom', [FormComponentsController::class, 'custom'])->name('form.components.custom');
     Route::get('form/components/defaults', [FormComponentsController::class, 'defaults'])->name('form.components.defaults');
     Route::post('form/components', [FormComponentsController::class, 'submit'])->name('form.components.submit');
+
+    Route::get('form/relations/belongsToMany', [FormRelationsController::class, 'belongsToMany'])->name('form.relations.belongsToMany');
+    Route::post('form/relations/belongsToMany', [FormRelationsController::class, 'storeBelongsToMany'])->name('form.relations.storeBelongsToMany');
+    Route::get('form/relations/morphToMany', [FormRelationsController::class, 'morphToMany'])->name('form.relations.morphToMany');
+    Route::post('form/relations/morphToMany', [FormRelationsController::class, 'storeMorphToMany'])->name('form.relations.storeMorphToMany');
 
     Route::get('navigation/one/{id?}', [NavigationController::class, 'one'])->name('navigation.one');
     Route::get('navigation/two', [NavigationController::class, 'two'])->name('navigation.two');

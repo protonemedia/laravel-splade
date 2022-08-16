@@ -5,6 +5,7 @@ namespace ProtoneMedia\Splade\Components\Form;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\View\Component;
+use ProtoneMedia\Splade\Components\Form;
 use ProtoneMedia\Splade\FormSelectOption;
 
 class Select extends Component
@@ -25,7 +26,8 @@ class Select extends Component
         public bool|string $placeholder = '',
         public bool $multiple = false,
         public bool|array|string $choices = false,
-        public bool $showErrors = true
+        public bool $showErrors = true,
+        public bool $relation = false
     ) {
         if (is_bool($placeholder) && $placeholder) {
             $this->placeholder = __('Search') . '...';
@@ -33,6 +35,14 @@ class Select extends Component
 
         if ($this->choices === false && static::$defaultChoicesOptions !== false) {
             $this->choices = true;
+        }
+
+        if ($relation) {
+            Form::$eloquentRelations[$this->relationName($this->name)] = true;
+        }
+
+        if ($multiple) {
+            $this->validationName = $this->relationName($name);
         }
     }
 
@@ -92,7 +102,7 @@ class Select extends Component
             ]);
         });
 
-        if (!$this->placeholder) {
+        if (!$this->placeholder && $this->choices !== false) {
             $mapped->prepend(new FormSelectOption([
                 'label' => '',
                 'value' => '',
