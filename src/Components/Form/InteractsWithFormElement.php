@@ -20,13 +20,13 @@ trait InteractsWithFormElement
         return $this->name;
     }
 
-    public function relationName(string $name): string
+    public function dottedName(string $name): string
     {
         return $this->convertBracketsToDots(Str::before($name, '[]'));
     }
 
     public function vueModel(): string
     {
-        return "form.{$this->relationName($this->name)}";
+        return "form.{$this->dottedName($this->name)}";
     }
 }

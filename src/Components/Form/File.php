@@ -21,7 +21,7 @@ class File extends Component
         public string $scope = 'file'
     ) {
         if ($multiple) {
-            $this->validationName = $this->relationName($name);
+            $this->validationName = $this->dottedName($name);
         }
     }
 

@@ -38,11 +38,11 @@ class Select extends Component
         }
 
         if ($relation) {
-            Form::$eloquentRelations[$this->relationName($this->name)] = true;
+            Form::$eloquentRelations[$this->dottedName($this->name)] = true;
         }
 
         if ($multiple) {
-            $this->validationName = $this->relationName($name);
+            $this->validationName = $this->dottedName($name);
         }
     }
 
