@@ -7,12 +7,15 @@ FormComponents
 <div class="max-w-sm mx-auto px-4">
     <x-splade-form
         :action="route('form.components.submit')"
-        :default="['options' => [], 'secret' => 'token']"
+        :default="['options' => [], 'files' => [], 'secret' => 'token']"
     >
         <x-splade-input name="name" label="Name" />
 
         <x-splade-input name="password" label="Password" type="password" />
         <x-splade-input name="secret" type="hidden" />
+
+        <x-splade-file label="One file" name="file" />
+        <x-splade-file label="Multiple files" name="files[]" multiple />
 
         <x-splade-input name="date" label="Date" type="date" pattern="\d{4}-\d{2}-\d{2}" />
         <x-splade-input name="time" label="Time" type="time" />

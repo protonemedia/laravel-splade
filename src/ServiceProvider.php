@@ -93,6 +93,7 @@ class ServiceProvider extends BaseServiceProvider
             Components\Toggle::class,
 
             Components\Form\Checkbox::class,
+            Components\Form\File::class,
             Components\Form\Group::class,
             Components\Form\Input::class,
             Components\Form\Radio::class,
