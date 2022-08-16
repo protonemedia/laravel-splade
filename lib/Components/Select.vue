@@ -145,6 +145,7 @@ export default {
             const hasItems = this.choicesInstance.getValue().length;
 
             placeholderElement.placeholder = hasItems ? "" : this.placeholderText;
+            placeholderElement.style.minWidth = "0";
             placeholderElement.style.width = hasItems ? "1px" : "auto";
             placeholderElement.style.paddingTop = hasItems ? "0px" : "1px";
             placeholderElement.style.paddingBottom = hasItems ? "0px" : "1px";
@@ -167,6 +168,7 @@ export default {
                     selectElement.name
                 );
 
+                this.handlePlaceholderVisibility();
                 this.updateHasSelectionAttribute();
 
                 selectElement.addEventListener("change", function () {

@@ -114,12 +114,7 @@ fieldset:disabled .#{$choices-selector} {
         }
 
         .#{$choices-selector}__input {
-            @apply m-0 ml-1 py-0 text-base;
-
-            margin-left: 0px;
-            padding-top: 1px;
-            padding-left: 0px;
-            padding-bottom: 1px;
+            @apply m-0 py-px pl-0 text-base min-w-0;
         }
     }
 }
