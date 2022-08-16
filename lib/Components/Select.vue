@@ -126,13 +126,13 @@ export default {
 
         // show/hide placeholder when there is/isn't a selection...
         handlePlaceholderVisibility() {
+            if(!this.multiple){
+                return;
+            }
+
             const placeholderElement = this.choicesInstance.containerInner.element.querySelector(
                 "input.choices__input"
             );
-
-            if (!this.placeholder && !placeholderElement) {
-                return;
-            }
 
             this.placeholderText = placeholderElement.placeholder
                 ? placeholderElement.placeholder
@@ -168,8 +168,6 @@ export default {
                 this.updateHasSelectionAttribute();
 
                 selectElement.addEventListener("change", function () {
-                    vm.handlePlaceholderVisibility();
-
                     // hide dropdown if there are no more items to choose from...
                     if (!vm.multiple || totalItems < 1) {
                         return;

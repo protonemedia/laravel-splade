@@ -19,9 +19,8 @@ export default defineConfig({
                     axios: "axios",
                     vue: "Vue",
                     autosize: "autosize",
-                    "choices.js": "Choices",
-                    flatpickr: "flatpickr",
-                }
+                    "choices.js": "Choices"
+                },
             }
         }
     }

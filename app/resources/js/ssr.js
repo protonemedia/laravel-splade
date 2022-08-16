@@ -1,6 +1,6 @@
 import { createServer } from "http";
 import { createSSRApp } from "vue";
-import { renderToString } from "vue/server-renderer";
+import { renderToString } from "@vue/server-renderer";
 
 // for dev
 // import { renderSpladeApp, SpladePlugin, startServer } from "../../../dist/protone-media-laravel-splade";

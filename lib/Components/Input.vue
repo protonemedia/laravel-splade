@@ -60,8 +60,8 @@ export default {
 
     methods:{
         initFlatpickr(element){
-            import("flatpickr").then(() =>{
-                this.flatpickrInstance = flatpickr(
+            import("flatpickr").then((flatpickr) =>{
+                this.flatpickrInstance = flatpickr.default(
                     element,
                     Object.assign({}, this.flatpickr, this.jsFlatpickrOptions, {
                         onChange: (selectedDates, newValue) => {
