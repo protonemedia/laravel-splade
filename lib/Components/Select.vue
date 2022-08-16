@@ -204,12 +204,6 @@ export default {
                 this.hasSelection
             );
         },
-    },
-
-    render() {
-        return this.$slots.default({
-
-        });
-    },
+    }
 };
 </script>

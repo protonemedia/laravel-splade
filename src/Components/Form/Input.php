@@ -43,6 +43,11 @@ class Input extends Component
         }
     }
 
+    public function isHidden(): bool
+    {
+        return $this->type === 'hidden';
+    }
+
     public static function defaultDateFormat(string $format)
     {
         static::$defaultDateFormat = $format;

@@ -1,3 +1,12 @@
+<template>
+  <div ref="file">
+    <slot
+      :handle-file-input="handleFileInput"
+      :filenames="filenames"
+    />
+  </div>
+</template>
+
 <script>
 export default {
     props:{
@@ -45,13 +54,6 @@ export default {
                 this.filenames.push(file.name);
             });
         },
-    },
-
-    render() {
-        return this.$slots.default({
-            handleFileInput: this.handleFileInput,
-            filenames: this.filenames,
-        });
     },
 };
 </script>

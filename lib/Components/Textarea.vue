@@ -56,12 +56,6 @@ export default {
                 autosize.default.destroy(this.element);
             });
         }
-    },
-
-    render() {
-        return this.$slots.default({
-
-        });
-    },
+    }
 };
 </script>

@@ -5,7 +5,7 @@
 FormComponents
 
 <div class="max-w-sm mx-auto px-4">
-    <x-splade-form :action="route('form.components.submit')">
+    <x-splade-form :action="route('form.components.submit')" class="space-y-4">
         <x-splade-select name="country1" :options="$countries" placeholder="Select your country" choices="{ itemSelectText: 'Please select!' }" />
         <x-splade-select name="country2" :options="$countries" placeholder="Select your country" :choices="['itemSelectText' => 'Please select!']" />
 

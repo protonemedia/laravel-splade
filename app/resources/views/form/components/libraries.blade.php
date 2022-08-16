@@ -6,6 +6,7 @@ FormComponents
 
 <div class="max-w-sm mx-auto px-4">
     <x-splade-form
+        class="space-y-4"
         :action="route('form.components.submit')"
         :default="['countries' => []]"
     >
