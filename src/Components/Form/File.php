@@ -16,12 +16,13 @@ class File extends Component
     public function __construct(
         public string $name = '',
         public string $label = '',
+        public string $validationKey = '',
         public bool $showErrors = true,
         public bool $multiple = false,
         public string $scope = 'file'
     ) {
         if ($multiple) {
-            $this->validationName = $this->dottedName($name);
+            $this->validationKey = $this->dottedName($name);
         }
     }
 

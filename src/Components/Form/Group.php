@@ -17,6 +17,7 @@ class Group extends Component
         public string $name = '',
         public string $label = '',
         public bool $inline = false,
+        public string $validationKey = '',
         public bool $showErrors = true
     ) {
     }

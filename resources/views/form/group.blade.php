@@ -10,5 +10,5 @@
       {{ $slot }}
     </div>
 
-    @includeWhen($showErrors, 'splade::form.error', ['name' => $validationName()])
+    @includeWhen($showErrors, 'splade::form.error', ['name' => $validationKey()])
 </div>

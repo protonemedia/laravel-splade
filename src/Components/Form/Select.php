@@ -26,6 +26,7 @@ class Select extends Component
         public bool|string $placeholder = '',
         public bool $multiple = false,
         public bool|array|string $choices = false,
+        public string $validationKey = '',
         public bool $showErrors = true,
         public bool $relation = false
     ) {
@@ -42,7 +43,7 @@ class Select extends Component
         }
 
         if ($multiple) {
-            $this->validationName = $this->dottedName($name);
+            $this->validationKey = $this->dottedName($name);
         }
     }
 
@@ -102,13 +103,6 @@ class Select extends Component
             ]);
         });
 
-        if (!$this->placeholder && $this->choices !== false) {
-            $mapped->prepend(new FormSelectOption([
-                'label' => '',
-                'value' => '',
-            ]));
-        }
-
         return $mapped->all();
     }
 
@@ -120,6 +114,13 @@ class Select extends Component
             $options = Arr::prepend($options, new FormSelectOption([
                 'value'       => '',
                 'label'       => $this->placeholder,
+                'disabled'    => $this->choices === false,
+                'placeholder' => $this->choices !== false,
+            ]));
+        } elseif (!$this->placeholder && $this->choices !== false && !$this->multiple) {
+            $options = Arr::prepend($options, new FormSelectOption([
+                'label'       => '',
+                'value'       => '',
                 'placeholder' => true,
             ]));
         }

@@ -27,6 +27,7 @@ class Input extends Component
         public string $label = '',
         private bool|array|string $date = false,
         private bool|array|string $time = false,
+        public string $validationKey = '',
         public bool $showErrors = true,
         private bool $range = false
     ) {

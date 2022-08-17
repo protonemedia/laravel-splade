@@ -19,7 +19,7 @@
         </span>
     </label>
 
-    @includeWhen($showErrors, 'splade::form.error', ['name' => $validationName()])
+    @includeWhen($showErrors, 'splade::form.error', ['name' => $validationKey()])
 </div>
 
 

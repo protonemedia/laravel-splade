@@ -11,10 +11,10 @@ trait InteractsWithFormElement
         return str_replace(['[', ']'], ['.', ''], $name);
     }
 
-    public function validationName(): string
+    public function validationKey(): string
     {
-        if (property_exists($this, 'validationName') && $this->validationName) {
-            return $this->validationName;
+        if (property_exists($this, 'validationKey') && $this->validationKey) {
+            return $this->validationKey;
         }
 
         return $this->name;

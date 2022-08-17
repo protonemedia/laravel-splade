@@ -18,11 +18,15 @@
             'v-model' => $vueModel()
         ]) }}
         >
-            @foreach($options() as $selectChild)
-                @include('splade::form.select-child', ['selectChild' => $selectChild])
-            @endforeach
+            @if(trim($slot))
+                {{ $slot }}
+            @else
+                @foreach($options() as $selectChild)
+                    @include('splade::form.select-child', ['selectChild' => $selectChild])
+                @endforeach
+            @endif
         </select>
     </label>
 
-    @includeWhen($showErrors, 'splade::form.error', ['name' => $validationName()])
+    @includeWhen($showErrors, 'splade::form.error', ['name' => $validationKey()])
 </SpladeSelect>

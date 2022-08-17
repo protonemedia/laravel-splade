@@ -17,6 +17,7 @@ class Radio extends Component
         public string $name = '',
         public $value = 1,
         public string $label = '',
+        public string $validationKey = '',
         public bool $showErrors = false
     ) {
     }
