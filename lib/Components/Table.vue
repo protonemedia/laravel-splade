@@ -52,6 +52,15 @@ export default {
 
         const columns = query.columns || [];
 
+        forOwn(query, (value, key) => {
+            if(startsWith(key, "filter[") && !value){
+                const splittedKey = key.split("[");
+                const filterKey = splittedKey[1].substring(0, splittedKey[1].length - 1);
+
+                this.forcedVisibleSearchInputs = [...this.forcedVisibleSearchInputs, filterKey];
+            }
+        });
+
         if(columns.length === 0) {
             this.visibleColumns = this.defaultVisibleToggleableColumns;
         } else {
@@ -185,6 +194,10 @@ export default {
             let queryObject = this.getCurrentQuery();
             queryObject[key] = value;
 
+            if(startsWith(key, "perPage") || startsWith(key, "filter[")){
+                delete queryObject["page"];
+            }
+
             this.visitWithQueryObject(queryObject, $el, reload);
         },
 
@@ -213,7 +226,7 @@ export default {
             let queryString = "";
 
             forOwn(query, (value, key) => {
-                if(value === "" || value === null || value === []) {
+                if(value === null || value === []) {
                     return;
                 }
 
