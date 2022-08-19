@@ -94,6 +94,10 @@ export default {
     },
 
     computed: {
+        $all() {
+            return this.values;
+        },
+
         rawErrors() {
             return Splade.validationErrors(this.stack);
         },
@@ -189,6 +193,7 @@ export default {
                     },
                     get(target, name) {
                         const preservedKeys = [
+                            "$all",
                             "$attrs",
                             "$put",
                             "errors",

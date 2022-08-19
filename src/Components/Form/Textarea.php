@@ -3,6 +3,7 @@
 namespace ProtoneMedia\Splade\Components\Form;
 
 use Illuminate\View\Component;
+use ProtoneMedia\Splade\Components\Form;
 
 class Textarea extends Component
 {
@@ -10,7 +11,7 @@ class Textarea extends Component
 
     private static $defaultAutosize = false;
 
-    public static function autosize(bool $value = true)
+    public static function defaultAutosize(bool $value = true)
     {
         static::$defaultAutosize = $value;
     }
@@ -26,6 +27,7 @@ class Textarea extends Component
         public string $validationKey = '',
         public bool $showErrors = true
     ) {
+        Form::$eloquentAttributes[$this->dottedName($name)] = true;
     }
 
     /**
@@ -36,7 +38,7 @@ class Textarea extends Component
     public function render()
     {
         return view('splade::form.textarea', [
-            'defaultAutosize' => static::$defaultAutosize,
+            'defaultAutosizeValue' => static::$defaultAutosize,
         ]);
     }
 }

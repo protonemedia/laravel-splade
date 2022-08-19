@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Dummy;
 use Database\Factories\KeywordFactory;
 use Database\Factories\TagFactory;
 use Database\Factories\UserFactory;
@@ -26,5 +27,15 @@ class DatabaseSeeder extends Seeder
         ]);
 
         UserFactory::new()->count(99)->create();
+
+        Dummy::create([
+            'input'    => 'input',
+            'textarea' => 'textarea',
+            'select'   => 'b',
+            'checkbox' => true,
+            'radio'    => 'b',
+            'json'     => ['nested' => ['array'], 'key' => 'key'],
+            'secret'   => 'secret',
+        ]);
     }
 }

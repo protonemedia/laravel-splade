@@ -3,6 +3,7 @@
 namespace ProtoneMedia\Splade\Components\Form;
 
 use Illuminate\View\Component;
+use ProtoneMedia\Splade\Components\Form;
 
 class Radio extends Component
 {
@@ -20,6 +21,7 @@ class Radio extends Component
         public string $validationKey = '',
         public bool $showErrors = false
     ) {
+        Form::$eloquentAttributes[$this->dottedName($name)] = true;
     }
 
     /**

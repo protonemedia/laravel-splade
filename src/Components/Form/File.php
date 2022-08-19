@@ -3,6 +3,7 @@
 namespace ProtoneMedia\Splade\Components\Form;
 
 use Illuminate\View\Component;
+use ProtoneMedia\Splade\Components\Form;
 
 class File extends Component
 {
@@ -21,8 +22,12 @@ class File extends Component
         public bool $multiple = false,
         public string $scope = 'file'
     ) {
+        $dottedName = $this->dottedName($name);
+
+        Form::$eloquentAttributes[$dottedName] = true;
+
         if ($multiple) {
-            $this->validationKey = $this->dottedName($name);
+            $this->validationKey = $dottedName;
         }
     }
 

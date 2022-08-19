@@ -3,6 +3,7 @@
 namespace ProtoneMedia\Splade\Components\Form;
 
 use Illuminate\View\Component;
+use ProtoneMedia\Splade\Components\Form;
 
 class Checkbox extends Component
 {
@@ -20,6 +21,7 @@ class Checkbox extends Component
         public string $validationKey = '',
         public bool $showErrors = true,
     ) {
+        Form::$eloquentAttributes[$this->dottedName($name)] = true;
     }
 
     /**

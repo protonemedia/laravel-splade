@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Dummy;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use ProtoneMedia\Splade\Components\Form\Input;
@@ -42,6 +43,11 @@ class FormComponentsController
     public function custom()
     {
         return view('form.components.custom', ['countries' => $this->countries()]);
+    }
+
+    public function eloquent()
+    {
+        return view('form.components.eloquent', ['dummy' => Dummy::first()]);
     }
 
     public function submit(Request $request)

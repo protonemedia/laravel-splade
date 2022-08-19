@@ -3,6 +3,7 @@
 namespace ProtoneMedia\Splade\Components\Form;
 
 use Illuminate\View\Component;
+use ProtoneMedia\Splade\Components\Form;
 
 class Input extends Component
 {
@@ -42,6 +43,8 @@ class Input extends Component
         if ($date || $time) {
             $this->type = 'text';
         }
+
+        Form::$eloquentAttributes[$this->dottedName($name)] = true;
     }
 
     public function isHidden(): bool

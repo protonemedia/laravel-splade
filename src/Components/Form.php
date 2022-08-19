@@ -18,6 +18,8 @@ class Form extends Component
 
     private $model;
 
+    public static $eloquentAttributes = [];
+
     public static $eloquentRelations = [];
 
     /**
@@ -25,13 +27,14 @@ class Form extends Component
      *
      * @return void
      */
-    public function __construct($default = null, public string $scope = 'form')
+    public function __construct($default = null, public string $scope = 'form', public bool $omitUnusedEloquentAttributes = true)
     {
         if ($default instanceof Model) {
             $this->model = $default;
         }
 
-        static::$eloquentRelations = [];
+        static::$eloquentAttributes = [];
+        static::$eloquentRelations  = [];
 
         $parsed = $this->parseJsonData($default);
 
@@ -44,19 +47,34 @@ class Form extends Component
 
     public function eloquentData(): ?array
     {
-        if (!$this->model || empty(static::$eloquentRelations)) {
+        if (!$this->model || !$this->omitUnusedEloquentAttributes) {
             return null;
         }
 
-        $data = $this->model->attributesToArray();
+        $eloquentData = $this->model->attributesToArray();
 
-        foreach (array_keys(static::$eloquentRelations) as $relation) {
+        $data = [];
+
+        foreach (static::$eloquentAttributes as $attribute => $isEnabled) {
+            if (!$isEnabled) {
+                continue;
+            }
+
+            data_set($data, $attribute, data_get($eloquentData, $attribute));
+        }
+
+        foreach (static::$eloquentRelations as $relation => $isEnabled) {
+            if (!$isEnabled) {
+                continue;
+            }
+
             $key = $this->model::$snakeAttributes ? Str::snake($relation) : $relation;
 
             data_set($data, $key, $this->getAttachedKeysFromRelation($relation));
         }
 
-        static::$eloquentRelations = [];
+        static::$eloquentAttributes = [];
+        static::$eloquentRelations  = [];
 
         return $data;
     }

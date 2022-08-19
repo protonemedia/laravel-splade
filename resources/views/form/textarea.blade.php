@@ -1,6 +1,6 @@
 <SpladeTextarea
     {{ $attributes->only(['v-if', 'v-show', 'class']) }}
-    :autosize="@js($attributes->has('autosize') ? (bool) $attributes->get('autosize') : $defaultAutosize)"
+    :autosize="@js($attributes->has('autosize') ? (bool) $attributes->get('autosize') : $defaultAutosizeValue)"
     :value="form.{{ $name }}"
 >
     <label class="block">

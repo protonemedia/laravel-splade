@@ -79,6 +79,7 @@ Route::middleware('splade')->group(function () {
     Route::get('form/components/libraries', [FormComponentsController::class, 'libraries'])->name('form.components.libraries');
     Route::get('form/components/custom', [FormComponentsController::class, 'custom'])->name('form.components.custom');
     Route::get('form/components/defaults', [FormComponentsController::class, 'defaults'])->name('form.components.defaults');
+    Route::get('form/components/eloquent', [FormComponentsController::class, 'eloquent'])->name('form.components.eloquent');
     Route::post('form/components', [FormComponentsController::class, 'submit'])->name('form.components.submit');
 
     Route::get('form/relations/belongsToMany', [FormRelationsController::class, 'belongsToMany'])->name('form.relations.belongsToMany');
