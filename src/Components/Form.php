@@ -2,11 +2,13 @@
 
 namespace ProtoneMedia\Splade\Components;
 
+use Closure;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Fluent;
 use Illuminate\Support\Str;
 use Illuminate\View\Component;
 
@@ -28,6 +30,8 @@ class Form extends Component
 
     public static $eloquentRelations = [];
 
+    private static $guardWhenCallable = null;
+
     /**
      * Create a new component instance.
      *
@@ -46,7 +50,7 @@ class Form extends Component
             $this->guarded = !$unguarded;
         }
 
-        if (is_array($default)) {
+        if ($this->guarded && !static::resourceShouldBeGuarded($default)) {
             $this->guarded = false;
         }
     }
@@ -54,6 +58,20 @@ class Form extends Component
     public static function defaultUnguarded(bool $state = true)
     {
         static::$defaultGuardAttributes = !$state;
+    }
+
+    public static function guardWhen(Closure $callback)
+    {
+        static::$guardWhenCallable = $callback;
+    }
+
+    private static function resourceShouldBeGuarded($resource): bool
+    {
+        $callback = static::$guardWhenCallable ?: function ($resource) {
+            return $resource instanceof Fluent || $resource instanceof Model;
+        };
+
+        return $callback($resource);
     }
 
     private function parseResource($default = null)

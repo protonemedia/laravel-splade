@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Dummy;
 use Illuminate\Http\Request;
+use Illuminate\Support\Fluent;
 use Illuminate\Validation\Rule;
 use ProtoneMedia\Splade\Components\Form;
 use ProtoneMedia\Splade\Components\Form\Input;
@@ -53,7 +54,7 @@ class FormComponentsController
 
     public function fluent()
     {
-        return view('form.components.fluent', ['dummy' => [
+        return view('form.components.fluent', ['dummy' => new Fluent([
             'input'    => 'input',
             'textarea' => 'textarea',
             'select'   => 'b',
@@ -61,7 +62,7 @@ class FormComponentsController
             'radio'    => 'b',
             'json'     => ['nested' => ['array'], 'key' => 'key'],
             'secret'   => 'secret',
-        ]]);
+        ])]);
     }
 
     public function unguarded()
