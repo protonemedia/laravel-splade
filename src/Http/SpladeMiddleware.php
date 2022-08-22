@@ -38,7 +38,7 @@ class SpladeMiddleware
         /** @var Response $response */
         $response = $next($request);
 
-        if($response instanceof BinaryFileResponse) {
+        if ($response instanceof BinaryFileResponse) {
             return $response;
         }
 
