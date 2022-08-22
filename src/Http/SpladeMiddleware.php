@@ -11,6 +11,7 @@ use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use ProtoneMedia\Splade\SpladeCore;
 use ProtoneMedia\Splade\Ssr;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 class SpladeMiddleware
@@ -36,6 +37,10 @@ class SpladeMiddleware
 
         /** @var Response $response */
         $response = $next($request);
+
+        if($response instanceof BinaryFileResponse) {
+            return $response;
+        }
 
         if ($response->getStatusCode() === 302 && in_array($request->method(), ['PUT', 'PATCH', 'DELETE'])) {
             $response->setStatusCode(303);
