@@ -4,7 +4,6 @@ namespace ProtoneMedia\Splade\Http;
 
 use Closure;
 use Illuminate\Contracts\Session\Session;
-use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Blade;
@@ -75,13 +74,9 @@ class SpladeMiddleware
         }
 
         if ($response->isSuccessful()) {
-            $html = $response->original instanceof Htmlable
-                ? ($response->original->toHtml() ?: '')
-                : '';
-
             $viewData = [
                 'components' => static::renderedComponents(),
-                'html'       => $html,
+                'html'       => $response->getContent() ?: '',
                 'splade'     => $spladeData,
                 'ssrHead'    => null,
                 'ssrBody'    => null,
@@ -98,7 +93,7 @@ class SpladeMiddleware
             }
 
             if (!$viewData['ssrBody'] && config('splade.ssr.blade_fallback')) {
-                $viewData['ssrBody'] = $html;
+                $viewData['ssrBody'] = $viewData['html'];
             }
 
             return $response->setContent(

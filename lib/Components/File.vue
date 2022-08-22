@@ -32,21 +32,11 @@ export default {
         };
     },
 
-    computed:{
-        formKey: function() {
-            const splitted = this.field.split(".");
-
-            splitted.shift();
-
-            return splitted.join(".");
-        }
-    },
-
     methods: {
         handleFileInput($event) {
             const input = Object.values($event.target.files);
 
-            this.form.$put(this.formKey, this.multiple ? input : input[0]);
+            this.form.$put(this.field, this.multiple ? input : input[0]);
 
             this.filenames = [];
 

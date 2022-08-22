@@ -40,7 +40,7 @@ class Select extends Component
 
         $dottedName = $this->dottedName($name);
 
-        Form::$eloquentAttributes[$dottedName] = true;
+        Form::$allowedAttributes[$dottedName] = true;
 
         if ($relation) {
             Form::$eloquentRelations[$dottedName] = true;

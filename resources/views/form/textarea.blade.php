@@ -1,7 +1,7 @@
 <SpladeTextarea
     {{ $attributes->only(['v-if', 'v-show', 'class']) }}
     :autosize="@js($attributes->has('autosize') ? (bool) $attributes->get('autosize') : $defaultAutosizeValue)"
-    :value="form.{{ $name }}"
+    v-model="{{ $vueModel() }}"
 >
     <label class="block">
         @include('splade::form.label', ['label' => $label])

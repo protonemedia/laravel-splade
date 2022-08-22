@@ -25,8 +25,13 @@ trait InteractsWithFormElement
         return $this->convertBracketsToDots(Str::before($name, '[]'));
     }
 
+    public function formKey(): string
+    {
+        return $this->dottedName($this->name);
+    }
+
     public function vueModel(): string
     {
-        return "form.{$this->dottedName($this->name)}";
+        return "form.{$this->formKey()}";
     }
 }

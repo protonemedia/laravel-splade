@@ -8,20 +8,6 @@
 import find from "lodash-es/find";
 
 export default {
-    model: {
-        get: function () {
-            return this.modelValue;
-        },
-
-        set: function (valueSelect) {
-            var value = this.choicesInstance
-                ? this.choicesInstance.getValue(true)
-                : valueSelect;
-
-            this.$emit("update:modelValue", value);
-        },
-    },
-
     props: {
         choices: {
             type: [Boolean, Object],
@@ -168,6 +154,8 @@ export default {
                 this.updateHasSelectionAttribute();
 
                 selectElement.addEventListener("change", function () {
+                    vm.$emit("update:modelValue", vm.choicesInstance.getValue(true));
+
                     // hide dropdown if there are no more items to choose from...
                     if (!vm.multiple || totalItems < 1) {
                         return;

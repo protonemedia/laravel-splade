@@ -22,15 +22,14 @@ export default {
         },
 
         modelValue: {
-            type: [String, Array],
+            type: String,
             required: false,
         },
     },
 
     emits: ["update:modelValue"],
 
-
-    data(){
+    data() {
         return {
             element: null,
             flatpickrInstance: null,
@@ -38,7 +37,7 @@ export default {
     },
 
     watch: {
-        model(updatedValue) {
+        modelValue(updatedValue) {
             if (this.flatpickrInstance) {
                 this.flatpickrInstance.setDate(updatedValue);
             }
@@ -52,6 +51,7 @@ export default {
             this.initFlatpickr(this.element);
         }
     },
+
     beforeUnmount() {
         if (this.flatpickrInstance) {
             this.flatpickrInstance.destroy();

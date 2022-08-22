@@ -5,6 +5,8 @@ namespace ProtoneMedia\Splade\Components;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Illuminate\View\Component;
 
@@ -12,13 +14,17 @@ class Form extends Component
 {
     use ParsesJsonDataAttribute;
 
-    public $data;
+    private $data;
 
-    public $json;
+    private $json;
+
+    public bool $guarded;
 
     private $model;
 
-    public static $eloquentAttributes = [];
+    private static $defaultGuardAttributes = true;
+
+    public static $allowedAttributes = [];
 
     public static $eloquentRelations = [];
 
@@ -27,56 +33,127 @@ class Form extends Component
      *
      * @return void
      */
-    public function __construct($default = null, public string $scope = 'form', public bool $omitUnusedEloquentAttributes = true)
+    public function __construct($default = null, public string $scope = 'form', $unguarded = null)
+    {
+        static::$allowedAttributes = [];
+        static::$eloquentRelations = [];
+
+        $this->parseResource($default);
+
+        if ($unguarded === null) {
+            $this->guarded = static::$defaultGuardAttributes;
+        } else {
+            $this->guarded = !$unguarded;
+        }
+    }
+
+    public static function defaultUnguarded(bool $state = true)
+    {
+        static::$defaultGuardAttributes = !$state;
+    }
+
+    private function parseResource($default = null)
     {
         if ($default instanceof Model) {
             $this->model = $default;
         }
 
-        static::$eloquentAttributes = [];
-        static::$eloquentRelations  = [];
-
         $parsed = $this->parseJsonData($default);
 
         if ($parsed) {
-            $this->data = $parsed;
-        } else {
-            $this->json = $default ?: '{}';
+            return $this->data = $parsed;
         }
+
+        if ($default) {
+            return $this->json = $default;
+        }
+
+        return $this->data = [];
     }
 
-    public function eloquentData(): ?array
+    private static function allowedAttributesSorted(): array
     {
-        if (!$this->model || !$this->omitUnusedEloquentAttributes) {
+        return Collection::make(static::$allowedAttributes)
+            ->filter()
+            ->keys()
+            ->sortBy(function ($key) {
+                return Str::substrCount($key, '.');
+            })
+            ->values()
+            ->all();
+    }
+
+    private function guardedData(): ?object
+    {
+        if (!$this->guarded) {
             return null;
         }
 
-        $eloquentData = $this->model->attributesToArray();
+        $attributes = $this->model
+            ? $this->model->attributesToArray()
+            : $this->data;
+
+        if ($attributes === null) {
+            return null;
+        }
 
         $data = [];
 
-        foreach (static::$eloquentAttributes as $attribute => $isEnabled) {
-            if (!$isEnabled) {
+        foreach (static::allowedAttributesSorted() as $attribute) {
+            data_set($data, $attribute, data_get($attributes, $attribute));
+        }
+
+        if ($this->model) {
+            foreach (static::$eloquentRelations as $relation => $isEnabled) {
+                if (!$isEnabled) {
+                    continue;
+                }
+
+                $key = $this->model::$snakeAttributes ? Str::snake($relation) : $relation;
+
+                data_set($data, $key, $this->getAttachedKeysFromRelation($relation));
+            }
+        }
+
+        return (object) $data;
+    }
+
+    private function dataWithAllAttributes(): ?object
+    {
+        if ($this->data === null) {
+            return null;
+        }
+
+        $data = $this->data;
+
+        foreach (static::allowedAttributesSorted() as $attribute) {
+            if (Arr::has($data, $attribute)) {
                 continue;
             }
 
-            data_set($data, $attribute, data_get($eloquentData, $attribute));
+            data_set($data, $attribute, null);
         }
 
-        foreach (static::$eloquentRelations as $relation => $isEnabled) {
-            if (!$isEnabled) {
-                continue;
-            }
+        return (object) $data;
+    }
 
-            $key = $this->model::$snakeAttributes ? Str::snake($relation) : $relation;
+    public function formData(): array
+    {
+        $data = [
+            'data' => null,
+            'json' => $this->json,
+        ];
 
-            data_set($data, $key, $this->getAttachedKeysFromRelation($relation));
+        if ($guardedData = $this->guardedData()) {
+            $data['data'] = $guardedData;
+        } elseif ($dataWithAllAttributes = $this->dataWithAllAttributes()) {
+            $data['data'] = $dataWithAllAttributes;
         }
 
-        static::$eloquentAttributes = [];
-        static::$eloquentRelations  = [];
+        static::$allowedAttributes = [];
+        static::$eloquentRelations = [];
 
-        return $data;
+        return  $data;
     }
 
     private function getAttachedKeysFromRelation(string $relationName): ?array
@@ -101,7 +178,7 @@ class Form extends Component
                 ->all();
         }
 
-        return data_get($this->model, $relationName);
+        return [];
     }
 
     /**
@@ -111,9 +188,6 @@ class Form extends Component
      */
     public function render()
     {
-        return view('splade::form', [
-            'data' => $this->data,
-            'json' => $this->json,
-        ]);
+        return view('splade::form');
     }
 }

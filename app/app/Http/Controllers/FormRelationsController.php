@@ -52,4 +52,14 @@ class FormRelationsController
 
         return redirect()->route('navigation.one');
     }
+
+    public function twoForms()
+    {
+        return view('form.components.two-forms', [
+            'firstUser'  => User::skip(0)->first(),
+            'secondUser' => User::skip(1)->first(),
+
+            'tagOptions' => Tag::get()->keyBy->id->map->name,
+        ]);
+    }
 }

@@ -1,6 +1,6 @@
 <SpladeFile
     :form="form"
-    :field="@js($vueModel())"
+    :field="@js($formKey())"
     :multiple="@js($multiple)"
     {{ $attributes->only(['v-if', 'v-show', 'class']) }}
 >

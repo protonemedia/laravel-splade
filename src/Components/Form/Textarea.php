@@ -27,7 +27,7 @@ class Textarea extends Component
         public string $validationKey = '',
         public bool $showErrors = true
     ) {
-        Form::$eloquentAttributes[$this->dottedName($name)] = true;
+        Form::$allowedAttributes[$this->dottedName($name)] = true;
     }
 
     /**

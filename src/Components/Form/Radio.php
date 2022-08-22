@@ -21,7 +21,7 @@ class Radio extends Component
         public string $validationKey = '',
         public bool $showErrors = false
     ) {
-        Form::$eloquentAttributes[$this->dottedName($name)] = true;
+        Form::$allowedAttributes[$this->dottedName($name)] = true;
     }
 
     /**

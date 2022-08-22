@@ -15,7 +15,7 @@ export default {
             default: false
         },
 
-        value: {
+        modelValue: {
             type: String,
             required: false
         }
@@ -29,7 +29,7 @@ export default {
     },
 
     watch: {
-        value() {
+        modelValue() {
             if (!this.autosize || !this.autosizeInstance) {
                 return;
             }

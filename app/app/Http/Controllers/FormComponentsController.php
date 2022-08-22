@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Dummy;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use ProtoneMedia\Splade\Components\Form;
 use ProtoneMedia\Splade\Components\Form\Input;
 use ProtoneMedia\Splade\Components\Form\Select;
 
@@ -48,6 +49,37 @@ class FormComponentsController
     public function eloquent()
     {
         return view('form.components.eloquent', ['dummy' => Dummy::first()]);
+    }
+
+    public function fluent()
+    {
+        return view('form.components.fluent', ['dummy' => [
+            'input'    => 'input',
+            'textarea' => 'textarea',
+            'select'   => 'b',
+            'checkbox' => true,
+            'radio'    => 'b',
+            'json'     => ['nested' => ['array'], 'key' => 'key'],
+            'secret'   => 'secret',
+        ]]);
+    }
+
+    public function unguarded()
+    {
+        return view('form.components.unguarded', ['dummy' => [
+            'input'  => 'input',
+            'secret' => 'secret',
+        ]]);
+    }
+
+    public function defaultUnguarded()
+    {
+        Form::defaultUnguarded();
+
+        return view('form.components.fluent', ['dummy' => [
+            'input'  => 'input',
+            'secret' => 'secret',
+        ]]);
     }
 
     public function submit(Request $request)
