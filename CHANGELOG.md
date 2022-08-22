@@ -2,6 +2,11 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 0.4.2 - 2022-08-22
+
+- Middleware fix for resolving validation errors
+- Disable the form fields when processing
+
 ## 0.4.1 - 2022-08-22
 
 Cleanup
