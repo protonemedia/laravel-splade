@@ -1,5 +1,6 @@
 # To v0.4
 
+* Default data passed to `<x-form>` now requires the `unguarded` attribute when binding an Eloquent Model or Fluent instance. This is not necessary when using the new Form Components.
 * The new Form Components come with Choices.js and Flatpickr integrations. Splade now comes with a default stylesheet to give the libraries some basic styling. This is completely optional, but you probably want to import this default stylesheet into your main JavaScript file:
 
 ```js
