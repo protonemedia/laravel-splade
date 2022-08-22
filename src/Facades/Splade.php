@@ -20,6 +20,7 @@ use ProtoneMedia\Splade\SpladeToast;
  * @method static EventRefresh refreshOnEvent()
  * @method static self reset()
  * @method static self setModalKey(string $key)
+ * @method static self setRootView(string $view)
  * @method static self share($key, $value)
  * @method static SpladeToast toast(string $message = '')
  * @method static SpladeToast toastOnEvent(string $message = '')

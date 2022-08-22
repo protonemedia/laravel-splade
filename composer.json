@@ -17,8 +17,7 @@
     ],
     "require": {
         "php": "^8.0 || ^8.1",
-        "illuminate/contracts": "^9.0",
-        "spatie/once": "^3.1"
+        "illuminate/contracts": "^9.0"
     },
     "require-dev": {
         "laravel/pint": "^1.0",
