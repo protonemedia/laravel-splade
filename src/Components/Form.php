@@ -11,24 +11,26 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Fluent;
 use Illuminate\Support\Str;
 use Illuminate\View\Component;
+use ProtoneMedia\Splade\Components\Form\InteractsWithFormElement;
 
 class Form extends Component
 {
     use ParsesJsonDataAttribute;
+    use InteractsWithFormElement;
+
+    public bool $guarded;
 
     private $data;
 
     private $json;
 
-    public bool $guarded;
-
     private $model;
 
     private static $defaultGuardAttributes = true;
 
-    public static $allowedAttributes = [];
+    private static $allowedAttributes = [];
 
-    public static $eloquentRelations = [];
+    private static $eloquentRelations = [];
 
     private static $guardWhenCallable = null;
 
@@ -46,8 +48,16 @@ class Form extends Component
 
         if ($unguarded === null) {
             $this->guarded = static::$defaultGuardAttributes;
-        } else {
+        } elseif (is_bool($unguarded)) {
             $this->guarded = !$unguarded;
+        } elseif (is_string($unguarded)) {
+            $unguarded = array_filter(array_map('trim', explode(',', $unguarded)));
+        }
+
+        if (is_array($unguarded) && count($unguarded) > 0) {
+            $this->guarded = true;
+
+            array_map(fn ($name) => static::allowAttribute($name), $unguarded);
         }
 
         if ($this->guarded && !static::resourceShouldBeGuarded($default)) {
@@ -63,6 +73,16 @@ class Form extends Component
     public static function guardWhen(Closure $callback)
     {
         static::$guardWhenCallable = $callback;
+    }
+
+    public static function allowAttribute(string $name)
+    {
+        static::$allowedAttributes[static::dottedName($name)] = true;
+    }
+
+    public static function parseEloquentRelation(string $name)
+    {
+        static::$eloquentRelations[static::dottedName($name)] = true;
     }
 
     private static function resourceShouldBeGuarded($resource): bool

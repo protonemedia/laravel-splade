@@ -22,12 +22,10 @@ class File extends Component
         public bool $multiple = false,
         public string $scope = 'file'
     ) {
-        $dottedName = $this->dottedName($name);
-
-        Form::$allowedAttributes[$dottedName] = true;
+        Form::allowAttribute($name);
 
         if ($multiple) {
-            $this->validationKey = $dottedName;
+            $this->validationKey = static::dottedName($name);
         }
     }
 

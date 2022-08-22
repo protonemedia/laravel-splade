@@ -44,7 +44,7 @@ class Input extends Component
             $this->type = 'text';
         }
 
-        Form::$allowedAttributes[$this->dottedName($name)] = true;
+        Form::allowAttribute($name);
     }
 
     public function isHidden(): bool

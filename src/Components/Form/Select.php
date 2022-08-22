@@ -38,16 +38,14 @@ class Select extends Component
             $this->choices = true;
         }
 
-        $dottedName = $this->dottedName($name);
-
-        Form::$allowedAttributes[$dottedName] = true;
+        Form::allowAttribute($name);
 
         if ($relation) {
-            Form::$eloquentRelations[$dottedName] = true;
+            Form::parseEloquentRelation($name);
         }
 
         if ($multiple) {
-            $this->validationKey = $dottedName;
+            $this->validationKey = static::dottedName($name);
         }
     }
 

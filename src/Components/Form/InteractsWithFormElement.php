@@ -6,7 +6,7 @@ use Illuminate\Support\Str;
 
 trait InteractsWithFormElement
 {
-    protected function convertBracketsToDots($name): string
+    protected static function convertBracketsToDots($name): string
     {
         return str_replace(['[', ']'], ['.', ''], $name);
     }
@@ -20,14 +20,14 @@ trait InteractsWithFormElement
         return $this->name;
     }
 
-    public function dottedName(string $name): string
+    public static function dottedName(string $name): string
     {
-        return $this->convertBracketsToDots(Str::before($name, '[]'));
+        return static::convertBracketsToDots(Str::before($name, '[]'));
     }
 
     public function formKey(): string
     {
-        return $this->dottedName($this->name);
+        return static::dottedName($this->name);
     }
 
     public function vueModel(): string
