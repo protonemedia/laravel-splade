@@ -184,7 +184,7 @@ class FormTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $browser->visit('/form/simple')
                 ->waitForText('FormSimple')
-                ->assertAttribute('form', 'class', 'form-simple');
+                ->assertAttribute('fieldset', 'class', 'form-simple');
         });
     }
 }
