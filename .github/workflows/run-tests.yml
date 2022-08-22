@@ -80,7 +80,7 @@ jobs:
         run: |
           cd app
           sed -i -e "s|SPLADE_SSR_ENABLED=false|SPLADE_SSR_ENABLED=true|g" .env
-          node bootstrap/ssr/ssr.js &
+          node bootstrap/ssr/ssr.mjs &
         if: matrix.ssr == true
 
       - name: Run Laravel Server
@@ -172,7 +172,9 @@ jobs:
           php artisan splade:install
 
       - name: Install NPM dependencies
-        run: npm i
+        run: |
+          npm i
+          npm i autosize choices.js flatpickr
 
       - name: Remove installed Splade and copy front-end build from Checkout (Unix)
         run: |

@@ -15,11 +15,11 @@ trait ParsesJsonDataAttribute
         }
 
         if ($data instanceof Jsonable) {
-            return json_decode($data->toJson());
+            return json_decode($data->toJson(), true);
         }
 
         if ($data instanceof JsonSerializable) {
-            return json_decode(json_encode($data));
+            return json_decode(json_encode($data), true);
         }
 
         if ($data instanceof Arrayable) {

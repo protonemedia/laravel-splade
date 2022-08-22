@@ -39,4 +39,10 @@ return [
 
     ],
 
+    'dusk' => [
+        'choices_select_macro' => 'choicesSelect',
+
+        'choices_remove_item_macro' => 'choicesRemoveItem',
+    ],
+
 ];

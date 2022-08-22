@@ -13,12 +13,14 @@ export default defineConfig({
             fileName: "protone-media-laravel-splade"
         },
         rollupOptions: {
-            external: ["vue", "axios"],
+            external: ["vue", "axios", "autosize", "choices.js", "flatpickr"],
             output: {
                 globals: {
                     axios: "axios",
-                    vue: "Vue"
-                }
+                    vue: "Vue",
+                    autosize: "autosize",
+                    "choices.js": "Choices"
+                },
             }
         }
     }

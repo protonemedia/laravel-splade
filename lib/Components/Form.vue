@@ -94,6 +94,10 @@ export default {
     },
 
     computed: {
+        $all() {
+            return this.values;
+        },
+
         rawErrors() {
             return Splade.validationErrors(this.stack);
         },
@@ -104,7 +108,6 @@ export default {
             });
         },
     },
-
 
 
     methods: {
@@ -118,6 +121,10 @@ export default {
 
         restore() {
             this.values = Object.assign({}, { ...this.default });
+        },
+
+        $put(key, value) {
+            return set(this.values, key, value);
         },
 
         submit() {
@@ -186,7 +193,9 @@ export default {
                     },
                     get(target, name) {
                         const preservedKeys = [
+                            "$all",
                             "$attrs",
+                            "$put",
                             "errors",
                             "restore",
                             "reset",
@@ -204,8 +213,9 @@ export default {
 
                         return get(self.values, name);
                     },
+
                     set(target, name, value) {
-                        set(self.values, name, value);
+                        return self.$put(name, value);
                     },
                 }
             )

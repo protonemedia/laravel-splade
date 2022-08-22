@@ -18,6 +18,9 @@ export default defineConfig({
             },
         }),
     ],
+    ssr: {
+        noExternal: ["vue", "@protonemedia/laravel-splade"]
+    },
     build: {
         sourcemap: true
     },

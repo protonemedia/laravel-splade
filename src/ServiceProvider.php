@@ -7,6 +7,9 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
+use Illuminate\Support\Str;
+use Laravel\Dusk\Browser;
+use ProtoneMedia\Splade\Commands\PublishFormStylesheetsCommand;
 use ProtoneMedia\Splade\Commands\SpladeInstallCommand;
 use ProtoneMedia\Splade\Commands\SsrTestCommand;
 use ProtoneMedia\Splade\Http\BladeDirectives;
@@ -29,6 +32,7 @@ class ServiceProvider extends BaseServiceProvider
         }
 
         $this->commands([
+            PublishFormStylesheetsCommand::class,
             SpladeInstallCommand::class,
             SsrTestCommand::class,
         ]);
@@ -54,6 +58,8 @@ class ServiceProvider extends BaseServiceProvider
         $this->app->alias(Head::class, 'laravel-splade-seo');
 
         (new BladeDirectives)->registerHandlers();
+        $this->registerBladeComponents();
+        $this->registerDuskMacros();
 
         Route::get(config('splade.event_redirect_route'), function ($uuid) {
             $data = Cache::pull(EventRedirect::class . $uuid);
@@ -64,34 +70,10 @@ class ServiceProvider extends BaseServiceProvider
 
             return Redirect::to($data['target'])->with($data['with'] ?? []);
         })->name('splade.eventRedirect')->middleware('signed');
+    }
 
-        $cellDirectiveName = config('splade.blade.table_cell_directive');
-
-        Blade::directive($cellDirectiveName, function ($expression) {
-            preg_match("/('|\")(\w+)('|\")(,)(\s*)(.*)/", $expression, $matches);
-
-            $name = trim($matches[2]);
-
-            $arguments = trim($matches[6], '\[\]');
-
-            $splitted = preg_split('/\],(\s*)/', $arguments);
-
-            $slotArguments = trim($splitted[0]       ?? '');
-            $slotUses      = trim(ltrim($splitted[1] ?? '', '['));
-
-            $function = "function ({$slotArguments})";
-
-            if ($slotUses) {
-                $function .= " use ({$slotUses})";
-            }
-
-            return "<?php \$__env->slot('spladeTableCell{$name}', {$function} { ?>";
-        });
-
-        Blade::directive('end' . $cellDirectiveName, function () {
-            return '<?php }); ?>';
-        });
-
+    private function registerBladeComponents()
+    {
         Blade::components([
             Components\ButtonWithDropdown::class,
             Components\Confirm::class,
@@ -109,7 +91,66 @@ class ServiceProvider extends BaseServiceProvider
             Components\Toast::class,
             Components\ToastWrapper::class,
             Components\Toggle::class,
+
+            Components\Form\Checkbox::class,
+            Components\Form\File::class,
+            Components\Form\Group::class,
+            Components\Form\Input::class,
+            Components\Form\Radio::class,
+            Components\Form\Textarea::class,
+            Components\Form\Select::class,
+            Components\Form\Submit::class,
         ], config('splade.blade.component_prefix'));
+    }
+
+    private function registerDuskMacros()
+    {
+        if (!class_exists(Browser::class)) {
+            return;
+        }
+
+        if ($macroName = config('splade.dusk.choices_select_macro')) {
+            Browser::macro($macroName, function ($selectName, $value = null): Browser {
+                /** @var Browser browser */
+                $browser = $this;
+
+                if (Str::startsWith($selectName, '@')) {
+                    $browser->click($selectName);
+                } else {
+                    $browser->click("div.choices__inner[data-select-name='{$selectName}']");
+                }
+
+                return $browser
+                    ->whenAvailable('div.choices.is-open', function (Browser $browser) use ($value) {
+                        $value = $value ? addslashes($value) : $value;
+
+                        $selector = $value
+                            ? "div.choices__item[data-value='{$value}']"
+                            : 'div.choices__item[data-value]:not(.choices__placeholder)';
+
+                        $browser->click($selector);
+                    })
+                    ->waitUntilMissing("div.choices.is-open[data-type='select-one']");
+            });
+        }
+
+        if ($macroName = config('splade.dusk.choices_remove_item_macro')) {
+            Browser::macro($macroName, function ($selectName, $value = null): Browser {
+                /** @var Browser browser */
+                $browser = $this;
+
+                return $browser
+                    ->within("div.choices__inner[data-select-name='{$selectName}'] div.choices__list", function (Browser $browser) use ($value) {
+                        $value = $value ? addslashes($value) : $value;
+
+                        $selector = $value
+                            ? "div.choices__item[data-value='{$value}'] button"
+                            : 'div.choices__item button';
+
+                        $browser->click($selector);
+                    });
+            });
+        }
     }
 
     /**

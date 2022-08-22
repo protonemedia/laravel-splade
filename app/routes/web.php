@@ -6,6 +6,8 @@ use App\Events\SimpleEvent;
 use App\Events\ToastEvent;
 use App\Http\Controllers\BackFormController;
 use App\Http\Controllers\FileFormController;
+use App\Http\Controllers\FormComponentsController;
+use App\Http\Controllers\FormRelationsController;
 use App\Http\Controllers\ModalController;
 use App\Http\Controllers\NavigationController;
 use App\Http\Controllers\SimpleFormController;
@@ -72,6 +74,22 @@ Route::middleware('splade')->group(function () {
     Route::view('form/json', 'form.json')->name('form.json');
     Route::view('form/jsonable', 'form.jsonable')->name('form.jsonable');
     Route::view('form/jsonSerializable', 'form.jsonSerializable')->name('form.jsonSerializable');
+
+    Route::get('form/components/simple', [FormComponentsController::class, 'simple'])->name('form.components.simple');
+    Route::get('form/components/libraries', [FormComponentsController::class, 'libraries'])->name('form.components.libraries');
+    Route::get('form/components/custom', [FormComponentsController::class, 'custom'])->name('form.components.custom');
+    Route::get('form/components/defaults', [FormComponentsController::class, 'defaults'])->name('form.components.defaults');
+    Route::get('form/components/eloquent', [FormComponentsController::class, 'eloquent'])->name('form.components.eloquent');
+    Route::get('form/components/fluent', [FormComponentsController::class, 'fluent'])->name('form.components.fluent');
+    Route::get('form/components/unguarded', [FormComponentsController::class, 'unguarded'])->name('form.components.unguarded');
+    Route::get('form/components/defaultUnguarded', [FormComponentsController::class, 'defaultUnguarded'])->name('form.components.defaultUnguarded');
+    Route::post('form/components', [FormComponentsController::class, 'submit'])->name('form.components.submit');
+
+    Route::get('form/relations/belongsToMany', [FormRelationsController::class, 'belongsToMany'])->name('form.relations.belongsToMany');
+    Route::post('form/relations/belongsToMany', [FormRelationsController::class, 'storeBelongsToMany'])->name('form.relations.storeBelongsToMany');
+    Route::get('form/relations/morphToMany', [FormRelationsController::class, 'morphToMany'])->name('form.relations.morphToMany');
+    Route::post('form/relations/morphToMany', [FormRelationsController::class, 'storeMorphToMany'])->name('form.relations.storeMorphToMany');
+    Route::get('form/relations/twoForms', [FormRelationsController::class, 'twoForms'])->name('form.relations.twoForms');
 
     Route::get('navigation/one/{id?}', [NavigationController::class, 'one'])->name('navigation.one');
     Route::get('navigation/two', [NavigationController::class, 'two'])->name('navigation.two');

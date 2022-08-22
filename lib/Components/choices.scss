@@ -1,0 +1,128 @@
+$choices-bg-color: white;
+
+@import "choices.js/src/styles/choices";
+
+span+.#{$choices-selector} {
+    @apply mt-1;
+}
+
+fieldset:disabled .#{$choices-selector} {
+    @apply opacity-50;
+
+    .#{$choices-selector}__button:hover {
+        @apply opacity-25;
+    }
+}
+
+.#{$choices-selector} {
+    @apply shadow-sm;
+
+    .#{$choices-selector}__inner {
+        @apply block rounded-md border-gray-300 shadow-sm w-full py-2;
+
+        min-height: auto;
+    }
+
+    &.is-focused {
+        .#{$choices-selector}__inner {
+            @apply border-indigo-300 ring ring-indigo-200 ring-opacity-50;
+        }
+    }
+
+    .#{$choices-selector}__inner {
+        @apply px-3 text-base bg-no-repeat;
+
+        .#{$choices-selector}__input {
+            &:focus {
+                box-shadow: none;
+            }
+        }
+
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+        background-position: right 0.5rem center;
+        background-size: 1.5em 1.5em;
+        background-repeat: no-repeat;
+    }
+
+    &[data-type*="select-one"] {
+        .#{$choices-selector}__inner {
+            @apply py-2;
+        }
+
+        .#{$choices-selector}__input {
+            @apply px-4 text-base;
+
+            box-shadow: none;
+
+            &::placeholder {
+                @apply text-gray-700;
+            }
+        }
+
+        &::after {
+            @apply hidden;
+        }
+
+        &.is-disabled {
+            .#{$choices-selector}__button {
+                @apply hidden;
+            }
+        }
+    }
+
+    .#{$choices-selector}__list {
+        @apply py-0 pl-0;
+    }
+
+    .#{$choices-selector}__list--dropdown {
+        @apply mt-1 shadow-lg rounded-md border-gray-300;
+
+        .#{$choices-selector}__item.#{$choices-selector}__placeholder {
+            @apply hidden;
+        }
+
+        .#{$choices-selector}__item--selectable {
+            @apply text-gray-900 text-base px-4;
+
+            &.is-highlighted {
+                @apply bg-indigo-500 text-white;
+            }
+        }
+    }
+
+    .#{$choices-selector}__list--multiple {
+        @apply mb-0;
+
+        .#{$choices-selector}__item {
+            @apply bg-indigo-500 border-indigo-500 rounded-md font-medium py-1 text-sm mb-0;
+
+            &:hover{
+                @apply bg-indigo-700 border-indigo-700
+            }
+
+            line-height: 1;
+        }
+    }
+
+    &[data-type*="select-multiple"] {
+        .#{$choices-selector}__inner {
+            @apply pr-8 py-2;
+
+            &[data-has-selection="true"]{
+                @apply pb-1;
+            }
+        }
+
+        .#{$choices-selector}__button {
+            @apply border-none px-3 mx-0;
+        }
+
+        .#{$choices-selector}__input {
+            @apply m-0 py-px pl-0 text-base min-w-0;
+        }
+    }
+}
+
+.#{$choices-selector}__placeholder {
+    @apply opacity-100 text-gray-500
+}

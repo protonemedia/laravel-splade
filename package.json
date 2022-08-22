@@ -15,7 +15,8 @@
     ".": {
       "import": "./dist/protone-media-laravel-splade.js",
       "require": "./dist/protone-media-laravel-splade.umd.cjs"
-    }
+    },
+    "./dist/style.css": "./dist/style.css"
   },
   "scripts": {
     "dev": "vite build --watch",
@@ -23,16 +24,23 @@
     "eslint": "./node_modules/.bin/eslint app/resources/js/ lib/ stubs/ --ext .js,.vue --fix"
   },
   "peerDependencies": {
-    "@headlessui/vue": "^1.6.7",
-    "@popperjs/core": "^2.11.5",
     "axios": "^0.27",
     "vue": "^3.2.37"
   },
   "devDependencies": {
+    "@headlessui/vue": "^1.6.7",
+    "@popperjs/core": "^2.11.5",
     "@vitejs/plugin-vue": "^3.0.0",
     "eslint": "^8.20.0",
     "eslint-plugin-vue": "^9.2.0",
     "lodash-es": "^4.17.21",
+    "sass": "^1.54.4",
+    "stylus": "^0.59.0",
     "vite": "^3.0.0"
+  },
+  "dependencies": {
+    "autosize": "^5.0.1",
+    "choices.js": "^10.1.0",
+    "flatpickr": "^4.6.13"
   }
 }
