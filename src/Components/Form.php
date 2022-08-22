@@ -45,6 +45,10 @@ class Form extends Component
         } else {
             $this->guarded = !$unguarded;
         }
+
+        if (is_array($default)) {
+            $this->guarded = false;
+        }
     }
 
     public static function defaultUnguarded(bool $state = true)
@@ -89,18 +93,18 @@ class Form extends Component
             return null;
         }
 
-        $attributes = $this->model
+        $rawData = $this->model
             ? $this->model->attributesToArray()
             : $this->data;
 
-        if ($attributes === null) {
+        if ($rawData === null) {
             return null;
         }
 
-        $data = [];
+        $guardedData = [];
 
         foreach (static::allowedAttributesSorted() as $attribute) {
-            data_set($data, $attribute, data_get($attributes, $attribute));
+            data_set($guardedData, $attribute, data_get($rawData, $attribute));
         }
 
         if ($this->model) {
@@ -111,11 +115,11 @@ class Form extends Component
 
                 $key = $this->model::$snakeAttributes ? Str::snake($relation) : $relation;
 
-                data_set($data, $key, $this->getAttachedKeysFromRelation($relation));
+                data_set($guardedData, $key, $this->getAttachedKeysFromRelation($relation));
             }
         }
 
-        return (object) $data;
+        return (object) $guardedData;
     }
 
     private function dataWithAllAttributes(): ?object
@@ -153,7 +157,7 @@ class Form extends Component
         static::$allowedAttributes = [];
         static::$eloquentRelations = [];
 
-        return  $data;
+        return $data;
     }
 
     private function getAttachedKeysFromRelation(string $relationName): ?array
