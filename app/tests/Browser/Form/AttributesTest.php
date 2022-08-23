@@ -60,4 +60,24 @@ class AttributesTest extends DuskTestCase
                 ->assertSeeIn('@all', 'secret');
         });
     }
+
+    /** @test */
+    public function it_fills_undefined_attributes_from_default_json_data()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('form/components/defaultJson')
+                ->waitForText('FormComponents')
+                ->assertSeeIn('#all', '{ "name": "Test", "options": [], "description": { "short": null, "long": null } }');
+        });
+    }
+
+    /** @test */
+    public function it_fills_undefined_attributes_from_default_php_data()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('form/components/defaultPhp')
+                ->waitForText('FormComponents')
+                ->assertSeeIn('#all', '{ "name": "Test", "options": [], "description": { "short": null, "long": null } }');
+        });
+    }
 }

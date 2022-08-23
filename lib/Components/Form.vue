@@ -78,10 +78,17 @@ export default {
             required: false,
             default: false,
         },
+
+        fields: {
+            type: Array,
+            required: false,
+            default: () => {
+                return [];
+            }
+        }
     },
 
     emits: ["success", "error"],
-
 
     data() {
         return {
@@ -109,6 +116,11 @@ export default {
         },
     },
 
+    beforeMount() {
+        this.fields.forEach((field) => {
+            this.$put(field.name, get(this.values, field.name, field.array ? [] : null));
+        });
+    },
 
     methods: {
         hasError(key) {

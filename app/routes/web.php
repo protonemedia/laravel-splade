@@ -79,6 +79,8 @@ Route::middleware('splade')->group(function () {
     Route::get('form/components/libraries', [FormComponentsController::class, 'libraries'])->name('form.components.libraries');
     Route::get('form/components/custom', [FormComponentsController::class, 'custom'])->name('form.components.custom');
     Route::get('form/components/defaults', [FormComponentsController::class, 'defaults'])->name('form.components.defaults');
+    Route::get('form/components/defaultJson', [FormComponentsController::class, 'defaultJson'])->name('form.components.defaultJson');
+    Route::get('form/components/defaultPhp', [FormComponentsController::class, 'defaultPhp'])->name('form.components.defaultPhp');
     Route::get('form/components/eloquent', [FormComponentsController::class, 'eloquent'])->name('form.components.eloquent');
     Route::get('form/components/fluent', [FormComponentsController::class, 'fluent'])->name('form.components.fluent');
     Route::get('form/components/unguarded', [FormComponentsController::class, 'unguarded'])->name('form.components.unguarded');

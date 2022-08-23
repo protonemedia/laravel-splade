@@ -25,6 +25,16 @@ class FormComponentsController
         return view('form.components.simple', ['countries' => $this->countries()]);
     }
 
+    public function defaultJson()
+    {
+        return view('form.components.defaultJson');
+    }
+
+    public function defaultPhp()
+    {
+        return view('form.components.defaultPhp');
+    }
+
     public function defaults()
     {
         Select::defaultChoices();
