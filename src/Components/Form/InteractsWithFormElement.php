@@ -27,7 +27,19 @@ trait InteractsWithFormElement
 
     public function formKey(): string
     {
-        return static::dottedName($this->name);
+        return collect(explode('.', static::dottedName($this->name)))
+            ->map(function (string $segment, int $index) {
+                if ($index === 0) {
+                    return $segment;
+                }
+
+                if (is_numeric($segment)) {
+                    return "[{$segment}]";
+                }
+
+                return ".{$segment}";
+            })
+            ->implode('');
     }
 
     public function vueModel(): string

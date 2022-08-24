@@ -35,6 +35,11 @@ class FormComponentsController
         return view('form.components.defaultPhp');
     }
 
+    public function arrays()
+    {
+        return view('form.components.arrays');
+    }
+
     public function defaults()
     {
         Select::defaultChoices();
