@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 0.4.5 - 2022-08-24
+
+- Fix for undefined checkboxes
+- Fix for form elements without a `name` attribute
+- Cleaner submit component
+
 ## 0.4.3 - 2022-08-24
 
 - Better handling of undefined data in the Form Component
