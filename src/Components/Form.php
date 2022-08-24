@@ -132,6 +132,7 @@ class Form extends Component
     private function defaultAttributeValue(string $attribute)
     {
         return null;
+
         return in_array($attribute, static::$allowedArrayAttributes) ? [] : null;
     }
 
