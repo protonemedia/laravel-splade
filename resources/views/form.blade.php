@@ -2,10 +2,10 @@
 
 <SpladeForm {!! $attributes->except('class') !!}
     @if($data['data']) :default="@js($data['data'])" @else :default="{!! $data['json'] !!}" @endif
-    :fields="@js($data['attributes'])"
+    :splade-id="@js($spladeId)"
 >
     <template #default="{!! $scope !!}">
-        <form v-bind="form.$attrs" @submit.prevent="form.submit">
+        <form data-splade-id="{{ $spladeId }}" v-bind="form.$attrs" @submit.prevent="form.submit">
             <fieldset v-bind:disabled="form.processing" {!! $attributes->only('class') !!}>
                 {{ $slot }}
             </fieldset>

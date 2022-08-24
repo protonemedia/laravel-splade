@@ -30,7 +30,7 @@ trait ParsesJsonDataAttribute
             return $data;
         }
 
-        $decoded = rescue(fn () => json_decode($data), null, false);
+        $decoded = rescue(fn () => json_decode($data, true), null, false);
 
         if ($decoded) {
             return $decoded;

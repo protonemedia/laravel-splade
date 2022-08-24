@@ -11,6 +11,12 @@ export default {
     inject: ["stack"],
 
     props: {
+        spladeId: {
+            type: String,
+            required: true,
+            default: ""
+        },
+
         action: {
             type: String,
             required: false,
@@ -77,14 +83,6 @@ export default {
             type: Boolean,
             required: false,
             default: false,
-        },
-
-        fields: {
-            type: Array,
-            required: false,
-            default: () => {
-                return [];
-            }
         }
     },
 
@@ -92,6 +90,7 @@ export default {
 
     data() {
         return {
+            missingAttributes: [],
             values: Object.assign({}, { ...this.default }),
             processing: false,
             wasSuccessful: false,
@@ -116,10 +115,26 @@ export default {
         },
     },
 
-    beforeMount() {
-        this.fields.forEach((field) => {
-            this.$put(field.name, get(this.values, field.name, field.array ? [] : null));
+    mounted() {
+        let formElement = document.querySelector(`form[data-splade-id="${this.spladeId}"]`);
+
+        if(!formElement) {
+            formElement = document;
+        }
+
+        this.missingAttributes.forEach((attribute) => {
+            let defaultValue = {};
+
+            if(formElement.querySelector(`[name="${attribute}"]`)) {
+                defaultValue = "";
+            } else if(formElement.querySelector(`[name="${attribute}[]"]`)) {
+                defaultValue = [];
+            }
+
+            this.$put(attribute, defaultValue);
         });
+
+        this.missingAttributes = [];
     },
 
     methods: {
@@ -221,6 +236,11 @@ export default {
 
                         if (preservedKeys.includes(name)) {
                             return self[name];
+                        }
+
+                        if (!has(self.values, name)) {
+                            self.missingAttributes.push(name);
+                            self.$put(name, "");
                         }
 
                         return get(self.values, name);

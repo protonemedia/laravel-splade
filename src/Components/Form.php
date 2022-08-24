@@ -18,6 +18,8 @@ class Form extends Component
     use ParsesJsonDataAttribute;
     use InteractsWithFormElement;
 
+    public $spladeId;
+
     public bool $guarded;
 
     private $data;
@@ -30,8 +32,6 @@ class Form extends Component
 
     private static $allowedAttributes = [];
 
-    private static $allowedArrayAttributes = [];
-
     private static $eloquentRelations = [];
 
     private static $guardWhenCallable = null;
@@ -43,9 +43,10 @@ class Form extends Component
      */
     public function __construct($default = null, public string $scope = 'form', $unguarded = null)
     {
-        static::$allowedAttributes      = [];
-        static::$allowedArrayAttributes = [];
-        static::$eloquentRelations      = [];
+        $this->spladeId = Str::random();
+
+        static::$allowedAttributes = [];
+        static::$eloquentRelations = [];
 
         $this->parseResource($default);
 
@@ -81,10 +82,6 @@ class Form extends Component
     public static function allowAttribute(string $name)
     {
         static::$allowedAttributes[static::dottedName($name)] = true;
-
-        if (Str::endsWith($name, '[]')) {
-            static::$allowedArrayAttributes[] = static::dottedName($name);
-        }
     }
 
     public static function parseEloquentRelation(string $name)
@@ -134,6 +131,7 @@ class Form extends Component
 
     private function defaultAttributeValue(string $attribute)
     {
+        return null;
         return in_array($attribute, static::$allowedArrayAttributes) ? [] : null;
     }
 
@@ -154,11 +152,11 @@ class Form extends Component
         $guardedData = [];
 
         foreach (static::allowedAttributesSorted() as $attribute) {
-            data_set(
-                $guardedData,
-                $attribute,
-                data_get($rawData, $attribute, $this->defaultAttributeValue($attribute))
-            );
+            if (!Arr::has($rawData, $attribute)) {
+                continue;
+            }
+
+            data_set($guardedData, $attribute, data_get($rawData, $attribute));
         }
 
         if ($this->model) {
@@ -176,47 +174,24 @@ class Form extends Component
         return (object) $guardedData;
     }
 
-    private function dataWithAllAttributes(): ?object
+    private function defaultData(): ?object
     {
         if ($this->data === null) {
             return null;
         }
 
-        $data = $this->data;
-
-        foreach (static::allowedAttributesSorted() as $attribute) {
-            if (Arr::has($data, $attribute)) {
-                continue;
-            }
-
-            data_set($data, $attribute, $this->defaultAttributeValue($attribute));
-        }
-
-        return (object) $data;
+        return (object) $this->data;
     }
 
     public function formData(): array
     {
         $data = [
-            'data'                     => null,
-            'json'                     => $this->json,
-            'attributes'               => collect(static::allowedAttributesSorted())->map(
-                fn (string $attribute) => [
-                    'name'  => $attribute,
-                    'array' => in_array($attribute, static::$allowedArrayAttributes),
-                ]
-            ),
+            'data' => $this->guardedData() ?: $this->defaultData(),
+            'json' => $this->json,
         ];
 
-        if ($guardedData = $this->guardedData()) {
-            $data['data'] = $guardedData;
-        } elseif ($dataWithAllAttributes = $this->dataWithAllAttributes()) {
-            $data['data'] = $dataWithAllAttributes;
-        }
-
-        static::$allowedAttributes      = [];
-        static::$allowedArrayAttributes = [];
-        static::$eloquentRelations      = [];
+        static::$allowedAttributes = [];
+        static::$eloquentRelations = [];
 
         return $data;
     }
