@@ -129,12 +129,6 @@ class Form extends Component
             ->all();
     }
 
-    private function defaultAttributeValue(string $attribute)
-    {
-        return null;
-        return in_array($attribute, static::$allowedArrayAttributes) ? [] : null;
-    }
-
     private function guardedData(): ?object
     {
         if (!$this->guarded) {
