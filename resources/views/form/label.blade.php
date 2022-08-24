@@ -1,1 +1,1 @@
-@if($label) <span class="text-gray-700">{{ $label }}</span> @endif
+<span class="block mb-1 text-gray-700">{{ $label }}</span>

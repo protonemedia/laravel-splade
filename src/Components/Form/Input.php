@@ -32,7 +32,8 @@ class Input extends Component
         public bool $showErrors = true,
         private bool $range = false,
         public string $prepend = '',
-        public string $append = ''
+        public string $append = '',
+        public string $help = '',
     ) {
         if ($date === false && $this->type === 'date' && static::$defaultFlatpickrOptions !== false) {
             $this->date = $date = true;

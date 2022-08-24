@@ -6,9 +6,9 @@
 >
     <template #default="{!! $scope !!}">
         <label class="block">
-            @include('splade::form.label', ['label' => $label])
+            @includeWhen($label, 'splade::form.label', ['label' => $label])
 
-            <div class="@if($label) mt-1 @endif">
+            <div>
                 <a @submit.prevent
                     class="inline-block px-3 py-1 rounded-md border border-gray-300 shadow-sm bg-gray-100 hover:bg-gray-300 relative cursor-pointer">
 
@@ -27,6 +27,8 @@
                     ]) }}
                     />
                 </a>
+
+                @includeWhen($help, 'splade::form.help', ['help' => $help])
 
                 <div class="mt-2 text-sm italic">
                     <p v-for="(filename, key) in file.filenames" v-bind:key="key" v-text="filename" />

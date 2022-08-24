@@ -19,7 +19,8 @@ class Radio extends Component
         public $value = 1,
         public string $label = '',
         public string $validationKey = '',
-        public bool $showErrors = false
+        public bool $showErrors = false,
+        public string $help = '',
     ) {
         Form::allowAttribute($name);
     }

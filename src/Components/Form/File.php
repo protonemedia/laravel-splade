@@ -20,7 +20,8 @@ class File extends Component
         public string $validationKey = '',
         public bool $showErrors = true,
         public bool $multiple = false,
-        public string $scope = 'file'
+        public string $scope = 'file',
+        public string $help = '',
     ) {
         Form::allowAttribute($name);
 

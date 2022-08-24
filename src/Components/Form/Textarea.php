@@ -25,7 +25,8 @@ class Textarea extends Component
         public string $name = '',
         public string $label = '',
         public string $validationKey = '',
-        public bool $showErrors = true
+        public bool $showErrors = true,
+        public string $help = '',
     ) {
         Form::allowAttribute($name);
     }

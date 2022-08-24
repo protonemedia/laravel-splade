@@ -28,7 +28,8 @@ class Select extends Component
         public bool|array|string $choices = false,
         public string $validationKey = '',
         public bool $showErrors = true,
-        public bool $relation = false
+        public bool $relation = false,
+        public string $help = '',
     ) {
         if (is_bool($placeholder) && $placeholder) {
             $this->placeholder = __('Search') . '...';

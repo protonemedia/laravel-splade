@@ -5,9 +5,9 @@
     v-model="{{ $vueModel() }}"
 >
     <label class="block">
-        @include('splade::form.label', ['label' => $label])
+        @includeWhen($label, 'splade::form.label', ['label' => $label])
 
-        <div class="@if($label) mt-1 @endif flex rounded-md shadow-sm">
+        <div class="flex rounded-md shadow-sm">
             @if($prepend)
                 <span class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500">
                     {!! $prepend !!}
@@ -35,5 +35,6 @@
         </div>
     </label>
 
+    @include('splade::form.help', ['help' => $help])
     @includeWhen($showErrors, 'splade::form.error', ['name' => $validationKey()])
 </SpladeInput>

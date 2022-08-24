@@ -1,6 +1,6 @@
-<button {{ $attributes->class([
+<button {{ $attributes->class(
     'rounded-md shadow-sm bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 focus:outline-none focus:shadow-outline'
-])->merge([
+)->merge([
     'type' => $type
 ]) }}
 >

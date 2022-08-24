@@ -20,6 +20,7 @@ class Checkbox extends Component
         public string $label = '',
         public string $validationKey = '',
         public bool $showErrors = true,
+        public string $help = '',
     ) {
         Form::allowAttribute($name);
     }
