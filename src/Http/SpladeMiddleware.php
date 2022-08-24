@@ -130,6 +130,8 @@ class SpladeMiddleware
                 $session->pull(static::FLASH_TOASTS, []),
                 $this->splade->getToasts(),
             ),
+
+            'preventRefresh' => $this->splade->dontRefreshPage(),
         ];
     }
 

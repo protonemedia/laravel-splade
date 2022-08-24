@@ -73,6 +73,12 @@ export default {
             default: "",
         },
 
+        stay: {
+            type: Boolean,
+            require: false,
+            default: false
+        },
+
         restoreOnSuccess: {
             type: Boolean,
             required: false,
@@ -186,9 +192,13 @@ export default {
                     ? objectToFormData(this.values)
                     : this.values;
 
-            Splade.request(this.action, this.method.toUpperCase(), data, {
-                Accept: "application/json",
-            })
+            const headers = { Accept: "application/json" };
+
+            if(this.stay) {
+                headers["X-Splade-Prevent-Refresh"] = true;
+            }
+
+            Splade.request(this.action, this.method.toUpperCase(), data, headers)
                 .then((response) => {
                     this.$emit("success", response);
 
