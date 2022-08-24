@@ -8,4 +8,6 @@
     @endcell
 </x-splade-table>
 
+<Link href="/navigation/one">Navigation One</Link>
+
 @endsection

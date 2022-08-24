@@ -13,7 +13,7 @@ use ProtoneMedia\Splade\SpladeToast;
  * @method static array getShared()
  * @method static array getToasts()
  * @method static bool isModalRequest()
- * @method static bool isRefreshRequest()
+ * @method static bool dontRefreshPage()
  * @method static bool isSpladeRequest()
  * @method static Closure exceptionHandler(Handler $exceptionHandler)
  * @method static EventRedirectFactory redirectOnEvent()

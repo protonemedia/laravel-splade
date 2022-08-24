@@ -4,7 +4,7 @@
 
 FormProcessing
 
-<x-splade-form :action="route('form.slow.submit')">
+<x-splade-form :action="route('form.slow.submit')" stay>
     <input v-model="form.name" dusk="name" />
     <button type="submit">Submit</button>
     <p v-if="form.processing">Form is processing</p>

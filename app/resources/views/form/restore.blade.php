@@ -5,6 +5,7 @@
 FormRestore
 
 <x-splade-form
+    stay
     restore-on-success
     :action="route('form.back.submit')"
     :default="['name' => 'Pascal']">

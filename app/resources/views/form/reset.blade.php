@@ -5,6 +5,7 @@
 FormReset
 
 <x-splade-form
+    stay
     reset-on-success
     :action="route('form.back.submit')">
     <input v-model="form.name" dusk="name" />

@@ -15,7 +15,7 @@ class SpladeCore
 
     const HEADER_MODAL = 'X-Splade-Modal';
 
-    const HEADER_REFRESH = 'X-Splade-Refresh';
+    const HEADER_PREVENT_REFRESH = 'X-Splade-Prevent-Refresh';
 
     const MODAL_TYPE_MODAL = 'modal';
 
@@ -141,16 +141,16 @@ class SpladeCore
         return $this->request()->hasHeader(static::HEADER_MODAL);
     }
 
+    public function dontRefreshPage(): bool
+    {
+        return $this->request()->hasHeader(static::HEADER_PREVENT_REFRESH);
+    }
+
     public function modalType(): string
     {
         return match ($this->request()->header(static::HEADER_MODAL)) {
             'slideover' => static::MODAL_TYPE_SLIDEOVER,
             default     => static::MODAL_TYPE_MODAL
         };
-    }
-
-    public function isRefreshRequest(): bool
-    {
-        return $this->request()->hasHeader(static::HEADER_REFRESH);
     }
 }

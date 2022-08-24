@@ -18,8 +18,6 @@ class SpladeMiddleware
 {
     const FLASH_TOASTS = 'splade.flashToasts';
 
-    const FORCE_REFRESH_NEXT_REQUEST = 'splade.forceRefreshNextRequst';
-
     public function __construct(private SpladeCore $splade, private Ssr $ssr)
     {
     }
@@ -42,18 +40,10 @@ class SpladeMiddleware
             return $response;
         }
 
-        if ($response->getStatusCode() === 302 && in_array($request->method(), ['PUT', 'PATCH', 'DELETE'])) {
-            $response->setStatusCode(303);
-        }
-
         $spladeData = $this->spladeData($request->session());
 
-        if ($response->getStatusCode() === 302 || $response->getStatusCode() === 303) {
+        if (in_array($response->getStatusCode(), [302, 303])) {
             $request->session()->put(static::FLASH_TOASTS, $this->splade->getToasts());
-        }
-
-        if ($response->getStatusCode() === 303) {
-            $request->session()->put(static::FORCE_REFRESH_NEXT_REQUEST, true);
         }
 
         if ($this->splade->isSpladeRequest()) {
@@ -131,16 +121,17 @@ class SpladeMiddleware
             ->toArray();
 
         return (object) [
-            'head'    => $this->splade->head()->toArray(),
-            'modal'   => $this->splade->isModalRequest() ? $this->splade->modalType() : null,
-            'refresh' => $this->splade->isRefreshRequest() || (bool) $session->pull(static::FORCE_REFRESH_NEXT_REQUEST),
-            'flash'   => (object) $flash,
-            'errors'  => (object) session('errors')?->toArray(),
-            'shared'  => (object) $this->splade->getShared(),
-            'toasts'  => array_merge(
+            'head'   => $this->splade->head()->toArray(),
+            'modal'  => $this->splade->isModalRequest() ? $this->splade->modalType() : null,
+            'flash'  => (object) $flash,
+            'errors' => (object) session('errors')?->toArray(),
+            'shared' => (object) $this->splade->getShared(),
+            'toasts' => array_merge(
                 $session->pull(static::FLASH_TOASTS, []),
                 $this->splade->getToasts(),
             ),
+
+            'preventRefresh' => $this->splade->dontRefreshPage(),
         ];
     }
 
