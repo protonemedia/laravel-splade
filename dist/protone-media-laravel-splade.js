@@ -3291,9 +3291,9 @@ const Lf = {
   mounted() {
     let e = document.querySelector(`form[data-splade-id="${this.spladeId}"]`);
     e || (e = document), this.missingAttributes.forEach((t) => {
-      let r = {};
+      let r = "";
       const n = e.querySelector(`[name="${t}"]`);
-      n ? r = n.type === "checkbox" ? !1 : "" : e.querySelector(`[name="${t}[]"]`) && (r = []), this.$put(t, r);
+      n ? r = n.type === "checkbox" ? !1 : "" : e.querySelector(`[name="${t}[]"]`) ? r = [] : (e.querySelector(`[name^="${t}."]`) || e.querySelector(`[name^="${t}["]`)) && (r = {}), this.$put(t, r);
     }), this.missingAttributes = [];
   },
   methods: {

@@ -23,7 +23,7 @@ class SimpleTest extends DuskTestCase
                 ->assertSee('The biography field is required.')
                 ->assertSee('The options field is required.')
                 ->assertSee('The language field is required.')
-                ->assertSee('The terms field is required.');
+                ->assertSee('The terms must be accepted.');
         });
     }
 
