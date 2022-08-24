@@ -10,14 +10,22 @@ FormComponents
         :default="['name' => 'Test']"
     >
         <x-splade-input name="name" label="Name" />
+        <x-splade-input name="email" label="Email" />
 
         <x-splade-input name="description.short" label="Short description" />
         <x-splade-input name="description.long" label="Long description" />
+
+        <x-splade-checkbox name="agree" value="1" label="Agree" />
 
         <x-splade-group name="options" inline>
             <x-splade-checkbox name="options[]" value="1" label="Option 1" />
             <x-splade-checkbox name="options[]" value="2" label="Option 2" />
             <x-splade-checkbox name="options[]" value="3" label="Option 3" />
+        </x-splade-group>
+
+        <x-splade-group name="theme" inline>
+            <x-splade-radio name="theme" value="dark" label="Dark" />
+            <x-splade-radio name="theme" value="light" label="Light" />
         </x-splade-group>
 
         <x-splade-submit />

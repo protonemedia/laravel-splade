@@ -67,7 +67,7 @@ class AttributesTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $browser->visit('form/components/defaultJson')
                 ->waitForText('FormComponents')
-                ->assertSeeIn('#all', '{ "name": "Test", "description": {}, "options": [] }');
+                ->assertSeeIn('#all', '{ "name": "Test", "email": "", "description": {}, "agree": false, "options": [], "theme": "" }');
         });
     }
 
@@ -77,7 +77,7 @@ class AttributesTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $browser->visit('form/components/defaultPhp')
                 ->waitForText('FormComponents')
-                ->assertSeeIn('#all', '{ "name": "Test", "description": {}, "options": [] }');
+                ->assertSeeIn('#all', '{ "name": "Test", "email": "", "description": {}, "agree": false, "options": [], "theme": "" }');
         });
     }
 }

@@ -125,8 +125,10 @@ export default {
         this.missingAttributes.forEach((attribute) => {
             let defaultValue = {};
 
-            if(formElement.querySelector(`[name="${attribute}"]`)) {
-                defaultValue = "";
+            const inputElement = formElement.querySelector(`[name="${attribute}"]`);
+
+            if(inputElement) {
+                defaultValue = inputElement.type === "checkbox" ? false : "";
             } else if(formElement.querySelector(`[name="${attribute}[]"]`)) {
                 defaultValue = [];
             }
