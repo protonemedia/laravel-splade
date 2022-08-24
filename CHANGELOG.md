@@ -2,6 +2,11 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 0.4.3 - 2022-08-24
+
+- Better handling of undefined data in the Form Component
+- Exclude binary file responses from the Splade middleware
+
 ## 0.4.2 - 2022-08-22
 
 - Middleware fix for resolving validation errors
