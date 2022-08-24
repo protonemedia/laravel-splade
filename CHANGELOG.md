@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 0.4.6 - 2022-08-24
+
+- Prepare form help texts
+
 ## 0.4.5 - 2022-08-24
 
 - Fix for undefined checkboxes
