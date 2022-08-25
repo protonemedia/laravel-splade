@@ -1,1 +1,1 @@
-<span class="block mb-1 text-gray-700">{{ $label }}</span>
+<span class="block mb-1 text-gray-700 font-sans">{{ $label }}</span>
