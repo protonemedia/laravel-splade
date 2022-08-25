@@ -1,7 +1,7 @@
-<div {{ $attributes->only(['v-if', 'v-show']) }}>
+<div {{ $attributes->only(['v-if', 'v-show', 'class']) }}>
     @includeWhen($label, 'splade::form.label', ['label' => $label])
 
-    <div {{ $attributes->except(['v-if', 'v-show'])->class([
+    <div {{ $attributes->except(['v-if', 'v-show', 'class'])->class([
         'flex flex-wrap space-x-6' => $inline,
         'space-y-1' => !$inline,
     ]) }}

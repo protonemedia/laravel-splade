@@ -13,6 +13,7 @@ use ProtoneMedia\Splade\SpladeCore;
 use ProtoneMedia\Splade\Ssr;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class SpladeMiddleware
 {
@@ -36,7 +37,7 @@ class SpladeMiddleware
         /** @var Response $response */
         $response = $next($request);
 
-        if ($response instanceof BinaryFileResponse) {
+        if ($response instanceof BinaryFileResponse || $response instanceof StreamedResponse) {
             return $response;
         }
 

@@ -22,7 +22,7 @@ export default {
         },
 
         modelValue: {
-            type: String,
+            type: [String, Number],
             required: false,
         },
     },

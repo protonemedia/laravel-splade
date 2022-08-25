@@ -30,7 +30,7 @@ export default {
         },
 
         modelValue: {
-            type: [String, Array],
+            type: [String, Number, Array],
             required: false,
         },
 
