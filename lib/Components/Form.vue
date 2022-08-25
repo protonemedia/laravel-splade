@@ -164,7 +164,13 @@ export default {
             return set(this.values, key, value);
         },
 
-        submit() {
+        submit($event) {
+            const submitter = $event.submitter;
+
+            if(submitter.name) {
+                this.$put(submitter.name, submitter.value);
+            }
+
             if (!this.confirm) {
                 return this.request();
             }

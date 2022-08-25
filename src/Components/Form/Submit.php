@@ -14,7 +14,9 @@ class Submit extends Component
     public function __construct(
         public string $label = 'Submit',
         public string $type = 'submit',
-        public bool $spinner = true
+        public bool $spinner = true,
+        public string $name = '',
+        public $value = null,
     ) {
     }
 

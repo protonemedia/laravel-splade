@@ -87,6 +87,8 @@ Route::middleware('splade')->group(function () {
     Route::get('form/components/unguarded', [FormComponentsController::class, 'unguarded'])->name('form.components.unguarded');
     Route::get('form/components/defaultUnguarded', [FormComponentsController::class, 'defaultUnguarded'])->name('form.components.defaultUnguarded');
     Route::post('form/components', [FormComponentsController::class, 'submit'])->name('form.components.submit');
+    Route::get('form/components/submitValue/{approved?}', [FormComponentsController::class, 'submitValue'])->name('form.components.submitValue');
+    Route::post('form/components/submitValue/{approved?}', [FormComponentsController::class, 'submitValueSubmit'])->name('form.components.submitValueSubmit');
 
     Route::get('form/relations/belongsToMany', [FormRelationsController::class, 'belongsToMany'])->name('form.relations.belongsToMany');
     Route::post('form/relations/belongsToMany', [FormRelationsController::class, 'storeBelongsToMany'])->name('form.relations.storeBelongsToMany');

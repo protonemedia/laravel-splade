@@ -40,6 +40,20 @@ class FormComponentsController
         return view('form.components.arrays');
     }
 
+    public function submitValue()
+    {
+        return view('form.components.submitValue');
+    }
+
+    public function submitValueSubmit(Request $request)
+    {
+        $data = $request->validate([
+            'approve' => ['required', 'in:0,1'],
+        ]);
+
+        return redirect()->route('form.components.submitValue', ['approved' => $data['approve']]);
+    }
+
     public function defaults()
     {
         Select::defaultChoices();

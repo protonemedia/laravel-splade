@@ -80,4 +80,22 @@ class AttributesTest extends DuskTestCase
                 ->assertSeeIn('#all', '{ "name": "Test", "email": "", "description": {}, "agree": false, "options": [], "theme": "" }');
         });
     }
+
+    /** @test */
+    public function it_handles_nested_numeric_keys()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('form/components/arrays')
+                ->waitForText('FormComponents')
+                ->assertInputValue('nested.key', 'value')
+                ->assertInputValue('nested[another]', 'key')
+                ->assertInputValue('list[1]', 'one')
+                ->assertInputValue('list[2]', 'two')
+                ->assertInputValue('list[3]', 'three')
+                ->assertInputValue('another.1', 'one')
+                ->assertInputValue('another.2', 'two')
+                ->assertInputValue('another.3', 'three')
+                ->assertSeeIn('#all', '{ "options": [], "nested": { "key": "value", "another": "key" }, "list": { "1": "one", "2": "two", "3": "three" }, "another": { "1": "one", "2": "two", "3": "three" } }');
+        });
+    }
 }

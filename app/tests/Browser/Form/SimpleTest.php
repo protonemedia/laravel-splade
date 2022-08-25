@@ -50,4 +50,18 @@ class SimpleTest extends DuskTestCase
                 ->assertRouteIs('navigation.one');
         });
     }
+
+    /** @test */
+    public function it_can_submit_a_value_in_the_submit_button()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('form/components/submitValue')
+                ->waitForText('FormComponents')
+                ->press('No')
+                ->waitForRoute('form.components.submitValue', ['approved' => 0])
+                ->waitForText('FormComponents')
+                ->press('Yes')
+                ->waitForRoute('form.components.submitValue', ['approved' => 1]);
+        });
+    }
 }
