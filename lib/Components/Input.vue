@@ -1,6 +1,6 @@
 <template>
   <div ref="input">
-    <slot />
+    <slot :disabled="disabled" />
   </div>
 </template>
 
@@ -31,8 +31,10 @@ export default {
 
     data() {
         return {
+            disabled: false,
             element: null,
             flatpickrInstance: null,
+            observer: null
         };
     },
 
@@ -50,15 +52,31 @@ export default {
         if (this.flatpickr) {
             this.initFlatpickr(this.element);
         }
+
+        this.disabled = this.element.disabled;
+
+        const vm = this;
+
+        this.observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                if(mutation.attributeName === "disabled") {
+                    vm.disabled = mutation.target.disabled;
+                }
+            });
+        });
+
+        this.observer.observe(this.element, { attributes: true });
     },
 
     beforeUnmount() {
+        this.observer.disconnect();
+
         if (this.flatpickrInstance) {
             this.flatpickrInstance.destroy();
         }
     },
 
-    methods:{
+    methods: {
         initFlatpickr(element){
             import("flatpickr").then((flatpickr) =>{
                 this.flatpickrInstance = flatpickr.default(

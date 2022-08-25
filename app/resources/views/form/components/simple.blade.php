@@ -12,6 +12,14 @@ FormComponents
     >
         <x-splade-input name="name" label="Name" />
 
+
+
+        <x-splade-input name="disabled" label="disabled" v-bind:disabled="!form.terms">
+            @slot('append')
+                <a href class="text-indigo-600 font-medium">GO!</a>
+            @endslot
+        </x-splade-input>
+
         <x-splade-input name="password" label="Password" type="password" />
         <x-splade-input name="secret" type="hidden" />
 
