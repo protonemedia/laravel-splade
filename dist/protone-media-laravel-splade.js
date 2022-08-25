@@ -3321,8 +3321,9 @@ const qf = {
     $put(e, t) {
       return Vi(this.values, e, t);
     },
-    submit() {
-      if (!this.confirm)
+    submit(e) {
+      const t = e.submitter;
+      if (t.name && this.$put(t.name, t.value), !this.confirm)
         return this.request();
       m.confirm(
         Ki(this.confirm) ? "" : this.confirm,
@@ -3389,15 +3390,17 @@ const qf = {
       default: () => ({})
     },
     modelValue: {
-      type: String,
+      type: [String, Number],
       required: !1
     }
   },
   emits: ["update:modelValue"],
   data() {
     return {
+      disabled: !1,
       element: null,
-      flatpickrInstance: null
+      flatpickrInstance: null,
+      observer: null
     };
   },
   watch: {
@@ -3406,10 +3409,16 @@ const qf = {
     }
   },
   mounted() {
-    this.element = this.$refs.input.querySelector("input"), this.flatpickr && this.initFlatpickr(this.element);
+    this.element = this.$refs.input.querySelector("input"), this.flatpickr && this.initFlatpickr(this.element), this.disabled = this.element.disabled;
+    const e = this;
+    this.observer = new MutationObserver(function(t) {
+      t.forEach(function(r) {
+        r.attributeName === "disabled" && (e.disabled = r.target.disabled);
+      });
+    }), this.observer.observe(this.element, { attributes: !0 });
   },
   beforeUnmount() {
-    this.flatpickrInstance && this.flatpickrInstance.destroy();
+    this.observer.disconnect(), this.flatpickrInstance && this.flatpickrInstance.destroy();
   },
   methods: {
     initFlatpickr(e) {
@@ -3428,7 +3437,7 @@ const qf = {
 }, Nf = { ref: "input" };
 function kf(e, t, r, n, i, o) {
   return R(), se("div", Nf, [
-    ge(e.$slots, "default")
+    ge(e.$slots, "default", { disabled: i.disabled })
   ], 512);
 }
 const Hf = /* @__PURE__ */ ft(Mf, [["render", kf]]), Vf = ["href", "onClick"], Uf = {
@@ -3653,7 +3662,7 @@ const sd = ad, ld = {
       default: !1
     },
     modelValue: {
-      type: [String, Array],
+      type: [String, Number, Array],
       required: !1
     },
     placeholder: {
@@ -3992,7 +4001,7 @@ const $d = {
       default: !1
     },
     modelValue: {
-      type: String,
+      type: [String, Number],
       required: !1
     }
   },
