@@ -69,6 +69,10 @@ class SpladeMiddleware
             ]));
         }
 
+        if ($response instanceof JsonResponse) {
+            return $response;
+        }
+
         if ($response->isSuccessful()) {
             $viewData = [
                 'components' => static::renderedComponents(),
