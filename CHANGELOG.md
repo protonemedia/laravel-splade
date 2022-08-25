@@ -2,6 +2,13 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 0.4.8 - 2022-08-25
+
+- Support for `name` and `value` attributes in the Submit component
+- Styling fixes
+- Ignore `StreamedResponse` in Splade middleware
+- Additional tests for nested data
+
 ## 0.4.7 - 2022-08-24
 
 - Simplified redirects
