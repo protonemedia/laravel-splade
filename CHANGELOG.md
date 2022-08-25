@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 0.4.9 - 2022-08-25
+
+- Styling issues fixed
+
 ## 0.4.8 - 2022-08-25
 
 - Support for `name` and `value` attributes in the Submit component
