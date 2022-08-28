@@ -8,6 +8,8 @@ use Illuminate\Support\Str;
 
 class SpladeInstallCommand extends Command
 {
+    use InstallsSpladeExceptionHandler;
+
     public $signature = 'splade:install';
 
     public $description = 'Install the Splade components and resources';
@@ -77,33 +79,9 @@ class SpladeInstallCommand extends Command
      *
      * @return string
      */
-    private static function eol(): string
+    public static function eol(): string
     {
         return windows_os() ? "\n" : PHP_EOL;
-    }
-
-    protected function installExceptionHandler()
-    {
-        $exceptionHandler = file_get_contents(app_path('Exceptions/Handler.php'));
-
-        $search = 'public function register()' . static::eol() . '    {';
-
-        $registerMethodAfter = Str::after($exceptionHandler, $search);
-
-        $renderable = '$this->renderable(\ProtoneMedia\Splade\SpladeCore::exceptionHandler($this));';
-
-        if (Str::contains($exceptionHandler, $renderable)) {
-            return;
-        }
-
-        file_put_contents(
-            app_path('Exceptions/Handler.php'),
-            str_replace(
-                $registerMethodAfter,
-                static::eol() . '        ' . $renderable . static::eol() . $registerMethodAfter,
-                $exceptionHandler
-            )
-        );
     }
 
     /**
