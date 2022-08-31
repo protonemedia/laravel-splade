@@ -155,8 +155,8 @@ class LibrariesTest extends DuskTestCase
                 ->waitForText('FormComponents')
                 ->click('input[name="date1"]')
                 ->waitFor('.flatpickr-calendar.open')
-                ->assertSee(now()->format('F'))
-                ->assertSee(now()->addMonth()->format('F'));
+                ->assertSee(now()->startOfMonth()->format('F'))
+                ->assertSee(now()->startOfMonth()->addMonth()->format('F'));
         });
     }
 
@@ -168,8 +168,8 @@ class LibrariesTest extends DuskTestCase
                 ->waitForText('FormComponents')
                 ->click('input[name="date2"]')
                 ->waitFor('.flatpickr-calendar.open')
-                ->assertSee(now()->format('F'))
-                ->assertSee(now()->addMonth()->format('F'));
+                ->assertSee(now()->startOfMonth()->format('F'))
+                ->assertSee(now()->startOfMonth()->addMonth()->format('F'));
         });
     }
 
