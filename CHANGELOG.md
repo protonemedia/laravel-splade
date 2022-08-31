@@ -2,6 +2,11 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 0.4.10 - 2022-08-31
+
+- Prepare Splade installer for Breeze starter-kit
+- Fix for not showing the bound values when using Choices.js and Flatpickr
+
 ## 0.4.9 - 2022-08-25
 
 - Styling issues fixed
