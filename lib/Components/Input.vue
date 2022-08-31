@@ -78,7 +78,7 @@ export default {
 
     methods: {
         initFlatpickr(element){
-            import("flatpickr").then((flatpickr) =>{
+            import("flatpickr").then((flatpickr) => {
                 this.flatpickrInstance = flatpickr.default(
                     element,
                     Object.assign({}, this.flatpickr, this.jsFlatpickrOptions, {
@@ -89,6 +89,10 @@ export default {
                         },
                     })
                 );
+
+                if (this.modelValue) {
+                    this.flatpickrInstance.setDate(this.modelValue);
+                }
             });
         }
     }

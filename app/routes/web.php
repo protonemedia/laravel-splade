@@ -77,6 +77,7 @@ Route::middleware('splade')->group(function () {
 
     Route::get('form/components/simple', [FormComponentsController::class, 'simple'])->name('form.components.simple');
     Route::get('form/components/libraries', [FormComponentsController::class, 'libraries'])->name('form.components.libraries');
+    Route::get('form/components/libraryDefaults', [FormComponentsController::class, 'libraryDefaults'])->name('form.components.libraryDefaults');
     Route::get('form/components/custom', [FormComponentsController::class, 'custom'])->name('form.components.custom');
     Route::get('form/components/defaults', [FormComponentsController::class, 'defaults'])->name('form.components.defaults');
     Route::get('form/components/defaultJson', [FormComponentsController::class, 'defaultJson'])->name('form.components.defaultJson');

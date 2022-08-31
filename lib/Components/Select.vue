@@ -72,17 +72,7 @@ export default {
                     return;
                 }
 
-                if (Array.isArray(updatedValue)) {
-                    this.choicesInstance.removeActiveItems();
-                }
-
-                if (updatedValue === null) {
-                    updatedValue = "";
-                }
-
-                this.choicesInstance.setChoiceByValue(updatedValue);
-                this.updateHasSelectionAttribute();
-                this.handlePlaceholderVisibility();
+                this.setValueOnChoices(updatedValue);
             }
         },
     },
@@ -102,6 +92,20 @@ export default {
     },
 
     methods: {
+        setValueOnChoices(value) {
+            if (Array.isArray(value)) {
+                this.choicesInstance.removeActiveItems();
+            }
+
+            if (value === null) {
+                value = "";
+            }
+
+            this.choicesInstance.setChoiceByValue(value);
+            this.updateHasSelectionAttribute();
+            this.handlePlaceholderVisibility();
+        },
+
         getItemOfCurrentModel() {
             const currentModel = this.modelValue;
 
@@ -183,6 +187,8 @@ export default {
                     vm.choicesInstance.choiceList.scrollToChildElement(itemElement, 1);
                     vm.choicesInstance._highlightChoice(itemElement);
                 });
+
+                this.setValueOnChoices(this.modelValue);
             });
         },
 

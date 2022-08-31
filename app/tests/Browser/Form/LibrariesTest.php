@@ -9,6 +9,23 @@ use Tests\DuskTestCase;
 class LibrariesTest extends DuskTestCase
 {
     /** @test */
+    public function it_select_the_default_values()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('form/components/libraryDefaults')
+                ->waitForText('FormComponents')
+                ->assertInputValue('biography', 'Voluptate ea culpa proident proident qui nostrud non ea irure ullamco in non reprehenderit.')
+                ->assertSeeIn('div[data-select-name="country"] .choices__item--selectable', 'Netherlands')
+                ->assertSeeIn('div[data-select-name="countries[]"] .choices__list--multiple', 'Belgium')
+                ->assertSeeIn('div[data-select-name="countries[]"] .choices__list--multiple', 'Netherlands')
+                ->assertInputValue('date', '2022-07-22')
+                ->assertInputValue('time', '13:37')
+                ->assertInputValue('datetime', '2022-07-22 13:37')
+                ->assertInputValue('daterange', '2022-07-22 to 2022-08-22');
+        });
+    }
+
+    /** @test */
     public function it_can_autosize_the_textarea()
     {
         $this->browse(function (Browser $browser) {
