@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 0.4.11 - 2022-09-02
+
+- Progress bar
+- More versatile dropdown component
+- Default transition animation in the button dropdown
+- Transition component (internal only, might open up at some point)
+- Refactored the Splade installer to prepare for the Breeze starter-kit
+
 ## 0.4.10 - 2022-08-31
 
 - Prepare Splade installer for Breeze starter-kit
