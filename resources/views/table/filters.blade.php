@@ -14,7 +14,6 @@
       role="menu"
       aria-orientation="horizontal"
       aria-labelledby="filter-menu"
-      class="min-w-max"
     >
         @foreach($table->filters() as $filter)
             <div>

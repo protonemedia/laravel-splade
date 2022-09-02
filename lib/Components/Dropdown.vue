@@ -1,18 +1,23 @@
 <template>
-  <OnClickOutside :do="hide">
-    <button ref="button">
+  <OnClickOutside
+    class="relative"
+    :do="hide"
+    :opened="opened"
+  >
+    <div ref="button">
       <slot
         name="button"
         :toggle="toggle"
+        :disabled="disabled"
       />
-    </button>
+    </div>
 
     <div
-      v-show="opened"
       ref="tooltip"
     >
       <slot
         :hide="hide"
+        :opened="opened"
       />
     </div>
   </OnClickOutside>
@@ -33,11 +38,6 @@ export default {
         placement: {
             type: String,
             default: "bottom-start",
-            required: false,
-        },
-        active: {
-            type: Boolean,
-            default: false,
             required: false,
         },
         disabled: {

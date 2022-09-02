@@ -79,6 +79,7 @@ class ServiceProvider extends BaseServiceProvider
             Components\Confirm::class,
             Components\Data::class,
             Components\Defer::class,
+            Components\Dropdown::class,
             Components\Errors::class,
             Components\Event::class,
             Components\Flash::class,
@@ -91,6 +92,7 @@ class ServiceProvider extends BaseServiceProvider
             Components\Toast::class,
             Components\ToastWrapper::class,
             Components\Toggle::class,
+            Components\Transition::class,
 
             Components\Form\Checkbox::class,
             Components\Form\File::class,
