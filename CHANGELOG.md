@@ -7,6 +7,7 @@ All notable changes to `laravel-splade` will be documented in this file.
 - Progress bar
 - More versatile dropdown component
 - Default transition animation in the button dropdown
+- Dropdown component now closes on escape keypress
 - Transition component (internal only, might open up at some point)
 - Refactored the Splade installer to prepare for the Breeze starter-kit
 
