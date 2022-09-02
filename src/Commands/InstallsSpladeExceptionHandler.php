@@ -6,6 +6,11 @@ use Illuminate\Support\Str;
 
 trait InstallsSpladeExceptionHandler
 {
+    /**
+     * Install the renderable callback in the application Exception Handler.
+     *
+     * @return void
+     */
     protected function installExceptionHandler()
     {
         $eol = SpladeInstallCommand::eol();

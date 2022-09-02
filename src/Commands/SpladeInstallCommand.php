@@ -4,11 +4,11 @@ namespace ProtoneMedia\Splade\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\Str;
 
 class SpladeInstallCommand extends Command
 {
     use InstallsSpladeExceptionHandler;
+    use InstallsSpladeRouteMiddleware;
 
     public $signature = 'splade:install';
 
@@ -82,35 +82,6 @@ class SpladeInstallCommand extends Command
     public static function eol(): string
     {
         return windows_os() ? "\n" : PHP_EOL;
-    }
-
-    /**
-     * Install the middleware to a group in the application Http Kernel.
-     *
-     * @return void
-     */
-    protected function installRouteMiddleware()
-    {
-        $httpKernel = file_get_contents(app_path('Http/Kernel.php'));
-
-        $search = 'protected $routeMiddleware = [' . static::eol();
-
-        $routeMiddlewareAfter = Str::after($httpKernel, $search);
-
-        $routeMiddleware = "'splade' => \ProtoneMedia\Splade\Http\SpladeMiddleware::class";
-
-        if (Str::contains($httpKernel, $routeMiddleware)) {
-            return;
-        }
-
-        file_put_contents(
-            app_path('Http/Kernel.php'),
-            str_replace(
-                $routeMiddlewareAfter,
-                '        ' . $routeMiddleware . ',' . static::eol() . $routeMiddlewareAfter,
-                $httpKernel
-            )
-        );
     }
 
     protected function updateNodeScript()
