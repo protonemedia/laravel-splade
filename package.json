@@ -42,6 +42,7 @@
   "dependencies": {
     "autosize": "^5.0.1",
     "choices.js": "^10.1.0",
-    "flatpickr": "^4.6.13"
+    "flatpickr": "^4.6.13",
+    "nprogress": "^0.2.0"
   }
 }
