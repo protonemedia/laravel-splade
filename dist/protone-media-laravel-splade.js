@@ -185,7 +185,7 @@ function Ga(e, t) {
   ni(n);
 }
 function Ka(e) {
-  L.value = e.state, ie.value = 0, Bt(L.value.head), jr(L.value.html, L.value.rememberedState.scrollY);
+  !e.state || (L.value = e.state, ie.value = 0, Bt(L.value.head), jr(L.value.html, L.value.rememberedState.scrollY));
 }
 function Cr(e, t, r, n, i) {
   const o = {
