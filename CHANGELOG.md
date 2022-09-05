@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 0.4.13 - 2022-09-05
+
+- Fix for NProgress import in dev build
+
 ## 0.4.12 - 2022-09-02
 
 - Fix for #33
