@@ -163,16 +163,19 @@ class FormTest extends DuskTestCase
     }
 
     /** @test */
-    public function it_can_show_the_forms_state()
+    public function it_can_show_the_forms_state_and_a_progress_bar()
     {
         $this->browse(function (Browser $browser) {
             $browser->visit('/form/processing')
                 ->waitForText('FormProcessing')
                 ->press('Submit')
                 ->waitForText('Form is processing')
+                ->pause(250)
+                ->assertPresent('#nprogress')
                 ->waitUntilMissing('Form is processing')
                 ->waitForText('Form was successful')
                 ->assertSee('Form recently successful')
+                ->assertMissing('#nprogress')
                 ->waitUntilMissing('Form recently successful')
                 ->assertSee('Form was successful');
         });
