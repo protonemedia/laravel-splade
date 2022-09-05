@@ -4274,7 +4274,7 @@ const Td = /* @__PURE__ */ ht(Ed, [["render", xd]]), Ad = {
   init(e) {
     const t = this;
     import("nprogress").then((r) => {
-      document.addEventListener("splade:request", (n) => t.start(n, e.delay, r)), document.addEventListener("splade:request-progress", (n) => t.progress(n, r)), document.addEventListener("splade:request-response", (n) => t.stop(n, r)), document.addEventListener("splade:request-error", (n) => t.stop(n, r)), r.configure({ showSpinner: e.spinner }), e.css && this.injectCSS(e.color);
+      document.addEventListener("splade:request", (n) => t.start(n, e.delay, r.default)), document.addEventListener("splade:request-progress", (n) => t.progress(n, r.default)), document.addEventListener("splade:request-response", (n) => t.stop(n, r.default)), document.addEventListener("splade:request-error", (n) => t.stop(n, r.default)), r.default.configure({ showSpinner: e.spinner }), e.css && this.injectCSS(e.color);
     });
   }
 }, qd = {
