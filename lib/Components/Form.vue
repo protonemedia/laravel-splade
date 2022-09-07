@@ -1,5 +1,5 @@
 <script>
-import { hasFiles, objectToFormData } from "./FormHelpers.js";
+import { objectToFormData } from "./FormHelpers.js";
 import { Splade } from "../Splade.js";
 import get from "lodash-es/get";
 import has from "lodash-es/has";
@@ -41,12 +41,6 @@ export default {
             default: () => {
                 return {};
             },
-        },
-
-        forceFormData: {
-            type: Boolean,
-            required: false,
-            default: false,
         },
 
         confirm: {
@@ -195,10 +189,9 @@ export default {
             this.recentlySuccessful = false;
             clearTimeout(this.recentlySuccessfulTimeoutId);
 
-            const data =
-                this.forceFormData || hasFiles(this.values)
-                    ? objectToFormData(this.values)
-                    : this.values;
+            const data = (this.values instanceof FormData)
+                ? this.values
+                : objectToFormData(this.values);
 
             const headers = { Accept: "application/json" };
 
