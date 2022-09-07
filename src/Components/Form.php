@@ -6,6 +6,7 @@ use Closure;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Fluent;
 use Illuminate\Support\Str;
@@ -145,6 +146,10 @@ class Form extends Component
         $guardedData = [];
 
         foreach (static::allowedAttributesSorted() as $attribute) {
+            if (!Arr::has($rawData, $attribute)) {
+                continue;
+            }
+
             data_set($guardedData, $attribute, data_get($rawData, $attribute));
         }
 
