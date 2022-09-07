@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 0.4.15 - 2022-09-07
+
+Bugfix
+
 ## 0.4.14 - 2022-09-07
 
 - Support for Eloquent relationships with the Form Checkbox component
