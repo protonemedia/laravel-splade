@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 0.4.16 - 2022-09-07
+
+Revert a7c2919 because it breaks unfilled checkboxes
+
 ## 0.4.15 - 2022-09-07
 
 Bugfix
