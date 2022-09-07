@@ -43,12 +43,6 @@ export default {
             },
         },
 
-        forceFormData: {
-            type: Boolean,
-            required: false,
-            default: false,
-        },
-
         confirm: {
             type: [Boolean, String],
             required: false,
@@ -195,10 +189,9 @@ export default {
             this.recentlySuccessful = false;
             clearTimeout(this.recentlySuccessfulTimeoutId);
 
-            const data =
-                this.forceFormData || hasFiles(this.values)
-                    ? objectToFormData(this.values)
-                    : this.values;
+            const data = (this.values instanceof FormData)
+                ? this.values
+                : objectToFormData(this.values);
 
             const headers = { Accept: "application/json" };
 
