@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 0.4.17 - 2022-09-07
+
+- Always use FormData when sending forms
+
 ## 0.4.16 - 2022-09-07
 
 Revert a7c2919 because it breaks unfilled checkboxes
