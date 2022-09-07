@@ -8,15 +8,15 @@
     <label class="block">
         @includeWhen($label, 'splade::form.label', ['label' => $label])
 
-        <div class="flex rounded-md shadow-sm">
+        <div class="flex rounded-md border border-gray-300 shadow-sm">
             @if($prepend)
-                <span :class="{ 'opacity-50': inputScope.disabled }" class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500">
+                <span :class="{ 'opacity-50': inputScope.disabled && @json(!$alwaysEnablePrepend) }" class="inline-flex items-center px-3 rounded-l-md border border-t-0 border-b-0 border-l-0 border-gray-300 bg-gray-50 text-gray-500">
                     {!! $prepend !!}
                 </span>
             @endif
 
             <input {{ $attributes->except(['v-if', 'v-show', 'class'])->class([
-                'block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 disabled:opacity-50',
+                'block w-full border-0 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 disabled:opacity-50 disabled:bg-gray-50 disabled:cursor-not-allowed',
                 'rounded-md' => !$append && !$prepend,
                 'min-w-0 flex-1 rounded-none' => $append || $prepend,
                 'rounded-l-md' => $append && !$prepend,
@@ -29,7 +29,7 @@
             />
 
             @if($append)
-                <span :class="{ 'opacity-50': inputScope.disabled }" class="inline-flex items-center px-3 rounded-r-md border border-l-0 border-gray-300 bg-gray-50 text-gray-500">
+                <span :class="{ 'opacity-50': inputScope.disabled && @json(!$alwaysEnableAppend) }" class="inline-flex items-center px-3 rounded-r-md border border-t-0 border-b-0 border-r-0 border-gray-300 bg-gray-50 text-gray-500">
                     {!! $append !!}
                 </span>
             @endif

@@ -34,6 +34,8 @@ class Input extends Component
         public string $prepend = '',
         public string $append = '',
         public string $help = '',
+        public bool $alwaysEnablePrepend = false,
+        public bool $alwaysEnableAppend = false,
     ) {
         if ($date === false && $this->type === 'date' && static::$defaultFlatpickrOptions !== false) {
             $this->date = $date = true;
