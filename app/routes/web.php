@@ -10,6 +10,7 @@ use App\Http\Controllers\FormComponentsController;
 use App\Http\Controllers\FormRelationsController;
 use App\Http\Controllers\ModalController;
 use App\Http\Controllers\NavigationController;
+use App\Http\Controllers\NestedFormController;
 use App\Http\Controllers\SimpleFormController;
 use App\Http\Controllers\SlowFormController;
 use App\Http\Controllers\TableController;
@@ -74,6 +75,9 @@ Route::middleware('splade')->group(function () {
     Route::view('form/json', 'form.json')->name('form.json');
     Route::view('form/jsonable', 'form.jsonable')->name('form.jsonable');
     Route::view('form/jsonSerializable', 'form.jsonSerializable')->name('form.jsonSerializable');
+
+    Route::view('form/nested', 'form.nested')->name('form.nested');
+    Route::post('form/nested', NestedFormController::class)->name('form.nested.submit');
 
     Route::get('form/components/simple', [FormComponentsController::class, 'simple'])->name('form.components.simple');
     Route::get('form/components/libraries', [FormComponentsController::class, 'libraries'])->name('form.components.libraries');

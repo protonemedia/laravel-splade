@@ -163,6 +163,20 @@ class FormTest extends DuskTestCase
     }
 
     /** @test */
+    public function it_can_nested_values()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('/form/nested')
+                ->waitForText('FormNested')
+                ->assertInputValue('@name', 'Splade')
+                ->check('@accepted')
+                ->press('Submit')
+                ->waitUntilMissingText('FormNested')
+                ->waitForRoute('navigation.one');
+        });
+    }
+
+    /** @test */
     public function it_can_show_the_forms_state_and_a_progress_bar()
     {
         $this->browse(function (Browser $browser) {

@@ -2909,11 +2909,10 @@ const Ec = /* @__PURE__ */ ht(Sc, [["render", $c]]), _c = {
     });
   }
 };
-function Gi(e) {
-  e = e || {};
-  let t = new FormData();
-  for (const r in e)
-    Object.prototype.hasOwnProperty.call(e, r) && Xi(t, Ki(null, r), e[r]);
+function Gi(e, t, r) {
+  e = e || {}, t = t || new FormData(), r = r || null;
+  for (const n in e)
+    Object.prototype.hasOwnProperty.call(e, n) && Xi(t, Ki(r, n), e[n]);
   return t;
 }
 function Ki(e, t) {
@@ -2936,7 +2935,7 @@ function Xi(e, t, r) {
     return e.append(t, `${r}`);
   if (r == null)
     return e.append(t, "");
-  Gi(r);
+  Gi(r, e, t);
 }
 var xc = "[object Boolean]";
 function Qi(e) {
