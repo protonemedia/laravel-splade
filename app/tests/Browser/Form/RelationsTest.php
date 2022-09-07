@@ -77,7 +77,7 @@ class RelationsTest extends DuskTestCase
 
         $newIds = [$keywords->get(0)->id, $keywords->get(7)->id, $keywords->get(8)->id, $keywords->get(9)->id];
 
-        $this->browse(function (Browser $browser) use ($keywords, $newIds) {
+        $this->browse(function (Browser $browser) use ($keywords) {
             $browser->visit('form/relations/checkboxRelation')
                 ->waitForText('FormComponents')
                 ->assertChecked('keywords[]', $keywords->get(0)->id)
