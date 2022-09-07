@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 0.4.14 - 2022-09-07
+
+- Support for Eloquent relationships with the Form Checkbox component
+- Support for submitting a form without an event object
+- Fix for binding nested data
+
 ## 0.4.13 - 2022-09-05
 
 - Fix for NProgress import in dev build
