@@ -53,6 +53,29 @@ class FormRelationsController
         return redirect()->route('navigation.one');
     }
 
+    //
+
+    public function checkboxRelation()
+    {
+        return view('form.components.checkboxRelation', [
+            'user' => User::first(),
+
+            'keywordOptions' => Keyword::get()->keyBy->id->map->keyword,
+        ]);
+    }
+
+    public function storeCheckboxRelation(Request $request)
+    {
+        $data = $request->validate([
+            'keywords'   => ['required', 'array'],
+            'keywords.*' => ['required', 'exists:keywords,id'],
+        ]);
+
+        User::first()->keywords()->sync($data['keywords']);
+
+        return redirect()->route('navigation.one');
+    }
+
     public function twoForms()
     {
         return view('form.components.two-forms', [

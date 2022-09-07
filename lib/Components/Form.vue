@@ -165,10 +165,12 @@ export default {
         },
 
         submit($event) {
-            const submitter = $event.submitter;
+            if($event) {
+                const submitter = $event.submitter;
 
-            if(submitter.name) {
-                this.$put(submitter.name, submitter.value);
+                if(submitter && submitter.name) {
+                    this.$put(submitter.name, submitter.value);
+                }
             }
 
             if (!this.confirm) {

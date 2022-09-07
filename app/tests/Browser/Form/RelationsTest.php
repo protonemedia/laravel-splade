@@ -67,6 +67,38 @@ class RelationsTest extends DuskTestCase
     }
 
     /** @test */
+    public function it_can_handle_a_relationship_with_checkboxes()
+    {
+        $keywords = Keyword::query()->get();
+
+        $user = User::first();
+
+        $user->keywords()->sync($keywords->take(3));
+
+        $newIds = [$keywords->get(0)->id, $keywords->get(7)->id, $keywords->get(8)->id, $keywords->get(9)->id];
+
+        $this->browse(function (Browser $browser) use ($keywords, $newIds) {
+            $browser->visit('form/relations/checkboxRelation')
+                ->waitForText('FormComponents')
+                ->assertChecked('keywords[]', $keywords->get(0)->id)
+                ->assertChecked('keywords[]', $keywords->get(1)->id)
+                ->assertChecked('keywords[]', $keywords->get(2)->id)
+                ->assertNotChecked('keywords[]', $keywords->get(3)->id)
+                ->assertNotChecked('keywords[]', $keywords->get(9)->id)
+                ->uncheck('keywords[]', $keywords->get(1)->id)
+                ->uncheck('keywords[]', $keywords->get(2)->id)
+                ->check('keywords[]', $keywords->get(7)->id)
+                ->check('keywords[]', $keywords->get(8)->id)
+                ->check('keywords[]', $keywords->get(9)->id)
+                ->press('Submit')
+                ->waitUntilMissingText('FormComponents')
+                ->waitForRoute('navigation.one');
+        });
+
+        $this->assertEquals($newIds, $user->keywords()->get()->map->id->all());
+    }
+
+    /** @test */
     public function it_can_have_two_forms_in_a_view_without_mixing_data()
     {
         $tags = Tag::query()->get();

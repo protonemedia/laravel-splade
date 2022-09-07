@@ -21,8 +21,13 @@ class Checkbox extends Component
         public string $validationKey = '',
         public bool $showErrors = true,
         public string $help = '',
+        public bool $relation = true
     ) {
         Form::allowAttribute($name);
+
+        if ($relation) {
+            Form::parseEloquentRelation($name);
+        }
     }
 
     /**
