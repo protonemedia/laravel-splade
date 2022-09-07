@@ -10,13 +10,11 @@
         ]) }}
         />
 
-        <span class="ml-2">
-            @if(trim($slot))
-                {{ $slot }}
-            @else
-                {{ $label }}
-            @endif
-        </span>
+        @if(trim($slot))
+            <span class="ml-2">{{ $slot }}</span>
+        @else
+            <span class="ml-2">{{ $label }}</span>
+        @endif
     </label>
 
     @includeWhen($help, 'splade::form.help', ['help' => $help])
