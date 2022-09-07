@@ -1,6 +1,6 @@
 {
     "name": "protonemedia/laravel-splade",
-    "description": "This is my package laravel-splade",
+    "description": "Laravel Splade: the magic of Inertia.js with the simplicity of Blade.",
     "keywords": [
         "protonemedia",
         "laravel",
