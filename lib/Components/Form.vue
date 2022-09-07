@@ -1,5 +1,5 @@
 <script>
-import { hasFiles, objectToFormData } from "./FormHelpers.js";
+import { objectToFormData } from "./FormHelpers.js";
 import { Splade } from "../Splade.js";
 import get from "lodash-es/get";
 import has from "lodash-es/has";
