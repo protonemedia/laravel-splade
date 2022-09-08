@@ -2,6 +2,11 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 0.4.18 - 2022-09-08
+
+- Styling fixes for a disabled Form Input component
+- Fix for nested data with FormData
+
 ## 0.4.17 - 2022-09-07
 
 - Always use FormData when sending forms
