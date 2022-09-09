@@ -9,7 +9,7 @@ use Tests\DuskTestCase;
 class LibrariesTest extends DuskTestCase
 {
     /** @test */
-    public function it_select_the_default_values()
+    public function it_selects_the_default_values()
     {
         $this->browse(function (Browser $browser) {
             $browser->visit('form/components/libraryDefaults')
@@ -22,6 +22,24 @@ class LibrariesTest extends DuskTestCase
                 ->assertInputValue('time', '13:37')
                 ->assertInputValue('datetime', '2022-07-22 13:37')
                 ->assertInputValue('daterange', '2022-07-22 to 2022-08-22');
+        });
+    }
+
+    /** @test */
+    public function it_can_change_the_default_bound_values()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('form/components/libraryChange')
+                ->waitForText('FormComponents')
+                ->press('Change!')
+                ->assertInputValue('biography', 'Changed!')
+                ->assertSeeIn('div[data-select-name="country"] .choices__item--selectable', 'Belgium')
+                ->assertSeeIn('div[data-select-name="countries[]"] .choices__list--multiple', 'Germany')
+                ->assertSeeIn('div[data-select-name="countries[]"] .choices__list--multiple', 'Italy')
+                ->assertInputValue('date', '2022-08-22')
+                ->assertInputValue('time', '3:14')
+                ->assertInputValue('datetime', '2022-08-22 3:14')
+                ->assertInputValue('daterange', '2022-08-22 to 2022-09-22');
         });
     }
 

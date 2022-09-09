@@ -24,7 +24,7 @@
             ])->merge([
                 'name' => $name,
                 'type' => $type,
-                'v-model' => $flatpickrOptions() ? null : $vueModel()
+                'v-model' => $vueModel()
             ]) }}
             />
 

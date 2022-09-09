@@ -5,7 +5,7 @@
     :splade-id="@js($spladeId)"
 >
     <template #default="{!! $scope !!}">
-        <form data-splade-id="{{ $spladeId }}" v-bind="form.$attrs" @submit.prevent="form.submit">
+        <form data-splade-id="{{ $spladeId }}" v-bind="form.$attrs" @submit.prevent="form.submit" {!! $attributes->only('method')->merge(['method' => 'POST']) !!}>
             <fieldset v-bind:disabled="form.processing" {!! $attributes->only('class') !!}>
                 {{ $slot }}
             </fieldset>

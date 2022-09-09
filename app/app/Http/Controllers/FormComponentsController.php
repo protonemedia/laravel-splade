@@ -87,6 +87,22 @@ class FormComponentsController
         ]);
     }
 
+    public function libraryChange()
+    {
+        return view('form.components.libraryChange', [
+            'defaults' => [
+                'biography' => 'Voluptate ea culpa proident proident qui nostrud non ea irure ullamco in non reprehenderit.',
+                'country'   => 'NL',
+                'countries' => ['BE', 'NL'],
+                'date'      => '2022-07-22',
+                'time'      => '13:37',
+                'datetime'  => '2022-07-22 13:37',
+                'daterange' => '2022-07-22 to 2022-08-22',
+            ],
+            'countries' => $this->countries(),
+        ]);
+    }
+
     public function custom()
     {
         return view('form.components.custom', ['countries' => $this->countries()]);
