@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 0.4.19 - 2022-09-09
+
+- Fixed Input component styling issue
+- The Form component now always has a `method` attribute
+- Improved Choices.js and Flatpickr bindings for SSR
+
 ## 0.4.18 - 2022-09-08
 
 - Styling fixes for a disabled Form Input component
