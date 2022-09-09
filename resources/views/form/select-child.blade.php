@@ -7,7 +7,7 @@
         @endforeach
     </optgroup>
 @else
-    <option {{ $attributes->except('label') }}>
+    <option {{ $attributes->except('label') }} @if($selected($attributes->get('value'))) selected @endif>
         {{ $attributes->get('label') }}
     </option>
 @endif

@@ -12,6 +12,7 @@ use Illuminate\Support\Fluent;
 use Illuminate\Support\Str;
 use Illuminate\View\Component;
 use ProtoneMedia\Splade\Components\Form\InteractsWithFormElement;
+use ProtoneMedia\Splade\SpladeCore;
 
 class Form extends Component
 {
@@ -36,6 +37,8 @@ class Form extends Component
 
     private static $guardWhenCallable = null;
 
+    private static $instances = [];
+
     /**
      * Create a new component instance.
      *
@@ -43,6 +46,8 @@ class Form extends Component
      */
     public function __construct($default = null, public string $scope = 'form', $unguarded = null)
     {
+        static::$instances[] = $this;
+
         $this->spladeId = Str::random();
 
         static::$allowedAttributes = [];
@@ -67,6 +72,22 @@ class Form extends Component
         if ($this->guarded && !static::resourceShouldBeGuarded($default)) {
             $this->guarded = false;
         }
+    }
+
+    /**
+     * Workaround for https://github.com/vuejs/core/issues/5339
+     */
+    public static function selected($name, $value): bool
+    {
+        if (app(SpladeCore::class)->isSpladeRequest()) {
+            return false;
+        }
+
+        $instance = Arr::last(static::$instances);
+
+        $data = $instance->guardedData() ?: $instance->defaultData();
+
+        return data_get($data, static::dottedName($name)) === $value;
     }
 
     public static function defaultUnguarded(bool $state = true)
@@ -186,6 +207,8 @@ class Form extends Component
 
         static::$allowedAttributes = [];
         static::$eloquentRelations = [];
+
+        array_pop(static::$instances);
 
         return $data;
     }

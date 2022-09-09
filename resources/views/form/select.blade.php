@@ -14,7 +14,7 @@
         ])->merge([
             'multiple' => $multiple,
             'name' => $name,
-            'v-model' => $vueModel()
+            'v-model' => $choicesOptions() ? null : $vueModel()
         ]) }}
         >
             @if(trim($slot))

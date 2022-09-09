@@ -131,6 +131,11 @@ class Select extends Component
         return $options;
     }
 
+    public function selected($value): bool
+    {
+        return Form::selected($this->name, $value);
+    }
+
     /**
      * Get the view / contents that represent the component.
      *
