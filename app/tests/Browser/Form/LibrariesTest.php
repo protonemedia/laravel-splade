@@ -37,8 +37,8 @@ class LibrariesTest extends DuskTestCase
                 ->assertSeeIn('div[data-select-name="countries[]"] .choices__list--multiple', 'Germany')
                 ->assertSeeIn('div[data-select-name="countries[]"] .choices__list--multiple', 'Italy')
                 ->assertInputValue('date', '2022-08-22')
-                ->assertInputValue('time', '3:14')
-                ->assertInputValue('datetime', '2022-08-22 3:14')
+                ->assertInputValue('time', '03:14')
+                ->assertInputValue('datetime', '2022-08-22 03:14')
                 ->assertInputValue('daterange', '2022-08-22 to 2022-09-22');
         });
     }

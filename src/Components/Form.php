@@ -85,9 +85,12 @@ class Form extends Component
 
         $instance = Arr::last(static::$instances);
 
-        $data = $instance->guardedData() ?: $instance->defaultData();
+        $data = data_get(
+            $instance->guardedData() ?: $instance->defaultData(),
+            static::dottedName($name)
+        );
 
-        return data_get($data, static::dottedName($name)) === $value;
+        return is_array($data) ? in_array($value, $data, true) : $data === $value;
     }
 
     public static function defaultUnguarded(bool $state = true)
