@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 0.4.20 - 2022-09-09
+
+- Workaround for selected options in SSR render
+
 ## 0.4.19 - 2022-09-09
 
 - Fixed Input component styling issue
