@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 0.4.21 - 2022-09-09
+
+- Render `action` attribute on Form component
+
 ## 0.4.20 - 2022-09-09
 
 - Workaround for selected options in SSR render
