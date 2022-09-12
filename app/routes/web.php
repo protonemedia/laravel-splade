@@ -85,6 +85,9 @@ Route::middleware('splade')->group(function () {
 
     Route::get('form/components/simple', [FormComponentsController::class, 'simple'])->name('form.components.simple');
     Route::get('form/components/checkboxes', [FormComponentsController::class, 'checkboxes'])->name('form.components.checkboxes');
+    Route::post('form/components/checkboxes', [FormComponentsController::class, 'submitCheckboxes'])->name('form.components.submitCheckboxes');
+    Route::get('form/components/radios', [FormComponentsController::class, 'radios'])->name('form.components.radios');
+    Route::post('form/components/radios', [FormComponentsController::class, 'submitRadios'])->name('form.components.submitRadios');
     Route::get('form/components/libraries', [FormComponentsController::class, 'libraries'])->name('form.components.libraries');
     Route::get('form/components/libraryDefaults', [FormComponentsController::class, 'libraryDefaults'])->name('form.components.libraryDefaults');
     Route::get('form/components/libraryChange', [FormComponentsController::class, 'libraryChange'])->name('form.components.libraryChange');

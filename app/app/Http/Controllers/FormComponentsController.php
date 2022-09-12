@@ -28,7 +28,35 @@ class FormComponentsController
 
     public function checkboxes()
     {
-        return view('form.components.checkboxes', ['countries' => Arr::only($this->countries(), ['NL', 'BE', 'DE', 'DK', 'AU', 'PT', 'IT'])]);
+        return view('form.components.checkboxes', [
+            'countries' => Arr::only($this->countries(), ['NL', 'BE', 'DE', 'DK', 'AU', 'PT', 'IT']),
+        ]);
+    }
+
+    public function submitCheckboxes(Request $request)
+    {
+        $request->validate([
+            'countries'   => ['required', 'array', 'min:3'],
+            'countries.*' => ['required', 'string', Rule::in(array_keys($this->countries()))],
+        ]);
+
+        return redirect()->route('navigation.one');
+    }
+
+    public function radios()
+    {
+        return view('form.components.radios', [
+            'countries' => Arr::only($this->countries(), ['NL', 'BE', 'DE', 'DK', 'AU', 'PT', 'IT']),
+        ]);
+    }
+
+    public function submitRadios(Request $request)
+    {
+        $request->validate([
+            'country' => ['required', 'string', Rule::in(array_keys($this->countries()))],
+        ]);
+
+        return redirect()->route('navigation.one');
     }
 
     public function defaultJson()
