@@ -143,7 +143,7 @@ export default {
 
     methods: {
         hasError(key) {
-            return has(this.errors, key);
+            return key in this.errors;
         },
 
         reset() {

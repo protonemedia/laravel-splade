@@ -21,7 +21,7 @@ export default {
             rawErrors,
             shared,
             hasError(key) {
-                return has(rawErrors, key);
+                return key in rawErrors;
             },
             hasFlash(key) {
                 return has(flash, key);

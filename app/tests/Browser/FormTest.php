@@ -204,4 +204,16 @@ class FormTest extends DuskTestCase
                 ->assertAttribute('fieldset', 'class', 'form-simple');
         });
     }
+
+    /** @test */
+    public function it_can_submit_to_a_route_that_returns_a_view_instead_of_a_redirect()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('/form/view')
+                ->waitForText('FormView')
+                ->press('Submit')
+                ->waitForText('NavigationOne')
+                ->assertPathIs('/form/view');
+        });
+    }
 }

@@ -22,6 +22,14 @@ class ButtonWithDropdown extends Component
      */
     public function render()
     {
-        return view('splade::button-with-dropdown');
+        $prefix = config('splade.blade.component_prefix');
+
+        if ($prefix) {
+            $prefix .= '-';
+        }
+
+        return view('splade::button-with-dropdown', [
+            'wrapperName' => $prefix . 'dropdown',
+        ]);
     }
 }
