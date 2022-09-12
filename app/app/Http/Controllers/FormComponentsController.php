@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Dummy;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Fluent;
 use Illuminate\Validation\Rule;
 use ProtoneMedia\Splade\Components\Form;
@@ -23,6 +24,39 @@ class FormComponentsController
     public function simple()
     {
         return view('form.components.simple', ['countries' => $this->countries()]);
+    }
+
+    public function checkboxes()
+    {
+        return view('form.components.checkboxes', [
+            'countries' => Arr::only($this->countries(), ['NL', 'BE', 'DE', 'DK', 'AU', 'PT', 'IT']),
+        ]);
+    }
+
+    public function submitCheckboxes(Request $request)
+    {
+        $request->validate([
+            'countries'   => ['required', 'array', 'min:3'],
+            'countries.*' => ['required', 'string', Rule::in(array_keys($this->countries()))],
+        ]);
+
+        return redirect()->route('navigation.one');
+    }
+
+    public function radios()
+    {
+        return view('form.components.radios', [
+            'countries' => Arr::only($this->countries(), ['NL', 'BE', 'DE', 'DK', 'AU', 'PT', 'IT']),
+        ]);
+    }
+
+    public function submitRadios(Request $request)
+    {
+        $request->validate([
+            'country' => ['required', 'string', Rule::in(array_keys($this->countries()))],
+        ]);
+
+        return redirect()->route('navigation.one');
     }
 
     public function defaultJson()

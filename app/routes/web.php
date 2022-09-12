@@ -8,6 +8,7 @@ use App\Http\Controllers\BackFormController;
 use App\Http\Controllers\FileFormController;
 use App\Http\Controllers\FormComponentsController;
 use App\Http\Controllers\FormRelationsController;
+use App\Http\Controllers\FormViewController;
 use App\Http\Controllers\ModalController;
 use App\Http\Controllers\NavigationController;
 use App\Http\Controllers\NestedFormController;
@@ -76,10 +77,17 @@ Route::middleware('splade')->group(function () {
     Route::view('form/jsonable', 'form.jsonable')->name('form.jsonable');
     Route::view('form/jsonSerializable', 'form.jsonSerializable')->name('form.jsonSerializable');
 
+    Route::view('form/view', 'form.view')->name('form.view');
+    Route::post('form/view', FormViewController::class)->name('form.view.submit');
+
     Route::view('form/nested', 'form.nested')->name('form.nested');
     Route::post('form/nested', NestedFormController::class)->name('form.nested.submit');
 
     Route::get('form/components/simple', [FormComponentsController::class, 'simple'])->name('form.components.simple');
+    Route::get('form/components/checkboxes', [FormComponentsController::class, 'checkboxes'])->name('form.components.checkboxes');
+    Route::post('form/components/checkboxes', [FormComponentsController::class, 'submitCheckboxes'])->name('form.components.submitCheckboxes');
+    Route::get('form/components/radios', [FormComponentsController::class, 'radios'])->name('form.components.radios');
+    Route::post('form/components/radios', [FormComponentsController::class, 'submitRadios'])->name('form.components.submitRadios');
     Route::get('form/components/libraries', [FormComponentsController::class, 'libraries'])->name('form.components.libraries');
     Route::get('form/components/libraryDefaults', [FormComponentsController::class, 'libraryDefaults'])->name('form.components.libraryDefaults');
     Route::get('form/components/libraryChange', [FormComponentsController::class, 'libraryChange'])->name('form.components.libraryChange');
