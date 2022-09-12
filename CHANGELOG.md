@@ -2,6 +2,11 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 0.4.22 - 2022-09-12
+
+- New `checkboxes` and `radios` components
+- Some small refactors
+
 ## 0.4.21 - 2022-09-09
 
 - Render `action` attribute on Form component
