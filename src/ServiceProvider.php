@@ -95,10 +95,12 @@ class ServiceProvider extends BaseServiceProvider
             Components\Transition::class,
 
             Components\Form\Checkbox::class,
+            Components\Form\Checkboxes::class,
             Components\Form\File::class,
             Components\Form\Group::class,
             Components\Form\Input::class,
             Components\Form\Radio::class,
+            Components\Form\Radios::class,
             Components\Form\Textarea::class,
             Components\Form\Select::class,
             Components\Form\Submit::class,
