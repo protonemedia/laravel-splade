@@ -38,8 +38,8 @@ class Radios extends Component
         }
 
         return view('splade::form.radios', [
-            'groupName' => $prefix . 'group',
-            'radioName' => $prefix . 'radio',
+            'groupComponent' => $prefix . 'group',
+            'radioComponent' => $prefix . 'radio',
         ]);
     }
 }

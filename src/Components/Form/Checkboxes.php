@@ -43,8 +43,8 @@ class Checkboxes extends Component
         }
 
         return view('splade::form.checkboxes', [
-            'groupName'    => $prefix . 'group',
-            'checkboxName' => $prefix . 'checkbox',
+            'groupComponent'    => $prefix . 'group',
+            'checkboxComponent' => $prefix . 'checkbox',
         ]);
     }
 }

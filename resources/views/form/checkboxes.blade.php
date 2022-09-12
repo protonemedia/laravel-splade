@@ -1,5 +1,10 @@
-<x-dynamic-component :component="$groupName" :name="$name" :label="$label" :inline="$inline" :help="$help">
+<x-dynamic-component :component="$groupComponent" :name="$name" :label="$label" :inline="$inline" :help="$help">
     @foreach($options as $value => $label)
-        <x-dynamic-component :component="$checkboxName" :name="$name" :label="$label" :value="$value" />
+        <x-dynamic-component
+            :component="$checkboxComponent"
+            :name="$name . '[]'"
+            :validation-key="$name . '.' . $loop->index"
+            :label="$label"
+            :value="$value" />
     @endforeach
 </x-dynamic-component>
