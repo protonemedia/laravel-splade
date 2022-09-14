@@ -30,27 +30,33 @@ class BladeDirectives
         return '{{ app(\'laravel-splade-seo\')->renderHead() }}';
     }
 
+    public static function parseTableCellDirectiveExpression($expression): array
+    {
+        preg_match("/('|\")(\w+)('|\")(,)(\s*)(.*)/", $expression, $matches);
+
+        $name = trim($matches[2]);
+
+        $arguments = trim($matches[6], '\[\]');
+
+        $splitted = preg_split('/\],(\s*)/', $arguments);
+
+        $slotArguments = trim($splitted[0] ?? '');
+        $slotUses      = trim(ltrim($splitted[1] ?? '', '['));
+
+        $slotUses = $slotUses ? "\$__env, {$slotUses}" : "\$__env";
+
+        $function = "function ({$slotArguments})";
+        $function .= " use ({$slotUses})";
+
+        return [$name, $function];
+    }
+
     public function registerTableCellDirective()
     {
         $cellDirectiveName = config('splade.blade.table_cell_directive');
 
         Blade::directive($cellDirectiveName, function ($expression) {
-            preg_match("/('|\")(\w+)('|\")(,)(\s*)(.*)/", $expression, $matches);
-
-            $name = trim($matches[2]);
-
-            $arguments = trim($matches[6], '\[\]');
-
-            $splitted = preg_split('/\],(\s*)/', $arguments);
-
-            $slotArguments = trim($splitted[0] ?? '');
-            $slotUses      = trim(ltrim($splitted[1] ?? '', '['));
-
-            $function = "function ({$slotArguments})";
-
-            if ($slotUses) {
-                $function .= " use ({$slotUses})";
-            }
+            [$name, $function] = BladeDirectives::parseTableCellDirectiveExpression($expression);
 
             return "<?php \$__env->slot('spladeTableCell{$name}', {$function} { ?>";
         });
