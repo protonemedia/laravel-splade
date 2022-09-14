@@ -43,7 +43,7 @@ class BladeDirectives
         $slotArguments = trim($splitted[0] ?? '');
         $slotUses      = trim(ltrim($splitted[1] ?? '', '['));
 
-        $slotUses = $slotUses ? "\$__env, {$slotUses}" : "\$__env";
+        $slotUses = $slotUses ? "\$__env, {$slotUses}" : '$__env';
 
         $function = "function ({$slotArguments})";
         $function .= " use ({$slotUses})";
