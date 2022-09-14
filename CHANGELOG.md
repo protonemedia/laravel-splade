@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 0.4.23 - 2022-09-14
+
+- The `$__env` variable is now available to custom cells when using the Table component
+
 ## 0.4.22 - 2022-09-12
 
 - New `checkboxes` and `radios` components
