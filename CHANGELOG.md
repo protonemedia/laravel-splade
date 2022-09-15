@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 0.4.25 - 2022-09-15
+
+- Table responsive UI fixes
+
 ## 0.4.24 - 2022-09-15
 
 - The wrapper around the Table component can now be styled with classes
