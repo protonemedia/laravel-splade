@@ -2,6 +2,13 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 0.4.24 - 2022-09-15
+
+- The wrapper around the Table component can now be styled with classes
+- Ability to disable 'toggleable' Table columns by default
+- Ability to disable Choices.js/Flatpickr on specific elements while it's enabled globally
+- Fix for binding the form `submit` method to a `v-on:change` attribute
+
 ## 0.4.23 - 2022-09-14
 
 - The `$__env` variable is now available to custom cells when using the Table component
