@@ -31,6 +31,8 @@ class SpladeTable
 
     private Request $request;
 
+    private static bool $defaultColumnCanBeHidden = true;
+
     private static bool|string $defaultGlobalSearch = false;
 
     public function __construct($resource, Request $request = null)
@@ -102,6 +104,17 @@ class SpladeTable
     }
 
     /**
+     * Set a default for column hideable.
+     *
+     * @param  bool
+     * @return void
+     */
+    public static function defaultColumnCanBeHidden(bool $state = true)
+    {
+        static::$defaultColumnCanBeHidden = $state;
+    }
+
+    /**
      * Helper method to add a global search input.
      *
      * @param  string|null  $label
@@ -161,7 +174,7 @@ class SpladeTable
     public function column(
         string $key = null,
         string $label = null,
-        bool $canBeHidden = true,
+        bool|null $canBeHidden = null,
         bool $hidden = false,
         bool $sortable = false,
         bool $searchable = false
@@ -169,9 +182,11 @@ class SpladeTable
         $key   = $key ?: Str::kebab($label);
         $label = $label ?: Str::headline($key);
 
+        $canBeHidden = is_bool($canBeHidden) ? $canBeHidden : static::$defaultColumnCanBeHidden;
+
         $this->columns = $this->columns->reject(function (Column $column) use ($key) {
             return $column->key === $key;
-        })->push($column = new Column(
+        })->push(new Column(
             key: $key,
             label: $label,
             canBeHidden: $canBeHidden,

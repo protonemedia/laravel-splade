@@ -91,6 +91,8 @@ Route::middleware('splade')->group(function () {
     Route::get('form/components/libraries', [FormComponentsController::class, 'libraries'])->name('form.components.libraries');
     Route::get('form/components/libraryDefaults', [FormComponentsController::class, 'libraryDefaults'])->name('form.components.libraryDefaults');
     Route::get('form/components/libraryChange', [FormComponentsController::class, 'libraryChange'])->name('form.components.libraryChange');
+    Route::get('form/components/librarySubmitOnChange', [FormComponentsController::class, 'librarySubmitOnChange'])->name('form.components.librarySubmitOnChange');
+    Route::post('form/components/submitOnChange', [FormComponentsController::class, 'submitOnChange'])->name('form.components.submitOnChange');
     Route::get('form/components/custom', [FormComponentsController::class, 'custom'])->name('form.components.custom');
     Route::get('form/components/defaults', [FormComponentsController::class, 'defaults'])->name('form.components.defaults');
     Route::get('form/components/defaultJson', [FormComponentsController::class, 'defaultJson'])->name('form.components.defaultJson');

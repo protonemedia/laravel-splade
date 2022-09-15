@@ -27,7 +27,6 @@ const listener = ref(null);
 const root = ref(null);
 const closeOnEscapeHandler = ref(null);
 
-
 onMounted(() => {
     listener.value = (e) => {
         if (e.target === root.value || root.value.contains(e.target)) {
