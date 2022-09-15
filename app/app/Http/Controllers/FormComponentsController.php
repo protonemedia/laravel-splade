@@ -121,6 +121,21 @@ class FormComponentsController
         ]);
     }
 
+    public function librarySubmitOnChange()
+    {
+        return view('form.components.librarySubmitOnChange', [
+        ]);
+    }
+
+    public function submitOnChange(Request $request)
+    {
+        $request->validate([
+            'name' => ['required', 'min:3'],
+        ]);
+
+        return redirect()->route('navigation.one');
+    }
+
     public function libraryChange()
     {
         return view('form.components.libraryChange', [

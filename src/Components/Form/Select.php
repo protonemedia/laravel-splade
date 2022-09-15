@@ -25,7 +25,7 @@ class Select extends Component
         public string $label = '',
         public bool|string $placeholder = '',
         public bool $multiple = false,
-        public bool|array|string $choices = false,
+        public bool|array|string|null $choices = null,
         public string $validationKey = '',
         public bool $showErrors = true,
         public bool $relation = false,
@@ -35,8 +35,8 @@ class Select extends Component
             $this->placeholder = __('Search') . '...';
         }
 
-        if ($this->choices === false && static::$defaultChoicesOptions !== false) {
-            $this->choices = true;
+        if ($this->choices === null) {
+            $this->choices = static::$defaultChoicesOptions;
         }
 
         Form::allowAttribute($name);

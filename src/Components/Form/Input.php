@@ -26,8 +26,8 @@ class Input extends Component
         public string $name = '',
         public string $type = 'text',
         public string $label = '',
-        private bool|array|string $date = false,
-        private bool|array|string $time = false,
+        private bool|array|string|null $date = null,
+        private bool|array|string|null $time = null,
         public string $validationKey = '',
         public bool $showErrors = true,
         private bool $range = false,
@@ -37,15 +37,15 @@ class Input extends Component
         public bool $alwaysEnablePrepend = false,
         public bool $alwaysEnableAppend = false,
     ) {
-        if ($date === false && $this->type === 'date' && static::$defaultFlatpickrOptions !== false) {
-            $this->date = $date = true;
+        if ($this->date === null && $this->type === 'date') {
+            $this->date = static::$defaultFlatpickrOptions;
         }
 
-        if ($time === false && $this->type === 'time' && static::$defaultFlatpickrOptions !== false) {
-            $this->time = $time = true;
+        if ($this->time === null && $this->type === 'time') {
+            $this->time = static::$defaultFlatpickrOptions;
         }
 
-        if ($date || $time) {
+        if ($this->date || $this->time) {
             $this->type = 'text';
         }
 

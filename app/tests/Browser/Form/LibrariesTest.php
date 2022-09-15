@@ -216,4 +216,16 @@ class LibrariesTest extends DuskTestCase
                 ->assertInputValue('time2', '21:00');
         });
     }
+
+    /** @test */
+    public function it_can_submit_the_form_on_change()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('form/components/librarySubmitOnChange')
+                ->waitForText('FormComponents')
+                ->choicesSelect('name', 'splade')
+                ->waitUntilMissingText('FormComponents')
+                ->assertRouteIs('navigation.one');
+        });
+    }
 }

@@ -95,7 +95,7 @@ export default {
             processing: false,
             wasSuccessful: false,
             recentlySuccessful: false,
-            recentlySuccessfulTimeoutId: null
+            recentlySuccessfulTimeoutId: null,
         };
     },
 
@@ -183,7 +183,9 @@ export default {
                 .catch(() => {});
         },
 
-        request() {
+        async request() {
+            await this.$nextTick();
+
             this.processing = true;
             this.wasSuccessful = false;
             this.recentlySuccessful = false;
