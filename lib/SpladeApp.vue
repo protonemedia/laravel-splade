@@ -101,7 +101,6 @@ const props = defineProps({
 provide("stack", 0);
 
 const html = ref();
-const dynamics = ref({});
 const modals = ref([]);
 const serverErrorHtml = ref(null);
 
@@ -173,7 +172,7 @@ Splade.setOnHtml((newHtml, scrollY) => {
 
     nextTick(() => {
         nextTick(() => {
-            if (!Splade.isSsr){
+            if (!Splade.isSsr) {
                 window.scrollTo(0, scrollY);
             }
 
