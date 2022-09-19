@@ -4,7 +4,7 @@
     <x-slot:subtitle> Subtitle for Chapter 1 </x-slot>
 
     <article class="prose mt-8">
-        <h1>Chapter one</h1>
+        <h2>Chapter one</h2>
 
         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam cum non quod, sint optio nam possimus at. Illum, dolores similique, unde sed reiciendis quibusdam quas iste cumque, facere eaque porro.</p>
 

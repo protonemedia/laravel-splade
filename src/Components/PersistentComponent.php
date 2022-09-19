@@ -31,13 +31,13 @@ abstract class PersistentComponent extends Component
 
     public function viewData(array $originalData, HtmlString $slot, Factory $env)
     {
-        if (!Factory::hasMacro('getSlots')) {
-            Factory::macro('getSlots', function () {
+        if (!Factory::hasMacro('getSlotsForSplade')) {
+            Factory::macro('getSlotsForSplade', function () {
                 return $this->slots;
             });
         }
 
-        $slots = Collection::make($env->getSlots())->collapse()->map(function (ComponentSlot $slot, $name) {
+        $slots = Collection::make($env->getSlotsForSplade())->collapse()->map(function (ComponentSlot $slot, $name) {
             return new ComponentSlot(
                 $this->wrapSlot($name, $slot->toHtml()),
                 $slot->attributes->getAttributes()
@@ -46,10 +46,12 @@ abstract class PersistentComponent extends Component
 
         $wrappedSlot = $this->wrapSlot('slot', $slot->toHtml());
 
-        return array_merge([
-            ...$originalData,
-            'slot' => new HtmlString($wrappedSlot),
-            ...$slots->all(),
-        ]);
+        return array_merge(
+            $originalData,
+            $slots->all(),
+            [
+                'slot' => new HtmlString($wrappedSlot),
+            ],
+        );
     }
 }
