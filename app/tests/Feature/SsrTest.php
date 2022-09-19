@@ -53,7 +53,7 @@ class SsrTest extends TestCase
 
         // evaluated layout + dynamic content
         $this->assertStringContainsString('Persistent Video', $data['body'] ?? '');
-        $this->assertStringContainsString('Chapter one', $data['body']      ?? '');
+        $this->assertStringContainsString('Chapter one', $data['body'] ?? '');
 
         // rendered components
         $this->assertStringContainsString('grid grid-cols-3 grid-flow-row-3', $data['body'] ?? '');
