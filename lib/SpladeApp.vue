@@ -171,32 +171,30 @@ Splade.setOnHtml((newHtml, scrollY) => {
     html.value = newHtml;
 
     nextTick(() => {
-        nextTick(() => {
-            if (!Splade.isSsr) {
-                window.scrollTo(0, scrollY);
-            }
+        if (!Splade.isSsr) {
+            window.scrollTo(0, scrollY);
+        }
 
-            if ($spladeOptions.transform_anchors) {
-                [...document.querySelectorAll("a")].forEach((anchor) => {
-                    if (anchor.href == "" || anchor.href.charAt(0) == "#") {
-                        return;
-                    }
+        if ($spladeOptions.transform_anchors) {
+            [...document.querySelectorAll("a")].forEach((anchor) => {
+                if (anchor.href == "" || anchor.href.charAt(0) == "#") {
+                    return;
+                }
 
-                    if (anchor.__vnode.dynamicProps !== null) {
-                        return;
-                    }
+                if (anchor.__vnode.dynamicProps !== null) {
+                    return;
+                }
 
-                    if (anchor.hasAttribute("download")) {
-                        return;
-                    }
+                if (anchor.hasAttribute("download")) {
+                    return;
+                }
 
-                    anchor.onclick = function (event) {
-                        event.preventDefault();
-                        Splade.visit(anchor.href);
-                    };
-                });
-            }
-        });
+                anchor.onclick = function (event) {
+                    event.preventDefault();
+                    Splade.visit(anchor.href);
+                };
+            });
+        }
     });
 });
 
