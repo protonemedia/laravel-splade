@@ -1,1 +1,1 @@
-@include($originalName, array_merge($originalData, ['slot' => $wrapSlot($slot)]))
+@include($originalName, $viewData($originalData, $slot, $__env))

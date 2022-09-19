@@ -125,10 +125,14 @@ class SpladeMiddleware
                     "<!--END-SPLADE-DYNAMIC-{$name}-->"
                 );
 
-                return [$name => $dynamic];
+                return [$name => trim($dynamic)];
             })
             ->each(function ($dynamicContent, $name) use (&$content) {
-                $content = str_replace($dynamicContent, '<div id="splade-dynamic-' . $name . '"></div>', $content);
+                $content = str_replace(
+                    "<!--START-SPLADE-DYNAMIC-{$name}-->" . $dynamicContent . "<!--END-SPLADE-DYNAMIC-{$name}-->",
+                    '<SpladeRender :key="`dynamicVisit.${$splade.dynamicVisitId.value}`" :html="$splade.htmlForDynamicComponent(\'' . $name . '\')" />',
+                    $content
+                );
             });
 
         return [$content, $dynamics->all()];

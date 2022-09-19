@@ -12,25 +12,6 @@
       />
     </component>
 
-    <component
-      :is="Splade.isSsr ? 'div' : KeepAlive"
-      :max="$spladeOptions.max_keep_alive"
-    >
-      <template
-        v-for="(dynamicHtml, name) in dynamics"
-        :key="`dynamic-${name}`"
-      >
-        <Teleport
-          :to="`#splade-dynamic-${name}`"
-        >
-          <Render
-            :key="`visit.${Splade.dynamicVisitId.value}`"
-            :html="dynamicHtml"
-          />
-        </Teleport>
-      </template>
-    </component>
-
     <Render :html="components" />
 
     <!-- modals -->
@@ -117,7 +98,6 @@ const props = defineProps({
     },
 });
 
-
 provide("stack", 0);
 
 const html = ref();
@@ -186,22 +166,12 @@ Splade.setOnHead((newHead) => {
     });
 });
 
-Splade.setOnHtml((newHtml, scrollY, newDynamics) => {
+Splade.setOnHtml((newHtml, scrollY) => {
     modals.value = [];
 
-    const hasDynamics = Object.keys(newDynamics).length > 0;
-
-    if(!html.value || !hasDynamics) {
-        html.value = newHtml;
-    }
-
-    if(Splade.isSsr){
-        dynamics.value = newDynamics;
-    }
+    html.value = newHtml;
 
     nextTick(() => {
-        dynamics.value = newDynamics;
-
         nextTick(() => {
             if (!Splade.isSsr){
                 window.scrollTo(0, scrollY);

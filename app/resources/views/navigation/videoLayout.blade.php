@@ -1,4 +1,8 @@
 <div class="container mt-4 mx-auto">
+    <h1 class="text-3xl mb-8">{{ $title }}</h1>
+
+    {{ $subtitle }}
+
     {{ $slot }}
 
     <div class="fixed bottom-0 left-0 flex justify-between items-center bg-indigo-50 w-full">

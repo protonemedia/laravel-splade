@@ -1,5 +1,5 @@
 <template>
-  <render />
+  <render v-if="html" />
 </template>
 
 <script setup>
