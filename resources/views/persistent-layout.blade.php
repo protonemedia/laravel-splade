@@ -1,0 +1,1 @@
+@include($originalName, array_merge($originalData, ['slot' => $wrapSlot($slot)]))

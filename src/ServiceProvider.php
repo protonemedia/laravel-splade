@@ -80,6 +80,7 @@ class ServiceProvider extends BaseServiceProvider
             Components\Data::class,
             Components\Defer::class,
             Components\Dropdown::class,
+            Components\Dynamic::class,
             Components\Errors::class,
             Components\Event::class,
             Components\Flash::class,

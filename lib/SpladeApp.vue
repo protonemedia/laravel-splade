@@ -12,6 +12,25 @@
       />
     </component>
 
+    <component
+      :is="Splade.isSsr ? 'div' : KeepAlive"
+      :max="$spladeOptions.max_keep_alive"
+    >
+      <template
+        v-for="(dynamicHtml, name) in dynamics"
+        :key="`dynamic-${name}`"
+      >
+        <Teleport
+          :to="`#splade-dynamic-${name}`"
+        >
+          <Render
+            :key="`visit.${Splade.dynamicVisitId.value}`"
+            :html="dynamicHtml"
+          />
+        </Teleport>
+      </template>
+    </component>
+
     <Render :html="components" />
 
     <!-- modals -->
@@ -73,6 +92,18 @@ const props = defineProps({
         },
     },
 
+    initialDynamics: {
+        type: Object,
+        required: false,
+        default: (props) => {
+            if(!Splade.isSsr) {
+                const $el = isString(props.el) ? document.getElementById(props.el) : props.el;
+
+                return JSON.parse($el.dataset.dynamics) || {};
+            }
+        },
+    },
+
     initialSpladeData: {
         type: Object,
         required: false,
@@ -90,6 +121,7 @@ const props = defineProps({
 provide("stack", 0);
 
 const html = ref();
+const dynamics = ref({});
 const modals = ref([]);
 const serverErrorHtml = ref(null);
 
@@ -154,35 +186,48 @@ Splade.setOnHead((newHead) => {
     });
 });
 
-Splade.setOnHtml((newHtml, scrollY) => {
+Splade.setOnHtml((newHtml, scrollY, newDynamics) => {
     modals.value = [];
-    html.value = newHtml;
+
+    const hasDynamics = Object.keys(newDynamics).length > 0;
+
+    if(!html.value || !hasDynamics) {
+        html.value = newHtml;
+    }
+
+    if(Splade.isSsr){
+        dynamics.value = newDynamics;
+    }
 
     nextTick(() => {
-        if (!Splade.isSsr){
-            window.scrollTo(0, scrollY);
-        }
+        dynamics.value = newDynamics;
 
-        if ($spladeOptions.transform_anchors) {
-            [...document.querySelectorAll("a")].forEach((anchor) => {
-                if (anchor.href == "" || anchor.href.charAt(0) == "#") {
-                    return;
-                }
+        nextTick(() => {
+            if (!Splade.isSsr){
+                window.scrollTo(0, scrollY);
+            }
 
-                if (anchor.__vnode.dynamicProps !== null) {
-                    return;
-                }
+            if ($spladeOptions.transform_anchors) {
+                [...document.querySelectorAll("a")].forEach((anchor) => {
+                    if (anchor.href == "" || anchor.href.charAt(0) == "#") {
+                        return;
+                    }
 
-                if (anchor.hasAttribute("download")) {
-                    return;
-                }
+                    if (anchor.__vnode.dynamicProps !== null) {
+                        return;
+                    }
 
-                anchor.onclick = function (event) {
-                    event.preventDefault();
-                    Splade.visit(anchor.href);
-                };
-            });
-        }
+                    if (anchor.hasAttribute("download")) {
+                        return;
+                    }
+
+                    anchor.onclick = function (event) {
+                        event.preventDefault();
+                        Splade.visit(anchor.href);
+                    };
+                });
+            }
+        });
     });
 });
 
@@ -194,5 +239,5 @@ Splade.setOnServerError(function (html) {
     serverErrorHtml.value = html;
 });
 
-Splade.init(props.initialHtml, props.initialSpladeData);
+Splade.init(props.initialHtml, props.initialDynamics, props.initialSpladeData);
 </script>
