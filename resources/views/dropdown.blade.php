@@ -13,7 +13,7 @@
     </template>
 
     <template #default="dropdown">
-      <x-splade-transition v-bind:show="dropdown.opened" class="absolute z-40">
+      <x-splade-transition show="dropdown.opened" class="absolute z-40">
         {{ $slot }}
       </x-splade-transition>
     </template>
