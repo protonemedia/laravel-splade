@@ -119,6 +119,8 @@ Route::middleware('splade')->group(function () {
     Route::get('navigation/two', [NavigationController::class, 'two'])->name('navigation.two');
     Route::get('navigation/three', [NavigationController::class, 'three'])->name('navigation.three');
     Route::get('navigation/form', [NavigationController::class, 'form'])->name('navigation.form');
+    Route::get('navigation/video/one', [NavigationController::class, 'videoOne'])->name('navigation.videoOne');
+    Route::get('navigation/video/two', [NavigationController::class, 'videoTwo'])->name('navigation.videoTwo');
 
     Route::get('navigation/notFound', fn () => abort(404))->name('navigation.notFound');
     Route::get('navigation/serverError', fn () => throw new Exception('Whoops!'))->name('navigation.serverError');

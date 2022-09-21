@@ -18,7 +18,7 @@ class BladeDirectives
     {
         $id = trim(trim($expression), "\'\"") ?: 'app';
 
-        $template[] = '<div id="' . $id . '" data-components="{{ json_encode($components) }}" data-html="{{ json_encode($html) }}" data-splade="{{ json_encode($splade) }}">';
+        $template[] = '<div id="' . $id . '" data-components="{{ json_encode($components) }}" data-html="{{ json_encode($html) }}" data-dynamics="{{ json_encode($dynamics) }}" data-splade="{{ json_encode($splade) }}">';
         $template[] = '{!! $ssrBody !!}';
         $template[] = '</div>';
 

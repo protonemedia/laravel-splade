@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use Illuminate\Support\Str;
 use Illuminate\View\ComponentAttributeBag;
+use Illuminate\View\Factory;
 use Laravel\Dusk\Browser;
 use ProtoneMedia\Splade\Commands\PublishFormStylesheetsCommand;
 use ProtoneMedia\Splade\Commands\SpladeInstallCommand;
@@ -66,6 +67,7 @@ class ServiceProvider extends BaseServiceProvider
         (new BladeDirectives)->registerHandlers();
         $this->registerBladeComponents();
         $this->registerDuskMacros();
+        $this->registerBladeMacros();
 
         static::registerTransitionAnimations(
             $this->app->make(TransitionRepository::class)
@@ -80,32 +82,6 @@ class ServiceProvider extends BaseServiceProvider
 
             return Redirect::to($data['target'])->with($data['with'] ?? []);
         })->name('splade.eventRedirect')->middleware('signed');
-
-        ComponentAttributeBag::macro('mergeVueBinding', function ($attribute, $value, bool $omitBlankValue = true) {
-            /** @var ComponentAttributeBag $this */
-            if (blank($value)) {
-                return $this;
-            }
-
-            $isEvent = Str::startsWith($attribute, ['@', 'v-on:']);
-
-            foreach (['@', 'v-on:', ':', 'v-bind:'] as $modifier) {
-                if (Str::startsWith($attribute, $modifier)) {
-                    $attribute = Str::substr($attribute, strlen($modifier));
-                }
-            }
-
-            $shortBindAttribute = ($isEvent ? '@' : ':') . $attribute;
-            $fullBindAttribute  = ($isEvent ? 'v-on:' : 'v-bind:') . $attribute;
-
-            return $this->unless($this->has($shortBindAttribute) || $this->has($fullBindAttribute), function () use ($fullBindAttribute, $value) {
-                if (is_bool($value)) {
-                    $value = $value ? 'true' : 'false';
-                }
-
-                return $this->merge([$fullBindAttribute => $value]);
-            });
-        });
     }
 
     private function registerBladeComponents()
@@ -119,6 +95,7 @@ class ServiceProvider extends BaseServiceProvider
             Components\Defer::class,
             Components\Dialog::class,
             Components\Dropdown::class,
+            Components\Dynamic::class,
             Components\Errors::class,
             Components\Event::class,
             Components\Flash::class,
@@ -195,6 +172,41 @@ class ServiceProvider extends BaseServiceProvider
                     });
             });
         }
+    }
+
+    private function registerBladeMacros()
+    {
+        Factory::macro('getFirstSlot', function () {
+            /** @var Factory $this */
+            return $this->slots[0] ?? [];
+        });
+
+        ComponentAttributeBag::macro('mergeVueBinding', function ($attribute, $value, bool $omitBlankValue = true) {
+            /** @var ComponentAttributeBag $this */
+            if (blank($value)) {
+                return $this;
+            }
+
+            $isEvent = Str::startsWith($attribute, ['@', 'v-on:']);
+
+            foreach (['@', 'v-on:', ':', 'v-bind:'] as $modifier) {
+                if (Str::startsWith($attribute, $modifier)) {
+                    $attribute = Str::substr($attribute, strlen($modifier));
+                }
+            }
+
+            $shortBindAttribute = ($isEvent ? '@' : ':') . $attribute;
+            $fullBindAttribute  = ($isEvent ? 'v-on:' : 'v-bind:') . $attribute;
+
+            return $this->unless($this->has($shortBindAttribute) || $this->has($fullBindAttribute), function () use ($fullBindAttribute, $value) {
+                if (is_bool($value)) {
+                    $value = $value ? 'true' : 'false';
+                }
+
+                /** @var ComponentAttributeBag $this */
+                return $this->merge([$fullBindAttribute => $value]);
+            });
+        });
     }
 
     public static function registerTransitionAnimations(TransitionRepository $transitionRepository)

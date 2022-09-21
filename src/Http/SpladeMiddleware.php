@@ -63,9 +63,12 @@ class SpladeMiddleware
 
             $content = $response->getContent() ?: '';
 
+            [$content, $dynamics] = static::extractDynamicsFromContent($content);
+
             return $response->setContent(json_encode([
-                'html'   => $this->splade->isModalRequest() ? $this->parseModalContent($content) : $content,
-                'splade' => $spladeData,
+                'html'     => $this->splade->isModalRequest() ? $this->parseModalContent($content) : $content,
+                'dynamics' => $dynamics,
+                'splade'   => $spladeData,
             ]));
         }
 
@@ -74,9 +77,14 @@ class SpladeMiddleware
         }
 
         if ($response->isSuccessful()) {
+            $originalContent = $response->getContent() ?: '';
+
+            [$content, $dynamics] = static::extractDynamicsFromContent($originalContent);
+
             $viewData = [
                 'components' => static::renderedComponents(),
-                'html'       => $response->getContent() ?: '',
+                'html'       => $content,
+                'dynamics'   => $dynamics,
                 'splade'     => $spladeData,
                 'ssrHead'    => null,
                 'ssrBody'    => null,
@@ -86,6 +94,7 @@ class SpladeMiddleware
                 $data = $this->ssr->render(
                     $viewData['components'],
                     $viewData['html'],
+                    $viewData['dynamics'],
                     $viewData['splade'],
                 );
 
@@ -93,7 +102,7 @@ class SpladeMiddleware
             }
 
             if (!$viewData['ssrBody'] && config('splade.ssr.blade_fallback')) {
-                $viewData['ssrBody'] = $viewData['html'];
+                $viewData['ssrBody'] = $originalContent;
             }
 
             return $response->setContent(
@@ -102,6 +111,31 @@ class SpladeMiddleware
         }
 
         return $response;
+    }
+
+    public static function extractDynamicsFromContent(string $content): array
+    {
+        preg_match_all('/START-SPLADE-DYNAMIC-(\w+)-->/', $content, $matches);
+
+        $dynamics = collect($matches[1] ?? [])
+            ->mapWithKeys(function (string $name) use ($content) {
+                $dynamic = Str::between(
+                    $content,
+                    "<!--START-SPLADE-DYNAMIC-{$name}-->",
+                    "<!--END-SPLADE-DYNAMIC-{$name}-->"
+                );
+
+                return [$name => trim($dynamic)];
+            })
+            ->each(function (string $dynamicContent, string $name) use (&$content) {
+                $content = str_replace(
+                    "<!--START-SPLADE-DYNAMIC-{$name}-->" . $dynamicContent . "<!--END-SPLADE-DYNAMIC-{$name}-->",
+                    '<SpladeDynamicHtml :keep-alive-key="`dynamicVisit.${$splade.pageVisitId.value}.${$splade.dynamicVisitId.value}`" :name="\'' . $name . '\'" />',
+                    $content
+                );
+            });
+
+        return [$content, $dynamics->all()];
     }
 
     private function parseModalContent(string $content): ?string

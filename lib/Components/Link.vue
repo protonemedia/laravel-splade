@@ -15,6 +15,12 @@ const props = defineProps({
         required: true,
     },
 
+    replace: {
+        type: Boolean,
+        required: false,
+        default: false,
+    },
+
     confirm: {
         type: [Boolean, String],
         required: false,
@@ -76,6 +82,6 @@ function perform() {
         return Splade.slideover(props.href);
     }
 
-    Splade.visit(props.href);
+    props.replace ? Splade.replace(props.href) : Splade.visit(props.href);
 }
 </script>

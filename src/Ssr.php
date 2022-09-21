@@ -6,13 +6,14 @@ use Illuminate\Support\Facades\Http;
 
 class Ssr
 {
-    public function render(string $components, string $html, object $splade): array
+    public function render(string $components, string $html, array $dynamics, object $splade): array
     {
         $default = ['body' => null];
 
         $data = [
             'components' => $components,
             'html'       => $html,
+            'dynamics'   => $dynamics,
             'splade'     => $splade,
         ];
 
