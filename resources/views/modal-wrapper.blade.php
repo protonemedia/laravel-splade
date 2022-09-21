@@ -1,12 +1,11 @@
 <!--START-SPLADE-MODAL-{{ $key }}-->
 <SpladeModal {{ $baseAttributes->mergeVueBinding(':close-button', $closeButton) }}>
     <template #default="modal">
-        <x-dynamic-component :component="Splade::component('transition')" as="template" show="modal.isOpen">
-            <component :dusk="`modal.${modal.stack}`" :is="modal.Dialog" as="div" @close="modal.setIsOpen" class="relative z-20">
+        <x-dynamic-component :component="Splade::component('transition')" show="modal.isOpen">
+            <component :dusk="`modal.${modal.stack}`" :is="modal.Dialog" @close="modal.setIsOpen" class="relative z-20">
                 <!-- The backdrop, rendered as a fixed sibling to the panel container -->
                 <component
                     :is="modal.stack === 1 ? modal.TransitionChild : 'div'"
-                    as="template"
                     enter="ease-in-out duration-300"
                     enter-from="opacity-0"
                     enter-to="opacity-100"

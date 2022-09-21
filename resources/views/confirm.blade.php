@@ -5,8 +5,8 @@
     default-cancel-button="Cancel"
 >
     <template #default="confirm">
-        <x-dynamic-component :component="Splade::component('transition')" as="template" show="confirm.isOpen">
-            <component :is="confirm.Dialog" as="div" class="relative z-30" @close="confirm.setIsOpen(false)">
+        <x-dynamic-component :component="Splade::component('transition')" show="confirm.isOpen">
+            <component :is="confirm.Dialog" class="relative z-30" @close="confirm.setIsOpen(false)">
                 <x-dynamic-component
                     :component="Splade::component('transition')"
                     child
@@ -16,7 +16,7 @@
 
                 <div class="fixed z-30 inset-0 overflow-y-auto">
                     <div class="flex items-end sm:items-center justify-center min-h-full p-4 text-center sm:p-0">
-                        <x-dynamic-component :component="Splade::component('transition')" child animation="fade" as="template" after-leave="confirm.emitClose">
+                        <x-dynamic-component :component="Splade::component('transition')" child animation="fade" after-leave="confirm.emitClose">
                             <component :is="confirm.DialogPanel"
                                 class="relative bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-lg sm:w-full sm:p-6">
                                 <div class="sm:flex sm:items-start">
