@@ -1,16 +1,7 @@
 
 <SpladeToast v-bind:auto-dismiss="@json($autoDismiss)" #default="toast">
-  <component :is="toast.TransitionRoot" appear :show="toast.show">
-    <component
-        :is="toast.TransitionChild"
-        enter="ease-in-out duration-300"
-        enter-from="opacity-0 scale-95"
-        enter-to="opacity-100 scale-100"
-        leave="ease-in-out duration-300"
-        leave-from="opacity-100 scale-100"
-        leave-to="opacity-0 scale-95"
-        @after-leave="toast.emitDismiss"
-    >
+  <x-splade-component is="transition" appear show="toast.show">
+    <x-splade-component is="transition" child after-leave="toast.emitDismiss">
       <div @class([
         'p-4 pointer-events-auto border-l-4 shadow-md min-w-[240px]',
         'bg-green-50 border-green-400' => $isSuccess,
@@ -81,6 +72,6 @@
           </div>
         </div>
       </div>
-    </component>
-  </component>
+    </x-splade-component>
+  </x-splade-component>
 </SpladeToast>

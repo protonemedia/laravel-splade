@@ -3,6 +3,7 @@
 namespace ProtoneMedia\Splade\Components;
 
 use Illuminate\View\Component;
+use ProtoneMedia\Splade\TransitionRepository;
 
 class Transition extends Component
 {
@@ -11,8 +12,15 @@ class Transition extends Component
      *
      * @return void
      */
-    public function __construct(public string $scope = 'transition')
-    {
+    public function __construct(
+        private string $show = '',
+        private string $animation = 'default',
+        private bool $appear = false,
+        private bool $unmount = true,
+        private bool $child = false,
+        private string $afterLeave = '',
+        public string $scope = 'transition',
+    ) {
     }
 
     /**
@@ -22,6 +30,15 @@ class Transition extends Component
      */
     public function render()
     {
-        return view('splade::transition');
+        $transitionRepository = app(TransitionRepository::class);
+
+        return view('splade::transition', [
+            'animation'  => $transitionRepository->get($this->animation),
+            'child'      => $this->child,
+            'show'       => $this->show,
+            'appear'     => $this->appear,
+            'unmount'    => $this->unmount,
+            'afterLeave' => $this->afterLeave,
+        ]);
     }
 }

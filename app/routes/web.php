@@ -160,6 +160,8 @@ Route::middleware('splade')->group(function () {
     Route::view('toggle/single', 'toggle.single')->name('toggle.single');
     Route::view('toggle/multiple', 'toggle.multiple')->name('toggle.multiple');
 
+    Route::view('transition/default', 'transition.default')->name('transition.default');
+
     Route::prefix('table')->group(function () {
         $table = new UserTableView;
 

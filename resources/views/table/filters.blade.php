@@ -1,4 +1,4 @@
-<x-splade-button-with-dropdown dusk="filters-dropdown">
+<x-splade-component is="button-with-dropdown" dusk="filters-dropdown">
     <x-slot:button>
         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"
             :class="{
@@ -39,5 +39,4 @@
             </div>
         @endforeach
     </div>
-
-</x-splade-button-with-dropdown>
+</x-splade-component>

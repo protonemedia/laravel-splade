@@ -176,12 +176,6 @@ class SpladeMiddleware
 
     public static function renderedComponents(): string
     {
-        $bladePrefix = config('splade.blade.component_prefix');
-
-        if ($bladePrefix) {
-            $bladePrefix .= '-';
-        }
-
-        return Blade::render("<x-{$bladePrefix}confirm /><x-{$bladePrefix}toast-wrapper />");
+        return Blade::render('<x-splade-component is="confirm" /><x-splade-component is="toast-wrapper" />');
     }
 }
