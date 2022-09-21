@@ -26,7 +26,7 @@
                 >
                     <template v-for="(toast, toastKey) in toasts.toasts">
                         <template v-if="toast.position == position && !toast.dismissed && toast.html">
-                            <component :is="toasts.Render"
+                            <SpladeRender
                                 @dismiss="toasts.dismissToast(toastKey)"
                                 :toast-key="toastKey"
                                 :key="toastKey"

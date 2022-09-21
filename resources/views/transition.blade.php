@@ -1,8 +1,8 @@
-<SpladeTransition #default="{!! $scope !!}">
+<SpladeTransition #default="{ TransitionRoot, TransitionChild }">
     <component
         {{ $attributes
             ->merge($animation->toArray())
-            ->mergeVueBinding(':is', $child ? 'transition.TransitionChild' : 'transition.TransitionRoot')
+            ->mergeVueBinding(':is', $child ? 'TransitionChild' : 'TransitionRoot')
             ->mergeVueBinding(':show', $show)
             ->mergeVueBinding(':appear', $appear)
             ->mergeVueBinding(':unmount', $unmount)

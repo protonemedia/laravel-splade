@@ -11,7 +11,7 @@ use ProtoneMedia\Splade\TransitionAnimation;
  *
  * @see \ProtoneMedia\Splade\TransitionRepository
  */
-class Transition extends Facade
+class Animation extends Facade
 {
     protected static function getFacadeAccessor()
     {

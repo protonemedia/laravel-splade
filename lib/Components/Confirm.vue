@@ -1,9 +1,4 @@
 <script>
-import {
-    Dialog,
-    DialogPanel,
-} from "@headlessui/vue";
-
 import { Splade } from "../Splade.js";
 
 export default {
@@ -106,9 +101,6 @@ export default {
             cancel: this.cancel,
             confirm: this.confirm,
             emitClose: this.emitClose,
-
-            Dialog,
-            DialogPanel,
         });
     },
 };

@@ -13,7 +13,7 @@ use Laravel\Dusk\Browser;
 use ProtoneMedia\Splade\Commands\PublishFormStylesheetsCommand;
 use ProtoneMedia\Splade\Commands\SpladeInstallCommand;
 use ProtoneMedia\Splade\Commands\SsrTestCommand;
-use ProtoneMedia\Splade\Facades\Transition;
+use ProtoneMedia\Splade\Facades\Animation;
 use ProtoneMedia\Splade\Http\BladeDirectives;
 
 class ServiceProvider extends BaseServiceProvider
@@ -62,7 +62,7 @@ class ServiceProvider extends BaseServiceProvider
         });
 
         $this->app->alias(Head::class, 'laravel-splade-seo');
-        $this->app->alias(Transition::class, 'laravel-splade-transition-repository');
+        $this->app->alias(Animation::class, 'laravel-splade-transition-repository');
 
         (new BladeDirectives)->registerHandlers();
         $this->registerBladeComponents();
@@ -118,6 +118,7 @@ class ServiceProvider extends BaseServiceProvider
             Components\Confirm::class,
             Components\Data::class,
             Components\Defer::class,
+            Components\Dialog::class,
             Components\Dropdown::class,
             Components\Errors::class,
             Components\Event::class,
@@ -202,39 +203,39 @@ class ServiceProvider extends BaseServiceProvider
         $transitionRepository
             ->new(
                 name: 'default',
-                enter: 'ease-in-out duration-300',
+                enter: 'transition transform ease-in-out duration-300',
                 enterFrom: 'opacity-0 scale-95',
                 enterTo: 'opacity-100 scale-100',
-                leave: 'ease-in-out duration-300',
+                leave: 'transition transform ease-in-out duration-300',
                 leaveFrom: 'opacity-100 scale-100',
                 leaveTo: 'opacity-0 scale-95',
             )
             ->new(
                 name: 'opacity',
-                enter: 'ease-in-out duration-300',
+                enter: 'transition ease-in-out duration-300',
                 enterFrom: 'opacity-0',
                 enterTo: 'opacity-100',
-                leave: 'ease-in-out duration-300',
+                leave: 'transition ease-in-out duration-300',
                 leaveFrom: 'opacity-100',
                 leaveTo: 'opacity-0',
             )
             ->new(
                 name: 'fade',
-                enter: 'ease-in-out duration-300',
+                enter: 'transition transform ease-in-out duration-300',
                 enterFrom: 'opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95',
                 enterTo: 'opacity-100 translate-y-0 sm:scale-100',
-                leave: 'ease-in-out duration-200',
+                leave: 'transition transform ease-in-out duration-300',
                 leaveFrom: 'opacity-100 translate-y-0 sm:scale-100',
                 leaveTo: 'opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95',
             )
             ->new(
                 name: 'slideRight',
-                enter: 'transform ease-in-out duration-300',
-                enterFrom: 'translate-x-full',
-                enterTo: 'translate-x-0',
-                leave: 'transform ease-in-out duration-300',
-                leaveFrom: 'translate-x-0',
-                leaveTo: 'translate-x-full',
+                enter: 'transform transform ease-in-out duration-300',
+                enterFrom: 'opacity-0 translate-x-full',
+                enterTo: 'opacity-100 translate-x-0',
+                leave: 'transform transform ease-in-out duration-300',
+                leaveFrom: 'opacity-100 translate-x-0',
+                leaveTo: 'opacity-0 translate-x-full',
             );
     }
 

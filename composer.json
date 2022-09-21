@@ -55,10 +55,10 @@
                 "ProtoneMedia\\Splade\\ServiceProvider"
             ],
             "aliases": {
+                "Animation": "ProtoneMedia\\Splade\\Facades\\Animation",
                 "SEO": "ProtoneMedia\\Splade\\Facades\\SEO",
                 "Splade": "ProtoneMedia\\Splade\\Facades\\Splade",
-                "Toast": "ProtoneMedia\\Splade\\Facades\\Toast",
-                "Transition": "ProtoneMedia\\Splade\\Facades\\Transition"
+                "Toast": "ProtoneMedia\\Splade\\Facades\\Toast"
             }
         }
     },
