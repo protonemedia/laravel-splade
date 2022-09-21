@@ -2,8 +2,6 @@
 import {
     Dialog,
     DialogPanel,
-    TransitionRoot,
-    TransitionChild,
 } from "@headlessui/vue";
 
 import { Splade } from "../Splade.js";
@@ -111,8 +109,6 @@ export default {
 
             Dialog,
             DialogPanel,
-            TransitionRoot,
-            TransitionChild,
         });
     },
 };

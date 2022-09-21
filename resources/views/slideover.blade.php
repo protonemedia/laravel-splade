@@ -4,16 +4,7 @@
         <!-- Container to center the panel -->
         <div class="flex min-h-full items-center justify-end">
             <!-- The actual dialog panel -->
-            <component :is="modal.TransitionChild"
-                as="template"
-                enter="transform transition ease-in-out duration-300"
-                enter-from="translate-x-full"
-                enter-to="translate-x-0"
-                leave="transform transition ease-in-out duration-300"
-                leave-from="translate-x-0"
-                leave-to="translate-x-full"
-                @after-leave="modal.emitClose"
-            >
+            <x-dynamic-component :component="Splade::component('transition')" child as="template" animation="fromRight" after-leave="modal.emitClose">
                 <component :is="modal.DialogPanel"
                     class="transition w-full"
                     :class="{
@@ -43,7 +34,7 @@
                         {{ $slot }}
                     </div>
                 </component>
-            </component>
+            </x-dynamic-component>
         </div>
     </div>
 </x-dynamic-component>

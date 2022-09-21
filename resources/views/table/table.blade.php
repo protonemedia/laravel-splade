@@ -1,10 +1,10 @@
-<SpladeTable {!! $attributes->except('class') !!}
+<SpladeTable {{ $attributes->except('class') }}
     :striped="@js($striped)"
     :columns="@js($table->columns())"
     :default-visible-toggleable-columns="@js($table->defaultVisibleToggleableColumns())"
 >
     <template #default="{!! $scope !!}">
-        <div {!! $attributes->only('class') !!}>
+        <div {{ $attributes->only('class') }}>
             @if($hasControls())
                 @include('splade::table.controls')
             @endif

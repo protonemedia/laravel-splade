@@ -16,6 +16,7 @@ class Transition extends Component
         private string $show = '',
         private string $animation = 'default',
         private bool $appear = false,
+        private bool $unmount = true,
         private bool $child = false,
         public string $as = 'div',
         private string $afterLeave = '',
@@ -37,6 +38,7 @@ class Transition extends Component
             'child'      => $this->child,
             'show'       => $this->show,
             'appear'     => $this->appear,
+            'unmount'    => $this->unmount,
             'afterLeave' => $this->afterLeave,
         ]);
     }

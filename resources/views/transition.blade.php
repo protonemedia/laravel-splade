@@ -5,6 +5,7 @@
             ->mergeVueBinding(':is', $child ? 'transition.TransitionChild' : 'transition.TransitionRoot')
             ->mergeVueBinding(':show', $show)
             ->mergeVueBinding(':appear', $appear)
+            ->mergeVueBinding(':unmount', $unmount)
             ->mergeVueBinding('@after-leave', $afterLeave)
         }}
     >
