@@ -130,7 +130,7 @@ class SpladeMiddleware
             ->each(function (string $dynamicContent, string $name) use (&$content) {
                 $content = str_replace(
                     "<!--START-SPLADE-DYNAMIC-{$name}-->" . $dynamicContent . "<!--END-SPLADE-DYNAMIC-{$name}-->",
-                    '<SpladeDynamicHtml :keep-alive-key="`dynamicVisit.${$splade.dynamicVisitId.value}`" :name="\'' . $name . '\'" />',
+                    '<SpladeDynamicHtml :keep-alive-key="`dynamicVisit.${$splade.pageVisitId.value}.${$splade.dynamicVisitId.value}`" :name="\'' . $name . '\'" />',
                     $content
                 );
             });

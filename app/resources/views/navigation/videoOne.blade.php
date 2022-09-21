@@ -3,8 +3,10 @@
 
     <x-slot:subtitle> Subtitle for Chapter 1 </x-slot>
 
-    <x-header title="Title eno">
-        <x-slot:subtitle> Title eno </x-slot:subtitle>
+    <x-header title="Title eno" help="Helptext">
+        <x-slot:subtitle> Subtitle eno </x-slot:subtitle>
+
+        HeaderSlot
     </x-header>
 
     <article class="prose mt-8">

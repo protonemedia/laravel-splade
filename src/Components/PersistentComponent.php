@@ -21,7 +21,7 @@ abstract class PersistentComponent extends Component
         ]);
     }
 
-    private function wrapSlot($name, Htmlable $html): Htmlable
+    private function wrapSlotContents($name, Htmlable $html): Htmlable
     {
         $html = implode([
             '<!--START-SPLADE-DYNAMIC-' . $name . '-->',
@@ -36,17 +36,15 @@ abstract class PersistentComponent extends Component
     {
         $slots = Collection::make($env->getFirstSlot())->map(function (ComponentSlot $slot, $name) {
             return new ComponentSlot(
-                $this->wrapSlot($name, $slot)->toHtml(),
+                $this->wrapSlotContents($name, $slot)->toHtml(),
                 $slot->attributes->getAttributes()
             );
         });
 
-        return array_merge(
-            $originalData,
-            $slots->all(),
-            [
-                'slot' => $this->wrapSlot('slot', $slot),
-            ],
-        );
+        return [
+            ...$originalData,
+            ...$slots->all(),
+            'slot' => $this->wrapSlotContents('slot', $slot),
+        ];
     }
 }

@@ -1,5 +1,7 @@
 <div>
-    <h4>Header component</h4>
-    <h1>{{ $title }}</h1>
-    <h2>{{ $attributes->get('subtitle') }}</h2>
+    <h4>{{ $title }}</h4>
+    <h5>{{ $subtitle }}</h5>
+    <h6>{{ $attributes->get('help') }}</h6>
+
+    <div dusk="header-slot">{{ $slot }}</div>
 </div>
