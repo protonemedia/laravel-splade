@@ -1,8 +1,8 @@
 <template>
   <div>
     <!-- main -->
-    <component
-      :is="Splade.isSsr ? 'div' : KeepAlive"
+    <KeepAlive
+      v-if="!Splade.isSsr"
       :max="$spladeOptions.max_keep_alive"
     >
       <Render
@@ -10,8 +10,16 @@
         :style="backdropStyling"
         :html="html"
       />
-    </component>
+    </KeepAlive>
 
+    <Render
+      v-else
+      :key="`visit.${Splade.pageVisitId.value}`"
+      :style="backdropStyling"
+      :html="html"
+    />
+
+    <!-- confirm/toast components -->
     <Render :html="components" />
 
     <!-- modals -->

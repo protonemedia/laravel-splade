@@ -1,13 +1,19 @@
 <template>
-  <component
-    :is="$splade.isSsr ? 'div' : KeepAlive"
+  <KeepAlive
+    v-if="!$splade.isSsr"
     :max="$spladeOptions.max_keep_alive"
   >
     <Render
       :key="keepAliveKey"
       :html="$splade.htmlForDynamicComponent(name)"
     />
-  </component>
+  </KeepAlive>
+
+  <Render
+    v-else
+    :key="keepAliveKey"
+    :html="$splade.htmlForDynamicComponent(name)"
+  />
 </template>
 
 <script setup>

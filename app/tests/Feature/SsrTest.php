@@ -55,9 +55,10 @@ class SsrTest extends TestCase
 
         // evaluated layout + dynamic content
         $this->assertStringContainsString('Title for Chapter 1</h1>', $body);   // wrapped in H1
-        $this->assertStringContainsString('</h1>Subtitle for Chapter 1<article', $body);    // not wrapped in element
+        $this->assertStringContainsString('</h1>Subtitle for Chapter 1', $body);    // not wrapped in element
         $this->assertStringContainsString('Persistent Video</h3>', $body);  // fixed content
         $this->assertStringContainsString('<h2>Chapter one</h2>', $body);   // from prose
+        $this->assertStringContainsString('<h6>Helptext</h6>', $body);   // nested component
 
         // rendered components
         $this->assertStringContainsString('grid grid-cols-3 grid-flow-row-3', $data['body'] ?? '');
