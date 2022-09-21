@@ -4,7 +4,7 @@
         <!-- Container to center the panel -->
         <div class="flex min-h-full items-center justify-end">
             <!-- The actual dialog panel -->
-            <x-splade-component is="transition" child animation="slideRight" after-leave="modal.emitClose">
+            <x-splade-component is="transition" child animation="slide-right" after-leave="modal.emitClose">
                 <x-splade-component is="dialog" panel class="transition w-full" v-bind:class="{
                     'blur-sm': !modal.onTopOfStack,
                     'sm:max-w-sm': modal.maxWidth == 'sm',
