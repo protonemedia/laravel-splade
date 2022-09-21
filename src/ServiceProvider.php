@@ -13,7 +13,6 @@ use Laravel\Dusk\Browser;
 use ProtoneMedia\Splade\Commands\PublishFormStylesheetsCommand;
 use ProtoneMedia\Splade\Commands\SpladeInstallCommand;
 use ProtoneMedia\Splade\Commands\SsrTestCommand;
-use ProtoneMedia\Splade\Facades\Animation;
 use ProtoneMedia\Splade\Http\BladeDirectives;
 
 class ServiceProvider extends BaseServiceProvider
@@ -62,7 +61,7 @@ class ServiceProvider extends BaseServiceProvider
         });
 
         $this->app->alias(Head::class, 'laravel-splade-seo');
-        $this->app->alias(Animation::class, 'laravel-splade-transition-repository');
+        $this->app->alias(TransitionRepository::class, 'laravel-splade-transition-repository');
 
         (new BladeDirectives)->registerHandlers();
         $this->registerBladeComponents();
