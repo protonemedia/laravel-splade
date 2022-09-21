@@ -118,7 +118,7 @@ class SpladeMiddleware
         preg_match_all('/START-SPLADE-DYNAMIC-(\w+)-->/', $content, $matches);
 
         $dynamics = collect($matches[1] ?? [])
-            ->mapWithKeys(function ($name) use ($content) {
+            ->mapWithKeys(function (string $name) use ($content) {
                 $dynamic = Str::between(
                     $content,
                     "<!--START-SPLADE-DYNAMIC-{$name}-->",
@@ -127,10 +127,10 @@ class SpladeMiddleware
 
                 return [$name => trim($dynamic)];
             })
-            ->each(function ($dynamicContent, $name) use (&$content) {
+            ->each(function (string $dynamicContent, string $name) use (&$content) {
                 $content = str_replace(
                     "<!--START-SPLADE-DYNAMIC-{$name}-->" . $dynamicContent . "<!--END-SPLADE-DYNAMIC-{$name}-->",
-                    '<SpladeRender :key="`dynamicVisit.${$splade.dynamicVisitId.value}`" :html="$splade.htmlForDynamicComponent(\'' . $name . '\')" />',
+                    '<SpladeDynamicHtml :keep-alive-key="`dynamicVisit.${$splade.dynamicVisitId.value}`" :name="\'' . $name . '\'" />',
                     $content
                 );
             });

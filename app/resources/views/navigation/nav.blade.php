@@ -4,6 +4,7 @@
     <Link dusk="three" href="/navigation/three">Three</Link>
     <Link dusk="notFound" href="/navigation/notFound">notFound</Link>
     <Link dusk="serverError" href="/navigation/serverError">serverError</Link>
+    <Link dusk="video" href="/navigation/video/one">Video</Link>
 
     <Link confirm dusk="confirm" href="/navigation/two">Confirm to two</Link>
     <Link

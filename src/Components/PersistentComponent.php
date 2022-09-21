@@ -2,6 +2,7 @@
 
 namespace ProtoneMedia\Splade\Components;
 
+use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\Collection;
 use Illuminate\Support\HtmlString;
 use Illuminate\View\Component;
@@ -20,37 +21,31 @@ abstract class PersistentComponent extends Component
         ]);
     }
 
-    private function wrapSlot($name, $html): string
+    private function wrapSlot($name, Htmlable $html): Htmlable
     {
-        return implode([
+        $html = implode([
             '<!--START-SPLADE-DYNAMIC-' . $name . '-->',
-            $html,
+            $html->toHtml(),
             '<!--END-SPLADE-DYNAMIC-' . $name . '-->',
         ]);
+
+        return new HtmlString($html);
     }
 
-    public function viewData(array $originalData, HtmlString $slot, Factory $env)
+    public function viewData(array $originalData, HtmlString $slot, Factory $env): array
     {
-        if (!Factory::hasMacro('getSlotsForSplade')) {
-            Factory::macro('getSlotsForSplade', function () {
-                return $this->slots;
-            });
-        }
-
-        $slots = Collection::make($env->getSlotsForSplade())->collapse()->map(function (ComponentSlot $slot, $name) {
+        $slots = Collection::make($env->getFirstSlot())->map(function (ComponentSlot $slot, $name) {
             return new ComponentSlot(
-                $this->wrapSlot($name, $slot->toHtml()),
+                $this->wrapSlot($name, $slot)->toHtml(),
                 $slot->attributes->getAttributes()
             );
         });
-
-        $wrappedSlot = $this->wrapSlot('slot', $slot->toHtml());
 
         return array_merge(
             $originalData,
             $slots->all(),
             [
-                'slot' => new HtmlString($wrappedSlot),
+                'slot' => $this->wrapSlot('slot', $slot),
             ],
         );
     }
