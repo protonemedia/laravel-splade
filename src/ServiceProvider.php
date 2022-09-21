@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use Illuminate\Support\Str;
+use Illuminate\View\ComponentAttributeBag;
 use Laravel\Dusk\Browser;
 use ProtoneMedia\Splade\Commands\PublishFormStylesheetsCommand;
 use ProtoneMedia\Splade\Commands\SpladeInstallCommand;
@@ -78,6 +79,32 @@ class ServiceProvider extends BaseServiceProvider
 
             return Redirect::to($data['target'])->with($data['with'] ?? []);
         })->name('splade.eventRedirect')->middleware('signed');
+
+        ComponentAttributeBag::macro('mergeVueBinding', function ($attribute, $value, bool $omitBlankValue = true) {
+            /** @var ComponentAttributeBag $this */
+            if (blank($value)) {
+                return $this;
+            }
+
+            $isEvent = Str::startsWith($attribute, ['@', 'v-on:']);
+
+            foreach (['@', 'v-on:', ':', 'v-bind:'] as $modifier) {
+                if (Str::startsWith($attribute, $modifier)) {
+                    $attribute = Str::substr($attribute, strlen($modifier));
+                }
+            }
+
+            $shortBindAttribute = ($isEvent ? '@' : ':') . $attribute;
+            $fullBindAttribute  = ($isEvent ? 'v-on:' : 'v-bind:') . $attribute;
+
+            return $this->unless($this->has($shortBindAttribute) || $this->has($fullBindAttribute), function () use ($fullBindAttribute, $value) {
+                if (is_bool($value)) {
+                    $value = $value ? 'true' : 'false';
+                }
+
+                return $this->merge([$fullBindAttribute => $value]);
+            });
+        });
     }
 
     private function registerBladeComponents()
@@ -171,12 +198,48 @@ class ServiceProvider extends BaseServiceProvider
         $transitionRepository
             ->add(new TransitionAnimation(
                 name: 'default',
-                enter: 'transition ease-out duration-200',
+                enter: 'transition ease-out duration-300',
                 enterFrom: 'opacity-0 scale-95',
                 enterTo: 'opacity-100 scale-100',
-                leave: 'transition ease-in duration-200',
+                leave: 'transition ease-in duration-300',
                 leaveFrom: 'opacity-100 scale-100',
                 leaveTo: 'opacity-0 scale-95',
+            ))
+            ->add(new TransitionAnimation(
+                name: 'defaultInOut',
+                enter: 'transform transition ease-in-out duration-300',
+                enterFrom: 'opacity-0 scale-95',
+                enterTo: 'opacity-100 scale-100',
+                leave: 'transform transition ease-in-out duration-300',
+                leaveFrom: 'opacity-100 scale-100',
+                leaveTo: 'opacity-0 scale-95',
+            ))
+            ->add(new TransitionAnimation(
+                name: 'opacityScale',
+                enter: 'transition ease-out duration-300',
+                enterFrom: 'opacity-0 scale-95',
+                enterTo: 'opacity-100 scale-100',
+                leave: 'transition ease-in duration-300',
+                leaveFrom: 'opacity-100 scale-100',
+                leaveTo: 'opacity-0 scale-95',
+            ))
+            ->add(new TransitionAnimation(
+                name: 'opacity',
+                enter: 'ease-in-out duration-300',
+                enterFrom: 'opacity-0',
+                enterTo: 'opacity-100',
+                leave: 'ease-in-out duration-300',
+                leaveFrom: 'opacity-100',
+                leaveTo: 'opacity-0',
+            ))
+            ->add(new TransitionAnimation(
+                name: 'fade',
+                enter: 'ease-out duration-300',
+                enterFrom: 'opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95',
+                enterTo: 'opacity-100 translate-y-0 sm:scale-100',
+                leave: 'ease-in duration-200',
+                leaveFrom: 'opacity-100 translate-y-0 sm:scale-100',
+                leaveTo: 'opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95',
             ))
             ->add(new TransitionAnimation(
                 name: 'fromRight',

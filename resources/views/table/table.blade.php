@@ -13,7 +13,7 @@
                 @includeUnless($searchInput->key === 'global', 'splade::table.search-row')
             @endforeach
 
-            <x-dynamic-component :component="$wrapperName">
+            <x-dynamic-component :component="Splade::component('table-wrapper')">
                 <table class="min-w-full divide-y divide-gray-200 bg-white">
                     @isset($head)
                         {{ $head }}

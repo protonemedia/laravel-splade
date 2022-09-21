@@ -13,5 +13,5 @@ $classes = implode(' ', $transitionRepository->classes());
 
 file_put_contents(
     __DIR__ . '/resources/views/transitions/classes.blade.php',
-    "<div class='{$classes}'>\n<!-- This is a dummy template so that Tailwind won't purge these transition classes... -->\n</div>",
+    "<div class='{$classes}'>\n<!-- This is an automatically generated template so that Tailwind won't purge these transition classes... -->\n</div>",
 );

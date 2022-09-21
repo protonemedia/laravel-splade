@@ -12,8 +12,15 @@ class Transition extends Component
      *
      * @return void
      */
-    public function __construct(public string $show, private string $animation = 'default', public string $scope = 'transition')
-    {
+    public function __construct(
+        private string $show = '',
+        private string $animation = 'default',
+        private bool $appear = false,
+        private bool $child = false,
+        public string $as = 'div',
+        private string $afterLeave = '',
+        public string $scope = 'transition',
+    ) {
     }
 
     /**
@@ -26,7 +33,11 @@ class Transition extends Component
         $transitionRepository = app(TransitionRepository::class);
 
         return view('splade::transition', [
-            'animation' => $transitionRepository->get('default'),
+            'animation'  => $transitionRepository->get($this->animation),
+            'child'      => $this->child,
+            'show'       => $this->show,
+            'appear'     => $this->appear,
+            'afterLeave' => $this->afterLeave,
         ]);
     }
 }

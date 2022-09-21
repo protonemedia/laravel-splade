@@ -16,7 +16,7 @@
                 >
                     <div
                         v-show="modal.onTopOfStack"
-                        class="fixed inset-0 bg-black/75 transition-opacity"
+                        class="fixed inset-0 bg-black/75"
                     />
                 </component>
 

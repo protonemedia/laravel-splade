@@ -36,15 +36,6 @@ class Checkboxes extends Component
      */
     public function render()
     {
-        $prefix = config('splade.blade.component_prefix');
-
-        if ($prefix) {
-            $prefix .= '-';
-        }
-
-        return view('splade::form.checkboxes', [
-            'groupComponent'    => $prefix . 'group',
-            'checkboxComponent' => $prefix . 'checkbox',
-        ]);
+        return view('splade::form.checkboxes');
     }
 }

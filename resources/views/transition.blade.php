@@ -1,16 +1,13 @@
-@php $transitionAttributes = [':show', 'v-bind:show', 'enter', 'enter-from', 'enter-to', 'leave', 'leave-from', 'leave-to'] @endphp
-
-<div {{ $attributes->only($transitionAttributes) }}>
-    <SpladeTransition #default="{!! $scope !!}">
-        <component
-            as="div"
-            :is="transition.TransitionRoot"
-            {{ $attributes->only($transitionAttributes)->merge([
-                ':show' => $show,
-                ...$animation->toArray()
-            ]) }}
-        >
-            {{ $slot }}
-        </component>
-    </SpladeTransition>
-</div>
+<SpladeTransition #default="{!! $scope !!}">
+    <component
+        {{ $attributes
+            ->merge($animation->toArray())
+            ->mergeVueBinding(':is', $child ? 'transition.TransitionChild' : 'transition.TransitionRoot')
+            ->mergeVueBinding(':show', $show)
+            ->mergeVueBinding(':appear', $appear)
+            ->mergeVueBinding('@after-leave', $afterLeave)
+        }}
+    >
+        {{ $slot }}
+    </component>
+</SpladeTransition>

@@ -1,19 +1,8 @@
 <SpladeToasts>
     <template #default="toasts">
-        <component :is="toasts.TransitionRoot" appear :show="toasts.hasBackdrop">
-            <!-- The backdrop, rendered as a fixed sibling to the panel container -->
-            <component
-                :is="toasts.TransitionChild"
-                enter="ease-in-out duration-300"
-                enter-from="opacity-0"
-                enter-to="opacity-100"
-                leave="ease-in-out duration-300"
-                leave-from="opacity-100"
-                leave-to="opacity-0"
-            >
-                <div class="fixed inset-0 bg-black/75 transition-opacity" />
-            </component>
-        </component>
+        <x-dynamic-component :component="Splade::component('transition')" animation="opacity" appear show="toasts.hasBackdrop">
+            <div class="fixed inset-0 bg-black/75" />
+        </x-dynamic-component>
 
         <div class="fixed inset-0 grid grid-cols-3 grid-flow-row-3 z-10 pointer-events-none">
             <div v-for="position in toasts.positions" class="relative">
