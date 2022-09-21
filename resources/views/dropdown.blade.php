@@ -13,8 +13,10 @@
     </template>
 
     <template #default="dropdown">
-      <x-splade-transition v-bind:show="dropdown.opened" class="absolute z-40">
-        {{ $slot }}
-      </x-splade-transition>
+        <div class="absolute z-40">
+          <x-splade-component is="transition" show="dropdown.opened">
+              {{ $slot }}
+          </x-splade-component>
+        </div>
     </template>
 </SpladeDropdown>

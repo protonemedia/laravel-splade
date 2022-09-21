@@ -1,22 +1,11 @@
-<x-dynamic-component :component="$wrapperName" :base-attributes="$attributes" :key="$modalKey" :close-button="$closeButton">
+<x-splade-component is="modal-wrapper" :base-attributes="$attributes" :key="$modalKey" :close-button="$closeButton">
     <!-- Full-screen scrollable container -->
     <div class="fixed inset-0 overflow-y-auto p-4">
         <!-- Container to center the panel -->
         <div class="flex min-h-full items-center justify-center">
             <!-- The actual dialog panel -->
-            <component :is="modal.TransitionChild"
-                as="template"
-                enter="transform transition ease-in-out duration-300"
-                enter-from="opacity-0 scale-95"
-                enter-to="opacity-100 scale-100"
-                leave="transform transition ease-in-out duration-300"
-                leave-from="opacity-100 scale-100"
-                leave-to="opacity-0 scale-95"
-                @after-leave="modal.emitClose"
-            >
-                <component :is="modal.DialogPanel"
-                    class="transition w-full"
-                    :class="{
+            <x-splade-component is="transition" child animation="fade" after-leave="modal.emitClose">
+                <x-splade-component is="dialog" panel class="transition w-full" v-bind:class="{
                         'blur-sm': !modal.onTopOfStack,
                         'sm:max-w-sm': modal.maxWidth == 'sm',
                         'sm:max-w-md': modal.maxWidth == 'md',
@@ -41,8 +30,8 @@
                         </div>
                         {{ $slot }}
                     </div>
-                </component>
-            </component>
+                </x-splade-component>
+            </x-splade-component>
         </div>
     </div>
-</x-dynamic-component>
+</x-splade-component>

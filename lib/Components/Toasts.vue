@@ -1,5 +1,4 @@
 <script>
-import { TransitionRoot, TransitionChild } from "@headlessui/vue";
 import { Splade } from "../Splade.js";
 import Render from "./Render.vue";
 
@@ -43,8 +42,6 @@ export default {
             dismissToast: this.dismissToast,
             hasBackdrop: this.hasBackdrop,
             Render,
-            TransitionRoot,
-            TransitionChild,
         });
     },
 };

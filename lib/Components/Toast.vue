@@ -1,6 +1,4 @@
 <script>
-import { TransitionRoot, TransitionChild } from "@headlessui/vue";
-
 export default {
     props: {
         toastKey: {
@@ -46,8 +44,6 @@ export default {
             show: this.show,
             setShow: this.setShow,
             emitDismiss: this.emitDismiss,
-            TransitionRoot,
-            TransitionChild,
         });
     },
 };

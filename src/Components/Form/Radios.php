@@ -31,15 +31,6 @@ class Radios extends Component
      */
     public function render()
     {
-        $prefix = config('splade.blade.component_prefix');
-
-        if ($prefix) {
-            $prefix .= '-';
-        }
-
-        return view('splade::form.radios', [
-            'groupComponent' => $prefix . 'group',
-            'radioComponent' => $prefix . 'radio',
-        ]);
+        return view('splade::form.radios');
     }
 }
