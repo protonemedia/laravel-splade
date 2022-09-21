@@ -15,7 +15,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        App::terminating(fn () => Artisan::call('view:clear'));
+        // App::terminating(fn () => Artisan::call('view:clear'));
     }
 
     /**
