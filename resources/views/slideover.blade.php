@@ -4,7 +4,7 @@
         <!-- Container to center the panel -->
         <div class="flex min-h-full items-center justify-end">
             <!-- The actual dialog panel -->
-            <x-dynamic-component :component="Splade::component('transition')" child as="template" animation="fromRight" after-leave="modal.emitClose">
+            <x-dynamic-component :component="Splade::component('transition')" child as="template" animation="slideRight" after-leave="modal.emitClose">
                 <component :is="modal.DialogPanel"
                     class="transition w-full"
                     :class="{

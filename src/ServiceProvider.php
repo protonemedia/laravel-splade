@@ -242,7 +242,7 @@ class ServiceProvider extends BaseServiceProvider
                 leaveTo: 'opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95',
             ))
             ->add(new TransitionAnimation(
-                name: 'fromRight',
+                name: 'slideRight',
                 enter: 'transition transform ease-in-out duration-300',
                 enterFrom: 'translate-x-full',
                 enterTo: 'translate-x-0',

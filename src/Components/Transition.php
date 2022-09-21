@@ -18,7 +18,6 @@ class Transition extends Component
         private bool $appear = false,
         private bool $unmount = true,
         private bool $child = false,
-        public string $as = 'div',
         private string $afterLeave = '',
         public string $scope = 'transition',
     ) {
