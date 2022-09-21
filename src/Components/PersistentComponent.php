@@ -41,10 +41,10 @@ abstract class PersistentComponent extends Component
             );
         });
 
-        return [
-            ...$originalData,
-            ...$slots->all(),
-            'slot' => $this->wrapSlotContents('slot', $slot),
-        ];
+        return array_merge(
+            $originalData,
+            $slots->all(),
+            ['slot' => $this->wrapSlotContents('slot', $slot)]
+        );
     }
 }
