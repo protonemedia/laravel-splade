@@ -13,6 +13,7 @@ use Laravel\Dusk\Browser;
 use ProtoneMedia\Splade\Commands\PublishFormStylesheetsCommand;
 use ProtoneMedia\Splade\Commands\SpladeInstallCommand;
 use ProtoneMedia\Splade\Commands\SsrTestCommand;
+use ProtoneMedia\Splade\Facades\Transition;
 use ProtoneMedia\Splade\Http\BladeDirectives;
 
 class ServiceProvider extends BaseServiceProvider
@@ -61,12 +62,13 @@ class ServiceProvider extends BaseServiceProvider
         });
 
         $this->app->alias(Head::class, 'laravel-splade-seo');
+        $this->app->alias(Transition::class, 'laravel-splade-transition-repository');
 
         (new BladeDirectives)->registerHandlers();
         $this->registerBladeComponents();
         $this->registerDuskMacros();
 
-        $this->registerTransitionAnimations(
+        static::registerTransitionAnimations(
             $this->app->make(TransitionRepository::class)
         );
 
@@ -109,6 +111,8 @@ class ServiceProvider extends BaseServiceProvider
 
     private function registerBladeComponents()
     {
+        Blade::component(Components\SpladeComponent::class);
+
         Blade::components([
             Components\ButtonWithDropdown::class,
             Components\Confirm::class,
@@ -196,7 +200,7 @@ class ServiceProvider extends BaseServiceProvider
     public static function registerTransitionAnimations(TransitionRepository $transitionRepository)
     {
         $transitionRepository
-            ->add(new TransitionAnimation(
+            ->new(
                 name: 'default',
                 enter: 'ease-in-out duration-300',
                 enterFrom: 'opacity-0 scale-95',
@@ -204,8 +208,8 @@ class ServiceProvider extends BaseServiceProvider
                 leave: 'ease-in-out duration-300',
                 leaveFrom: 'opacity-100 scale-100',
                 leaveTo: 'opacity-0 scale-95',
-            ))
-            ->add(new TransitionAnimation(
+            )
+            ->new(
                 name: 'opacity',
                 enter: 'ease-in-out duration-300',
                 enterFrom: 'opacity-0',
@@ -213,17 +217,17 @@ class ServiceProvider extends BaseServiceProvider
                 leave: 'ease-in-out duration-300',
                 leaveFrom: 'opacity-100',
                 leaveTo: 'opacity-0',
-            ))
-            ->add(new TransitionAnimation(
+            )
+            ->new(
                 name: 'fade',
-                enter: 'ease-out duration-300',
+                enter: 'ease-in-out duration-300',
                 enterFrom: 'opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95',
                 enterTo: 'opacity-100 translate-y-0 sm:scale-100',
-                leave: 'ease-in duration-200',
+                leave: 'ease-in-out duration-200',
                 leaveFrom: 'opacity-100 translate-y-0 sm:scale-100',
                 leaveTo: 'opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95',
-            ))
-            ->add(new TransitionAnimation(
+            )
+            ->new(
                 name: 'slideRight',
                 enter: 'transform ease-in-out duration-300',
                 enterFrom: 'translate-x-full',
@@ -231,7 +235,7 @@ class ServiceProvider extends BaseServiceProvider
                 leave: 'transform ease-in-out duration-300',
                 leaveFrom: 'translate-x-0',
                 leaveTo: 'translate-x-full',
-            ));
+            );
     }
 
     /**

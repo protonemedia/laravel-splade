@@ -1,10 +1,10 @@
-<x-dynamic-component :component="Splade::component('modal-wrapper')" :base-attributes="$attributes" :key="$modalKey" :close-button="$closeButton">
+<x-splade-component is="modal-wrapper" :base-attributes="$attributes" :key="$modalKey" :close-button="$closeButton">
     <!-- Full-screen scrollable container -->
     <div class="fixed inset-0 overflow-y-auto">
         <!-- Container to center the panel -->
         <div class="flex min-h-full items-center justify-end">
             <!-- The actual dialog panel -->
-            <x-dynamic-component :component="Splade::component('transition')" child as="template" animation="slideRight" after-leave="modal.emitClose">
+            <x-splade-component is="transition" child as="template" animation="slideRight" after-leave="modal.emitClose">
                 <component :is="modal.DialogPanel"
                     class="transition w-full"
                     :class="{
@@ -34,7 +34,7 @@
                         {{ $slot }}
                     </div>
                 </component>
-            </x-dynamic-component>
+            </x-splade-component>
         </div>
     </div>
-</x-dynamic-component>
+</x-splade-component>

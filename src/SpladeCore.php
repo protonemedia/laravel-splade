@@ -131,17 +131,6 @@ class SpladeCore
         return $this;
     }
 
-    public function component(string $name): string
-    {
-        $prefix = config('splade.blade.component_prefix');
-
-        if ($prefix) {
-            $prefix .= '-';
-        }
-
-        return $prefix . $name;
-    }
-
     public function isSpladeRequest(): bool
     {
         return $this->request()->hasHeader(static::HEADER_SPLADE);

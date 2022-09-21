@@ -13,7 +13,7 @@
                 @includeUnless($searchInput->key === 'global', 'splade::table.search-row')
             @endforeach
 
-            <x-dynamic-component :component="Splade::component('table-wrapper')">
+            <x-splade-component is="table-wrapper">
                 <table class="min-w-full divide-y divide-gray-200 bg-white">
                     @isset($head)
                         {{ $head }}
@@ -27,7 +27,7 @@
                         @include('splade::table.body')
                     @endisset
                 </table>
-            </x-dynamic-component>
+            </x-splade-component>
 
             @if($isPaginated())
                 {{ $table->resource->links($paginationView, ['table' => $table]) }}

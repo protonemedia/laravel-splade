@@ -1,4 +1,4 @@
-<x-dynamic-component :component="Splade::component('button-with-dropdown')" dusk="columns-dropdown">
+<x-splade-component is="button-with-dropdown" dusk="columns-dropdown">
     <x-slot:button>
         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"
             :class="{
@@ -48,4 +48,4 @@
             @endforeach
         </ul>
     </div>
-</x-dynamic-component>
+</x-splade-component>

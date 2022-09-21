@@ -14,9 +14,9 @@
 
     <template #default="dropdown">
         <div class="absolute z-40">
-          <x-dynamic-component :component="Splade::component('transition')" show="dropdown.opened" >
+          <x-splade-component is="transition" show="dropdown.opened">
               {{ $slot }}
-          </x-dynamic-component>
+          </x-splade-component>
         </div>
     </template>
 </SpladeDropdown>

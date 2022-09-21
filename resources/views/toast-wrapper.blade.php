@@ -1,7 +1,7 @@
 <SpladeToasts>
     <template #default="toasts">
-        <x-dynamic-component
-            :component="Splade::component('transition')"
+        <x-splade-component
+            is="transition"
             animation="opacity"
             appear
             show="toasts.hasBackdrop"
