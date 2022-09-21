@@ -43,7 +43,7 @@
 </template>
 
 <script setup>
-import { ref, provide, nextTick, inject, KeepAlive, computed } from "vue";
+import { ref, provide, nextTick, inject, computed } from "vue";
 import { Splade } from "./Splade.js";
 import forOwn from "lodash-es/forOwn";
 import isString from "lodash-es/isString";

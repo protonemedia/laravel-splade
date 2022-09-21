@@ -17,7 +17,7 @@
 </template>
 
 <script setup>
-import { KeepAlive, inject } from "vue";
+import { inject } from "vue";
 import Render from "./Render.vue";
 
 defineProps({
