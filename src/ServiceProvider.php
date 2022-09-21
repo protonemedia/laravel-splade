@@ -198,28 +198,10 @@ class ServiceProvider extends BaseServiceProvider
         $transitionRepository
             ->add(new TransitionAnimation(
                 name: 'default',
-                enter: 'transition ease-out duration-300',
+                enter: 'ease-in-out duration-300',
                 enterFrom: 'opacity-0 scale-95',
                 enterTo: 'opacity-100 scale-100',
-                leave: 'transition ease-in duration-300',
-                leaveFrom: 'opacity-100 scale-100',
-                leaveTo: 'opacity-0 scale-95',
-            ))
-            ->add(new TransitionAnimation(
-                name: 'defaultInOut',
-                enter: 'transform transition ease-in-out duration-300',
-                enterFrom: 'opacity-0 scale-95',
-                enterTo: 'opacity-100 scale-100',
-                leave: 'transform transition ease-in-out duration-300',
-                leaveFrom: 'opacity-100 scale-100',
-                leaveTo: 'opacity-0 scale-95',
-            ))
-            ->add(new TransitionAnimation(
-                name: 'opacityScale',
-                enter: 'transition ease-out duration-300',
-                enterFrom: 'opacity-0 scale-95',
-                enterTo: 'opacity-100 scale-100',
-                leave: 'transition ease-in duration-300',
+                leave: 'ease-in-out duration-300',
                 leaveFrom: 'opacity-100 scale-100',
                 leaveTo: 'opacity-0 scale-95',
             ))
@@ -243,10 +225,10 @@ class ServiceProvider extends BaseServiceProvider
             ))
             ->add(new TransitionAnimation(
                 name: 'slideRight',
-                enter: 'transition transform ease-in-out duration-300',
+                enter: 'transform ease-in-out duration-300',
                 enterFrom: 'translate-x-full',
                 enterTo: 'translate-x-0',
-                leave: 'transition transform ease-in-out duration-300',
+                leave: 'transform ease-in-out duration-300',
                 leaveFrom: 'translate-x-0',
                 leaveTo: 'translate-x-full',
             ));

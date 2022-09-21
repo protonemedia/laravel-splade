@@ -1,8 +1,12 @@
 <SpladeToasts>
     <template #default="toasts">
-        <x-dynamic-component :component="Splade::component('transition')" animation="opacity" appear show="toasts.hasBackdrop">
-            <div class="fixed inset-0 bg-black/75" />
-        </x-dynamic-component>
+        <x-dynamic-component
+            :component="Splade::component('transition')"
+            animation="opacity"
+            appear
+            show="toasts.hasBackdrop"
+            class="fixed inset-0 bg-black/75"
+        />
 
         <div class="fixed inset-0 grid grid-cols-3 grid-flow-row-3 z-10 pointer-events-none">
             <div v-for="position in toasts.positions" class="relative">
