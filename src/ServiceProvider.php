@@ -100,6 +100,7 @@ class ServiceProvider extends BaseServiceProvider
             Components\Event::class,
             Components\Flash::class,
             Components\Form::class,
+            Components\Lazy::class,
             Components\Modal::class,
             Components\ModalWrapper::class,
             Components\Outside::class,
