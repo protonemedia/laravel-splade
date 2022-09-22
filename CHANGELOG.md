@@ -2,6 +2,13 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 0.5.0 - 2022-09-22
+
+- Lazy Loading
+- Teleport
+- Transitions
+- Persistent Layout
+
 ## 0.4.25 - 2022-09-15
 
 - Table responsive UI fixes
