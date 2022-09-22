@@ -36,19 +36,19 @@ class BladeDirectives
     public function lazy()
     {
         if (Splade::isLazyRequest()) {
-            return  "<?php if(true): ?>";
+            return  '<?php if(true): ?>';
         }
 
-        return  "<?php if(false): ?>";
+        return  '<?php if(false): ?>';
     }
 
     public function endlazy()
     {
         if (Splade::isLazyRequest()) {
-            return "<?php endif; ?>" ;
+            return '<?php endif; ?>';
         }
 
-        return "<?php endif; ?>";
+        return '<?php endif; ?>';
     }
 
     public static function parseTableCellDirectiveExpression($expression): array
