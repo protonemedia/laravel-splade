@@ -145,6 +145,8 @@ Route::middleware('splade')->group(function () {
         return view('state');
     })->name('state');
 
+    Route::view('teleport', 'teleport')->name('teleport');
+
     Route::get('toast/infoLeftTop', [ToastController::class, 'infoLeftTop'])->name('toast.infoLeftTop');
     Route::get('toast/infoCenterTop', [ToastController::class, 'infoCenterTop'])->name('toast.infoCenterTop');
     Route::get('toast/infoRightTop', [ToastController::class, 'infoRightTop'])->name('toast.infoRightTop');

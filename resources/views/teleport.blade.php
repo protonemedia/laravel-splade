@@ -1,0 +1,3 @@
+<SpladeTeleport {{ $attributes }}>
+    {{ $slot }}
+</SpladeTeleport>

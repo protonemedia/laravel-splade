@@ -106,6 +106,7 @@ class ServiceProvider extends BaseServiceProvider
             Components\State::class,
             Components\Table::class,
             Components\TableWrapper::class,
+            Components\Teleport::class,
             Components\Toast::class,
             Components\ToastWrapper::class,
             Components\Toggle::class,
