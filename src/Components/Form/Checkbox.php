@@ -16,6 +16,7 @@ class Checkbox extends Component
      */
     public function __construct(
         public string $name = '',
+        public string $vModel = '',
         public $value = 1,
         public string $label = '',
         public string $validationKey = '',

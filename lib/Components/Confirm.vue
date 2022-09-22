@@ -5,7 +5,6 @@ import {
     TransitionRoot,
     TransitionChild,
 } from "@headlessui/vue";
-
 import { Splade } from "../Splade.js";
 
 export default {
@@ -109,6 +108,7 @@ export default {
             confirm: this.confirm,
             emitClose: this.emitClose,
 
+            // These HeadlessUI exports will be removed in v1.0
             Dialog,
             DialogPanel,
             TransitionRoot,

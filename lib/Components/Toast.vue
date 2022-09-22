@@ -46,6 +46,8 @@ export default {
             show: this.show,
             setShow: this.setShow,
             emitDismiss: this.emitDismiss,
+
+            // These HeadlessUI exports will be removed in v1.0
             TransitionRoot,
             TransitionChild,
         });

@@ -23,19 +23,13 @@ class Modal extends Component
      */
     public function render()
     {
-        $prefix = config('splade.blade.component_prefix');
-
-        if ($prefix) {
-            $prefix .= '-';
-        }
-
         return $this->splade->isModalRequest()
             ? view(
                 $this->splade->modalType() === SpladeCore::MODAL_TYPE_MODAL ? 'splade::modal' : 'splade::slideover',
                 [
                     'closeButton' => $this->closeButton,
                     'modalKey'    => $this->splade->getModalKey(),
-                    'wrapperName' => $prefix . 'modal-wrapper',
+                    'wrapperName' => SpladeComponent::normalize('modal-wrapper'),
                 ]
             )
             : '{{ $slot }}';

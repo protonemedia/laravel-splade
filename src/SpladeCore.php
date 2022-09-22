@@ -7,6 +7,7 @@ use Illuminate\Foundation\Exceptions\Handler;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Validation\ValidationException;
+use ProtoneMedia\Splade\Http\ResolvableData;
 use Throwable;
 
 class SpladeCore
@@ -16,6 +17,8 @@ class SpladeCore
     const HEADER_MODAL = 'X-Splade-Modal';
 
     const HEADER_PREVENT_REFRESH = 'X-Splade-Prevent-Refresh';
+
+    const HEADER_LAZY = 'X-Splade-Lazy';
 
     const MODAL_TYPE_MODAL = 'modal';
 
@@ -28,6 +31,8 @@ class SpladeCore
     private array $toasts = [];
 
     private string $rootView = 'root';
+
+    private int $lazyComponents = 0;
 
     private Head $head;
 
@@ -67,11 +72,33 @@ class SpladeCore
         return $this->modalKey;
     }
 
+    public function newLazyComponentKey(): string
+    {
+        return $this->lazyComponents++;
+    }
+
+    public function resetLazyComponentCounter(): self
+    {
+        $this->lazyComponents = 0;
+
+        return $this;
+    }
+
     public function setModalKey(string $key): self
     {
         $this->modalKey = $key;
 
         return $this;
+    }
+
+    public function onInit($value)
+    {
+        return ResolvableData::from($value)->resolveIf(!$this->isLazyRequest());
+    }
+
+    public function onLazy($value)
+    {
+        return ResolvableData::from($value)->resolveIf($this->isLazyRequest());
     }
 
     public static function refreshOnEvent(): EventRefresh
@@ -139,6 +166,16 @@ class SpladeCore
     public function isModalRequest(): bool
     {
         return $this->request()->hasHeader(static::HEADER_MODAL);
+    }
+
+    public function getLazyComponentKey(): int
+    {
+        return $this->request()->header(static::HEADER_LAZY);
+    }
+
+    public function isLazyRequest(): bool
+    {
+        return $this->request()->hasHeader(static::HEADER_LAZY);
     }
 
     public function dontRefreshPage(): bool

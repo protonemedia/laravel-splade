@@ -23,6 +23,7 @@ class Textarea extends Component
      */
     public function __construct(
         public string $name = '',
+        public string $vModel = '',
         public string $label = '',
         public string $validationKey = '',
         public bool $showErrors = true,

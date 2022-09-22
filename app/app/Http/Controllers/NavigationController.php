@@ -33,4 +33,14 @@ class NavigationController
     {
         return view('navigation.form');
     }
+
+    public function videoOne()
+    {
+        return view('navigation.videoOne');
+    }
+
+    public function videoTwo()
+    {
+        return view('navigation.videoTwo');
+    }
 }

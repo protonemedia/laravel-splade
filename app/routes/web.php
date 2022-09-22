@@ -9,6 +9,7 @@ use App\Http\Controllers\FileFormController;
 use App\Http\Controllers\FormComponentsController;
 use App\Http\Controllers\FormRelationsController;
 use App\Http\Controllers\FormViewController;
+use App\Http\Controllers\LazyController;
 use App\Http\Controllers\ModalController;
 use App\Http\Controllers\NavigationController;
 use App\Http\Controllers\NestedFormController;
@@ -115,10 +116,15 @@ Route::middleware('splade')->group(function () {
 
     Route::get('form/relations/twoForms', [FormRelationsController::class, 'twoForms'])->name('form.relations.twoForms');
 
+    Route::get('lazy', [LazyController::class, 'show'])->name('lazy');
+    Route::get('lazy/notifications', [LazyController::class, 'notifications'])->name('lazy.notifications');
+
     Route::get('navigation/one/{id?}', [NavigationController::class, 'one'])->name('navigation.one');
     Route::get('navigation/two', [NavigationController::class, 'two'])->name('navigation.two');
     Route::get('navigation/three', [NavigationController::class, 'three'])->name('navigation.three');
     Route::get('navigation/form', [NavigationController::class, 'form'])->name('navigation.form');
+    Route::get('navigation/video/one', [NavigationController::class, 'videoOne'])->name('navigation.videoOne');
+    Route::get('navigation/video/two', [NavigationController::class, 'videoTwo'])->name('navigation.videoTwo');
 
     Route::get('navigation/notFound', fn () => abort(404))->name('navigation.notFound');
     Route::get('navigation/serverError', fn () => throw new Exception('Whoops!'))->name('navigation.serverError');
@@ -143,6 +149,8 @@ Route::middleware('splade')->group(function () {
         return view('state');
     })->name('state');
 
+    Route::view('teleport', 'teleport')->name('teleport');
+
     Route::get('toast/infoLeftTop', [ToastController::class, 'infoLeftTop'])->name('toast.infoLeftTop');
     Route::get('toast/infoCenterTop', [ToastController::class, 'infoCenterTop'])->name('toast.infoCenterTop');
     Route::get('toast/infoRightTop', [ToastController::class, 'infoRightTop'])->name('toast.infoRightTop');
@@ -157,6 +165,8 @@ Route::middleware('splade')->group(function () {
     Route::view('toggle/multipleDefaults', 'toggle.multipleDefaults')->name('toggle.multipleDefaults');
     Route::view('toggle/single', 'toggle.single')->name('toggle.single');
     Route::view('toggle/multiple', 'toggle.multiple')->name('toggle.multiple');
+
+    Route::view('transition/default', 'transition.default')->name('transition.default');
 
     Route::prefix('table')->group(function () {
         $table = new UserTableView;

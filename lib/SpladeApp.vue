@@ -1,8 +1,8 @@
 <template>
   <div>
     <!-- main -->
-    <component
-      :is="Splade.isSsr ? 'div' : KeepAlive"
+    <KeepAlive
+      v-if="!Splade.isSsr"
       :max="$spladeOptions.max_keep_alive"
     >
       <Render
@@ -10,8 +10,16 @@
         :style="backdropStyling"
         :html="html"
       />
-    </component>
+    </KeepAlive>
 
+    <Render
+      v-else
+      :key="`visit.${Splade.pageVisitId.value}`"
+      :style="backdropStyling"
+      :html="html"
+    />
+
+    <!-- confirm/toast components -->
     <Render :html="components" />
 
     <!-- modals -->
@@ -35,7 +43,7 @@
 </template>
 
 <script setup>
-import { ref, provide, nextTick, inject, KeepAlive, computed } from "vue";
+import { ref, provide, nextTick, inject, computed } from "vue";
 import { Splade } from "./Splade.js";
 import forOwn from "lodash-es/forOwn";
 import isString from "lodash-es/isString";
@@ -73,6 +81,18 @@ const props = defineProps({
         },
     },
 
+    initialDynamics: {
+        type: Object,
+        required: false,
+        default: (props) => {
+            if(!Splade.isSsr) {
+                const $el = isString(props.el) ? document.getElementById(props.el) : props.el;
+
+                return JSON.parse($el.dataset.dynamics) || {};
+            }
+        },
+    },
+
     initialSpladeData: {
         type: Object,
         required: false,
@@ -85,7 +105,6 @@ const props = defineProps({
         },
     },
 });
-
 
 provide("stack", 0);
 
@@ -156,10 +175,11 @@ Splade.setOnHead((newHead) => {
 
 Splade.setOnHtml((newHtml, scrollY) => {
     modals.value = [];
+
     html.value = newHtml;
 
     nextTick(() => {
-        if (!Splade.isSsr){
+        if (!Splade.isSsr) {
             window.scrollTo(0, scrollY);
         }
 
@@ -194,5 +214,5 @@ Splade.setOnServerError(function (html) {
     serverErrorHtml.value = html;
 });
 
-Splade.init(props.initialHtml, props.initialSpladeData);
+Splade.init(props.initialHtml, props.initialDynamics, props.initialSpladeData);
 </script>

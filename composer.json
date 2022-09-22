@@ -39,7 +39,8 @@
         "analyse": "vendor/bin/phpstan analyse",
         "test": "vendor/bin/pest",
         "test-coverage": "vendor/bin/pest --coverage",
-        "format": "vendor/bin/pint"
+        "format": "vendor/bin/pint",
+        "extract-transitions": "@php ExtractTransitionClasses.php"
     },
     "config": {
         "sort-packages": true,
@@ -54,6 +55,7 @@
                 "ProtoneMedia\\Splade\\ServiceProvider"
             ],
             "aliases": {
+                "Animation": "ProtoneMedia\\Splade\\Facades\\Animation",
                 "SEO": "ProtoneMedia\\Splade\\Facades\\SEO",
                 "Splade": "ProtoneMedia\\Splade\\Facades\\Splade",
                 "Toast": "ProtoneMedia\\Splade\\Facades\\Toast"

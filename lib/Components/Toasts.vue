@@ -43,6 +43,8 @@ export default {
             dismissToast: this.dismissToast,
             hasBackdrop: this.hasBackdrop,
             Render,
+
+            // These HeadlessUI exports will be removed in v1.0
             TransitionRoot,
             TransitionChild,
         });

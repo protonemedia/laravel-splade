@@ -1,19 +1,12 @@
 <SpladeToasts>
     <template #default="toasts">
-        <component :is="toasts.TransitionRoot" appear :show="toasts.hasBackdrop">
-            <!-- The backdrop, rendered as a fixed sibling to the panel container -->
-            <component
-                :is="toasts.TransitionChild"
-                enter="ease-in-out duration-300"
-                enter-from="opacity-0"
-                enter-to="opacity-100"
-                leave="ease-in-out duration-300"
-                leave-from="opacity-100"
-                leave-to="opacity-0"
-            >
-                <div class="fixed inset-0 bg-black/75 transition-opacity" />
-            </component>
-        </component>
+        <x-splade-component
+            is="transition"
+            animation="opacity"
+            appear
+            show="toasts.hasBackdrop"
+            class="fixed inset-0 bg-black/75"
+        />
 
         <div class="fixed inset-0 grid grid-cols-3 grid-flow-row-3 z-10 pointer-events-none">
             <div v-for="position in toasts.positions" class="relative">
@@ -33,7 +26,7 @@
                 >
                     <template v-for="(toast, toastKey) in toasts.toasts">
                         <template v-if="toast.position == position && !toast.dismissed && toast.html">
-                            <component :is="toasts.Render"
+                            <SpladeRender
                                 @dismiss="toasts.dismissToast(toastKey)"
                                 :toast-key="toastKey"
                                 :key="toastKey"

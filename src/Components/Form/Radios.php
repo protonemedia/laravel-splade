@@ -4,6 +4,7 @@ namespace ProtoneMedia\Splade\Components\Form;
 
 use Illuminate\View\Component;
 use ProtoneMedia\Splade\Components\Form;
+use ProtoneMedia\Splade\Components\SpladeComponent;
 
 class Radios extends Component
 {
@@ -31,15 +32,9 @@ class Radios extends Component
      */
     public function render()
     {
-        $prefix = config('splade.blade.component_prefix');
-
-        if ($prefix) {
-            $prefix .= '-';
-        }
-
         return view('splade::form.radios', [
-            'groupComponent' => $prefix . 'group',
-            'radioComponent' => $prefix . 'radio',
+            'groupComponent' => SpladeComponent::normalize('group'),
+            'radioComponent' => SpladeComponent::normalize('radio'),
         ]);
     }
 }

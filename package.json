@@ -22,7 +22,7 @@
     "dev": "vite build --watch",
     "build": "vite build",
     "eslint": "./node_modules/.bin/eslint app/resources/js/ lib/ stubs/ --ext .js,.vue --fix",
-    "pre-publish": "npm upgrade && vite build && npm pack"
+    "pre-publish": "composer extract-transitions && npm upgrade && vite build && npm pack"
   },
   "peerDependencies": {
     "axios": "^0.27",

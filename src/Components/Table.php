@@ -65,15 +65,9 @@ class Table extends Component
      */
     public function render()
     {
-        $prefix = config('splade.blade.component_prefix');
-
-        if ($prefix) {
-            $prefix .= '-';
-        }
-
         return view('splade::table.table', [
             'table'          => $this->for,
-            'wrapperName'    => $prefix . 'table-wrapper',
+            'wrapperName'    => SpladeComponent::normalize('table-wrapper'),
             'paginationView' => $this->isLengthAware() ? 'splade::table.pagination' : 'splade::table.simple-pagination',
         ]);
     }

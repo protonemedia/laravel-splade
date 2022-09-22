@@ -28,6 +28,7 @@ class SsrTestCommand extends Command
         $result = (new Ssr)->render(
             '',
             $html,
+            [],
             (object) []
         );
 
