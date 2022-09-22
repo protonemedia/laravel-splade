@@ -8,8 +8,6 @@
 </template>
 
 <script>
-import { Teleport } from "vue";
-
 export default {
     data(){
         return{

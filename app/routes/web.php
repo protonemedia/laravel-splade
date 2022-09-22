@@ -9,6 +9,7 @@ use App\Http\Controllers\FileFormController;
 use App\Http\Controllers\FormComponentsController;
 use App\Http\Controllers\FormRelationsController;
 use App\Http\Controllers\FormViewController;
+use App\Http\Controllers\LazyController;
 use App\Http\Controllers\ModalController;
 use App\Http\Controllers\NavigationController;
 use App\Http\Controllers\NestedFormController;
@@ -114,6 +115,9 @@ Route::middleware('splade')->group(function () {
     Route::post('form/relations/checkboxRelation', [FormRelationsController::class, 'storeCheckboxRelation'])->name('form.relations.storeCheckboxRelation');
 
     Route::get('form/relations/twoForms', [FormRelationsController::class, 'twoForms'])->name('form.relations.twoForms');
+
+    Route::get('lazy', [LazyController::class, 'show'])->name('lazy');
+    Route::get('lazy/notifications', [LazyController::class, 'notifications'])->name('lazy.notifications');
 
     Route::get('navigation/one/{id?}', [NavigationController::class, 'one'])->name('navigation.one');
     Route::get('navigation/two', [NavigationController::class, 'two'])->name('navigation.two');

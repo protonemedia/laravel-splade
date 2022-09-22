@@ -33,6 +33,7 @@ class SpladeMiddleware
     public function handle(Request $request, Closure $next)
     {
         $this->splade->setModalKey(Str::uuid());
+        $this->splade->resetLazyComponentCounter();
 
         /** @var Response $response */
         $response = $next($request);
@@ -171,6 +172,7 @@ class SpladeMiddleware
             ),
 
             'preventRefresh' => $this->splade->dontRefreshPage(),
+            'lazy'           => $this->splade->isLazyRequest(),
         ];
     }
 

@@ -14,12 +14,22 @@ class SpladeComponent extends DynamicComponent
      */
     public function __construct(string $is)
     {
+        $this->component = static::normalize($is);
+    }
+
+    public static function tag($name): string
+    {
+        return 'x-' . static::normalize($name);
+    }
+
+    public static function normalize($name): string
+    {
         $prefix = config('splade.blade.component_prefix');
 
         if ($prefix) {
             $prefix .= '-';
         }
 
-        $this->component = $prefix . $is;
+        return $prefix . $name;
     }
 }
