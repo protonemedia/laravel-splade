@@ -9,12 +9,21 @@
 <script>
 import { Splade } from "../Splade.js";
 import Render from "./Render.vue";
+
 export default {
     components: { Render },
     props: {
         name: {
             type: String,
             required: true
+        },
+
+        url: {
+            type: String,
+            required: false,
+            default() {
+                return Splade.isSsr ? "" : window.location.href;
+            },
         },
 
         show: {
@@ -31,7 +40,7 @@ export default {
 
     watch:{
         show(newValue) {
-            if(newValue){
+            if(newValue) {
                 this.request();
             }else{
                 this.html = null;
@@ -49,7 +58,7 @@ export default {
         async request() {
             this.html = null;
 
-            Splade.lazy(this.name).then((response) => {
+            Splade.lazy(this.url, this.name).then((response) => {
                 this.html = response.data.html;
             });
         },

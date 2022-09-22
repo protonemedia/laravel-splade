@@ -24,7 +24,17 @@ LazyComponent
 </x-splade-lazy>
 
 <x-splade-toggle>
-    <button @click="toggle">Load time</button>
+    <button class="block" @click="toggle">Load notifications</button>
+
+    <x-splade-lazy show="toggled" url="/lazy/notifications">
+        <x-slot:placeholder>
+            <p>Loading notifications...</p>
+        </x-slot:placeholder>
+    </x-splade-lazy>
+</x-splade-toggle>
+
+<x-splade-toggle>
+    <button class="block" @click="toggle">Load time</button>
 
     <x-splade-lazy show="toggled">
         <x-slot:placeholder>

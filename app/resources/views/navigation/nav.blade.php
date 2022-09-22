@@ -5,6 +5,7 @@
     <Link dusk="notFound" href="/navigation/notFound">notFound</Link>
     <Link dusk="serverError" href="/navigation/serverError">serverError</Link>
     <Link dusk="video" href="/navigation/video/one">Video</Link>
+    <Link dusk="lazy" href="/lazy">Lazy</Link>
 
     <Link confirm dusk="confirm" href="/navigation/two">Confirm to two</Link>
     <Link

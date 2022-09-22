@@ -116,7 +116,8 @@ Route::middleware('splade')->group(function () {
 
     Route::get('form/relations/twoForms', [FormRelationsController::class, 'twoForms'])->name('form.relations.twoForms');
 
-    Route::get('lazy', LazyController::class)->name('lazy');
+    Route::get('lazy', [LazyController::class, 'show'])->name('lazy');
+    Route::get('lazy/notifications', [LazyController::class, 'notifications'])->name('lazy.notifications');
 
     Route::get('navigation/one/{id?}', [NavigationController::class, 'one'])->name('navigation.one');
     Route::get('navigation/two', [NavigationController::class, 'two'])->name('navigation.two');
