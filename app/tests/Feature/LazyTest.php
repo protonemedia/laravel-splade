@@ -29,7 +29,7 @@ class LazyTest extends TestCase
             ->get('/lazy', [SpladeCore::HEADER_LAZY => 0])
             ->assertViewHas('always', 'always')
             ->assertViewHas('init', null)
-            ->assertViewHas('lazy', ["key" => "Hi from controller!"])
+            ->assertViewHas('lazy', ['key' => 'Hi from controller!'])
             ->assertViewHas('time', now()->format('H:i:s'));
     }
 }
