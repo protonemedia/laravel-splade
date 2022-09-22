@@ -15,6 +15,7 @@ use ProtoneMedia\Splade\Commands\PublishFormStylesheetsCommand;
 use ProtoneMedia\Splade\Commands\SpladeInstallCommand;
 use ProtoneMedia\Splade\Commands\SsrTestCommand;
 use ProtoneMedia\Splade\Http\BladeDirectives;
+use ProtoneMedia\Splade\Http\PrepareViewWithLazyComponents;
 
 class ServiceProvider extends BaseServiceProvider
 {
@@ -65,6 +66,11 @@ class ServiceProvider extends BaseServiceProvider
         $this->app->alias(TransitionRepository::class, 'laravel-splade-transition-repository');
 
         (new BladeDirectives)->registerHandlers();
+
+        (new PrepareViewWithLazyComponents)
+            ->registerMacros()
+            ->registerEventListener();
+
         $this->registerBladeComponents();
         $this->registerDuskMacros();
         $this->registerBladeMacros();

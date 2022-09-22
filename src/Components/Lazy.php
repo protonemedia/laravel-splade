@@ -12,7 +12,7 @@ class Lazy extends Component
      *
      * @return void
      */
-    public function __construct(public SpladeCore $splade)
+    public function __construct(public SpladeCore $splade, public string $show = '')
     {
     }
 
@@ -23,22 +23,10 @@ class Lazy extends Component
      */
     public function render()
     {
-        $trace = collect(debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT, 50))->filter(function ($trace) {
-            return ($trace['object'] ?? null) instanceof Lazy
-                && ($trace['function'] ?? null) === 'resolveView';
-        })->first();
-
-        $key = md5($trace['file'] . '.' . $trace['line']);
-
         return $this->splade->isLazyRequest()
             ? '{{ $slot }}'
             : view('splade::lazy', [
-                'name' => $key,
+                'name' => $this->splade->newLazyComponentKey(),
             ]);
-    }
-
-    public function shouldRender()
-    {
-        return true;
     }
 }

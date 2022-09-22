@@ -1,3 +1,3 @@
-<SpladeLazy :name='@json($name)'>
-    {{ $slot }}
+<SpladeLazy :name='@json($name)' {{ $attributes->mergeVueBinding(':show', $show) }}>
+    {{ $placeholder ?? "" }}
 </SpladeLazy>

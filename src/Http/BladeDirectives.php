@@ -3,7 +3,6 @@
 namespace ProtoneMedia\Splade\Http;
 
 use Illuminate\Support\Facades\Blade;
-use ProtoneMedia\Splade\Facades\Splade;
 
 class BladeDirectives
 {
@@ -11,8 +10,6 @@ class BladeDirectives
     {
         Blade::directive('splade', [$this, 'splade']);
         Blade::directive('spladeHead', [$this, 'spladeHead']);
-        Blade::directive('lazy', [$this, 'lazy']);
-        Blade::directive('endlazy', [$this, 'endlazy']);
 
         $this->registerTableCellDirective();
     }
@@ -31,24 +28,6 @@ class BladeDirectives
     public function spladeHead()
     {
         return '{{ app(\'laravel-splade-seo\')->renderHead() }}';
-    }
-
-    public function lazy()
-    {
-        if (Splade::isLazyRequest()) {
-            return  '<?php if(true): ?>';
-        }
-
-        return  '<?php if(false): ?>';
-    }
-
-    public function endlazy()
-    {
-        if (Splade::isLazyRequest()) {
-            return '<?php endif; ?>';
-        }
-
-        return '<?php endif; ?>';
     }
 
     public static function parseTableCellDirectiveExpression($expression): array

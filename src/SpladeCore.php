@@ -32,6 +32,8 @@ class SpladeCore
 
     private string $rootView = 'root';
 
+    private int $lazyComponents = 0;
+
     private Head $head;
 
     public function getRootView(): string
@@ -70,6 +72,18 @@ class SpladeCore
         return $this->modalKey;
     }
 
+    public function newLazyComponentKey(): string
+    {
+        return $this->lazyComponents++;
+    }
+
+    public function resetLazyComponentCounter(): self
+    {
+        $this->lazyComponents = 0;
+
+        return $this;
+    }
+
     public function setModalKey(string $key): self
     {
         $this->modalKey = $key;
@@ -77,12 +91,12 @@ class SpladeCore
         return $this;
     }
 
-    public function first(callable $value)
+    public function onInit($value)
     {
         return ResolvableData::from($value)->resolveIf(!$this->isLazyRequest());
     }
 
-    public function lazy(callable $value)
+    public function onLazy($value)
     {
         return ResolvableData::from($value)->resolveIf($this->isLazyRequest());
     }
@@ -152,6 +166,11 @@ class SpladeCore
     public function isModalRequest(): bool
     {
         return $this->request()->hasHeader(static::HEADER_MODAL);
+    }
+
+    public function getLazyComponentKey(): int
+    {
+        return $this->request()->header(static::HEADER_LAZY);
     }
 
     public function isLazyRequest(): bool
