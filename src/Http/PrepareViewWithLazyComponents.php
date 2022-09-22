@@ -19,13 +19,6 @@ class PrepareViewWithLazyComponents
 
     public function registerMacros(): self
     {
-        View::macro('clearData', function () {
-            /** @var View $this */
-            $this->data = [];
-
-            return $this;
-        });
-
         View::macro('renderWithPreparedLazyComponents', function () {
             /** @var View $this */
             $view = file_get_contents($this->getPath());
@@ -73,16 +66,17 @@ class PrepareViewWithLazyComponents
                 return;
             }
 
-            if ($view->_isSpladeLazyRendering) {
+            if ($view->_spladeIsLazyRendering) {
                 // prevent loop
                 return;
             }
 
-            $view->_isSpladeLazyRendering = true;
+            $view->_spladeIsLazyRendering = true;
 
             tap(new HtmlString($view->renderWithPreparedLazyComponents()), function ($html) use ($view) {
-                $view->clearData();
-                $view->html = $html;
+                $view->_spladeEvaluatedHtml   = $html;
+                $view->_spladeIsLazyRendering = false;
+
                 $view->setPath(
                     $view->getFactory()->getFinder()->find(ViewName::normalize('splade::html'))
                 );

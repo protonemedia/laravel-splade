@@ -1,1 +1,1 @@
-{{ $html }}
+{{ $_spladeEvaluatedHtml }}
