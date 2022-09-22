@@ -24,6 +24,7 @@ class Input extends Component
      */
     public function __construct(
         public string $name = '',
+        public string $vModel = '',
         public string $type = 'text',
         public string $label = '',
         private bool|array|string|null $date = null,

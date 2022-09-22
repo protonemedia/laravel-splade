@@ -105,12 +105,16 @@ class Form extends Component
 
     public static function allowAttribute(string $name)
     {
-        static::$allowedAttributes[static::dottedName($name)] = true;
+        if ($name) {
+            static::$allowedAttributes[static::dottedName($name)] = true;
+        }
     }
 
     public static function parseEloquentRelation(string $name)
     {
-        static::$eloquentRelations[static::dottedName($name)] = true;
+        if ($name) {
+            static::$eloquentRelations[static::dottedName($name)] = true;
+        }
     }
 
     private static function resourceShouldBeGuarded($resource): bool

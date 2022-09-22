@@ -27,6 +27,10 @@ trait InteractsWithFormElement
 
     public function formKey(): string
     {
+        if (property_exists($this, 'vModel') && $this->vModel) {
+            return Str::startsWith($this->vModel, 'form.') ? substr($this->vModel, 5) : $this->vModel;
+        }
+
         return collect(explode('.', static::dottedName($this->name)))
             ->map(function (string $segment, int $index) {
                 if ($index === 0) {
@@ -44,6 +48,10 @@ trait InteractsWithFormElement
 
     public function vueModel(): string
     {
+        if (property_exists($this, 'vModel') && $this->vModel) {
+            return $this->vModel;
+        }
+
         return "form.{$this->formKey()}";
     }
 }

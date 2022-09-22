@@ -21,6 +21,7 @@ class Select extends Component
      */
     public function __construct(
         public string $name = '',
+        public string $vModel = '',
         public $options = [],
         public string $label = '',
         public bool|string $placeholder = '',
