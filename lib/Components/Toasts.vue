@@ -1,4 +1,5 @@
 <script>
+import { TransitionRoot, TransitionChild } from "@headlessui/vue";
 import { Splade } from "../Splade.js";
 import Render from "./Render.vue";
 
@@ -42,6 +43,10 @@ export default {
             dismissToast: this.dismissToast,
             hasBackdrop: this.hasBackdrop,
             Render,
+
+            // These HeadlessUI exports will be removed in v1.0
+            TransitionRoot,
+            TransitionChild,
         });
     },
 };

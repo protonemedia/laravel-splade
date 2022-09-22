@@ -1,4 +1,10 @@
 <script>
+import {
+    Dialog,
+    DialogPanel,
+    TransitionRoot,
+    TransitionChild,
+} from "@headlessui/vue";
 import { Splade } from "../Splade.js";
 
 export default {
@@ -101,6 +107,12 @@ export default {
             cancel: this.cancel,
             confirm: this.confirm,
             emitClose: this.emitClose,
+
+            // These HeadlessUI exports will be removed in v1.0
+            Dialog,
+            DialogPanel,
+            TransitionRoot,
+            TransitionChild,
         });
     },
 };

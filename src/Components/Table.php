@@ -67,6 +67,7 @@ class Table extends Component
     {
         return view('splade::table.table', [
             'table'          => $this->for,
+            'wrapperName'    => SpladeComponent::normalize('table-wrapper'),
             'paginationView' => $this->isLengthAware() ? 'splade::table.pagination' : 'splade::table.simple-pagination',
         ]);
     }

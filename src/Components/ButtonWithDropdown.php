@@ -22,6 +22,8 @@ class ButtonWithDropdown extends Component
      */
     public function render()
     {
-        return view('splade::button-with-dropdown');
+        return view('splade::button-with-dropdown', [
+            'wrapperName' => SpladeComponent::normalize('dropdown'),
+        ]);
     }
 }

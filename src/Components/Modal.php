@@ -29,6 +29,7 @@ class Modal extends Component
                 [
                     'closeButton' => $this->closeButton,
                     'modalKey'    => $this->splade->getModalKey(),
+                    'wrapperName' => SpladeComponent::normalize('modal-wrapper'),
                 ]
             )
             : '{{ $slot }}';

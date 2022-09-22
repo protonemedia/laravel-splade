@@ -4,6 +4,7 @@ namespace ProtoneMedia\Splade\Components\Form;
 
 use Illuminate\View\Component;
 use ProtoneMedia\Splade\Components\Form;
+use ProtoneMedia\Splade\Components\SpladeComponent;
 
 class Checkboxes extends Component
 {
@@ -36,6 +37,9 @@ class Checkboxes extends Component
      */
     public function render()
     {
-        return view('splade::form.checkboxes');
+        return view('splade::form.checkboxes', [
+            'groupComponent'    => SpladeComponent::normalize('group'),
+            'checkboxComponent' => SpladeComponent::normalize('checkbox'),
+        ]);
     }
 }
