@@ -2,6 +2,11 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 0.5.2 - 2022-09-23
+
+- Better Toast TX
+- Improved styling of fixed elements
+
 ## 0.5.1 - 2022-09-23
 
 - Middleware refactor to make sure [HTTP Tests](https://laravel.com/docs/9.x/http-tests) still work.
