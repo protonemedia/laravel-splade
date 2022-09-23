@@ -43,6 +43,15 @@ class SpladeToast implements Arrayable, JsonSerializable
         return $this;
     }
 
+    private function optionalMessage(string $message): self
+    {
+        if (trim($message) === '') {
+            return $this;
+        }
+
+        return $this->message($message);
+    }
+
     public function message(string $message): self
     {
         $this->message = $message;
@@ -72,69 +81,95 @@ class SpladeToast implements Arrayable, JsonSerializable
         return $this;
     }
 
-    public function leftTop(): self
+    public function leftTop(string $message = ''): self
     {
-        return $this->position(static::POSITION_LEFT, static::POSITION_TOP);
+        return $this
+            ->optionalMessage($message)
+            ->position(static::POSITION_LEFT, static::POSITION_TOP);
     }
 
-    public function centerTop(): self
+    public function centerTop(string $message = ''): self
     {
-        return $this->position(static::POSITION_CENTER, static::POSITION_TOP);
+        return $this
+            ->optionalMessage($message)
+            ->position(static::POSITION_CENTER, static::POSITION_TOP);
     }
 
-    public function rightTop(): self
+    public function rightTop(string $message = ''): self
     {
-        return $this->position(static::POSITION_RIGHT, static::POSITION_TOP);
+        return $this
+            ->optionalMessage($message)
+            ->position(static::POSITION_RIGHT, static::POSITION_TOP);
     }
 
-    public function leftCenter(): self
+    public function leftCenter(string $message = ''): self
     {
-        return $this->position(static::POSITION_LEFT, static::POSITION_CENTER);
+        return $this
+            ->optionalMessage($message)
+            ->position(static::POSITION_LEFT, static::POSITION_CENTER);
     }
 
-    public function center(): self
+    public function center(string $message = ''): self
     {
-        return $this->position(static::POSITION_CENTER, static::POSITION_CENTER);
+        return $this
+            ->optionalMessage($message)
+            ->position(static::POSITION_CENTER, static::POSITION_CENTER);
     }
 
-    public function rightCenter(): self
+    public function rightCenter(string $message = ''): self
     {
-        return $this->position(static::POSITION_RIGHT, static::POSITION_CENTER);
+        return $this
+            ->optionalMessage($message)
+            ->position(static::POSITION_RIGHT, static::POSITION_CENTER);
     }
 
-    public function leftBottom(): self
+    public function leftBottom(string $message = ''): self
     {
-        return $this->position(static::POSITION_LEFT, static::POSITION_BOTTOM);
+        return $this
+            ->optionalMessage($message)
+            ->position(static::POSITION_LEFT, static::POSITION_BOTTOM);
     }
 
-    public function centerBottom(): self
+    public function centerBottom(string $message = ''): self
     {
-        return $this->position(static::POSITION_CENTER, static::POSITION_BOTTOM);
+        return $this
+            ->optionalMessage($message)
+            ->position(static::POSITION_CENTER, static::POSITION_BOTTOM);
     }
 
-    public function rightBottom(): self
+    public function rightBottom(string $message = ''): self
     {
-        return $this->position(static::POSITION_RIGHT, static::POSITION_BOTTOM);
+        return $this
+            ->optionalMessage($message)
+            ->position(static::POSITION_RIGHT, static::POSITION_BOTTOM);
     }
 
-    public function info(): self
+    public function info(string $message = ''): self
     {
-        return $this->style(static::STYLE_INFO);
+        return $this
+            ->optionalMessage($message)
+            ->style(static::STYLE_INFO);
     }
 
-    public function success(): self
+    public function success(string $message = ''): self
     {
-        return $this->style(static::STYLE_SUCCESS);
+        return $this
+            ->optionalMessage($message)
+            ->style(static::STYLE_SUCCESS);
     }
 
-    public function warning(): self
+    public function warning(string $message = ''): self
     {
-        return $this->style(static::STYLE_WARNING);
+        return $this
+            ->optionalMessage($message)
+            ->style(static::STYLE_WARNING);
     }
 
-    public function danger(): self
+    public function danger(string $message = ''): self
     {
-        return $this->style(static::STYLE_DANGER);
+        return $this
+            ->optionalMessage($message)
+            ->style(static::STYLE_DANGER);
     }
 
     public function style(string $style): self

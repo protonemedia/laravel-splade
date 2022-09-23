@@ -11,10 +11,10 @@
                     is="transition"
                     child
                     animation="opacity"
-                    class="fixed inset-0 bg-black/75"
+                    class="fixed z-30 inset-0 bg-black/75"
                 />
 
-                <div class="fixed z-30 inset-0 overflow-y-auto">
+                <div class="fixed z-40 inset-0 overflow-y-auto">
                     <div class="flex items-end sm:items-center justify-center min-h-full p-4 text-center sm:p-0">
                         <x-splade-component is="transition" child animation="fade" after-leave="confirm.emitClose">
                             <x-splade-component is="dialog" panel class="relative bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-lg sm:w-full sm:p-6">

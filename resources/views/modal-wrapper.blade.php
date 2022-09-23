@@ -8,10 +8,10 @@
                     is="transition" child
                     v-if="modal.stack === 1"
                     animation="opacity">
-                    <div v-show="modal.onTopOfStack" class="fixed inset-0 bg-black/75" />
+                    <div v-show="modal.onTopOfStack" class="fixed z-30 inset-0 bg-black/75" />
                 </x-splade-component>
 
-                <div v-if="modal.stack > 1 && modal.onTopOfStack" class="fixed inset-0 bg-black/75" />
+                <div v-if="modal.stack > 1 && modal.onTopOfStack" class="fixed z-30 inset-0 bg-black/75" />
 
                 {{ $slot }}
             </x-splade-component>

@@ -5,10 +5,10 @@
             animation="opacity"
             appear
             show="toasts.hasBackdrop"
-            class="fixed inset-0 bg-black/75"
+            class="fixed z-30 inset-0 bg-black/75"
         />
 
-        <div class="fixed inset-0 grid grid-cols-3 grid-flow-row-3 z-10 pointer-events-none">
+        <div class="fixed z-40 inset-0 grid grid-cols-3 grid-flow-row-3 pointer-events-none">
             <div v-for="position in toasts.positions" class="relative">
                 <div
                     :class="{

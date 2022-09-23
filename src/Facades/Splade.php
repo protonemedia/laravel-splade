@@ -22,6 +22,7 @@ use ProtoneMedia\Splade\SpladeToast;
  * @method static int getLazyComponentKey()
  * @method static mixed onInit($value)
  * @method static mixed onLazy($value)
+ * @method static self defaultToast(callable $toastFactory):
  * @method static self reset()
  * @method static self setModalKey(string $key)
  * @method static self setRootView(string $view)

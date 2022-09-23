@@ -36,6 +36,8 @@ class SpladeCore
 
     private Head $head;
 
+    private $customToastFactory;
+
     public function getRootView(): string
     {
         return $this->rootView;
@@ -91,6 +93,13 @@ class SpladeCore
         return $this;
     }
 
+    public function defaultToast(callable $toastFactory): self
+    {
+        $this->customToastFactory = $toastFactory;
+
+        return $this;
+    }
+
     public function onInit($value)
     {
         return ResolvableData::from($value)->resolveIf(!$this->isLazyRequest());
@@ -133,7 +142,17 @@ class SpladeCore
 
     public function toast(string $message = ''): SpladeToast
     {
-        return $this->toasts[] = new SpladeToast($message);
+        $newToast = new SpladeToast($message);
+
+        if ($this->customToastFactory) {
+            call_user_func($this->customToastFactory, $newToast);
+        }
+
+        if (trim($message) !== '') {
+            $newToast->message($message);
+        }
+
+        return $this->toasts[] = $newToast;
     }
 
     public static function toastOnEvent(string $message = ''): SpladeToast

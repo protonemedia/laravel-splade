@@ -1,6 +1,6 @@
 <x-splade-component is="modal-wrapper" :base-attributes="$attributes" :key="$modalKey" :close-button="$closeButton">
     <!-- Full-screen scrollable container -->
-    <div class="fixed inset-0 overflow-y-auto">
+    <div class="fixed inset-0 z-40 overflow-y-auto">
         <!-- Container to center the panel -->
         <div class="flex min-h-full items-center justify-end">
             <!-- The actual dialog panel -->
