@@ -29,7 +29,7 @@
               </svg>
             @endif
           </div>
-          <div class="ml-3 break-all">
+          <div class="ml-3 break-words">
             <h3 @class([
               'text-sm font-medium',
               'text-green-800' => $isSuccess,
