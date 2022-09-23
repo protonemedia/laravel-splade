@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 0.5.3 - 2022-09-23
+
+- Fix for lazy components without placeholder
+
 ## 0.5.2 - 2022-09-23
 
 - Better Toast TX
