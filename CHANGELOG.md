@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 0.5.1 - 2022-09-23
+
+- Middleware refactor to make sure [HTTP Tests](https://laravel.com/docs/9.x/http-tests) still work.
+
 ## 0.5.0 - 2022-09-22
 
 - Lazy Loading
