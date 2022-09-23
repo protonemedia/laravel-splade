@@ -39,7 +39,7 @@ class PrepareViewWithLazyComponents
 
                 $view = str_replace($lazyComponent, implode('', [
                     $matches[1][$key],
-                    $placeholderMatches[0][0],
+                    $placeholderMatches[0][0] ?? "",
                     $matches[3][$key],
                 ]), $view);
             });
