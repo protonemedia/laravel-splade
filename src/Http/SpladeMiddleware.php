@@ -6,9 +6,11 @@ use Closure;
 use Illuminate\Contracts\Session\Session;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response as LaravelResponse;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
+use Illuminate\View\View;
 use ProtoneMedia\Splade\SpladeCore;
 use ProtoneMedia\Splade\Ssr;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
@@ -77,39 +79,54 @@ class SpladeMiddleware
             return $response;
         }
 
-        if ($response->isSuccessful()) {
-            $originalContent = $response->getContent() ?: '';
-
-            [$content, $dynamics] = static::extractDynamicsFromContent($originalContent);
-
-            $viewData = [
-                'components' => static::renderedComponents(),
-                'html'       => $content,
-                'dynamics'   => $dynamics,
-                'splade'     => $spladeData,
-                'ssrHead'    => null,
-                'ssrBody'    => null,
-            ];
-
-            if (config('splade.ssr.enabled')) {
-                $data = $this->ssr->render(
-                    $viewData['components'],
-                    $viewData['html'],
-                    $viewData['dynamics'],
-                    $viewData['splade'],
-                );
-
-                $viewData['ssrBody'] = $data['body'] ?? null;
-            }
-
-            if (!$viewData['ssrBody'] && config('splade.ssr.blade_fallback')) {
-                $viewData['ssrBody'] = $originalContent;
-            }
-
-            return $response->setContent(
-                view($this->splade->getRootView(), $viewData)->render()
-            );
+        if (!$response->isSuccessful()) {
+            return $response;
         }
+
+        $originalContent  = $response->getContent() ?: '';
+        $originalViewData = [];
+
+        if ($response instanceof LaravelResponse && $response->getOriginalContent() instanceof View) {
+            $originalViewData = $response->getOriginalContent()->getData();
+        }
+
+        [$content, $dynamics] = static::extractDynamicsFromContent($originalContent);
+
+        $viewData = [
+            'components' => static::renderedComponents(),
+            'html'       => $content,
+            'dynamics'   => $dynamics,
+            'splade'     => $spladeData,
+            'ssrHead'    => null,
+            'ssrBody'    => null,
+        ];
+
+        if (config('splade.ssr.enabled')) {
+            $data = $this->ssr->render(
+                $viewData['components'],
+                $viewData['html'],
+                $viewData['dynamics'],
+                $viewData['splade'],
+            );
+
+            $viewData['ssrBody'] = $data['body'] ?? null;
+        }
+
+        if (!$viewData['ssrBody'] && config('splade.ssr.blade_fallback')) {
+            $viewData['ssrBody'] = $originalContent;
+        }
+
+        $wrappedView = view($this->splade->getRootView(), $viewData);
+
+        if (!$response instanceof LaravelResponse) {
+            return $response->setContent($wrappedView->render());
+        }
+
+        // this will call 'render' on the wrapped view
+        $response->setContent($wrappedView);
+
+        // restore the original data (for test assertions)
+        $wrappedView->with($originalViewData);
 
         return $response;
     }
