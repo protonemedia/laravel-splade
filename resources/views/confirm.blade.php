@@ -11,7 +11,7 @@
                     is="transition"
                     child
                     animation="opacity"
-                    class="fixed inset-0 bg-black/75"
+                    class="fixed z-10 inset-0 bg-black/75"
                 />
 
                 <div class="fixed z-30 inset-0 overflow-y-auto">
