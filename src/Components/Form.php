@@ -68,7 +68,7 @@ class Form extends Component
      * to parse it. If it can't be parsed, for example, if it's a
      * JavaScript object, then it sets the $json attribute.
      *
-     * @param mixed $default
+     * @param  mixed  $default
      * @return mixed
      */
     private function parseResource($default = null)
@@ -94,8 +94,8 @@ class Form extends Component
      * Determine whether the form attribute should be unguarded, fully guarded,
      * or whether some attributes should be guarded.
      *
-     * @param mixed $unguarded
-     * @param mixed $default
+     * @param  mixed  $unguarded
+     * @param  mixed  $default
      * @return void
      */
     private function parseUnguardedValue($unguarded = null, $default = null)
@@ -130,9 +130,9 @@ class Form extends Component
      * Is returns a boolean whether the given value is selected
      * in the select element with the given name.
      *
-     * @param string $name
-     * @param mixed $value
-     * @return boolean
+     * @param  string  $name
+     * @param  mixed  $value
+     * @return bool
      */
     public static function selected(string $name, $value): bool
     {
@@ -155,7 +155,7 @@ class Form extends Component
     /**
      * Setter to unguard everything by default.
      *
-     * @param boolean $state
+     * @param  bool  $state
      * @return void
      */
     public static function defaultUnguarded(bool $state = true)
@@ -167,7 +167,7 @@ class Form extends Component
      * Sets a Closure that takes the bound resource as an argument
      * and returns whether it should be guarded.
      *
-     * @param Closure $callback
+     * @param  Closure  $callback
      * @return void
      */
     public static function guardWhen(Closure $callback)
@@ -178,7 +178,7 @@ class Form extends Component
     /**
      * Adds the given attribute to the allowed attributes array.
      *
-     * @param string $name
+     * @param  string  $name
      * @return void
      */
     public static function allowAttribute(string $name)
@@ -191,7 +191,7 @@ class Form extends Component
     /**
      * Adds the given relation to the list of Eloquent relations that should be parsed.
      *
-     * @param string $name
+     * @param  string  $name
      * @return void
      */
     public static function parseEloquentRelation(string $name)
@@ -204,8 +204,8 @@ class Form extends Component
     /**
      * Determines whether a resource should be fully guarded.
      *
-     * @param mixed $resource
-     * @return boolean
+     * @param  mixed  $resource
+     * @return bool
      */
     private static function resourceShouldBeGuarded($resource): bool
     {

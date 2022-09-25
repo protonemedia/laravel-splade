@@ -6,7 +6,6 @@ use Illuminate\View\Component;
 
 class Teleport extends Component
 {
-
     /**
      * Get the view / contents that represent the component.
      *
