@@ -19,7 +19,7 @@ class Form extends Component
     use ParsesJsonDataAttribute;
     use InteractsWithFormElement;
 
-    public $spladeId;
+    public string $spladeId;
 
     public bool $guarded;
 
@@ -65,8 +65,8 @@ class Form extends Component
 
     /**
      * It checks whether the given value is an Eloquent Model, and it tries
-     * to parse it. If it can't be parsed, for example, if it's a
-     * JavaScript object, then it sets the $json attribute.
+     * to parse the given data. If it can't be parsed, for example, when
+     * it is a JavaScript object, then it sets the $json attribute.
      *
      * @param  mixed  $default
      * @return mixed
@@ -95,10 +95,10 @@ class Form extends Component
      * or whether some attributes should be guarded.
      *
      * @param  mixed  $unguarded
-     * @param  mixed  $default
+     * @param  mixed  $value
      * @return void
      */
-    private function parseUnguardedValue($unguarded = null, $default = null)
+    private function parseUnguardedValue($unguarded = null, $value = null)
     {
         if ($unguarded === null) {
             // Use the default configuration.
@@ -118,8 +118,8 @@ class Form extends Component
             array_map(fn ($name) => static::allowAttribute($name), $unguarded);
         }
 
-        // Lastly, check
-        if ($this->guarded && !static::resourceShouldBeGuarded($default)) {
+        // Lastly, check whether the given value should be unguarded.
+        if ($this->guarded && !static::resourceShouldBeGuarded($value)) {
             $this->guarded = false;
         }
     }
@@ -217,7 +217,7 @@ class Form extends Component
     }
 
     /**
-     * Returns an array with all allowed attributes, and sorts it by their length.
+     * Returns an array with all allowed attributes, sorted by their length.
      *
      * @return array
      */
@@ -233,6 +233,11 @@ class Form extends Component
             ->all();
     }
 
+    /**
+     * Returns the guarded data.
+     *
+     * @return object|null
+     */
     private function guardedData(): ?object
     {
         if (!$this->guarded) {
@@ -249,6 +254,7 @@ class Form extends Component
 
         $guardedData = [];
 
+        // Loop through all attributes, and add the data to the $guardedData when it exists.
         foreach (static::allowedAttributesSorted() as $attribute) {
             if (!Arr::has($rawData, $attribute)) {
                 continue;
@@ -257,45 +263,31 @@ class Form extends Component
             data_set($guardedData, $attribute, data_get($rawData, $attribute));
         }
 
-        if ($this->model) {
-            foreach (static::$eloquentRelations as $relation => $isEnabled) {
-                if (!$isEnabled) {
-                    continue;
-                }
+        if (!$this->model) {
+            return (object) $guardedData;
+        }
 
-                $key = $this->model::$snakeAttributes ? Str::snake($relation) : $relation;
-
-                data_set($guardedData, $key, $this->getAttachedKeysFromRelation($relation));
+        // If we're handling an Eloquent Model, loop through the allowed,
+        // relations, and add the attached keys to $guardedData.
+        foreach (static::$eloquentRelations as $relation => $isEnabled) {
+            if (!$isEnabled) {
+                continue;
             }
+
+            $key = $this->model::$snakeAttributes ? Str::snake($relation) : $relation;
+
+            data_set($guardedData, $key, $this->getAttachedKeysFromRelation($relation));
         }
 
         return (object) $guardedData;
     }
 
-    private function defaultData(): ?object
-    {
-        if ($this->data === null) {
-            return null;
-        }
-
-        return (object) $this->data;
-    }
-
-    public function formData(): array
-    {
-        $data = [
-            'data' => $this->guardedData() ?: $this->defaultData(),
-            'json' => $this->json,
-        ];
-
-        static::$allowedAttributes = [];
-        static::$eloquentRelations = [];
-
-        array_pop(static::$instances);
-
-        return $data;
-    }
-
+    /**
+     * Returns the attached keys from the given relationship.
+     *
+     * @param string $relationName
+     * @return array|null
+     */
     private function getAttachedKeysFromRelation(string $relationName): ?array
     {
         $relation = $this->model->{$relationName}();
@@ -319,6 +311,42 @@ class Form extends Component
         }
 
         return [];
+    }
+
+    /**
+     * Returns the default data object, when set.
+     *
+     * @return object|null
+     */
+    private function defaultData(): ?object
+    {
+        if ($this->data === null) {
+            return null;
+        }
+
+        return (object) $this->data;
+    }
+
+    /**
+     * This is data that will be passed to the Vue component. We include
+     * both the parsed data, as well as the raw json data, in case
+     * there's no parsed data. Then we reset the static arrays.
+     *
+     * @return array
+     */
+    public function formData(): array
+    {
+        $data = [
+            'data' => $this->guardedData() ?: $this->defaultData(),
+            'json' => $this->json,
+        ];
+
+        static::$allowedAttributes = [];
+        static::$eloquentRelations = [];
+
+        array_pop(static::$instances);
+
+        return $data;
     }
 
     /**

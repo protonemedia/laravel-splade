@@ -6,7 +6,14 @@ use Illuminate\Support\Str;
 
 trait InteractsWithFormElement
 {
-    protected static function convertBracketsToDots($name): string
+    /**
+     * Transforms a bracket notation to a dot notation.
+     * Example: form[name] to form.name
+     *
+     * @param string $name
+     * @return string
+     */
+    protected static function transformBracketsToDots(string $name): string
     {
         return str_replace(['[', ']'], ['.', ''], $name);
     }
@@ -22,7 +29,7 @@ trait InteractsWithFormElement
 
     public static function dottedName(string $name): string
     {
-        return static::convertBracketsToDots(Str::before($name, '[]'));
+        return static::transformBracketsToDots(Str::before($name, '[]'));
     }
 
     public function formKey(): string
