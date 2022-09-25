@@ -40,8 +40,8 @@ class SpladeTable
     /**
      * Creates a new instance.
      *
-     * @param mixed $resource
-     * @param \Illuminate\Http\Request|null $request
+     * @param  mixed  $resource
+     * @param  \Illuminate\Http\Request|null  $request
      */
     public function __construct($resource, Request $request = null)
     {
@@ -64,7 +64,7 @@ class SpladeTable
     /**
      * Helper method to create a new instance.
      *
-     * @param mixed $resource
+     * @param  mixed  $resource
      * @return static
      */
     public static function for($resource): static
@@ -161,7 +161,7 @@ class SpladeTable
      * Setter for the row-link callable that will be called for
      * every row in the data set to determine the target URL.
      *
-     * @param callable $callback
+     * @param  callable  $callback
      * @return self
      */
     public function rowLink(callable $callback): self
@@ -178,7 +178,7 @@ class SpladeTable
     /**
      * Returns a boolean whether the data set should be sorted.
      *
-     * @return boolean
+     * @return bool
      */
     public function isSorted(): bool
     {
@@ -188,7 +188,7 @@ class SpladeTable
     /**
      * Resolves the current page from the request.
      *
-     * @return integer
+     * @return int
      */
     public function page(): int
     {
@@ -198,7 +198,7 @@ class SpladeTable
     /**
      * Determine how many items are being shown per page.
      *
-     * @return integer
+     * @return int
      */
     public function perPage(): int
     {
@@ -226,7 +226,7 @@ class SpladeTable
     /**
      * Setter for the default sort key.
      *
-     * @param string $defaultSort
+     * @param  string  $defaultSort
      * @return self
      */
     public function defaultSort(string $defaultSort): self
@@ -239,12 +239,12 @@ class SpladeTable
     /**
      * Adds a new column to the table.
      *
-     * @param string|null $key
-     * @param string|null $label
-     * @param boolean|null|null $canBeHidden
-     * @param boolean $hidden
-     * @param boolean $sortable
-     * @param boolean $searchable
+     * @param  string|null  $key
+     * @param  string|null  $label
+     * @param  bool|null|null  $canBeHidden
+     * @param  bool  $hidden
+     * @param  bool  $sortable
+     * @param  bool  $searchable
      * @return self
      */
     public function column(
@@ -339,7 +339,7 @@ class SpladeTable
     /**
      * Returns all Search Inputs, or finds on when $key is not empty.
      *
-     * @param string|null $key
+     * @param  string|null  $key
      * @return \Illuminate\Support\Collection|\ProtoneMedia\Splade\Table\SearchInput|null
      */
     public function searchInputs(string $key = null): Collection|SearchInput|null
@@ -429,7 +429,7 @@ class SpladeTable
     /**
      * Returns a boolean whether the request query has a 'perPage' item.
      *
-     * @return boolean
+     * @return bool
      */
     public function hasPerPageQuery(): bool
     {
@@ -439,7 +439,7 @@ class SpladeTable
     /**
      * Returns a boolean whether this table has filters.
      *
-     * @return boolean
+     * @return bool
      */
     public function hasFilters(): bool
     {
@@ -449,7 +449,7 @@ class SpladeTable
     /**
      * Returns a boolean whether this table has filters enabled.
      *
-     * @return boolean
+     * @return bool
      */
     public function hasFiltersEnabled(): bool
     {
@@ -459,7 +459,7 @@ class SpladeTable
     /**
      * Returns a boolean whether this table has search filters.
      *
-     * @return boolean
+     * @return bool
      */
     public function hasSearchFiltersEnabled(): bool
     {
@@ -469,7 +469,7 @@ class SpladeTable
     /**
      * Return a boolean whether this table has toggleable columns.
      *
-     * @return boolean
+     * @return bool
      */
     public function hasToggleableColumns(): bool
     {
@@ -481,7 +481,7 @@ class SpladeTable
     /**
      * Returns a boolean whether this table has toggleable search input.
      *
-     * @return boolean
+     * @return bool
      */
     public function hasToggleableSearchInputs(): bool
     {
