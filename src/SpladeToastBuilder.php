@@ -8,10 +8,23 @@ class SpladeToastBuilder
 {
     use ForwardsCalls;
 
-    public function __construct(private SpladeCore $splade)
-    {
+    /**
+     * Creates a new instance.
+     *
+     * @param  \ProtoneMedia\Splade\SpladeCore  $splade
+     */
+    public function __construct(
+        private SpladeCore $splade
+    ) {
     }
 
+    /**
+     * Forwards all calls the a new Toast.
+     *
+     * @param  string  $method
+     * @param  array  $parameters
+     * @return \ProtoneMedia\Splade\SpladeToast
+     */
     public function __call($method, $parameters)
     {
         return $this->forwardCallTo(

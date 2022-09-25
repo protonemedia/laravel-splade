@@ -38,11 +38,32 @@ class SpladeCore
 
     private $customToastFactory;
 
+    /**
+     * Creates an instance.
+     *
+     * @param  Closure  $requestResolver
+     */
+    public function __construct(private $requestResolver)
+    {
+        $this->head = new Head;
+    }
+
+    /**
+     * Returns the root view that's used on the initial request to wrap the content.
+     *
+     * @return string
+     */
     public function getRootView(): string
     {
         return $this->rootView;
     }
 
+    /**
+     * Setter for the root view.
+     *
+     * @param  string  $view
+     * @return self
+     */
     public function setRootView(string $view): self
     {
         $this->rootView = $view;
@@ -50,6 +71,11 @@ class SpladeCore
         return $this;
     }
 
+    /**
+     * Resets the Modal Key, shared data and toasts.
+     *
+     * @return self
+     */
     public function reset(): self
     {
         $this->modalKey = null;
@@ -59,33 +85,42 @@ class SpladeCore
         return $this;
     }
 
-    public function __construct(private $requestResolver)
+    /**
+     * Getter for the Head instance.
+     *
+     * @return \ProtoneMedia\Splade\Head
+     */
+    public function head(): Head
     {
-        $this->head = new Head;
+        return $this->head;
     }
 
+    /**
+     * Resolves the Request instance from the callable.
+     *
+     * @return \Illuminate\Http\Request
+     */
     private function request(): Request
     {
         return call_user_func($this->requestResolver);
     }
 
+    /**
+     * Returns the Modal Key.
+     *
+     * @return string
+     */
     public function getModalKey(): string
     {
         return $this->modalKey;
     }
 
-    public function newLazyComponentKey(): string
-    {
-        return $this->lazyComponents++;
-    }
-
-    public function resetLazyComponentCounter(): self
-    {
-        $this->lazyComponents = 0;
-
-        return $this;
-    }
-
+    /**
+     * Setter for the Modal Key.
+     *
+     * @param  string  $key
+     * @return self
+     */
     public function setModalKey(string $key): self
     {
         $this->modalKey = $key;
@@ -93,6 +128,34 @@ class SpladeCore
         return $this;
     }
 
+    /**
+     * Increases the amount of Lazy Components and returns the latest key.
+     *
+     * @return string
+     */
+    public function newLazyComponentKey(): string
+    {
+        return $this->lazyComponents++;
+    }
+
+    /**
+     * Resets the Lazy Components counter.
+     *
+     * @return self
+     */
+    public function resetLazyComponentCounter(): self
+    {
+        $this->lazyComponents = 0;
+
+        return $this;
+    }
+
+    /**
+     * Sets a callable that defines how a default Toast.
+     *
+     * @param  callable  $toastFactory
+     * @return self
+     */
     public function defaultToast(callable $toastFactory): self
     {
         $this->customToastFactory = $toastFactory;
@@ -100,26 +163,76 @@ class SpladeCore
         return $this;
     }
 
+    /**
+     * Resolves the given value if this the initial request.
+     *
+     * @param  mixed  $value
+     * @return mixed
+     */
     public function onInit($value)
     {
         return ResolvableData::from($value)->resolveIf(!$this->isLazyRequest());
     }
 
+    /**
+     * Resolves the given value if this a =Splade request.
+     *
+     * @param  mixed  $value
+     * @return mixed
+     */
     public function onLazy($value)
     {
         return ResolvableData::from($value)->resolveIf($this->isLazyRequest());
     }
 
+    /**
+     * Returns a new EventRefresh instance.
+     *
+     * @return \ProtoneMedia\Splade\EventRefresh
+     */
     public static function refreshOnEvent(): EventRefresh
     {
         return new EventRefresh;
     }
 
+    /**
+     * Returns a new EventRedirectFactory instance.
+     *
+     * @return \ProtoneMedia\Splade\EventRedirectFactory
+     */
     public static function redirectOnEvent(): EventRedirectFactory
     {
         return app(EventRedirectFactory::class);
     }
 
+    /**
+     * Returns a new instance of the ToastBuilder.
+     *
+     * @return \ProtoneMedia\Splade\SpladeToastBuilder
+     */
+    public function toastBuilder(): SpladeToastBuilder
+    {
+        return new SpladeToastBuilder($this);
+    }
+
+    /**
+     * Returns a new SpladeToast instance
+     *
+     * @param  string  $message
+     * @return \ProtoneMedia\Splade\SpladeToast
+     */
+    public static function toastOnEvent(string $message = ''): SpladeToast
+    {
+        return new SpladeToast($message);
+    }
+
+    /**
+     * Returns a Closure that prevents generating a response from
+     * a ValidationExceptions when this is a Splade request.
+     *
+     * @param  \Illuminate\Foundation\Exceptions\Handler  $exceptionHandler
+     * @return Closure
+     */
     public static function exceptionHandler(Handler $exceptionHandler): Closure
     {
         return Closure::bind(function (Throwable $e, $request) {
@@ -130,16 +243,13 @@ class SpladeCore
         }, $exceptionHandler, get_class($exceptionHandler));
     }
 
-    public function toastBuilder(): SpladeToastBuilder
-    {
-        return new SpladeToastBuilder($this);
-    }
-
-    public function head(): Head
-    {
-        return $this->head;
-    }
-
+    /**
+     * Returns a new SpladeToast instance, optionally with the given message
+     * if it isn't empty, and it uses the custom toast factory if set.
+     *
+     * @param  string  $message
+     * @return \ProtoneMedia\Splade\SpladeToast
+     */
     public function toast(string $message = ''): SpladeToast
     {
         $newToast = new SpladeToast($message);
@@ -155,54 +265,97 @@ class SpladeCore
         return $this->toasts[] = $newToast;
     }
 
-    public static function toastOnEvent(string $message = ''): SpladeToast
-    {
-        return new SpladeToast($message);
-    }
-
+    /**
+     * Getter for the Shared Data.
+     *
+     * @return array
+     */
     public function getShared(): array
     {
         return $this->shared;
     }
 
-    public function getToasts(): array
-    {
-        return $this->toasts;
-    }
-
-    public function share($key, $value): self
+    /**
+     * Sets data on the shared data array.
+     *
+     * @param  string  $key
+     * @param  mixed  $value
+     * @return self
+     */
+    public function share(string $key, $value): self
     {
         Arr::set($this->shared, $key, value($value));
 
         return $this;
     }
 
+    /**
+     * Getter for the toasts.
+     *
+     * @return array
+     */
+    public function getToasts(): array
+    {
+        return $this->toasts;
+    }
+
+    /**
+     * Returns a boolean whether this is a Splade request.
+     *
+     * @return bool
+     */
     public function isSpladeRequest(): bool
     {
         return $this->request()->hasHeader(static::HEADER_SPLADE);
     }
 
+    /**
+     * Returns a boolean whether this is a Modal request.
+     *
+     * @return bool
+     */
     public function isModalRequest(): bool
     {
         return $this->request()->hasHeader(static::HEADER_MODAL);
     }
 
-    public function getLazyComponentKey(): int
-    {
-        return $this->request()->header(static::HEADER_LAZY);
-    }
-
-    public function isLazyRequest(): bool
-    {
-        return $this->request()->hasHeader(static::HEADER_LAZY);
-    }
-
+    /**
+     * Returns a boolean whether the response should prevent a
+     * page request on the front end.
+     *
+     * @return bool
+     */
     public function dontRefreshPage(): bool
     {
         return $this->request()->hasHeader(static::HEADER_PREVENT_REFRESH);
     }
 
-    public function modalType(): string
+    /**
+     * Returns a boolean whether this is a Lazy request.
+     *
+     * @return bool
+     */
+    public function isLazyRequest(): bool
+    {
+        return $this->request()->hasHeader(static::HEADER_LAZY);
+    }
+
+    /**
+     * Retrieves the Lazy Component key from the request header.
+     *
+     * @return int
+     */
+    public function getLazyComponentKey(): int
+    {
+        return $this->request()->header(static::HEADER_LAZY);
+    }
+
+    /**
+     * Returns the Modal type from the request <header class=""></header>
+     *
+     * @return string
+     */
+    public function getModalType(): string
     {
         return match ($this->request()->header(static::HEADER_MODAL)) {
             'slideover' => static::MODAL_TYPE_SLIDEOVER,

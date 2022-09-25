@@ -15,23 +15,46 @@ class EventRedirect implements Arrayable, JsonSerializable
 
     private array $with = [];
 
+    /**
+     * Creates a new instance with a fresh UUID.
+     *
+     * @param  string  $target
+     */
     public function __construct(private string $target)
     {
         $this->uuid = Str::uuid()->toString();
         $this->update();
     }
 
+    /**
+     * Returns an array with the 'splade.redirect' key and a Signed URL
+     * that will eventually redirect to the target.
+     *
+     * @return void
+     */
     public function toArray()
     {
         return ['splade.redirect' => $this->signedUrl()];
     }
 
+    /**
+     * Returns the same array, but this method is called when broadcasting.
+     *
+     * @return array
+     */
     public function jsonSerialize(): mixed
     {
         return $this->toArray();
     }
 
-    public function with($key, $value): self
+    /**
+     * Setter for additional data.
+     *
+     * @param  string  $key
+     * @param  mixed  $value
+     * @return self
+     */
+    public function with(string $key, $value): self
     {
         Arr::set($this->with, $key, value($value));
 
@@ -40,17 +63,33 @@ class EventRedirect implements Arrayable, JsonSerializable
         return $this;
     }
 
+    /**
+     * Puts the data in the Cache repository for 30 seconds.
+     *
+     * @return void
+     */
     private function update()
     {
         Cache::put(static::class . $this->uuid, $this->data(), 30);
     }
 
-    public function signedUrl()
+    /**
+     * Generates a Signed URL to the 'splade.eventRedirect' route
+     * that will eventually redirect to the actual target.
+     *
+     * @return string
+     */
+    public function signedUrl(): string
     {
         return URL::signedRoute('splade.eventRedirect', ['uuid' => $this->uuid]);
     }
 
-    public function data()
+    /**
+     * Returns an array with all data.
+     *
+     * @return array
+     */
+    public function data(): array
     {
         return [
             'uuid'   => $this->uuid,

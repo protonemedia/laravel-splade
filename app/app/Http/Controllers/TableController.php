@@ -19,6 +19,20 @@ class TableController
         ]);
     }
 
+    public function noPerPage()
+    {
+        $users = User::query()->orderBy('name')->paginate(10);
+
+        SpladeTable::defaultPerPageOptions([10]);
+
+        return view('table.users', [
+            'users' => SpladeTable::for($users)
+                ->column('name')
+                ->column('email')
+                ->column('actions'),
+        ]);
+    }
+
     public function rowLink()
     {
         $users = User::query()->orderBy('name')->paginate(10);

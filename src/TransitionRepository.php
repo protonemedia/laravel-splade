@@ -6,10 +6,12 @@ class TransitionRepository
 {
     private $animations = [];
 
-    public function __construct()
-    {
-    }
-
+    /**
+     * Adds an animation to this repository.
+     *
+     * @param  \ProtoneMedia\Splade\TransitionAnimation  $transitionAnimation
+     * @return self
+     */
     public function add(TransitionAnimation $transitionAnimation): self
     {
         $this->animations[$transitionAnimation->getName()] = $transitionAnimation;
@@ -17,6 +19,18 @@ class TransitionRepository
         return $this;
     }
 
+    /**
+     * Instantiates a new animations and adds it.
+     *
+     * @param  string  $name
+     * @param  string  $enter
+     * @param  string  $enterFrom
+     * @param  string  $enterTo
+     * @param  string  $leave
+     * @param  string  $leaveFrom
+     * @param  string  $leaveTo
+     * @return self
+     */
     public function new(
         string $name,
         string $enter,
@@ -31,11 +45,22 @@ class TransitionRepository
         );
     }
 
-    public function get($name): TransitionAnimation
+    /**
+     * Returns the animation with the given name.
+     *
+     * @param  string  $name
+     * @return \ProtoneMedia\Splade\TransitionAnimation
+     */
+    public function get(string $name): TransitionAnimation
     {
         return $this->animations[$name];
     }
 
+    /**
+     * Gathers all used classes in all animations and returns them as an array.
+     *
+     * @return array
+     */
     public function classes(): array
     {
         return collect($this->animations)->flatMap(function (TransitionAnimation $transitionAnimation) {

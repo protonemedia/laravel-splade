@@ -14,6 +14,13 @@ class SpladeInstallCommand extends Command
 
     public $description = 'Install the Splade components and resources';
 
+    /**
+     * Installs the Splade Route Middleware, the Exception Handler, the
+     * required NPM packages and copies all boilerplate files into
+     * the application.
+     *
+     * @return int
+     */
     public function handle(): int
     {
         $this->installRouteMiddleware();
@@ -84,6 +91,11 @@ class SpladeInstallCommand extends Command
         return windows_os() ? "\n" : PHP_EOL;
     }
 
+    /**
+     * Adds the SSR build step to the 'build' command.
+     *
+     * @return void
+     */
     protected function updateNodeScript()
     {
         if (!file_exists(base_path('package.json'))) {
@@ -99,7 +111,7 @@ class SpladeInstallCommand extends Command
     }
 
     /**
-     * Update the "package.json" file.
+     * Updates the "package.json" file.
      *
      * @param  callable  $callback
      * @param  bool  $dev

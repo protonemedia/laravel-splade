@@ -11,6 +11,12 @@ class PublishFormStylesheetsCommand extends Command
 
     public $description = 'Publish the stylesheets for Choices.js and Flatpickr';
 
+    /**
+     * Publishes the stylesheets for the Choices.js and
+     * Flatpickr integrations into the app's resources/css folder.
+     *
+     * @return int
+     */
     public function handle(): int
     {
         (new Filesystem)->ensureDirectoryExists(resource_path('css'));

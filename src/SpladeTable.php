@@ -15,7 +15,7 @@ class SpladeTable
 {
     private string $name = 'default';
 
-    private array $perPageOptions = [15, 30, 50, 100];
+    private array $perPageOptions = [];
 
     public $resource;
 
@@ -35,6 +35,14 @@ class SpladeTable
 
     private static bool|string $defaultGlobalSearch = false;
 
+    private static array $defaultPerPageOptions = [15, 30, 50, 100];
+
+    /**
+     * Creates a new instance.
+     *
+     * @param  mixed  $resource
+     * @param  \Illuminate\Http\Request|null  $request
+     */
     public function __construct($resource, Request $request = null)
     {
         $this->request = $request ?: request();
@@ -49,6 +57,19 @@ class SpladeTable
         if (static::$defaultGlobalSearch !== false) {
             $this->withGlobalSearch(static::$defaultGlobalSearch);
         }
+
+        $this->perPageOptions(static::$defaultPerPageOptions);
+    }
+
+    /**
+     * Helper method to create a new instance.
+     *
+     * @param  mixed  $resource
+     * @return static
+     */
+    public static function for($resource): static
+    {
+        return new static($resource);
     }
 
     /**
@@ -93,6 +114,17 @@ class SpladeTable
     }
 
     /**
+     * Set a default for the per page options.
+     *
+     * @param  array  $perPageOptions
+     * @return void
+     */
+    public static function defaultPerPageOptions(array $perPageOptions)
+    {
+        static::$defaultPerPageOptions = $perPageOptions;
+    }
+
+    /**
      * Set a default for global search.
      *
      * @param  bool|string  $label
@@ -125,6 +157,13 @@ class SpladeTable
         return $this->searchInput('global', $label ?: __('Search...'));
     }
 
+    /**
+     * Setter for the row-link callable that will be called for
+     * every row in the data set to determine the target URL.
+     *
+     * @param  callable  $callback
+     * @return self
+     */
     public function rowLink(callable $callback): self
     {
         $collection = $this->resource instanceof LengthAwarePaginator
@@ -136,16 +175,31 @@ class SpladeTable
         return $this;
     }
 
+    /**
+     * Returns a boolean whether the data set should be sorted.
+     *
+     * @return bool
+     */
     public function isSorted(): bool
     {
         return $this->request->query('sort') ? true : false;
     }
 
+    /**
+     * Resolves the current page from the request.
+     *
+     * @return int
+     */
     public function page(): int
     {
         return Paginator::resolveCurrentPage();
     }
 
+    /**
+     * Determine how many items are being shown per page.
+     *
+     * @return int
+     */
     public function perPage(): int
     {
         if ($this->resource instanceof LengthAwarePaginator) {
@@ -155,6 +209,11 @@ class SpladeTable
         return count($this->resource);
     }
 
+    /**
+     * Returns an array with all 'per page' amount options.
+     *
+     * @return array
+     */
     public function allPerPageOptions(): array
     {
         return collect($this->perPageOptions)
@@ -164,6 +223,12 @@ class SpladeTable
             ->all();
     }
 
+    /**
+     * Setter for the default sort key.
+     *
+     * @param  string  $defaultSort
+     * @return self
+     */
     public function defaultSort(string $defaultSort): self
     {
         $this->defaultSort = $defaultSort;
@@ -171,6 +236,17 @@ class SpladeTable
         return $this;
     }
 
+    /**
+     * Adds a new column to the table.
+     *
+     * @param  string|null  $key
+     * @param  string|null  $label
+     * @param  bool|null|null  $canBeHidden
+     * @param  bool  $hidden
+     * @param  bool  $sortable
+     * @param  bool  $searchable
+     * @return self
+     */
     public function column(
         string $key = null,
         string $label = null,
@@ -182,7 +258,9 @@ class SpladeTable
         $key   = $key ?: Str::kebab($label);
         $label = $label ?: Str::headline($key);
 
-        $canBeHidden = is_bool($canBeHidden) ? $canBeHidden : static::$defaultColumnCanBeHidden;
+        $canBeHidden = is_bool($canBeHidden)
+            ? $canBeHidden
+            : static::$defaultColumnCanBeHidden;
 
         $this->columns = $this->columns->reject(function (Column $column) use ($key) {
             return $column->key === $key;
@@ -203,7 +281,7 @@ class SpladeTable
     }
 
     /**
-     * Add a search input to query builder.
+     * Add a search input to the table.
      *
      * @param  string  $key
      * @param  string|null  $label
@@ -223,7 +301,13 @@ class SpladeTable
         return $this;
     }
 
-    public function columns()
+    /**
+     * Returns a coolean with all columns, and applies the
+     * data from the request query to each column.
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public function columns(): Collection
     {
         return $this->columns->map(function (Column $column) {
             $cloned = $column->clone();
@@ -253,6 +337,9 @@ class SpladeTable
     }
 
     /**
+     * Returns all Search Inputs, or finds on when $key is not empty.
+     *
+     * @param  string|null  $key
      * @return \Illuminate\Support\Collection|\ProtoneMedia\Splade\Table\SearchInput|null
      */
     public function searchInputs(string $key = null): Collection|SearchInput|null
@@ -262,6 +349,7 @@ class SpladeTable
         $searchInputs = $this->searchInputs->map->clone()->keyBy->key;
 
         if (!empty($filters)) {
+            // Apply the input value from the request query.
             $searchInputs->each(function (SearchInput $searchInput) use ($filters) {
                 if (array_key_exists($searchInput->key, $filters)) {
                     $searchInput->value = $filters[$searchInput->key];
@@ -301,6 +389,9 @@ class SpladeTable
     }
 
     /**
+     * Returns a collection with all filters, and applies
+     * the data from the request query on each of them.
+     *
      * @return \Illuminate\Support\Collection
      */
     public function filters(): Collection
@@ -320,6 +411,11 @@ class SpladeTable
         return $filters;
     }
 
+    /**
+     * Returns an array with all columns that are visible by default.
+     *
+     * @return array
+     */
     public function defaultVisibleToggleableColumns(): array
     {
         return $this->columns
@@ -330,26 +426,51 @@ class SpladeTable
             ->all();
     }
 
+    /**
+     * Returns a boolean whether the request query has a 'perPage' item.
+     *
+     * @return bool
+     */
     public function hasPerPageQuery(): bool
     {
         return $this->request->query('perPage') !== null;
     }
 
+    /**
+     * Returns a boolean whether this table has filters.
+     *
+     * @return bool
+     */
     public function hasFilters(): bool
     {
         return $this->filters->isNotEmpty();
     }
 
+    /**
+     * Returns a boolean whether this table has filters enabled.
+     *
+     * @return bool
+     */
     public function hasFiltersEnabled(): bool
     {
         return $this->filters()->filter->value->isNotEmpty();
     }
 
+    /**
+     * Returns a boolean whether this table has search filters.
+     *
+     * @return bool
+     */
     public function hasSearchFiltersEnabled(): bool
     {
         return $this->searchInputs()->filter->value->isNotEmpty();
     }
 
+    /**
+     * Return a boolean whether this table has toggleable columns.
+     *
+     * @return bool
+     */
     public function hasToggleableColumns(): bool
     {
         return $this->columns
@@ -357,15 +478,15 @@ class SpladeTable
             ->isNotEmpty();
     }
 
+    /**
+     * Returns a boolean whether this table has toggleable search input.
+     *
+     * @return bool
+     */
     public function hasToggleableSearchInputs(): bool
     {
         return $this->searchInputs
             ->reject(fn (SearchInput $searchInput) => $searchInput->key === 'global')
             ->isNotEmpty();
-    }
-
-    public static function for($resource): static
-    {
-        return new static($resource);
     }
 }

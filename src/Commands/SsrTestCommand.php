@@ -13,6 +13,11 @@ class SsrTestCommand extends Command
 
     public $description = 'Test the SSR server';
 
+    /**
+     * Sends a request to the SSR servers and verifies that it rendered correctly.
+     *
+     * @return int
+     */
     public function handle(): int
     {
         $this->info('Testing SSR server: ' . config('splade.ssr.server'));

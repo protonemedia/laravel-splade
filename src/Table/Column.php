@@ -6,6 +6,16 @@ use Illuminate\Contracts\Support\Arrayable;
 
 class Column implements Arrayable
 {
+    /**
+     * This class represents a column within a Splade Table.
+     *
+     * @param  string  $key
+     * @param  string  $label
+     * @param  bool  $canBeHidden
+     * @param  bool  $hidden
+     * @param  bool  $sortable
+     * @param  bool|string  $sorted
+     */
     public function __construct(
         public string $key,
         public string $label,
@@ -16,6 +26,11 @@ class Column implements Arrayable
     ) {
     }
 
+    /**
+     * Returns a clone of the instance.
+     *
+     * @return static
+     */
     public function clone(): static
     {
         return new static(
@@ -28,6 +43,11 @@ class Column implements Arrayable
         );
     }
 
+    /**
+     * Returns an array with all properties.
+     *
+     * @return array
+     */
     public function toArray()
     {
         return [

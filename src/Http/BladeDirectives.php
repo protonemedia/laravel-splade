@@ -6,6 +6,11 @@ use Illuminate\Support\Facades\Blade;
 
 class BladeDirectives
 {
+    /**
+     * Registers the Blade @splade, @spladeHead, and @cell directives.
+     *
+     * @return void
+     */
     public function registerHandlers()
     {
         Blade::directive('splade', [$this, 'splade']);
@@ -14,7 +19,13 @@ class BladeDirectives
         $this->registerTableCellDirective();
     }
 
-    public function splade($expression = '')
+    /**
+     * Returns a template with the main app element and all required Splade attributes.
+     *
+     * @param  string  $expression
+     * @return string
+     */
+    public function splade($expression = ''): string
     {
         $id = trim(trim($expression), "\'\"") ?: 'app';
 
@@ -25,12 +36,25 @@ class BladeDirectives
         return implode(PHP_EOL, $template);
     }
 
-    public function spladeHead()
+    /**
+     * Returns a template that eventually renders the Splade SEO Head.
+     *
+     * @return string
+     */
+    public function spladeHead(): string
     {
         return '{{ app(\'laravel-splade-seo\')->renderHead() }}';
     }
 
-    public static function parseTableCellDirectiveExpression($expression): array
+    /**
+     * Parses the expression given to the Table Cell directive. It returns
+     * an array containing the name of the cell, and the callback
+     * function that's used to render the contents of the cell.
+     *
+     * @param  string  $expression
+     * @return array
+     */
+    public static function parseTableCellDirectiveExpression(string $expression): array
     {
         preg_match("/('|\")(\w+)('|\")(,)(\s*)(.*)/", $expression, $matches);
 
@@ -51,6 +75,11 @@ class BladeDirectives
         return [$name, $function];
     }
 
+    /**
+     * Registers the Blade @cell directive.
+     *
+     * @return void
+     */
     public function registerTableCellDirective()
     {
         $cellDirectiveName = config('splade.blade.table_cell_directive');

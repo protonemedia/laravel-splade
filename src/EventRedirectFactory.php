@@ -21,10 +21,25 @@ use Illuminate\Routing\Redirector;
  */
 class EventRedirectFactory
 {
-    public function __construct(private Redirector $redirector)
-    {
+    /**
+     * Creates an instance.
+     *
+     * @param  Redirector  $redirector
+     */
+    public function __construct(
+        private Redirector $redirector
+    ) {
     }
 
+    /**
+     * Forwards all calls to the Redirector, which will genereate
+     * a RedirectResponse. Then we grab the Target URL from the
+     * it and return a EventRedirect instance with the URL.
+     *
+     * @param  string  $method
+     * @param  array  $parameters
+     * @return \ProtoneMedia\Splade\EventRedirect
+     */
     public function __call($method, $parameters): EventRedirect
     {
         /** @var RedirectResponse $response */
