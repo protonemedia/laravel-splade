@@ -30,7 +30,7 @@
             </x-splade-component>
 
             @if($isPaginated())
-                {{ $table->resource->links($paginationView, ['table' => $table]) }}
+                {{ $table->resource->links($paginationView, ['table' => $table, 'hasPerPageOptions' => $hasPerPageOptions()]) }}
             @endif
         </div>
     </template>

@@ -10,7 +10,7 @@
         </Link>
     @endif
 
-    @include('splade::table.per-page-selector')
+    @includeWhen($hasPerPageOptions ?? true, 'splade::table.per-page-selector')
 
     {{-- Next Page Link --}}
     @if ($paginator->hasMorePages())

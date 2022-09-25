@@ -8,13 +8,6 @@ use Tests\DuskTestCase;
 
 class PaginationTest extends DuskTestCase
 {
-    public function fullUrls()
-    {
-        return [
-            ['/table/users/eloquent'],
-        ];
-    }
-
     public function simpleUrls()
     {
         return [
@@ -23,17 +16,16 @@ class PaginationTest extends DuskTestCase
         ];
     }
 
-    /**
-     * @test
-     * @dataProvider fullUrls
-     */
-    public function it_generates_a_paginator_with_links($url)
+    /** @test */
+    public function it_generates_a_paginator_with_links()
     {
-        $this->browse(function (Browser $browser) use ($url) {
+        $this->browse(function (Browser $browser) {
             $users = User::query()
                 ->select(['id', 'name'])
                 ->orderBy('name')
                 ->get();
+
+            $url = '/table/users/eloquent';
 
             $browser
                 ->visit($url)
@@ -83,6 +75,22 @@ class PaginationTest extends DuskTestCase
                 ->waitUntilMissingText($users->get(99)->name)
                 ->assertSeeIn('tr:first-child td:nth-child(1)', $users->get(80)->name)
                 ->assertSeeIn('tr:last-child td:nth-child(1)', $users->get(89)->name);
+        });
+    }
+
+    /** @test */
+    public function it_disabled_the_per_page_selection_on_less_than_two_options()
+    {
+        $this->browse(function (Browser $browser) {
+            $users = User::query()
+                ->select(['id', 'name'])
+                ->orderBy('name')
+                ->get();
+
+            $browser->visit('/table/noPerPage')
+                ->resize(1920, 1080)
+                ->assertSeeIn('tr:first-child td:nth-child(1)', $users->get(0)->name)
+                ->assertMissing('select[name="per_page"]');
         });
     }
 

@@ -171,6 +171,7 @@ Route::middleware('splade')->group(function () {
     Route::prefix('table')->group(function () {
         $table = new UserTableView;
 
+        Route::get('/noPerPage', [TableController::class, 'noPerPage'])->name('table.noPerPage');
         Route::get('/custom', [TableController::class, 'custom'])->name('table.custom');
         Route::get('/rowLink', [TableController::class, 'rowLink'])->name('table.rowLink');
 

@@ -19,6 +19,11 @@ class Table extends Component
     {
     }
 
+    public function hasPerPageOptions(): bool
+    {
+        return count($this->for->allPerPageOptions()) > 1;
+    }
+
     public function isPaginated(): bool
     {
         return $this->for->resource instanceof Paginator

@@ -15,7 +15,7 @@ class SpladeTable
 {
     private string $name = 'default';
 
-    private array $perPageOptions = [15, 30, 50, 100];
+    private array $perPageOptions = [];
 
     public $resource;
 
@@ -34,6 +34,8 @@ class SpladeTable
     private static bool $defaultColumnCanBeHidden = true;
 
     private static bool|string $defaultGlobalSearch = false;
+
+    private static array $defaultPerPageOptions = [15, 30, 50, 100];
 
     /**
      * Creates a new instance.
@@ -55,6 +57,8 @@ class SpladeTable
         if (static::$defaultGlobalSearch !== false) {
             $this->withGlobalSearch(static::$defaultGlobalSearch);
         }
+
+        $this->perPageOptions(static::$defaultPerPageOptions);
     }
 
     /**
@@ -107,6 +111,17 @@ class SpladeTable
         $this->perPageOptions = $perPageOptions;
 
         return $this;
+    }
+
+    /**
+     * Set a default for the per page options.
+     *
+     * @param array $perPageOptions
+     * @return void
+     */
+    public static function defaultPerPageOptions(array $perPageOptions)
+    {
+        static::$defaultPerPageOptions = $perPageOptions;
     }
 
     /**
