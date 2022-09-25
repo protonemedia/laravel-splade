@@ -12,8 +12,10 @@ class Toast extends Component
      *
      * @return void
      */
-    public function __construct(public SpladeToast $toast, public string $scope = 'toast')
-    {
+    public function __construct(
+        public SpladeToast $toast,
+        public string $scope = 'toast'
+    ) {
     }
 
     /**

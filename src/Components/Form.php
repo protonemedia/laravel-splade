@@ -46,86 +46,31 @@ class Form extends Component
      */
     public function __construct($default = null, public string $scope = 'form', $unguarded = null)
     {
+        // We'll use this instance in the static 'selected()' method,
+        // which is a workaround for a Vue bug. Later, when the
+        // Form Data is resolved, we remove it from the array.
         static::$instances[] = $this;
 
+        // This ID will be passed to Vue so can inspect all form
+        // elements within this form, and act when there's
+        // missing data in the default dataset.
         $this->spladeId = Str::random();
 
         static::$allowedAttributes = [];
         static::$eloquentRelations = [];
 
         $this->parseResource($default);
-
-        if ($unguarded === null) {
-            $this->guarded = static::$defaultGuardAttributes;
-        } elseif (is_bool($unguarded)) {
-            $this->guarded = !$unguarded;
-        } elseif (is_string($unguarded)) {
-            $unguarded = array_filter(array_map('trim', explode(',', $unguarded)));
-        }
-
-        if (is_array($unguarded) && count($unguarded) > 0) {
-            $this->guarded = true;
-
-            array_map(fn ($name) => static::allowAttribute($name), $unguarded);
-        }
-
-        if ($this->guarded && !static::resourceShouldBeGuarded($default)) {
-            $this->guarded = false;
-        }
+        $this->parseUnguardedValue($unguarded, $default);
     }
 
     /**
-     * Workaround for https://github.com/vuejs/core/issues/5339
+     * It checks whether the given value is an Eloquent Model, and it tries
+     * to parse it. If it can't be parsed, for example, if it's a
+     * JavaScript object, then it sets the $json attribute.
+     *
+     * @param mixed $default
+     * @return mixed
      */
-    public static function selected($name, $value): bool
-    {
-        if (app(SpladeCore::class)->isSpladeRequest()) {
-            return false;
-        }
-
-        $instance = Arr::last(static::$instances);
-
-        $data = data_get(
-            $instance->guardedData() ?: $instance->defaultData(),
-            static::dottedName($name)
-        );
-
-        return is_array($data) ? in_array($value, $data, true) : $data === $value;
-    }
-
-    public static function defaultUnguarded(bool $state = true)
-    {
-        static::$defaultGuardAttributes = !$state;
-    }
-
-    public static function guardWhen(Closure $callback)
-    {
-        static::$guardWhenCallable = $callback;
-    }
-
-    public static function allowAttribute(string $name)
-    {
-        if ($name) {
-            static::$allowedAttributes[static::dottedName($name)] = true;
-        }
-    }
-
-    public static function parseEloquentRelation(string $name)
-    {
-        if ($name) {
-            static::$eloquentRelations[static::dottedName($name)] = true;
-        }
-    }
-
-    private static function resourceShouldBeGuarded($resource): bool
-    {
-        $callback = static::$guardWhenCallable ?: function ($resource) {
-            return $resource instanceof Fluent || $resource instanceof Model;
-        };
-
-        return $callback($resource);
-    }
-
     private function parseResource($default = null)
     {
         if ($default instanceof Model) {
@@ -145,6 +90,137 @@ class Form extends Component
         return $this->data = [];
     }
 
+    /**
+     * Determine whether the form attribute should be unguarded, fully guarded,
+     * or whether some attributes should be guarded.
+     *
+     * @param mixed $unguarded
+     * @param mixed $default
+     * @return void
+     */
+    private function parseUnguardedValue($unguarded = null, $default = null)
+    {
+        if ($unguarded === null) {
+            // Use the default configuration.
+            $this->guarded = static::$defaultGuardAttributes;
+        } elseif (is_bool($unguarded)) {
+            // If we don't unguard, we guard.
+            $this->guarded = !$unguarded;
+        } elseif (is_string($unguarded)) {
+            // If it's a string, parse it into an array.
+            $unguarded = array_filter(array_map('trim', explode(',', $unguarded)));
+        }
+
+        // If there are unguarded attributes, allow those and guard the others.
+        if (is_array($unguarded) && count($unguarded) > 0) {
+            $this->guarded = true;
+
+            array_map(fn ($name) => static::allowAttribute($name), $unguarded);
+        }
+
+        // Lastly, check
+        if ($this->guarded && !static::resourceShouldBeGuarded($default)) {
+            $this->guarded = false;
+        }
+    }
+
+    /**
+     * This is a workaround for https://github.com/vuejs/core/issues/5339
+     *
+     * Is returns a boolean whether the given value is selected
+     * in the select element with the given name.
+     *
+     * @param string $name
+     * @param mixed $value
+     * @return boolean
+     */
+    public static function selected(string $name, $value): bool
+    {
+        if (app(SpladeCore::class)->isSpladeRequest()) {
+            return false;
+        }
+
+        $instance = Arr::last(static::$instances);
+
+        $data = data_get(
+            $instance->guardedData() ?: $instance->defaultData(),
+            static::dottedName($name)
+        );
+
+        return is_array($data)
+            ? in_array($value, $data, true)
+            : $data === $value;
+    }
+
+    /**
+     * Setter to unguard everything by default.
+     *
+     * @param boolean $state
+     * @return void
+     */
+    public static function defaultUnguarded(bool $state = true)
+    {
+        static::$defaultGuardAttributes = !$state;
+    }
+
+    /**
+     * Sets a Closure that takes the bound resource as an argument
+     * and returns whether it should be guarded.
+     *
+     * @param Closure $callback
+     * @return void
+     */
+    public static function guardWhen(Closure $callback)
+    {
+        static::$guardWhenCallable = $callback;
+    }
+
+    /**
+     * Adds the given attribute to the allowed attributes array.
+     *
+     * @param string $name
+     * @return void
+     */
+    public static function allowAttribute(string $name)
+    {
+        if ($name) {
+            static::$allowedAttributes[static::dottedName($name)] = true;
+        }
+    }
+
+    /**
+     * Adds the given relation to the list of Eloquent relations that should be parsed.
+     *
+     * @param string $name
+     * @return void
+     */
+    public static function parseEloquentRelation(string $name)
+    {
+        if ($name) {
+            static::$eloquentRelations[static::dottedName($name)] = true;
+        }
+    }
+
+    /**
+     * Determines whether a resource should be fully guarded.
+     *
+     * @param mixed $resource
+     * @return boolean
+     */
+    private static function resourceShouldBeGuarded($resource): bool
+    {
+        $callback = static::$guardWhenCallable ?: function ($resource) {
+            return $resource instanceof Fluent || $resource instanceof Model;
+        };
+
+        return $callback($resource);
+    }
+
+    /**
+     * Returns an array with all allowed attributes, and sorts it by their length.
+     *
+     * @return array
+     */
     private static function allowedAttributesSorted(): array
     {
         return Collection::make(static::$allowedAttributes)
