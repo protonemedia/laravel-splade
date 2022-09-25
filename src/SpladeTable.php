@@ -116,7 +116,7 @@ class SpladeTable
     /**
      * Set a default for the per page options.
      *
-     * @param array $perPageOptions
+     * @param  array  $perPageOptions
      * @return void
      */
     public static function defaultPerPageOptions(array $perPageOptions)
