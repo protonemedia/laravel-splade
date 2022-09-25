@@ -25,7 +25,7 @@ class Modal extends Component
     {
         return $this->splade->isModalRequest()
             ? view(
-                $this->splade->modalType() === SpladeCore::MODAL_TYPE_MODAL ? 'splade::modal' : 'splade::slideover',
+                $this->splade->getModalType() === SpladeCore::MODAL_TYPE_MODAL ? 'splade::modal' : 'splade::slideover',
                 [
                     'closeButton' => $this->closeButton,
                     'modalKey'    => $this->splade->getModalKey(),
