@@ -10,7 +10,7 @@ trait InteractsWithFormElement
      * Transforms a bracket notation to a dot notation.
      * Example: form[name] to form.name
      *
-     * @param string $name
+     * @param  string  $name
      * @return string
      */
     protected static function transformBracketsToDots(string $name): string

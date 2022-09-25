@@ -57,7 +57,7 @@ class Input extends Component
     /**
      * Returns a boolean whether the input type is 'hidden'.
      *
-     * @return boolean
+     * @return bool
      */
     public function isHidden(): bool
     {
@@ -67,7 +67,7 @@ class Input extends Component
     /**
      * Global setter for the default date format for Flatpickr
      *
-     * @param string $format
+     * @param  string  $format
      * @return void
      */
     public static function defaultDateFormat(string $format)
@@ -78,7 +78,7 @@ class Input extends Component
     /**
      * Global setter for the default time format for Flatpickr
      *
-     * @param string $format
+     * @param  string  $format
      * @return void
      */
     public static function defaultTimeFormat(string $format)
@@ -89,7 +89,7 @@ class Input extends Component
     /**
      * Global setter for the default datetime format for Flatpickr
      *
-     * @param string $format
+     * @param  string  $format
      * @return void
      */
     public static function defaultDatetimeFormat(string $format)
@@ -100,7 +100,7 @@ class Input extends Component
     /**
      * Enable Flatpickr for all date/time input types, optionally with default options.
      *
-     * @param array|boolean $options
+     * @param  array|bool  $options
      * @return void
      */
     public static function defaultFlatpickr(array|bool $options = true)
@@ -130,7 +130,7 @@ class Input extends Component
      * Returns an array with Flatpickr options. If Flatpickr won't
      * be used, it returns a boolean.
      *
-     * @return boolean|array
+     * @return bool|array
      */
     public function flatpickrOptions(): bool|array
     {
