@@ -18,7 +18,7 @@ class EventRedirect implements Arrayable, JsonSerializable
     /**
      * Creates a new instance with a fresh UUID.
      *
-     * @param string $target
+     * @param  string  $target
      */
     public function __construct(private string $target)
     {
@@ -50,8 +50,8 @@ class EventRedirect implements Arrayable, JsonSerializable
     /**
      * Setter for additional data.
      *
-     * @param string $key
-     * @param mixed $value
+     * @param  string  $key
+     * @param  mixed  $value
      * @return self
      */
     public function with(string $key, $value): self

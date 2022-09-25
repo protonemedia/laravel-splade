@@ -19,7 +19,7 @@ class SpladeInstallCommand extends Command
      * required NPM packages and copies all boilerplate files into
      * the application.
      *
-     * @return integer
+     * @return int
      */
     public function handle(): int
     {

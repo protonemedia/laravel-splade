@@ -9,7 +9,7 @@ class FormSelectOption
     /**
      * Creates a new instance.
      *
-     * @param array $attributes
+     * @param  array  $attributes
      */
     public function __construct(
         private array $attributes = []
@@ -19,7 +19,7 @@ class FormSelectOption
     /**
      * Returns a boolean whether the attributes array contains an 'options' key.
      *
-     * @return boolean
+     * @return bool
      */
     public function isGroup(): bool
     {

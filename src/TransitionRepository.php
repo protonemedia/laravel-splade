@@ -9,7 +9,7 @@ class TransitionRepository
     /**
      * Adds an animation to this repository.
      *
-     * @param \ProtoneMedia\Splade\TransitionAnimation $transitionAnimation
+     * @param  \ProtoneMedia\Splade\TransitionAnimation  $transitionAnimation
      * @return self
      */
     public function add(TransitionAnimation $transitionAnimation): self
@@ -22,13 +22,13 @@ class TransitionRepository
     /**
      * Instantiates a new animations and adds it.
      *
-     * @param string $name
-     * @param string $enter
-     * @param string $enterFrom
-     * @param string $enterTo
-     * @param string $leave
-     * @param string $leaveFrom
-     * @param string $leaveTo
+     * @param  string  $name
+     * @param  string  $enter
+     * @param  string  $enterFrom
+     * @param  string  $enterTo
+     * @param  string  $leave
+     * @param  string  $leaveFrom
+     * @param  string  $leaveTo
      * @return self
      */
     public function new(
@@ -48,7 +48,7 @@ class TransitionRepository
     /**
      * Returns the animation with the given name.
      *
-     * @param string $name
+     * @param  string  $name
      * @return \ProtoneMedia\Splade\TransitionAnimation
      */
     public function get(string $name): TransitionAnimation

@@ -7,9 +7,9 @@ class SearchInput
     /**
      * This class represents a Search Input within a Splade Table.
      *
-     * @param string $key
-     * @param string $label
-     * @param string|null $value
+     * @param  string  $key
+     * @param  string  $label
+     * @param  string|null  $value
      */
     public function __construct(
         public string $key,

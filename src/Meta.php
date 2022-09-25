@@ -10,8 +10,8 @@ class Meta implements Arrayable, JsonSerializable
     /**
      * Creates a new instance.
      *
-     * @param string $key
-     * @param array $attributes
+     * @param  string  $key
+     * @param  array  $attributes
      */
     public function __construct(
         private string $key,

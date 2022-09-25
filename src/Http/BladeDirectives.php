@@ -22,7 +22,7 @@ class BladeDirectives
     /**
      * Returns a template with the main app element and all required Splade attributes.
      *
-     * @param string $expression
+     * @param  string  $expression
      * @return string
      */
     public function splade($expression = ''): string
@@ -51,7 +51,7 @@ class BladeDirectives
      * an array containing the name of the cell, and the callback
      * function that's used to render the contents of the cell.
      *
-     * @param string $expression
+     * @param  string  $expression
      * @return array
      */
     public static function parseTableCellDirectiveExpression(string $expression): array
@@ -64,7 +64,7 @@ class BladeDirectives
 
         $splitted = preg_split('/\],(\s*)/', $arguments);
 
-        $slotArguments = trim($splitted[0]       ?? '');
+        $slotArguments = trim($splitted[0] ?? '');
         $slotUses      = trim(ltrim($splitted[1] ?? '', '['));
 
         $slotUses = $slotUses ? "\$__env, {$slotUses}" : '$__env';

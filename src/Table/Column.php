@@ -9,12 +9,12 @@ class Column implements Arrayable
     /**
      * This class represents a column within a Splade Table.
      *
-     * @param string $key
-     * @param string $label
-     * @param boolean $canBeHidden
-     * @param boolean $hidden
-     * @param boolean $sortable
-     * @param boolean|string $sorted
+     * @param  string  $key
+     * @param  string  $label
+     * @param  bool  $canBeHidden
+     * @param  bool  $hidden
+     * @param  bool  $sortable
+     * @param  bool|string  $sorted
      */
     public function __construct(
         public string $key,

@@ -16,7 +16,7 @@ class SsrTestCommand extends Command
     /**
      * Sends a request to the SSR servers and verifies that it rendered correctly.
      *
-     * @return integer
+     * @return int
      */
     public function handle(): int
     {

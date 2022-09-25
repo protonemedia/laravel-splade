@@ -41,7 +41,7 @@ class SpladeCore
     /**
      * Creates an instance.
      *
-     * @param Closure $requestResolver
+     * @param  Closure  $requestResolver
      */
     public function __construct(private $requestResolver)
     {
@@ -61,7 +61,7 @@ class SpladeCore
     /**
      * Setter for the root view.
      *
-     * @param string $view
+     * @param  string  $view
      * @return self
      */
     public function setRootView(string $view): self
@@ -118,7 +118,7 @@ class SpladeCore
     /**
      * Setter for the Modal Key.
      *
-     * @param string $key
+     * @param  string  $key
      * @return self
      */
     public function setModalKey(string $key): self
@@ -153,7 +153,7 @@ class SpladeCore
     /**
      * Sets a callable that defines how a default Toast.
      *
-     * @param callable $toastFactory
+     * @param  callable  $toastFactory
      * @return self
      */
     public function defaultToast(callable $toastFactory): self
@@ -166,7 +166,7 @@ class SpladeCore
     /**
      * Resolves the given value if this the initial request.
      *
-     * @param mixed $value
+     * @param  mixed  $value
      * @return mixed
      */
     public function onInit($value)
@@ -177,7 +177,7 @@ class SpladeCore
     /**
      * Resolves the given value if this a =Splade request.
      *
-     * @param mixed $value
+     * @param  mixed  $value
      * @return mixed
      */
     public function onLazy($value)
@@ -218,7 +218,7 @@ class SpladeCore
     /**
      * Returns a new SpladeToast instance
      *
-     * @param string $message
+     * @param  string  $message
      * @return \ProtoneMedia\Splade\SpladeToast
      */
     public static function toastOnEvent(string $message = ''): SpladeToast
@@ -230,7 +230,7 @@ class SpladeCore
      * Returns a Closure that prevents generating a response from
      * a ValidationExceptions when this is a Splade request.
      *
-     * @param \Illuminate\Foundation\Exceptions\Handler $exceptionHandler
+     * @param  \Illuminate\Foundation\Exceptions\Handler  $exceptionHandler
      * @return Closure
      */
     public static function exceptionHandler(Handler $exceptionHandler): Closure
@@ -247,7 +247,7 @@ class SpladeCore
      * Returns a new SpladeToast instance, optionally with the given message
      * if it isn't empty, and it uses the custom toast factory if set.
      *
-     * @param string $message
+     * @param  string  $message
      * @return \ProtoneMedia\Splade\SpladeToast
      */
     public function toast(string $message = ''): SpladeToast
@@ -278,8 +278,8 @@ class SpladeCore
     /**
      * Sets data on the shared data array.
      *
-     * @param string $key
-     * @param mixed $value
+     * @param  string  $key
+     * @param  mixed  $value
      * @return self
      */
     public function share(string $key, $value): self
@@ -302,7 +302,7 @@ class SpladeCore
     /**
      * Returns a boolean whether this is a Splade request.
      *
-     * @return boolean
+     * @return bool
      */
     public function isSpladeRequest(): bool
     {
@@ -312,7 +312,7 @@ class SpladeCore
     /**
      * Returns a boolean whether this is a Modal request.
      *
-     * @return boolean
+     * @return bool
      */
     public function isModalRequest(): bool
     {
@@ -323,7 +323,7 @@ class SpladeCore
      * Returns a boolean whether the response should prevent a
      * page request on the front end.
      *
-     * @return boolean
+     * @return bool
      */
     public function dontRefreshPage(): bool
     {
@@ -333,7 +333,7 @@ class SpladeCore
     /**
      * Returns a boolean whether this is a Lazy request.
      *
-     * @return boolean
+     * @return bool
      */
     public function isLazyRequest(): bool
     {
@@ -343,7 +343,7 @@ class SpladeCore
     /**
      * Retrieves the Lazy Component key from the request header.
      *
-     * @return integer
+     * @return int
      */
     public function getLazyComponentKey(): int
     {

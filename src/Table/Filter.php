@@ -10,13 +10,13 @@ class Filter implements Arrayable
     /**
      * This class represents a filter in a Splade Table.
      *
-     * @param string $key
-     * @param string $label
-     * @param array $options
-     * @param string|null $value
-     * @param boolean $noFilterOption
-     * @param string $noFilterOptionLabel
-     * @param string $type
+     * @param  string  $key
+     * @param  string  $label
+     * @param  array  $options
+     * @param  string|null  $value
+     * @param  bool  $noFilterOption
+     * @param  string  $noFilterOptionLabel
+     * @param  string  $type
      */
     public function __construct(
         public string $key,

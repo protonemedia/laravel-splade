@@ -28,13 +28,13 @@ class SpladeToast implements Arrayable, JsonSerializable
     /**
      * Creates a new toast instance.
      *
-     * @param string $message
-     * @param string $title
-     * @param string $style
-     * @param string $positionX
-     * @param string $positionY
-     * @param boolean $backdrop
-     * @param integer|null $autoDismiss
+     * @param  string  $message
+     * @param  string  $title
+     * @param  string  $style
+     * @param  string  $positionX
+     * @param  string  $positionY
+     * @param  bool  $backdrop
+     * @param  int|null  $autoDismiss
      */
     public function __construct(
         private string $message,
@@ -50,7 +50,7 @@ class SpladeToast implements Arrayable, JsonSerializable
     /**
      * Setter for the title of the toast.
      *
-     * @param string $title
+     * @param  string  $title
      * @return self
      */
     public function title(string $title): self
@@ -63,7 +63,7 @@ class SpladeToast implements Arrayable, JsonSerializable
     /**
      * Only sets the message if it's not empty.
      *
-     * @param string $message
+     * @param  string  $message
      * @return self
      */
     private function optionalMessage(string $message): self
@@ -78,7 +78,7 @@ class SpladeToast implements Arrayable, JsonSerializable
     /**
      * Setter for the message.
      *
-     * @param string $message
+     * @param  string  $message
      * @return self
      */
     public function message(string $message): self
@@ -91,7 +91,7 @@ class SpladeToast implements Arrayable, JsonSerializable
     /**
      * Sets a boolean whether a backdrop should be used.
      *
-     * @param boolean $value
+     * @param  bool  $value
      * @return self
      */
     public function backdrop(bool $value = true): self
@@ -104,7 +104,7 @@ class SpladeToast implements Arrayable, JsonSerializable
     /**
      * Setter for auto dismissing the toast after the given seconds.
      *
-     * @param integer $afterSeconds
+     * @param  int  $afterSeconds
      * @return self
      */
     public function autoDismiss(int $afterSeconds = 15): self
@@ -117,8 +117,8 @@ class SpladeToast implements Arrayable, JsonSerializable
     /**
      * Setter for the position of the toast.
      *
-     * @param string $x
-     * @param string $y
+     * @param  string  $x
+     * @param  string  $y
      * @return self
      */
     public function position(string $x, string $y): self
@@ -132,7 +132,7 @@ class SpladeToast implements Arrayable, JsonSerializable
     /**
      * Positions the toast at the left top.
      *
-     * @param string $message
+     * @param  string  $message
      * @return self
      */
     public function leftTop(string $message = ''): self
@@ -145,7 +145,7 @@ class SpladeToast implements Arrayable, JsonSerializable
     /**
      * Positions the toast at the center top.
      *
-     * @param string $message
+     * @param  string  $message
      * @return self
      */
     public function centerTop(string $message = ''): self
@@ -158,7 +158,7 @@ class SpladeToast implements Arrayable, JsonSerializable
     /**
      * Positions the toast at the right top.
      *
-     * @param string $message
+     * @param  string  $message
      * @return self
      */
     public function rightTop(string $message = ''): self
@@ -171,7 +171,7 @@ class SpladeToast implements Arrayable, JsonSerializable
     /**
      * Positions the toast at the left center.
      *
-     * @param string $message
+     * @param  string  $message
      * @return self
      */
     public function leftCenter(string $message = ''): self
@@ -184,7 +184,7 @@ class SpladeToast implements Arrayable, JsonSerializable
     /**
      * Positions the toast at the center.
      *
-     * @param string $message
+     * @param  string  $message
      * @return self
      */
     public function center(string $message = ''): self
@@ -197,7 +197,7 @@ class SpladeToast implements Arrayable, JsonSerializable
     /**
      * Positions the toast at the right center.
      *
-     * @param string $message
+     * @param  string  $message
      * @return self
      */
     public function rightCenter(string $message = ''): self
@@ -210,7 +210,7 @@ class SpladeToast implements Arrayable, JsonSerializable
     /**
      * Positions the toast at the left bottom.
      *
-     * @param string $message
+     * @param  string  $message
      * @return self
      */
     public function leftBottom(string $message = ''): self
@@ -223,7 +223,7 @@ class SpladeToast implements Arrayable, JsonSerializable
     /**
      * Positions the toast at the center bottom.
      *
-     * @param string $message
+     * @param  string  $message
      * @return self
      */
     public function centerBottom(string $message = ''): self
@@ -236,7 +236,7 @@ class SpladeToast implements Arrayable, JsonSerializable
     /**
      * Positions the toast at the right bottom.
      *
-     * @param string $message
+     * @param  string  $message
      * @return self
      */
     public function rightBottom(string $message = ''): self
@@ -249,7 +249,7 @@ class SpladeToast implements Arrayable, JsonSerializable
     /**
      * Sets the style to 'info'.
      *
-     * @param string $message
+     * @param  string  $message
      * @return self
      */
     public function info(string $message = ''): self
@@ -262,7 +262,7 @@ class SpladeToast implements Arrayable, JsonSerializable
     /**
      * Sets the style to 'success'.
      *
-     * @param string $message
+     * @param  string  $message
      * @return self
      */
     public function success(string $message = ''): self
@@ -275,7 +275,7 @@ class SpladeToast implements Arrayable, JsonSerializable
     /**
      * Sets the style to 'warning'.
      *
-     * @param string $message
+     * @param  string  $message
      * @return self
      */
     public function warning(string $message = ''): self
@@ -288,7 +288,7 @@ class SpladeToast implements Arrayable, JsonSerializable
     /**
      * Sets the style to 'danger'.
      *
-     * @param string $message
+     * @param  string  $message
      * @return self
      */
     public function danger(string $message = ''): self
@@ -301,7 +301,7 @@ class SpladeToast implements Arrayable, JsonSerializable
     /**
      * Setter for the style.
      *
-     * @param string $style
+     * @param  string  $style
      * @return self
      */
     public function style(string $style): self

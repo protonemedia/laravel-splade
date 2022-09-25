@@ -9,7 +9,7 @@ class ResolvableData
     /**
      * Takes a callable that might be resolved.
      *
-     * @param callable $callable
+     * @param  callable  $callable
      */
     public function __construct(private $callable)
     {
@@ -19,7 +19,7 @@ class ResolvableData
     /**
      * Helper method the wrap non-callable values into a callable.
      *
-     * @param mixed $value
+     * @param  mixed  $value
      * @return static
      */
     public static function from($value): static
@@ -32,7 +32,7 @@ class ResolvableData
     /**
      * Resolves the callable based on the given boolean.
      *
-     * @param boolean $shouldResolve
+     * @param  bool  $shouldResolve
      * @return mixed
      */
     public function resolveIf(bool $shouldResolve)

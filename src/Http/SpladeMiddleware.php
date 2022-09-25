@@ -24,8 +24,8 @@ class SpladeMiddleware
     /**
      * This Middleware is required to support Splade's SPA and other features.
      *
-     * @param \ProtoneMedia\Splade\SpladeCore $splade
-     * @param \ProtoneMedia\Splade\Ssr $ssr
+     * @param  \ProtoneMedia\Splade\SpladeCore  $splade
+     * @param  \ProtoneMedia\Splade\Ssr  $ssr
      */
     public function __construct(
         private SpladeCore $splade,
@@ -69,8 +69,8 @@ class SpladeMiddleware
     /**
      * Handle a Splade request, made from the Vue app.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param \Illuminate\Http\Response $response
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Response  $response
      * @return \Illuminate\Http\Response
      */
     private function handleSpladeRequest(Request $request, Response $response): Response
@@ -110,8 +110,8 @@ class SpladeMiddleware
     /**
      * Handle a non-Splade request. This is probably the inital request.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param \Illuminate\Http\Response $response
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Response  $response
      * @return \Illuminate\Http\Response
      */
     private function handleRegularRequest(Request $request, Response $response): Response
@@ -195,7 +195,7 @@ class SpladeMiddleware
      * layout, and replaces it with a placeholder. It returns the
      * content, and the extracted Dynamic Content as an array.
      *
-     * @param string $content
+     * @param  string  $content
      * @return array
      */
     public static function extractDynamicsFromContent(string $content): array
@@ -226,7 +226,7 @@ class SpladeMiddleware
     /**
      * Finds a Splade Modal in the content and returns it.
      *
-     * @param string $content
+     * @param  string  $content
      * @return string|null
      */
     private function parseModalContent(string $content): ?string
@@ -243,7 +243,7 @@ class SpladeMiddleware
     /**
      * This methods returns all relevant data for a Splade page view.
      *
-     * @param \Illuminate\Contracts\Session\Session $session
+     * @param  \Illuminate\Contracts\Session\Session  $session
      * @return object
      */
     private function spladeData(Session $session): object

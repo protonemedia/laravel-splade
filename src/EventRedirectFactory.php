@@ -24,7 +24,7 @@ class EventRedirectFactory
     /**
      * Creates an instance.
      *
-     * @param Redirector $redirector
+     * @param  Redirector  $redirector
      */
     public function __construct(
         private Redirector $redirector
@@ -36,8 +36,8 @@ class EventRedirectFactory
      * a RedirectResponse. Then we grab the Target URL from the
      * it and return a EventRedirect instance with the URL.
      *
-     * @param string $method
-     * @param array $parameters
+     * @param  string  $method
+     * @param  array  $parameters
      * @return \ProtoneMedia\Splade\EventRedirect
      */
     public function __call($method, $parameters): EventRedirect

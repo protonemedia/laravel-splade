@@ -15,7 +15,7 @@ class PrepareViewWithLazyComponents
     /**
      * Returns a regex pattern to match an HTML tag and its contents.
      *
-     * @param string $tag
+     * @param  string  $tag
      * @return string
      */
     public static function regexForTag(string $tag): string
