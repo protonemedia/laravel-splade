@@ -11,11 +11,6 @@ class Textarea extends Component
 
     private static $defaultAutosize = false;
 
-    public static function defaultAutosize(bool $value = true)
-    {
-        static::$defaultAutosize = $value;
-    }
-
     /**
      * Create a new component instance.
      *
@@ -30,6 +25,17 @@ class Textarea extends Component
         public string $help = '',
     ) {
         Form::allowAttribute($name);
+    }
+
+    /**
+     * Enable Autosize globally for all textarea elements.
+     *
+     * @param  array|bool  $options
+     * @return void
+     */
+    public static function defaultAutosize(bool $value = true)
+    {
+        static::$defaultAutosize = $value;
     }
 
     /**

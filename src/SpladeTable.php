@@ -130,9 +130,11 @@ class SpladeTable
      * @param  bool|string  $label
      * @return void
      */
-    public static function defaultGlobalSearch(bool|string $label = 'Search...')
+    public static function defaultGlobalSearch(bool|string $label = 'Search')
     {
-        static::$defaultGlobalSearch = $label !== false ? __($label) : false;
+        static::$defaultGlobalSearch = $label !== false
+            ? __($label) . '...'
+            : false;
     }
 
     /**
@@ -154,7 +156,7 @@ class SpladeTable
      */
     public function withGlobalSearch(string $label = null): self
     {
-        return $this->searchInput('global', $label ?: __('Search...'));
+        return $this->searchInput('global', $label ?: __('Search') . '...');
     }
 
     /**

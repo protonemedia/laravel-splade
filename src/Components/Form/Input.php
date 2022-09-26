@@ -128,7 +128,7 @@ class Input extends Component
 
     /**
      * Returns an array with Flatpickr options. If Flatpickr won't
-     * be used, it returns a boolean.
+     * be used, it returns a negative boolean.
      *
      * @return bool|array
      */

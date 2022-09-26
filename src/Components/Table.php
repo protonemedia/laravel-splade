@@ -15,8 +15,11 @@ class Table extends Component
      *
      * @return void
      */
-    public function __construct(public SpladeTable $for, public bool $striped = false, public string $scope = 'table')
-    {
+    public function __construct(
+        public SpladeTable $for,
+        public bool $striped = false,
+        public string $scope = 'table'
+    ) {
     }
 
     public function hasPerPageOptions(): bool
