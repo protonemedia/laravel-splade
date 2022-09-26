@@ -33,6 +33,7 @@ export default {
 
     beforeUnmount() {
         if (this.subscription) {
+            // Leave the channel and clear the data to prevent memory leaks.
             window.Echo.leave(this.subscription.subscription.name);
             this.subscription = null;
             this.subscriptions = [];
@@ -63,6 +64,7 @@ export default {
                         return;
                     }
 
+                    // Check whether the data contains a redirect, refresh, or toast.
                     if (redirectKey in value) {
                         spladeRedirect = value[redirectKey];
                     }

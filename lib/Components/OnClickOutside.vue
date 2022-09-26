@@ -36,10 +36,10 @@ onMounted(() => {
         props.do();
     };
 
+    // Listen to the click and touchstart events to determine
+    // whether the 'do' callback should be called.
     document.addEventListener("click", listener.value);
     document.addEventListener("touchstart", listener.value);
-
-    //
 
     if(props.closeOnEscape) {
         closeOnEscapeHandler.value = (e) => {
@@ -48,10 +48,14 @@ onMounted(() => {
             }
         };
 
+        // Listen to the keydown event and whether the used pressed Escape.
         document.addEventListener("keydown", closeOnEscapeHandler.value);
     }
 });
 
+/*
+ * Remove the attached event listeners.
+ */
 onBeforeUnmount(() => {
     document.removeEventListener("click", listener.value);
     document.removeEventListener("touchstart", listener.value);

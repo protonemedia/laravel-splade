@@ -17,10 +17,16 @@ const positions = [
 
 export default {
     computed: {
+        /*
+         * Retrieves the toasts from the Splade instance.
+         */
         toasts: function () {
             return Splade.toastsReversed.value;
         },
 
+        /*
+         * Determine whether a backdrop should be shown.
+         */
         hasBackdrop: function () {
             return (
                 Splade.toasts.value.filter((toast) => {

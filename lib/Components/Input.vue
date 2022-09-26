@@ -57,6 +57,7 @@ export default {
 
         const vm = this;
 
+        // We instantiate an observer to keep track of the element's 'disabled' status.
         this.observer = new MutationObserver(function(mutations) {
             mutations.forEach(function(mutation) {
                 if(mutation.attributeName === "disabled") {
@@ -68,6 +69,9 @@ export default {
         this.observer.observe(this.element, { attributes: true });
     },
 
+    /*
+     * Destroy the observer and Flatpickr instance to prevent memory leaks.
+     */
     beforeUnmount() {
         this.observer.disconnect();
 
@@ -79,6 +83,9 @@ export default {
     methods: {
         initFlatpickr(element){
             import("flatpickr").then((flatpickr) => {
+                // Instantiate Flatpickr with the combined PHP and
+                // JS options, and listen for changes so we can
+                // update the Vue model of this component.
                 this.flatpickrInstance = flatpickr.default(
                     element,
                     Object.assign({}, this.flatpickr, this.jsFlatpickrOptions, {
@@ -91,6 +98,7 @@ export default {
                 );
 
                 if (this.modelValue) {
+                    // Set the initial value on the Flatpickr instance.
                     this.flatpickrInstance.setDate(this.modelValue);
                 }
             });

@@ -52,6 +52,9 @@ export default {
     },
 
     computed: {
+        /*
+         * Returns a boolean whether a selection has been made.
+         */
         hasSelection() {
             if (this.multiple) {
                 return Array.isArray(this.model) ? this.model.length > 0 : false;
@@ -66,6 +69,10 @@ export default {
     },
 
     watch: {
+        /*
+         * When the model value changes, and it's a new
+         * section, apply it to the Choices instance.
+         */
         modelValue(updatedValue, oldValue) {
             if (this.choicesInstance) {
                 if (JSON.stringify(updatedValue) == JSON.stringify(oldValue)) {
@@ -85,6 +92,9 @@ export default {
         }
     },
 
+    /*
+     * Destroy the Choices.js instance to prevent memory leaks.
+     */
     beforeUnmount(){
         if(this.choices && this.choicesInstance){
             this.choicesInstance.destroy();
@@ -92,6 +102,9 @@ export default {
     },
 
     methods: {
+        /*
+         * Set the given value on the Choices.js instance.
+         */
         setValueOnChoices(value) {
             if (Array.isArray(value)) {
                 this.choicesInstance.removeActiveItems();
@@ -106,6 +119,9 @@ export default {
             this.handlePlaceholderVisibility();
         },
 
+        /*
+         * Returns the internal Choices.js item that is currently selected.
+         */
         getItemOfCurrentModel() {
             const currentModel = this.modelValue;
 
@@ -114,7 +130,10 @@ export default {
             });
         },
 
-        // show/hide placeholder when there is/isn't a selection...
+        /*
+         * This method handles the visibility of the placeholder
+         * and applies some additional minor styling.
+         */
         handlePlaceholderVisibility() {
             if(!this.multiple){
                 return;
@@ -137,6 +156,9 @@ export default {
             placeholderElement.style.paddingBottom = hasItems ? "0px" : "1px";
         },
 
+        /*
+         * Instantiate Choices.js with the combined PHP and JS options.
+         */
         initChoices(selectElement) {
             const totalItems = Array.from(
                 selectElement.querySelectorAll("option:not([placeholder])")
@@ -149,6 +171,8 @@ export default {
 
                 vm.choicesInstance = new Choices.default(selectElement, options);
 
+                // Set the name of the select element on the Choices.js element
+                // so we can perform test assertions with Laravel Dusk.
                 this.choicesInstance.containerInner.element.setAttribute(
                     "data-select-name",
                     selectElement.name
@@ -157,10 +181,12 @@ export default {
                 this.handlePlaceholderVisibility();
                 this.updateHasSelectionAttribute();
 
+
+                // Listen for changes so we can update the Vue model of this component.
                 selectElement.addEventListener("change", function () {
                     vm.$emit("update:modelValue", vm.choicesInstance.getValue(true));
 
-                    // hide dropdown if there are no more items to choose from...
+                    // Hide dropdown if there are no more items to choose from.
                     if (!vm.multiple || totalItems < 1) {
                         return;
                     }
@@ -172,7 +198,7 @@ export default {
                     }
                 });
 
-                // scroll to the selected item...
+                // Scroll to the selected item when the dropdown is shown.
                 selectElement.addEventListener("showDropdown", function() {
                     if (vm.multiple || !vm.modelValue) {
                         return;
@@ -192,6 +218,9 @@ export default {
             });
         },
 
+        /*
+         * Update the 'data-has-selection' attribute based on the current selection.
+         */
         updateHasSelectionAttribute() {
             this.choicesInstance.containerInner.element.setAttribute(
                 "data-has-selection",

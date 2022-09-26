@@ -37,12 +37,20 @@ export default {
         };
     },
 
-    computed:{
-        columnsAreToggled(){
+    computed: {
+        /**
+         * Returns a boolean whether the currently toggled columns
+         * differ from the default set of visible columns.
+         */
+        columnsAreToggled() {
             return !isEqual(this.visibleColumns, this.defaultVisibleToggleableColumns);
         },
 
-        hasForcedVisibleSearchInputs(){
+        /*
+         * Returns a boolean whether there are Search Inputs visible
+         * that are not (yet) in the query string.
+         */
+        hasForcedVisibleSearchInputs() {
             return this.forcedVisibleSearchInputs.length > 0;
         }
     },
@@ -52,6 +60,8 @@ export default {
 
         const columns = query.columns || [];
 
+        // Parse the query string and figure out whether there
+        // are Search Inputs that should be visible.
         forOwn(query, (value, key) => {
             if(startsWith(key, "filter[") && !value){
                 const splittedKey = key.split("[");
@@ -61,6 +71,7 @@ export default {
             }
         });
 
+        // Set the visible columns.
         if(columns.length === 0) {
             this.visibleColumns = this.defaultVisibleToggleableColumns;
         } else {
@@ -69,6 +80,9 @@ export default {
     },
 
     methods: {
+        /**
+         * Resets the table to its initial state.
+         */
         reset() {
             this.forcedVisibleSearchInputs = [];
             this.visibleColumns = this.defaultVisibleToggleableColumns;
@@ -89,13 +103,21 @@ export default {
             this.visitWithQueryObject(query, null, true);
         },
 
+        /*
+         * Returns a boolean whether the given key is visible.
+         */
         columnIsVisible(key){
             return this.visibleColumns.includes(key);
         },
 
+        /*
+         * Toggles the column key.
+         */
         toggleColumn(key) {
+            // Invert the current visibility.
             const show = !this.columnIsVisible(key);
 
+            // Generate a new array with all visible colums.
             const visibleColumns = filter(this.columns, (column) => {
                 if(!column.can_be_hidden) {
                     return true;
@@ -112,6 +134,8 @@ export default {
                 return column.key;
             }).sort();
 
+            // When the array doesn't differ from the default, we can use the default
+            // instead of passing all visible columns.
             if (isEqual(visibleColumnKeys, this.defaultVisibleToggleableColumns)) {
                 visibleColumnKeys = [];
             }
@@ -123,12 +147,18 @@ export default {
             this.updateQuery("columns", visibleColumnKeys, null, false);
         },
 
+        /**
+         * Removes the key from being forcefully visible, and sets the value to null.
+         */
         disableSearchInput(key) {
             this.forcedVisibleSearchInputs = this.forcedVisibleSearchInputs.filter((search) => search != key);
 
             this.updateQuery(`filter[${key}]`, null);
         },
 
+        /*
+         * Forces the given Search Input key to be visible, and focuses the input element.
+         */
         showSearchInput(key){
             this.forcedVisibleSearchInputs = [...this.forcedVisibleSearchInputs, key];
 
@@ -139,14 +169,23 @@ export default {
             });
         },
 
+        /*
+         * Returns a boolean whether the key should be visible.
+         */
         isForcedVisible(key){
             return this.forcedVisibleSearchInputs.includes(key);
         },
 
+        /*
+         * Debounces the update query with 350ms.
+         */
         debounceUpdateQuery: debounce(function(key, value, $el) {
             this.updateQuery(key, value, $el);
         }, 350),
 
+        /*
+         * Parses the window's current query as an object.
+         */
         getCurrentQuery() {
             const currentQuery = window.location.search;
 
@@ -156,21 +195,24 @@ export default {
 
             let query = {};
 
+            // Remove the question mark and split the keys.
             currentQuery.substring(1).split("&").forEach((keyValue) =>{
                 const splitted = decodeURIComponent(keyValue).split("=");
 
                 let key = splitted[0];
 
                 if(!endsWith(key, "]")) {
+                    // A regular 'key=value' string
                     query[key] = splitted[1];
                     return;
                 }
 
+                // A nested key - grab the key and check if it's a numeric key or a string.
                 const splittedKey = key.split("[");
-
                 const stringOrNumericEl = splittedKey[1].substring(0, splittedKey[1].length - 1);
 
                 if(parseInt(stringOrNumericEl) == stringOrNumericEl) {
+                    // Handle as an array.
                     key = splittedKey[0];
 
                     if(!isArray(query[key])) {
@@ -178,7 +220,8 @@ export default {
                     }
 
                     query[key].push(splitted[1]);
-                }else{
+                } else {
+                    // Handle as an object.
                     query[key] = splitted[1];
                 }
             });
@@ -186,14 +229,20 @@ export default {
             return query;
         },
 
+        /*
+         * Update the current query
+         */
         updateQuery(key, value, $el, reload)  {
-            if(typeof reload === "undefined"){
+            // When reload is false, it only updates the query
+            // string, but doesn't perform a new request.
+            if(typeof reload === "undefined") {
                 reload = true;
             }
 
             let queryObject = this.getCurrentQuery();
             queryObject[key] = value;
 
+            // Reset the page value when the 'perPage' or filters change.
             if(startsWith(key, "perPage") || startsWith(key, "filter[")){
                 delete queryObject["page"];
             }
@@ -202,12 +251,15 @@ export default {
         },
 
         visitWithQueryObject(queryObject, $el, reload){
-            if(typeof reload === "undefined"){
+            // When reload is false, it only updates the query
+            // string, but doesn't perform a new request.
+            if(typeof reload === "undefined") {
                 reload = true;
             }
 
             let query = {};
 
+            // Regenerate the query string object.
             forOwn(queryObject, (queryValue, queryKey) => {
                 if(!isArray(queryValue)) {
                     query[queryKey] = queryValue;
@@ -225,6 +277,7 @@ export default {
 
             let queryString = "";
 
+            // Build the query string.
             forOwn(query, (value, key) => {
                 if(value === null || value === []) {
                     return;
@@ -237,16 +290,20 @@ export default {
                 queryString += `${key}=${value}`;
             });
 
+            // Prepend the question mark when needed.
             if(queryString) {
                 queryString = "?" + queryString;
             }
 
+            // Build the new URL.
             const url = window.location.pathname + queryString;
 
             if(!reload) {
+                // Just replace the URL.
                 return Splade.replaceUrlOfCurrentPage(url);
             }
 
+            // Perform the request, and optionally focus on the given element.
             Splade.replace(url).then(() => {
                 if(typeof $el !== "undefined" && $el){
                     nextTick(() => {

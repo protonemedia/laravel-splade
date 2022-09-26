@@ -56,6 +56,11 @@ const props = defineProps({
     },
 });
 
+/*
+ * If a confirmation is needed, it first shows the
+ * confirmation dialog and waits for the promise
+ * before it performs the action.
+ */
 function navigate() {
     if (!props.confirm) {
         return perform();
@@ -73,6 +78,9 @@ function navigate() {
         .catch(() => {});
 }
 
+/*
+ * Calls the modal/slideover or replace/visit method on the Splade instance.
+ */
 function perform() {
     if (props.modal) {
         return Splade.modal(props.href);
