@@ -34,12 +34,14 @@ export default {
 
     mounted() {
         if (this.remember) {
+            // Retrieve the stored data from the Splade instance.
             let restoredData = Splade.restore(this.remember, this.localStorage);
 
             if (!restoredData) {
                 restoredData = {};
             }
 
+            // Overwrite the default values with the restored data.
             this.values = Object.assign({}, { ...this.default, ...restoredData });
         } else {
             this.values = Object.assign({}, { ...this.default });
@@ -48,6 +50,7 @@ export default {
 
     updated() {
         if (this.remember) {
+            // Save the values whenever the component is updated.
             Splade.remember(this.remember, { ...this.values }, this.localStorage);
         }
     },

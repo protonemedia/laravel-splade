@@ -82,6 +82,8 @@ export default {
             maxWidth: this.maxWidth,
             emitClose: this.emitClose,
             closeButton: this.closeButton,
+
+            // These HeadlessUI exports will be removed in v1.0
             Dialog,
             DialogPanel,
             TransitionRoot,

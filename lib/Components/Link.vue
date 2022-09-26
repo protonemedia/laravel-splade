@@ -59,7 +59,7 @@ const props = defineProps({
 /*
  * If a confirmation is needed, it first shows the
  * confirmation dialog and waits for the promise
- * before it performs the action.
+ * before it performs the visit.
  */
 function navigate() {
     if (!props.confirm) {
