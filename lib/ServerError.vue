@@ -21,15 +21,11 @@ const props = defineProps({
 });
 
 const emit = defineEmits(["close"]);
-
-function hide() {
-    document.body.style.overflow = "visible";
-    document.removeEventListener("keydown", keyDownListener);
-    emit("close");
-}
-
 const iframeElement = ref(null);
 
+/**
+ * Creates a new HTML element with an iframe holding the HTML from the props.
+ */
 function create() {
     const page = document.createElement("html");
     page.innerHTML = props.html;
@@ -50,10 +46,22 @@ function create() {
     document.addEventListener("keydown", keyDownListener);
 }
 
+/**
+ * Calls the hide() event when the keycode is escape.
+ */
 function keyDownListener($event) {
     if ($event.keyCode === 27) {
         hide();
     }
+}
+
+/**
+ * Restore the body overflow style and emit the 'close' event.
+ */
+function hide() {
+    document.body.style.overflow = "visible";
+    document.removeEventListener("keydown", keyDownListener);
+    emit("close");
 }
 
 onMounted(() => create());
