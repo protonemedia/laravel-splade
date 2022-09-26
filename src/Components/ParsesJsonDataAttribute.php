@@ -11,7 +11,7 @@ trait ParsesJsonDataAttribute
     /**
      * Tries to parse the given $data into an array.
      *
-     * @param mixed $data
+     * @param  mixed  $data
      * @return mixed
      */
     public function parseJsonData($data = null)

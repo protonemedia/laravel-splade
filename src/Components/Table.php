@@ -26,7 +26,7 @@ class Table extends Component
     /**
      * Returns a boolean whether the resource is paginated.
      *
-     * @return boolean
+     * @return bool
      */
     public function isPaginated(): bool
     {
@@ -37,7 +37,7 @@ class Table extends Component
     /**
      * Returns a boolean whether the resource is 'LengthAware'.
      *
-     * @return boolean
+     * @return bool
      */
     public function isLengthAware(): bool
     {
@@ -47,7 +47,7 @@ class Table extends Component
     /**
      * Returns a boolean whether the per-page selector has more than one option.
      *
-     * @return boolean
+     * @return bool
      */
     public function hasPerPageOptions(): bool
     {
@@ -58,7 +58,7 @@ class Table extends Component
      * Returns a boolean whether this table has 'controls', which are
      * the buttons and input elements above the table header.
      *
-     * @return boolean
+     * @return bool
      */
     public function hasControls(): bool
     {
@@ -74,7 +74,7 @@ class Table extends Component
     /**
      * Returns a boolean whether the 'reset' button should be visible.
      *
-     * @return boolean
+     * @return bool
      */
     public function canResetTable(): bool
     {
@@ -88,7 +88,7 @@ class Table extends Component
     /**
      * Transforms the current URL to sort by the given column and reset the current page.
      *
-     * @param \ProtoneMedia\Splade\Table\Column $column
+     * @param  \ProtoneMedia\Splade\Table\Column  $column
      * @return string
      */
     public function sortBy(Column $column): string
