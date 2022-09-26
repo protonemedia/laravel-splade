@@ -104,10 +104,17 @@ export default {
             return this.values;
         },
 
+        /*
+         * Fetches the raw validation errors from the Splade
+         * instances based on the current stack.
+         */
         rawErrors() {
             return Splade.validationErrors(this.stack);
         },
 
+        /*
+         * Flattens the raw errors.
+         */
         errors() {
             return mapValues(this.rawErrors, (errors) => {
                 return errors.join("\n");
@@ -115,6 +122,10 @@ export default {
         },
     },
 
+    /*
+     * It loops through all missing attributes and tries to
+     * find a sensible default for that attribute.
+     */
     mounted() {
         let formElement = document.querySelector(`form[data-splade-id="${this.spladeId}"]`);
 
@@ -158,10 +169,16 @@ export default {
             return set(this.values, key, value);
         },
 
+        /*
+         * If a confirmation is needed, it first shows the
+         * confirmation dialog and waits for the promise
+         * before it performs the request.
+         */
         submit($event) {
             if($event) {
                 const submitter = $event.submitter;
 
+                // A submit button can have a name and value.
                 if(submitter && submitter.name) {
                     this.$put(submitter.name, submitter.value);
                 }
@@ -183,6 +200,10 @@ export default {
                 .catch(() => {});
         },
 
+        /*
+         * Maps the values into a FormData instance and then
+         * performs an async request.
+         */
         async request() {
             await this.$nextTick();
 
@@ -255,6 +276,9 @@ export default {
                             return self[name];
                         }
 
+                        // If the data does not have the requested name, we add it to
+                        // the missingAttributes array, and when the component is
+                        // mounted, it'll try to find sensible defaults.
                         if (!has(self.values, name)) {
                             self.missingAttributes.push(name);
                             self.$put(name, "");

@@ -51,6 +51,7 @@ export default {
     },
 
     mounted() {
+        // Wait for the DOM to perform the request.
         this.$nextTick(this.performRequest);
     },
 

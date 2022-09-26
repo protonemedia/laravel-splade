@@ -36,8 +36,11 @@ export default {
         handleFileInput($event) {
             const input = Object.values($event.target.files);
 
+            // Directly put the file(s) on the form instance.
             this.form.$put(this.field, this.multiple ? input : input[0]);
 
+            // Clear the filenames array and loop through the files
+            // to add their filesnames to the array.
             this.filenames = [];
 
             input.forEach((file) => {
