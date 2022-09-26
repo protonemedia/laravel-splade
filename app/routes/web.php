@@ -18,6 +18,7 @@ use App\Http\Controllers\SlowFormController;
 use App\Http\Controllers\TableController;
 use App\Http\Controllers\ToastController;
 use App\Http\UserTableView;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
@@ -28,6 +29,12 @@ Route::post('defer/api', function () {
 
     return Str::reverse(request('api'));
 })->name('defer.api');
+
+Route::post('defer/poll', function () {
+    sleep(1);
+
+    return Cache::increment('deferPoll');
+})->name('defer.pollIncrement');
 
 Route::get('event/redirect', fn () => event(new RedirectEvent))->name('event.redirect');
 Route::get('event/refresh', fn () => event(new RefreshEvent))->name('event.refresh');
@@ -43,6 +50,7 @@ Route::middleware('splade')->group(function () {
     Route::view('data/rememberWithDefault', 'data.rememberWithDefault')->name('data.rememberWithDefault');
 
     Route::view('defer', 'defer')->name('defer');
+    Route::view('defer/poll', 'deferPoll')->name('deferPoll');
     Route::view('defer/requestAttribute', 'deferRequestAttribute')->name('defer.requestAttribute');
 
     Route::view('errors', 'errors')->name('errors');
