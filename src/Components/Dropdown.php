@@ -11,8 +11,9 @@ class Dropdown extends Component
      *
      * @return void
      */
-    public function __construct(public string $scope = 'dropdown')
-    {
+    public function __construct(
+        public string $scope = 'dropdown'
+    ) {
     }
 
     /**

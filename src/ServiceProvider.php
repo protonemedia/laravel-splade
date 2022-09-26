@@ -20,19 +20,19 @@ use ProtoneMedia\Splade\Http\PrepareViewWithLazyComponents;
 class ServiceProvider extends BaseServiceProvider
 {
     /**
+     * Register the application services.
+     */
+    public function register()
+    {
+        $this->mergeConfigFrom(__DIR__ . '/../config/splade.php', 'splade');
+    }
+
+    /**
      * Bootstrap the application services.
      */
     public function boot()
     {
-        if ($this->app->runningInConsole()) {
-            $this->publishes([
-                __DIR__ . '/../config/splade.php' => config_path('splade.php'),
-            ], 'config');
-
-            $this->publishes([
-                __DIR__ . '/../resources/views' => base_path('resources/views/vendor/splade'),
-            ], 'views');
-        }
+        $this->registerPublishedPaths();
 
         $this->commands([
             PublishFormStylesheetsCommand::class,
@@ -42,57 +42,90 @@ class ServiceProvider extends BaseServiceProvider
 
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'splade');
 
-        //
+        $this->registerBindingsInContainer();
 
+        static::registerTransitionAnimations(
+            $this->app->make(TransitionRepository::class)
+        );
+
+        (new PrepareViewWithLazyComponents)
+            ->registerMacro()
+            ->registerEventListener();
+
+        $this->registerBladeComponentsAndDirectives();
+        $this->registerDuskMacros();
+        $this->registerViewMacros();
+        $this->registerRouteForEventRedirect();
+    }
+
+    /**
+     * Published the config and view files when the app
+     * is running in the console.
+     *
+     * @return void
+     */
+    private function registerPublishedPaths()
+    {
+        if ($this->app->runningInConsole()) {
+            return;
+        }
+
+        $this->publishes([
+            __DIR__ . '/../config/splade.php' => config_path('splade.php'),
+        ], 'config');
+
+        $this->publishes([
+            __DIR__ . '/../resources/views' => base_path('resources/views/vendor/splade'),
+        ], 'views');
+    }
+
+    /**
+     * Registers bindings in the container.
+     *
+     * @return void
+     */
+    private function registerBindingsInContainer()
+    {
+        // Splade Core
         $this->app->singleton(SpladeCore::class, function ($app) {
             return new SpladeCore(fn () => $app['request']);
         });
 
         $this->app->alias(SpladeCore::class, 'laravel-splade');
 
+        // Toast Builder
         $this->app->singleton('laravel-splade-toast', function ($app) {
             return $app->make(SpladeCore::class)->toastBuilder();
         });
 
+        // Splade Head (SEO)
         $this->app->singleton(Head::class, function ($app) {
             return $app->make(SpladeCore::class)->head();
         });
 
+        $this->app->alias(Head::class, 'laravel-splade-seo');
+
+        // Transition Repository
         $this->app->singleton(TransitionRepository::class, function ($app) {
             return new TransitionRepository;
         });
 
-        $this->app->alias(Head::class, 'laravel-splade-seo');
         $this->app->alias(TransitionRepository::class, 'laravel-splade-transition-repository');
-
-        (new BladeDirectives)->registerHandlers();
-
-        (new PrepareViewWithLazyComponents)
-            ->registerMacros()
-            ->registerEventListener();
-
-        $this->registerBladeComponents();
-        $this->registerDuskMacros();
-        $this->registerBladeMacros();
-
-        static::registerTransitionAnimations(
-            $this->app->make(TransitionRepository::class)
-        );
-
-        Route::get(config('splade.event_redirect_route'), function ($uuid) {
-            $data = Cache::pull(EventRedirect::class . $uuid);
-
-            if (!$data) {
-                abort(404);
-            }
-
-            return Redirect::to($data['target'])->with($data['with'] ?? []);
-        })->name('splade.eventRedirect')->middleware('signed');
     }
 
-    private function registerBladeComponents()
+    /**
+     * Registers the Splade Blade components and the directives.
+     *
+     * @return void
+     */
+    private function registerBladeComponentsAndDirectives()
     {
-        Blade::component(Components\SpladeComponent::class);
+        (new BladeDirectives)->registerHandlers();
+
+        // This is for internal use only so we ignore the prefix.
+        Blade::component(
+            Components\SpladeComponent::class
+        );
 
         Blade::components([
             Components\ButtonWithDropdown::class,
@@ -132,6 +165,11 @@ class ServiceProvider extends BaseServiceProvider
         ], config('splade.blade.component_prefix'));
     }
 
+    /**
+     * Registers Dusk macros to interact with the Choices.js library.
+     *
+     * @return void
+     */
     private function registerDuskMacros()
     {
         if (!class_exists(Browser::class)) {
@@ -182,7 +220,12 @@ class ServiceProvider extends BaseServiceProvider
         }
     }
 
-    private function registerBladeMacros()
+    /**
+     * Registers ComponentAttributeBag and View\Factory macros.
+     *
+     * @return void
+     */
+    private function registerViewMacros()
     {
         Factory::macro('getFirstSlot', function () {
             /** @var Factory $this */
@@ -217,6 +260,29 @@ class ServiceProvider extends BaseServiceProvider
         });
     }
 
+    /**
+     * Registers a route that's used to redirect
+     * the browser on broadcasted events.
+     *
+     * @return void
+     */
+    private function registerRouteForEventRedirect()
+    {
+        Route::get(config('splade.event_redirect_route'), function ($uuid) {
+            $data = Cache::pull(EventRedirect::class . $uuid);
+
+            abort_unless($data, 404);
+
+            return Redirect::to($data['target'])->with($data['with'] ?? []);
+        })->name('splade.eventRedirect')->middleware('signed');
+    }
+
+    /**
+     * Adds the default transitions to the repository.
+     *
+     * @param  \ProtoneMedia\Splade\TransitionRepository  $transitionRepository
+     * @return void
+     */
     public static function registerTransitionAnimations(TransitionRepository $transitionRepository)
     {
         $transitionRepository
@@ -256,13 +322,5 @@ class ServiceProvider extends BaseServiceProvider
                 leaveFrom: 'opacity-100 translate-x-0',
                 leaveTo: 'opacity-0 translate-x-full',
             );
-    }
-
-    /**
-     * Register the application services.
-     */
-    public function register()
-    {
-        $this->mergeConfigFrom(__DIR__ . '/../config/splade.php', 'splade');
     }
 }

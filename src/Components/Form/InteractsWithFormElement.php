@@ -6,11 +6,35 @@ use Illuminate\Support\Str;
 
 trait InteractsWithFormElement
 {
-    protected static function convertBracketsToDots($name): string
+    /**
+     * Transforms a bracket notation to a dotted notation.
+     * Example: form[name] to form.name
+     *
+     * @param  string  $name
+     * @return string
+     */
+    protected static function transformBracketsToDots(string $name): string
     {
         return str_replace(['[', ']'], ['.', ''], $name);
     }
 
+    /**
+     * Transforms a name to a dotted notation and removes the
+     * last '[]' from the name.
+     *
+     * @param  string  $name
+     * @return string
+     */
+    public static function dottedName(string $name): string
+    {
+        return static::transformBracketsToDots(Str::beforeLast($name, '[]'));
+    }
+
+    /**
+     * Returns the key from the validator that represents the form key.
+     *
+     * @return string
+     */
     public function validationKey(): string
     {
         if (property_exists($this, 'validationKey') && $this->validationKey) {
@@ -20,11 +44,11 @@ trait InteractsWithFormElement
         return $this->name;
     }
 
-    public static function dottedName(string $name): string
-    {
-        return static::convertBracketsToDots(Str::before($name, '[]'));
-    }
-
+    /**
+     * Returns the key of this element in the data object.
+     *
+     * @return string
+     */
     public function formKey(): string
     {
         if (property_exists($this, 'vModel') && $this->vModel) {
@@ -46,6 +70,11 @@ trait InteractsWithFormElement
             ->implode('');
     }
 
+    /**
+     * Returns the v-model (if set), or computes it based on the form key.
+     *
+     * @return string
+     */
     public function vueModel(): string
     {
         if (property_exists($this, 'vModel') && $this->vModel) {

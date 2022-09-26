@@ -12,8 +12,10 @@ class Modal extends Component
      *
      * @return void
      */
-    public function __construct(public SpladeCore $splade, public bool $closeButton = true)
-    {
+    public function __construct(
+        public SpladeCore $splade,
+        public bool $closeButton = true
+    ) {
     }
 
     /**

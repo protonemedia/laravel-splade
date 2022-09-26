@@ -30,7 +30,7 @@ class PrepareViewWithLazyComponents
      *
      * @return self
      */
-    public function registerMacros(): self
+    public function registerMacro(): self
     {
         View::macro('renderWithPreparedLazyComponents', function () {
             /** @var View $this */

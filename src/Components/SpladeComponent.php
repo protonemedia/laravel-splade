@@ -17,12 +17,24 @@ class SpladeComponent extends DynamicComponent
         $this->component = static::normalize($is);
     }
 
-    public static function tag($name): string
+    /**
+     * Prepends the 'x-' Blade Component prefix to the given name.
+     *
+     * @param  string  $name
+     * @return string
+     */
+    public static function tag(string $name): string
     {
         return 'x-' . static::normalize($name);
     }
 
-    public static function normalize($name): string
+    /**
+     * Prepends the configured prefix to the given component name.
+     *
+     * @param  string  $name
+     * @return string
+     */
+    public static function normalize(string $name): string
     {
         $prefix = config('splade.blade.component_prefix');
 

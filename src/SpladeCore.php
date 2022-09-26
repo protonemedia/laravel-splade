@@ -164,7 +164,7 @@ class SpladeCore
     }
 
     /**
-     * Resolves the given value if this the initial request.
+     * Resolves the given value if this is the initial request.
      *
      * @param  mixed  $value
      * @return mixed
@@ -175,7 +175,7 @@ class SpladeCore
     }
 
     /**
-     * Resolves the given value if this a =Splade request.
+     * Resolves the given value if this a Splade request.
      *
      * @param  mixed  $value
      * @return mixed

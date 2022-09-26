@@ -47,37 +47,72 @@ class Input extends Component
         }
 
         if ($this->date || $this->time) {
+            // The Flatpickr integration expects a 'text' type input.
             $this->type = 'text';
         }
 
         Form::allowAttribute($name);
     }
 
+    /**
+     * Returns a boolean whether the input type is 'hidden'.
+     *
+     * @return bool
+     */
     public function isHidden(): bool
     {
         return $this->type === 'hidden';
     }
 
+    /**
+     * Global setter for the default date format for Flatpickr
+     *
+     * @param  string  $format
+     * @return void
+     */
     public static function defaultDateFormat(string $format)
     {
         static::$defaultDateFormat = $format;
     }
 
+    /**
+     * Global setter for the default time format for Flatpickr
+     *
+     * @param  string  $format
+     * @return void
+     */
     public static function defaultTimeFormat(string $format)
     {
         static::$defaultTimeFormat = $format;
     }
 
+    /**
+     * Global setter for the default datetime format for Flatpickr
+     *
+     * @param  string  $format
+     * @return void
+     */
     public static function defaultDatetimeFormat(string $format)
     {
         static::$defaultDatetimeFormat = $format;
     }
 
+    /**
+     * Enable Flatpickr for all date/time input types, optionally with default options.
+     *
+     * @param  array|bool  $options
+     * @return void
+     */
     public static function defaultFlatpickr(array|bool $options = true)
     {
         static::$defaultFlatpickrOptions = $options;
     }
 
+    /**
+     * Returns the JSON representation of the Flatpickr options.
+     *
+     * @return string
+     */
     public function jsFlatpickrOptions(): string
     {
         if (is_string($this->date)) {
@@ -91,6 +126,12 @@ class Input extends Component
         return '{}';
     }
 
+    /**
+     * Returns an array with Flatpickr options. If Flatpickr won't
+     * be used, it returns a negative boolean.
+     *
+     * @return bool|array
+     */
     public function flatpickrOptions(): bool|array
     {
         if (!$this->date && !$this->time) {

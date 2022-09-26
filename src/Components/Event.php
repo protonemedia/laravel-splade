@@ -18,6 +18,12 @@ class Event extends Component
         $this->listeners = $this->parseListeners($listen);
     }
 
+    /**
+     * Parses the given 'listen' attribute.
+     *
+     * @param  mixed  $listen
+     * @return void
+     */
     private function parseListeners(mixed $listen)
     {
         if (!is_string($listen)) {

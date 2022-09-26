@@ -12,8 +12,10 @@ class Lazy extends Component
      *
      * @return void
      */
-    public function __construct(public SpladeCore $splade, public string $show = '')
-    {
+    public function __construct(
+        public SpladeCore $splade,
+        public string $show = ''
+    ) {
     }
 
     /**

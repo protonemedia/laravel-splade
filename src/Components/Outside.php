@@ -11,8 +11,9 @@ class Outside extends Component
      *
      * @return void
      */
-    public function __construct(public string $scope = 'outside')
-    {
+    public function __construct(
+        public string $scope = 'outside'
+    ) {
     }
 
     /**
