@@ -38,11 +38,11 @@ export default {
                 {
                     ownKeys() {
                         return Object.keys(self.toggles);
-
                     },
                     get(target, name) {
                         const toggleKeys = Object.keys(self.toggles);
 
+                        // This is a shortcut so you don't have to use the 'default' key.
                         if(toggleKeys.length === 1 && first(toggleKeys) === "default") {
                             if (name === "toggled") {
                                 return self.toggled("default");

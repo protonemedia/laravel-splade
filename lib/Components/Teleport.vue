@@ -9,12 +9,16 @@
 
 <script>
 export default {
-    data(){
-        return{
+    data() {
+        return {
             isMounted: false
         };
     },
 
+    /*
+     * Only render the Teleport component after this component is mounted.
+     * Otherwise, the target won't be available in the DOM yet.
+     */
     mounted() {
         this.isMounted = true;
     },

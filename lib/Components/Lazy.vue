@@ -41,15 +41,17 @@ export default {
     watch:{
         show(newValue) {
             if(newValue) {
+                // Perform a new request to refresh the content.
                 this.request();
-            }else{
+            } else {
+                // Clear the HTML so the placeholder will be shown to next time.
                 this.html = null;
             }
         }
     },
 
     mounted() {
-        if(this.show){
+        if(this.show) {
             this.request();
         }
     },

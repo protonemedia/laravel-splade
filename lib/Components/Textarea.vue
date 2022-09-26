@@ -21,7 +21,7 @@ export default {
         }
     },
 
-    data(){
+    data() {
         return {
             autosizeInstance: null,
             element: null,
@@ -35,6 +35,7 @@ export default {
             }
 
             import("autosize").then((autosize) => {
+                // Force the Autosize instance to update the element.
                 nextTick(() => autosize.default.update(this.element));
             });
         }
@@ -44,15 +45,18 @@ export default {
         this.element = this.$refs.textarea.querySelector("textarea");
 
         if(this.autosize) {
-            import("autosize").then((autosize)=>{
+            import("autosize").then((autosize) => {
                 this.autosizeInstance = autosize.default(this.element);
             });
         }
     },
 
+    /*
+     * Destroy the Autsize instance to prevent memory leaks.
+     */
     beforeUnmount(){
-        if(this.autosize && this.autosizeInstance){
-            import("autosize").then((autosize)=>{
+        if(this.autosize && this.autosizeInstance) {
+            import("autosize").then((autosize) => {
                 autosize.default.destroy(this.element);
             });
         }
