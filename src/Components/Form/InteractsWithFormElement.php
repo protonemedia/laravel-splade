@@ -22,7 +22,7 @@ trait InteractsWithFormElement
      * Transforms a name to a dotted notation and removes the
      * last '[]' from the name.
      *
-     * @param string $name
+     * @param  string  $name
      * @return string
      */
     public static function dottedName(string $name): string
