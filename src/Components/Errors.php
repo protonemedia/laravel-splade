@@ -11,8 +11,9 @@ class Errors extends Component
      *
      * @return void
      */
-    public function __construct(public string $scope = 'errors')
-    {
+    public function __construct(
+        public string $scope = 'errors'
+    ) {
     }
 
     /**

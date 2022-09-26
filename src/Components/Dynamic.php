@@ -11,8 +11,9 @@ class Dynamic extends Component
      *
      * @return void
      */
-    public function __construct(public string $name)
-    {
+    public function __construct(
+        public string $name
+    ) {
     }
 
     /**

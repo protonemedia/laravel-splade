@@ -11,8 +11,11 @@ class ModalWrapper extends Component
      *
      * @return void
      */
-    public function __construct(public string $key, public $baseAttributes, public bool $closeButton)
-    {
+    public function __construct(
+        public string $key,
+        public $baseAttributes,
+        public bool $closeButton
+    ) {
     }
 
     /**

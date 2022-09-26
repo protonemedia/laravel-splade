@@ -11,8 +11,9 @@ class Flash extends Component
      *
      * @return void
      */
-    public function __construct(public string $scope = 'flash')
-    {
+    public function __construct(
+        public string $scope = 'flash'
+    ) {
     }
 
     /**

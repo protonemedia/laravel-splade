@@ -5,6 +5,7 @@ namespace ProtoneMedia\Splade\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Str;
+use ProtoneMedia\Splade\Components\SpladeComponent;
 use ProtoneMedia\Splade\Ssr;
 
 class SsrTestCommand extends Command
@@ -22,29 +23,23 @@ class SsrTestCommand extends Command
     {
         $this->info('Testing SSR server: ' . config('splade.ssr.server'));
 
-        $bladePrefix = config('splade.blade.component_prefix');
-
-        if ($bladePrefix) {
-            $bladePrefix .= '-';
-        }
-
-        $html = Blade::render("<x-{$bladePrefix}data><p>Test</p></x-{$bladePrefix}data>");
+        $dataTag = SpladeComponent::tag('data');
 
         $result = (new Ssr)->render(
-            '',
-            $html,
-            [],
-            (object) []
+            components: '',
+            html: Blade::render("<{$dataTag}><p>Test</p></{$dataTag}>"),
+            dynamics: [],
+            splade: (object) []
         );
 
         if (Str::contains($result['body'] ?? '', '<p>Test</p>')) {
             $this->info('OK');
 
-            return 0;
+            return static::SUCCESS;
         }
 
         $this->error('Wrong response.');
 
-        return 1;
+        return static::FAILURE;
     }
 }

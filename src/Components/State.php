@@ -11,8 +11,9 @@ class State extends Component
      *
      * @return void
      */
-    public function __construct(public string $scope = 'state')
-    {
+    public function __construct(
+        public string $scope = 'state'
+    ) {
     }
 
     /**
