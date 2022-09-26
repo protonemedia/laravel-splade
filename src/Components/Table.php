@@ -7,6 +7,7 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\View\Component;
 use ProtoneMedia\Splade\SpladeTable;
+use ProtoneMedia\Splade\Table\Column;
 
 class Table extends Component
 {
@@ -22,22 +23,43 @@ class Table extends Component
     ) {
     }
 
-    public function hasPerPageOptions(): bool
-    {
-        return count($this->for->allPerPageOptions()) > 1;
-    }
-
+    /**
+     * Returns a boolean whether the resource is paginated.
+     *
+     * @return boolean
+     */
     public function isPaginated(): bool
     {
         return $this->for->resource instanceof Paginator
             || $this->for->resource instanceof CursorPaginator;
     }
 
+    /**
+     * Returns a boolean whether the resource is 'LengthAware'.
+     *
+     * @return boolean
+     */
     public function isLengthAware(): bool
     {
         return $this->for->resource instanceof LengthAwarePaginator;
     }
 
+    /**
+     * Returns a boolean whether the per-page selector has more than one option.
+     *
+     * @return boolean
+     */
+    public function hasPerPageOptions(): bool
+    {
+        return count($this->for->allPerPageOptions()) > 1;
+    }
+
+    /**
+     * Returns a boolean whether this table has 'controls', which are
+     * the buttons and input elements above the table header.
+     *
+     * @return boolean
+     */
     public function hasControls(): bool
     {
         return $this->for->isSorted()
@@ -49,6 +71,11 @@ class Table extends Component
             || $this->for->searchInputs('global');
     }
 
+    /**
+     * Returns a boolean whether the 'reset' button should be visible.
+     *
+     * @return boolean
+     */
     public function canResetTable(): bool
     {
         return $this->for->isSorted()
@@ -58,7 +85,13 @@ class Table extends Component
             || $this->for->hasSearchFiltersEnabled();
     }
 
-    public function sortBy($column): string
+    /**
+     * Transforms the current URL to sort by the given column and reset the current page.
+     *
+     * @param \ProtoneMedia\Splade\Table\Column $column
+     * @return string
+     */
+    public function sortBy(Column $column): string
     {
         return request()->fullUrlWithQuery([
             'page' => null,
