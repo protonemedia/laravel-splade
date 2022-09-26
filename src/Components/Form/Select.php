@@ -100,7 +100,7 @@ class Select extends Component
     /**
      * This maps each option into a FormSelectOption instance.
      *
-     * @param mixed $options
+     * @param  mixed  $options
      * @return array
      */
     private function mapOptions($options): array
@@ -168,8 +168,8 @@ class Select extends Component
      * Determines whether the given value is selected. It's a
      * workaround for a Vue bug. See also Form::selected().
      *
-     * @param mixed $value
-     * @return boolean
+     * @param  mixed  $value
+     * @return bool
      */
     public function selected($value): bool
     {
