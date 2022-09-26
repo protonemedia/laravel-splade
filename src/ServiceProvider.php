@@ -66,7 +66,7 @@ class ServiceProvider extends BaseServiceProvider
      */
     private function registerPublishedPaths()
     {
-        if ($this->app->runningInConsole()) {
+        if (!$this->app->runningInConsole()) {
             return;
         }
 
