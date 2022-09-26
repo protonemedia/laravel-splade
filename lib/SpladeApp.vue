@@ -50,6 +50,11 @@ import isString from "lodash-es/isString";
 import Render from "./Components/Render.vue";
 import ServerError from "./ServerError.vue";
 
+/**
+ * When the app runs in the browser, it will parse the initial data and components
+ * from the div#app attributes. Otherwise, when running an SSR server, that
+ * data will be passed as props and the 'el' prop will be empty.
+ */
 const props = defineProps({
     el: {
         type: [String, Object],
@@ -106,12 +111,21 @@ const props = defineProps({
     },
 });
 
+/**
+ * Provide the current stack to other components so they
+ * can calculate whether they are on top of the stack.
+ */
 provide("stack", 0);
 
 const html = ref();
 const modals = ref([]);
 const serverErrorHtml = ref(null);
 
+const $spladeOptions = inject("$spladeOptions") || {};
+
+/**
+ * When a modal or slideover is visible, it blurs the underlying page.
+ */
 const backdropStyling = computed(() => {
     if(Splade.currentStack.value < 1) {
         return [];
@@ -125,17 +139,25 @@ const backdropStyling = computed(() => {
     };
 });
 
+/**
+ * Hides the Server Error iframe.
+ */
 function closeServerError() {
     serverErrorHtml.value = null;
 }
 
+/**
+ * Closes the modal in the given stack count.
+ */
 function closeModal(stack) {
     modals[stack] = null;
     Splade.popStack();
 }
 
-const $spladeOptions = inject("$spladeOptions") || {};
-
+/**
+ * It finds the meta tag with the given attribute and content. If it
+ * doesn't exists, we create it and append it to the head.
+ */
 function findOrCreateMeta(attribute, content)
 {
     let $el = document.querySelector(`meta[${attribute}="${content}"]`);
@@ -151,6 +173,9 @@ function findOrCreateMeta(attribute, content)
     return $el;
 }
 
+/**
+ * Updates the meta tag by the given meta object.
+ */
 function updateMetaElement(meta) {
     const $el = meta.name
         ? findOrCreateMeta("name", meta.name)
@@ -161,6 +186,9 @@ function updateMetaElement(meta) {
     });
 }
 
+/**
+ * Update the document title and meta tags based on the new head data.
+ */
 Splade.setOnHead((newHead) => {
     if(Splade.isSsr) {
         return;
@@ -173,6 +201,11 @@ Splade.setOnHead((newHead) => {
     });
 });
 
+/**
+ * Reset the modals array and set the new HTML. Scroll to the given
+ * scroll height and, if configured, attach an click handler to
+ * all anchor elements to use Splade's SPA capabilities.
+ */
 Splade.setOnHtml((newHtml, scrollY) => {
     modals.value = [];
 
@@ -206,13 +239,22 @@ Splade.setOnHtml((newHtml, scrollY) => {
     });
 });
 
+/**
+ * Push the modal HTML and type to the modals array.
+ */
 Splade.setOnModal(function (html, type) {
     modals.value[Splade.currentStack.value] = { html, type };
 });
 
+/**
+ * Set the Server Error.
+ */
 Splade.setOnServerError(function (html) {
     serverErrorHtml.value = html;
 });
 
+/**
+ * Initialize the Splade app with the data from the div#app attributes.
+ */
 Splade.init(props.initialHtml, props.initialDynamics, props.initialSpladeData);
 </script>
