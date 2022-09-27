@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 0.5.5 - 2022-09-27
+
+- Fix for wrong `poll` type in Defer component
+- Support for setting the 'per-page' options globally or disable it (Table component)
+- Support for defining the Toast message in the style/position method - `Toast::danger('Whoops!')`
+- SpladeMiddleware and ServiceProvider refactor
+- Added tons of docblocks and comments in the codebase
+
 ## 0.5.4 - 2022-09-25
 
 Added docblocks + refactor
