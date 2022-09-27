@@ -976,7 +976,7 @@ function $i(e, t, r) {
 function $t(e, t, r) {
   return e = Rr(e), r = r == null ? 0 : hi(jr(r), 0, e.length), t = kt(t), e.slice(r, r + t.length) == t;
 }
-const Ct = y(0), vr = y(1), Oe = typeof window > "u";
+const Ct = y(0), vr = y(1), F = y({}), ue = y(0), Oe = typeof window > "u";
 function Vu(e, t, r) {
   Oe || window.addEventListener("popstate", Hu.bind(this)), Object.keys(t).length > 0 && Ct.value++, Vr(r), Ht(r.head), Hr(e);
   const n = Oe ? "" : location.href, i = Mr(
@@ -1023,16 +1023,16 @@ function Wu(e) {
 function Ei(e) {
   Oe || window.history.replaceState(e, "", e.url);
 }
-const F = y({}), ir = y(0);
+const ir = y(0);
 function zu(e, t) {
   ir.value++;
   const r = e.request.responseURL;
-  if (e.data.splade.modal && ue.value++, e.data.splade.lazy)
+  if (e.data.splade.lazy)
     return;
-  Vr(e.data.splade), Ht(e.data.splade.head);
+  e.data.splade.modal && ue.value++, Vr(e.data.splade), Ht(e.data.splade.head);
   const n = r === F.value.url;
   if (n && (t = !0), e.data.splade.modal)
-    return nc(e.data.html, e.data.splade.modal);
+    return rc(e.data.html, e.data.splade.modal);
   if (e.data.splade.preventRefresh && n)
     return;
   ue.value = 0;
@@ -1052,14 +1052,14 @@ function zu(e, t) {
   );
   t ? Ei(l) : Uu(l);
 }
-const ue = y(0);
 function Gu() {
   ue.value--, Ht(Xu(ue.value));
 }
-const _i = y({}), xi = y({}), Ti = (e) => xi.value[e], Ku = (e) => Object.keys(Ti.value[e]).length > 0, Ai = y({}), Xu = (e) => Ai.value[e], Pi = y({}), Qu = (e) => Pi.value[e], Ue = y([]), Yu = I(() => Xo(Ue.value));
-function Ju(e) {
+const _i = y({}), xi = (e) => _i.value[e], Ku = (e) => Object.keys(xi.value[e]).length > 0, Ti = y({}), Xu = (e) => Ti.value[e], Ai = y({}), Qu = (e) => Ai.value[e], Ue = y([]);
+function Yu(e) {
   Ue.value.push(e);
 }
+const Ju = I(() => Xo(Ue.value));
 function Zu(e) {
   Ue.value[e].dismissed = !0, Ue.value[e].html = null;
 }
@@ -1081,39 +1081,45 @@ function ec(e, t, r, n) {
 function tc() {
   Nr.value = null;
 }
+const Pi = y({});
 function Vr(e) {
-  _i.value = e.shared ? e.shared : {}, Pi.value[ue.value] = e.flash ? e.flash : {}, Ai.value[ue.value] = e.head ? e.head : {}, zo(e.toasts ? e.toasts : [], (t) => {
+  Pi.value = e.shared ? e.shared : {}, Ai.value[ue.value] = e.flash ? e.flash : {}, Ti.value[ue.value] = e.head ? e.head : {}, zo(e.toasts ? e.toasts : [], (t) => {
     Ue.value.push(t);
-  }), xi.value[ue.value] = e.errors ? e.errors : {};
+  }), _i.value[ue.value] = e.errors ? e.errors : {};
 }
-function rc(e) {
-  qi.value(e);
-}
+const Ii = y(() => {
+}), Ci = y(() => {
+}), Di = y(() => {
+}), ji = y(() => {
+});
 function Ht(e) {
-  ji.value(e);
+  Ii.value(e);
 }
 function Hr(e, t) {
-  Bi.value(e, t);
+  Ci.value(e, t);
 }
-function nc(e, t) {
-  Fi.value(e, t);
+function rc(e, t) {
+  Di.value(e, t);
 }
-const Ii = y({});
-function Ci(e, t, r) {
-  Ii.value[e] = t, r && ic(e, t);
+function nc(e) {
+  ji.value(e);
+}
+const Bi = y({});
+function Fi(e, t, r) {
+  Bi.value[e] = t, r && ic(e, t);
 }
 function ic(e, t) {
   let r = JSON.parse(localStorage.getItem("splade") || "{}") || {};
   r[e] = t, localStorage.setItem("splade", JSON.stringify(r));
 }
 function ac(e, t) {
-  return t ? (JSON.parse(localStorage.getItem("splade") || "{}") || {})[e] : Ii.value[e];
+  return t ? (JSON.parse(localStorage.getItem("splade") || "{}") || {})[e] : Bi.value[e];
 }
 function Et(e, t) {
   Oe || document.dispatchEvent(new CustomEvent(`splade:${e}`, { detail: t }));
 }
 function Xe(e, t, r, n, i) {
-  Oe || Ci("scrollY", window.scrollY), Et("request", { url: e, method: t, data: r, headers: n, replace: i });
+  Oe || Fi("scrollY", window.scrollY), Et("request", { url: e, method: t, data: r, headers: n, replace: i });
   const a = Yn({
     method: t,
     url: e,
@@ -1133,12 +1139,12 @@ function Xe(e, t, r, n, i) {
   }).catch((o) => {
     Et("request-error", { url: e, method: t, data: r, headers: n, replace: i, error: o });
     const s = o.response.data.splade;
-    s && (s.lazy || Vr(s)), o.response.status != 422 && rc(
+    s && (s.lazy || Vr(s)), o.response.status != 422 && nc(
       o.response.data.html ? o.response.data.html : o.response.data
     );
   }), a;
 }
-function Di(e) {
+function qi(e) {
   return Xe(e, "GET", {}, {}, !0);
 }
 function oc(e) {
@@ -1154,15 +1160,11 @@ function uc(e, t) {
   return Xe(e, "GET", {}, { "X-Splade-Lazy": t }, !1);
 }
 function cc() {
-  return Di(F.value.url);
+  return qi(F.value.url);
 }
-const ji = y(() => {
-}), Bi = y(() => {
-}), Fi = y(() => {
-}), qi = y(() => {
-}), m = {
+const m = {
   init: Vu,
-  replace: Di,
+  replace: qi,
   visit: oc,
   modal: sc,
   slideover: lc,
@@ -1174,30 +1176,30 @@ const ji = y(() => {
     return F.value.dynamics[e];
   },
   setOnHead(e) {
-    ji.value = e;
+    Ii.value = e;
   },
   setOnHtml(e) {
-    Bi.value = e;
+    Ci.value = e;
   },
   setOnModal(e) {
-    Fi.value = e;
+    Di.value = e;
   },
   setOnServerError(e) {
-    qi.value = e;
+    ji.value = e;
   },
   hasValidationErrors: Ku,
-  validationErrors: Ti,
-  sharedData: _i,
+  validationErrors: xi,
+  sharedData: Pi,
   flashData: Qu,
   toasts: Ue,
-  toastsReversed: Yu,
+  toastsReversed: Ju,
   confirmModal: Nr,
   confirm: ec,
   clearConfirmModal: tc,
-  pushToast: Ju,
+  pushToast: Yu,
   dismissToast: Zu,
   restore: ac,
-  remember: Ci,
+  remember: Fi,
   popStack: Gu,
   currentStack: ue,
   pageVisitId: I(() => F.value.pageVisitId),
@@ -1231,29 +1233,28 @@ const ji = y(() => {
   },
   emits: ["close"],
   setup(e, { emit: t }) {
-    const r = e;
-    function n() {
-      document.body.style.overflow = "visible", document.removeEventListener("keydown", o), t("close");
-    }
-    const i = y(null);
-    function a() {
+    const r = e, n = y(null);
+    function i() {
       const s = document.createElement("html");
       s.innerHTML = r.html, s.querySelectorAll("a").forEach((u) => u.setAttribute("target", "_top")), document.body.style.overflow = "hidden";
-      const l = i.value;
+      const l = n.value;
       if (!l.contentWindow)
         throw new Error("iframe not yet ready.");
-      l.contentWindow.document.open(), l.contentWindow.document.write(s.outerHTML), l.contentWindow.document.close(), document.addEventListener("keydown", o);
+      l.contentWindow.document.open(), l.contentWindow.document.write(s.outerHTML), l.contentWindow.document.close(), document.addEventListener("keydown", a);
     }
-    function o(s) {
-      s.keyCode === 27 && n();
+    function a(s) {
+      s.keyCode === 27 && o();
     }
-    return M(() => a()), (s, l) => (j(), de("div", {
+    function o() {
+      document.body.style.overflow = "visible", document.removeEventListener("keydown", a), t("close");
+    }
+    return M(() => i()), (s, l) => (j(), de("div", {
       style: { position: "fixed", top: "0px", right: "0px", bottom: "0px", left: "0px", "z-index": "200000", "box-sizing": "border-box", height: "100vh", width: "100vw", "background-color": "rgb(0 0 0 / 0.75)", padding: "2rem" },
-      onClick: n
+      onClick: o
     }, [
       lr("iframe", {
         ref_key: "iframeElement",
-        ref: i,
+        ref: n,
         class: "bg-white w-full h-full"
       }, null, 512)
     ]));
@@ -1310,19 +1311,18 @@ const ji = y(() => {
   setup(e) {
     const t = e;
     te("stack", 0);
-    const r = y(), n = y([]), i = y(null), a = I(() => m.currentStack.value < 1 ? [] : {
+    const r = y(), n = y([]), i = y(null), a = U("$spladeOptions") || {}, o = I(() => m.currentStack.value < 1 ? [] : {
       filter: "blur(4px)",
       "transition-property": "filter",
       "transition-duration": "150ms",
       "transition-timing-function": "cubic-bezier(0.4, 0, 0.2, 1)"
     });
-    function o() {
+    function s() {
       i.value = null;
     }
-    function s(f) {
+    function l(f) {
       n[f] = null, m.popStack();
     }
-    const l = U("$spladeOptions") || {};
     function u(f, p) {
       let d = document.querySelector(`meta[${f}="${p}"]`);
       return d || (d = document.createElement("meta"), d[f] = p, document.getElementsByTagName("head")[0].appendChild(d), d);
@@ -1339,7 +1339,7 @@ const ji = y(() => {
       }));
     }), m.setOnHtml((f, p) => {
       n.value = [], r.value = f, st(() => {
-        m.isSsr || window.scrollTo(0, p), l.transform_anchors && [...document.querySelectorAll("a")].forEach((d) => {
+        m.isSsr || window.scrollTo(0, p), a.transform_anchors && [...document.querySelectorAll("a")].forEach((d) => {
           d.href == "" || d.href.charAt(0) == "#" || d.__vnode.dynamicProps === null && (d.hasAttribute("download") || (d.onclick = function(v) {
             v.preventDefault(), m.visit(d.href);
           }));
@@ -1352,15 +1352,15 @@ const ji = y(() => {
     }), m.init(t.initialHtml, t.initialDynamics, t.initialSpladeData), (f, p) => (j(), de("div", null, [
       H(m).isSsr ? (j(), G(se, {
         key: `visit.${H(m).pageVisitId.value}`,
-        style: fn(H(a)),
+        style: fn(H(o)),
         html: r.value
       }, null, 8, ["style", "html"])) : (j(), G(Jn, {
         key: 0,
-        max: H(l).max_keep_alive
+        max: H(a).max_keep_alive
       }, [
         (j(), G(se, {
           key: `visit.${H(m).pageVisitId.value}`,
-          style: fn(H(a)),
+          style: fn(H(o)),
           html: r.value
         }, null, 8, ["style", "html"]))
       ], 1032, ["max"])),
@@ -1371,12 +1371,12 @@ const ji = y(() => {
         html: n.value[d].html,
         stack: d,
         "on-top-of-stack": H(m).currentStack.value === d,
-        onClose: (v) => s(d)
+        onClose: (v) => l(d)
       }, null, 8, ["type", "html", "stack", "on-top-of-stack", "onClose"]))), 128)),
       i.value ? (j(), G(fc, {
         key: 2,
         html: i.value,
-        onClose: o
+        onClose: s
       }, null, 8, ["html"])) : Ft("", !0)
     ]));
   }
