@@ -21,7 +21,7 @@ class Defer extends Component
      *
      * @return void
      */
-    public function __construct($default = null, $request = null, public string $scope = '{ processing, response, reload }')
+    public function __construct($default = null, $request = null, public ?int $poll = null, public string $scope = '{ processing, response, reload }')
     {
         $parsed = $this->parseJsonData($default);
 
