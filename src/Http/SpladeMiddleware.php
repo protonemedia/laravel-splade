@@ -54,6 +54,9 @@ class SpladeMiddleware
             return $response;
         }
 
+        // Gather the required meta data for the app.
+        $spladeData = $this->spladeData($request->session());
+
         // If the response is a redirect, put the toasts into the session
         // so they won't be lost in the next request.
         if (in_array($response->getStatusCode(), [302, 303])) {
@@ -62,8 +65,8 @@ class SpladeMiddleware
 
         // A Splade request is a request made by the Vue app, so not the initial first request.
         return $this->splade->isSpladeRequest()
-            ? $this->handleSpladeRequest($request, $response)
-            : $this->handleRegularRequest($request, $response);
+            ? $this->handleSpladeRequest($request, $response, $spladeData)
+            : $this->handleRegularRequest($request, $response, $spladeData);
     }
 
     /**
@@ -71,13 +74,11 @@ class SpladeMiddleware
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Illuminate\Http\Response  $response
+     * @param  object  $spladeData
      * @return \Illuminate\Http\Response
      */
-    private function handleSpladeRequest(Request $request, Response $response): Response
+    private function handleSpladeRequest(Request $request, Response $response, object $spladeData): Response
     {
-        // Gather the required meta data for the app.
-        $spladeData = $this->spladeData($request->session());
-
         // We don't mess with JsonResponses, except we add the Splade data to it.
         if ($response instanceof JsonResponse) {
             $newData = array_merge(
@@ -91,6 +92,10 @@ class SpladeMiddleware
             }
 
             return $response->setData($newData);
+        }
+
+        if (!$response->isSuccessful()) {
+            return $response;
         }
 
         // Get the rendered content...
@@ -112,9 +117,10 @@ class SpladeMiddleware
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Illuminate\Http\Response  $response
+     * @param  object  $spladeData
      * @return \Illuminate\Http\Response
      */
-    private function handleRegularRequest(Request $request, Response $response): Response
+    private function handleRegularRequest(Request $request, Response $response, object $spladeData): Response
     {
         // No Splade request, but a regular JsonResponse that was
         // requested, for example, from the Defer component...
@@ -138,9 +144,6 @@ class SpladeMiddleware
 
         // Extract the Dynamic Content, we'll return that separately so Vue can handle it.
         [$content, $dynamics] = static::extractDynamicsFromContent($originalContent);
-
-        // Gather the required meta data for the app.
-        $spladeData = $this->spladeData($request->session());
 
         $viewData = [
             'components' => static::renderedComponents(),
