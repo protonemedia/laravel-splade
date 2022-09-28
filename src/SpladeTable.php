@@ -257,8 +257,8 @@ class SpladeTable
         bool $sortable = false,
         bool $searchable = false
     ): self {
-        $key   = $key ?: Str::kebab($label);
-        $label = $label ?: Str::headline($key);
+        $key   = $key   !== null ? $key : Str::kebab($label);
+        $label = $label !== null ? $label : Str::headline($key);
 
         $canBeHidden = is_bool($canBeHidden)
             ? $canBeHidden

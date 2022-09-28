@@ -15,11 +15,13 @@
 
             <x-splade-component is="table-wrapper">
                 <table class="min-w-full divide-y divide-gray-200 bg-white">
-                    @isset($head)
-                        {{ $head }}
-                    @else
-                        @include('splade::table.head')
-                    @endisset
+                    @unless($headless)
+                        @isset($head)
+                            {{ $head }}
+                        @else
+                            @include('splade::table.head')
+                        @endisset
+                    @endunless
 
                     @isset($body)
                         {{ $body }}

@@ -19,6 +19,7 @@ class Table extends Component
     public function __construct(
         public SpladeTable $for,
         public bool $striped = false,
+        public bool $headless = false,
         public string $scope = 'table'
     ) {
     }
