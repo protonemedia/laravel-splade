@@ -30,7 +30,7 @@
 
                 @includeWhen($help, 'splade::form.help', ['help' => $help])
 
-                <div class="mt-2 text-sm italic">
+                <div class="mt-2 text-sm italic" v-if="file.filenames.length > 0">
                     <p v-for="(filename, key) in file.filenames" v-bind:key="key" v-text="filename" />
                 </div>
             </div>
