@@ -119,19 +119,22 @@ class Select extends Component
             if (!is_array($label)) {
                 // A "regular" select option.
                 return new FormSelectOption([
-                    'value' => $value,
-                    'label' => $label,
+                    'value' => (string) $value,
+                    'label' => (string) $label,
                 ]);
             }
 
             // The label itself is an array with a 'value' and 'label' key.
             if (array_key_exists('value', $label) && array_key_exists('label', $label)) {
+                $label['value'] = (string) $label['value'];
+                $label['label'] = (string) $label['label'];
+
                 return new FormSelectOption($label);
             }
 
             // A nested optgroup.
             return new FormSelectOption([
-                'label'   => $value,
+                'label'   => (string) $value,
                 'options' => $this->mapOptions($label),
             ]);
         })->all();
