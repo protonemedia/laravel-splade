@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 0.5.6 - 2022-10-03
+
+- Support for rendering the Table component with auto-fill, but without the `thead` element
+- Improved Choices.js compatibility in the Select component
+- Improved support for registering multiple custom Vue components at once
+- File Input component UI fixes
+- Table component UI fixes
+
 ## 0.5.5 - 2022-09-27
 
 - Fix for wrong `poll` type in Defer component
