@@ -28,6 +28,7 @@ import OnClickOutside from "./../Components/OnClickOutside.vue";
 import { createPopper } from "@popperjs/core/lib/popper-lite";
 import preventOverflow from "@popperjs/core/lib/modifiers/preventOverflow";
 import flip from "@popperjs/core/lib/modifiers/flip";
+import { nextTick } from "vue";
 
 export default {
     components: {
@@ -35,9 +36,18 @@ export default {
     },
 
     props: {
+        spladeId: {
+            type: String,
+            required: true,
+        },
         placement: {
             type: String,
             default: "bottom-start",
+            required: false,
+        },
+        strategy: {
+            type: String,
+            default: "absolute",
             required: false,
         },
         disabled: {
@@ -60,10 +70,16 @@ export default {
         },
     },
 
-    mounted() {
-        this.popper = createPopper(this.$refs.button, this.$refs.tooltip.children[0], {
+    mounted: async function () {
+        // Wait for the Teleport to render...
+        await nextTick();
+
+        const tooltip = document.querySelector(`div[data-splade-dropdown-id="${this.spladeId}"]`);
+
+        this.popper = createPopper(this.$refs.button, tooltip, {
             placement: this.placement,
             modifiers: [flip, preventOverflow],
+            strategy: this.strategy,
         });
     },
 

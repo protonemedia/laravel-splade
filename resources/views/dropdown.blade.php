@@ -1,4 +1,4 @@
-<SpladeDropdown {{ $attributes->except('class')->merge(['placement' => 'bottom-start']) }}>
+<SpladeDropdown {{ $attributes->except('class') }} :splade-id="@js($spladeId)">
     <template #button="dropdown">
       <button
         type="button"
@@ -13,10 +13,12 @@
     </template>
 
     <template #default="dropdown">
-        <div class="absolute z-40">
+      <x-splade-component is="teleport" to="body">
+        <div data-splade-dropdown-id="{{ $spladeId }}" class="absolute z-40">
           <x-splade-component is="transition" show="dropdown.opened">
               {{ $slot }}
           </x-splade-component>
         </div>
+      </x-splade-component>
     </template>
 </SpladeDropdown>

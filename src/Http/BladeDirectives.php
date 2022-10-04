@@ -56,11 +56,11 @@ class BladeDirectives
      */
     public static function parseTableCellDirectiveExpression(string $expression): array
     {
-        preg_match("/('|\")(\w+)('|\")(,)(\s*)(.*)/", $expression, $matches);
+        preg_match("/('|\")(\w+)('|\")(,)?(\s*)(.*)/", $expression, $matches);
 
-        $name = trim($matches[2]);
+        $name = trim($matches[2] ?? "");
 
-        $arguments = trim($matches[6], '\[\]');
+        $arguments = trim($matches[6] ?? "", '\[\]');
 
         $splitted = preg_split('/\],(\s*)/', $arguments);
 

@@ -2,10 +2,13 @@
 
 namespace ProtoneMedia\Splade\Components;
 
+use Illuminate\Support\Str;
 use Illuminate\View\Component;
 
 class Dropdown extends Component
 {
+    public string $spladeId;
+
     /**
      * Create a new component instance.
      *
@@ -14,6 +17,7 @@ class Dropdown extends Component
     public function __construct(
         public string $scope = 'dropdown'
     ) {
+        $this->spladeId = Str::random();
     }
 
     /**
