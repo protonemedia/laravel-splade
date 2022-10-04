@@ -1,10 +1,13 @@
 <template>
   <OnClickOutside
-    class="relative"
+    :style="wrapperStyle"
     :do="hide"
     :opened="opened"
   >
-    <div ref="button">
+    <div
+      ref="button"
+      :style="buttonStyle"
+    >
       <slot
         name="button"
         :toggle="toggle"
@@ -50,6 +53,11 @@ export default {
             default: "absolute",
             required: false,
         },
+        inline: {
+            type: Boolean,
+            default: false,
+            required: false,
+        },
         disabled: {
             type: Boolean,
             default: false,
@@ -62,6 +70,22 @@ export default {
             opened: false,
             popper: null,
         };
+    },
+
+    computed: {
+        buttonStyle() {
+            return this.inline ? { display: "inline" } : {};
+        },
+
+        wrapperStyle() {
+            const style = { position: "relative" };
+
+            if(this.inline) {
+                style.display = "inline";
+            }
+
+            return style;
+        }
     },
 
     watch: {
