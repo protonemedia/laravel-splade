@@ -15,6 +15,7 @@ class BladeDirectivesTest extends TestCase
         $this->assertEquals('action', $name);
         $this->assertEquals('function ($user) use ($__env)', $function);
     }
+
     /** @test */
     public function it_parses_the_expression_without_a_second_argument()
     {
