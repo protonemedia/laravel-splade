@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 0.5.7 - 2022-10-04
+
+- Dropdowns are now rendered using portals, for example, so that they are rendered outside of tables to prevent overflow issues
+- Support for inline dropdowns
+- Custom Table cell regex bugfix
+
 ## 0.5.6 - 2022-10-03
 
 - Support for rendering the Table component with auto-fill, but without the `thead` element
