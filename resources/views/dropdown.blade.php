@@ -1,4 +1,7 @@
-<SpladeDropdown {{ $attributes->except('class')->mergeVueBinding(':inline', $inline) }} :splade-id="@js($spladeId)">
+<SpladeDropdown {{ $attributes->except('class')
+    ->mergeVueBinding(':inline', $inline)
+    ->mergeVueBinding(':teleport', $teleport)
+}} :splade-id="@js($spladeId)">
     <template #button="dropdown">
       <button
         type="button"
@@ -13,7 +16,7 @@
     </template>
 
     <template #default="dropdown">
-      <x-splade-component is="teleport" to="body">
+      <x-splade-component :is="$teleport ? 'teleport' : 'slot'" to="body">
         <div data-splade-dropdown-id="{{ $spladeId }}" class="absolute z-40">
           <x-splade-component is="transition" show="dropdown.opened">
               {{ $slot }}

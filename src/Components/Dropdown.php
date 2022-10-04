@@ -16,7 +16,8 @@ class Dropdown extends Component
      */
     public function __construct(
         public string $scope = 'dropdown',
-        public bool $inline = false
+        public bool $inline = false,
+        public bool $teleport = false,
     ) {
         $this->spladeId = Str::random();
     }

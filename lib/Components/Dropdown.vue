@@ -43,22 +43,32 @@ export default {
             type: String,
             required: true,
         },
+
         placement: {
             type: String,
             default: "bottom-start",
             required: false,
         },
+
         strategy: {
             type: String,
             default: "absolute",
             required: false,
         },
+
         inline: {
             type: Boolean,
             default: false,
             required: false,
         },
+
         disabled: {
+            type: Boolean,
+            default: false,
+            required: false,
+        },
+
+        teleport: {
             type: Boolean,
             default: false,
             required: false,
@@ -95,10 +105,14 @@ export default {
     },
 
     mounted: async function () {
-        // Wait for the Teleport to render...
-        await nextTick();
+        if(this.teleport) {
+            // Wait for the Teleport to render...
+            await nextTick();
+        }
 
-        const tooltip = document.querySelector(`div[data-splade-dropdown-id="${this.spladeId}"]`);
+        const tooltip = this.teleport
+            ? document.querySelector(`div[data-splade-dropdown-id="${this.spladeId}"]`)
+            : this.$refs.tooltip.children[0];
 
         this.popper = createPopper(this.$refs.button, tooltip, {
             placement: this.placement,
