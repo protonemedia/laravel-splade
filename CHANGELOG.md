@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 0.5.8 - 2022-10-04
+
+- The default *confirm* texts are now translated by default
+
 ## 0.5.7 - 2022-10-04
 
 - Dropdowns are now rendered using portals, for example, so that they are rendered outside of tables to prevent overflow issues
