@@ -2,6 +2,13 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 0.5.9 - 2022-10-05
+
+- The debounce value of the Table component is now configurable.
+- You may now pass a value to the Defer component that it will watch and perform a request whenever the value changes (with an optional debounce).
+- The Defer component now has a `manual` attribute to prevent it from loading after mounting.
+- The Dropdown component now has a `teleport` attribute to indicate whether it should be attached to the body.
+
 ## 0.5.8 - 2022-10-04
 
 - The default *confirm* texts are now translated by default
