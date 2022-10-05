@@ -20,8 +20,12 @@ class Table extends Component
         public SpladeTable $for,
         public bool $striped = false,
         public bool $headless = false,
-        public string $scope = 'table'
+        public string $scope = 'table',
+        public ?int $searchDebounce = null,
     ) {
+        $this->searchDebounce = is_null($searchDebounce)
+            ? SpladeTable::getDefaultSearchDebounce()
+            : $searchDebounce;
     }
 
     /**

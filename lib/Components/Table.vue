@@ -27,13 +27,20 @@ export default {
         defaultVisibleToggleableColumns: {
             type: Array,
             required: true
+        },
+
+        searchDebounce: {
+            type: Number,
+            required: false,
+            default: 350
         }
     },
 
     data() {
         return {
             visibleColumns: [],
-            forcedVisibleSearchInputs: []
+            forcedVisibleSearchInputs: [],
+            debounceUpdateQuery: null
         };
     },
 
@@ -53,6 +60,15 @@ export default {
         hasForcedVisibleSearchInputs() {
             return this.forcedVisibleSearchInputs.length > 0;
         }
+    },
+
+    created() {
+        /*
+         * Debounces the update query.
+         */
+        this.debounceUpdateQuery = debounce(function(key, value, $el) {
+            this.updateQuery(key, value, $el);
+        }, this.searchDebounce);
     },
 
     mounted(){
@@ -172,16 +188,9 @@ export default {
         /*
          * Returns a boolean whether the key should be visible.
          */
-        isForcedVisible(key){
+        isForcedVisible(key) {
             return this.forcedVisibleSearchInputs.includes(key);
         },
-
-        /*
-         * Debounces the update query with 350ms.
-         */
-        debounceUpdateQuery: debounce(function(key, value, $el) {
-            this.updateQuery(key, value, $el);
-        }, 350),
 
         /*
          * Parses the window's current query as an object.

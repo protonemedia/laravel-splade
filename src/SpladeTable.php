@@ -37,6 +37,8 @@ class SpladeTable
 
     private static array $defaultPerPageOptions = [15, 30, 50, 100];
 
+    private static int $defaultSearchDebounce = 350;
+
     /**
      * Creates a new instance.
      *
@@ -122,6 +124,27 @@ class SpladeTable
     public static function defaultPerPageOptions(array $perPageOptions)
     {
         static::$defaultPerPageOptions = $perPageOptions;
+    }
+
+    /**
+     * Get the default debounce value.
+     *
+     * @return int
+     */
+    public static function getDefaultSearchDebounce(): int
+    {
+        return static::$defaultSearchDebounce;
+    }
+
+    /**
+     * Set a default debounce value.
+     *
+     * @param  int  $milliseconds
+     * @return void
+     */
+    public static function defaultSearchDebounce(int $milliseconds)
+    {
+        static::$defaultSearchDebounce = max(0, $milliseconds);
     }
 
     /**

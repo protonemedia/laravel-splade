@@ -1,6 +1,7 @@
 <SpladeTable {{ $attributes->except('class') }}
     :striped="@js($striped)"
     :columns="@js($table->columns())"
+    :search-debounce="@js($searchDebounce)"
     :default-visible-toggleable-columns="@js($table->defaultVisibleToggleableColumns())"
 >
     <template #default="{!! $scope !!}">
