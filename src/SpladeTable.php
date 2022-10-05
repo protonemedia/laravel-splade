@@ -235,6 +235,26 @@ class SpladeTable
     }
 
     /**
+     * Determine if the resource is empty or not.
+     *
+     * @return bool
+     */
+    public function isEmpty(): bool
+    {
+        return count($this->resource) === 0;
+    }
+
+    /**
+     * Determine if the resource is not empty.
+     *
+     * @return bool
+     */
+    public function isNotEmpty(): bool
+    {
+        return !$this->isEmpty();
+    }
+
+    /**
      * Returns an array with all 'per page' amount options.
      *
      * @return array
