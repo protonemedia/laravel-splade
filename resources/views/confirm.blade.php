@@ -1,8 +1,8 @@
 <SpladeConfirm
-    default-title="Are you sure you want to continue?"
+    default-title="{{ __('Are you sure you want to continue?') }}"
     default-text=""
-    default-confirm-button="Confirm"
-    default-cancel-button="Cancel"
+    default-confirm-button="{{ __('Confirm') }}"
+    default-cancel-button="{{ __('Cancel') }}"
 >
     <template #default="confirm">
         <x-splade-component is="transition" show="confirm.isOpen">

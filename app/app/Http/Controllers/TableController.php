@@ -19,6 +19,18 @@ class TableController
         ]);
     }
 
+    public function overflow()
+    {
+        $users = User::query()->orderBy('name')->paginate(1);
+
+        return view('table.overflow', [
+            'users' => SpladeTable::for($users)
+                ->column('name')
+                ->column('email')
+                ->column('actions'),
+        ]);
+    }
+
     public function noPerPage()
     {
         $users = User::query()->orderBy('name')->paginate(10);

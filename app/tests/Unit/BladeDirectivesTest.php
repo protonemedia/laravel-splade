@@ -17,6 +17,15 @@ class BladeDirectivesTest extends TestCase
     }
 
     /** @test */
+    public function it_parses_the_expression_without_a_second_argument()
+    {
+        [$name, $function] = BladeDirectives::parseTableCellDirectiveExpression("'action'");
+
+        $this->assertEquals('action', $name);
+        $this->assertEquals('function () use ($__env)', $function);
+    }
+
+    /** @test */
     public function it_parses_the_expression_into_a_name_and_function_and_you_can_use_the_key()
     {
         [$name, $function] = BladeDirectives::parseTableCellDirectiveExpression("'action', \$user, \$key");

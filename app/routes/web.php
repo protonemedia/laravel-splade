@@ -42,6 +42,7 @@ Route::get('event/simple', fn () => event(new SimpleEvent))->name('event.simple'
 Route::get('event/toast', fn () => event(new ToastEvent))->name('event.toast');
 
 Route::middleware('splade')->group(function () {
+    Route::view('custom', 'custom')->name('custom');
     Route::view('data/binding', 'data.binding')->name('data.binding');
     Route::view('data/default', 'data.default')->name('data.default');
     Route::view('data/eloquent', 'data.eloquent')->name('data.eloquent');
@@ -180,8 +181,9 @@ Route::middleware('splade')->group(function () {
     Route::prefix('table')->group(function () {
         $table = new UserTableView;
 
-        Route::get('/noPerPage', [TableController::class, 'noPerPage'])->name('table.noPerPage');
         Route::get('/custom', [TableController::class, 'custom'])->name('table.custom');
+        Route::get('/noPerPage', [TableController::class, 'noPerPage'])->name('table.noPerPage');
+        Route::get('/overflow', [TableController::class, 'overflow'])->name('table.overflow');
         Route::get('/rowLink', [TableController::class, 'rowLink'])->name('table.rowLink');
 
         Route::get('/users/eloquent', fn () => $table(paginateMethod: 'paginate'));

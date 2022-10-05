@@ -14,7 +14,7 @@
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^2.14.1",
         "laravel/tinker": "^2.7",
-        "pusher/pusher-php-server": "^7.0",
+        "pusher/pusher-php-server": "^7.0,<7.2.0",
         "spatie/laravel-query-builder": "^5.0",
         "spatie/once": "^3.1"
     },

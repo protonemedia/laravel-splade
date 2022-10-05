@@ -1,10 +1,13 @@
 <template>
   <OnClickOutside
-    class="relative"
+    :style="wrapperStyle"
     :do="hide"
     :opened="opened"
   >
-    <div ref="button">
+    <div
+      ref="button"
+      :style="buttonStyle"
+    >
       <slot
         name="button"
         :toggle="toggle"
@@ -28,6 +31,7 @@ import OnClickOutside from "./../Components/OnClickOutside.vue";
 import { createPopper } from "@popperjs/core/lib/popper-lite";
 import preventOverflow from "@popperjs/core/lib/modifiers/preventOverflow";
 import flip from "@popperjs/core/lib/modifiers/flip";
+import { nextTick } from "vue";
 
 export default {
     components: {
@@ -35,12 +39,36 @@ export default {
     },
 
     props: {
+        spladeId: {
+            type: String,
+            required: true,
+        },
+
         placement: {
             type: String,
             default: "bottom-start",
             required: false,
         },
+
+        strategy: {
+            type: String,
+            default: "absolute",
+            required: false,
+        },
+
+        inline: {
+            type: Boolean,
+            default: false,
+            required: false,
+        },
+
         disabled: {
+            type: Boolean,
+            default: false,
+            required: false,
+        },
+
+        teleport: {
             type: Boolean,
             default: false,
             required: false,
@@ -54,16 +82,42 @@ export default {
         };
     },
 
+    computed: {
+        buttonStyle() {
+            return this.inline ? { display: "inline" } : {};
+        },
+
+        wrapperStyle() {
+            const style = { position: "relative" };
+
+            if(this.inline) {
+                style.display = "inline";
+            }
+
+            return style;
+        }
+    },
+
     watch: {
         opened() {
             this.popper.update();
         },
     },
 
-    mounted() {
-        this.popper = createPopper(this.$refs.button, this.$refs.tooltip.children[0], {
+    mounted: async function () {
+        if(this.teleport) {
+            // Wait for the Teleport to render...
+            await nextTick();
+        }
+
+        const tooltip = this.teleport
+            ? document.querySelector(`div[data-splade-dropdown-id="${this.spladeId}"]`)
+            : this.$refs.tooltip.children[0];
+
+        this.popper = createPopper(this.$refs.button, tooltip, {
             placement: this.placement,
             modifiers: [flip, preventOverflow],
+            strategy: this.strategy,
         });
     },
 
