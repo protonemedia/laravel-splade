@@ -1,5 +1,6 @@
 <script>
 import { default as Axios } from "axios";
+import debounce from "lodash-es/debounce";
 
 export default {
     props: {
@@ -41,18 +42,58 @@ export default {
                 return {};
             },
         },
+
+        manual: {
+            type: Boolean,
+            required: false,
+            default: false
+        },
+
+        watchDebounce: {
+            type: Number,
+            required: false,
+            default: 0
+        },
+
+        watchValue: {
+            validator() {
+                return true;
+            },
+            required: false,
+            default: null
+        }
     },
 
     data() {
         return {
             response: Object.assign({}, { ...this.default }),
             processing: false,
+            debounceFunction: null,
         };
     },
 
+    watch: {
+        watchValue: {
+            deep: true,
+            handler() {
+                this.processing = true;
+
+                this.watchDebounce ? this.debounceFunction() : this.performRequest();
+            }
+        }
+    },
+
     mounted() {
-        // Wait for the DOM to perform the request.
-        this.$nextTick(this.performRequest);
+        if(!this.manual) {
+            // Wait for the DOM to perform the request.
+            this.$nextTick(this.performRequest);
+        }
+    },
+
+    created() {
+        this.debounceFunction = debounce(() => {
+            this.performRequest();
+        }, this.watchDebounce);
     },
 
     methods: {

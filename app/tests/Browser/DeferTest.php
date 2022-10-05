@@ -33,6 +33,20 @@ class DeferTest extends DuskTestCase
     }
 
     /** @test */
+    public function it_can_manually_wait_for_a_watched_value_to_change()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('/defer/watch')
+                ->waitForText('ComponentDefer')
+                ->assertDontSee('Loading...')
+                ->type('@name', 'load1')
+                ->waitForTextIn('@response', 1)
+                ->type('@name', 'load2')
+                ->waitForTextIn('@response', 2);
+        });
+    }
+
+    /** @test */
     public function it_can_reload_the_request()
     {
         $this->browse(function (Browser $browser) {

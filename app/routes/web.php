@@ -51,6 +51,7 @@ Route::middleware('splade')->group(function () {
 
     Route::view('defer', 'defer')->name('defer');
     Route::view('defer/poll', 'deferPoll')->name('deferPoll');
+    Route::view('defer/watch', 'deferWatch')->name('deferWatch');
     Route::view('defer/requestAttribute', 'deferRequestAttribute')->name('defer.requestAttribute');
 
     Route::view('errors', 'errors')->name('errors');
