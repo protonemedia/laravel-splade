@@ -24,6 +24,7 @@
                         'name' => $name,
                         'multiple' => $multiple,
                         'type' => 'file',
+                        'data-validation-key' => $validationKey(),
                     ]) }}
                     />
                 </a>

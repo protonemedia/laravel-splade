@@ -29,12 +29,16 @@ class Table extends Component
     }
 
     /**
-     * Returns a boolean whether the resource is paginated.
+     * Returns a boolean whether the paginator component should be visible.
      *
      * @return bool
      */
-    public function isPaginated(): bool
+    public function showPaginator(): bool
     {
+        if (SpladeTable::hidesPaginationWhenResourceContainsOnePage()) {
+            return false;
+        }
+
         return $this->for->resource instanceof Paginator
             || $this->for->resource instanceof CursorPaginator;
     }

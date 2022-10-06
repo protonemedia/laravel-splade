@@ -1,4 +1,6 @@
-<div {{ $attributes->only(['v-if', 'v-show', 'class']) }}>
+<div {{ $attributes->only(['v-if', 'v-show', 'class'])->merge([
+    'data-validation-key' => $validationKey(),
+]) }}>
     @includeWhen($label, 'splade::form.label', ['label' => $label])
 
     <div {{ $attributes->except(['v-if', 'v-show', 'class'])->class([

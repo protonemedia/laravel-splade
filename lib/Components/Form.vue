@@ -1,6 +1,7 @@
 <script>
 import { objectToFormData } from "./FormHelpers.js";
 import { Splade } from "../Splade.js";
+import first from "lodash-es/first";
 import get from "lodash-es/get";
 import has from "lodash-es/has";
 import isBoolean from "lodash-es/isBoolean";
@@ -83,6 +84,12 @@ export default {
             type: Boolean,
             required: false,
             default: false,
+        },
+
+        focusOnError: {
+            type: Boolean,
+            required: false,
+            default: true
         }
     },
 
@@ -96,6 +103,7 @@ export default {
             wasSuccessful: false,
             recentlySuccessful: false,
             recentlySuccessfulTimeoutId: null,
+            formElement: null,
         };
     },
 
@@ -132,6 +140,8 @@ export default {
         if(!formElement) {
             formElement = document;
         }
+
+        this.formElement = formElement;
 
         this.missingAttributes.forEach((attribute) => {
             let defaultValue = "";
@@ -239,9 +249,30 @@ export default {
                     this.recentlySuccessful = true;
                     this.recentlySuccessfulTimeoutId = setTimeout(() => this.recentlySuccessful = false, 2000);
                 })
-                .catch((error) => {
+                .catch(async (error) => {
                     this.processing = false;
                     this.$emit("error", error);
+
+                    if(!this.focusOnError){
+                        return;
+                    }
+
+                    await this.$nextTick();
+
+                    const elementWithError = first(Object.keys(this.errors), (errorKey) => {
+                        console.log({ errorKey });
+                        return this.formElement.querySelector(`[data-validation-key="${errorKey}"]`);
+                    });
+
+                    console.log({ elementWithError });
+
+                    if(elementWithError) {
+                        this.formElement.querySelector(`[data-validation-key="${elementWithError}"]`).scrollIntoView({
+                            behavior: "smooth",
+                            block: "end",
+                            inline: "nearest"
+                        });
+                    }
                 });
         },
     },

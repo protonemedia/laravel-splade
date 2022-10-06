@@ -39,6 +39,8 @@ class SpladeTable
 
     private static int $defaultSearchDebounce = 350;
 
+    private static bool $hidePaginationWhenResourceContainsOnePage = false;
+
     /**
      * Creates a new instance.
      *
@@ -145,6 +147,27 @@ class SpladeTable
     public static function defaultSearchDebounce(int $milliseconds)
     {
         static::$defaultSearchDebounce = max(0, $milliseconds);
+    }
+
+    /**
+     * Getter for the 'hidePaginationWhenResourceContainsOnePage' setting.
+     *
+     * @return boolean
+     */
+    public static function hidesPaginationWhenResourceContainsOnePage(): bool
+    {
+        return static::$hidePaginationWhenResourceContainsOnePage;
+    }
+
+    /**
+     * Hides the pagination component when the resource contains one page.
+     *
+     * @param  bool  $value
+     * @return void
+     */
+    public static function hidePaginationWhenResourceContainsOnePage(bool $value = true)
+    {
+        static::$hidePaginationWhenResourceContainsOnePage = $value;
     }
 
     /**

@@ -6,7 +6,8 @@
             'name' => $name,
             'value' => $value,
             'type' => 'checkbox',
-            'v-model' => $vueModel()
+            'v-model' => $vueModel(),
+            'data-validation-key' => $validationKey(),
         ]) }}
         />
 
