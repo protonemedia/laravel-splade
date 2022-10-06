@@ -2,6 +2,11 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 0.5.10 - 2022-10-06
+
+- You may disable the paginator when the resource only contains one page (`SpladeTable::hidesPaginationWhenResourceContainsOnePage()`)
+- On validation errors, the Form component scrolls to the first element with an error. You may disable this with the `scrollOnError` prop.
+
 ## 0.5.9 - 2022-10-05
 
 - The debounce value of the Table component is now configurable.
