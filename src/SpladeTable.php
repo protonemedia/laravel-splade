@@ -152,7 +152,7 @@ class SpladeTable
     /**
      * Getter for the 'hidePaginationWhenResourceContainsOnePage' setting.
      *
-     * @return boolean
+     * @return bool
      */
     public static function hidesPaginationWhenResourceContainsOnePage(): bool
     {
