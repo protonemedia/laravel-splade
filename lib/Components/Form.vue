@@ -1,7 +1,7 @@
 <script>
 import { objectToFormData } from "./FormHelpers.js";
 import { Splade } from "../Splade.js";
-import first from "lodash-es/first";
+import find from "lodash-es/find";
 import get from "lodash-es/get";
 import has from "lodash-es/has";
 import isBoolean from "lodash-es/isBoolean";
@@ -179,6 +179,37 @@ export default {
             return set(this.values, key, value);
         },
 
+        focusAndScrollToElement(element) {
+            let shouldFocus = true;
+
+            if(element._flatpickr) {
+                shouldFocus = false;
+            }
+
+            if(element.tagName === "SELECT" && element.getAttribute("data-choice")) {
+                shouldFocus = false;
+            }
+
+            if(shouldFocus) {
+                const intersectionObserver = new IntersectionObserver((entries) => {
+                    let [entry] = entries;
+
+                    if (entry.isIntersecting) {
+                        setTimeout(() => entry.target.focus(), 150);
+                        intersectionObserver.disconnect();
+                    }
+                });
+
+                intersectionObserver.observe(element);
+            }
+
+            element.scrollIntoView({
+                behavior: "smooth",
+                block: "end",
+                inline: "nearest"
+            });
+        },
+
         /*
          * If a confirmation is needed, it first shows the
          * confirmation dialog and waits for the promise
@@ -260,16 +291,14 @@ export default {
                     // Wait for the error messages to render.
                     await this.$nextTick();
 
-                    const elementWithError = first(Object.keys(this.errors), (errorKey) => {
+                    const elementWithError = find(Object.keys(this.errors), (errorKey) => {
                         return this.formElement.querySelector(`[data-validation-key="${errorKey}"]`);
                     });
 
                     if(elementWithError) {
-                        this.formElement.querySelector(`[data-validation-key="${elementWithError}"]`).scrollIntoView({
-                            behavior: "smooth",
-                            block: "end",
-                            inline: "nearest"
-                        });
+                        this.focusAndScrollToElement(
+                            this.formElement.querySelector(`[data-validation-key="${elementWithError}"]`)
+                        );
                     }
                 });
         },
