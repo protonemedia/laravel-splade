@@ -86,7 +86,7 @@ export default {
             default: false,
         },
 
-        focusOnError: {
+        scrollOnError: {
             type: Boolean,
             required: false,
             default: true
@@ -253,18 +253,16 @@ export default {
                     this.processing = false;
                     this.$emit("error", error);
 
-                    if(!this.focusOnError){
+                    if(!this.scrollOnError) {
                         return;
                     }
 
+                    // Wait for the error messages to render.
                     await this.$nextTick();
 
                     const elementWithError = first(Object.keys(this.errors), (errorKey) => {
-                        console.log({ errorKey });
                         return this.formElement.querySelector(`[data-validation-key="${errorKey}"]`);
                     });
-
-                    console.log({ elementWithError });
 
                     if(elementWithError) {
                         this.formElement.querySelector(`[data-validation-key="${elementWithError}"]`).scrollIntoView({
