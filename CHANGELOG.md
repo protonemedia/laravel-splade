@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 0.5.11 - 2022-10-06
+
+- When the `keep-alive` component is used, the Dialog component will now be hidden when the user navigates to another page
+
 ## 0.5.10 - 2022-10-06
 
 - You may disable the paginator when the resource only contains one page (`SpladeTable::hidesPaginationWhenResourceContainsOnePage()`)
