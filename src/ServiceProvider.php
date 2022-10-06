@@ -233,9 +233,9 @@ class ServiceProvider extends BaseServiceProvider
             return $this->slots[0] ?? [];
         });
 
-        ComponentAttributeBag::macro('mergeVueBinding', function ($attribute, $value, bool $omitBlankValue = true) {
+        ComponentAttributeBag::macro('mergeVueBinding', function ($attribute, $value, bool $omitBlankValue = true, bool $escape = true) {
             /** @var ComponentAttributeBag $this */
-            if (blank($value)) {
+            if ($omitBlankValue && blank($value)) {
                 return $this;
             }
 
@@ -250,13 +250,13 @@ class ServiceProvider extends BaseServiceProvider
             $shortBindAttribute = ($isEvent ? '@' : ':') . $attribute;
             $fullBindAttribute  = ($isEvent ? 'v-on:' : 'v-bind:') . $attribute;
 
-            return $this->unless($this->has($shortBindAttribute) || $this->has($fullBindAttribute), function () use ($fullBindAttribute, $value) {
+            return $this->unless($this->has($shortBindAttribute) || $this->has($fullBindAttribute), function () use ($fullBindAttribute, $value, $escape) {
                 if (is_bool($value)) {
                     $value = $value ? 'true' : 'false';
                 }
 
                 /** @var ComponentAttributeBag $this */
-                return $this->merge([$fullBindAttribute => $value]);
+                return $this->merge([$fullBindAttribute => $value], $escape);
             });
         });
     }

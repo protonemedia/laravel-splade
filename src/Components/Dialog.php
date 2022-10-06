@@ -2,10 +2,13 @@
 
 namespace ProtoneMedia\Splade\Components;
 
+use Illuminate\Support\Str;
 use Illuminate\View\Component;
 
 class Dialog extends Component
 {
+    public string $spladeId;
+
     /**
      * Create a new component instance.
      *
@@ -17,6 +20,7 @@ class Dialog extends Component
         private bool $panel = false,
         private string $close = '',
     ) {
+        $this->spladeId = Str::random();
     }
 
     /**
