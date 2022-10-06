@@ -1941,10 +1941,22 @@ const xu = {
     });
   }
 }, Tu = {
+  data() {
+    return {
+      isActivated: !0
+    };
+  },
+  deactivated() {
+    this.isActivated = !1;
+  },
+  activated() {
+    this.isActivated = !0;
+  },
   render() {
     return this.$slots.default({
       Dialog: Wr,
-      DialogPanel: zr
+      DialogPanel: zr,
+      isActivated: this.isActivated
     });
   }
 }, Wi = {
