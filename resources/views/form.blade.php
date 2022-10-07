@@ -2,6 +2,7 @@
 
 <SpladeForm {{ $attributes->except('class') }}
     @if($data['data']) :default="@js($data['data'])" @else :default="{!! $data['json'] !!}" @endif
+    :scroll-on-error="@js($scrollOnError)"
     :splade-id="@js($spladeId)"
 >
     <template #default="{!! $scope !!}">

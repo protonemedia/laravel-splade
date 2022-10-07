@@ -44,8 +44,12 @@ class Form extends Component
      *
      * @return void
      */
-    public function __construct($default = null, public string $scope = 'form', $unguarded = null)
-    {
+    public function __construct(
+        $default = null,
+        public string $scope = 'form',
+        $unguarded = null,
+        public bool $scrollOnError = true
+    ) {
         // We'll use this instance in the static 'selected()' method,
         // which is a workaround for a Vue bug. Later, when the
         // Form Data is resolved, we remove it from the array.
