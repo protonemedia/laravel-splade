@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 0.5.12 - 2022-10-07
+
+- Added 'scrollToError' form prop
+
 ## 0.5.11 - 2022-10-06
 
 - When the `keep-alive` component is used, the Dialog component will now be hidden when the user navigates to another page
