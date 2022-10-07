@@ -89,7 +89,6 @@ class PrepareTableCells
                             return $defaultUse = $value;
                         }
 
-                        return;
                     });
                 },
                 $view
@@ -155,7 +154,6 @@ class PrepareTableCells
                             return $use = $value;
                         }
 
-                        return;
                     });
 
                     return "@cell('{$name}', [{$as}, {$key}], [$use]) {$contents} @endcell";
