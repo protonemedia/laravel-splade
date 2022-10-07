@@ -15,6 +15,7 @@ use ProtoneMedia\Splade\Commands\PublishFormStylesheetsCommand;
 use ProtoneMedia\Splade\Commands\SpladeInstallCommand;
 use ProtoneMedia\Splade\Commands\SsrTestCommand;
 use ProtoneMedia\Splade\Http\BladeDirectives;
+use ProtoneMedia\Splade\Http\PrepareTableCells;
 use ProtoneMedia\Splade\Http\PrepareViewWithLazyComponents;
 
 class ServiceProvider extends BaseServiceProvider
@@ -49,6 +50,10 @@ class ServiceProvider extends BaseServiceProvider
         );
 
         (new PrepareViewWithLazyComponents)
+            ->registerMacro()
+            ->registerEventListener();
+
+        (new PrepareTableCells)
             ->registerMacro()
             ->registerEventListener();
 
@@ -129,6 +134,7 @@ class ServiceProvider extends BaseServiceProvider
 
         Blade::components([
             Components\ButtonWithDropdown::class,
+            Components\Cell::class,
             Components\Confirm::class,
             Components\Data::class,
             Components\Defer::class,
