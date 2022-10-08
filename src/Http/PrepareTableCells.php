@@ -88,7 +88,6 @@ class PrepareTableCells
                         if ($attribute === 'use') {
                             return $defaultUse = $value;
                         }
-
                     });
                 },
                 $view
@@ -153,7 +152,6 @@ class PrepareTableCells
                         if ($attribute === 'use') {
                             return $use = $value;
                         }
-
                     });
 
                     return "@cell('{$name}', [{$as}, {$key}], [$use]) {$contents} @endcell";
