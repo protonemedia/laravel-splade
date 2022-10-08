@@ -4,7 +4,7 @@
 
 <x-splade-table :for="$users" as="$user">
     <x-splade-cell actions>
-        <a href="/users/{{ $user->id }}"> Edit </a>
+        <a href="/users/{{ $user->id }}/edit"> Edit </a>
     </x-splade-cell>
 </x-splade-table>
 

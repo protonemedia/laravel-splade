@@ -12,14 +12,22 @@ const props = defineProps({
         type: Function,
         required: true,
     },
+
     opened: {
         type: Boolean,
         required: true,
     },
+
     closeOnEscape: {
         type: Boolean,
         required: false,
         default: true
+    },
+
+    ignoreInnerTargets: {
+        type: Boolean,
+        required: false,
+        default: false
     }
 });
 
@@ -29,7 +37,11 @@ const closeOnEscapeHandler = ref(null);
 
 onMounted(() => {
     listener.value = (e) => {
-        if (e.target === root.value || root.value.contains(e.target)) {
+        if (root.value.children[0].contains(e.target)) {
+            return;
+        }
+
+        if (props.ignoreInnerTargets && root.value.contains(e.target)) {
             return;
         }
 
