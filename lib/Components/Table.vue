@@ -1,4 +1,5 @@
 <script>
+import { default as Axios } from "axios";
 import { nextTick } from "vue";
 import { Splade } from "./../Splade.js";
 
@@ -38,9 +39,11 @@ export default {
 
     data() {
         return {
+            selectedItems: [],
             visibleColumns: [],
             forcedVisibleSearchInputs: [],
-            debounceUpdateQuery: null
+            debounceUpdateQuery: null,
+            processingAction: false
         };
     },
 
@@ -59,7 +62,7 @@ export default {
          */
         hasForcedVisibleSearchInputs() {
             return this.forcedVisibleSearchInputs.length > 0;
-        }
+        },
     },
 
     created() {
@@ -322,7 +325,37 @@ export default {
                     });
                 }
             });
-        }
+        },
+
+        performAction(url, method) {
+            this.processingAction = true;
+
+            Splade.request(url, method, { ids: this.selectedItems }, {}, false)
+                .then((response) => {
+                    response.data;
+                })
+                .catch(() => {
+                    this.processingAction = false;
+                });
+        },
+
+        setSelectedItems(items) {
+            this.selectedItems = isArray(items) ? items : [];
+        },
+
+        itemIsSelected(item) {
+            if(this.selectedItems.length == 1 && this.selectedItems[0] == "*") {
+                return true;
+            }
+
+            return this.selectedItems.includes(item);
+        },
+
+        setSelectedItem(key, checked) {
+            checked
+                ? this.selectedItems.push(key)
+                : (this.selectedItems = this.selectedItems.filter(item => item !== key));
+        },
     },
 
     render() {
@@ -339,6 +372,11 @@ export default {
             toggleColumn: this.toggleColumn,
             updateQuery: this.updateQuery,
             visit: Splade.visit,
+            setSelectedItems: this.setSelectedItems,
+            itemIsSelected: this.itemIsSelected,
+            setSelectedItem: this.setSelectedItem,
+            performAction: this.performAction,
+            processingAction: this.processingAction,
         });
     },
 };

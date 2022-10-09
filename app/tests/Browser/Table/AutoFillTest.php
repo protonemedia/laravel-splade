@@ -9,11 +9,14 @@ use Tests\DuskTestCase;
 
 class AutoFillTest extends DuskTestCase
 {
-    /** @test */
-    public function it_generates_the_table_header_with_sort_buttons()
+    /**
+     * @test
+     * @dataProvider tableUrls
+     */
+    public function it_generates_the_table_header_with_sort_buttons($url)
     {
-        $this->browse(function (Browser $browser) {
-            $browser->visit('table/users/eloquent')
+        $this->browse(function (Browser $browser) use ($url) {
+            $browser->visit($url)
                 // Header names
                 ->assertSeeIn('th:nth-child(1)', Str::upper('Name'))
                 ->assertSeeIn('th:nth-child(2)', Str::upper('Email'))
@@ -28,13 +31,16 @@ class AutoFillTest extends DuskTestCase
         });
     }
 
-    /** @test */
-    public function it_generates_the_table_body_with_a_custom_action_column()
+    /**
+     * @test
+     * @dataProvider tableUrls
+     */
+    public function it_generates_the_table_body_with_a_custom_action_column($url)
     {
-        $this->browse(function (Browser $browser) {
+        $this->browse(function (Browser $browser) use ($url) {
             $users = User::orderBy('name')->limit(10)->get();
 
-            $browser->visit('table/users/eloquent')
+            $browser->visit($url)
                 // First user
                 ->assertSeeIn('tr:first-child td:nth-child(1)', $users->first()->name)
                 ->assertSeeIn('tr:first-child td:nth-child(2)', $users->first()->email)

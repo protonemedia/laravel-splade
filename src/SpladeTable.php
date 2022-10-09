@@ -2,9 +2,12 @@
 
 namespace ProtoneMedia\Splade;
 
+use Illuminate\Contracts\Database\Query\Builder;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use ProtoneMedia\Splade\Table\Column;
@@ -13,33 +16,37 @@ use ProtoneMedia\Splade\Table\SearchInput;
 
 class SpladeTable
 {
-    private string $name = 'default';
+    protected string $name = 'default';
 
-    private array $perPageOptions = [];
+    protected array $perPageOptions = [];
 
-    public $resource;
+    public $resource = [];
 
-    private Collection $columns;
+    protected Collection $columns;
 
-    private Collection $filters;
+    protected Collection $filters;
 
-    private Collection $searchInputs;
+    protected Collection $searchInputs;
 
     public Collection $rowLinks;
 
-    private string $defaultSort = '';
+    protected string $defaultSort = '';
 
-    private Request $request;
+    protected Request $request;
 
-    private static bool $defaultColumnCanBeHidden = true;
+    protected static bool $defaultColumnCanBeHidden = true;
 
-    private static bool|string $defaultGlobalSearch = false;
+    protected static bool|string $defaultGlobalSearch = false;
 
-    private static array $defaultPerPageOptions = [15, 30, 50, 100];
+    protected static array $defaultPerPageOptions = [15, 30, 50, 100];
 
-    private static int $defaultSearchDebounce = 350;
+    protected static int $defaultSearchDebounce = 350;
 
-    private static bool $hidePaginationWhenResourceContainsOnePage = false;
+    protected static bool $hidePaginationWhenResourceContainsOnePage = false;
+
+    protected string $primaryKey = '';
+
+    protected array $actions = [];
 
     /**
      * Creates a new instance.
@@ -69,10 +76,22 @@ class SpladeTable
      * Helper method to create a new instance.
      *
      * @param  mixed  $resource
-     * @return static
+     * @return QueryBuilder|static
      */
-    public static function for($resource): static
+    public static function for($resource): QueryBuilder|static
     {
+        if (is_string($resource)) {
+            $resource = app($resource);
+        }
+
+        if ($resource instanceof Model) {
+            $resource = $resource->newQuery();
+        }
+
+        if ($resource instanceof Builder) {
+            return new QueryBuilder($resource);
+        }
+
         return new static($resource);
     }
 
@@ -83,7 +102,7 @@ class SpladeTable
      * @param  mixed|null  $default
      * @return mixed
      */
-    private function query(string $key, $default = null)
+    protected function query(string $key, $default = null)
     {
         return $this->request->query(
             $this->name === 'default' ? $key : "{$this->name}_{$key}",
@@ -194,15 +213,30 @@ class SpladeTable
         static::$defaultColumnCanBeHidden = $state;
     }
 
+    private static function normalizeSearchColumnsWithMethod(array $keys): array
+    {
+        return Collection::make($keys)->mapWithKeys(function ($value, $key) {
+            if (is_numeric($key)) {
+                return [$value => null];
+            }
+
+            return [$key => $value];
+        })->all();
+    }
+
     /**
      * Helper method to add a global search input.
      *
      * @param  string|null  $label
      * @return self
      */
-    public function withGlobalSearch(string $label = null): self
+    public function withGlobalSearch(string $label = null, array $columns = []): self
     {
-        return $this->searchInput('global', $label ?: __('Search') . '...');
+        return $this->searchInput(
+            key: 'global',
+            label: $label ?: __('Search') . '...',
+            columns: $columns
+        );
     }
 
     /**
@@ -230,7 +264,7 @@ class SpladeTable
      */
     public function isSorted(): bool
     {
-        return $this->request->query('sort') ? true : false;
+        return $this->query('sort') ? true : false;
     }
 
     /**
@@ -321,7 +355,7 @@ class SpladeTable
         bool|null $canBeHidden = null,
         bool $hidden = false,
         bool $sortable = false,
-        bool $searchable = false
+        bool|string $searchable = false
     ): self {
         $key   = $key   !== null ? $key : Str::kebab($label);
         $label = $label !== null ? $label : Str::headline($key);
@@ -341,11 +375,14 @@ class SpladeTable
             sorted: false
         ))->values();
 
-        if ($searchable) {
-            $this->searchInput($key, $label);
+        if (!$searchable) {
+            return $this;
         }
 
-        return $this;
+        return $this->searchInput(
+            key: $key,
+            label: $label,
+        );
     }
 
     /**
@@ -356,14 +393,26 @@ class SpladeTable
      * @param  string|null  $defaultValue
      * @return self
      */
-    public function searchInput(string $key, string $label = null, string $defaultValue = null): self
-    {
+    public function searchInput(
+        array|string $key,
+        string $label = null,
+        string $defaultValue = null,
+        array $columns = []
+    ): self {
+        if (empty($columns)) {
+            $columns = Arr::sort(Arr::wrap($key));
+            $key     = Str::slug(implode(' ', $columns));
+        }
+
+        $columns = static::normalizeSearchColumnsWithMethod($columns);
+
         $this->searchInputs = $this->searchInputs->reject(function (SearchInput $searchInput) use ($key) {
             return $searchInput->key === $key;
         })->push(new SearchInput(
             key: $key,
+            columns: $columns,
             label: $label ?: Str::headline($key),
-            value: $defaultValue
+            value: $defaultValue,
         ))->values();
 
         return $this;
@@ -380,7 +429,7 @@ class SpladeTable
         return $this->columns->map(function (Column $column) {
             $cloned = $column->clone();
 
-            $sort = $this->request->query('sort', $this->defaultSort);
+            $sort = $this->query('sort', $this->defaultSort);
 
             $sorted = false;
 
@@ -394,7 +443,7 @@ class SpladeTable
 
             //
 
-            $queryColumns = $this->request->query('columns', []);
+            $queryColumns = $this->query('columns', []);
 
             if (!empty($queryColumns) && $column->canBeHidden) {
                 $cloned->hidden = !in_array($column->key, $queryColumns);
@@ -501,7 +550,7 @@ class SpladeTable
      */
     public function hasPerPageQuery(): bool
     {
-        return $this->request->query('perPage') !== null;
+        return $this->query('perPage') !== null;
     }
 
     /**
@@ -556,5 +605,55 @@ class SpladeTable
         return $this->searchInputs
             ->reject(fn (SearchInput $searchInput) => $searchInput->key === 'global')
             ->isNotEmpty();
+    }
+
+    public function prepare()
+    {
+        return $this;
+    }
+
+    /**
+     * Returns the primary key of the given item.
+     *
+     * @param mixed $item
+     * @return mixed
+     */
+    public function findPrimaryKey($item)
+    {
+        if ($this->primaryKey) {
+            return data_get($item, $this->primaryKey);
+        }
+
+        if ($item instanceof Model) {
+            return $item->getKey();
+        }
+    }
+
+    public function getPrimaryKeys(): array
+    {
+        $ids = [];
+
+        foreach ($this->resource as $item) {
+            $ids[] = $this->findPrimaryKey($item);
+        }
+
+        return $ids;
+    }
+
+    public function getActions(): array
+    {
+        return $this->actions;
+    }
+
+    public function action(string $name, string $url, string $method = 'POST'): self
+    {
+        $this->actions[] = [
+            'name'   => $name,
+            'slug'   => Str::slug($name),
+            'url'    => $url,
+            'method' => strtoupper($method),
+        ];
+
+        return $this;
     }
 }

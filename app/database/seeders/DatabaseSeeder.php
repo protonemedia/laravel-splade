@@ -3,7 +3,11 @@
 namespace Database\Seeders;
 
 use App\Models\Dummy;
+use App\Models\Organization;
+use App\Models\Project;
 use Database\Factories\KeywordFactory;
+use Database\Factories\OrganizationFactory;
+use Database\Factories\ProjectFactory;
 use Database\Factories\TagFactory;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Seeder;
@@ -26,7 +30,7 @@ class DatabaseSeeder extends Seeder
             'email' => 'test@example.com',
         ]);
 
-        UserFactory::new()->count(99)->create();
+        $users = UserFactory::new()->count(99)->create();
 
         Dummy::create([
             'input'    => 'input',
@@ -37,5 +41,19 @@ class DatabaseSeeder extends Seeder
             'json'     => ['nested' => ['array'], 'key' => 'key'],
             'secret'   => 'secret',
         ]);
+
+        OrganizationFactory::new()
+            ->count(30)
+            ->afterCreating(function (Organization $organization) use ($users) {
+                $organization->users()->attach($users->random(random_int(1, 5)));
+            })
+            ->create();
+
+        ProjectFactory::new()
+            ->count(30)
+            ->afterCreating(function (Project $project) use ($users) {
+                $project->users()->attach($users->random(random_int(1, 5)));
+            })
+            ->create();
     }
 }

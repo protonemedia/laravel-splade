@@ -8,10 +8,13 @@ use Tests\DuskTestCase;
 
 class GlobalSearchTest extends DuskTestCase
 {
-    /** @test */
-    public function it_can_globally_search()
+    /**
+     * @test
+     * @dataProvider tableUrls
+     */
+    public function it_can_globally_search($url)
     {
-        $this->browse(function (Browser $browser) {
+        $this->browse(function (Browser $browser) use ($url) {
             User::first()->forceFill([
                 'name'  => 'Pascal Baljet',
                 'email' => 'pascal@protone.media',
@@ -22,7 +25,7 @@ class GlobalSearchTest extends DuskTestCase
                 ->orderBy('name')
                 ->get();
 
-            $browser->visit('table/users/eloquent')
+            $browser->visit($url)
                 // First user
                 ->assertSeeIn('tr:first-child td:nth-child(1)', $users->get(0)->name)
                 ->assertDontSee('Pascal Baljet')
@@ -35,10 +38,13 @@ class GlobalSearchTest extends DuskTestCase
         });
     }
 
-    /** @test */
-    public function it_resets_the_page_on_search()
+    /**
+     * @test
+     * @dataProvider tableUrls
+     */
+    public function it_resets_the_page_on_search($url)
     {
-        $this->browse(function (Browser $browser) {
+        $this->browse(function (Browser $browser) use ($url) {
             User::first()->forceFill([
                 'name'  => 'Pascal Baljet',
                 'email' => 'pascal@protone.media',
@@ -49,7 +55,7 @@ class GlobalSearchTest extends DuskTestCase
                 ->orderBy('name')
                 ->get();
 
-            $browser->visit('table/users/eloquent')
+            $browser->visit($url)
                 ->assertSeeIn('tr:first-child td:nth-child(1)', $users->get(0)->name)
                 ->assertDontSee('Pascal Baljet')
                 ->press('@pagination-next')

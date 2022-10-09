@@ -8,10 +8,13 @@ use Tests\DuskTestCase;
 
 class SortTest extends DuskTestCase
 {
-    /** @test */
-    public function it_sorts_by_name_by_default()
+    /**
+     * @test
+     * @dataProvider tableUrls
+     */
+    public function it_sorts_by_name_by_default($url)
     {
-        $this->browse(function (Browser $browser) {
+        $this->browse(function (Browser $browser) use ($url) {
             $users = User::query()
                 ->select(['id', 'name', 'email'])
                 ->orderBy('name')
@@ -19,7 +22,7 @@ class SortTest extends DuskTestCase
 
             $usersByEmail = $users->sortBy->email->values();
 
-            $browser->visit('table/users/eloquent')
+            $browser->visit($url)
                 // First user
                 ->assertSeeIn('tr:first-child td:nth-child(1)', $users->get(0)->name)
                 ->assertSeeIn('tr:last-child td:nth-child(1)', $users->get(9)->name)

@@ -185,9 +185,16 @@ Route::middleware('splade')->group(function () {
         Route::get('/noPerPage', [TableController::class, 'noPerPage'])->name('table.noPerPage');
         Route::get('/overflow', [TableController::class, 'overflow'])->name('table.overflow');
         Route::get('/rowLink', [TableController::class, 'rowLink'])->name('table.rowLink');
+        Route::post('/touch', [TableController::class, 'touch'])->name('table.touch');
 
-        Route::get('/users/eloquent', fn () => $table(paginateMethod: 'paginate'));
-        Route::get('/users/eloquent/simple', fn () => $table(paginateMethod: 'simplePaginate'));
-        Route::get('/users/eloquent/cursor', fn () => $table(paginateMethod: 'cursorPaginate'));
+        Route::get('/relations', [TableController::class, 'relations'])->name('table.relations');
+
+        Route::get('/users/spatie', fn () => $table->spatie(paginateMethod: 'paginate'));
+        Route::get('/users/spatie/simple', fn () => $table->spatie(paginateMethod: 'simplePaginate'));
+        Route::get('/users/spatie/cursor', fn () => $table->spatie(paginateMethod: 'cursorPaginate'));
+
+        Route::get('/users/splade', fn () => $table->splade(paginateMethod: 'paginate'));
+        Route::get('/users/splade/simple', fn () => $table->splade(paginateMethod: 'simplePaginate'));
+        Route::get('/users/splade/cursor', fn () => $table->splade(paginateMethod: 'cursorPaginate'));
     });
 });

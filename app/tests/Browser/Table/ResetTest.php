@@ -8,16 +8,19 @@ use Tests\DuskTestCase;
 
 class ResetTest extends DuskTestCase
 {
-    /** @test */
-    public function it_can_reset_toggled_columns()
+    /**
+     * @test
+     * @dataProvider tableUrls
+     */
+    public function it_can_reset_toggled_columns($url)
     {
-        $this->browse(function (Browser $browser) {
+        $this->browse(function (Browser $browser) use ($url) {
             $users = User::query()
                 ->select(['id', 'name', 'email'])
                 ->orderBy('name')
                 ->get();
 
-            $browser->visit('table/users/eloquent')
+            $browser->visit($url)
                 ->assertSeeIn('tr:first-child td:nth-child(2)', $users->get(0)->email)
                 ->assertMissing('@reset-table')
                 ->press('@columns-dropdown')
@@ -28,10 +31,13 @@ class ResetTest extends DuskTestCase
         });
     }
 
-    /** @test */
-    public function it_can_reset_select_filters()
+    /**
+     * @test
+     * @dataProvider tableUrls
+     */
+    public function it_can_reset_select_filters($url)
     {
-        $this->browse(function (Browser $browser) {
+        $this->browse(function (Browser $browser) use ($url) {
             User::orderBy('name')->first()->forceFill([
                 'language_code' => 'en',
             ])->save();
@@ -42,7 +48,7 @@ class ResetTest extends DuskTestCase
 
             $firstDutchUser = $users->firstWhere('language_code', 'nl');
 
-            $browser->visit('table/users/eloquent')
+            $browser->visit($url)
                 ->assertSeeIn('tr:first-child td:nth-child(1)', $users->get(0)->name)
                 ->assertMissing('@reset-table')
                 ->press('@filters-dropdown')
@@ -54,10 +60,13 @@ class ResetTest extends DuskTestCase
         });
     }
 
-    /** @test */
-    public function it_can_reset_global_search()
+    /**
+     * @test
+     * @dataProvider tableUrls
+     */
+    public function it_can_reset_global_search($url)
     {
-        $this->browse(function (Browser $browser) {
+        $this->browse(function (Browser $browser) use ($url) {
             User::first()->forceFill([
                 'name'  => 'Pascal Baljet',
                 'email' => 'pascal@protone.media',
@@ -68,7 +77,7 @@ class ResetTest extends DuskTestCase
                 ->orderBy('name')
                 ->get();
 
-            $browser->visit('table/users/eloquent')
+            $browser->visit($url)
                 // First user
                 ->assertSeeIn('tr:first-child td:nth-child(1)', $users->get(0)->name)
                 ->assertMissing('@reset-table')
@@ -80,10 +89,13 @@ class ResetTest extends DuskTestCase
         });
     }
 
-    /** @test */
-    public function it_can_reset_search_inputs()
+    /**
+     * @test
+     * @dataProvider tableUrls
+     */
+    public function it_can_reset_search_inputs($url)
     {
-        $this->browse(function (Browser $browser) {
+        $this->browse(function (Browser $browser) use ($url) {
             User::first()->forceFill([
                 'name'  => 'Pascal Baljet',
                 'email' => 'pascal@protone.media',
@@ -94,7 +106,7 @@ class ResetTest extends DuskTestCase
                 ->orderBy('name')
                 ->get();
 
-            $browser->visit('table/users/eloquent')
+            $browser->visit($url)
                 // First user
                 ->assertSeeIn('tr:first-child td:nth-child(1)', $users->get(0)->name)
                 ->assertMissing('@reset-table')
@@ -108,10 +120,13 @@ class ResetTest extends DuskTestCase
         });
     }
 
-    /** @test */
-    public function it_can_reset_the_sort()
+    /**
+     * @test
+     * @dataProvider tableUrls
+     */
+    public function it_can_reset_the_sort($url)
     {
-        $this->browse(function (Browser $browser) {
+        $this->browse(function (Browser $browser) use ($url) {
             $users = User::query()
                 ->select(['id', 'name', 'email'])
                 ->orderBy('name')
@@ -119,7 +134,7 @@ class ResetTest extends DuskTestCase
 
             $usersByEmail = $users->sortBy->email->values();
 
-            $browser->visit('table/users/eloquent')
+            $browser->visit($url)
                 // First user
                 ->assertSeeIn('tr:first-child td:nth-child(1)', $users->get(0)->name)
                 ->assertSeeIn('tr:last-child td:nth-child(1)', $users->get(9)->name)
@@ -139,17 +154,20 @@ class ResetTest extends DuskTestCase
         });
     }
 
-    /** @test */
-    public function it_can_reset_to_the_first_page()
+    /**
+     * @test
+     * @dataProvider tableUrls
+     */
+    public function it_can_reset_to_the_first_page($url)
     {
-        $this->browse(function (Browser $browser) {
+        $this->browse(function (Browser $browser) use ($url) {
             $users = User::query()
                 ->select(['id', 'name'])
                 ->orderBy('name')
                 ->get();
 
             $browser
-                ->visit('/table/users/eloquent')
+                ->visit($url)
                 ->assertSeeIn('tr:first-child td:nth-child(1)', $users->get(0)->name)
                 ->assertSeeIn('tr:last-child td:nth-child(1)', $users->get(9)->name)
                 ->assertMissing('@reset-table')

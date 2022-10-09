@@ -3,6 +3,7 @@
 namespace ProtoneMedia\Splade\Table;
 
 use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Support\Str;
 
 class Column implements Arrayable
 {
@@ -58,5 +59,20 @@ class Column implements Arrayable
             'sortable'      => $this->sortable,
             'sorted'        => $this->sorted,
         ];
+    }
+
+    public function isNested(): bool
+    {
+        return Str::contains($this->key, '.');
+    }
+
+    public function relationshipName(): string
+    {
+        return Str::beforeLast($this->key, '.');
+    }
+
+    public function relationshipColumn(): string
+    {
+        return Str::afterLast($this->key, '.');
     }
 }

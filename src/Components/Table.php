@@ -5,6 +5,8 @@ namespace ProtoneMedia\Splade\Components;
 use Illuminate\Contracts\Pagination\CursorPaginator;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Contracts\Pagination\Paginator;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 use Illuminate\View\Component;
 use ProtoneMedia\Splade\SpladeTable;
 use ProtoneMedia\Splade\Table\Column;
@@ -26,6 +28,8 @@ class Table extends Component
         $this->searchDebounce = is_null($searchDebounce)
             ? SpladeTable::getDefaultSearchDebounce()
             : $searchDebounce;
+
+        $for->prepare();
     }
 
     /**
@@ -106,6 +110,23 @@ class Table extends Component
             'page' => null,
             'sort' => ($column->sorted === 'asc') ? "-{$column->key}" : $column->key,
         ]);
+    }
+
+    public function getColumnDataFromItem($item, Column $column)
+    {
+        if (Str::contains($column->key, '.')) {
+            $relation = Str::beforeLast($column->key, '.');
+
+            $key = Str::after($column->key, "{$relation}.");
+
+            $results = data_get($item, $relation);
+
+            if ($results instanceof Collection) {
+                return $results->map->{$key}->implode(PHP_EOL);
+            }
+        }
+
+        return data_get($item, $column->key);
     }
 
     /**

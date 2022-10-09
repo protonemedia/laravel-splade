@@ -5,6 +5,8 @@
         </div>
     @endif
 
+    @include('splade::table.actions')
+
     @if($table->searchInputs('global'))
         <div class="w-full order-2 flex-grow mr-2 sm:mr-3">
             @include('splade::table.global-search')

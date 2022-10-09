@@ -25,6 +25,14 @@ abstract class DuskTestCase extends BaseTestCase
         return new Browser($driver);
     }
 
+    public function tableUrls()
+    {
+        return [
+            ['/table/users/spatie/'],
+            ['/table/users/splade/'],
+        ];
+    }
+
     /**
      * Prepare for Dusk test execution.
      *

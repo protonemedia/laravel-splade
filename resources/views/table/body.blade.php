@@ -1,5 +1,7 @@
 <tbody class="divide-y divide-gray-200 bg-white">
     @foreach($table->resource as $itemKey => $item)
+        @php $itemPrimaryKey = $table->findPrimaryKey($item) @endphp
+
         <tr
             @if($table->rowLinks->has($itemKey))
                 class="cursor-pointer"
@@ -11,6 +13,21 @@
                 'hover:bg-gray-50': !table.striped
             }"
         >
+            @if(false)
+            <td
+                width="64"
+                class="whitespace-nowrap text-sm px-6 py-4 text-gray-500"
+            >
+                <input
+                    @change="(e) => table.setSelectedItem(@js($itemPrimaryKey), e.target.checked)"
+                    type="checkbox"
+                    class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 disabled:opacity-50"
+                    :checked="table.itemIsSelected(@js($itemPrimaryKey))"
+                    value="{{ $itemPrimaryKey }}"
+                />
+            </td>
+            @endif
+
             @foreach($table->columns() as $column)
                 <td
                     v-show="table.columnIsVisible(@js($column->key))"
@@ -19,7 +36,7 @@
                     @isset(${'spladeTableCell' . $column->key})
                         {{ ${'spladeTableCell' . $column->key}($item, $itemKey) }}
                     @else
-                        {{ data_get($item, $column->key) }}
+                        {!! nl2br(e($getColumnDataFromItem($item, $column))) !!}
                     @endisset
                 </td>
             @endforeach

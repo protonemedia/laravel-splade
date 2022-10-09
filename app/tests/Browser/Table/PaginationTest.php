@@ -11,21 +11,24 @@ class PaginationTest extends DuskTestCase
     public function simpleUrls()
     {
         return [
-            ['/table/users/eloquent/', 'simple'],
-            ['/table/users/eloquent/', 'cursor'],
+            ['/table/users/spatie/', 'simple'],
+            ['/table/users/spatie/', 'cursor'],
+            ['/table/users/splade/', 'simple'],
+            ['/table/users/splade/', 'cursor'],
         ];
     }
 
-    /** @test */
-    public function it_generates_a_paginator_with_links()
+    /**
+     * @test
+     * @dataProvider tableUrls
+     */
+    public function it_generates_a_paginator_with_links($url)
     {
-        $this->browse(function (Browser $browser) {
+        $this->browse(function (Browser $browser) use ($url) {
             $users = User::query()
                 ->select(['id', 'name'])
                 ->orderBy('name')
                 ->get();
-
-            $url = '/table/users/eloquent';
 
             $browser
                 ->visit($url)

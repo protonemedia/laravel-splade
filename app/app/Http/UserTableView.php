@@ -10,7 +10,7 @@ use Spatie\QueryBuilder\QueryBuilder;
 
 class UserTableView
 {
-    public function __invoke($paginateMethod)
+    public function spatie($paginateMethod)
     {
         $globalSearch = AllowedFilter::callback('global', function ($query, $value) {
             $query->where(function ($query) use ($value) {
@@ -41,6 +41,24 @@ class UserTableView
                     'en' => 'English',
                     'nl' => 'Dutch',
                 ], label: 'Language'),
+        ]);
+    }
+
+    public function splade($paginateMethod)
+    {
+        return view('table.users', [
+            'users' => SpladeTable::for(User::class)
+                ->withGlobalSearch(columns: ['name', 'email'])
+                ->defaultSort('name')
+                ->column(key: 'name', searchable: true, sortable: true, canBeHidden: false)
+                ->column(key: 'email', searchable: true, sortable: true)
+                ->column(key: 'language_code', label: 'Language')
+                ->column(label: 'Actions')
+                ->selectFilter(key: 'language_code', options: [
+                    'en' => 'English',
+                    'nl' => 'Dutch',
+                ], label: 'Language')
+                ->{$paginateMethod}(10),
         ]);
     }
 }

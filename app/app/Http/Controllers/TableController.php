@@ -2,11 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Organization;
 use App\Models\User;
+use ProtoneMedia\Splade\Facades\Toast;
 use ProtoneMedia\Splade\SpladeTable;
 
 class TableController
 {
+    public function touch()
+    {
+        User::query()->whereKey(request()->input('ids'))->touch();
+
+        Toast::info('The users are updated!');
+
+        return redirect()->back();
+    }
+
     public function custom()
     {
         $users = User::query()->orderBy('name')->paginate(10);
@@ -56,6 +67,27 @@ class TableController
                 ->column('name')
                 ->column('email')
                 ->column('actions'),
+        ]);
+    }
+
+    public function relations()
+    {
+        return view('table.organizations', [
+            'organizations' => SpladeTable::for(
+                Organization::withCount('users')->withCount('projects')
+            )
+                ->withGlobalSearch(columns: [
+                    'name',
+                    'mainUser.name',
+                    'users.name',
+                ])
+                ->defaultSort('name')
+                ->column('projects', 'Total Projects', sortable: true)
+                ->column('users_count', 'Total Users', sortable: true)
+                ->column('mainUser.name', 'Main User', searchable: true, sortable: true)
+                ->column('users.name', 'All Users')
+                ->column('name')
+                ->paginate(15),
         ]);
     }
 }
