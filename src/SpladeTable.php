@@ -615,7 +615,7 @@ class SpladeTable
     /**
      * Returns the primary key of the given item.
      *
-     * @param mixed $item
+     * @param  mixed  $item
      * @return mixed
      */
     public function findPrimaryKey($item)

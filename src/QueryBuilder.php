@@ -67,8 +67,8 @@ class QueryBuilder extends SpladeTable
     /**
      * Parse the terms and loop through them with the optional callable.
      *
-     * @param string $terms
-     * @param callable $callback
+     * @param  string  $terms
+     * @param  callable  $callback
      * @return \Illuminate\Support\Collection
      */
     public function parseTerms(string $terms, callable $callback = null): Collection
@@ -114,7 +114,7 @@ class QueryBuilder extends SpladeTable
 
                         $key = Str::after($column, "{$relation}.");
 
-                        /** @var EloquentBuilder $builder  */
+                        /** @var EloquentBuilder $builder */
                         $builder->orWhereHas($relation, function (EloquentBuilder $relation) use ($key, $term, $whereOperator) {
                             $key = $relation->qualifyColumn($key);
 
