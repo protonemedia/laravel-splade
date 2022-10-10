@@ -144,13 +144,88 @@ class QueryBuilder extends SpladeTable
         });
     }
 
+    private function getSubqueryForOrder()
+    {
+    }
+
     private function orderByRelationship(Column $column)
+    {
+        $nestedRelations = explode('.', $column->relationshipName());
+
+        $subqueries = Collection::make($nestedRelations)->reduce(
+            function (Collection $subqueries, string $relation, $key) use ($nestedRelations, $column) {
+                /** @var EloquentBuilder $latestSubquery */
+                $latestSubquery = $subqueries->last();
+
+                $isLast = $key === count($nestedRelations) - 1;
+
+                /** @var EloquentBuilder $builder */
+                $builder = $this->builder;
+
+                /** @var Relation $relation */
+                $relation = ($latestSubquery ?: $builder)->getRelation($relation);
+
+                $subquery = $relation->getModel()->newModelQuery();
+
+                if ($isLast) {
+                    $subquery->select(
+                        $subquery->qualifyColumn($column->relationshipColumn())
+                    );
+                }
+
+                if ($relation instanceof BelongsTo) {
+                    if ($latestSubquery) {
+                        $latestSubquery->select(
+                            $latestSubquery->qualifyColumn($relation->getForeignKeyName())
+                        );
+
+                        $subquery->whereIn(
+                            $subquery->qualifyColumn($relation->getOwnerKeyName()),
+                            $latestSubquery->limit(1)
+                        );
+                    } else {
+                        $subquery->whereColumn(
+                            $subquery->qualifyColumn($relation->getOwnerKeyName()),
+                            $builder->qualifyColumn($relation->getForeignKeyName())
+                        );
+                    }
+                }
+
+                if ($relation instanceof HasOne) {
+                    if ($latestSubquery) {
+                        $latestSubquery->select(
+                            $latestSubquery->qualifyColumn($relation->getLocalKeyName())
+                        );
+
+                        $subquery->whereIn(
+                            $subquery->qualifyColumn($relation->getForeignKeyName()),
+                            $latestSubquery->limit(1)
+                        );
+                    }
+
+                    $subquery->whereColumn(
+                        $subquery->qualifyColumn($relation->getForeignKeyName()),
+                        $builder->qualifyColumn($relation->getLocalKeyName())
+                    );
+                }
+
+                return $subqueries->push($subquery);
+            },
+            Collection::make()
+        );
+
+        $this->builder->orderBy($subqueries->last(), $column->sorted);
+    }
+
+    private function _orderByRelationship(Column $column)
     {
         /** @var EloquentBuilder $builder */
         $builder = $this->builder;
 
         /** @var Relation $relation */
         $relation = $builder->getModel()->{$column->relationshipName()}();
+
+        $nestedRelations = explode('.', $column->relationshipName());
 
         $subquery = tap($relation->getModel()->newModelQuery(), function (EloquentBuilder $subquery) use ($column) {
             $subquery->select(

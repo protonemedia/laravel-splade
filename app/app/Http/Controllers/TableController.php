@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Organization;
+use App\Models\Project;
 use App\Models\User;
 use ProtoneMedia\Splade\Facades\Toast;
 use ProtoneMedia\Splade\SpladeTable;
@@ -72,21 +72,17 @@ class TableController
 
     public function relations()
     {
-        return view('table.organizations', [
-            'organizations' => SpladeTable::for(
-                Organization::withCount('users')->withCount('projects')
-            )
+        return view('table.projects', [
+            'projects' => SpladeTable::for(Project::class)
                 ->withGlobalSearch(columns: [
                     'name',
-                    'mainUser.name',
-                    'users.name',
+                    'user.name',
+                    'user.organization.name',
                 ])
-                ->defaultSort('name')
-                ->column('projects', 'Total Projects', sortable: true)
-                ->column('users_count', 'Total Users', sortable: true)
-                ->column('mainUser.name', 'Main User', searchable: true, sortable: true)
-                ->column('users.name', 'All Users')
-                ->column('name')
+                ->column('name', 'Project Name', sortable: true)
+                ->column('user.name', 'User Name', sortable: true)
+                ->column('user.organization.name', 'Organization Name', sortable: true)
+                ->column('user.organization.address.city', 'Organization City', sortable: true)
                 ->paginate(15),
         ]);
     }

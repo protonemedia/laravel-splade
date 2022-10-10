@@ -2,6 +2,6 @@
 
 @section('content')
 
-<x-splade-table :for="$organizations" />
+<x-splade-table :for="$projects" />
 
 @endsection
