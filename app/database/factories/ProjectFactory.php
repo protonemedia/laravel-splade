@@ -17,8 +17,9 @@ class ProjectFactory extends Factory
     public function definition()
     {
         return [
-            'name'    => $this->faker->company,
-            'user_id' => UserFactory::new()->for(OrganizationFactory::new()->has(AddressFactory::new())),
+            'name' => $this->faker->company(),
+
+            'organization_id' => OrganizationFactory::new()->has(AddressFactory::new()),
         ];
     }
 }

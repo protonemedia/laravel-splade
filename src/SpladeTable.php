@@ -607,7 +607,7 @@ class SpladeTable
             ->isNotEmpty();
     }
 
-    public function prepare()
+    public function beforeRender()
     {
         return $this;
     }

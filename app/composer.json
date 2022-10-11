@@ -12,7 +12,7 @@
         "beyondcode/laravel-websockets": "^1.13",
         "guzzlehttp/guzzle": "^7.2",
         "kirschbaum-development/eloquent-power-joins": "^2.6",
-        "laravel/framework": "9.x-dev",
+        "laravel/framework": "^9.19",
         "laravel/sanctum": "^2.14.1",
         "laravel/tinker": "^2.7",
         "pusher/pusher-php-server": "^7.0,<7.2.0",

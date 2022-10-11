@@ -28,8 +28,6 @@ class Table extends Component
         $this->searchDebounce = is_null($searchDebounce)
             ? SpladeTable::getDefaultSearchDebounce()
             : $searchDebounce;
-
-        $for->prepare();
     }
 
     /**
@@ -137,7 +135,7 @@ class Table extends Component
     public function render()
     {
         return view('splade::table.table', [
-            'table'          => $this->for,
+            'table'          => tap($this->for)->beforeRender(),
             'wrapperName'    => SpladeComponent::normalize('table-wrapper'),
             'paginationView' => $this->isLengthAware() ? 'splade::table.pagination' : 'splade::table.simple-pagination',
         ]);

@@ -15,9 +15,6 @@ use ProtoneMedia\Splade\Table\Filter;
 use ProtoneMedia\Splade\Table\PowerJoinsException;
 use ProtoneMedia\Splade\Table\SearchInput;
 
-/**
- * @todo WIP, this class needs to refactod as you may see...
- */
 class QueryBuilder extends SpladeTable
 {
     private $paginateMethod;
@@ -31,36 +28,65 @@ class QueryBuilder extends SpladeTable
      */
     protected bool $parseTerm = true;
 
+    /**
+     * Initializes this instance with an empty resource. The results will be
+     * loaded when the Table components calls the beforeRender() method.
+     *
+     * @param \Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder $builder
+     * @param Request|null $request
+     */
     public function __construct(private BaseQueryBuilder|EloquentBuilder $builder, Request $request = null)
     {
         parent::__construct([], $request);
     }
 
+    /**
+     * Helper method to set the pagination method and per page value.
+     *
+     * @param string $method
+     * @param integer|null $perPage
+     * @return self
+     */
+    private function setPagination(string $method, ?int $perPage = null): self
+    {
+        $this->paginateMethod = $method;
+
+        $this->perPage = $perPage;
+
+        return $this;
+    }
+
+    /**
+     * Use 'regular' length-aware pagination.
+     *
+     * @param int $perPage
+     * @return self
+     */
     public function paginate($perPage = null): self
     {
-        $this->paginateMethod = 'paginate';
-
-        $this->perPage = $perPage;
-
-        return $this;
+        return $this->setPagination('paginate', $perPage);
     }
 
+    /**
+     * Use simple non-length-aware pagination.
+     *
+     * @param int $perPage
+     * @return self
+     */
     public function simplePaginate($perPage = null): self
     {
-        $this->paginateMethod = 'simplePaginate';
-
-        $this->perPage = $perPage;
-
-        return $this;
+        return $this->setPagination('simplePaginate', $perPage);
     }
 
+    /**
+     * Use cursor pagination.
+     *
+     * @param int $perPage
+     * @return self
+     */
     public function cursorPaginate($perPage = null): self
     {
-        $this->paginateMethod = 'cursorPaginate';
-
-        $this->perPage = $perPage;
-
-        return $this;
+        return $this->setPagination('cursorPaginate', $perPage);
     }
 
     /**
@@ -79,7 +105,14 @@ class QueryBuilder extends SpladeTable
             });
     }
 
-    private function getTermAndWhereOperator(string $term, string $searchMethod = null): array
+    /**
+     * Formats the terms and returns the right where operator for the given search method.
+     *
+     * @param string $term
+     * @param string|null $searchMethod
+     * @return array
+     */
+    private function getTermAndWhereOperator(string $term, ?string $searchMethod = null): array
     {
         $searchMethod = $searchMethod ?: SearchInput::WILDCARD;
 
@@ -91,6 +124,13 @@ class QueryBuilder extends SpladeTable
         };
     }
 
+    /**
+     * Qualify the column by the model's table and wrap it.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $builder
+     * @param string $column
+     * @return string
+     */
     private function qualifyColumn(EloquentBuilder $builder, string $column): string
     {
         $column = $builder->qualifyColumn($column);
@@ -100,6 +140,16 @@ class QueryBuilder extends SpladeTable
              : $column;
     }
 
+    /**
+     * Adds a where constraint with the given arguments based
+     * on whether the case should be ignored or not.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $builder
+     * @param string $key
+     * @param string $whereOperator
+     * @param string $term
+     * @return void
+     */
     private function addTermConstraint(EloquentBuilder $builder, string $key, string $whereOperator, string $term)
     {
         $key = $this->qualifyColumn($builder, $key);
@@ -115,15 +165,19 @@ class QueryBuilder extends SpladeTable
             ? $this->parseTerms($terms)
             : Collection::wrap($terms);
 
+        // Start with a 'where' group, loop through all terms, and
+        // add an 'orWhere' contraint for each column.
         $this->builder->where(function (EloquentBuilder $builder) use ($columns, $terms) {
             $terms->each(function (string $term) use ($builder, $columns) {
-                Collection::wrap($columns)->each(function (string $searchMethod, string $column) use ($builder, $term) {
+                Collection::wrap($columns)->each(function (?string $searchMethod = null, string $column) use ($builder, $term) {
                     [$term, $whereOperator] = $this->getTermAndWhereOperator($term, $searchMethod);
 
                     if (!Str::contains($column, '.')) {
+                        // Not a relationship, but a column on the table.
                         return $this->addTermConstraint($builder, $column, $whereOperator, $term);
                     }
 
+                    // Split the column into the relationship name and the key on the relationship.
                     $relation = Str::beforeLast($column, '.');
                     $key      = Str::afterLast($column, '.');
 
@@ -136,9 +190,18 @@ class QueryBuilder extends SpladeTable
         });
     }
 
+    /**
+     * Adds an "order by" clause to the query. If the query needs
+     * to be sorted by a (nested) relationship, it will
+     * verify the PowerJoins package is installed.
+     *
+     * @param \ProtoneMedia\Splade\Table\Column $column
+     * @return void
+     */
     private function applySorting(Column $column)
     {
         if (!$column->isNested()) {
+            // Not a relationship, just a column on the table.
             return $this->builder->orderBy($column->key, $column->sorted);
         }
 
@@ -154,9 +217,16 @@ class QueryBuilder extends SpladeTable
             );
         }
 
+        // Apply the sorting using the PowerJoins package.
         return $this->builder->orderByLeftPowerJoins($column->key, $column->sorted);
     }
 
+    /**
+     * Loops through the active select filters and applies
+     * them on the query builder.
+     *
+     * @return void
+     */
     private function applyFilters()
     {
         $this->filters()->filter->value->each(
@@ -164,6 +234,12 @@ class QueryBuilder extends SpladeTable
         );
     }
 
+    /**
+     * Loops through the active search inputs and applies
+     * them on the query builder.
+     *
+     * @return void
+     */
     private function applySearchInputs()
     {
         $this->searchInputs()->filter->value->each(
@@ -171,10 +247,18 @@ class QueryBuilder extends SpladeTable
         );
     }
 
+    /**
+     * Loops through the columns and checks whether the column is
+     * the one to sort by. It also checks whether there are
+     * relationships that can be eager loaded.
+     *
+     * @return void
+     */
     private function applySortingAndEagerLoading()
     {
         $hasAppliedSorting = $this->columns()->filter(function (Column $column) {
             if ($column->isNested()) {
+                // Eager load the relationship.
                 $this->builder->with($column->relationshipName());
             }
 
@@ -191,6 +275,7 @@ class QueryBuilder extends SpladeTable
             return;
         }
 
+        // There is a default sort, but is was not one of the columns.
         $defaultSortColumn = Str::startsWith($this->defaultSort, '-')
             ? Column::make(key: substr($this->defaultSort, 1), sorted: 'desc')
             : Column::make(key: $this->defaultSort, sorted: 'asc');
@@ -198,22 +283,36 @@ class QueryBuilder extends SpladeTable
         $this->applySorting($defaultSortColumn);
     }
 
-    private function loadResource()
+    /**
+     * Loads the results based on the pagination settings.
+     *
+     * @return void
+     */
+    private function loadResults()
     {
         if (!$this->paginateMethod) {
+            // No pagination, so get all results.
             return $this->resource = $this->builder->get();
         }
 
+        // The 'perPage' value is taken from the request query
+        // string, or from the configured parameter, or it's
+        // the first from the 'perPage' selector options.
         $perPage = $this->query('perPage', $this->perPage ?: Arr::first($this->perPageOptions));
 
         $this->resource = $this->builder->{$this->paginateMethod}($perPage)->withQueryString();
     }
 
-    public function prepare()
+    /**
+     * Prepares the query and loads the results.
+     *
+     * @return void
+     */
+    public function beforeRender()
     {
         $this->applyFilters();
         $this->applySearchInputs();
         $this->applySortingAndEagerLoading();
-        $this->loadResource();
+        $this->loadResults();
     }
 }
