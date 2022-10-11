@@ -21,12 +21,17 @@ class QueryBuilder extends SpladeTable
 
     private $perPage;
 
+    /**
+     * Ignore case on searches.
+     *
+     * @var boolean
+     */
     private bool $ignoreCase = true;
 
     /**
      * Parse the search term into multiple terms.
      */
-    protected bool $parseTerm = true;
+    protected bool $parseTerms = true;
 
     /**
      * Initializes this instance with an empty resource. The results will be
@@ -38,6 +43,32 @@ class QueryBuilder extends SpladeTable
     public function __construct(private BaseQueryBuilder|EloquentBuilder $builder, Request $request = null)
     {
         parent::__construct([], $request);
+    }
+
+    /**
+     * Setter whether terms should be parsed.
+     *
+     * @param boolean $state
+     * @return self
+     */
+    public function parseTerms(bool $state = true): self
+    {
+        $this->parseTerms = $state;
+
+        return $this;
+    }
+
+    /**
+     * Setter for ignoring case.
+     *
+     * @param boolean $state
+     * @return self
+     */
+    public function ignoreCase(bool $state = true): self
+    {
+        $this->ignoreCase = $state;
+
+        return $this;
     }
 
     /**
@@ -95,7 +126,7 @@ class QueryBuilder extends SpladeTable
      * @param  string  $terms
      * @return \Illuminate\Support\Collection
      */
-    public function parseTerms(string $terms): Collection
+    public function parseTermsIntoCollection(string $terms): Collection
     {
         return Collection::make(str_getcsv($terms, ' ', '"'))
             ->filter()
@@ -140,24 +171,10 @@ class QueryBuilder extends SpladeTable
              : $column;
     }
 
-    /**
-     * Adds a where constraint with the given arguments based
-     * on whether the case should be ignored or not.
-     *
-     * @param  \Illuminate\Database\Eloquent\Builder  $builder
-     * @param  string  $key
-     * @param  string  $whereOperator
-     * @param  string  $term
-     * @return void
-     */
-    private function addTermConstraint(EloquentBuilder $builder, string $key, string $whereOperator, string $term)
-    {
-    }
-
     private function applyConstraint(array $columns, string $terms)
     {
-        $terms = $this->parseTerm
-            ? $this->parseTerms($terms)
+        $terms = $this->parseTerms
+            ? $this->parseTermsIntoCollection($terms)
             : Collection::wrap($terms);
 
         // Start with a 'where' group, loop through all terms, and
@@ -316,5 +333,22 @@ class QueryBuilder extends SpladeTable
         $this->applySearchInputs();
         $this->applySortingAndEagerLoading();
         $this->loadResults();
+    }
+
+    public function performAction(callable $action, array $ids)
+    {
+        $this->applySortingAndEagerLoading();
+
+        if (count($ids) === 1 && Arr::first($ids) === '*') {
+            // all
+        } else {
+            $this->builder->whereKey($ids);
+        }
+
+        $this->builder->chunkById(100, function (Collection $results) use ($action) {
+            $results->each(function ($item) use ($action) {
+                $action($item);
+            });
+        });
     }
 }

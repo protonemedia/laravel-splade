@@ -10,7 +10,7 @@
             @foreach($table->getActions() as $action)
                 <button
                     class="text-left w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 font-normal"
-                    @click.prevent="table.performAction(@js($action['url']), @js($action['method']))"
+                    @click.prevent="table.performAction(@js($action['url']))"
                     dusk="action.{{ $action['slug'] }}">
                     {{ $action['name'] }}
                 </button>

@@ -18,12 +18,14 @@ class Table extends Component
      * @return void
      */
     public function __construct(
-        public SpladeTable $for,
+        public SpladeTable|string $for,
         public bool $striped = false,
         public bool $headless = false,
         public string $scope = 'table',
         public ?int $searchDebounce = null,
     ) {
+        $this->for = is_string($for) ? app($for)->make() : $for;
+
         $this->searchDebounce = is_null($searchDebounce)
             ? SpladeTable::getDefaultSearchDebounce()
             : $searchDebounce;

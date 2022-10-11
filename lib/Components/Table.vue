@@ -340,15 +340,15 @@ export default {
             });
         },
 
-        performAction(url, method) {
-            this.processingAction = true;
+        performAction(url) {
+            this.isLoading = true;
 
-            Splade.request(url, method, { ids: this.selectedItems }, {}, false)
+            Splade.request(url, "POST", { ids: this.selectedItems }, {}, false)
                 .then((response) => {
                     response.data;
                 })
                 .catch(() => {
-                    this.processingAction = false;
+                    this.isLoading = false;
                 });
         },
 

@@ -2,6 +2,8 @@
 
 namespace ProtoneMedia\Splade;
 
+use App\Tables\AbstractTable;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Redirect;
@@ -14,6 +16,7 @@ use Laravel\Dusk\Browser;
 use ProtoneMedia\Splade\Commands\PublishFormStylesheetsCommand;
 use ProtoneMedia\Splade\Commands\SpladeInstallCommand;
 use ProtoneMedia\Splade\Commands\SsrTestCommand;
+use ProtoneMedia\Splade\Commands\TableMakeCommand;
 use ProtoneMedia\Splade\Http\BladeDirectives;
 use ProtoneMedia\Splade\Http\PrepareTableCells;
 use ProtoneMedia\Splade\Http\PrepareViewWithLazyComponents;
@@ -39,6 +42,7 @@ class ServiceProvider extends BaseServiceProvider
             PublishFormStylesheetsCommand::class,
             SpladeInstallCommand::class,
             SsrTestCommand::class,
+            TableMakeCommand::class,
         ]);
 
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'splade');
@@ -61,6 +65,7 @@ class ServiceProvider extends BaseServiceProvider
         $this->registerDuskMacros();
         $this->registerViewMacros();
         $this->registerRouteForEventRedirect();
+        $this->registerRouteForTableActions();
     }
 
     /**
@@ -282,6 +287,28 @@ class ServiceProvider extends BaseServiceProvider
 
             return Redirect::to($data['target'])->with($data['with'] ?? []);
         })->name('splade.eventRedirect')->middleware('signed');
+    }
+    /**
+     * Registers a route that's used to handle Table actions.
+     *
+     * @return void
+     */
+    private function registerRouteForTableActions()
+    {
+        Route::post(config('splade.table_actions_route'), function (Request $request, $table, $action) {
+            $request->validate([
+                'ids' => ['required', 'array', 'min:1'],
+            ]);
+
+            $action = base64_decode($action);
+
+            /** @var AbstractTable $table */
+            $table = app(base64_decode($table));
+
+            $table->performAction($action, $request->input('ids', []));
+
+            return redirect()->back();
+        })->name('splade.tableAction')->middleware('signed');
     }
 
     /**

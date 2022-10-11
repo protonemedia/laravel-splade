@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
 use ProtoneMedia\Splade\Table\Column;
 use ProtoneMedia\Splade\Table\Filter;
@@ -657,13 +658,22 @@ class SpladeTable
         return $this->actions;
     }
 
-    public function action(string $name, string $url, string $method = 'POST'): self
+    public function action(string $name, callable $callable): self
     {
-        $this->actions[] = [
-            'name'   => $name,
-            'slug'   => Str::slug($name),
-            'url'    => $url,
-            'method' => strtoupper($method),
+        $table = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2)[1]['class'];
+
+        $key = count($this->actions);
+
+        $this->actions[$key] = [
+            'key'      => $key,
+            'name'     => $name,
+            'slug'     => $slug = Str::slug($name),
+            'callable' => $callable,
+            'url'      => URL::signedRoute('splade.tableAction', [
+                'table'  => base64_encode($table),
+                'action' => base64_encode($key),
+                'slug'   => $slug,
+            ]),
         ];
 
         return $this;

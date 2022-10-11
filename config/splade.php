@@ -3,6 +3,8 @@
 return [
     'event_redirect_route' => '/_splade/eventRedirect/{uuid}',
 
+    'table_actions_route' => '/_splade/tableAction/{table}/{action}/{slug}',
+
     'share_session_flash_data' => true,
 
     'blade' => [
