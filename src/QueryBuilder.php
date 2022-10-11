@@ -2,18 +2,17 @@
 
 namespace ProtoneMedia\Splade;
 
-use Illuminate\Contracts\Database\Eloquent\Builder as EloquentBuilder;
-use Illuminate\Contracts\Database\Query\Builder as BaseQueryBuilder;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
+use Illuminate\Database\Query\Builder as BaseQueryBuilder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Kirschbaum\PowerJoins\PowerJoins;
 use ProtoneMedia\Splade\Table\Column;
 use ProtoneMedia\Splade\Table\Filter;
+use ProtoneMedia\Splade\Table\PowerJoinsException;
 use ProtoneMedia\Splade\Table\SearchInput;
 
 /**
@@ -68,25 +67,19 @@ class QueryBuilder extends SpladeTable
      * Parse the terms and loop through them with the optional callable.
      *
      * @param  string  $terms
-     * @param  callable  $callback
      * @return \Illuminate\Support\Collection
      */
-    public function parseTerms(string $terms, callable $callback = null): Collection
+    public function parseTerms(string $terms): Collection
     {
-        $callback = $callback ?: fn () => null;
-
         return Collection::make(str_getcsv($terms, ' ', '"'))
             ->filter()
             ->values()
             ->map(function (string $term) {
                 return $this->ignoreCase ? Str::lower($term) : $term;
-            })
-            ->when($callback !== null, function ($terms) use ($callback) {
-                return $terms->each(fn ($value, $key) => $callback($value, $key));
             });
     }
 
-    private function getTermAndWhereOperator($term, $searchMethod): array
+    private function getTermAndWhereOperator(string $term, string $searchMethod = null): array
     {
         $searchMethod = $searchMethod ?: SearchInput::WILDCARD;
 
@@ -98,13 +91,22 @@ class QueryBuilder extends SpladeTable
         };
     }
 
-    private function applyWhere($builder, $columns, $terms)
+    private function qualifyColumn(EloquentBuilder $builder, string $column): string
+    {
+        $column = $builder->qualifyColumn($column);
+
+        return $this->ignoreCase
+             ? $builder->getGrammar()->wrap($column)
+             : $column;
+    }
+
+    private function applyConstraint(array $columns, string $terms)
     {
         $columns = Collection::wrap($columns);
 
         $terms = $this->parseTerm ? $this->parseTerms($terms) : $terms;
 
-        $builder->where(function (BaseQueryBuilder $builder) use ($columns, $terms) {
+        $this->builder->where(function (EloquentBuilder $builder) use ($columns, $terms) {
             $terms->each(function ($term) use ($builder, $columns) {
                 $columns->each(function ($searchMethod, $column) use ($builder, $term) {
                     [$term, $whereOperator] = $this->getTermAndWhereOperator($term, $searchMethod);
@@ -114,13 +116,8 @@ class QueryBuilder extends SpladeTable
 
                         $key = Str::after($column, "{$relation}.");
 
-                        /** @var EloquentBuilder $builder */
                         $builder->orWhereHas($relation, function (EloquentBuilder $relation) use ($key, $term, $whereOperator) {
-                            $key = $relation->qualifyColumn($key);
-
-                            $key = $this->ignoreCase
-                                ? $relation->getGrammar()->wrap($key)
-                                : $key;
+                            $key = $this->qualifyColumn($relation, $key);
 
                             $this->ignoreCase
                                 ? $relation->where(DB::raw("LOWER({$key})"), $whereOperator, $term)
@@ -130,11 +127,7 @@ class QueryBuilder extends SpladeTable
                         return;
                     }
 
-                    $column = $builder->qualifyColumn($column);
-
-                    $column = $this->ignoreCase
-                        ? $builder->getGrammar()->wrap($column)
-                        : $column;
+                    $key = $this->qualifyColumn($builder, $column);
 
                     $this->ignoreCase
                         ? $builder->orWhere(DB::raw("LOWER({$column})"), $whereOperator, $term)
@@ -144,73 +137,84 @@ class QueryBuilder extends SpladeTable
         });
     }
 
-    private function orderByRelationship(Column $column)
+    private function applySorting(Column $column)
     {
-        /** @var EloquentBuilder $builder */
-        $builder = $this->builder;
+        if (!$column->isNested()) {
+            return $this->builder->orderBy($column->key, $column->sorted);
+        }
 
-        /** @var Relation $relation */
-        $relation = $builder->getModel()->{$column->relationshipName()}();
-
-        $subquery = tap($relation->getModel()->newModelQuery(), function (EloquentBuilder $subquery) use ($column) {
-            $subquery->select(
-                $subquery->qualifyColumn($column->relationshipColumn())
-            );
-        });
-
-        if ($relation instanceof BelongsTo) {
-            $subquery->whereColumn(
-                $subquery->qualifyColumn($relation->getOwnerKeyName()),
-                $builder->qualifyColumn($relation->getForeignKeyName())
-            );
-        } elseif ($relation instanceof HasOne) {
-            $subquery->whereColumn(
-                $subquery->qualifyColumn($relation->getQualifiedForeignKeyName()),
-                $builder->qualifyColumn($relation->getQualifiedParentKeyName())
+        if (!trait_exists(PowerJoins::class)) {
+            throw new PowerJoinsException(
+                "To order the query using a column from a relationship, please install the 'kirschbaum-development/eloquent-power-joins' package."
             );
         }
 
-        $this->builder->orderBy($subquery, $column->sorted);
+        if (!method_exists($this->builder->getModel(), 'scopeOrderByLeftPowerJoins')) {
+            throw new PowerJoinsException(
+                "To order the query using a column from a relationship, make sure the Model uses the 'PowerJoins' trait."
+            );
+        }
+
+        return $this->builder->orderByLeftPowerJoins($column->key, $column->sorted);
     }
 
-    public function prepare()
+    private function applyFilters()
     {
-        $this->searchInputs()->filter->value->each(function (SearchInput $searchInput) {
-            $this->applyWhere(
-                $this->builder,
-                $searchInput->columns,
-                $searchInput->value,
-            );
-        });
+        $this->filters()->filter->value->each(
+            fn (Filter $filter) => $this->applyConstraint([$filter->key => SearchInput::EXACT], $filter->value)
+        );
+    }
 
-        $this->filters()->filter->value->each(function (Filter $filter) {
-            $this->applyWhere(
-                $this->builder,
-                [$filter->key => SearchInput::EXACT],
-                $filter->value,
-            );
-        });
+    private function applySearchInputs()
+    {
+        $this->searchInputs()->filter->value->each(
+            fn (SearchInput $searchInput) => $this->applyConstraint($searchInput->columns, $searchInput->value)
+        );
+    }
 
-        $this->columns()->each(function (Column $column) {
+    private function applySortingAndEagerLoading()
+    {
+        $hasAppliedSorting = $this->columns()->filter(function (Column $column) {
             if ($column->isNested()) {
                 $this->builder->with($column->relationshipName());
             }
 
             if (!$column->sorted) {
-                return;
+                return false;
             }
 
-            $column->isNested()
-                ? $this->orderByRelationship($column)
-                : $this->builder->orderBy($column->key, $column->sorted);
-        });
+            $this->applySorting($column);
 
-        if ($this->paginateMethod) {
-            $perPage = $this->query('perPage', $this->perPage ?: Arr::first($this->perPageOptions));
+            return true;
+        })->isNotEmpty();
 
-            $this->resource = $this->builder->{$this->paginateMethod}($perPage)->withQueryString();
-        } else {
-            $this->resource = $this->builder->get();
+        if (!$this->defaultSearch || $hasAppliedSorting) {
+            return;
         }
+
+        $defaultSortColumn = Str::startsWith($this->defaultSort, '-')
+            ? Column::make(key: substr($this->defaultSort, 1), sorted: 'desc')
+            : Column::make(key: $this->defaultSort, sorted: 'asc');
+
+        $this->applySorting($defaultSortColumn);
+    }
+
+    private function loadResource()
+    {
+        if (!$this->paginateMethod) {
+            return $this->resource = $this->builder->get();
+        }
+
+        $perPage = $this->query('perPage', $this->perPage ?: Arr::first($this->perPageOptions));
+
+        $this->resource = $this->builder->{$this->paginateMethod}($perPage)->withQueryString();
+    }
+
+    public function prepare()
+    {
+        $this->applyFilters();
+        $this->applySearchInputs();
+        $this->applySortingAndEagerLoading();
+        $this->loadResource();
     }
 }

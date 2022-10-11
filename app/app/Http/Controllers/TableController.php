@@ -74,19 +74,18 @@ class TableController
     {
         return view('table.organizations', [
             'organizations' => SpladeTable::for(
-                Organization::withCount('users')->withCount('projects')
+                Organization::withCount('users')
             )
                 ->withGlobalSearch(columns: [
                     'name',
                     'mainUser.name',
                     'users.name',
                 ])
-                ->defaultSort('name')
-                ->column('projects', 'Total Projects', sortable: true)
                 ->column('users_count', 'Total Users', sortable: true)
                 ->column('mainUser.name', 'Main User', searchable: true, sortable: true)
                 ->column('users.name', 'All Users')
                 ->column('name')
+                ->defaultSort('mainUser.name')
                 ->paginate(15),
         ]);
     }

@@ -51,9 +51,9 @@ class User extends Authenticatable
         return $this->morphToMany(Keyword::class, 'keywordable');
     }
 
-    public function mainOfOrganization()
+    public function mainOfProject()
     {
-        return $this->hasOne(Organization::class, 'main_user_id');
+        return $this->hasOne(Project::class, 'main_user_id');
     }
 
     public function organizations()

@@ -44,6 +44,17 @@ class Column implements Arrayable
         );
     }
 
+    public static function make(
+        string $key,
+        string $label = '',
+        bool $canBeHidden = false,
+        bool $hidden = false,
+        bool $sortable = false,
+        bool|string $sorted = false
+    ): static {
+        return new static($key, $label, $canBeHidden, $hidden, $sortable, $sorted);
+    }
+
     /**
      * Returns an array with all properties.
      *
