@@ -6,7 +6,6 @@ use Illuminate\Contracts\Pagination\CursorPaginator;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Str;
 use Illuminate\View\Component;
 use ProtoneMedia\Splade\SpladeTable;
 use ProtoneMedia\Splade\Table\Column;
@@ -110,16 +109,22 @@ class Table extends Component
         ]);
     }
 
+    /**
+     * It gets thet data from the given item, based on the column
+     * and whether that column is based on a relationship
+     * Supports returning multiple items as well.
+     *
+     * @param mixed $item
+     * @param \ProtoneMedia\Splade\Table\Column $column
+     * @return mixed
+     */
     public function getColumnDataFromItem($item, Column $column)
     {
-        if (Str::contains($column->key, '.')) {
-            $relation = Str::beforeLast($column->key, '.');
-
-            $key = Str::after($column->key, "{$relation}.");
-
-            $results = data_get($item, $relation);
+        if ($column->isNested()) {
+            $results = data_get($item, $column->relationshipName());
 
             if ($results instanceof Collection) {
+                $key = $column->relationshipColumn();
                 return $results->map->{$key}->implode(PHP_EOL);
             }
         }

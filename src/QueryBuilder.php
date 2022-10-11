@@ -152,11 +152,6 @@ class QueryBuilder extends SpladeTable
      */
     private function addTermConstraint(EloquentBuilder $builder, string $key, string $whereOperator, string $term)
     {
-        $key = $this->qualifyColumn($builder, $key);
-
-        $this->ignoreCase
-            ? $builder->where(DB::raw("LOWER({$key})"), $whereOperator, $term)
-            : $builder->where($key, $whereOperator, $term);
     }
 
     private function applyConstraint(array $columns, string $terms)
@@ -174,17 +169,24 @@ class QueryBuilder extends SpladeTable
 
                     if (!Str::contains($column, '.')) {
                         // Not a relationship, but a column on the table.
-                        return $this->addTermConstraint($builder, $column, $whereOperator, $term);
+                        $column = $this->qualifyColumn($builder, $column);
+
+                        return $this->ignoreCase
+                            ? $builder->orWhere(DB::raw("LOWER({$column})"), $whereOperator, $term)
+                            : $builder->orWhere($column, $whereOperator, $term);
                     }
 
                     // Split the column into the relationship name and the key on the relationship.
                     $relation = Str::beforeLast($column, '.');
                     $key      = Str::afterLast($column, '.');
 
-                    $builder->orWhereHas(
-                        $relation,
-                        fn (EloquentBuilder $relation) => $this->addTermConstraint($relation, $key, $whereOperator, $term)
-                    );
+                    $builder->orWhereHas($relation, function (EloquentBuilder $relation) use ($key, $whereOperator, $term) {
+                        $column = $this->qualifyColumn($relation, $key);
+
+                        return $this->ignoreCase
+                            ? $relation->where(DB::raw("LOWER({$column})"), $whereOperator, $term)
+                            : $relation->where($column, $whereOperator, $term);
+                    });
                 });
             });
         });

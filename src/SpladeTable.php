@@ -213,6 +213,14 @@ class SpladeTable
         static::$defaultColumnCanBeHidden = $state;
     }
 
+    /**
+     * Loops over the are and verifies that there's both a value
+     * and a (string) key. Items without a key will be handled
+     * in the QueryFilter::getTermAndWhereOperator() method.
+     *
+     * @param array $keys
+     * @return array
+     */
     private static function normalizeSearchColumnsWithMethod(array $keys): array
     {
         return Collection::make($keys)->mapWithKeys(function ($value, $key) {
@@ -607,9 +615,13 @@ class SpladeTable
             ->isNotEmpty();
     }
 
+    /**
+     * Any action that should be performed before rendering the Table component.
+     *
+     * @return void
+     */
     public function beforeRender()
     {
-        return $this;
     }
 
     /**

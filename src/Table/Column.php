@@ -44,6 +44,17 @@ class Column implements Arrayable
         );
     }
 
+    /**
+     * Helper method to create an instance with some defaults.
+     *
+     * @param string $key
+     * @param string $label
+     * @param boolean $canBeHidden
+     * @param boolean $hidden
+     * @param boolean $sortable
+     * @param boolean $sorted
+     * @return static
+     */
     public static function make(
         string $key,
         string $label = '',
@@ -72,16 +83,31 @@ class Column implements Arrayable
         ];
     }
 
+    /**
+     * Returns a boolean whether to columns refers to a relationship.
+     *
+     * @return boolean
+     */
     public function isNested(): bool
     {
         return Str::contains($this->key, '.');
     }
 
+    /**
+     * Returns the name of the relationship.
+     *
+     * @return string
+     */
     public function relationshipName(): string
     {
         return Str::beforeLast($this->key, '.');
     }
 
+    /**
+     * Returns the target column on the relationship.
+     *
+     * @return string
+     */
     public function relationshipColumn(): string
     {
         return Str::afterLast($this->key, '.');
