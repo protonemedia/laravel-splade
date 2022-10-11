@@ -9,12 +9,6 @@ use Kirschbaum\PowerJoins\PowerJoins;
 class Organization extends Model
 {
     use HasFactory;
-    use PowerJoins;
-
-    public function users()
-    {
-        return $this->hasMany(User::class);
-    }
 
     public function address()
     {

@@ -42,6 +42,7 @@ export default {
             visibleColumns: [],
             forcedVisibleSearchInputs: [],
             debounceUpdateQuery: null,
+            isLoading: false,
             processingAction: false
         };
     },
@@ -314,13 +315,26 @@ export default {
                 return Splade.replaceUrlOfCurrentPage(url);
             }
 
+            this.isLoading = true;
+            let currentValueOfElement = null;
+
+            if(typeof $el !== "undefined" && $el){
+                currentValueOfElement = document.querySelector(`[name="${$el.name}"]`)?.value;
+            }
+
             // Perform the request, and optionally focus on the given element.
             Splade.replace(url).then(() => {
+                this.isLoading = false;
+
                 if(typeof $el !== "undefined" && $el){
                     nextTick(() => {
                         const $newEl = document.querySelector(`[name="${$el.name}"]`);
 
                         $newEl.focus();
+
+                        if(currentValueOfElement) {
+                            $newEl.value = currentValueOfElement;
+                        }
                     });
                 }
             });
@@ -376,6 +390,7 @@ export default {
             setSelectedItem: this.setSelectedItem,
             performAction: this.performAction,
             processingAction: this.processingAction,
+            isLoading: this.isLoading,
         });
     },
 };

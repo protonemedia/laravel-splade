@@ -76,14 +76,12 @@ class TableController
             'projects' => SpladeTable::for(Project::class)
                 ->withGlobalSearch(columns: [
                     'name',
-                    'user.name',
-                    'user.organization.name',
-                    'user.organization.address.city',
+                    'organization.name',
+                    'organization.address.city',
                 ])
                 ->column('name', 'Project Name', sortable: true)
-                ->column('user.name', 'User Name', sortable: true)
-                ->column('user.organization.name', 'Organization Name', sortable: true)
-                ->column('user.organization.address.city', 'Organization City', sortable: true)
+                ->column('organization.name', 'Organization Name', sortable: true)
+                ->column('organization.address.city', 'Organization City', sortable: true, searchable: true)
                 ->paginate(15),
         ]);
     }
