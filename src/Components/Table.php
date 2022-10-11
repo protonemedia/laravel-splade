@@ -116,8 +116,8 @@ class Table extends Component
      * and whether that column is based on a relationship
      * Supports returning multiple items as well.
      *
-     * @param mixed $item
-     * @param \ProtoneMedia\Splade\Table\Column $column
+     * @param  mixed  $item
+     * @param  \ProtoneMedia\Splade\Table\Column  $column
      * @return mixed
      */
     public function getColumnDataFromItem($item, Column $column)
@@ -127,6 +127,7 @@ class Table extends Component
 
             if ($results instanceof Collection) {
                 $key = $column->relationshipColumn();
+
                 return $results->map->{$key}->implode(PHP_EOL);
             }
         }

@@ -47,12 +47,12 @@ class Column implements Arrayable
     /**
      * Helper method to create an instance with some defaults.
      *
-     * @param string $key
-     * @param string $label
-     * @param boolean $canBeHidden
-     * @param boolean $hidden
-     * @param boolean $sortable
-     * @param boolean $sorted
+     * @param  string  $key
+     * @param  string  $label
+     * @param  bool  $canBeHidden
+     * @param  bool  $hidden
+     * @param  bool  $sortable
+     * @param  bool  $sorted
      * @return static
      */
     public static function make(
@@ -86,7 +86,7 @@ class Column implements Arrayable
     /**
      * Returns a boolean whether to columns refers to a relationship.
      *
-     * @return boolean
+     * @return bool
      */
     public function isNested(): bool
     {
