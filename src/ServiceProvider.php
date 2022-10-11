@@ -288,6 +288,7 @@ class ServiceProvider extends BaseServiceProvider
             return Redirect::to($data['target'])->with($data['with'] ?? []);
         })->name('splade.eventRedirect')->middleware('signed');
     }
+
     /**
      * Registers a route that's used to handle Table actions.
      *

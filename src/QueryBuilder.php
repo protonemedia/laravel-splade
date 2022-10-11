@@ -24,7 +24,7 @@ class QueryBuilder extends SpladeTable
     /**
      * Ignore case on searches.
      *
-     * @var boolean
+     * @var bool
      */
     private bool $ignoreCase = true;
 
@@ -48,7 +48,7 @@ class QueryBuilder extends SpladeTable
     /**
      * Setter whether terms should be parsed.
      *
-     * @param boolean $state
+     * @param  bool  $state
      * @return self
      */
     public function parseTerms(bool $state = true): self
@@ -61,7 +61,7 @@ class QueryBuilder extends SpladeTable
     /**
      * Setter for ignoring case.
      *
-     * @param boolean $state
+     * @param  bool  $state
      * @return self
      */
     public function ignoreCase(bool $state = true): self
