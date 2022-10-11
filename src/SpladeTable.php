@@ -218,7 +218,7 @@ class SpladeTable
      * and a (string) key. Items without a key will be handled
      * in the QueryFilter::getTermAndWhereOperator() method.
      *
-     * @param array $keys
+     * @param  array  $keys
      * @return array
      */
     private static function normalizeSearchColumnsWithMethod(array $keys): array
