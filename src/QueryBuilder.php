@@ -100,38 +100,37 @@ class QueryBuilder extends SpladeTable
              : $column;
     }
 
+    private function addTermConstraint(EloquentBuilder $builder, string $key, string $whereOperator, string $term)
+    {
+        $key = $this->qualifyColumn($builder, $key);
+
+        $this->ignoreCase
+            ? $builder->where(DB::raw("LOWER({$key})"), $whereOperator, $term)
+            : $builder->where($key, $whereOperator, $term);
+    }
+
     private function applyConstraint(array $columns, string $terms)
     {
-        $columns = Collection::wrap($columns);
-
-        $terms = $this->parseTerm ? $this->parseTerms($terms) : $terms;
+        $terms = $this->parseTerm
+            ? $this->parseTerms($terms)
+            : Collection::wrap($terms);
 
         $this->builder->where(function (EloquentBuilder $builder) use ($columns, $terms) {
-            $terms->each(function ($term) use ($builder, $columns) {
-                $columns->each(function ($searchMethod, $column) use ($builder, $term) {
+            $terms->each(function (string $term) use ($builder, $columns) {
+                Collection::wrap($columns)->each(function (string $searchMethod, string $column) use ($builder, $term) {
                     [$term, $whereOperator] = $this->getTermAndWhereOperator($term, $searchMethod);
 
-                    if (Str::contains($column, '.')) {
-                        $relation = Str::beforeLast($column, '.');
-
-                        $key = Str::after($column, "{$relation}.");
-
-                        $builder->orWhereHas($relation, function (EloquentBuilder $relation) use ($key, $term, $whereOperator) {
-                            $key = $this->qualifyColumn($relation, $key);
-
-                            $this->ignoreCase
-                                ? $relation->where(DB::raw("LOWER({$key})"), $whereOperator, $term)
-                                : $relation->where($key, $whereOperator, $term);
-                        });
-
-                        return;
+                    if (!Str::contains($column, '.')) {
+                        return $this->addTermConstraint($builder, $column, $whereOperator, $term);
                     }
 
-                    $key = $this->qualifyColumn($builder, $column);
+                    $relation = Str::beforeLast($column, '.');
+                    $key      = Str::afterLast($column, '.');
 
-                    $this->ignoreCase
-                        ? $builder->orWhere(DB::raw("LOWER({$column})"), $whereOperator, $term)
-                        : $builder->orWhere($column, $whereOperator, $term);
+                    $builder->orWhereHas(
+                        $relation,
+                        fn (EloquentBuilder $relation) => $this->addTermConstraint($relation, $key, $whereOperator, $term)
+                    );
                 });
             });
         });

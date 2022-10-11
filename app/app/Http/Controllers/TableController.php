@@ -78,6 +78,7 @@ class TableController
                     'name',
                     'user.name',
                     'user.organization.name',
+                    'user.organization.address.city',
                 ])
                 ->column('name', 'Project Name', sortable: true)
                 ->column('user.name', 'User Name', sortable: true)
