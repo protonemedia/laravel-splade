@@ -32,8 +32,8 @@ class QueryBuilder extends SpladeTable
      * Initializes this instance with an empty resource. The results will be
      * loaded when the Table components calls the beforeRender() method.
      *
-     * @param \Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder $builder
-     * @param Request|null $request
+     * @param  \Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder  $builder
+     * @param  Request|null  $request
      */
     public function __construct(private BaseQueryBuilder|EloquentBuilder $builder, Request $request = null)
     {
@@ -43,8 +43,8 @@ class QueryBuilder extends SpladeTable
     /**
      * Helper method to set the pagination method and per page value.
      *
-     * @param string $method
-     * @param integer|null $perPage
+     * @param  string  $method
+     * @param  int|null  $perPage
      * @return self
      */
     private function setPagination(string $method, ?int $perPage = null): self
@@ -59,7 +59,7 @@ class QueryBuilder extends SpladeTable
     /**
      * Use 'regular' length-aware pagination.
      *
-     * @param int $perPage
+     * @param  int  $perPage
      * @return self
      */
     public function paginate($perPage = null): self
@@ -70,7 +70,7 @@ class QueryBuilder extends SpladeTable
     /**
      * Use simple non-length-aware pagination.
      *
-     * @param int $perPage
+     * @param  int  $perPage
      * @return self
      */
     public function simplePaginate($perPage = null): self
@@ -81,7 +81,7 @@ class QueryBuilder extends SpladeTable
     /**
      * Use cursor pagination.
      *
-     * @param int $perPage
+     * @param  int  $perPage
      * @return self
      */
     public function cursorPaginate($perPage = null): self
@@ -108,8 +108,8 @@ class QueryBuilder extends SpladeTable
     /**
      * Formats the terms and returns the right where operator for the given search method.
      *
-     * @param string $term
-     * @param string|null $searchMethod
+     * @param  string  $term
+     * @param  string|null  $searchMethod
      * @return array
      */
     private function getTermAndWhereOperator(string $term, ?string $searchMethod = null): array
@@ -127,8 +127,8 @@ class QueryBuilder extends SpladeTable
     /**
      * Qualify the column by the model's table and wrap it.
      *
-     * @param \Illuminate\Database\Eloquent\Builder $builder
-     * @param string $column
+     * @param  \Illuminate\Database\Eloquent\Builder  $builder
+     * @param  string  $column
      * @return string
      */
     private function qualifyColumn(EloquentBuilder $builder, string $column): string
@@ -144,10 +144,10 @@ class QueryBuilder extends SpladeTable
      * Adds a where constraint with the given arguments based
      * on whether the case should be ignored or not.
      *
-     * @param \Illuminate\Database\Eloquent\Builder $builder
-     * @param string $key
-     * @param string $whereOperator
-     * @param string $term
+     * @param  \Illuminate\Database\Eloquent\Builder  $builder
+     * @param  string  $key
+     * @param  string  $whereOperator
+     * @param  string  $term
      * @return void
      */
     private function addTermConstraint(EloquentBuilder $builder, string $key, string $whereOperator, string $term)
@@ -169,7 +169,7 @@ class QueryBuilder extends SpladeTable
         // add an 'orWhere' contraint for each column.
         $this->builder->where(function (EloquentBuilder $builder) use ($columns, $terms) {
             $terms->each(function (string $term) use ($builder, $columns) {
-                Collection::wrap($columns)->each(function (?string $searchMethod = null, string $column) use ($builder, $term) {
+                Collection::wrap($columns)->each(function (?string $searchMethod, string $column) use ($builder, $term) {
                     [$term, $whereOperator] = $this->getTermAndWhereOperator($term, $searchMethod);
 
                     if (!Str::contains($column, '.')) {
@@ -195,7 +195,7 @@ class QueryBuilder extends SpladeTable
      * to be sorted by a (nested) relationship, it will
      * verify the PowerJoins package is installed.
      *
-     * @param \ProtoneMedia\Splade\Table\Column $column
+     * @param  \ProtoneMedia\Splade\Table\Column  $column
      * @return void
      */
     private function applySorting(Column $column)
