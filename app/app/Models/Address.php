@@ -5,12 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Project extends Model
+class Address extends Model
 {
     use HasFactory;
 
-    public function user()
+    public function organization()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Organization::class);
     }
 }

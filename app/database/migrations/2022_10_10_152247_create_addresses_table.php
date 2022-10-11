@@ -1,7 +1,6 @@
 <?php
 
-use App\Models\Project;
-use App\Models\User;
+use App\Models\Organization;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,9 +14,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('project_user', function (Blueprint $table) {
-            $table->foreignIdFor(Project::class);
-            $table->foreignIdFor(User::class);
+        Schema::create('addresses', function (Blueprint $table) {
+            $table->id();
+            $table->foreignIdFor(Organization::class);
+            $table->string('address');
+            $table->string('city');
+            $table->timestamps();
         });
     }
 
@@ -28,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('project_user_pivot');
+        Schema::dropIfExists('addresses');
     }
 };

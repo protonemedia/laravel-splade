@@ -188,7 +188,7 @@ class QueryBuilder extends SpladeTable
             return true;
         })->isNotEmpty();
 
-        if (!$this->defaultSearch || $hasAppliedSorting) {
+        if (!$this->defaultSort || $hasAppliedSorting) {
             return;
         }
 

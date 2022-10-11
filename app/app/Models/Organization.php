@@ -13,16 +13,11 @@ class Organization extends Model
 
     public function users()
     {
-        return $this->belongsToMany(User::class);
+        return $this->hasMany(User::class);
     }
 
-    public function project()
+    public function address()
     {
-        return $this->hasOne(Project::class);
-    }
-
-    public function mainUser()
-    {
-        return $this->belongsTo(User::class);
+        return $this->hasOne(Address::class);
     }
 }
