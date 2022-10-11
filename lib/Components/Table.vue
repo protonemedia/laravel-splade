@@ -1,5 +1,4 @@
 <script>
-import { default as Axios } from "axios";
 import { nextTick } from "vue";
 import { Splade } from "./../Splade.js";
 
