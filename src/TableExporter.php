@@ -17,7 +17,7 @@ use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use ProtoneMedia\Splade\Table\Column;
 
-class TableExport implements
+class TableExporter implements
     FromQuery,
     Responsable,
     ShouldAutoSize,
@@ -32,7 +32,7 @@ class TableExport implements
     private $styles = [];
 
     public function __construct(
-        private QueryBuilder $table,
+        private SpladeQueryBuilder $table,
         private $fileName,
         private $writerType
     ) {
@@ -58,12 +58,18 @@ class TableExport implements
     public function columnFormats(): array
     {
         return $this->columns()->mapWithKeys(function (Column $column, $key) {
-            if (!$column->exportFormat) {
+            $exportFormat = $column->exportFormat;
+
+            if (!$exportFormat) {
                 return [];
             }
 
+            $format = is_callable($exportFormat)
+                ? call_user_func($exportFormat)
+                : $exportFormat;
+
             return [
-                Coordinate::stringFromColumnIndex($key + 1) => call_user_func($column->exportFormat),
+                Coordinate::stringFromColumnIndex($key + 1) => $format,
             ];
         })->all();
     }
@@ -72,19 +78,24 @@ class TableExport implements
     {
         $highestRow = $sheet->getHighestRowAndColumn()['row'];
 
-        $this->columns()->each(function (Column $column, $key) use ($sheet, $highestRow) {
-            if (!$column->exportStyling) {
-                return;
+        return $this->columns()->mapWithKeys(function (Column $column, $key) use ($sheet, $highestRow) {
+            $exportStyling = $column->exportStyling;
+
+            if (!$exportStyling) {
+                return [];
             }
 
             $sheetColumn = Coordinate::stringFromColumnIndex($key + 1);
+            $coordinate  = "{$sheetColumn}2:{$sheetColumn}{$highestRow}";
 
-            $style = $sheet->getStyle(
-                "{$sheetColumn}2:{$sheetColumn}{$highestRow}"
-            );
+            if (is_array($exportStyling)) {
+                return [$coordinate => $exportStyling];
+            }
 
-            call_user_func($column->exportStyling, $style);
-        });
+            call_user_func($exportStyling, $sheet->getStyle($coordinate));
+
+            return [];
+        })->all();
     }
 
     public function map($item): array

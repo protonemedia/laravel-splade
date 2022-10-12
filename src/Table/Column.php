@@ -19,8 +19,8 @@ class Column implements Arrayable
      * @param  bool  $sortable
      * @param  bool|string  $sorted
      * @param  bool|Closure  $exportAs
-     * @param  Closure  $exportFormat
-     * @param  Closure  $exportStyling
+     * @param  Closure|string  $exportFormat
+     * @param  Closure|array  $exportStyling
      */
     public function __construct(
         public string $key,
@@ -30,8 +30,8 @@ class Column implements Arrayable
         public bool $sortable,
         public bool|string $sorted,
         public bool|Closure $exportAs,
-        public ?Closure $exportFormat = null,
-        public ?Closure $exportStyling = null,
+        public Closure|string|null $exportFormat = null,
+        public Closure|array|null $exportStyling = null,
     ) {
     }
 
@@ -52,42 +52,6 @@ class Column implements Arrayable
             $this->exportAs,
             $this->exportFormat,
             $this->exportStyling,
-        );
-    }
-
-    /**
-     * Helper method to create an instance with some defaults.
-     *
-     * @param  string  $key
-     * @param  string  $label
-     * @param  bool  $canBeHidden
-     * @param  bool  $hidden
-     * @param  bool  $sortable
-     * @param  bool  $sorted
-     * @param  bool|callable  $exportAs
-     * @return static
-     */
-    public static function make(
-        string $key,
-        string $label = '',
-        bool $canBeHidden = false,
-        bool $hidden = false,
-        bool $sortable = false,
-        bool|string $sorted = false,
-        bool|callable $exportAs = true,
-        callable|null $exportFormat = null,
-        callable|null $exportStyling = null,
-    ): static {
-        return new static(
-            $key,
-            $label,
-            $canBeHidden,
-            $hidden,
-            $sortable,
-            $sorted,
-            is_bool($exportAs) ? $exportAs : Closure::fromCallable($exportAs),
-            $exportFormat ? Closure::fromCallable($exportFormat) : null,
-            $exportStyling ? Closure::fromCallable($exportStyling) : null,
         );
     }
 

@@ -14,8 +14,9 @@ use ProtoneMedia\Splade\Table\Column;
 use ProtoneMedia\Splade\Table\Filter;
 use ProtoneMedia\Splade\Table\PowerJoinsException;
 use ProtoneMedia\Splade\Table\SearchInput;
+use Spatie\QueryBuilder\QueryBuilder as SpatieQueryBuilder;
 
-class QueryBuilder extends SpladeTable
+class SpladeQueryBuilder extends SpladeTable
 {
     private $paginateMethod;
 
@@ -37,10 +38,10 @@ class QueryBuilder extends SpladeTable
      * Initializes this instance with an empty resource. The results will be
      * loaded when the Table components calls the beforeRender() method.
      *
-     * @param  \Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder  $builder
+     * @param  \Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder|\Spatie\QueryBuilder\QueryBuilder  $builder
      * @param  Request|null  $request
      */
-    public function __construct(private BaseQueryBuilder|EloquentBuilder $builder, Request $request = null)
+    public function __construct(private BaseQueryBuilder|EloquentBuilder|SpatieQueryBuilder $builder, Request $request = null)
     {
         parent::__construct([], $request);
     }
@@ -273,38 +274,22 @@ class QueryBuilder extends SpladeTable
 
     /**
      * Loops through the columns and checks whether the column is
-     * the one to sort by. It also checks whether there are
-     * relationships that can be eager loaded.
+     * the one to sort by.
      *
      * @return void
      */
     private function applySortingAndEagerLoading()
     {
-        $hasAppliedSorting = $this->columns()->filter(function (Column $column) {
+        $this->columns()->each(function (Column $column) {
             if ($column->isNested()) {
                 // Eager load the relationship.
                 $this->builder->with($column->relationshipName());
             }
 
-            if (!$column->sorted) {
-                return false;
+            if ($column->sorted) {
+                $this->applySorting($column);
             }
-
-            $this->applySorting($column);
-
-            return true;
-        })->isNotEmpty();
-
-        if (!$this->defaultSort || $hasAppliedSorting) {
-            return;
-        }
-
-        // There is a default sort, but is was not one of the columns.
-        $defaultSortColumn = Str::startsWith($this->defaultSort, '-')
-            ? Column::make(key: substr($this->defaultSort, 1), sorted: 'desc')
-            : Column::make(key: $this->defaultSort, sorted: 'asc');
-
-        $this->applySorting($defaultSortColumn);
+        });
     }
 
     /**

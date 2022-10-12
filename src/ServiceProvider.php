@@ -331,7 +331,7 @@ class ServiceProvider extends BaseServiceProvider
             /** @var AbstractTable $table */
             $table = app(base64_decode($table));
 
-            return $table->makeExport($export);
+            return $table->makeExporter($export);
         })->name('splade.tableExport')->middleware([
             'signed',
             'web',

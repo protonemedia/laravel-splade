@@ -2,11 +2,11 @@
 
 namespace App\Tables;
 
-use ProtoneMedia\Splade\QueryBuilder;
+use ProtoneMedia\Splade\SpladeQueryBuilder;
 use ProtoneMedia\Splade\SpladeTable;
 use ProtoneMedia\Splade\Table\BulkAction;
 use ProtoneMedia\Splade\Table\Export;
-use ProtoneMedia\Splade\TableExport;
+use ProtoneMedia\Splade\TableExporter;
 
 abstract class AbstractTable
 {
@@ -29,15 +29,15 @@ abstract class AbstractTable
         //
     }
 
-    public function makeExport(int $key)
+    public function makeExporter(int $key)
     {
         $table = $this->make();
 
-        if ($table instanceof QueryBuilder) {
+        if ($table instanceof SpladeQueryBuilder) {
             /** @var Export $export */
             $export = $table->getExports()[$key];
 
-            return new TableExport(
+            return new TableExporter(
                 $this->make(),
                 $export->filename,
                 $export->type
@@ -49,7 +49,7 @@ abstract class AbstractTable
     {
         $table = $this->make();
 
-        if ($table instanceof QueryBuilder) {
+        if ($table instanceof SpladeQueryBuilder) {
             /** @var BulkAction $bulkAction */
             $bulkAction = $table->getBulkActions()[$key];
 
