@@ -9,6 +9,8 @@ trait HasColumns
 {
     protected Collection $columns;
 
+    protected static bool $defaultHighlightFirstColumn = false;
+
     protected static bool $defaultColumnCanBeHidden = true;
 
     /**
@@ -20,6 +22,11 @@ trait HasColumns
     public static function defaultColumnCanBeHidden(bool $state = true)
     {
         static::$defaultColumnCanBeHidden = $state;
+    }
+
+    public static function defaultHighlightFirstColumn(bool $state = true)
+    {
+        static::$defaultHighlightFirstColumn = $state;
     }
 
     /**
@@ -43,12 +50,17 @@ trait HasColumns
         bool $hidden = false,
         bool $sortable = false,
         bool|string $searchable = false,
+        bool|null $highlight = null,
         bool|callable $exportAs = true,
         callable|string|null $exportFormat = null,
         callable|array|null $exportStyling = null
     ): self {
         $key   = $key   !== null ? $key : Str::kebab($label);
         $label = $label !== null ? $label : Str::headline(str_replace('.', ' ', $key));
+
+        $highlight = is_bool($highlight)
+            ? $highlight
+            : static::$defaultHighlightFirstColumn;
 
         $canBeHidden = is_bool($canBeHidden)
             ? $canBeHidden
@@ -63,6 +75,7 @@ trait HasColumns
             hidden: $hidden,
             sortable: $sortable,
             sorted: false,
+            highlight: $highlight,
             exportAs: $exportAs,
             exportFormat: $exportFormat,
             exportStyling: $exportStyling,

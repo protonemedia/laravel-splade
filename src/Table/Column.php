@@ -18,6 +18,7 @@ class Column implements Arrayable
      * @param  bool  $hidden
      * @param  bool  $sortable
      * @param  bool|string  $sorted
+     * @param  bool  $highlight
      * @param  bool|Closure  $exportAs
      * @param  Closure|string  $exportFormat
      * @param  Closure|array  $exportStyling
@@ -29,6 +30,7 @@ class Column implements Arrayable
         public bool $hidden,
         public bool $sortable,
         public bool|string $sorted,
+        public bool $highlight,
         public bool|Closure $exportAs,
         public Closure|string|null $exportFormat = null,
         public Closure|array|null $exportStyling = null,
@@ -49,6 +51,7 @@ class Column implements Arrayable
             $this->hidden,
             $this->sortable,
             $this->sorted,
+            $this->highlight,
             $this->exportAs,
             $this->exportFormat,
             $this->exportStyling,
@@ -69,6 +72,7 @@ class Column implements Arrayable
             'hidden'        => $this->hidden,
             'sortable'      => $this->sortable,
             'sorted'        => $this->sorted,
+            'highlight'     => $this->highlight,
         ];
     }
 
