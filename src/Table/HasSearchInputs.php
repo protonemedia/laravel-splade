@@ -13,13 +13,13 @@ trait HasSearchInputs
     protected static bool|string $defaultGlobalSearch = false;
 
     /**
-    * Add a search input to the table.
-    *
-    * @param  string  $key
-    * @param  string|null  $label
-    * @param  string|null  $defaultValue
-    * @return self
-    */
+     * Add a search input to the table.
+     *
+     * @param  string  $key
+     * @param  string|null  $label
+     * @param  string|null  $defaultValue
+     * @return self
+     */
     public function searchInput(
         array|string $key,
         string $label = null,

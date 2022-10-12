@@ -22,7 +22,7 @@ trait HasExports
     /**
      * Returns a boolean whether this table has exports.
      *
-     * @return boolean
+     * @return bool
      */
     public function hasExports(): bool
     {
@@ -32,9 +32,9 @@ trait HasExports
     /**
      * Adds an export.
      *
-     * @param string|null $label
-     * @param string|null $filename
-     * @param string|null $type
+     * @param  string|null  $label
+     * @param  string|null  $filename
+     * @param  string|null  $type
      * @return self
      */
     public function export(

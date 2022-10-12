@@ -19,7 +19,7 @@ trait HasBulkActions
     /**
      * Returns a boolean whether this table has bulk actions.
      *
-     * @return boolean
+     * @return bool
      */
     public function hasBulkActions(): bool
     {
@@ -29,10 +29,10 @@ trait HasBulkActions
     /**
      * Adds a new bulk action.
      *
-     * @param string $label
-     * @param callable|null $each
-     * @param callable|null $before
-     * @param callable|null $after
+     * @param  string  $label
+     * @param  callable|null  $each
+     * @param  callable|null  $before
+     * @param  callable|null  $after
      * @return self
      */
     public function bulkAction(

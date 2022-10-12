@@ -83,7 +83,7 @@ trait HasResource
             return $item->getKey();
         }
 
-        throw new Exception("No primary key configured");
+        throw new Exception('No primary key configured');
     }
 
     /**
