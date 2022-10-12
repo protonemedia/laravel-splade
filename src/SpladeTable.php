@@ -108,7 +108,7 @@ class SpladeTable
     /**
      * Sets the class that configurates this table.
      *
-     * @param AbstractTable $configurator
+     * @param  AbstractTable  $configurator
      * @return self
      */
     public function setConfigurator(AbstractTable $configurator): self
@@ -586,7 +586,7 @@ class SpladeTable
     /**
      * Returns a boolean whether this table has bulk actions.
      *
-     * @return boolean
+     * @return bool
      */
     public function hasBulkActions(): bool
     {
@@ -687,7 +687,7 @@ class SpladeTable
             return $item->getKey();
         }
 
-        throw new Exception("No primary key configured");
+        throw new Exception('No primary key configured');
     }
 
     /**

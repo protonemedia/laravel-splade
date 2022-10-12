@@ -17,15 +17,7 @@ use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use ProtoneMedia\Splade\Table\Column;
 
-class TableExport implements
-    FromQuery,
-    Responsable,
-    ShouldAutoSize,
-    WithColumnFormatting,
-    WithEvents,
-    WithHeadings,
-    WithMapping,
-    WithStyles
+class TableExport implements FromQuery, Responsable, ShouldAutoSize, WithColumnFormatting, WithEvents, WithHeadings, WithMapping, WithStyles
 {
     use Exportable;
 
@@ -104,7 +96,7 @@ class TableExport implements
     {
         return [
             AfterSheet::class => function (AfterSheet $event) {
-                $sheet = $event->getSheet();
+                $sheet   = $event->getSheet();
                 $highest = $sheet->getHighestRowAndColumn();
                 $sheet->setAutoFilter("A1:{$highest['column']}1");
             },
