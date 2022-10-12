@@ -11,11 +11,11 @@ class Export
     /**
      * This class represents a export within a Splade Table.
      *
-     * @param string $key
-     * @param string $label
-     * @param string $filename
-     * @param string $type
-     * @param string $tableClass
+     * @param  string  $key
+     * @param  string  $label
+     * @param  string  $filename
+     * @param  string  $type
+     * @param  string  $tableClass
      */
     public function __construct(
         public string $key,

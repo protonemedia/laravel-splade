@@ -97,7 +97,7 @@ class SpladeTable
     /**
      * Sets the class that configurates this table.
      *
-     * @param AbstractTable $configurator
+     * @param  AbstractTable  $configurator
      * @return self
      */
     public function setConfigurator(AbstractTable $configurator): self
