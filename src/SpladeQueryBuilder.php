@@ -50,7 +50,7 @@ class SpladeQueryBuilder extends SpladeTable
      * Setter whether terms should be parsed.
      *
      * @param  bool  $state
-     * @return self
+     * @return $this
      */
     public function parseTerms(bool $state = true): self
     {
@@ -63,7 +63,7 @@ class SpladeQueryBuilder extends SpladeTable
      * Setter for ignoring case.
      *
      * @param  bool  $state
-     * @return self
+     * @return $this
      */
     public function ignoreCase(bool $state = true): self
     {
@@ -82,7 +82,7 @@ class SpladeQueryBuilder extends SpladeTable
      *
      * @param  string  $method
      * @param  int|null  $perPage
-     * @return self
+     * @return $this
      */
     private function setPagination(string $method, ?int $perPage = null): self
     {
@@ -97,7 +97,7 @@ class SpladeQueryBuilder extends SpladeTable
      * Use 'regular' length-aware pagination.
      *
      * @param  int  $perPage
-     * @return self
+     * @return $this
      */
     public function paginate($perPage = null): self
     {
@@ -108,7 +108,7 @@ class SpladeQueryBuilder extends SpladeTable
      * Use simple non-length-aware pagination.
      *
      * @param  int  $perPage
-     * @return self
+     * @return $this
      */
     public function simplePaginate($perPage = null): self
     {
@@ -119,7 +119,7 @@ class SpladeQueryBuilder extends SpladeTable
      * Use cursor pagination.
      *
      * @param  int  $perPage
-     * @return self
+     * @return $this
      */
     public function cursorPaginate($perPage = null): self
     {

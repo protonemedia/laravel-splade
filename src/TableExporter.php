@@ -12,7 +12,6 @@ use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithStyles;
-use Maatwebsite\Excel\Events\AfterSheet;
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use ProtoneMedia\Splade\Table\Column;
@@ -26,7 +25,8 @@ class TableExporter implements FromQuery, Responsable, ShouldAutoSize, WithColum
     public function __construct(
         private SpladeQueryBuilder $table,
         private $fileName,
-        private $writerType
+        private $writerType,
+        private array $events,
     ) {
     }
 
@@ -68,7 +68,12 @@ class TableExporter implements FromQuery, Responsable, ShouldAutoSize, WithColum
 
     public function styles(Worksheet $sheet)
     {
-        $highestRow = $sheet->getHighestRowAndColumn()['row'];
+        $highest = $sheet->getHighestRowAndColumn();
+
+        $highestRow    = $highest['row'];
+        $highestColumn = $highest['column'];
+
+        $sheet->setAutoFilter("A1:{$highestColumn}1");
 
         return $this->columns()->mapWithKeys(function (Column $column, $key) use ($sheet, $highestRow) {
             $exportStyling = $column->exportStyling;
@@ -103,14 +108,13 @@ class TableExporter implements FromQuery, Responsable, ShouldAutoSize, WithColum
         })->all();
     }
 
+    /**
+     * https://docs.laravel-excel.com/3.1/exports/extending.html#events
+     *
+     * @return array
+     */
     public function registerEvents(): array
     {
-        return [
-            AfterSheet::class => function (AfterSheet $event) {
-                $sheet   = $event->getSheet();
-                $highest = $sheet->getHighestRowAndColumn();
-                $sheet->setAutoFilter("A1:{$highest['column']}1");
-            },
-        ];
+        return $this->events;
     }
 }

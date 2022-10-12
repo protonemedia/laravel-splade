@@ -16,6 +16,7 @@ class Export
      * @param  string  $filename
      * @param  string  $type
      * @param  string  $tableClass
+     * @param  array  $events
      */
     public function __construct(
         public string $key,
@@ -23,6 +24,7 @@ class Export
         public string $filename,
         public string $type,
         public string $tableClass,
+        public array $events,
     ) {
     }
 

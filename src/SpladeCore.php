@@ -62,7 +62,7 @@ class SpladeCore
      * Setter for the root view.
      *
      * @param  string  $view
-     * @return self
+     * @return $this
      */
     public function setRootView(string $view): self
     {
@@ -74,7 +74,7 @@ class SpladeCore
     /**
      * Resets the Modal Key, shared data and toasts.
      *
-     * @return self
+     * @return $this
      */
     public function reset(): self
     {
@@ -119,7 +119,7 @@ class SpladeCore
      * Setter for the Modal Key.
      *
      * @param  string  $key
-     * @return self
+     * @return $this
      */
     public function setModalKey(string $key): self
     {
@@ -141,7 +141,7 @@ class SpladeCore
     /**
      * Resets the Lazy Components counter.
      *
-     * @return self
+     * @return $this
      */
     public function resetLazyComponentCounter(): self
     {
@@ -154,7 +154,7 @@ class SpladeCore
      * Sets a callable that defines how a default Toast.
      *
      * @param  callable  $toastFactory
-     * @return self
+     * @return $this
      */
     public function defaultToast(callable $toastFactory): self
     {
@@ -280,7 +280,7 @@ class SpladeCore
      *
      * @param  string  $key
      * @param  mixed  $value
-     * @return self
+     * @return $this
      */
     public function share(string $key, $value): self
     {

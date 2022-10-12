@@ -20,7 +20,7 @@ trait HasResource
      * every row in the data set to determine the target URL.
      *
      * @param  callable  $callback
-     * @return self
+     * @return $this
      */
     public function rowLink(callable $callback): self
     {

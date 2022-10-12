@@ -28,7 +28,7 @@ class PrepareViewWithLazyComponents
      * lazy-component in a template with a placeholder (on initial request).
      * On the lazy request itself, it return the rendered lazy-component.
      *
-     * @return self
+     * @return $this
      */
     public function registerMacro(): self
     {
@@ -71,7 +71,7 @@ class PrepareViewWithLazyComponents
      * rendering a Blade template. This way we can, based on the request, replace
      * the lazy components with a placeholder, or with the actual content.
      *
-     * @return self
+     * @return $this
      */
     public function registerEventListener(): self
     {

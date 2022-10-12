@@ -33,7 +33,7 @@ trait HasBulkActions
      * @param  callable|null  $each
      * @param  callable|null  $before
      * @param  callable|null  $after
-     * @return self
+     * @return $this
      */
     public function bulkAction(
         string $label,

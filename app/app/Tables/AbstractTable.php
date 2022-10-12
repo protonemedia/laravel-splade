@@ -40,7 +40,8 @@ abstract class AbstractTable
             return new TableExporter(
                 $this->make(),
                 $export->filename,
-                $export->type
+                $export->type,
+                $export->events
             );
         }
     }

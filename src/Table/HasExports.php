@@ -35,12 +35,13 @@ trait HasExports
      * @param  string|null  $label
      * @param  string|null  $filename
      * @param  string|null  $type
-     * @return self
+     * @return $this
      */
     public function export(
         string $label = null,
         string $filename = null,
         string $type = null,
+        array $events = [],
     ): self {
         if (!class_exists(Excel::class)) {
             throw new LaravelExcelException(
@@ -62,6 +63,7 @@ trait HasExports
             filename: $filename,
             type: $type ?: Excel::XLSX,
             tableClass: get_class($this->configurator),
+            events: $events,
         );
 
         return $this;

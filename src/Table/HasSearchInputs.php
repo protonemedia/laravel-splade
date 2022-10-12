@@ -5,6 +5,7 @@ namespace ProtoneMedia\Splade\Table;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
+use ProtoneMedia\Splade\SpladeTable;
 
 trait HasSearchInputs
 {
@@ -18,7 +19,7 @@ trait HasSearchInputs
      * @param  string  $key
      * @param  string|null  $label
      * @param  string|null  $defaultValue
-     * @return self
+     * @return $this
      */
     public function searchInput(
         array|string $key,
@@ -87,7 +88,7 @@ trait HasSearchInputs
     public function hasToggleableSearchInputs(): bool
     {
         return $this->searchInputs
-            ->reject(fn (SearchInput $searchInput) => $searchInput->key === static::GLOBAL_SEARCH_KEY)
+            ->reject(fn (SearchInput $searchInput) => $searchInput->key === SpladeTable::GLOBAL_SEARCH_KEY)
             ->isNotEmpty();
     }
 
@@ -108,12 +109,12 @@ trait HasSearchInputs
      * Helper method to add a global search input.
      *
      * @param  string|null  $label
-     * @return self
+     * @return $this
      */
     public function withGlobalSearch(string $label = null, array $columns = []): self
     {
         return $this->searchInput(
-            key: static::GLOBAL_SEARCH_KEY,
+            key: SpladeTable::GLOBAL_SEARCH_KEY,
             label: $label ?: __('Search') . '...',
             columns: $columns
         );

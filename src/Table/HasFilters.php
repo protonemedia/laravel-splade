@@ -18,7 +18,7 @@ trait HasFilters
      * @param  string|null  $defaultValue
      * @param  bool  $noFilterOption
      * @param  string|null  $noFilterOptionLabel
-     * @return self
+     * @return $this
      */
     public function selectFilter(
         string $key,

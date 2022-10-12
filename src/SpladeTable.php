@@ -98,7 +98,7 @@ class SpladeTable
      * Sets the class that configurates this table.
      *
      * @param  AbstractTable  $configurator
-     * @return self
+     * @return $this
      */
     public function setConfigurator(AbstractTable $configurator): self
     {
@@ -126,7 +126,7 @@ class SpladeTable
      * Name for this table.
      *
      * @param  string  $name
-     * @return self
+     * @return $this
      */
     public function name(string $name): self
     {
@@ -139,7 +139,7 @@ class SpladeTable
      * Per Page options for this table.
      *
      * @param  array  $perPageOptions
-     * @return self
+     * @return $this
      */
     public function perPageOptions(array $perPageOptions): self
     {
@@ -258,7 +258,7 @@ class SpladeTable
      * Setter for the default sort key.
      *
      * @param  string  $defaultSort
-     * @return self
+     * @return $this
      */
     public function defaultSort(string $defaultSort): self
     {

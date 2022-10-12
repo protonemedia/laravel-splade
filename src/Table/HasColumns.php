@@ -34,7 +34,7 @@ trait HasColumns
      * @param  bool|callable  $exportAs
      * @param  callable|null  $exportFormat
      * @param  callable|null  $exportStyling
-     * @return self
+     * @return $this
      */
     public function column(
         string $key = null,
