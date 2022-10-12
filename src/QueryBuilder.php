@@ -71,6 +71,11 @@ class QueryBuilder extends SpladeTable
         return $this;
     }
 
+    public function noPagination(): self
+    {
+        return $this->setPagination('', null);
+    }
+
     /**
      * Helper method to set the pagination method and per page value.
      *
@@ -335,7 +340,16 @@ class QueryBuilder extends SpladeTable
         $this->loadResults();
     }
 
-    public function performAction(callable $action, array $ids)
+    public function getBuilderForExport(): EloquentBuilder
+    {
+        $this->applyFilters();
+        $this->applySearchInputs();
+        $this->applySortingAndEagerLoading();
+
+        return $this->builder;
+    }
+
+    public function performBulkAction(callable $action, array $ids)
     {
         $this->applySortingAndEagerLoading();
 
@@ -346,9 +360,7 @@ class QueryBuilder extends SpladeTable
         }
 
         $this->builder->chunkById(100, function (Collection $results) use ($action) {
-            $results->each(function ($item) use ($action) {
-                $action($item);
-            });
+            $results->each($action);
         });
     }
 }

@@ -2,6 +2,8 @@
 
 namespace ProtoneMedia\Splade;
 
+use App\Tables\AbstractTable;
+use Exception;
 use Illuminate\Contracts\Database\Query\Builder;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Model;
@@ -11,7 +13,10 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
+use Maatwebsite\Excel\Excel;
+use ProtoneMedia\Splade\Table\BulkAction;
 use ProtoneMedia\Splade\Table\Column;
+use ProtoneMedia\Splade\Table\Export;
 use ProtoneMedia\Splade\Table\Filter;
 use ProtoneMedia\Splade\Table\SearchInput;
 
@@ -47,7 +52,11 @@ class SpladeTable
 
     protected string $primaryKey = '';
 
-    protected array $actions = [];
+    protected array $bulkActions = [];
+
+    protected array $exports = [];
+
+    protected ?AbstractTable $configurator = null;
 
     /**
      * Creates a new instance.
@@ -94,6 +103,19 @@ class SpladeTable
         }
 
         return new static($resource);
+    }
+
+    /**
+     * Sets the class that configurates this table.
+     *
+     * @param AbstractTable $configurator
+     * @return self
+     */
+    public function setConfigurator(AbstractTable $configurator): self
+    {
+        $this->configurator = $configurator;
+
+        return $this;
     }
 
     /**
@@ -352,10 +374,13 @@ class SpladeTable
      *
      * @param  string|null  $key
      * @param  string|null  $label
-     * @param  bool|null|null  $canBeHidden
+     * @param  bool|null  $canBeHidden
      * @param  bool  $hidden
      * @param  bool  $sortable
      * @param  bool  $searchable
+     * @param  bool|callable  $exportAs
+     * @param  callable|null  $exportFormat
+     * @param  callable|null  $exportStyling
      * @return self
      */
     public function column(
@@ -364,10 +389,13 @@ class SpladeTable
         bool|null $canBeHidden = null,
         bool $hidden = false,
         bool $sortable = false,
-        bool|string $searchable = false
+        bool|string $searchable = false,
+        bool|callable $exportAs = true,
+        callable|null $exportFormat = null,
+        callable|null $exportStyling = null
     ): self {
         $key   = $key   !== null ? $key : Str::kebab($label);
-        $label = $label !== null ? $label : Str::headline($key);
+        $label = $label !== null ? $label : Str::headline(str_replace('.', ' ', $key));
 
         $canBeHidden = is_bool($canBeHidden)
             ? $canBeHidden
@@ -381,7 +409,10 @@ class SpladeTable
             canBeHidden: $canBeHidden,
             hidden: $hidden,
             sortable: $sortable,
-            sorted: false
+            sorted: false,
+            exportAs: $exportAs,
+            exportFormat: $exportFormat,
+            exportStyling: $exportStyling,
         ))->values();
 
         if (!$searchable) {
@@ -553,6 +584,21 @@ class SpladeTable
     }
 
     /**
+     * Returns a boolean whether this table has bulk actions.
+     *
+     * @return boolean
+     */
+    public function hasBulkActions(): bool
+    {
+        return !empty($this->bulkActions);
+    }
+
+    public function hasExports(): bool
+    {
+        return !empty($this->exports);
+    }
+
+    /**
      * Returns a boolean whether the request query has a 'perPage' item.
      *
      * @return bool
@@ -640,8 +686,15 @@ class SpladeTable
         if ($item instanceof Model) {
             return $item->getKey();
         }
+
+        throw new Exception("No primary key configured");
     }
 
+    /**
+     * Returns array with all primary keys.
+     *
+     * @return array
+     */
     public function getPrimaryKeys(): array
     {
         $ids = [];
@@ -653,29 +706,63 @@ class SpladeTable
         return $ids;
     }
 
-    public function getActions(): array
+    public function getExports()
     {
-        return $this->actions;
+        return $this->exports;
     }
 
-    public function action(string $name, callable $callable): self
-    {
-        $table = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2)[1]['class'];
+    public function export(
+        string $label = null,
+        string $filename = null,
+        string $type = null,
+    ): self {
+        if ($filename === null) {
+            $filename = $this->configurator
+                ? Str::slug(class_basename($this->configurator)) . '.xlsx'
+                : 'export.xlsx';
+        }
 
-        $key = count($this->actions);
+        $key = count($this->exports);
 
-        $this->actions[$key] = [
-            'key'      => $key,
-            'name'     => $name,
-            'slug'     => $slug = Str::slug($name),
-            'callable' => $callable,
-            'url'      => URL::signedRoute('splade.tableAction', [
-                'table'  => base64_encode($table),
-                'action' => base64_encode($key),
-                'slug'   => $slug,
-            ]),
-        ];
+        $this->exports[$key] = new Export(
+            key: $key,
+            label: $label ?: __('Excel Export'),
+            filename: $filename,
+            type: $type ?: Excel::XLSX,
+            tableClass: get_class($this->configurator),
+        );
 
         return $this;
+    }
+
+    public function getBulkActions(): array
+    {
+        return $this->bulkActions;
+    }
+
+    public function bulkAction(
+        string $label,
+        callable $each = null,
+        callable $before = null,
+        callable $after = null
+    ): self {
+        $key = count($this->bulkActions);
+
+        $defaultCallback = fn () => 0;
+
+        $this->bulkActions[$key] = new BulkAction(
+            key: $key,
+            label: $label,
+            tableClass: get_class($this->configurator),
+            eachCallback: $each ?: $defaultCallback,
+            beforeCallback: $before ?: $defaultCallback,
+            afterCallback: $after ?: $defaultCallback
+        );
+
+        return $this;
+    }
+
+    public function performBulkAction(callable $action, array $ids)
+    {
     }
 }

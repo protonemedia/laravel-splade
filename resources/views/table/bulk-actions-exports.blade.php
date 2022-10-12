@@ -7,13 +7,27 @@
 
     <div class="mt-2 min-w-max rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
         <div class="flex flex-col">
-            @foreach($table->getActions() as $action)
+            @foreach($table->getBulkActions() as $bulkAction)
                 <button
                     class="text-left w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 font-normal"
-                    @click.prevent="table.performAction(@js($action['url']))"
-                    dusk="action.{{ $action['slug'] }}">
-                    {{ $action['name'] }}
+                    @click.prevent="table.performBulkAction(@js($bulkAction->getUrl()))"
+                    dusk="action.{{ $bulkAction->getSlug() }}">
+                    {{ $bulkAction->label }}
                 </button>
+            @endforeach
+
+            @if($table->hasExports() && $table->hasBulkActions())
+                <div class="border-t w-full"></div>
+            @endif
+
+            @foreach($table->getExports() as $export)
+                <a
+                    download
+                    class="text-left w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 font-normal"
+                    href="{{ $export->getUrl() }}"
+                    dusk="action.{{ $export->getSlug() }}">
+                    {{ $export->label }}
+                </a>
             @endforeach
         </div>
     </div>

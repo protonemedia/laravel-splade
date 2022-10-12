@@ -2,7 +2,9 @@
 
 namespace ProtoneMedia\Splade\Table;
 
+use Closure;
 use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
 class Column implements Arrayable
@@ -16,6 +18,9 @@ class Column implements Arrayable
      * @param  bool  $hidden
      * @param  bool  $sortable
      * @param  bool|string  $sorted
+     * @param  bool|Closure  $exportAs
+     * @param  Closure  $exportFormat
+     * @param  Closure  $exportStyling
      */
     public function __construct(
         public string $key,
@@ -23,7 +28,10 @@ class Column implements Arrayable
         public bool $canBeHidden,
         public bool $hidden,
         public bool $sortable,
-        public bool|string $sorted
+        public bool|string $sorted,
+        public bool|Closure $exportAs,
+        public ?Closure $exportFormat = null,
+        public ?Closure $exportStyling = null,
     ) {
     }
 
@@ -41,6 +49,9 @@ class Column implements Arrayable
             $this->hidden,
             $this->sortable,
             $this->sorted,
+            $this->exportAs,
+            $this->exportFormat,
+            $this->exportStyling,
         );
     }
 
@@ -53,6 +64,7 @@ class Column implements Arrayable
      * @param  bool  $hidden
      * @param  bool  $sortable
      * @param  bool  $sorted
+     * @param  bool|callable  $exportAs
      * @return static
      */
     public static function make(
@@ -61,9 +73,22 @@ class Column implements Arrayable
         bool $canBeHidden = false,
         bool $hidden = false,
         bool $sortable = false,
-        bool|string $sorted = false
+        bool|string $sorted = false,
+        bool|callable $exportAs = true,
+        callable|null $exportFormat = null,
+        callable|null $exportStyling = null,
     ): static {
-        return new static($key, $label, $canBeHidden, $hidden, $sortable, $sorted);
+        return new static(
+            $key,
+            $label,
+            $canBeHidden,
+            $hidden,
+            $sortable,
+            $sorted,
+            is_bool($exportAs) ? $exportAs : Closure::fromCallable($exportAs),
+            $exportFormat ? Closure::fromCallable($exportFormat) : null,
+            $exportStyling ? Closure::fromCallable($exportStyling) : null,
+        );
     }
 
     /**
@@ -81,6 +106,29 @@ class Column implements Arrayable
             'sortable'      => $this->sortable,
             'sorted'        => $this->sorted,
         ];
+    }
+
+    /**
+     * It gets thet data from the given item, based on the column
+     * and whether that column is based on a relationship
+     * Supports returning multiple items as well.
+     *
+     * @param  mixed  $item
+     * @return mixed
+     */
+    public function getDataFromItem($item)
+    {
+        if ($this->isNested()) {
+            $results = data_get($item, $this->relationshipName());
+
+            if ($results instanceof Collection) {
+                $key = $this->relationshipColumn();
+
+                return $results->map->{$key}->implode(PHP_EOL);
+            }
+        }
+
+        return data_get($item, $this->key);
     }
 
     /**

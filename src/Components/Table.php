@@ -5,7 +5,6 @@ namespace ProtoneMedia\Splade\Components;
 use Illuminate\Contracts\Pagination\CursorPaginator;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Contracts\Pagination\Paginator;
-use Illuminate\Support\Collection;
 use Illuminate\View\Component;
 use ProtoneMedia\Splade\SpladeTable;
 use ProtoneMedia\Splade\Table\Column;
@@ -74,12 +73,13 @@ class Table extends Component
      */
     public function hasControls(): bool
     {
-        return $this->for->isSorted()
-            || $this->for->page() > 1
-            || $this->for->hasPerPageQuery()
+        return $this->for->hasBulkActions()
             || $this->for->hasFilters()
+            || $this->for->hasPerPageQuery()
             || $this->for->hasToggleableColumns()
             || $this->for->hasToggleableSearchInputs()
+            || $this->for->isSorted()
+            || $this->for->page() > 1
             || $this->for->searchInputs('global');
     }
 
@@ -90,11 +90,11 @@ class Table extends Component
      */
     public function canResetTable(): bool
     {
-        return $this->for->isSorted()
-            || $this->for->page() > 1
+        return $this->for->hasFiltersEnabled()
             || $this->for->hasPerPageQuery()
-            || $this->for->hasFiltersEnabled()
-            || $this->for->hasSearchFiltersEnabled();
+            || $this->for->hasSearchFiltersEnabled()
+            || $this->for->isSorted()
+            || $this->for->page() > 1;
     }
 
     /**
@@ -122,17 +122,7 @@ class Table extends Component
      */
     public function getColumnDataFromItem($item, Column $column)
     {
-        if ($column->isNested()) {
-            $results = data_get($item, $column->relationshipName());
-
-            if ($results instanceof Collection) {
-                $key = $column->relationshipColumn();
-
-                return $results->map->{$key}->implode(PHP_EOL);
-            }
-        }
-
-        return data_get($item, $column->key);
+        return $column->getDataFromItem($item);
     }
 
     /**

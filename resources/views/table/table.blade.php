@@ -5,7 +5,7 @@
     :default-visible-toggleable-columns="@js($table->defaultVisibleToggleableColumns())"
 >
     <template #default="{!! $scope !!}">
-        <div {{ $attributes->only('class') }}>
+        <div {{ $attributes->only('class') }} :class="{ 'opacity-50': table.isLoading }">
             @if($hasControls())
                 @include('splade::table.controls')
             @endif

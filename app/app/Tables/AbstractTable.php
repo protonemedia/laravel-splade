@@ -4,12 +4,15 @@ namespace App\Tables;
 
 use ProtoneMedia\Splade\QueryBuilder;
 use ProtoneMedia\Splade\SpladeTable;
+use ProtoneMedia\Splade\Table\BulkAction;
+use ProtoneMedia\Splade\Table\Export;
+use ProtoneMedia\Splade\TableExport;
 
 abstract class AbstractTable
 {
     public function make(): SpladeTable
     {
-        $table = SpladeTable::for($this->for());
+        $table = SpladeTable::for($this->for())->setConfigurator($this);
 
         $this->configure($table);
 
@@ -26,13 +29,35 @@ abstract class AbstractTable
         //
     }
 
-    public function performAction(int $action, array $ids)
+    public function makeExport(int $key)
     {
-        /** @var QueryBuilder $table */
         $table = $this->make();
 
-        $action = $table->getActions()[$action];
+        if ($table instanceof QueryBuilder) {
+            /** @var Export $export */
+            $export = $table->getExports()[$key];
 
-        $table->performAction($action['callable'], $ids);
+            return new TableExport(
+                $this->make(),
+                $export->filename,
+                $export->type
+            );
+        }
+    }
+
+    public function performBulkAction(int $key, array $ids)
+    {
+        $table = $this->make();
+
+        if ($table instanceof QueryBuilder) {
+            /** @var BulkAction $bulkAction */
+            $bulkAction = $table->getBulkActions()[$key];
+
+            call_user_func($bulkAction->beforeCallback, $ids);
+
+            $table->performBulkAction($bulkAction->eachCallback, $ids);
+
+            call_user_func($bulkAction->afterCallback, $ids);
+        }
     }
 }

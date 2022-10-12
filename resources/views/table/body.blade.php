@@ -13,19 +13,16 @@
                 'hover:bg-gray-50': !table.striped
             }"
         >
-            @if(false)
-            <td
-                width="64"
-                class="whitespace-nowrap text-sm px-6 py-4 text-gray-500"
-            >
-                <input
-                    @change="(e) => table.setSelectedItem(@js($itemPrimaryKey), e.target.checked)"
-                    type="checkbox"
-                    class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 disabled:opacity-50"
-                    :checked="table.itemIsSelected(@js($itemPrimaryKey))"
-                    value="{{ $itemPrimaryKey }}"
-                />
-            </td>
+            @if($table->hasBulkActions())
+                <td width="64" class="text-xs px-6 py-4">
+                    <input
+                        @change="(e) => table.setSelectedItem(@js($itemPrimaryKey), e.target.checked)"
+                        type="checkbox"
+                        class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 disabled:opacity-50"
+                        :checked="table.itemIsSelected(@js($itemPrimaryKey))"
+                        value="{{ $itemPrimaryKey }}"
+                    />
+                </td>
             @endif
 
             @foreach($table->columns() as $column)

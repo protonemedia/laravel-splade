@@ -20,6 +20,7 @@ use ProtoneMedia\Splade\Commands\TableMakeCommand;
 use ProtoneMedia\Splade\Http\BladeDirectives;
 use ProtoneMedia\Splade\Http\PrepareTableCells;
 use ProtoneMedia\Splade\Http\PrepareViewWithLazyComponents;
+use ProtoneMedia\Splade\Http\SpladeMiddleware;
 
 class ServiceProvider extends BaseServiceProvider
 {
@@ -66,6 +67,7 @@ class ServiceProvider extends BaseServiceProvider
         $this->registerViewMacros();
         $this->registerRouteForEventRedirect();
         $this->registerRouteForTableActions();
+        $this->registerRouteForTableExports();
     }
 
     /**
@@ -306,10 +308,34 @@ class ServiceProvider extends BaseServiceProvider
             /** @var AbstractTable $table */
             $table = app(base64_decode($table));
 
-            $table->performAction($action, $request->input('ids', []));
+            $table->performBulkAction($action, $request->input('ids', []));
 
             return redirect()->back();
-        })->name('splade.tableAction')->middleware('signed');
+        })->name('splade.tableAction')->middleware([
+            'signed',
+            'web',
+            SpladeMiddleware::class,
+        ]);
+    }
+
+    /**
+     * Registers a route that's used to handle Table exports.
+     *
+     * @return void
+     */
+    private function registerRouteForTableExports()
+    {
+        Route::get(config('splade.table_exports_route'), function (Request $request, $table, $export) {
+            $export = base64_decode($export);
+
+            /** @var AbstractTable $table */
+            $table = app(base64_decode($table));
+
+            return $table->makeExport($export);
+        })->name('splade.tableExport')->middleware([
+            'signed',
+            'web',
+        ]);
     }
 
     /**

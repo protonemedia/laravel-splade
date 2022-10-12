@@ -25,6 +25,10 @@
         "nunomaduro/larastan": "^2.0.1",
         "phpunit/phpunit": "^9.5"
     },
+    "suggest": {
+        "kirschbaum-development/eloquent-power-joins": "To support sorting by (nested) relationships in Splade Tables",
+        "maatwebsite/excel": "To support exports in Splade Tables"
+    },
     "autoload": {
         "psr-4": {
             "ProtoneMedia\\Splade\\": "src"

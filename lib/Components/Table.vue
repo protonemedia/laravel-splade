@@ -63,6 +63,10 @@ export default {
         hasForcedVisibleSearchInputs() {
             return this.forcedVisibleSearchInputs.length > 0;
         },
+
+        hasSelectedItems() {
+            return this.selectedItems.length > 0;
+        }
     },
 
     created() {
@@ -340,7 +344,7 @@ export default {
             });
         },
 
-        performAction(url) {
+        performBulkAction(url) {
             this.isLoading = true;
 
             Splade.request(url, "POST", { ids: this.selectedItems }, {}, false)
@@ -385,10 +389,11 @@ export default {
             toggleColumn: this.toggleColumn,
             updateQuery: this.updateQuery,
             visit: Splade.visit,
+            hasSelectedItems: this.hasSelectedItems,
             setSelectedItems: this.setSelectedItems,
             itemIsSelected: this.itemIsSelected,
             setSelectedItem: this.setSelectedItem,
-            performAction: this.performAction,
+            performBulkAction: this.performBulkAction,
             processingAction: this.processingAction,
             isLoading: this.isLoading,
         });

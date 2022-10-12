@@ -3,6 +3,10 @@
 namespace App\Tables;
 
 use App\Models\Project;
+use Maatwebsite\Excel\Excel;
+use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
+use PhpOffice\PhpSpreadsheet\Style\Style;
+use ProtoneMedia\Splade\Facades\Toast;
 use ProtoneMedia\Splade\SpladeTable;
 
 class Projects extends AbstractTable
@@ -20,13 +24,21 @@ class Projects extends AbstractTable
                 'organization.name',
                 'organization.address.city',
             ])
-            ->action('Touch', function (Project $project) {
-                $project->touch();
+            ->bulkAction(
+                label: 'Touch timestamp',
+                each: fn (Project $project) => $project->touch(),
+                after: fn ()                => Toast::info('Timestamps updated!')
+            )
+            ->export()
+            ->export('CSV export', 'projects.csv', Excel::CSV)
+            ->column('name', 'Project Name')
+            ->column('updated_at', 'Project Updated', exportFormat: function () {
+                return NumberFormat::FORMAT_DATE_TIME2;
             })
-            ->column('name', 'Project Name', sortable: true)
-            ->column('updated_at', 'Project Updated', sortable: true)
-            ->column('organization.name', 'Organization Name', sortable: true)
-            ->column('organization.address.city', 'Organization City', sortable: true, searchable: true)
+            ->column('organization.name', 'Organization Name', exportAs: false)
+            ->column('organization.address.city', 'Organization City', exportStyling: function (Style $style) {
+                $style->getFont()->setBold(true);
+            })
             ->paginate(15);
     }
 }

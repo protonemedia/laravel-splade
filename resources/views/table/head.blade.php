@@ -1,43 +1,14 @@
 <thead class="bg-gray-50">
     <tr>
-        @if(false)
-        <th
-            scope="col"
-            width="64"
-            class="px-6 py-3 text-left text-xs font-medium tracking-wide text-gray-500"
-        >
-            <x-splade-component is="dropdown" close-on-click>
-                <x-slot:trigger>
-                    <input type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 disabled:opacity-50" />
-                </x-slot:trigger>
-
-                <div class="mt-2 min-w-max rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
-                    <div class="flex flex-col">
-                        <button
-                            class="text-left w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 font-normal"
-                            @click="table.setSelectedItems(@js($table->getPrimaryKeys()))"
-                            dusk="">
-                            {{ __('Select all on this page') }} ({{ count($table->resource) }})
-                        </button>
-
-                        @if($showPaginator())
-                            <button
-                                class="text-left w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 font-normal"
-                                @click="table.setSelectedItems(['*'])"
-                                dusk="">
-                                {{ __('Select all results') }}
-                            </button>
-                        @endif
-                    </div>
-                </div>
-            </x-splade-component>
-        </th>
+        @if($table->hasBulkActions())
+            <th width="64" class="px-6 py-3 text-xs">
+                @include('splade::table.select-rows-dropdown')
+            </th>
         @endif
 
         @foreach($table->columns() as $column)
             <th
                 v-show="table.columnIsVisible(@js($column->key))"
-                scope="col"
                 class="px-6 py-3 text-left text-xs font-medium tracking-wide text-gray-500"
             >
                 @if($column->sortable)
