@@ -202,25 +202,6 @@ class SpladeTable
     }
 
     /**
-     * Loops over the are and verifies that there's both a value
-     * and a (string) key. Items without a key will be handled
-     * in the QueryFilter::getTermAndWhereOperator() method.
-     *
-     * @param  array  $keys
-     * @return array
-     */
-    private static function normalizeSearchColumnsWithMethod(array $keys): array
-    {
-        return Collection::make($keys)->mapWithKeys(function ($value, $key) {
-            if (is_numeric($key)) {
-                return [$value => null];
-            }
-
-            return [$key => $value];
-        })->all();
-    }
-
-    /**
      * Returns a boolean whether the data set should be sorted.
      *
      * @return bool

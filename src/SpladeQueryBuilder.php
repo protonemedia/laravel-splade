@@ -319,24 +319,31 @@ class SpladeQueryBuilder extends SpladeTable
      */
     public function beforeRender()
     {
-        $this->applyFilters();
-        $this->applySearchInputs();
-        $this->applySortingAndEagerLoading();
+        if (!$this->builder instanceof SpatieQueryBuilder) {
+            $this->applyFilters();
+            $this->applySearchInputs();
+            $this->applySortingAndEagerLoading();
+        }
+
         $this->loadResults();
     }
 
     public function getBuilderForExport(): EloquentBuilder
     {
-        $this->applyFilters();
-        $this->applySearchInputs();
-        $this->applySortingAndEagerLoading();
+        if (!$this->builder instanceof SpatieQueryBuilder) {
+            $this->applyFilters();
+            $this->applySearchInputs();
+            $this->applySortingAndEagerLoading();
+        }
 
         return $this->builder;
     }
 
     public function performBulkAction(callable $action, array $ids)
     {
-        $this->applySortingAndEagerLoading();
+        if (!$this->builder instanceof SpatieQueryBuilder) {
+            $this->applySortingAndEagerLoading();
+        }
 
         if (count($ids) === 1 && Arr::first($ids) === '*') {
             // all

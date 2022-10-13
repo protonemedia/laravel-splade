@@ -3,6 +3,8 @@
 namespace App\Http;
 
 use App\Models\User;
+use App\Tables\SpatieUsers;
+use App\Tables\SpladeUsers;
 use Illuminate\Support\Collection;
 use ProtoneMedia\Splade\SpladeTable;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -44,6 +46,13 @@ class UserTableView
         ]);
     }
 
+    public function spatieWrapped($paginateMethod)
+    {
+        return view('table.users', [
+            'users' => new SpatieUsers($paginateMethod),
+        ]);
+    }
+
     public function splade($paginateMethod)
     {
         return view('table.users', [
@@ -59,6 +68,13 @@ class UserTableView
                     'nl' => 'Dutch',
                 ], label: 'Language')
                 ->{$paginateMethod}(10),
+        ]);
+    }
+
+    public function spladeWrapped($paginateMethod)
+    {
+        return view('table.users', [
+            'users' => new SpladeUsers($paginateMethod),
         ]);
     }
 }

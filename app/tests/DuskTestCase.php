@@ -30,6 +30,8 @@ abstract class DuskTestCase extends BaseTestCase
         return [
             ['/table/users/spatie/'],
             ['/table/users/splade/'],
+            ['/table/users/spatieWrapped/'],
+            ['/table/users/spladeWrapped/'],
         ];
     }
 

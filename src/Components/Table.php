@@ -2,6 +2,7 @@
 
 namespace ProtoneMedia\Splade\Components;
 
+use App\Tables\AbstractTable;
 use Illuminate\Contracts\Pagination\CursorPaginator;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Contracts\Pagination\Paginator;
@@ -17,13 +18,17 @@ class Table extends Component
      * @return void
      */
     public function __construct(
-        public SpladeTable|string $for,
+        public SpladeTable|AbstractTable|string $for,
         public bool $striped = false,
         public bool $headless = false,
         public string $scope = 'table',
         public ?int $searchDebounce = null,
     ) {
-        $this->for = is_string($for) ? app($for)->make() : $for;
+        $for = is_string($for) ? app($for) : $for;
+
+        $this->for = $for instanceof AbstractTable
+            ? $for->make()
+            : $for;
 
         $this->searchDebounce = is_null($searchDebounce)
             ? SpladeTable::getDefaultSearchDebounce()

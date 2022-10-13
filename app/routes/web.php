@@ -193,8 +193,16 @@ Route::middleware('splade')->group(function () {
         Route::get('/users/spatie/simple', fn () => $table->spatie(paginateMethod: 'simplePaginate'));
         Route::get('/users/spatie/cursor', fn () => $table->spatie(paginateMethod: 'cursorPaginate'));
 
+        Route::get('/users/spatieWrapped', fn () => $table->spatieWrapped(paginateMethod: 'paginate'));
+        Route::get('/users/spatieWrapped/simple', fn () => $table->spatieWrapped(paginateMethod: 'simplePaginate'));
+        Route::get('/users/spatieWrapped/cursor', fn () => $table->spatieWrapped(paginateMethod: 'cursorPaginate'));
+
         Route::get('/users/splade', fn () => $table->splade(paginateMethod: 'paginate'));
         Route::get('/users/splade/simple', fn () => $table->splade(paginateMethod: 'simplePaginate'));
         Route::get('/users/splade/cursor', fn () => $table->splade(paginateMethod: 'cursorPaginate'));
+
+        Route::get('/users/spladeWrapped', fn () => $table->spladeWrapped(paginateMethod: 'paginate'));
+        Route::get('/users/spladeWrapped/simple', fn () => $table->spladeWrapped(paginateMethod: 'simplePaginate'));
+        Route::get('/users/spladeWrapped/cursor', fn () => $table->spladeWrapped(paginateMethod: 'cursorPaginate'));
     });
 });
