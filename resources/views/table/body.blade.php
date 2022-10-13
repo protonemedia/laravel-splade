@@ -17,10 +17,11 @@
                 <td width="64" class="text-xs px-6 py-4">
                     <input
                         @change="(e) => table.setSelectedItem(@js($itemPrimaryKey), e.target.checked)"
-                        type="checkbox"
-                        class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 disabled:opacity-50"
-                        :disabled="table.allItemsFromAllPagesAreSelected"
                         :checked="table.itemIsSelected(@js($itemPrimaryKey))"
+                        :disabled="table.allItemsFromAllPagesAreSelected"
+                        class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 disabled:opacity-50"
+                        name="table-row-bulk-action"
+                        type="checkbox"
                         value="{{ $itemPrimaryKey }}"
                     />
                 </td>
