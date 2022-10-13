@@ -5,7 +5,7 @@
         <tr
             @if($table->rowLinks->has($itemKey))
                 class="cursor-pointer"
-                @click="table.visit(@js($table->rowLinks->get($itemKey)))"
+                @click="table.visit(@js($table->rowLinks->get($itemKey)), @js($table->rowLinkType))"
             @endif
             :class="{
                 'bg-gray-50': table.striped && @js($itemKey) % 2,

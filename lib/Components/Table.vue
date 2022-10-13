@@ -143,6 +143,18 @@ export default {
     },
 
     methods: {
+        visitLink(url, type) {
+            if(type === "modal") {
+                return Splade.modal(url);
+            }
+
+            if(type === "slideover") {
+                return Splade.slideover(url);
+            }
+
+            return Splade.visit(url);
+        },
+
         /**
          * Resets the table to its initial state.
          */
@@ -436,7 +448,7 @@ export default {
             striped: this.striped,
             toggleColumn: this.toggleColumn,
             updateQuery: this.updateQuery,
-            visit: Splade.visit,
+            visit: this.visitLink,
             totalSelectedItems: this.totalSelectedItems,
             allItemsFromAllPagesAreSelected: this.allItemsFromAllPagesAreSelected,
             allVisibleItemsAreSelected: this.allVisibleItemsAreSelected,

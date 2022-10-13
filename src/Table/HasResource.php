@@ -13,6 +13,8 @@ trait HasResource
 
     public Collection $rowLinks;
 
+    public string $rowLinkType = '';
+
     protected string $primaryKey = '';
 
     /**
@@ -24,6 +26,8 @@ trait HasResource
      */
     public function rowLink(callable $callback): self
     {
+        $this->rowLinkType = 'link';
+
         $collection = $this->resource instanceof LengthAwarePaginator
             ? $this->resource->items()
             : $this->resource;
@@ -31,6 +35,20 @@ trait HasResource
         $this->rowLinks = Collection::make($collection)->map($callback);
 
         return $this;
+    }
+
+    public function rowModal(callable $callback): self
+    {
+        return tap($this->rowLink($callback), function () {
+            $this->rowLinkType = 'modal';
+        });
+    }
+
+    public function rowSlideover(callable $callback): self
+    {
+        return tap($this->rowLink($callback), function () {
+            $this->rowLinkType = 'slideover';
+        });
     }
 
     /**
