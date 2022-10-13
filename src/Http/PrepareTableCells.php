@@ -4,14 +4,14 @@ namespace ProtoneMedia\Splade\Http;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
-use Illuminate\View\ViewName;
 use ProtoneMedia\Splade\Components\SpladeComponent;
 
 class PrepareTableCells
 {
+    use InterceptsCreatingViews;
+
     /**
      * Taken from the getAttributesFromAttributeString() method of
      * Laravel's ComponentTagCompiler class.
@@ -166,43 +166,17 @@ class PrepareTableCells
     /**
      * Registers an event handler for the 'creating:' event, which is fired before
      * rendering a Blade template. This way we can, based on the request, replace
-     * the lazy components with a placeholder, or with the actual content.
+     * the cell components with a cell directive and cleanup the table tag.
      *
      * @return $this
      */
     public function registerEventListener(): self
     {
-        Event::listen('creating:*', function ($event, $data) {
-            $view = $data[0] ?? null;
-
-            if (!$view instanceof View) {
-                return;
-            }
-
-            $contents = file_get_contents($view->getPath());
-
-            if (!preg_match(static::regexForTag(SpladeComponent::tag('cell')), $contents, $match)) {
-                // No lazy components
-                return;
-            }
-
-            if ($view->_spladeIsRendering) {
-                // Prevent the loop
-                return;
-            }
-
-            // We set this variable to prevent a loop that occurs when the event is fired again.
-            $view->_spladeIsRendering = true;
-
-            tap(new HtmlString($view->renderWithTableCellComponents()), function ($html) use ($view) {
-                $view->_spladeEvaluatedHtml = $html;
-                $view->_spladeIsRendering   = false;
-
-                $view->setPath(
-                    $view->getFactory()->getFinder()->find(ViewName::normalize('splade::html'))
-                );
-            });
+        $listener = $this->interceptCreatingViews(SpladeComponent::tag('cell'), function (View $view) {
+            return $view->renderWithTableCellComponents();
         });
+
+        Event::listen('creating:*', $listener);
 
         return $this;
     }
