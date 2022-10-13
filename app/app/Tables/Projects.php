@@ -28,10 +28,11 @@ class Projects extends AbstractTable
             ->bulkAction(
                 label: 'Touch timestamp',
                 each: fn (Project $project) => $project->touch(),
-                after: fn () => Toast::info('Timestamps updated!')
+                after: fn ()                => Toast::info('Timestamps updated!')
             )
             ->export()
             ->export('CSV export', 'projects.csv', Excel::CSV)
+            ->defaultSort('name')
             ->column('name', highlight: true, sortable: true)
             ->column('updated_at', 'Project Updated', exportFormat: function () {
                 return NumberFormat::FORMAT_DATE_TIME2;
