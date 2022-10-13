@@ -28,7 +28,7 @@ class Projects extends AbstractTable
             ->bulkAction(
                 label: 'Touch timestamp',
                 each: fn (Project $project) => $project->touch(),
-                after: fn ()                => Toast::info('Timestamps updated!')
+                after: fn () => Toast::info('Timestamps updated!')
             )
             ->export()
             ->export('CSV export', 'projects.csv', Excel::CSV)
