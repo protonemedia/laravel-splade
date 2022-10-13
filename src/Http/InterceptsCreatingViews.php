@@ -13,8 +13,8 @@ trait InterceptsCreatingViews
      * Makes a listener for the 'creating:*' event, so we can interact
      * with the view instance before it gets send as a response.
      *
-     * @param string $tag
-     * @param callable $withView
+     * @param  string  $tag
+     * @param  callable  $withView
      * @return callable
      */
     protected function interceptCreatingViews(string $tag, callable $withView): callable
