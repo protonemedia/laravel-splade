@@ -181,6 +181,8 @@ export default {
                 vm.choicesInstance = new Choices.default(selectElement, options);
 
                 if(vm.stack > 0) {
+                    // The Headless UI Dialog blocks the events on the Choices.js
+                    // instance, so we put an event listener on the portal root.
                     vm.headlessListener = function(e) {
                         if(e.target === selectElement) {
                             vm.choicesInstance.showDropdown();

@@ -2,7 +2,6 @@
 
 namespace ProtoneMedia\Splade;
 
-use App\Tables\AbstractTable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Cache;

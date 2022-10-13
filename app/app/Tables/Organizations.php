@@ -1,12 +1,12 @@
 <?php
 
-namespace {{ namespace }};
+namespace App\Tables;
 
-use {{ namespacedUserModel }};
+use App\Models\Organization;
 use ProtoneMedia\Splade\AbstractTable;
 use ProtoneMedia\Splade\SpladeTable;
 
-class {{ class }} extends AbstractTable
+class Organizations extends AbstractTable
 {
     /**
      * Create a new instance.
@@ -25,7 +25,7 @@ class {{ class }} extends AbstractTable
      */
     public function for()
     {
-        return {{ tableModel }}::query();
+        return Organization::query();
     }
 
     /**

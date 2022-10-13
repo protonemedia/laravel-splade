@@ -2,7 +2,6 @@
 
 namespace ProtoneMedia\Splade;
 
-use App\Tables\AbstractTable;
 use Illuminate\Contracts\Database\Query\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;

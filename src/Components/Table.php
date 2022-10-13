@@ -2,11 +2,11 @@
 
 namespace ProtoneMedia\Splade\Components;
 
-use App\Tables\AbstractTable;
 use Illuminate\Contracts\Pagination\CursorPaginator;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\View\Component;
+use ProtoneMedia\Splade\AbstractTable;
 use ProtoneMedia\Splade\SpladeTable;
 use ProtoneMedia\Splade\Table\Column;
 

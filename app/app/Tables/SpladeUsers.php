@@ -3,6 +3,7 @@
 namespace App\Tables;
 
 use App\Models\User;
+use ProtoneMedia\Splade\AbstractTable;
 use ProtoneMedia\Splade\SpladeTable;
 
 class SpladeUsers extends AbstractTable

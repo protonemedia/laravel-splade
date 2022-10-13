@@ -4,6 +4,7 @@ namespace App\Tables;
 
 use App\Models\User;
 use Illuminate\Support\Collection;
+use ProtoneMedia\Splade\AbstractTable;
 use ProtoneMedia\Splade\SpladeTable;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;

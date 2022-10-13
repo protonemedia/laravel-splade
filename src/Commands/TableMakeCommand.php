@@ -3,6 +3,7 @@
 namespace ProtoneMedia\Splade\Commands;
 
 use Illuminate\Console\GeneratorCommand;
+use Illuminate\Support\Str;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputOption;
 
@@ -42,7 +43,18 @@ class TableMakeCommand extends GeneratorCommand
      */
     protected function buildClass($name)
     {
-        return parent::buildClass($name);
+        $stub = parent::buildClass($name);
+
+        $tableModel = Str::singular(class_basename($name));
+
+        $fullUserModel = $this->userProviderModel();
+        $userModel     = Str::afterLast($fullUserModel, '\\');
+
+        return str_replace(
+            ["{$userModel};", '{{ tableModel }}'],
+            ["{$tableModel};", $tableModel],
+            $stub
+        );
     }
 
     /**
