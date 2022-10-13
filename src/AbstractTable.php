@@ -12,7 +12,7 @@ abstract class AbstractTable
      *
      * @var \ProtoneMedia\Splade\SpladeTable|null
      */
-    private ?SpladeTable $table;
+    private ?SpladeTable $table = null;
 
     /**
      * The resource or query builder.

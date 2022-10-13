@@ -37,6 +37,7 @@ class {{ class }} extends AbstractTable
     public function configure(SpladeTable $table)
     {
         $table
+            ->withGlobalSearch(columns: ['id'])
             ->column('id', sortable: true);
 
             // ->searchInput()
