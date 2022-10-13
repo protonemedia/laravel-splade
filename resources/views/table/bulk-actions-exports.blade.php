@@ -5,11 +5,24 @@
         </svg>
     </x-slot:button>
 
-    <div class="mt-2 min-w-max rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+
+
+    <div class="min-w-max rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
         <div class="flex flex-col">
+            <h3 v-if="table.hasSelectedItems" class="text-xs uppercase tracking-wide bg-gray-100 px-4 py-2 border-b">
+                <span v-if="table.totalSelectedItems == 1">
+                    <span v-text="table.totalSelectedItems" /> {{ __('Item selected') }}
+                </span>
+
+                <span v-if="table.totalSelectedItems > 1">
+                    <span v-text="table.totalSelectedItems" /> {{ __('Items selected') }}
+                </span>
+            </h3>
+
             @foreach($table->getBulkActions() as $bulkAction)
                 <button
-                    class="text-left w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 font-normal"
+                    v-if="table.hasSelectedItems"
+                    class="text-left w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900 font-normal"
                     @click.prevent="table.performBulkAction(@js($bulkAction->getUrl()))"
                     dusk="action.{{ $bulkAction->getSlug() }}">
                     {{ $bulkAction->label }}
@@ -17,13 +30,19 @@
             @endforeach
 
             @if($table->hasExports() && $table->hasBulkActions())
-                <div class="border-t w-full"></div>
+                <div v-if="table.hasSelectedItems" class="border-t w-full"></div>
+            @endif
+
+            @if($table->hasExports())
+                <h3 class="text-xs uppercase tracking-wide bg-gray-100 px-4 py-2 border-b">
+                    {{ __('Export results') }}
+                </h3>
             @endif
 
             @foreach($table->getExports() as $export)
                 <a
                     download
-                    class="text-left w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 font-normal"
+                    class="text-left w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900 font-normal"
                     href="{{ $export->getUrl() }}"
                     dusk="action.{{ $export->getSlug() }}">
                     {{ $export->label }}

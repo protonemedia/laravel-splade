@@ -48,6 +48,34 @@ trait HasResource
     }
 
     /**
+     * Determine how many items there are on the current page.
+     *
+     * @return int
+     */
+    public function totalOnThisPage()
+    {
+        if ($this->resource instanceof LengthAwarePaginator) {
+            return count($this->resource->items());
+        }
+
+        return count($this->resource);
+    }
+
+    /**
+     * Determine how many items there all on all pages.
+     *
+     * @return int
+     */
+    public function totalOnAllPages()
+    {
+        if ($this->resource instanceof LengthAwarePaginator) {
+            return $this->resource->total();
+        }
+
+        return count($this->resource);
+    }
+
+    /**
      * Determine if the resource is empty or not.
      *
      * @return bool

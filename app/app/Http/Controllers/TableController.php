@@ -70,7 +70,7 @@ class TableController
         ]);
     }
 
-    public function relations()
+    public function relationsAndExports()
     {
         return view('table.projects', [
             'projects' => Projects::class,

@@ -33,6 +33,18 @@ export default {
             type: Number,
             required: false,
             default: 350
+        },
+
+        itemsOnThisPage: {
+            type: Number,
+            required: false,
+            default: 0
+        },
+
+        itemsOnAllPages: {
+            type: Number,
+            required: false,
+            default: 0
         }
     },
 
@@ -64,8 +76,36 @@ export default {
             return this.forcedVisibleSearchInputs.length > 0;
         },
 
+        allItemsFromAllPagesAreSelected() {
+            return this.selectedItems.length === 1 && this.selectedItems[0] === "*";
+        },
+
+        allVisibleItemsAreSelected() {
+            const selectedItemsCount = this.selectedItems.length;
+
+            if(selectedItemsCount === 1 && this.selectedItems[0] === "*") {
+                return true;
+            }
+
+            if(selectedItemsCount > 0 && selectedItemsCount === this.itemsOnThisPage) {
+                return true;
+            }
+
+            return false;
+        },
+
         hasSelectedItems() {
             return this.selectedItems.length > 0;
+        },
+
+        totalSelectedItems() {
+            const selectedItemsCount = this.selectedItems.length;
+
+            if(selectedItemsCount === 1 && this.selectedItems[0] === "*") {
+                return this.itemsOnAllPages;
+            }
+
+            return selectedItemsCount;
         }
     },
 
@@ -389,6 +429,9 @@ export default {
             toggleColumn: this.toggleColumn,
             updateQuery: this.updateQuery,
             visit: Splade.visit,
+            totalSelectedItems: this.totalSelectedItems,
+            allItemsFromAllPagesAreSelected: this.allItemsFromAllPagesAreSelected,
+            allVisibleItemsAreSelected: this.allVisibleItemsAreSelected,
             hasSelectedItems: this.hasSelectedItems,
             setSelectedItems: this.setSelectedItems,
             itemIsSelected: this.itemIsSelected,

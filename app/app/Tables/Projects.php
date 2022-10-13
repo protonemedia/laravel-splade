@@ -31,12 +31,12 @@ class Projects extends AbstractTable
             )
             ->export()
             ->export('CSV export', 'projects.csv', Excel::CSV)
-            ->column('name', 'Project Name')
+            ->column('name', highlight: true, sortable: true)
             ->column('updated_at', 'Project Updated', exportFormat: function () {
                 return NumberFormat::FORMAT_DATE_TIME2;
             })
-            ->column('organization.name', 'Organization Name', exportAs: false)
-            ->column('organization.address.city', 'Organization City', exportStyling: function (Style $style) {
+            ->column('organization.name', sortable: true, exportAs: false)
+            ->column('organization.address.city', 'Organization City', sortable: true, exportStyling: function (Style $style) {
                 $style->getFont()->setBold(true);
             })
             ->paginate(15);

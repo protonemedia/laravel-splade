@@ -187,8 +187,9 @@ Route::middleware('splade')->group(function () {
         Route::get('/rowLink', [TableController::class, 'rowLink'])->name('table.rowLink');
         Route::post('/touch', [TableController::class, 'touch'])->name('table.touch');
 
-        Route::get('/relations', [TableController::class, 'relations'])->name('table.relations');
+        Route::get('/relationsAndExports', [TableController::class, 'relationsAndExports'])->name('table.relationsAndExports');
 
+        // @todo refactor into matrix
         Route::get('/users/spatie', fn () => $table->spatie(paginateMethod: 'paginate'));
         Route::get('/users/spatie/simple', fn () => $table->spatie(paginateMethod: 'simplePaginate'));
         Route::get('/users/spatie/cursor', fn () => $table->spatie(paginateMethod: 'cursorPaginate'));
