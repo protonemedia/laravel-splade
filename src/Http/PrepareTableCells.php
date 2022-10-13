@@ -46,10 +46,10 @@ class PrepareTableCells
     /**
      * Replaces all custom cell components with the @cell directive.
      *
-     * @param string $table
-     * @param string $defaultAs
-     * @param string $defaultKey
-     * @param string $defaultUse
+     * @param  string  $table
+     * @param  string  $defaultAs
+     * @param  string  $defaultKey
+     * @param  string  $defaultUse
      * @return string
      */
     public static function replaceCellComponentWithCellDirective(
