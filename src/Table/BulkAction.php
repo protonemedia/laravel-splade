@@ -16,6 +16,10 @@ class BulkAction
      * @param  callable  $beforeCallback
      * @param  callable  $eachCallback
      * @param  callable  $afterCallback
+     * @param  bool|string  $confirm = '',
+     * @param  string  $confirmText = '',
+     * @param  string  $confirmButton = '',
+     * @param  string  $cancelButton = '',
      */
     public function __construct(
         public string $key,
@@ -24,6 +28,10 @@ class BulkAction
         public $beforeCallback,
         public $eachCallback,
         public $afterCallback,
+        public bool|string $confirm = '',
+        public string $confirmText = '',
+        public string $confirmButton = '',
+        public string $cancelButton = '',
     ) {
     }
 

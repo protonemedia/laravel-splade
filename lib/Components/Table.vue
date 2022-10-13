@@ -384,7 +384,15 @@ export default {
             });
         },
 
-        performBulkAction(url) {
+        async performBulkAction(url, confirm, confirmText, confirmButton, cancelButton) {
+            if(confirm) {
+                try {
+                    await Splade.confirm(confirm === true ? "" : confirm, confirmText, confirmButton, cancelButton);
+                } catch {
+                    return false;
+                }
+            }
+
             this.isLoading = true;
 
             Splade.request(url, "POST", { ids: this.selectedItems }, {}, false)

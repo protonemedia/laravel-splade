@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use App\Tables\Organizations;
+use App\Tables\Projects;
 use ProtoneMedia\Splade\Facades\Toast;
 use ProtoneMedia\Splade\SpladeTable;
 
@@ -73,7 +73,7 @@ class TableController
     public function relationsAndExports()
     {
         return view('table.projects', [
-            'projects' => Organizations::class,
+            'projects' => Projects::class,
         ]);
     }
 }

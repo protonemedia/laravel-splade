@@ -39,7 +39,11 @@ trait HasBulkActions
         string $label,
         callable $each = null,
         callable $before = null,
-        callable $after = null
+        callable $after = null,
+        bool|string $confirm = '',
+        string $confirmText = '',
+        string $confirmButton = '',
+        string $cancelButton = '',
     ): self {
         $key = count($this->bulkActions);
 
@@ -51,7 +55,11 @@ trait HasBulkActions
             tableClass: get_class($this->configurator),
             eachCallback: $each ?: $defaultCallback,
             beforeCallback: $before ?: $defaultCallback,
-            afterCallback: $after ?: $defaultCallback
+            afterCallback: $after ?: $defaultCallback,
+            confirm: $confirm,
+            confirmText: $confirmText,
+            confirmButton: $confirmButton,
+            cancelButton: $cancelButton,
         );
 
         return $this;
