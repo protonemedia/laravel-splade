@@ -31,7 +31,7 @@ class Organizations extends AbstractTable
     /**
      * Configure the given SpladeTable.
      *
-     * @param \ProtoneMedia\Splade\SpladeTable $table
+     * @param  \ProtoneMedia\Splade\SpladeTable  $table
      * @return void
      */
     public function configure(SpladeTable $table)
@@ -39,11 +39,11 @@ class Organizations extends AbstractTable
         $table
             ->column('id', sortable: true);
 
-            // ->searchInput()
-            // ->selectFilter()
-            // ->withGlobalSearch()
+        // ->searchInput()
+        // ->selectFilter()
+        // ->withGlobalSearch()
 
-            // ->bulkAction()
-            // ->export()
+        // ->bulkAction()
+        // ->export()
     }
 }

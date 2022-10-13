@@ -48,7 +48,7 @@ abstract class AbstractTable
     /**
      * Configure the given SpladeTable.
      *
-     * @param \ProtoneMedia\Splade\SpladeTable $table
+     * @param  \ProtoneMedia\Splade\SpladeTable  $table
      * @return void
      */
     public function configure(SpladeTable $table)
@@ -59,7 +59,7 @@ abstract class AbstractTable
     /**
      * Returns a TableExporter instance.
      *
-     * @param integer $key
+     * @param  int  $key
      * @return \ProtoneMedia\Splade\TableExporter|null
      */
     public function makeExporter(int $key): ?TableExporter
@@ -82,8 +82,8 @@ abstract class AbstractTable
     /**
      * Performs the bulk action on the given ids.
      *
-     * @param integer $key
-     * @param array $ids
+     * @param  int  $key
+     * @param  array  $ids
      * @return void
      */
     public function performBulkAction(int $key, array $ids)
