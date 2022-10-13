@@ -2,9 +2,8 @@
 
 namespace ProtoneMedia\Splade;
 
-use Illuminate\Http\Request;
+use Illuminate\Routing\Middleware\ValidateSignature;
 use Illuminate\Support\Facades\Blade;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
@@ -17,9 +16,11 @@ use ProtoneMedia\Splade\Commands\SpladeInstallCommand;
 use ProtoneMedia\Splade\Commands\SsrTestCommand;
 use ProtoneMedia\Splade\Commands\TableMakeCommand;
 use ProtoneMedia\Splade\Http\BladeDirectives;
+use ProtoneMedia\Splade\Http\EventRedirectController;
 use ProtoneMedia\Splade\Http\PrepareTableCells;
 use ProtoneMedia\Splade\Http\PrepareViewWithLazyComponents;
-use ProtoneMedia\Splade\Http\SpladeMiddleware;
+use ProtoneMedia\Splade\Http\TableBulkActionController;
+use ProtoneMedia\Splade\Http\TableExportController;
 
 class ServiceProvider extends BaseServiceProvider
 {
@@ -65,8 +66,7 @@ class ServiceProvider extends BaseServiceProvider
         $this->registerDuskMacros();
         $this->registerViewMacros();
         $this->registerRouteForEventRedirect();
-        $this->registerRouteForTableActions();
-        $this->registerRouteForTableExports();
+        $this->registerMacroForTableRoutes();
     }
 
     /**
@@ -281,13 +281,9 @@ class ServiceProvider extends BaseServiceProvider
      */
     private function registerRouteForEventRedirect()
     {
-        Route::get(config('splade.event_redirect_route'), function ($uuid) {
-            $data = Cache::pull(EventRedirect::class . $uuid);
-
-            abort_unless($data, 404);
-
-            return Redirect::to($data['target'])->with($data['with'] ?? []);
-        })->name('splade.eventRedirect')->middleware('signed');
+        Route::get(config('splade.event_redirect_route'), EventRedirectController::class)
+            ->name('splade.eventRedirect')
+            ->middleware(ValidateSignature::class);
     }
 
     /**
@@ -295,46 +291,17 @@ class ServiceProvider extends BaseServiceProvider
      *
      * @return void
      */
-    private function registerRouteForTableActions()
+    private function registerMacroForTableRoutes()
     {
-        Route::post(config('splade.table_actions_route'), function (Request $request, $table, $action) {
-            $request->validate([
-                'ids' => ['required', 'array', 'min:1'],
-            ]);
+        Route::macro('spladeTable', function () {
+            Route::post(config('splade.table_bulk_action_route'), TableBulkActionController::class)
+                ->name('splade.table.bulkAction')
+                ->middleware(ValidateSignature::class);
 
-            $action = base64_decode($action);
-
-            /** @var AbstractTable $table */
-            $table = app(base64_decode($table));
-
-            $table->performBulkAction($action, $request->input('ids', []));
-
-            return redirect()->back();
-        })->name('splade.tableAction')->middleware([
-            'signed',
-            'web',
-            SpladeMiddleware::class,
-        ]);
-    }
-
-    /**
-     * Registers a route that's used to handle Table exports.
-     *
-     * @return void
-     */
-    private function registerRouteForTableExports()
-    {
-        Route::get(config('splade.table_exports_route'), function (Request $request, $table, $export) {
-            $export = base64_decode($export);
-
-            /** @var AbstractTable $table */
-            $table = app(base64_decode($table));
-
-            return $table->makeExporter($export);
-        })->name('splade.tableExport')->middleware([
-            'signed',
-            'web',
-        ]);
+            Route::get(config('splade.table_export_route'), TableExportController::class)
+                ->name('splade.table.export')
+                ->middleware(ValidateSignature::class);
+        });
     }
 
     /**

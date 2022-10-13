@@ -13,6 +13,26 @@ use ProtoneMedia\Splade\Components\SpladeComponent;
 class PrepareTableCells
 {
     /**
+     * Taken from the getAttributesFromAttributeString() method of
+     * Laravel's ComponentTagCompiler class.
+     */
+    const HTML_ATTRIBUTES_REGEX = '/
+        (?<attribute>[\w\-:.@]+)
+        (
+            =
+            (?<value>
+                (
+                    \"[^\"]+\"
+                    |
+                    \\\'[^\\\']+\\\'
+                    |
+                    [^\s>]+
+                )
+            )
+        )?
+    /x';
+
+    /**
      * Returns a regex pattern to match an HTML tag and its contents.
      *
      * @param  string  $tag
@@ -24,9 +44,61 @@ class PrepareTableCells
     }
 
     /**
+     * Replaces all custom cell components with the @cell directive.
+     *
+     * @param string $table
+     * @param string $defaultAs
+     * @param string $defaultKey
+     * @param string $defaultUse
+     * @return string
+     */
+    public static function replaceCellComponentWithCellDirective(
+        string $table,
+        string $defaultAs,
+        string $defaultKey,
+        string $defaultUse
+    ): string {
+        $cellTag   = SpladeComponent::tag('cell');
+        $cellRegex = static::regexForTag($cellTag);
+
+        return preg_replace_callback($cellRegex, function ($cell) use ($cellTag, $defaultAs, $defaultKey, $defaultUse) {
+            $cellHtml    = $cell[0];
+            $cellOpening = $cell[1];
+            $cellClosing = $cell[3];
+
+            $contents = Str::between($cellHtml, $cellOpening, $cellClosing);
+
+            if (!preg_match_all(PrepareTableCells::HTML_ATTRIBUTES_REGEX, $cellOpening, $matches, PREG_SET_ORDER)) {
+                return $cellHtml;
+            }
+
+            $arguments = collect($matches)->mapWithKeys(function ($match) use ($cellTag) {
+                $attribute = $match['attribute'];
+                $value     = $match['value'] ?? null;
+
+                if (!$value && $attribute !== $cellTag) {
+                    return ['name' => $attribute];
+                }
+
+                if (in_array($attribute, ['as', 'key', 'use'])) {
+                    return [$attribute => PrepareTableCells::stripQuotes($value)];
+                }
+
+                return [];
+            });
+
+            $name = $arguments->get('name');
+            $as   = $arguments->get('as', $defaultAs);
+            $key  = $arguments->get('key', $defaultKey);
+            $use  = $arguments->get('use', $defaultUse);
+
+            return "@cell('{$name}', [{$as}, {$key}], [$use]) {$contents} @endcell";
+        }, $table);
+    }
+
+    /**
      * Registers the 'renderWithTableCellComponents' macro that replaces the
-     * lazy-component in a template with a placeholder (on initial request).
-     * On the lazy request itself, it return the rendered lazy-component.
+     * custom cell components with the @cell directive in all tables.
      *
      * @return $this
      */
@@ -36,128 +108,41 @@ class PrepareTableCells
             /** @var View $this */
             $view = file_get_contents($this->getPath());
 
-            $defaultAs  = '$item';
-            $defaultKey = '$key';
-            $defaultUse = '';
-
-            preg_replace_callback(
-                PrepareViewWithLazyComponents::regexForTag(SpladeComponent::tag('table')),
-                function ($table) use (&$defaultAs, &$defaultKey, &$defaultUse) {
-                    $pattern = '/
-                        (?<attribute>[\w\-:.@]+)
-                        (
-                            =
-                            (?<value>
-                                (
-                                    \"[^\"]+\"
-                                    |
-                                    \\\'[^\\\']+\\\'
-                                    |
-                                    [^\s>]+
-                                )
-                            )
-                        )?
-                    /x';
-
-                    if (!preg_match_all($pattern, $table[1], $matches, PREG_SET_ORDER)) {
-                        return $table[0];
-                    }
-
-                    collect($matches)->each(function ($match) use (&$defaultAs, &$defaultKey, &$defaultUse) {
-                        $attribute = $match['attribute'];
-                        $value     = $match['value'] ?? null;
-
-                        if ($attribute === SpladeComponent::tag('cell')) {
-                            return;
-                        }
-
-                        if (!$value) {
-                            return;
-                        }
-
-                        $value = PrepareTableCells::stripQuotes($value);
-
-                        if ($attribute === 'as') {
-                            return $defaultAs = $value;
-                        }
-
-                        if ($attribute === 'key') {
-                            return $defaultKey = $value;
-                        }
-
-                        if ($attribute === 'use') {
-                            return $defaultUse = $value;
-                        }
-                    });
-                },
-                $view
+            $regex = PrepareViewWithLazyComponents::regexForTag(
+                SpladeComponent::tag('table')
             );
 
-            $view = preg_replace_callback(
-                PrepareViewWithLazyComponents::regexForTag(SpladeComponent::tag('cell')),
-                function ($cell) use ($defaultAs, $defaultKey, $defaultUse) {
-                    $contents = Str::beforeLast(Str::after($cell[0], $cell[1]), $cell[3]);
+            $view = preg_replace_callback($regex, function ($table) {
+                $tableHtml    = $table[0];
+                $tableOpening = $table[1];
 
-                    $pattern = '/
-                    (?<attribute>[\w\-:.@]+)
-                    (
-                        =
-                        (?<value>
-                            (
-                                \"[^\"]+\"
-                                |
-                                \\\'[^\\\']+\\\'
-                                |
-                                [^\s>]+
-                            )
-                        )
-                    )?
-                /x';
+                preg_match_all(PrepareTableCells::HTML_ATTRIBUTES_REGEX, $tableOpening, $matches, PREG_SET_ORDER);
 
-                    if (!preg_match_all($pattern, $cell[1], $matches, PREG_SET_ORDER)) {
-                        return $cell[0];
+                $arguments = collect($matches)->mapWithKeys(function ($match) use (&$tableOpening) {
+                    $attribute = $match['attribute'];
+                    $value     = $match['value'] ?? null;
+
+                    if ($value && in_array($attribute, ['as', 'key', 'use'])) {
+                        // Remove these attributes from the table tag, so Vue won't be mad.
+                        $tableOpening = str_replace($match[0], '', $tableOpening);
+
+                        return [$attribute => PrepareTableCells::stripQuotes($value)];
                     }
 
-                    $name = null;
-                    $as   = $defaultAs;
-                    $key  = $defaultKey;
-                    $use  = $defaultUse;
+                    return [];
+                });
 
-                    collect($matches)->each(function ($match) use (&$name, &$as, &$key, &$use) {
-                        $attribute = $match['attribute'];
-                        $value     = $match['value'] ?? null;
+                // Replace the original tag opening with the modified one, without the attributes.
+                $tableHtml = str_replace($table[1], $tableOpening, $tableHtml);
 
-                        if ($attribute === SpladeComponent::tag('cell')) {
-                            return;
-                        }
-
-                        if (!$value && !$name) {
-                            return $name = $match[0];
-                        }
-
-                        if (!$value) {
-                            return;
-                        }
-
-                        $value = PrepareTableCells::stripQuotes($value);
-
-                        if ($attribute === 'as') {
-                            return $as = $value;
-                        }
-
-                        if ($attribute === 'key') {
-                            return $key = $value;
-                        }
-
-                        if ($attribute === 'use') {
-                            return $use = $value;
-                        }
-                    });
-
-                    return "@cell('{$name}', [{$as}, {$key}], [$use]) {$contents} @endcell";
-                },
-                $view
-            );
+                // Replace the custom cells.
+                return PrepareTableCells::replaceCellComponentWithCellDirective(
+                    $tableHtml,
+                    $arguments->get('as', '$item'),
+                    $arguments->get('key', '$key'),
+                    $arguments->get('use', ''),
+                );
+            }, $view);
 
             return Blade::render($view, $this->getData());
         });
@@ -174,8 +159,8 @@ class PrepareTableCells
     public static function stripQuotes(string $value): string
     {
         return Str::startsWith($value, ['"', '\''])
-                    ? substr($value, 1, -1)
-                    : $value;
+            ? substr($value, 1, -1)
+            : $value;
     }
 
     /**

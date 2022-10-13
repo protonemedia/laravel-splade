@@ -3,9 +3,9 @@
 return [
     'event_redirect_route' => '/_splade/eventRedirect/{uuid}',
 
-    'table_actions_route' => '/_splade/table/action/{table}/{action}/{slug}',
+    'table_bulk_action_route' => '/_splade/table/action/{table}/{action}/{slug}',
 
-    'table_exports_route' => '/_splade/table/export/{table}/{export}/{slug}',
+    'table_export_route' => '/_splade/table/export/{table}/{export}/{slug}',
 
     'share_session_flash_data' => true,
 

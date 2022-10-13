@@ -42,6 +42,8 @@ Route::get('event/simple', fn () => event(new SimpleEvent))->name('event.simple'
 Route::get('event/toast', fn () => event(new ToastEvent))->name('event.toast');
 
 Route::middleware('splade')->group(function () {
+    Route::spladeTable();
+
     Route::view('custom', 'custom')->name('custom');
     Route::view('data/binding', 'data.binding')->name('data.binding');
     Route::view('data/default', 'data.default')->name('data.default');

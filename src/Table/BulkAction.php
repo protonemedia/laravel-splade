@@ -2,8 +2,10 @@
 
 namespace ProtoneMedia\Splade\Table;
 
+use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
+use ProtoneMedia\Splade\Http\TableBulkActionController;
 
 class BulkAction
 {
@@ -42,7 +44,10 @@ class BulkAction
 
     public function getUrl(): string
     {
-        return URL::signedRoute('splade.tableAction', [
+        /** @var Route $route */
+        $route = app('router')->getRoutes()->getByAction(TableBulkActionController::class);
+
+        return URL::signedRoute($route->getName(), [
             'table'  => base64_encode($this->tableClass),
             'action' => base64_encode($this->key),
             'slug'   => $this->getSlug(),

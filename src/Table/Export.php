@@ -5,6 +5,7 @@ namespace ProtoneMedia\Splade\Table;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
+use ProtoneMedia\Splade\Http\TableExportController;
 
 class Export
 {
@@ -35,7 +36,10 @@ class Export
 
     public function getUrl(): string
     {
-        return URL::signedRoute('splade.tableExport', array_merge(
+        /** @var Route $route */
+        $route = app('router')->getRoutes()->getByAction(TableExportController::class);
+
+        return URL::signedRoute($route->getName(), array_merge(
             Arr::except(request()->query(), 'signature'),
             [
                 'table'  => base64_encode($this->tableClass),
