@@ -20,6 +20,18 @@ class FormTest extends DuskTestCase
     }
 
     /** @test */
+    public function it_can_submit_to_a_non_post_endpoint()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('/form/put')
+                ->waitForText('FormPut')
+                ->press('Submit')
+                ->waitForText('The name field is required.')
+                ->assertSee('The name field is required.');
+        });
+    }
+
+    /** @test */
     public function it_can_upload_a_file()
     {
         $this->browse(function (Browser $browser) {

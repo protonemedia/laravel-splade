@@ -263,7 +263,14 @@ export default {
                 headers["X-Splade-Prevent-Refresh"] = true;
             }
 
-            Splade.request(this.action, this.method.toUpperCase(), data, headers)
+            let method = this.method.toUpperCase();
+
+            if(method !== "GET" && method !== "POST") {
+                data.append("_method", method);
+                method = "POST";
+            }
+
+            Splade.request(this.action, method, data, headers)
                 .then((response) => {
                     this.$emit("success", response);
 
