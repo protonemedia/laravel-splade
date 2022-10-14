@@ -37,11 +37,21 @@ class BulkAction
     ) {
     }
 
+    /**
+     * Generates a slug based on the label.
+     *
+     * @return string
+     */
     public function getSlug(): string
     {
         return Str::slug($this->label);
     }
 
+    /**
+     * Generates a Signed URL to the bulk action URL.
+     *
+     * @return string
+     */
     public function getUrl(): string
     {
         /** @var Route $route */

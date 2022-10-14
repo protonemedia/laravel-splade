@@ -29,11 +29,21 @@ class Export
     ) {
     }
 
+    /**
+     * Generates a slug based on the label.
+     *
+     * @return string
+     */
     public function getSlug(): string
     {
         return Str::slug($this->label);
     }
 
+    /**
+     * Generates a Signed URL to the export URL.
+     *
+     * @return string
+     */
     public function getUrl(): string
     {
         /** @var Route $route */

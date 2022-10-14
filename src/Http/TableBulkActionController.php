@@ -5,6 +5,8 @@ namespace ProtoneMedia\Splade\Http;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Validation\UnauthorizedException;
+use ProtoneMedia\Splade\AbstractTable;
 
 class TableBulkActionController extends Controller
 {
@@ -18,6 +20,11 @@ class TableBulkActionController extends Controller
 
         /** @var AbstractTable $tableInstance */
         $tableInstance = app(base64_decode($table));
+
+        if (!$tableInstance->authorize($request)) {
+            throw new UnauthorizedException;
+        }
+
         $tableInstance->performBulkAction($action, $request->input('ids', []));
 
         return redirect()->back();

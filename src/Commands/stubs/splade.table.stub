@@ -3,6 +3,7 @@
 namespace {{ namespace }};
 
 use {{ namespacedUserModel }};
+use Illuminate\Http\Request;
 use ProtoneMedia\Splade\AbstractTable;
 use ProtoneMedia\Splade\SpladeTable;
 
@@ -16,6 +17,16 @@ class {{ class }} extends AbstractTable
     public function __construct()
     {
         //
+    }
+
+    /**
+     * Determine if the user is authorized to perform bulk actions and exports.
+     *
+     * @return bool
+     */
+    public function authorize(Request $request)
+    {
+        return true;
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace ProtoneMedia\Splade;
 
+use Illuminate\Http\Request;
 use ProtoneMedia\Splade\Table\BulkAction;
 use ProtoneMedia\Splade\Table\Export;
 
@@ -13,6 +14,16 @@ abstract class AbstractTable
      * @var \ProtoneMedia\Splade\SpladeTable|null
      */
     private ?SpladeTable $table = null;
+
+    /**
+     * Determine if the user is authorized to perform bulk actions and exports.
+     *
+     * @return bool
+     */
+    public function authorize(Request $request)
+    {
+        return true;
+    }
 
     /**
      * The resource or query builder.

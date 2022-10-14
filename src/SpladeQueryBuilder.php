@@ -328,7 +328,12 @@ class SpladeQueryBuilder extends SpladeTable
         $this->loadResults();
     }
 
-    public function getBuilderForExport(): EloquentBuilder
+    /**
+     * Prepares the query for an export and returns the Builder.
+     *
+     * @return BaseQueryBuilder|EloquentBuilder|SpatieQueryBuilder
+     */
+    public function getBuilderForExport(): BaseQueryBuilder|EloquentBuilder|SpatieQueryBuilder
     {
         if (!$this->builder instanceof SpatieQueryBuilder) {
             $this->applyFilters();
