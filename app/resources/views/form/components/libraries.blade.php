@@ -2,6 +2,8 @@
 
 @section('content')
 
+<x-splade-modal>
+
 FormComponents
 
 <div class="max-w-sm mx-auto px-4">
@@ -26,5 +28,7 @@ FormComponents
         <x-splade-submit />
     </x-splade-form>
 </div>
+
+</x-splade-modal>
 
 @endsection
