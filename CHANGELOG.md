@@ -2,6 +2,17 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 0.6.0 - 2022-10-14
+
+- Built-in Query Builder for Table component
+- Optional *custom* cell component in addition to the existing directive (`@cell`)
+- Support for Table objects so you can reuse table configurations
+- Support for Bulk Actions (requires a table object)
+- Support for Exports (requires a table object)
+- `make:table` Command
+- Support for Modal/Slideover as Table RowLink
+- Bugfix for #74
+
 ## 0.5.12 - 2022-10-07
 
 - Added 'scrollToError' form prop
