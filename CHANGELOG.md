@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 0.6.1 - 2022-10-14
+
+- Added test + fix for form method spoofing
+
 ## 0.6.0 - 2022-10-14
 
 - Built-in Query Builder for Table component
