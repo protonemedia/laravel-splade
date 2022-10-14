@@ -187,6 +187,8 @@ Route::middleware('splade')->group(function () {
         Route::get('/noPerPage', [TableController::class, 'noPerPage'])->name('table.noPerPage');
         Route::get('/overflow', [TableController::class, 'overflow'])->name('table.overflow');
         Route::get('/rowLink', [TableController::class, 'rowLink'])->name('table.rowLink');
+        Route::get('/rowModal', [TableController::class, 'rowModal'])->name('table.rowModal');
+        Route::get('/rowSlideover', [TableController::class, 'rowSlideover'])->name('table.rowSlideover');
         Route::post('/touch', [TableController::class, 'touch'])->name('table.touch');
 
         Route::get('/relationsAndExports', [TableController::class, 'relationsAndExports'])->name('table.relationsAndExports');
