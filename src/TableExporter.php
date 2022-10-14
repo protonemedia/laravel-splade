@@ -93,7 +93,7 @@ class TableExporter implements FromQuery, Responsable, ShouldAutoSize, WithColum
      * Returns an array with optional styling for each column. The column
      * may also be styled with a callback.
      *
-     * @param \PhpOffice\PhpSpreadsheet\Worksheet\Worksheet $sheet
+     * @param  \PhpOffice\PhpSpreadsheet\Worksheet\Worksheet  $sheet
      * @return array
      */
     public function styles(Worksheet $sheet)
@@ -128,7 +128,7 @@ class TableExporter implements FromQuery, Responsable, ShouldAutoSize, WithColum
     /**
      * Maps an item into cells for a row.
      *
-     * @param mixed $item
+     * @param  mixed  $item
      * @return array
      */
     public function map($item): array

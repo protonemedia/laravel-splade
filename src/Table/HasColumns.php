@@ -27,7 +27,7 @@ trait HasColumns
     /**
      * Set a default highlight setting for the first column.
      *
-     * @param boolean $state
+     * @param  bool  $state
      * @return void
      */
     public static function defaultHighlightFirstColumn(bool $state = true)
