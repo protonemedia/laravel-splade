@@ -6,6 +6,7 @@ use Illuminate\Contracts\Pagination\CursorPaginator;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\View\Component;
+use ProtoneMedia\Splade\AbstractTable;
 use ProtoneMedia\Splade\SpladeTable;
 use ProtoneMedia\Splade\Table\Column;
 
@@ -17,12 +18,18 @@ class Table extends Component
      * @return void
      */
     public function __construct(
-        public SpladeTable $for,
+        public SpladeTable|AbstractTable|string $for,
         public bool $striped = false,
         public bool $headless = false,
         public string $scope = 'table',
         public ?int $searchDebounce = null,
     ) {
+        $for = is_string($for) ? app($for) : $for;
+
+        $this->for = $for instanceof AbstractTable
+            ? $for->make()
+            : $for;
+
         $this->searchDebounce = is_null($searchDebounce)
             ? SpladeTable::getDefaultSearchDebounce()
             : $searchDebounce;
@@ -71,12 +78,13 @@ class Table extends Component
      */
     public function hasControls(): bool
     {
-        return $this->for->isSorted()
-            || $this->for->page() > 1
-            || $this->for->hasPerPageQuery()
+        return $this->for->hasBulkActions()
             || $this->for->hasFilters()
+            || $this->for->hasPerPageQuery()
             || $this->for->hasToggleableColumns()
             || $this->for->hasToggleableSearchInputs()
+            || $this->for->isSorted()
+            || $this->for->page() > 1
             || $this->for->searchInputs('global');
     }
 
@@ -87,11 +95,11 @@ class Table extends Component
      */
     public function canResetTable(): bool
     {
-        return $this->for->isSorted()
-            || $this->for->page() > 1
+        return $this->for->hasFiltersEnabled()
             || $this->for->hasPerPageQuery()
-            || $this->for->hasFiltersEnabled()
-            || $this->for->hasSearchFiltersEnabled();
+            || $this->for->hasSearchFiltersEnabled()
+            || $this->for->isSorted()
+            || $this->for->page() > 1;
     }
 
     /**
@@ -109,6 +117,20 @@ class Table extends Component
     }
 
     /**
+     * It gets thet data from the given item, based on the column
+     * and whether that column is based on a relationship
+     * Supports returning multiple items as well.
+     *
+     * @param  mixed  $item
+     * @param  \ProtoneMedia\Splade\Table\Column  $column
+     * @return mixed
+     */
+    public function getColumnDataFromItem($item, Column $column)
+    {
+        return $column->getDataFromItem($item);
+    }
+
+    /**
      * Get the view / contents that represent the component.
      *
      * @return \Illuminate\Contracts\View\View|\Closure|string
@@ -116,7 +138,7 @@ class Table extends Component
     public function render()
     {
         return view('splade::table.table', [
-            'table'          => $this->for,
+            'table'          => tap($this->for)->beforeRender(),
             'wrapperName'    => SpladeComponent::normalize('table-wrapper'),
             'paginationView' => $this->isLengthAware() ? 'splade::table.pagination' : 'splade::table.simple-pagination',
         ]);

@@ -10,7 +10,7 @@ class TransitionRepository
      * Adds an animation to this repository.
      *
      * @param  \ProtoneMedia\Splade\TransitionAnimation  $transitionAnimation
-     * @return self
+     * @return $this
      */
     public function add(TransitionAnimation $transitionAnimation): self
     {
@@ -29,7 +29,7 @@ class TransitionRepository
      * @param  string  $leave
      * @param  string  $leaveFrom
      * @param  string  $leaveTo
-     * @return self
+     * @return $this
      */
     public function new(
         string $name,

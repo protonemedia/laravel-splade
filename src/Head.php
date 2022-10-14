@@ -30,7 +30,7 @@ class Head implements Arrayable, JsonSerializable
      *
      * @param  string  $title
      * @param  bool  $withPrefixAndSuffix
-     * @return self
+     * @return $this
      */
     public function title(string $title, bool $withPrefixAndSuffix = true): self
     {
@@ -49,7 +49,7 @@ class Head implements Arrayable, JsonSerializable
      * Setter for the description.
      *
      * @param  string  $description
-     * @return self
+     * @return $this
      */
     public function description(string $description): self
     {
@@ -60,7 +60,7 @@ class Head implements Arrayable, JsonSerializable
      * Setter for the keywords.
      *
      * @param  mixed  $keywords
-     * @return self
+     * @return $this
      */
     public function keywords(mixed $keywords): self
     {
@@ -81,7 +81,7 @@ class Head implements Arrayable, JsonSerializable
      *
      * @param  string  $name
      * @param  string  $content
-     * @return self
+     * @return $this
      */
     public function metaByName(string $name, string $content): self
     {
@@ -93,7 +93,7 @@ class Head implements Arrayable, JsonSerializable
      *
      * @param  string  $property
      * @param  string  $content
-     * @return self
+     * @return $this
      */
     public function metaByProperty(string $property, string $content): self
     {
@@ -104,7 +104,7 @@ class Head implements Arrayable, JsonSerializable
      * Sets a meta tag by the given attributes.
      *
      * @param  array  $attributes
-     * @return self
+     * @return $this
      */
     public function meta(array $attributes): self
     {

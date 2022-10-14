@@ -19,6 +19,8 @@
             value="{{ $searchInput->value }}"
             type="text"
             class="flex-1 min-w-0 block w-full px-3 py-2 rounded-none rounded-r-md focus:ring-indigo-500 focus:border-indigo-500 text-sm border-gray-300"
+            v-bind:class="{ 'opacity-50': table.isLoading }"
+            v-bind:disabled="table.isLoading"
             @input="table.debounceUpdateQuery('filter[{{ $searchInput->key }}]', $event.target.value, $event.target)"
         />
 

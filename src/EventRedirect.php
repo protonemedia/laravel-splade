@@ -52,7 +52,7 @@ class EventRedirect implements Arrayable, JsonSerializable
      *
      * @param  string  $key
      * @param  mixed  $value
-     * @return self
+     * @return $this
      */
     public function with(string $key, $value): self
     {

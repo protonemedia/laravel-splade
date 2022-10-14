@@ -1,6 +1,7 @@
 <SpladeDropdown {{ $attributes->except('class')
     ->mergeVueBinding(':inline', $inline)
     ->mergeVueBinding(':teleport', $teleport)
+    ->mergeVueBinding(':close-on-click', $closeOnClick)
 }} :splade-id="@js($spladeId)">
     <template #button="dropdown">
       <button

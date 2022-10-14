@@ -23,4 +23,24 @@ class RowLinkTest extends DuskTestCase
                 ->assertRouteIs('navigation.one', ['id' => $firstUser->id]);
         });
     }
+
+    /** @test */
+    public function it_can_make_a_row_clickable_and_open_a_modal()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('table/rowModal')
+                ->click('tr:first-child td:nth-child(1)')
+                ->waitForText('ModalComponentOne');
+        });
+    }
+
+    /** @test */
+    public function it_can_make_a_row_clickable_and_open_a_slideover()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('table/rowSlideover')
+                ->click('tr:first-child td:nth-child(1)')
+                ->waitForText('ModalComponentOne');
+        });
+    }
 }

@@ -11,12 +11,14 @@
         "php": "^8.0.2",
         "beyondcode/laravel-websockets": "^1.13",
         "guzzlehttp/guzzle": "^7.2",
+        "kirschbaum-development/eloquent-power-joins": "^2.6",
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^2.14.1",
         "laravel/tinker": "^2.7",
+        "maatwebsite/excel": "^3.1",
+        "psr/simple-cache": "^2.0",
         "pusher/pusher-php-server": "^7.0,<7.2.0",
-        "spatie/laravel-query-builder": "^5.0",
-        "spatie/once": "^3.1"
+        "spatie/laravel-query-builder": "^5.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.7",

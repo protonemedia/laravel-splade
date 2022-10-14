@@ -4,14 +4,16 @@ namespace ProtoneMedia\Splade\Http;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Support\HtmlString;
+use Illuminate\Support\Facades\View as ViewFacade;
+use Illuminate\View\Factory;
 use Illuminate\View\View;
-use Illuminate\View\ViewName;
 use ProtoneMedia\Splade\Components\SpladeComponent;
 use ProtoneMedia\Splade\Facades\Splade;
 
 class PrepareViewWithLazyComponents
 {
+    use InterceptsCreatingViews;
+
     /**
      * Returns a regex pattern to match an HTML tag and its contents.
      *
@@ -28,7 +30,7 @@ class PrepareViewWithLazyComponents
      * lazy-component in a template with a placeholder (on initial request).
      * On the lazy request itself, it return the rendered lazy-component.
      *
-     * @return self
+     * @return $this
      */
     public function registerMacro(): self
     {
@@ -71,41 +73,21 @@ class PrepareViewWithLazyComponents
      * rendering a Blade template. This way we can, based on the request, replace
      * the lazy components with a placeholder, or with the actual content.
      *
-     * @return self
+     * @return $this
      */
     public function registerEventListener(): self
     {
-        Event::listen('creating:*', function ($event, $data) {
-            $view = $data[0] ?? null;
-
-            if (!$view instanceof View) {
-                return;
-            }
-
-            $contents = file_get_contents($view->getPath());
-
-            if (!preg_match(static::regexForTag(SpladeComponent::tag('lazy')), $contents, $match)) {
-                // No lazy components
-                return;
-            }
-
-            if ($view->_spladeIsLazyRendering) {
-                // Prevent the loop
-                return;
-            }
-
-            // We set this variable to prevent a loop that occurs when the event is fired again.
-            $view->_spladeIsLazyRendering = true;
-
-            tap(new HtmlString($view->renderWithPreparedLazyComponents()), function ($html) use ($view) {
-                $view->_spladeEvaluatedHtml   = $html;
-                $view->_spladeIsLazyRendering = false;
-
-                $view->setPath(
-                    $view->getFactory()->getFinder()->find(ViewName::normalize('splade::html'))
-                );
+        if (method_exists(Factory::class, 'creator')) {
+            ViewFacade::creator('*', function () {
+                //
             });
+        }
+
+        $listener = $this->interceptCreatingViews(SpladeComponent::tag('lazy'), function (View $view) {
+            return $view->renderWithPreparedLazyComponents();
         });
+
+        Event::listen('creating:*', $listener);
 
         return $this;
     }

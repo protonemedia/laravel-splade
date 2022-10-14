@@ -42,6 +42,8 @@ Route::get('event/simple', fn () => event(new SimpleEvent))->name('event.simple'
 Route::get('event/toast', fn () => event(new ToastEvent))->name('event.toast');
 
 Route::middleware('splade')->group(function () {
+    Route::spladeTable();
+
     Route::view('custom', 'custom')->name('custom');
     Route::view('data/binding', 'data.binding')->name('data.binding');
     Route::view('data/default', 'data.default')->name('data.default');
@@ -185,9 +187,27 @@ Route::middleware('splade')->group(function () {
         Route::get('/noPerPage', [TableController::class, 'noPerPage'])->name('table.noPerPage');
         Route::get('/overflow', [TableController::class, 'overflow'])->name('table.overflow');
         Route::get('/rowLink', [TableController::class, 'rowLink'])->name('table.rowLink');
+        Route::get('/rowModal', [TableController::class, 'rowModal'])->name('table.rowModal');
+        Route::get('/rowSlideover', [TableController::class, 'rowSlideover'])->name('table.rowSlideover');
+        Route::post('/touch', [TableController::class, 'touch'])->name('table.touch');
 
-        Route::get('/users/eloquent', fn () => $table(paginateMethod: 'paginate'));
-        Route::get('/users/eloquent/simple', fn () => $table(paginateMethod: 'simplePaginate'));
-        Route::get('/users/eloquent/cursor', fn () => $table(paginateMethod: 'cursorPaginate'));
+        Route::get('/relationsAndExports', [TableController::class, 'relationsAndExports'])->name('table.relationsAndExports');
+
+        // @todo refactor into matrix
+        Route::get('/users/spatie', fn () => $table->spatie(paginateMethod: 'paginate'));
+        Route::get('/users/spatie/simple', fn () => $table->spatie(paginateMethod: 'simplePaginate'));
+        Route::get('/users/spatie/cursor', fn () => $table->spatie(paginateMethod: 'cursorPaginate'));
+
+        Route::get('/users/spatieWrapped', fn () => $table->spatieWrapped(paginateMethod: 'paginate'));
+        Route::get('/users/spatieWrapped/simple', fn () => $table->spatieWrapped(paginateMethod: 'simplePaginate'));
+        Route::get('/users/spatieWrapped/cursor', fn () => $table->spatieWrapped(paginateMethod: 'cursorPaginate'));
+
+        Route::get('/users/splade', fn () => $table->splade(paginateMethod: 'paginate'));
+        Route::get('/users/splade/simple', fn () => $table->splade(paginateMethod: 'simplePaginate'));
+        Route::get('/users/splade/cursor', fn () => $table->splade(paginateMethod: 'cursorPaginate'));
+
+        Route::get('/users/spladeWrapped', fn () => $table->spladeWrapped(paginateMethod: 'paginate'));
+        Route::get('/users/spladeWrapped/simple', fn () => $table->spladeWrapped(paginateMethod: 'simplePaginate'));
+        Route::get('/users/spladeWrapped/cursor', fn () => $table->spladeWrapped(paginateMethod: 'cursorPaginate'));
     });
 });

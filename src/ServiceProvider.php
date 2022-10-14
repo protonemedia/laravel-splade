@@ -2,8 +2,8 @@
 
 namespace ProtoneMedia\Splade;
 
+use Illuminate\Routing\Middleware\ValidateSignature;
 use Illuminate\Support\Facades\Blade;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
@@ -14,8 +14,13 @@ use Laravel\Dusk\Browser;
 use ProtoneMedia\Splade\Commands\PublishFormStylesheetsCommand;
 use ProtoneMedia\Splade\Commands\SpladeInstallCommand;
 use ProtoneMedia\Splade\Commands\SsrTestCommand;
+use ProtoneMedia\Splade\Commands\TableMakeCommand;
 use ProtoneMedia\Splade\Http\BladeDirectives;
+use ProtoneMedia\Splade\Http\EventRedirectController;
+use ProtoneMedia\Splade\Http\PrepareTableCells;
 use ProtoneMedia\Splade\Http\PrepareViewWithLazyComponents;
+use ProtoneMedia\Splade\Http\TableBulkActionController;
+use ProtoneMedia\Splade\Http\TableExportController;
 
 class ServiceProvider extends BaseServiceProvider
 {
@@ -38,6 +43,7 @@ class ServiceProvider extends BaseServiceProvider
             PublishFormStylesheetsCommand::class,
             SpladeInstallCommand::class,
             SsrTestCommand::class,
+            TableMakeCommand::class,
         ]);
 
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'splade');
@@ -52,10 +58,15 @@ class ServiceProvider extends BaseServiceProvider
             ->registerMacro()
             ->registerEventListener();
 
+        (new PrepareTableCells)
+            ->registerMacro()
+            ->registerEventListener();
+
         $this->registerBladeComponentsAndDirectives();
         $this->registerDuskMacros();
         $this->registerViewMacros();
         $this->registerRouteForEventRedirect();
+        $this->registerMacroForTableRoutes();
     }
 
     /**
@@ -129,6 +140,7 @@ class ServiceProvider extends BaseServiceProvider
 
         Blade::components([
             Components\ButtonWithDropdown::class,
+            Components\Cell::class,
             Components\Confirm::class,
             Components\Data::class,
             Components\Defer::class,
@@ -269,13 +281,27 @@ class ServiceProvider extends BaseServiceProvider
      */
     private function registerRouteForEventRedirect()
     {
-        Route::get(config('splade.event_redirect_route'), function ($uuid) {
-            $data = Cache::pull(EventRedirect::class . $uuid);
+        Route::get(config('splade.event_redirect_route'), EventRedirectController::class)
+            ->name('splade.eventRedirect')
+            ->middleware(ValidateSignature::class);
+    }
 
-            abort_unless($data, 404);
+    /**
+     * Registers a route that's used to handle Table actions.
+     *
+     * @return void
+     */
+    private function registerMacroForTableRoutes()
+    {
+        Route::macro('spladeTable', function () {
+            Route::post(config('splade.table_bulk_action_route'), TableBulkActionController::class)
+                ->name('splade.table.bulkAction')
+                ->middleware(ValidateSignature::class);
 
-            return Redirect::to($data['target'])->with($data['with'] ?? []);
-        })->name('splade.eventRedirect')->middleware('signed');
+            Route::get(config('splade.table_export_route'), TableExportController::class)
+                ->name('splade.table.export')
+                ->middleware(ValidateSignature::class);
+        });
     }
 
     /**

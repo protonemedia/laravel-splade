@@ -8,10 +8,13 @@ use Tests\DuskTestCase;
 
 class FilterTest extends DuskTestCase
 {
-    /** @test */
-    public function it_can_use_select_filters()
+    /**
+     * @test
+     * @dataProvider tableUrls
+     */
+    public function it_can_use_select_filters($url)
     {
-        $this->browse(function (Browser $browser) {
+        $this->browse(function (Browser $browser) use ($url) {
             User::orderBy('name')->first()->forceFill([
                 'language_code' => 'en',
             ])->save();
@@ -22,7 +25,7 @@ class FilterTest extends DuskTestCase
 
             $firstDutchUser = $users->firstWhere('language_code', 'nl');
 
-            $browser->visit('table/users/eloquent')
+            $browser->visit($url)
                 ->assertSeeIn('tr:first-child td:nth-child(1)', $users->get(0)->name)
                 ->press('@filters-dropdown')
                 ->select('filter-language_code', 'nl')

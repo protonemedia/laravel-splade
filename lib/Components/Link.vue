@@ -44,11 +44,13 @@ const props = defineProps({
         required: false,
         default: "",
     },
+
     modal: {
         type: Boolean,
         required: false,
         default: false,
     },
+
     slideover: {
         type: Boolean,
         required: false,

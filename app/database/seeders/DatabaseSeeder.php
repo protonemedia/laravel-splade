@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Dummy;
 use Database\Factories\KeywordFactory;
+use Database\Factories\ProjectFactory;
 use Database\Factories\TagFactory;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Seeder;
@@ -26,7 +27,7 @@ class DatabaseSeeder extends Seeder
             'email' => 'test@example.com',
         ]);
 
-        UserFactory::new()->count(99)->create();
+        $users = UserFactory::new()->count(99)->create();
 
         Dummy::create([
             'input'    => 'input',
@@ -37,5 +38,9 @@ class DatabaseSeeder extends Seeder
             'json'     => ['nested' => ['array'], 'key' => 'key'],
             'secret'   => 'secret',
         ]);
+
+        ProjectFactory::new()
+            ->count(30)
+            ->create();
     }
 }

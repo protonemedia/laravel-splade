@@ -18,6 +18,7 @@ class Dropdown extends Component
         public string $scope = 'dropdown',
         public bool $inline = false,
         public bool $teleport = false,
+        public bool $closeOnClick = false,
     ) {
         $this->spladeId = Str::random();
     }

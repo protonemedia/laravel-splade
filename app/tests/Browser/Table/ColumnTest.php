@@ -8,16 +8,19 @@ use Tests\DuskTestCase;
 
 class ColumnTest extends DuskTestCase
 {
-    /** @test */
-    public function it_can_toggle_columns()
+    /**
+     * @test
+     * @dataProvider tableUrls
+     */
+    public function it_can_toggle_columns($url)
     {
-        $this->browse(function (Browser $browser) {
+        $this->browse(function (Browser $browser) use ($url) {
             $users = User::query()
                 ->select(['id', 'name', 'email'])
                 ->orderBy('name')
                 ->get();
 
-            $browser->visit('table/users/eloquent')
+            $browser->visit($url)
                 ->assertSeeIn('tr:first-child td:nth-child(2)', $users->get(0)->email)
                 ->press('@columns-dropdown')
                 ->press('@toggle-column-email')

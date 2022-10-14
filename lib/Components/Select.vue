@@ -1,5 +1,7 @@
 <template>
-  <div ref="select">
+  <div
+    ref="select"
+  >
     <slot />
   </div>
 </template>
@@ -8,6 +10,8 @@
 import find from "lodash-es/find";
 
 export default {
+    inject: ["stack"],
+
     props: {
         choices: {
             type: [Boolean, Object],
@@ -48,6 +52,7 @@ export default {
             choicesInstance: null,
             element: null,
             placeholderText: null,
+            headlessListener: null
         };
     },
 
@@ -96,7 +101,11 @@ export default {
      * Destroy the Choices.js instance to prevent memory leaks.
      */
     beforeUnmount(){
-        if(this.choices && this.choicesInstance){
+        if(this.choices && this.choicesInstance) {
+            if(this.headlessListener) {
+                document.querySelector("#headlessui-portal-root")?.removeEventListener("click", this.headlessListener);
+            }
+
             this.choicesInstance.destroy();
         }
     },
@@ -170,6 +179,19 @@ export default {
                 const options = Object.assign({}, this.choices, this.jsChoicesOptions);
 
                 vm.choicesInstance = new Choices.default(selectElement, options);
+
+                if(vm.stack > 0) {
+                    // The Headless UI Dialog blocks the events on the Choices.js
+                    // instance, so we put an event listener on the portal root.
+                    vm.headlessListener = function(e) {
+                        if(e.target === selectElement) {
+                            vm.choicesInstance.showDropdown();
+                        }
+                    };
+
+                    document.querySelector("#headlessui-portal-root")
+                        .addEventListener("click", vm.headlessListener, { capture: true });
+                }
 
                 // Set the name of the select element on the Choices.js element
                 // so we can perform test assertions with Laravel Dusk.

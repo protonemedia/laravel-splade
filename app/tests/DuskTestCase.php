@@ -5,7 +5,9 @@ namespace Tests;
 use Facebook\WebDriver\Chrome\ChromeOptions;
 use Facebook\WebDriver\Remote\DesiredCapabilities;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
+use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Http;
 use Laravel\Dusk\TestCase as BaseTestCase;
 use Spatie\Snapshots\MatchesSnapshots;
 
@@ -23,6 +25,32 @@ abstract class DuskTestCase extends BaseTestCase
     protected function newBrowser($driver)
     {
         return new Browser($driver);
+    }
+
+    public function tableUrls()
+    {
+        return [
+            ['/table/users/spatie/'],
+            ['/table/users/splade/'],
+            ['/table/users/spatieWrapped/'],
+            ['/table/users/spladeWrapped/'],
+        ];
+    }
+
+    protected function configureDownloadPath($browser, $path)
+    {
+        (new Filesystem)->ensureDirectoryExists($path);
+        (new Filesystem)->cleanDirectory($path);
+
+        $url = $browser->driver->getCommandExecutor()->getAddressOfRemoteServer();
+        $uri = '/session/' . $browser->driver->getSessionID() . '/chromium/send_command';
+
+        Http::post($url . $uri, [
+            'cmd'    => 'Page.setDownloadBehavior',
+            'params' => ['behavior' => 'allow', 'downloadPath' => $path],
+        ]);
+
+        $this->beforeApplicationDestroyed(fn () => (new Filesystem)->cleanDirectory($path));
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Tables\Projects;
 use ProtoneMedia\Splade\SpladeTable;
 
 class TableController
@@ -56,6 +57,35 @@ class TableController
                 ->column('name')
                 ->column('email')
                 ->column('actions'),
+        ]);
+    }
+
+    public function rowModal()
+    {
+        $users = User::query()->paginate(10);
+
+        return view('table.users', [
+            'users' => SpladeTable::for($users)
+                ->rowModal(fn () => route('modal.one'))
+                ->column('name'),
+        ]);
+    }
+
+    public function rowSlideover()
+    {
+        $users = User::query()->paginate(10);
+
+        return view('table.users', [
+            'users' => SpladeTable::for($users)
+                ->rowSlideover(fn () => route('modal.one'))
+                ->column('name'),
+        ]);
+    }
+
+    public function relationsAndExports()
+    {
+        return view('table.projects', [
+            'projects' => Projects::class,
         ]);
     }
 }

@@ -33,14 +33,29 @@ export default {
             type: Number,
             required: false,
             default: 350
+        },
+
+        itemsOnThisPage: {
+            type: Number,
+            required: false,
+            default: 0
+        },
+
+        itemsOnAllPages: {
+            type: Number,
+            required: false,
+            default: 0
         }
     },
 
     data() {
         return {
+            selectedItems: [],
             visibleColumns: [],
             forcedVisibleSearchInputs: [],
-            debounceUpdateQuery: null
+            debounceUpdateQuery: null,
+            isLoading: false,
+            processingAction: false
         };
     },
 
@@ -59,6 +74,38 @@ export default {
          */
         hasForcedVisibleSearchInputs() {
             return this.forcedVisibleSearchInputs.length > 0;
+        },
+
+        allItemsFromAllPagesAreSelected() {
+            return this.selectedItems.length === 1 && this.selectedItems[0] === "*";
+        },
+
+        allVisibleItemsAreSelected() {
+            const selectedItemsCount = this.selectedItems.length;
+
+            if(selectedItemsCount === 1 && this.selectedItems[0] === "*") {
+                return true;
+            }
+
+            if(selectedItemsCount > 0 && selectedItemsCount === this.itemsOnThisPage) {
+                return true;
+            }
+
+            return false;
+        },
+
+        hasSelectedItems() {
+            return this.selectedItems.length > 0;
+        },
+
+        totalSelectedItems() {
+            const selectedItemsCount = this.selectedItems.length;
+
+            if(selectedItemsCount === 1 && this.selectedItems[0] === "*") {
+                return this.itemsOnAllPages;
+            }
+
+            return selectedItemsCount;
         }
     },
 
@@ -96,6 +143,18 @@ export default {
     },
 
     methods: {
+        visitLink(url, type) {
+            if(type === "modal") {
+                return Splade.modal(url);
+            }
+
+            if(type === "slideover") {
+                return Splade.slideover(url);
+            }
+
+            return Splade.visit(url);
+        },
+
         /**
          * Resets the table to its initial state.
          */
@@ -312,17 +371,68 @@ export default {
                 return Splade.replaceUrlOfCurrentPage(url);
             }
 
+            this.isLoading = true;
+            let currentValueOfElement = null;
+
+            if(typeof $el !== "undefined" && $el){
+                currentValueOfElement = document.querySelector(`[name="${$el.name}"]`)?.value;
+            }
+
             // Perform the request, and optionally focus on the given element.
             Splade.replace(url).then(() => {
+                this.isLoading = false;
+
                 if(typeof $el !== "undefined" && $el){
                     nextTick(() => {
                         const $newEl = document.querySelector(`[name="${$el.name}"]`);
 
                         $newEl.focus();
+
+                        if(currentValueOfElement) {
+                            $newEl.value = currentValueOfElement;
+                        }
                     });
                 }
             });
-        }
+        },
+
+        async performBulkAction(url, confirm, confirmText, confirmButton, cancelButton) {
+            if(confirm) {
+                try {
+                    await Splade.confirm(confirm === true ? "" : confirm, confirmText, confirmButton, cancelButton);
+                } catch {
+                    return false;
+                }
+            }
+
+            this.isLoading = true;
+
+            Splade.request(url, "POST", { ids: this.selectedItems }, {}, false)
+                .then((response) => {
+                    response.data;
+                })
+                .catch(() => {
+                    this.isLoading = false;
+                });
+        },
+
+        setSelectedItems(items) {
+            this.selectedItems = isArray(items) ? items : [];
+        },
+
+        itemIsSelected(item) {
+            if(this.selectedItems.length == 1 && this.selectedItems[0] == "*") {
+                return true;
+            }
+
+            return this.selectedItems.includes(item);
+        },
+
+        setSelectedItem(key, checked) {
+            checked
+                ? this.selectedItems.push(key)
+                : (this.selectedItems = this.selectedItems.filter(item => item !== key));
+        },
     },
 
     render() {
@@ -338,7 +448,17 @@ export default {
             striped: this.striped,
             toggleColumn: this.toggleColumn,
             updateQuery: this.updateQuery,
-            visit: Splade.visit,
+            visit: this.visitLink,
+            totalSelectedItems: this.totalSelectedItems,
+            allItemsFromAllPagesAreSelected: this.allItemsFromAllPagesAreSelected,
+            allVisibleItemsAreSelected: this.allVisibleItemsAreSelected,
+            hasSelectedItems: this.hasSelectedItems,
+            setSelectedItems: this.setSelectedItems,
+            itemIsSelected: this.itemIsSelected,
+            setSelectedItem: this.setSelectedItem,
+            performBulkAction: this.performBulkAction,
+            processingAction: this.processingAction,
+            isLoading: this.isLoading,
         });
     },
 };

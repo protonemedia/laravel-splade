@@ -3,6 +3,7 @@
     :style="wrapperStyle"
     :do="hide"
     :opened="opened"
+    :ignore-inner-targets="!closeOnClick"
   >
     <div
       ref="button"
@@ -69,6 +70,12 @@ export default {
         },
 
         teleport: {
+            type: Boolean,
+            default: false,
+            required: false,
+        },
+
+        closeOnClick: {
             type: Boolean,
             default: false,
             required: false,
