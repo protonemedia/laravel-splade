@@ -7,8 +7,8 @@ function xa(e, t) {
 }
 function Ta(e) {
   return function(t, r, n) {
-    for (var i = -1, a = Object(t), s = n(t), o = s.length; o--; ) {
-      var l = s[e ? o : ++i];
+    for (var i = -1, a = Object(t), o = n(t), s = o.length; s--; ) {
+      var l = o[e ? s : ++i];
       if (r(a[l], l, a) === !1)
         break;
     }
@@ -25,8 +25,8 @@ function Pa(e, t) {
 var Ca = typeof global == "object" && global && global.Object === Object && global;
 const ti = Ca;
 var Da = typeof self == "object" && self && self.Object === Object && self, ja = ti || Da || Function("return this")();
-const se = ja;
-var qa = se.Symbol;
+const oe = ja;
+var qa = oe.Symbol;
 const Se = qa;
 var ri = Object.prototype, Ba = ri.hasOwnProperty, La = ri.toString, rt = Se ? Se.toStringTag : void 0;
 function Fa(e) {
@@ -65,119 +65,119 @@ const k = Ga;
 function Ka() {
   return !1;
 }
-var ai = typeof exports == "object" && exports && !exports.nodeType && exports, hn = ai && typeof module == "object" && module && !module.nodeType && module, Xa = hn && hn.exports === ai, mn = Xa ? se.Buffer : void 0, Qa = mn ? mn.isBuffer : void 0, Ya = Qa || Ka;
+var ai = typeof exports == "object" && exports && !exports.nodeType && exports, hn = ai && typeof module == "object" && module && !module.nodeType && module, Xa = hn && hn.exports === ai, mn = Xa ? oe.Buffer : void 0, Qa = mn ? mn.isBuffer : void 0, Ya = Qa || Ka;
 const cr = Ya;
 var Ja = 9007199254740991, Za = /^(?:0|[1-9]\d*)$/;
 function Pr(e, t) {
   var r = typeof e;
   return t = t == null ? Ja : t, !!t && (r == "number" || r != "symbol" && Za.test(e)) && e > -1 && e % 1 == 0 && e < t;
 }
-var es = 9007199254740991;
+var eo = 9007199254740991;
 function Cr(e) {
-  return typeof e == "number" && e > -1 && e % 1 == 0 && e <= es;
+  return typeof e == "number" && e > -1 && e % 1 == 0 && e <= eo;
 }
-var ts = "[object Arguments]", rs = "[object Array]", ns = "[object Boolean]", is = "[object Date]", as = "[object Error]", ss = "[object Function]", os = "[object Map]", ls = "[object Number]", us = "[object Object]", cs = "[object RegExp]", fs = "[object Set]", ds = "[object String]", ps = "[object WeakMap]", hs = "[object ArrayBuffer]", ms = "[object DataView]", vs = "[object Float32Array]", gs = "[object Float64Array]", ys = "[object Int8Array]", bs = "[object Int16Array]", ws = "[object Int32Array]", Ss = "[object Uint8Array]", Os = "[object Uint8ClampedArray]", $s = "[object Uint16Array]", Es = "[object Uint32Array]", D = {};
-D[vs] = D[gs] = D[ys] = D[bs] = D[ws] = D[Ss] = D[Os] = D[$s] = D[Es] = !0;
-D[ts] = D[rs] = D[hs] = D[ns] = D[ms] = D[is] = D[as] = D[ss] = D[os] = D[ls] = D[us] = D[cs] = D[fs] = D[ds] = D[ps] = !1;
-function _s(e) {
+var to = "[object Arguments]", ro = "[object Array]", no = "[object Boolean]", io = "[object Date]", ao = "[object Error]", oo = "[object Function]", so = "[object Map]", lo = "[object Number]", uo = "[object Object]", co = "[object RegExp]", fo = "[object Set]", po = "[object String]", ho = "[object WeakMap]", mo = "[object ArrayBuffer]", vo = "[object DataView]", go = "[object Float32Array]", yo = "[object Float64Array]", bo = "[object Int8Array]", wo = "[object Int16Array]", So = "[object Int32Array]", Oo = "[object Uint8Array]", $o = "[object Uint8ClampedArray]", Eo = "[object Uint16Array]", _o = "[object Uint32Array]", D = {};
+D[go] = D[yo] = D[bo] = D[wo] = D[So] = D[Oo] = D[$o] = D[Eo] = D[_o] = !0;
+D[to] = D[ro] = D[mo] = D[no] = D[vo] = D[io] = D[ao] = D[oo] = D[so] = D[lo] = D[uo] = D[co] = D[fo] = D[po] = D[ho] = !1;
+function xo(e) {
   return Oe(e) && Cr(e.length) && !!D[xe(e)];
 }
-function xs(e) {
+function To(e) {
   return function(t) {
     return e(t);
   };
 }
-var si = typeof exports == "object" && exports && !exports.nodeType && exports, at = si && typeof module == "object" && module && !module.nodeType && module, Ts = at && at.exports === si, tr = Ts && ti.process, As = function() {
+var oi = typeof exports == "object" && exports && !exports.nodeType && exports, at = oi && typeof module == "object" && module && !module.nodeType && module, Ao = at && at.exports === oi, tr = Ao && ti.process, Io = function() {
   try {
     var e = at && at.require && at.require("util").types;
     return e || tr && tr.binding && tr.binding("util");
   } catch {
   }
 }();
-const vn = As;
-var gn = vn && vn.isTypedArray, Is = gn ? xs(gn) : _s;
-const oi = Is;
-var Ps = Object.prototype, Cs = Ps.hasOwnProperty;
-function Ds(e, t) {
-  var r = k(e), n = !r && ii(e), i = !r && !n && cr(e), a = !r && !n && !i && oi(e), s = r || n || i || a, o = s ? Pa(e.length, String) : [], l = o.length;
+const vn = Io;
+var gn = vn && vn.isTypedArray, Po = gn ? To(gn) : xo;
+const si = Po;
+var Co = Object.prototype, Do = Co.hasOwnProperty;
+function jo(e, t) {
+  var r = k(e), n = !r && ii(e), i = !r && !n && cr(e), a = !r && !n && !i && si(e), o = r || n || i || a, s = o ? Pa(e.length, String) : [], l = s.length;
   for (var u in e)
-    (t || Cs.call(e, u)) && !(s && (u == "length" || i && (u == "offset" || u == "parent") || a && (u == "buffer" || u == "byteLength" || u == "byteOffset") || Pr(u, l))) && o.push(u);
-  return o;
+    (t || Do.call(e, u)) && !(o && (u == "length" || i && (u == "offset" || u == "parent") || a && (u == "buffer" || u == "byteLength" || u == "byteOffset") || Pr(u, l))) && s.push(u);
+  return s;
 }
-var js = Object.prototype;
-function qs(e) {
-  var t = e && e.constructor, r = typeof t == "function" && t.prototype || js;
+var qo = Object.prototype;
+function Bo(e) {
+  var t = e && e.constructor, r = typeof t == "function" && t.prototype || qo;
   return e === r;
 }
-function Bs(e, t) {
+function Lo(e, t) {
   return function(r) {
     return e(t(r));
   };
 }
-var Ls = Bs(Object.keys, Object);
-const Fs = Ls;
-var Rs = Object.prototype, ks = Rs.hasOwnProperty;
-function Ms(e) {
-  if (!qs(e))
-    return Fs(e);
+var Fo = Lo(Object.keys, Object);
+const Ro = Fo;
+var ko = Object.prototype, Mo = ko.hasOwnProperty;
+function No(e) {
+  if (!Bo(e))
+    return Ro(e);
   var t = [];
   for (var r in Object(e))
-    ks.call(e, r) && r != "constructor" && t.push(r);
+    Mo.call(e, r) && r != "constructor" && t.push(r);
   return t;
 }
 function ne(e) {
   var t = typeof e;
   return e != null && (t == "object" || t == "function");
 }
-var Ns = "[object AsyncFunction]", Vs = "[object Function]", Hs = "[object GeneratorFunction]", Us = "[object Proxy]";
+var Vo = "[object AsyncFunction]", Ho = "[object Function]", Uo = "[object GeneratorFunction]", Wo = "[object Proxy]";
 function li(e) {
   if (!ne(e))
     return !1;
   var t = xe(e);
-  return t == Vs || t == Hs || t == Ns || t == Us;
+  return t == Ho || t == Uo || t == Vo || t == Wo;
 }
 function Ft(e) {
   return e != null && Cr(e.length) && !li(e);
 }
 function Rt(e) {
-  return Ft(e) ? Ds(e) : Ms(e);
+  return Ft(e) ? jo(e) : No(e);
 }
 function Dr(e, t) {
   return e && Ia(e, t, Rt);
 }
-function Ws(e, t) {
+function zo(e, t) {
   return function(r, n) {
     if (r == null)
       return r;
     if (!Ft(r))
       return e(r, n);
-    for (var i = r.length, a = t ? i : -1, s = Object(r); (t ? a-- : ++a < i) && n(s[a], a, s) !== !1; )
+    for (var i = r.length, a = t ? i : -1, o = Object(r); (t ? a-- : ++a < i) && n(o[a], a, o) !== !1; )
       ;
     return r;
   };
 }
-var zs = Ws(Dr);
-const jr = zs;
+var Go = zo(Dr);
+const jr = Go;
 function ui(e) {
   return e;
 }
 function ci(e) {
   return typeof e == "function" ? e : ui;
 }
-function Gs(e, t) {
+function Ko(e, t) {
   var r = k(e) ? xa : jr;
   return r(e, ci(t));
 }
 function be(e, t) {
   return e && Dr(e, ci(t));
 }
-var Ks = Array.prototype, Xs = Ks.reverse;
-function Qs(e) {
-  return e == null ? e : Xs.call(e);
+var Xo = Array.prototype, Qo = Xo.reverse;
+function Yo(e) {
+  return e == null ? e : Qo.call(e);
 }
 const Ct = y(0), fr = y(1), B = y({}), le = y(0), $e = typeof window > "u";
-function Ys(e, t, r) {
-  $e || window.addEventListener("popstate", Js.bind(this)), Object.keys(t).length > 0 && Ct.value++, Lr(r), kt(r.head), Fr(e);
+function Jo(e, t, r) {
+  $e || window.addEventListener("popstate", Zo.bind(this)), Object.keys(t).length > 0 && Ct.value++, Lr(r), kt(r.head), Fr(e);
   const n = $e ? "" : location.href, i = qr(
     n,
     r.head,
@@ -189,25 +189,25 @@ function Ys(e, t, r) {
   );
   fi(i);
 }
-function Js(e) {
+function Zo(e) {
   !e.state || (B.value = e.state, le.value = 0, kt(B.value.head), Fr(B.value.html, B.value.rememberedState.scrollY));
 }
-function qr(e, t, r, n, i, a, s) {
-  const o = {
+function qr(e, t, r, n, i, a, o) {
+  const s = {
     url: e,
     head: t,
     html: r,
     dynamics: n,
     rememberedState: i,
     pageVisitId: a,
-    dynamicVisitId: s
+    dynamicVisitId: o
   };
-  return B.value = o, o;
+  return B.value = s, s;
 }
-function Zs(e) {
+function es(e) {
   $e || window.history.pushState(e, "", e.url);
 }
-function eo(e) {
+function ts(e) {
   const t = qr(
     e,
     JSON.parse(JSON.stringify(B.value.head)),
@@ -223,7 +223,7 @@ function fi(e) {
   $e || window.history.replaceState(e, "", e.url);
 }
 const rr = y(0);
-function to(e, t) {
+function rs(e, t) {
   rr.value++;
   const r = e.request.responseURL;
   if (e.data.splade.lazy)
@@ -231,15 +231,15 @@ function to(e, t) {
   e.data.splade.modal && le.value++, Lr(e.data.splade), kt(e.data.splade.head);
   const n = r === B.value.url;
   if (n && (t = !0), e.data.splade.modal)
-    return fo(e.data.html, e.data.splade.modal);
+    return ds(e.data.html, e.data.splade.modal);
   if (e.data.splade.preventRefresh && n)
     return;
   le.value = 0;
   let i = e.data.html, a = e.data.dynamics;
-  const s = Object.keys(B.value.dynamics).length > 0, o = Object.keys(a).length > 0;
-  t ? (o && be(a, (u, c) => {
+  const o = Object.keys(B.value.dynamics).length > 0, s = Object.keys(a).length > 0;
+  t ? (s && be(a, (u, c) => {
     a[c] += `<!-- ${rr.value} -->`;
-  }), (!o || !s) && (i += `<!-- ${rr.value} -->`)) : (o && Ct.value++, (!o || !s) && fr.value++), Fr(i, 0);
+  }), (!s || !o) && (i += `<!-- ${rr.value} -->`)) : (s && Ct.value++, (!s || !o) && fr.value++), Fr(i, 0);
   const l = qr(
     r,
     e.data.splade.head,
@@ -249,24 +249,24 @@ function to(e, t) {
     fr.value,
     Ct.value
   );
-  t ? fi(l) : Zs(l);
+  t ? fi(l) : es(l);
 }
-function ro() {
-  le.value--, kt(io(le.value));
+function ns() {
+  le.value--, kt(as(le.value));
 }
-const di = y({}), pi = (e) => di.value[e], no = (e) => Object.keys(pi.value[e]).length > 0, hi = y({}), io = (e) => hi.value[e], mi = y({}), ao = (e) => mi.value[e], We = y([]);
-function so(e) {
+const di = y({}), pi = (e) => di.value[e], is = (e) => Object.keys(pi.value[e]).length > 0, hi = y({}), as = (e) => hi.value[e], mi = y({}), os = (e) => mi.value[e], We = y([]);
+function ss(e) {
   We.value.push(e);
 }
-const oo = P(() => Qs(We.value));
-function lo(e) {
+const ls = P(() => Yo(We.value));
+function us(e) {
   We.value[e].dismissed = !0, We.value[e].html = null;
 }
 const Br = y(null);
-function uo(e, t, r, n) {
+function cs(e, t, r, n) {
   let i, a;
-  const s = new Promise((o, l) => {
-    i = o, a = l;
+  const o = new Promise((s, l) => {
+    i = s, a = l;
   });
   return Br.value = {
     title: e,
@@ -275,14 +275,14 @@ function uo(e, t, r, n) {
     cancelButton: n,
     resolvePromise: i,
     rejectPromise: a
-  }, s;
+  }, o;
 }
-function co() {
+function fs() {
   Br.value = null;
 }
 const vi = y({});
 function Lr(e) {
-  vi.value = e.shared ? e.shared : {}, mi.value[le.value] = e.flash ? e.flash : {}, hi.value[le.value] = e.head ? e.head : {}, Gs(e.toasts ? e.toasts : [], (t) => {
+  vi.value = e.shared ? e.shared : {}, mi.value[le.value] = e.flash ? e.flash : {}, hi.value[le.value] = e.head ? e.head : {}, Ko(e.toasts ? e.toasts : [], (t) => {
     We.value.push(t);
   }), di.value[le.value] = e.errors ? e.errors : {};
 }
@@ -297,21 +297,21 @@ function kt(e) {
 function Fr(e, t) {
   yi.value(e, t);
 }
-function fo(e, t) {
+function ds(e, t) {
   bi.value(e, t);
 }
-function po(e) {
+function ps(e) {
   wi.value(e);
 }
 const Si = y({});
 function Oi(e, t, r) {
-  Si.value[e] = t, r && ho(e, t);
+  Si.value[e] = t, r && hs(e, t);
 }
-function ho(e, t) {
+function hs(e, t) {
   let r = JSON.parse(localStorage.getItem("splade") || "{}") || {};
   r[e] = t, localStorage.setItem("splade", JSON.stringify(r));
 }
-function mo(e, t) {
+function ms(e, t) {
   return t ? (JSON.parse(localStorage.getItem("splade") || "{}") || {})[e] : Si.value[e];
 }
 function St(e, t) {
@@ -329,48 +329,48 @@ function Qe(e, t, r, n, i) {
       Accept: "text/html, application/xhtml+xml",
       ...n
     },
-    onUploadProgress: (s) => {
-      r instanceof FormData && (s.percentage = Math.round(s.loaded / s.total * 100), St("request-progress", { url: e, method: t, data: r, headers: n, replace: i, progress: s }));
+    onUploadProgress: (o) => {
+      r instanceof FormData && (o.percentage = Math.round(o.loaded / o.total * 100), St("request-progress", { url: e, method: t, data: r, headers: n, replace: i, progress: o }));
     }
   });
-  return a.then((s) => {
-    to(s, i), St("request-response", { url: e, method: t, data: r, headers: n, replace: i, response: s });
-  }).catch((s) => {
-    St("request-error", { url: e, method: t, data: r, headers: n, replace: i, error: s });
-    const o = s.response.data.splade;
-    o && (o.lazy || Lr(o)), s.response.status != 422 && po(
-      s.response.data.html ? s.response.data.html : s.response.data
+  return a.then((o) => {
+    rs(o, i), St("request-response", { url: e, method: t, data: r, headers: n, replace: i, response: o });
+  }).catch((o) => {
+    St("request-error", { url: e, method: t, data: r, headers: n, replace: i, error: o });
+    const s = o.response.data.splade;
+    s && (s.lazy || Lr(s)), o.response.status != 422 && ps(
+      o.response.data.html ? o.response.data.html : o.response.data
     );
   }), a;
 }
 function $i(e) {
   return Qe(e, "GET", {}, {}, !0);
 }
-function vo(e) {
+function vs(e) {
   return Qe(e, "GET", {}, {}, !1);
 }
-function go(e) {
+function gs(e) {
   return Qe(e, "GET", {}, { "X-Splade-Modal": "modal" }, !1);
 }
-function yo(e) {
+function ys(e) {
   return Qe(e, "GET", {}, { "X-Splade-Modal": "slideover" }, !1);
 }
-function bo(e, t) {
+function bs(e, t) {
   return Qe(e, "GET", {}, { "X-Splade-Lazy": t }, !1);
 }
-function wo() {
+function ws() {
   return $i(B.value.url);
 }
 const h = {
-  init: Ys,
+  init: Jo,
   replace: $i,
-  visit: vo,
-  modal: go,
-  slideover: yo,
-  refresh: wo,
+  visit: vs,
+  modal: gs,
+  slideover: ys,
+  refresh: ws,
   request: Qe,
-  lazy: bo,
-  replaceUrlOfCurrentPage: eo,
+  lazy: bs,
+  replaceUrlOfCurrentPage: ts,
   htmlForDynamicComponent(e) {
     return B.value.dynamics[e];
   },
@@ -386,30 +386,30 @@ const h = {
   setOnServerError(e) {
     wi.value = e;
   },
-  hasValidationErrors: no,
+  hasValidationErrors: is,
   validationErrors: pi,
   sharedData: vi,
-  flashData: ao,
+  flashData: os,
   toasts: We,
-  toastsReversed: oo,
+  toastsReversed: ls,
   confirmModal: Br,
-  confirm: uo,
-  clearConfirmModal: co,
-  pushToast: so,
-  dismissToast: lo,
-  restore: mo,
+  confirm: cs,
+  clearConfirmModal: fs,
+  pushToast: ss,
+  dismissToast: us,
+  restore: ms,
   remember: Oi,
-  popStack: ro,
+  popStack: ns,
   currentStack: le,
   pageVisitId: P(() => B.value.pageVisitId),
   dynamicVisitId: P(() => B.value.dynamicVisitId),
   isSsr: $e
 };
-var So = "[object String]";
+var Ss = "[object String]";
 function Ot(e) {
-  return typeof e == "string" || !k(e) && Oe(e) && xe(e) == So;
+  return typeof e == "string" || !k(e) && Oe(e) && xe(e) == Ss;
 }
-const oe = {
+const se = {
   __name: "Render",
   props: {
     html: {
@@ -427,7 +427,7 @@ const oe = {
     }
     return dt(() => t.html, n, { immediate: !0 }), (i, a) => e.html ? (j(), K(H(r), { key: 0 })) : Lt("", !0);
   }
-}, Oo = {
+}, Os = {
   __name: "ServerError",
   props: {
     html: {
@@ -439,22 +439,22 @@ const oe = {
   setup(e, { emit: t }) {
     const r = e, n = y(null);
     function i() {
-      const o = document.createElement("html");
-      o.innerHTML = r.html, o.querySelectorAll("a").forEach((u) => u.setAttribute("target", "_top")), document.body.style.overflow = "hidden";
+      const s = document.createElement("html");
+      s.innerHTML = r.html, s.querySelectorAll("a").forEach((u) => u.setAttribute("target", "_top")), document.body.style.overflow = "hidden";
       const l = n.value;
       if (!l.contentWindow)
         throw new Error("iframe not yet ready.");
-      l.contentWindow.document.open(), l.contentWindow.document.write(o.outerHTML), l.contentWindow.document.close(), document.addEventListener("keydown", a);
+      l.contentWindow.document.open(), l.contentWindow.document.write(s.outerHTML), l.contentWindow.document.close(), document.addEventListener("keydown", a);
     }
-    function a(o) {
-      o.keyCode === 27 && s();
+    function a(s) {
+      s.keyCode === 27 && o();
     }
-    function s() {
+    function o() {
       document.body.style.overflow = "visible", document.removeEventListener("keydown", a), t("close");
     }
-    return N(() => i()), (o, l) => (j(), de("div", {
+    return N(() => i()), (s, l) => (j(), de("div", {
       style: { position: "fixed", top: "0px", right: "0px", bottom: "0px", left: "0px", "z-index": "200000", "box-sizing": "border-box", height: "100vh", width: "100vw", "background-color": "rgb(0 0 0 / 0.75)", padding: "2rem" },
-      onClick: s
+      onClick: o
     }, [
       ur("iframe", {
         ref_key: "iframeElement",
@@ -463,7 +463,7 @@ const oe = {
       }, null, 512)
     ]));
   }
-}, $o = {
+}, $s = {
   __name: "SpladeApp",
   props: {
     el: {
@@ -515,13 +515,13 @@ const oe = {
   setup(e) {
     const t = e;
     te("stack", 0);
-    const r = y(), n = y([]), i = y(null), a = U("$spladeOptions") || {}, s = P(() => h.currentStack.value < 1 ? [] : {
+    const r = y(), n = y([]), i = y(null), a = U("$spladeOptions") || {}, o = P(() => h.currentStack.value < 1 ? [] : {
       filter: "blur(4px)",
       "transition-property": "filter",
       "transition-duration": "150ms",
       "transition-timing-function": "cubic-bezier(0.4, 0, 0.2, 1)"
     });
-    function o() {
+    function s() {
       i.value = null;
     }
     function l(f) {
@@ -554,22 +554,22 @@ const oe = {
     }), h.setOnServerError(function(f) {
       i.value = f;
     }), h.init(t.initialHtml, t.initialDynamics, t.initialSpladeData), (f, p) => (j(), de("div", null, [
-      H(h).isSsr ? (j(), K(oe, {
+      H(h).isSsr ? (j(), K(se, {
         key: `visit.${H(h).pageVisitId.value}`,
-        style: Pt(H(s)),
+        style: Pt(H(o)),
         html: r.value
       }, null, 8, ["style", "html"])) : (j(), K(Jn, {
         key: 0,
         max: H(a).max_keep_alive
       }, [
-        (j(), K(oe, {
+        (j(), K(se, {
           key: `visit.${H(h).pageVisitId.value}`,
-          style: Pt(H(s)),
+          style: Pt(H(o)),
           html: r.value
         }, null, 8, ["style", "html"]))
       ], 1032, ["max"])),
-      ga(oe, { html: e.components }, null, 8, ["html"]),
-      (j(!0), de(Ir, null, ya(H(h).currentStack.value, (d) => (j(), K(oe, {
+      ga(se, { html: e.components }, null, 8, ["html"]),
+      (j(!0), de(Ir, null, ya(H(h).currentStack.value, (d) => (j(), K(se, {
         key: `modal.${d}`,
         type: n.value[d].type,
         html: n.value[d].html,
@@ -577,46 +577,46 @@ const oe = {
         "on-top-of-stack": H(h).currentStack.value === d,
         onClose: (v) => l(d)
       }, null, 8, ["type", "html", "stack", "on-top-of-stack", "onClose"]))), 128)),
-      i.value ? (j(), K(Oo, {
+      i.value ? (j(), K(Os, {
         key: 2,
         html: i.value,
-        onClose: o
+        onClose: s
       }, null, 8, ["html"])) : Lt("", !0)
     ]));
   }
 };
 function Kd(e) {
-  return () => F($o, e);
+  return () => F($s, e);
 }
-var Eo = Object.prototype, _o = Eo.hasOwnProperty;
-function xo(e, t) {
-  return e != null && _o.call(e, t);
+var Es = Object.prototype, _s = Es.hasOwnProperty;
+function xs(e, t) {
+  return e != null && _s.call(e, t);
 }
-var To = "[object Symbol]";
+var Ts = "[object Symbol]";
 function Mt(e) {
-  return typeof e == "symbol" || Oe(e) && xe(e) == To;
+  return typeof e == "symbol" || Oe(e) && xe(e) == Ts;
 }
-var Ao = /\.|\[(?:[^[\]]*|(["'])(?:(?!\1)[^\\]|\\.)*?\1)\]/, Io = /^\w*$/;
+var As = /\.|\[(?:[^[\]]*|(["'])(?:(?!\1)[^\\]|\\.)*?\1)\]/, Is = /^\w*$/;
 function Rr(e, t) {
   if (k(e))
     return !1;
   var r = typeof e;
-  return r == "number" || r == "symbol" || r == "boolean" || e == null || Mt(e) ? !0 : Io.test(e) || !Ao.test(e) || t != null && e in Object(t);
+  return r == "number" || r == "symbol" || r == "boolean" || e == null || Mt(e) ? !0 : Is.test(e) || !As.test(e) || t != null && e in Object(t);
 }
-var Po = se["__core-js_shared__"];
-const nr = Po;
+var Ps = oe["__core-js_shared__"];
+const nr = Ps;
 var yn = function() {
   var e = /[^.]+$/.exec(nr && nr.keys && nr.keys.IE_PROTO || "");
   return e ? "Symbol(src)_1." + e : "";
 }();
-function Co(e) {
+function Cs(e) {
   return !!yn && yn in e;
 }
-var Do = Function.prototype, jo = Do.toString;
+var Ds = Function.prototype, js = Ds.toString;
 function Re(e) {
   if (e != null) {
     try {
-      return jo.call(e);
+      return js.call(e);
     } catch {
     }
     try {
@@ -626,49 +626,49 @@ function Re(e) {
   }
   return "";
 }
-var qo = /[\\^$.*+?()[\]{}|]/g, Bo = /^\[object .+?Constructor\]$/, Lo = Function.prototype, Fo = Object.prototype, Ro = Lo.toString, ko = Fo.hasOwnProperty, Mo = RegExp(
-  "^" + Ro.call(ko).replace(qo, "\\$&").replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, "$1.*?") + "$"
+var qs = /[\\^$.*+?()[\]{}|]/g, Bs = /^\[object .+?Constructor\]$/, Ls = Function.prototype, Fs = Object.prototype, Rs = Ls.toString, ks = Fs.hasOwnProperty, Ms = RegExp(
+  "^" + Rs.call(ks).replace(qs, "\\$&").replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, "$1.*?") + "$"
 );
-function No(e) {
-  if (!ne(e) || Co(e))
+function Ns(e) {
+  if (!ne(e) || Cs(e))
     return !1;
-  var t = li(e) ? Mo : Bo;
+  var t = li(e) ? Ms : Bs;
   return t.test(Re(e));
 }
-function Vo(e, t) {
+function Vs(e, t) {
   return e == null ? void 0 : e[t];
 }
 function ke(e, t) {
-  var r = Vo(e, t);
-  return No(r) ? r : void 0;
+  var r = Vs(e, t);
+  return Ns(r) ? r : void 0;
 }
-var Ho = ke(Object, "create");
-const lt = Ho;
-function Uo() {
+var Hs = ke(Object, "create");
+const lt = Hs;
+function Us() {
   this.__data__ = lt ? lt(null) : {}, this.size = 0;
 }
-function Wo(e) {
+function Ws(e) {
   var t = this.has(e) && delete this.__data__[e];
   return this.size -= t ? 1 : 0, t;
 }
-var zo = "__lodash_hash_undefined__", Go = Object.prototype, Ko = Go.hasOwnProperty;
-function Xo(e) {
+var zs = "__lodash_hash_undefined__", Gs = Object.prototype, Ks = Gs.hasOwnProperty;
+function Xs(e) {
   var t = this.__data__;
   if (lt) {
     var r = t[e];
-    return r === zo ? void 0 : r;
+    return r === zs ? void 0 : r;
   }
-  return Ko.call(t, e) ? t[e] : void 0;
+  return Ks.call(t, e) ? t[e] : void 0;
 }
-var Qo = Object.prototype, Yo = Qo.hasOwnProperty;
-function Jo(e) {
+var Qs = Object.prototype, Ys = Qs.hasOwnProperty;
+function Js(e) {
   var t = this.__data__;
-  return lt ? t[e] !== void 0 : Yo.call(t, e);
+  return lt ? t[e] !== void 0 : Ys.call(t, e);
 }
-var Zo = "__lodash_hash_undefined__";
+var Zs = "__lodash_hash_undefined__";
 function el(e, t) {
   var r = this.__data__;
-  return this.size += this.has(e) ? 0 : 1, r[e] = lt && t === void 0 ? Zo : t, this;
+  return this.size += this.has(e) ? 0 : 1, r[e] = lt && t === void 0 ? Zs : t, this;
 }
 function Be(e) {
   var t = -1, r = e == null ? 0 : e.length;
@@ -677,10 +677,10 @@ function Be(e) {
     this.set(n[0], n[1]);
   }
 }
-Be.prototype.clear = Uo;
-Be.prototype.delete = Wo;
-Be.prototype.get = Xo;
-Be.prototype.has = Jo;
+Be.prototype.clear = Us;
+Be.prototype.delete = Ws;
+Be.prototype.get = Xs;
+Be.prototype.has = Js;
 Be.prototype.set = el;
 function tl() {
   this.__data__ = [], this.size = 0;
@@ -706,10 +706,10 @@ function al(e) {
   var t = this.__data__, r = Nt(t, e);
   return r < 0 ? void 0 : t[r][1];
 }
-function sl(e) {
+function ol(e) {
   return Nt(this.__data__, e) > -1;
 }
-function ol(e, t) {
+function sl(e, t) {
   var r = this.__data__, n = Nt(r, e);
   return n < 0 ? (++this.size, r.push([e, t])) : r[n][1] = t, this;
 }
@@ -723,9 +723,9 @@ function he(e) {
 he.prototype.clear = tl;
 he.prototype.delete = il;
 he.prototype.get = al;
-he.prototype.has = sl;
-he.prototype.set = ol;
-var ll = ke(se, "Map");
+he.prototype.has = ol;
+he.prototype.set = sl;
+var ll = ke(oe, "Map");
 const ut = ll;
 function ul() {
   this.size = 0, this.__data__ = {
@@ -776,8 +776,8 @@ function Mr(e, t) {
     var n = arguments, i = t ? t.apply(this, n) : n[0], a = r.cache;
     if (a.has(i))
       return a.get(i);
-    var s = e.apply(this, n);
-    return r.cache = a.set(i, s) || a, s;
+    var o = e.apply(this, n);
+    return r.cache = a.set(i, o) || a, o;
   };
   return r.cache = new (Mr.Cache || me)(), r;
 }
@@ -828,15 +828,15 @@ function pt(e) {
 function _i(e, t, r) {
   t = Vr(t, e);
   for (var n = -1, i = t.length, a = !1; ++n < i; ) {
-    var s = pt(t[n]);
-    if (!(a = e != null && r(e, s)))
+    var o = pt(t[n]);
+    if (!(a = e != null && r(e, o)))
       break;
-    e = e[s];
+    e = e[o];
   }
-  return a || ++n != i ? a : (i = e == null ? 0 : e.length, !!i && Cr(i) && Pr(s, i) && (k(e) || ii(e)));
+  return a || ++n != i ? a : (i = e == null ? 0 : e.length, !!i && Cr(i) && Pr(o, i) && (k(e) || ii(e)));
 }
 function G(e, t) {
-  return e != null && _i(e, t, xo);
+  return e != null && _i(e, t, xs);
 }
 function Y(e, t, ...r) {
   if (e in t) {
@@ -849,41 +849,41 @@ function Y(e, t, ...r) {
 var Dt = ((e) => (e[e.None = 0] = "None", e[e.RenderStrategy = 1] = "RenderStrategy", e[e.Static = 2] = "Static", e))(Dt || {}), we = ((e) => (e[e.Unmount = 0] = "Unmount", e[e.Hidden = 1] = "Hidden", e))(we || {});
 function z({ visible: e = !0, features: t = 0, ourProps: r, theirProps: n, ...i }) {
   var a;
-  let s = El(n, r), o = Object.assign(i, { props: s });
-  if (e || t & 2 && s.static)
-    return ir(o);
+  let o = El(n, r), s = Object.assign(i, { props: o });
+  if (e || t & 2 && o.static)
+    return ir(s);
   if (t & 1) {
-    let l = (a = s.unmount) == null || a ? 0 : 1;
+    let l = (a = o.unmount) == null || a ? 0 : 1;
     return Y(l, { [0]() {
       return null;
     }, [1]() {
-      return ir({ ...i, props: { ...s, hidden: !0, style: { display: "none" } } });
+      return ir({ ...i, props: { ...o, hidden: !0, style: { display: "none" } } });
     } });
   }
-  return ir(o);
+  return ir(s);
 }
 function ir({ props: e, attrs: t, slots: r, slot: n, name: i }) {
   var a;
-  let { as: s, ...o } = Ti(e, ["unmount", "static"]), l = (a = r.default) == null ? void 0 : a.call(r, n), u = {};
+  let { as: o, ...s } = Ti(e, ["unmount", "static"]), l = (a = r.default) == null ? void 0 : a.call(r, n), u = {};
   if (n) {
     let c = !1, f = [];
     for (let [p, d] of Object.entries(n))
       typeof d == "boolean" && (c = !0), d === !0 && f.push(p);
     c && (u["data-headlessui-state"] = f.join(" "));
   }
-  if (s === "template") {
-    if (l = xi(l != null ? l : []), Object.keys(o).length > 0 || Object.keys(t).length > 0) {
+  if (o === "template") {
+    if (l = xi(l != null ? l : []), Object.keys(s).length > 0 || Object.keys(t).length > 0) {
       let [c, ...f] = l != null ? l : [];
       if (!_l(c) || f.length > 0)
-        throw new Error(['Passing props on "template"!', "", `The current component <${i} /> is rendering a "template".`, "However we need to passthrough the following props:", Object.keys(o).concat(Object.keys(t)).sort((p, d) => p.localeCompare(d)).map((p) => `  - ${p}`).join(`
+        throw new Error(['Passing props on "template"!', "", `The current component <${i} /> is rendering a "template".`, "However we need to passthrough the following props:", Object.keys(s).concat(Object.keys(t)).sort((p, d) => p.localeCompare(d)).map((p) => `  - ${p}`).join(`
 `), "", "You can apply a few solutions:", ['Add an `as="..."` prop, to ensure that we render an actual element instead of a "template".', "Render a single element as the child so that we can forward the props onto that element."].map((p) => `  - ${p}`).join(`
 `)].join(`
 `));
-      return ba(c, Object.assign({}, o, u));
+      return ba(c, Object.assign({}, s, u));
     }
     return Array.isArray(l) && l.length === 1 ? l[0] : l;
   }
-  return F(s, Object.assign({}, o, u), l);
+  return F(o, Object.assign({}, s, u), l);
 }
 function xi(e) {
   return e.flatMap((t) => t.type === Ir ? xi(t.children) : [t]);
@@ -901,11 +901,11 @@ function El(...e) {
     return Object.assign(t, Object.fromEntries(Object.keys(r).map((n) => [n, void 0])));
   for (let n in r)
     Object.assign(t, { [n](i, ...a) {
-      let s = r[n];
-      for (let o of s) {
+      let o = r[n];
+      for (let s of o) {
         if (i instanceof Event && i.defaultPrevented)
           return;
-        o(i, ...a);
+        s(i, ...a);
       }
     } });
   return t;
@@ -975,7 +975,7 @@ function Dl(e, t = 0) {
     return !1;
   } });
 }
-function st(e) {
+function ot(e) {
   e == null || e.focus({ preventScroll: !0 });
 }
 let jl = ["textarea", "input"].join(",");
@@ -988,15 +988,15 @@ function Bl(e, t = (r) => r) {
     let i = t(r), a = t(n);
     if (i === null || a === null)
       return 0;
-    let s = i.compareDocumentPosition(a);
-    return s & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : s & Node.DOCUMENT_POSITION_PRECEDING ? 1 : 0;
+    let o = i.compareDocumentPosition(a);
+    return o & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : o & Node.DOCUMENT_POSITION_PRECEDING ? 1 : 0;
   });
 }
 function pr(e, t, r = !0, n = null) {
   var i;
-  let a = (i = Array.isArray(e) ? e.length > 0 ? e[0].ownerDocument : document : e == null ? void 0 : e.ownerDocument) != null ? i : document, s = Array.isArray(e) ? r ? Bl(e) : e : Cl(e);
+  let a = (i = Array.isArray(e) ? e.length > 0 ? e[0].ownerDocument : document : e == null ? void 0 : e.ownerDocument) != null ? i : document, o = Array.isArray(e) ? r ? Bl(e) : e : Cl(e);
   n = n != null ? n : a.activeElement;
-  let o = (() => {
+  let s = (() => {
     if (t & 5)
       return 1;
     if (t & 10)
@@ -1006,13 +1006,13 @@ function pr(e, t, r = !0, n = null) {
     if (t & 1)
       return 0;
     if (t & 2)
-      return Math.max(0, s.indexOf(n)) - 1;
+      return Math.max(0, o.indexOf(n)) - 1;
     if (t & 4)
-      return Math.max(0, s.indexOf(n)) + 1;
+      return Math.max(0, o.indexOf(n)) + 1;
     if (t & 8)
-      return s.length - 1;
+      return o.length - 1;
     throw new Error("Missing Focus.First, Focus.Previous, Focus.Next or Focus.Last");
-  })(), u = t & 32 ? { preventScroll: !0 } : {}, c = 0, f = s.length, p;
+  })(), u = t & 32 ? { preventScroll: !0 } : {}, c = 0, f = o.length, p;
   do {
     if (c >= f || c + f <= 0)
       return 0;
@@ -1025,7 +1025,7 @@ function pr(e, t, r = !0, n = null) {
       if (d >= f)
         return 1;
     }
-    p = s[d], p == null || p.focus(u), c += o;
+    p = o[d], p == null || p.focus(u), c += s;
   } while (p !== a.activeElement);
   return t & 6 && ql(p) && p.select(), p.hasAttribute("tabindex") || p.setAttribute("tabindex", "0"), 2;
 }
@@ -1035,11 +1035,11 @@ function ar(e, t, r) {
   });
 }
 function Ll(e, t, r = P(() => !0)) {
-  function n(a, s) {
+  function n(a, o) {
     if (!r.value || a.defaultPrevented)
       return;
-    let o = s(a);
-    if (o === null || !o.ownerDocument.documentElement.contains(o))
+    let s = o(a);
+    if (s === null || !s.ownerDocument.documentElement.contains(s))
       return;
     let l = function u(c) {
       return typeof c == "function" ? u(c()) : Array.isArray(c) || c instanceof Set ? c : [c];
@@ -1048,15 +1048,15 @@ function Ll(e, t, r = P(() => !0)) {
       if (u === null)
         continue;
       let c = u instanceof HTMLElement ? u : pe(u);
-      if (c != null && c.contains(o))
+      if (c != null && c.contains(s))
         return;
     }
-    return !Dl(o, Ci.Loose) && o.tabIndex !== -1 && a.preventDefault(), t(a, o);
+    return !Dl(s, Ci.Loose) && s.tabIndex !== -1 && a.preventDefault(), t(a, s);
   }
   let i = y(null);
   ar("mousedown", (a) => {
-    var s, o;
-    r.value && (i.value = ((o = (s = a.composedPath) == null ? void 0 : s.call(a)) == null ? void 0 : o[0]) || a.target);
+    var o, s;
+    r.value && (i.value = ((s = (o = a.composedPath) == null ? void 0 : o.call(a)) == null ? void 0 : s[0]) || a.target);
   }, !0), ar("click", (a) => {
     !i.value || (n(a, () => i.value), i.value = null);
   }, !0), ar("blur", (a) => n(a, () => window.document.activeElement instanceof HTMLIFrameElement ? window.document.activeElement : null), !0);
@@ -1096,12 +1096,12 @@ let nt = Object.assign(W({ name: "FocusTrap", props: { as: { type: [Object, Stri
   n({ el: i, $el: i });
   let a = P(() => Ye(i));
   Ml({ ownerDocument: a }, P(() => Boolean(e.features & 16)));
-  let s = Nl({ ownerDocument: a, container: i, initialFocus: P(() => e.initialFocus) }, P(() => Boolean(e.features & 2)));
-  Vl({ ownerDocument: a, container: i, containers: e.containers, previousActiveElement: s }, P(() => Boolean(e.features & 8)));
-  let o = Rl();
+  let o = Nl({ ownerDocument: a, container: i, initialFocus: P(() => e.initialFocus) }, P(() => Boolean(e.features & 2)));
+  Vl({ ownerDocument: a, container: i, containers: e.containers, previousActiveElement: o }, P(() => Boolean(e.features & 8)));
+  let s = Rl();
   function l() {
     let u = pe(i);
-    !u || Y(o.value, { [mr.Forwards]: () => pr(u, ct.First), [mr.Backwards]: () => pr(u, ct.Last) });
+    !u || Y(s.value, { [mr.Forwards]: () => pr(u, ct.First), [mr.Backwards]: () => pr(u, ct.Last) });
   }
   return () => {
     let u = {}, c = { ref: i }, { features: f, initialFocus: p, containers: d, ...v } = e;
@@ -1115,19 +1115,19 @@ function Ml({ ownerDocument: e }, t) {
     r.value || (r.value = (a = e.value) == null ? void 0 : a.activeElement);
   }
   function i() {
-    !r.value || (st(r.value), r.value = null);
+    !r.value || (ot(r.value), r.value = null);
   }
   N(() => {
-    dt(t, (a, s) => {
-      a !== s && (a ? n() : i());
+    dt(t, (a, o) => {
+      a !== o && (a ? n() : i());
     }, { immediate: !0 });
   }), _e(i);
 }
 function Nl({ ownerDocument: e, container: t, initialFocus: r }, n) {
   let i = y(null), a = y(!1);
   return N(() => a.value = !0), _e(() => a.value = !1), N(() => {
-    dt([t, r, n], (s, o) => {
-      if (s.every((u, c) => (o == null ? void 0 : o[c]) === u) || !n.value)
+    dt([t, r, n], (o, s) => {
+      if (o.every((u, c) => (s == null ? void 0 : s[c]) === u) || !n.value)
         return;
       let l = pe(t);
       !l || kl(() => {
@@ -1144,23 +1144,23 @@ function Nl({ ownerDocument: e, container: t, initialFocus: r }, n) {
           i.value = p;
           return;
         }
-        f ? st(f) : pr(l, ct.First | ct.NoScroll) === Pi.Error && console.warn("There are no focusable elements inside the <FocusTrap />"), i.value = (c = e.value) == null ? void 0 : c.activeElement;
+        f ? ot(f) : pr(l, ct.First | ct.NoScroll) === Pi.Error && console.warn("There are no focusable elements inside the <FocusTrap />"), i.value = (c = e.value) == null ? void 0 : c.activeElement;
       });
     }, { immediate: !0, flush: "post" });
   }), i;
 }
 function Vl({ ownerDocument: e, container: t, containers: r, previousActiveElement: n }, i) {
   var a;
-  Di((a = e.value) == null ? void 0 : a.defaultView, "focus", (s) => {
+  Di((a = e.value) == null ? void 0 : a.defaultView, "focus", (o) => {
     if (!i.value)
       return;
-    let o = new Set(r == null ? void 0 : r.value);
-    o.add(t);
+    let s = new Set(r == null ? void 0 : r.value);
+    s.add(t);
     let l = n.value;
     if (!l)
       return;
-    let u = s.target;
-    u && u instanceof HTMLElement ? Hl(o, u) ? (n.value = u, st(u)) : (s.preventDefault(), s.stopPropagation(), st(l)) : st(n.value);
+    let u = o.target;
+    u && u instanceof HTMLElement ? Hl(s, u) ? (n.value = u, ot(u)) : (o.preventDefault(), o.stopPropagation(), ot(l)) : ot(n.value);
   }, !0);
 }
 function Hl(e, t) {
@@ -1189,8 +1189,8 @@ function Ul(e, t = y(!0)) {
         a.contains(n) && ($n(a), ye.delete(a));
       i.querySelectorAll(Sn).forEach((a) => {
         if (a instanceof HTMLElement) {
-          for (let s of He)
-            if (a.contains(s))
+          for (let o of He)
+            if (a.contains(o))
               return;
           He.size === 1 && (ye.set(a, { "aria-hidden": a.getAttribute("aria-hidden"), inert: a.inert }), On(a));
         }
@@ -1198,8 +1198,8 @@ function Ul(e, t = y(!0)) {
         if (He.delete(n), He.size > 0)
           i.querySelectorAll(Sn).forEach((a) => {
             if (a instanceof HTMLElement && !ye.has(a)) {
-              for (let s of He)
-                if (a.contains(s))
+              for (let o of He)
+                if (a.contains(o))
                   return;
               ye.set(a, { "aria-hidden": a.getAttribute("aria-hidden"), inert: a.inert }), On(a);
             }
@@ -1235,18 +1235,18 @@ function zl(e) {
   return n.setAttribute("id", "headlessui-portal-root"), t.body.appendChild(n);
 }
 let Bi = W({ name: "Portal", props: { as: { type: [Object, String], default: "div" } }, setup(e, { slots: t, attrs: r }) {
-  let n = y(null), i = P(() => Ye(n)), a = Wl(), s = U(Li, null), o = y(a === !0 || s == null ? zl(n.value) : s.resolveTarget());
+  let n = y(null), i = P(() => Ye(n)), a = Wl(), o = U(Li, null), s = y(a === !0 || o == null ? zl(n.value) : o.resolveTarget());
   return Z(() => {
-    a || s != null && (o.value = s.resolveTarget());
+    a || o != null && (s.value = o.resolveTarget());
   }), _e(() => {
     var l, u;
     let c = (l = i.value) == null ? void 0 : l.getElementById("headlessui-portal-root");
-    !c || o.value === c && o.value.children.length <= 0 && ((u = o.value.parentElement) == null || u.removeChild(o.value));
+    !c || s.value === c && s.value.children.length <= 0 && ((u = s.value.parentElement) == null || u.removeChild(s.value));
   }), () => {
-    if (o.value === null)
+    if (s.value === null)
       return null;
     let l = { ref: n, "data-headlessui-portal": "" };
-    return F(Zn, { to: o.value }, z({ ourProps: l, theirProps: e, slot: {}, attrs: r, slots: t, name: "Portal" }));
+    return F(Zn, { to: s.value }, z({ ourProps: l, theirProps: e, slot: {}, attrs: r, slots: t, name: "Portal" }));
   };
 } }), Li = Symbol("PortalGroupContext"), Gl = W({ name: "PortalGroup", props: { as: { type: [Object, String], default: "template" }, target: { type: Object, default: null } }, setup(e, { attrs: t, slots: r }) {
   let n = wa({ resolveTarget() {
@@ -1264,12 +1264,12 @@ function Kl() {
 }
 function Xl({ type: e, enabled: t, element: r, onUpdate: n }) {
   let i = Kl();
-  function a(...s) {
-    n == null || n(...s), i(...s);
+  function a(...o) {
+    n == null || n(...o), i(...o);
   }
   N(() => {
-    dt(t, (s, o) => {
-      s ? a(0, e, r) : o === !0 && a(1, e, r);
+    dt(t, (o, s) => {
+      o ? a(0, e, r) : s === !0 && a(1, e, r);
     }, { immediate: !0, flush: "sync" });
   }), _e(() => {
     t.value && a(1, e, r);
@@ -1286,8 +1286,8 @@ function Yl({ slot: e = y({}), name: t = "Description", props: r = {} } = {}) {
   let n = y([]);
   function i(a) {
     return n.value.push(a), () => {
-      let s = n.value.indexOf(a);
-      s !== -1 && n.value.splice(s, 1);
+      let o = n.value.indexOf(a);
+      o !== -1 && n.value.splice(o, 1);
     };
   }
   return te(Ri, { register: i, slot: e, name: t, props: r }), P(() => n.value.length > 0 ? n.value.join(" ") : void 0);
@@ -1295,15 +1295,15 @@ function Yl({ slot: e = y({}), name: t = "Description", props: r = {} } = {}) {
 let Xd = W({ name: "Description", props: { as: { type: [Object, String], default: "p" } }, setup(e, { attrs: t, slots: r }) {
   let n = Ql(), i = `headlessui-description-${Me()}`;
   return N(() => _e(n.register(i))), () => {
-    let { name: a = "Description", slot: s = y({}), props: o = {} } = n, l = e, u = { ...Object.entries(o).reduce((c, [f, p]) => Object.assign(c, { [f]: H(p) }), {}), id: i };
-    return z({ ourProps: u, theirProps: l, slot: s.value, attrs: t, slots: r, name: a });
+    let { name: a = "Description", slot: o = y({}), props: s = {} } = n, l = e, u = { ...Object.entries(s).reduce((c, [f, p]) => Object.assign(c, { [f]: H(p) }), {}), id: i };
+    return z({ ourProps: u, theirProps: l, slot: o.value, attrs: t, slots: r, name: a });
   };
 } });
 function Ur() {
   let e = [], t = [], r = { enqueue(n) {
     t.push(n);
-  }, addEventListener(n, i, a, s) {
-    return n.addEventListener(i, a, s), r.add(() => n.removeEventListener(i, a, s));
+  }, addEventListener(n, i, a, o) {
+    return n.addEventListener(i, a, o), r.add(() => n.removeEventListener(i, a, o));
   }, requestAnimationFrame(...n) {
     let i = requestAnimationFrame(...n);
     r.add(() => cancelAnimationFrame(i));
@@ -1340,22 +1340,22 @@ function ht(e) {
 }
 let $t = "DC8F892D-2EBD-447C-A4C8-A03058436FF4", Wr = W({ name: "Dialog", inheritAttrs: !1, props: { as: { type: [Object, String], default: "div" }, static: { type: Boolean, default: !1 }, unmount: { type: Boolean, default: !0 }, open: { type: [Boolean, String], default: $t }, initialFocus: { type: Object, default: null } }, emits: { close: (e) => !0 }, setup(e, { emit: t, attrs: r, slots: n, expose: i }) {
   var a;
-  let s = y(!1);
+  let o = y(!1);
   N(() => {
-    s.value = !0;
+    o.value = !0;
   });
-  let o = y(0), l = Hr(), u = P(() => e.open === $t && l !== null ? Y(l.value, { [Le.Open]: !0, [Le.Closed]: !1 }) : e.open), c = y(/* @__PURE__ */ new Set()), f = y(null), p = y(null), d = P(() => Ye(f));
+  let s = y(0), l = Hr(), u = P(() => e.open === $t && l !== null ? Y(l.value, { [Le.Open]: !0, [Le.Closed]: !1 }) : e.open), c = y(/* @__PURE__ */ new Set()), f = y(null), p = y(null), d = P(() => Ye(f));
   if (i({ el: f, $el: f }), !(e.open !== $t || l !== null))
     throw new Error("You forgot to provide an `open` prop to the `Dialog`.");
   if (typeof u.value != "boolean")
     throw new Error(`You provided an \`open\` prop to the \`Dialog\`, but the value is not a boolean. Received: ${u.value === $t ? void 0 : e.open}`);
-  let v = P(() => s.value && u.value ? 0 : 1), b = P(() => v.value === 0), w = P(() => o.value > 1), T = U(yr, null) !== null, A = P(() => w.value ? "parent" : "leaf");
+  let v = P(() => o.value && u.value ? 0 : 1), b = P(() => v.value === 0), w = P(() => s.value > 1), T = U(yr, null) !== null, A = P(() => w.value ? "parent" : "leaf");
   Ul(f, P(() => w.value ? b.value : !1)), Xl({ type: "Dialog", enabled: P(() => v.value === 0), element: f, onUpdate: (g, S, _) => {
     if (S === "Dialog")
       return Y(g, { [gr.Add]() {
-        c.value.add(_), o.value += 1;
+        c.value.add(_), s.value += 1;
       }, [gr.Remove]() {
-        c.value.delete(_), o.value -= 1;
+        c.value.delete(_), s.value -= 1;
       } });
   } });
   let I = Yl({ name: "DialogDescription", slot: P(() => ({ open: u.value })) }), E = `headlessui-dialog-${Me()}`, O = y(null), m = { titleId: O, panelRef: y(null), dialogState: v, setTitleId(g) {
@@ -1412,30 +1412,30 @@ let $t = "DC8F892D-2EBD-447C-A4C8-A03058436FF4", Wr = W({ name: "Dialog", inheri
 } });
 W({ name: "DialogOverlay", props: { as: { type: [Object, String], default: "div" } }, setup(e, { attrs: t, slots: r }) {
   let n = ht("DialogOverlay"), i = `headlessui-dialog-overlay-${Me()}`;
-  function a(s) {
-    s.target === s.currentTarget && (s.preventDefault(), s.stopPropagation(), n.close());
+  function a(o) {
+    o.target === o.currentTarget && (o.preventDefault(), o.stopPropagation(), n.close());
   }
   return () => z({ ourProps: { id: i, "aria-hidden": !0, onClick: a }, theirProps: e, slot: { open: n.dialogState.value === 0 }, attrs: t, slots: r, name: "DialogOverlay" });
 } });
 W({ name: "DialogBackdrop", props: { as: { type: [Object, String], default: "div" } }, inheritAttrs: !1, setup(e, { attrs: t, slots: r, expose: n }) {
-  let i = ht("DialogBackdrop"), a = `headlessui-dialog-backdrop-${Me()}`, s = y(null);
-  return n({ el: s, $el: s }), N(() => {
+  let i = ht("DialogBackdrop"), a = `headlessui-dialog-backdrop-${Me()}`, o = y(null);
+  return n({ el: o, $el: o }), N(() => {
     if (i.panelRef.value === null)
       throw new Error("A <DialogBackdrop /> component is being used, but a <DialogPanel /> component is missing.");
   }), () => {
-    let o = e, l = { id: a, ref: s, "aria-hidden": !0 };
-    return F(vr, { force: !0 }, () => F(Bi, () => z({ ourProps: l, theirProps: { ...t, ...o }, slot: { open: i.dialogState.value === 0 }, attrs: t, slots: r, name: "DialogBackdrop" })));
+    let s = e, l = { id: a, ref: o, "aria-hidden": !0 };
+    return F(vr, { force: !0 }, () => F(Bi, () => z({ ourProps: l, theirProps: { ...t, ...s }, slot: { open: i.dialogState.value === 0 }, attrs: t, slots: r, name: "DialogBackdrop" })));
   };
 } });
 let zr = W({ name: "DialogPanel", props: { as: { type: [Object, String], default: "div" } }, setup(e, { attrs: t, slots: r, expose: n }) {
   let i = ht("DialogPanel"), a = `headlessui-dialog-panel-${Me()}`;
   n({ el: i.panelRef, $el: i.panelRef });
-  function s(o) {
-    o.stopPropagation();
+  function o(s) {
+    s.stopPropagation();
   }
   return () => {
-    let o = { id: a, ref: i.panelRef, onClick: s };
-    return z({ ourProps: o, theirProps: e, slot: { open: i.dialogState.value === 0 }, attrs: t, slots: r, name: "DialogPanel" });
+    let s = { id: a, ref: i.panelRef, onClick: o };
+    return z({ ourProps: s, theirProps: e, slot: { open: i.dialogState.value === 0 }, attrs: t, slots: r, name: "DialogPanel" });
   };
 } });
 W({ name: "DialogTitle", props: { as: { type: [Object, String], default: "h2" } }, setup(e, { attrs: t, slots: r }) {
@@ -1451,7 +1451,7 @@ function eu(e) {
       return t.called = !0, e(...r);
   };
 }
-function sr(e, ...t) {
+function or(e, ...t) {
   e && t.length > 0 && e.classList.add(...t);
 }
 function Et(e, ...t) {
@@ -1462,18 +1462,18 @@ function tu(e, t) {
   let r = Ur();
   if (!e)
     return r.dispose;
-  let { transitionDuration: n, transitionDelay: i } = getComputedStyle(e), [a, s] = [n, i].map((o) => {
-    let [l = 0] = o.split(",").filter(Boolean).map((u) => u.includes("ms") ? parseFloat(u) : parseFloat(u) * 1e3).sort((u, c) => c - u);
+  let { transitionDuration: n, transitionDelay: i } = getComputedStyle(e), [a, o] = [n, i].map((s) => {
+    let [l = 0] = s.split(",").filter(Boolean).map((u) => u.includes("ms") ? parseFloat(u) : parseFloat(u) * 1e3).sort((u, c) => c - u);
     return l;
   });
-  return a !== 0 ? r.setTimeout(() => t("finished"), a + s) : t("finished"), r.add(() => t("cancelled")), r.dispose;
+  return a !== 0 ? r.setTimeout(() => t("finished"), a + o) : t("finished"), r.add(() => t("cancelled")), r.dispose;
 }
 function En(e, t, r, n, i, a) {
-  let s = Ur(), o = a !== void 0 ? eu(a) : () => {
+  let o = Ur(), s = a !== void 0 ? eu(a) : () => {
   };
-  return Et(e, ...i), sr(e, ...t, ...r), s.nextFrame(() => {
-    Et(e, ...r), sr(e, ...n), s.add(tu(e, (l) => (Et(e, ...n, ...t), sr(e, ...i), o(l))));
-  }), s.add(() => Et(e, ...t, ...r, ...n, ...i)), s.add(() => o("cancelled")), s.dispose;
+  return Et(e, ...i), or(e, ...t, ...r), o.nextFrame(() => {
+    Et(e, ...r), or(e, ...n), o.add(tu(e, (l) => (Et(e, ...n, ...t), or(e, ...i), s(l))));
+  }), o.add(() => Et(e, ...t, ...r, ...n, ...i)), o.add(() => s("cancelled")), o.dispose;
 }
 function Ce(e = "") {
   return e.split(" ").filter((t) => t.trim().length > 1);
@@ -1502,44 +1502,44 @@ function Wt(e) {
 function ki(e) {
   let t = y([]), r = y(!1);
   N(() => r.value = !0), _e(() => r.value = !1);
-  function n(a, s = we.Hidden) {
-    let o = t.value.findIndex(({ id: l }) => l === a);
-    o !== -1 && (Y(s, { [we.Unmount]() {
-      t.value.splice(o, 1);
+  function n(a, o = we.Hidden) {
+    let s = t.value.findIndex(({ id: l }) => l === a);
+    s !== -1 && (Y(o, { [we.Unmount]() {
+      t.value.splice(s, 1);
     }, [we.Hidden]() {
-      t.value[o].state = "hidden";
+      t.value[s].state = "hidden";
     } }), !Wt(t) && r.value && (e == null || e()));
   }
   function i(a) {
-    let s = t.value.find(({ id: o }) => o === a);
-    return s ? s.state !== "visible" && (s.state = "visible") : t.value.push({ id: a, state: "visible" }), () => n(a, we.Unmount);
+    let o = t.value.find(({ id: s }) => s === a);
+    return o ? o.state !== "visible" && (o.state = "visible") : t.value.push({ id: a, state: "visible" }), () => n(a, we.Unmount);
   }
   return { children: t, register: i, unregister: n };
 }
 let Mi = Dt.RenderStrategy, Je = W({ props: { as: { type: [Object, String], default: "div" }, show: { type: [Boolean], default: null }, unmount: { type: [Boolean], default: !0 }, appear: { type: [Boolean], default: !1 }, enter: { type: [String], default: "" }, enterFrom: { type: [String], default: "" }, enterTo: { type: [String], default: "" }, entered: { type: [String], default: "" }, leave: { type: [String], default: "" }, leaveFrom: { type: [String], default: "" }, leaveTo: { type: [String], default: "" } }, emits: { beforeEnter: () => !0, afterEnter: () => !0, beforeLeave: () => !0, afterLeave: () => !0 }, setup(e, { emit: t, attrs: r, slots: n, expose: i }) {
   if (!nu() && Al())
     return () => F(Ze, { ...e, onBeforeEnter: () => t("beforeEnter"), onAfterEnter: () => t("afterEnter"), onBeforeLeave: () => t("beforeLeave"), onAfterLeave: () => t("afterLeave") }, n);
-  let a = y(null), s = y("visible"), o = P(() => e.unmount ? we.Unmount : we.Hidden);
+  let a = y(null), o = y("visible"), s = P(() => e.unmount ? we.Unmount : we.Hidden);
   i({ el: a, $el: a });
   let { show: l, appear: u } = iu(), { register: c, unregister: f } = au(), p = { value: !0 }, d = Me(), v = { value: !1 }, b = ki(() => {
-    v.value || (s.value = "hidden", f(d), t("afterLeave"));
+    v.value || (o.value = "hidden", f(d), t("afterLeave"));
   });
   N(() => {
     let S = c(d);
     _e(S);
   }), Z(() => {
-    if (o.value === we.Hidden && !!d) {
-      if (l && s.value !== "visible") {
-        s.value = "visible";
+    if (s.value === we.Hidden && !!d) {
+      if (l && o.value !== "visible") {
+        o.value = "visible";
         return;
       }
-      Y(s.value, { hidden: () => f(d), visible: () => c(d) });
+      Y(o.value, { hidden: () => f(d), visible: () => c(d) });
     }
   });
   let w = Ce(e.enter), T = Ce(e.enterFrom), A = Ce(e.enterTo), I = Ce(e.entered), E = Ce(e.leave), O = Ce(e.leaveFrom), m = Ce(e.leaveTo);
   N(() => {
     Z(() => {
-      if (s.value === "visible") {
+      if (o.value === "visible") {
         let S = pe(a);
         if (S instanceof Comment && S.data === "")
           throw new Error("Did you forget to passthrough the `ref` to the actual DOM node?");
@@ -1551,36 +1551,36 @@ let Mi = Dt.RenderStrategy, Je = W({ props: { as: { type: [Object, String], defa
     !x || !(x instanceof HTMLElement) || _ || (v.value = !0, l.value && t("beforeEnter"), l.value || t("beforeLeave"), S(l.value ? En(x, w, T, A, I, ($) => {
       v.value = !1, $ === br.Finished && t("afterEnter");
     }) : En(x, E, O, m, I, ($) => {
-      v.value = !1, $ === br.Finished && (Wt(b) || (s.value = "hidden", f(d), t("afterLeave")));
+      v.value = !1, $ === br.Finished && (Wt(b) || (o.value = "hidden", f(d), t("afterLeave")));
     })));
   }
   return N(() => {
     dt([l], (S, _, x) => {
       g(x), p.value = !1;
     }, { immediate: !0 });
-  }), te(Kr, b), Il(P(() => Y(s.value, { visible: Le.Open, hidden: Le.Closed }))), () => {
+  }), te(Kr, b), Il(P(() => Y(o.value, { visible: Le.Open, hidden: Le.Closed }))), () => {
     let { appear: S, show: _, enter: x, enterFrom: $, enterTo: C, entered: q, leave: L, leaveFrom: V, leaveTo: R, ...M } = e;
-    return z({ theirProps: M, ourProps: { ref: a }, slot: {}, slots: n, attrs: r, features: Mi, visible: s.value === "visible", name: "TransitionChild" });
+    return z({ theirProps: M, ourProps: { ref: a }, slot: {}, slots: n, attrs: r, features: Mi, visible: o.value === "visible", name: "TransitionChild" });
   };
-} }), su = Je, Ze = W({ inheritAttrs: !1, props: { as: { type: [Object, String], default: "div" }, show: { type: [Boolean], default: null }, unmount: { type: [Boolean], default: !0 }, appear: { type: [Boolean], default: !1 }, enter: { type: [String], default: "" }, enterFrom: { type: [String], default: "" }, enterTo: { type: [String], default: "" }, entered: { type: [String], default: "" }, leave: { type: [String], default: "" }, leaveFrom: { type: [String], default: "" }, leaveTo: { type: [String], default: "" } }, emits: { beforeEnter: () => !0, afterEnter: () => !0, beforeLeave: () => !0, afterLeave: () => !0 }, setup(e, { emit: t, attrs: r, slots: n }) {
+} }), ou = Je, Ze = W({ inheritAttrs: !1, props: { as: { type: [Object, String], default: "div" }, show: { type: [Boolean], default: null }, unmount: { type: [Boolean], default: !0 }, appear: { type: [Boolean], default: !1 }, enter: { type: [String], default: "" }, enterFrom: { type: [String], default: "" }, enterTo: { type: [String], default: "" }, entered: { type: [String], default: "" }, leave: { type: [String], default: "" }, leaveFrom: { type: [String], default: "" }, leaveTo: { type: [String], default: "" } }, emits: { beforeEnter: () => !0, afterEnter: () => !0, beforeLeave: () => !0, afterLeave: () => !0 }, setup(e, { emit: t, attrs: r, slots: n }) {
   let i = Hr(), a = P(() => e.show === null && i !== null ? Y(i.value, { [Le.Open]: !0, [Le.Closed]: !1 }) : e.show);
   Z(() => {
     if (![!0, !1].includes(a.value))
       throw new Error('A <Transition /> is used but it is missing a `:show="true | false"` prop.');
   });
-  let s = y(a.value ? "visible" : "hidden"), o = ki(() => {
-    s.value = "hidden";
+  let o = y(a.value ? "visible" : "hidden"), s = ki(() => {
+    o.value = "hidden";
   }), l = y(!0), u = { show: a, appear: P(() => e.appear || !l.value) };
   return N(() => {
     Z(() => {
-      l.value = !1, a.value ? s.value = "visible" : Wt(o) || (s.value = "hidden");
+      l.value = !1, a.value ? o.value = "visible" : Wt(s) || (o.value = "hidden");
     });
-  }), te(Kr, o), te(Gr, u), () => {
+  }), te(Kr, s), te(Gr, u), () => {
     let c = Ti(e, ["show", "appear", "unmount", "onBeforeEnter", "onBeforeLeave", "onAfterEnter", "onAfterLeave"]), f = { unmount: e.unmount };
-    return z({ ourProps: { ...f, as: "template" }, theirProps: {}, slot: {}, slots: { ...n, default: () => [F(su, { onBeforeEnter: () => t("beforeEnter"), onAfterEnter: () => t("afterEnter"), onBeforeLeave: () => t("beforeLeave"), onAfterLeave: () => t("afterLeave"), ...r, ...f, ...c }, n.default)] }, attrs: {}, features: Mi, visible: s.value === "visible", name: "Transition" });
+    return z({ ourProps: { ...f, as: "template" }, theirProps: {}, slot: {}, slots: { ...n, default: () => [F(ou, { onBeforeEnter: () => t("beforeEnter"), onAfterEnter: () => t("afterEnter"), onBeforeLeave: () => t("beforeLeave"), onAfterLeave: () => t("afterLeave"), ...r, ...f, ...c }, n.default)] }, attrs: {}, features: Mi, visible: o.value === "visible", name: "Transition" });
   };
 } });
-const ou = {
+const su = {
   props: {
     defaultTitle: {
       type: String,
@@ -1699,15 +1699,15 @@ function du(e, t, r, n) {
   if (!ne(e))
     return e;
   t = Vr(t, e);
-  for (var i = -1, a = t.length, s = a - 1, o = e; o != null && ++i < a; ) {
+  for (var i = -1, a = t.length, o = a - 1, s = e; s != null && ++i < a; ) {
     var l = pt(t[i]), u = r;
     if (l === "__proto__" || l === "constructor" || l === "prototype")
       return e;
-    if (i != s) {
-      var c = o[l];
-      u = n ? n(c, l, o) : void 0, u === void 0 && (u = ne(c) ? c : Pr(t[i + 1]) ? [] : {});
+    if (i != o) {
+      var c = s[l];
+      u = n ? n(c, l, s) : void 0, u === void 0 && (u = ne(c) ? c : Pr(t[i + 1]) ? [] : {});
     }
-    fu(o, l, u), o = o[l];
+    fu(s, l, u), s = s[l];
   }
   return e;
 }
@@ -1765,9 +1765,9 @@ const pu = {
   }
 };
 var hu = function() {
-  return se.Date.now();
+  return oe.Date.now();
 };
-const or = hu;
+const sr = hu;
 var mu = /\s/;
 function vu(e) {
   for (var t = e.length; t-- && mu.test(e.charAt(t)); )
@@ -1796,16 +1796,16 @@ function wr(e) {
 }
 var $u = "Expected a function", Eu = Math.max, _u = Math.min;
 function Ui(e, t, r) {
-  var n, i, a, s, o, l, u = 0, c = !1, f = !1, p = !0;
+  var n, i, a, o, s, l, u = 0, c = !1, f = !1, p = !0;
   if (typeof e != "function")
     throw new TypeError($u);
   t = wr(t) || 0, ne(r) && (c = !!r.leading, f = "maxWait" in r, a = f ? Eu(wr(r.maxWait) || 0, t) : a, p = "trailing" in r ? !!r.trailing : p);
   function d(m) {
     var g = n, S = i;
-    return n = i = void 0, u = m, s = e.apply(S, g), s;
+    return n = i = void 0, u = m, o = e.apply(S, g), o;
   }
   function v(m) {
-    return u = m, o = setTimeout(T, t), c ? d(m) : s;
+    return u = m, s = setTimeout(T, t), c ? d(m) : o;
   }
   function b(m) {
     var g = m - l, S = m - u, _ = t - g;
@@ -1816,29 +1816,29 @@ function Ui(e, t, r) {
     return l === void 0 || g >= t || g < 0 || f && S >= a;
   }
   function T() {
-    var m = or();
+    var m = sr();
     if (w(m))
       return A(m);
-    o = setTimeout(T, b(m));
+    s = setTimeout(T, b(m));
   }
   function A(m) {
-    return o = void 0, p && n ? d(m) : (n = i = void 0, s);
+    return s = void 0, p && n ? d(m) : (n = i = void 0, o);
   }
   function I() {
-    o !== void 0 && clearTimeout(o), u = 0, n = l = i = o = void 0;
+    s !== void 0 && clearTimeout(s), u = 0, n = l = i = s = void 0;
   }
   function E() {
-    return o === void 0 ? s : A(or());
+    return s === void 0 ? o : A(sr());
   }
   function O() {
-    var m = or(), g = w(m);
+    var m = sr(), g = w(m);
     if (n = arguments, i = this, l = m, g) {
-      if (o === void 0)
+      if (s === void 0)
         return v(l);
       if (f)
-        return clearTimeout(o), o = setTimeout(T, t), d(l);
+        return clearTimeout(s), s = setTimeout(T, t), d(l);
     }
-    return o === void 0 && (o = setTimeout(T, t)), s;
+    return s === void 0 && (s = setTimeout(T, t)), o;
   }
   return O.cancel = I, O.flush = E, O;
 }
@@ -1991,7 +1991,7 @@ const xu = {
       }, document.addEventListener("keydown", i.value));
     }), Sa(() => {
       document.removeEventListener("click", r.value), document.removeEventListener("touchstart", r.value), t.closeOnEscape && document.removeEventListener("keydown", i.value);
-    }), (a, s) => (j(), de("div", {
+    }), (a, o) => (j(), de("div", {
       ref_key: "root",
       ref: n
     }, [
@@ -2036,7 +2036,7 @@ function Ge(e, t, r) {
   t === void 0 && (t = !1), r === void 0 && (r = !1);
   var n = e.getBoundingClientRect(), i = 1, a = 1;
   t && X(e) && (i = e.offsetWidth > 0 && ze(n.width) / e.offsetWidth || 1, a = e.offsetHeight > 0 && ze(n.height) / e.offsetHeight || 1);
-  var s = Fe(e) ? Q(e) : window, o = s.visualViewport, l = !zi() && r, u = (n.left + (l && o ? o.offsetLeft : 0)) / i, c = (n.top + (l && o ? o.offsetTop : 0)) / a, f = n.width / i, p = n.height / a;
+  var o = Fe(e) ? Q(e) : window, s = o.visualViewport, l = !zi() && r, u = (n.left + (l && s ? s.offsetLeft : 0)) / i, c = (n.top + (l && s ? s.offsetTop : 0)) / a, f = n.width / i, p = n.height / a;
   return {
     width: f,
     height: p,
@@ -2086,18 +2086,18 @@ function Pu(e) {
 }
 function Cu(e, t, r) {
   r === void 0 && (r = !1);
-  var n = X(t), i = X(t) && Pu(t), a = Te(t), s = Ge(e, i, r), o = {
+  var n = X(t), i = X(t) && Pu(t), a = Te(t), o = Ge(e, i, r), s = {
     scrollLeft: 0,
     scrollTop: 0
   }, l = {
     x: 0,
     y: 0
   };
-  return (n || !n && !r) && ((ie(t) !== "body" || Zr(a)) && (o = Iu(t)), X(t) ? (l = Ge(t, !0), l.x += t.clientLeft, l.y += t.clientTop) : a && (l.x = Jr(a))), {
-    x: s.left + o.scrollLeft - l.x,
-    y: s.top + o.scrollTop - l.y,
-    width: s.width,
-    height: s.height
+  return (n || !n && !r) && ((ie(t) !== "body" || Zr(a)) && (s = Iu(t)), X(t) ? (l = Ge(t, !0), l.x += t.clientLeft, l.y += t.clientTop) : a && (l.x = Jr(a))), {
+    x: o.left + s.scrollLeft - l.x,
+    y: o.top + s.scrollTop - l.y,
+    width: o.width,
+    height: o.height
   };
 }
 function Gi(e) {
@@ -2115,11 +2115,11 @@ function zt(e) {
 function Ki(e) {
   return ["html", "body", "#document"].indexOf(ie(e)) >= 0 ? e.ownerDocument.body : X(e) && Zr(e) ? e : Ki(zt(e));
 }
-function ot(e, t) {
+function st(e, t) {
   var r;
   t === void 0 && (t = []);
-  var n = Ki(e), i = n === ((r = e.ownerDocument) == null ? void 0 : r.body), a = Q(n), s = i ? [a].concat(a.visualViewport || [], Zr(n) ? n : []) : n, o = t.concat(s);
-  return i ? o : o.concat(ot(zt(s)));
+  var n = Ki(e), i = n === ((r = e.ownerDocument) == null ? void 0 : r.body), a = Q(n), o = i ? [a].concat(a.visualViewport || [], Zr(n) ? n : []) : n, s = t.concat(o);
+  return i ? s : s.concat(st(zt(o)));
 }
 function Du(e) {
   return ["table", "td", "th"].indexOf(ie(e)) >= 0;
@@ -2160,10 +2160,10 @@ function zu(e) {
   });
   function i(a) {
     r.add(a.name);
-    var s = [].concat(a.requires || [], a.requiresIfExists || []);
-    s.forEach(function(o) {
-      if (!r.has(o)) {
-        var l = t.get(o);
+    var o = [].concat(a.requires || [], a.requiresIfExists || []);
+    o.forEach(function(s) {
+      if (!r.has(s)) {
+        var l = t.get(s);
         l && i(l);
       }
     }), n.push(a);
@@ -2265,25 +2265,25 @@ function Ju(e) {
   });
 }
 function Zu(e, t) {
-  var r = Q(e), n = Te(e), i = r.visualViewport, a = n.clientWidth, s = n.clientHeight, o = 0, l = 0;
+  var r = Q(e), n = Te(e), i = r.visualViewport, a = n.clientWidth, o = n.clientHeight, s = 0, l = 0;
   if (i) {
-    a = i.width, s = i.height;
+    a = i.width, o = i.height;
     var u = zi();
-    (u || !u && t === "fixed") && (o = i.offsetLeft, l = i.offsetTop);
+    (u || !u && t === "fixed") && (s = i.offsetLeft, l = i.offsetTop);
   }
   return {
     width: a,
-    height: s,
-    x: o + Jr(e),
+    height: o,
+    x: s + Jr(e),
     y: l
   };
 }
 function ec(e) {
-  var t, r = Te(e), n = Yr(e), i = (t = e.ownerDocument) == null ? void 0 : t.body, a = qe(r.scrollWidth, r.clientWidth, i ? i.scrollWidth : 0, i ? i.clientWidth : 0), s = qe(r.scrollHeight, r.clientHeight, i ? i.scrollHeight : 0, i ? i.clientHeight : 0), o = -n.scrollLeft + Jr(e), l = -n.scrollTop;
-  return ee(i || r).direction === "rtl" && (o += qe(r.clientWidth, i ? i.clientWidth : 0) - a), {
+  var t, r = Te(e), n = Yr(e), i = (t = e.ownerDocument) == null ? void 0 : t.body, a = qe(r.scrollWidth, r.clientWidth, i ? i.scrollWidth : 0, i ? i.clientWidth : 0), o = qe(r.scrollHeight, r.clientHeight, i ? i.scrollHeight : 0, i ? i.clientHeight : 0), s = -n.scrollLeft + Jr(e), l = -n.scrollTop;
+  return ee(i || r).direction === "rtl" && (s += qe(r.clientWidth, i ? i.clientWidth : 0) - a), {
     width: a,
-    height: s,
-    x: o,
+    height: o,
+    x: s,
     y: l
   };
 }
@@ -2317,17 +2317,17 @@ function Pn(e, t, r) {
   return t === Xi ? $r(Zu(e, r)) : Fe(t) ? rc(t, r) : $r(ec(Te(e)));
 }
 function nc(e) {
-  var t = ot(zt(e)), r = ["absolute", "fixed"].indexOf(ee(e).position) >= 0, n = r && X(e) ? Gt(e) : e;
+  var t = st(zt(e)), r = ["absolute", "fixed"].indexOf(ee(e).position) >= 0, n = r && X(e) ? Gt(e) : e;
   return Fe(n) ? t.filter(function(i) {
     return Fe(i) && tc(i, n) && ie(i) !== "body";
   }) : [];
 }
 function ic(e, t, r, n) {
-  var i = t === "clippingParents" ? nc(e) : [].concat(t), a = [].concat(i, [r]), s = a[0], o = a.reduce(function(l, u) {
+  var i = t === "clippingParents" ? nc(e) : [].concat(t), a = [].concat(i, [r]), o = a[0], s = a.reduce(function(l, u) {
     var c = Pn(e, u, n);
     return l.top = qe(c.top, l.top), l.right = qt(c.right, l.right), l.bottom = qt(c.bottom, l.bottom), l.left = qe(c.left, l.left), l;
-  }, Pn(e, s, n));
-  return o.width = o.right - o.left, o.height = o.bottom - o.top, o.x = o.left, o.y = o.top, o;
+  }, Pn(e, o, n));
+  return s.width = s.right - s.left, s.height = s.bottom - s.top, s.x = s.left, s.y = s.top, s;
 }
 function Xe(e) {
   return e.split("-")[1];
@@ -2336,30 +2336,30 @@ function Qi(e) {
   return ["top", "bottom"].indexOf(e) >= 0 ? "x" : "y";
 }
 function Yi(e) {
-  var t = e.reference, r = e.element, n = e.placement, i = n ? ce(n) : null, a = n ? Xe(n) : null, s = t.x + t.width / 2 - r.width / 2, o = t.y + t.height / 2 - r.height / 2, l;
+  var t = e.reference, r = e.element, n = e.placement, i = n ? ce(n) : null, a = n ? Xe(n) : null, o = t.x + t.width / 2 - r.width / 2, s = t.y + t.height / 2 - r.height / 2, l;
   switch (i) {
     case J:
       l = {
-        x: s,
+        x: o,
         y: t.y - r.height
       };
       break;
     case ae:
       l = {
-        x: s,
+        x: o,
         y: t.y + t.height
       };
       break;
     case Ee:
       l = {
         x: t.x + t.width,
-        y: o
+        y: s
       };
       break;
     case ue:
       l = {
         x: t.x - r.width,
-        y: o
+        y: s
       };
       break;
     default:
@@ -2393,14 +2393,14 @@ function Ji() {
 function ac(e) {
   return Object.assign({}, Ji(), e);
 }
-function sc(e, t) {
+function oc(e, t) {
   return t.reduce(function(r, n) {
     return r[n] = e, r;
   }, {});
 }
 function en(e, t) {
   t === void 0 && (t = {});
-  var r = t, n = r.placement, i = n === void 0 ? e.placement : n, a = r.strategy, s = a === void 0 ? e.strategy : a, o = r.boundary, l = o === void 0 ? qu : o, u = r.rootBoundary, c = u === void 0 ? Xi : u, f = r.elementContext, p = f === void 0 ? it : f, d = r.altBoundary, v = d === void 0 ? !1 : d, b = r.padding, w = b === void 0 ? 0 : b, T = ac(typeof w != "number" ? w : sc(w, Xt)), A = p === it ? Bu : it, I = e.rects.popper, E = e.elements[v ? A : p], O = ic(Fe(E) ? E : E.contextElement || Te(e.elements.popper), l, c, s), m = Ge(e.elements.reference), g = Yi({
+  var r = t, n = r.placement, i = n === void 0 ? e.placement : n, a = r.strategy, o = a === void 0 ? e.strategy : a, s = r.boundary, l = s === void 0 ? qu : s, u = r.rootBoundary, c = u === void 0 ? Xi : u, f = r.elementContext, p = f === void 0 ? it : f, d = r.altBoundary, v = d === void 0 ? !1 : d, b = r.padding, w = b === void 0 ? 0 : b, T = ac(typeof w != "number" ? w : oc(w, Xt)), A = p === it ? Bu : it, I = e.rects.popper, E = e.elements[v ? A : p], O = ic(Fe(E) ? E : E.contextElement || Te(e.elements.popper), l, c, o), m = Ge(e.elements.reference), g = Yi({
     reference: m,
     element: I,
     strategy: "absolute",
@@ -2420,7 +2420,7 @@ function en(e, t) {
   }
   return x;
 }
-var Cn = "Popper: Invalid reference or popper argument provided. They must be either a DOM element or virtual element.", oc = "Popper: An infinite loop in the modifiers cycle has been detected! The cycle has been interrupted to prevent a browser crash.", Dn = {
+var Cn = "Popper: Invalid reference or popper argument provided. They must be either a DOM element or virtual element.", sc = "Popper: An infinite loop in the modifiers cycle has been detected! The cycle has been interrupted to prevent a browser crash.", Dn = {
   placement: "bottom",
   modifiers: [],
   strategy: "absolute"
@@ -2435,7 +2435,7 @@ function jn() {
 function lc(e) {
   e === void 0 && (e = {});
   var t = e, r = t.defaultModifiers, n = r === void 0 ? [] : r, i = t.defaultOptions, a = i === void 0 ? Dn : i;
-  return function(o, l, u) {
+  return function(s, l, u) {
     u === void 0 && (u = a);
     var c = {
       placement: "bottom",
@@ -2443,7 +2443,7 @@ function lc(e) {
       options: Object.assign({}, Dn, a),
       modifiersData: {},
       elements: {
-        reference: o,
+        reference: s,
         popper: l
       },
       attributes: {},
@@ -2453,8 +2453,8 @@ function lc(e) {
       setOptions: function(T) {
         var A = typeof T == "function" ? T(c.options) : T;
         b(), c.options = Object.assign({}, a, c.options, A), c.scrollParents = {
-          reference: Fe(o) ? ot(o) : o.contextElement ? ot(o.contextElement) : [],
-          popper: ot(l)
+          reference: Fe(s) ? st(s) : s.contextElement ? st(s.contextElement) : [],
+          popper: st(l)
         };
         var I = Gu(Ju([].concat(n, c.options.modifiers)));
         if (c.orderedModifiers = I.filter(function($) {
@@ -2493,7 +2493,7 @@ function lc(e) {
           });
           for (var E = 0, O = 0; O < c.orderedModifiers.length; O++) {
             if (process.env.NODE_ENV !== "production" && (E += 1, E > 100)) {
-              console.error(oc);
+              console.error(sc);
               break;
             }
             if (c.reset === !0) {
@@ -2519,7 +2519,7 @@ function lc(e) {
         b(), p = !0;
       }
     };
-    if (!jn(o, l))
+    if (!jn(s, l))
       return process.env.NODE_ENV !== "production" && console.error(Cn), d;
     d.setOptions(u).then(function(w) {
       !p && u.onFirstUpdate && u.onFirstUpdate(w);
@@ -2551,13 +2551,13 @@ var _t = {
   passive: !0
 };
 function uc(e) {
-  var t = e.state, r = e.instance, n = e.options, i = n.scroll, a = i === void 0 ? !0 : i, s = n.resize, o = s === void 0 ? !0 : s, l = Q(t.elements.popper), u = [].concat(t.scrollParents.reference, t.scrollParents.popper);
+  var t = e.state, r = e.instance, n = e.options, i = n.scroll, a = i === void 0 ? !0 : i, o = n.resize, s = o === void 0 ? !0 : o, l = Q(t.elements.popper), u = [].concat(t.scrollParents.reference, t.scrollParents.popper);
   return a && u.forEach(function(c) {
     c.addEventListener("scroll", r.update, _t);
-  }), o && l.addEventListener("resize", r.update, _t), function() {
+  }), s && l.addEventListener("resize", r.update, _t), function() {
     a && u.forEach(function(c) {
       c.removeEventListener("scroll", r.update, _t);
-    }), o && l.removeEventListener("resize", r.update, _t);
+    }), s && l.removeEventListener("resize", r.update, _t);
   };
 }
 const cc = {
@@ -2599,7 +2599,7 @@ function hc(e) {
   };
 }
 function qn(e) {
-  var t, r = e.popper, n = e.popperRect, i = e.placement, a = e.variation, s = e.offsets, o = e.position, l = e.gpuAcceleration, u = e.adaptive, c = e.roundOffsets, f = e.isFixed, p = s.x, d = p === void 0 ? 0 : p, v = s.y, b = v === void 0 ? 0 : v, w = typeof c == "function" ? c({
+  var t, r = e.popper, n = e.popperRect, i = e.placement, a = e.variation, o = e.offsets, s = e.position, l = e.gpuAcceleration, u = e.adaptive, c = e.roundOffsets, f = e.isFixed, p = o.x, d = p === void 0 ? 0 : p, v = o.y, b = v === void 0 ? 0 : v, w = typeof c == "function" ? c({
     x: d,
     y: b
   }) : {
@@ -2607,10 +2607,10 @@ function qn(e) {
     y: b
   };
   d = w.x, b = w.y;
-  var T = s.hasOwnProperty("x"), A = s.hasOwnProperty("y"), I = ue, E = J, O = window;
+  var T = o.hasOwnProperty("x"), A = o.hasOwnProperty("y"), I = ue, E = J, O = window;
   if (u) {
     var m = Gt(r), g = "clientHeight", S = "clientWidth";
-    if (m === Q(r) && (m = Te(r), ee(m).position !== "static" && o === "absolute" && (g = "scrollHeight", S = "scrollWidth")), m = m, i === J || (i === ue || i === Ee) && a === ft) {
+    if (m === Q(r) && (m = Te(r), ee(m).position !== "static" && s === "absolute" && (g = "scrollHeight", S = "scrollWidth")), m = m, i === J || (i === ue || i === Ee) && a === ft) {
       E = ae;
       var _ = f && m === O && O.visualViewport ? O.visualViewport.height : m[g];
       b -= _ - n.height, b *= l ? 1 : -1;
@@ -2622,7 +2622,7 @@ function qn(e) {
     }
   }
   var $ = Object.assign({
-    position: o
+    position: s
   }, u && pc), C = c === !0 ? hc({
     x: d,
     y: b
@@ -2637,10 +2637,10 @@ function qn(e) {
   return Object.assign({}, $, (t = {}, t[E] = A ? b + "px" : "", t[I] = T ? d + "px" : "", t.transform = "", t));
 }
 function mc(e) {
-  var t = e.state, r = e.options, n = r.gpuAcceleration, i = n === void 0 ? !0 : n, a = r.adaptive, s = a === void 0 ? !0 : a, o = r.roundOffsets, l = o === void 0 ? !0 : o;
+  var t = e.state, r = e.options, n = r.gpuAcceleration, i = n === void 0 ? !0 : n, a = r.adaptive, o = a === void 0 ? !0 : a, s = r.roundOffsets, l = s === void 0 ? !0 : s;
   if (process.env.NODE_ENV !== "production") {
     var u = ee(t.elements.popper).transitionProperty || "";
-    s && ["transform", "top", "right", "bottom", "left"].some(function(f) {
+    o && ["transform", "top", "right", "bottom", "left"].some(function(f) {
       return u.indexOf(f) >= 0;
     }) && console.warn(["Popper: Detected CSS transitions on at least one of the following", 'CSS properties: "transform", "top", "right", "bottom", "left".', `
 
@@ -2659,7 +2659,7 @@ function mc(e) {
   t.modifiersData.popperOffsets != null && (t.styles.popper = Object.assign({}, t.styles.popper, qn(Object.assign({}, c, {
     offsets: t.modifiersData.popperOffsets,
     position: t.options.strategy,
-    adaptive: s,
+    adaptive: o,
     roundOffsets: l
   })))), t.modifiersData.arrow != null && (t.styles.arrow = Object.assign({}, t.styles.arrow, qn(Object.assign({}, c, {
     offsets: t.modifiersData.arrow,
@@ -2681,9 +2681,9 @@ function gc(e) {
   var t = e.state;
   Object.keys(t.elements).forEach(function(r) {
     var n = t.styles[r] || {}, i = t.attributes[r] || {}, a = t.elements[r];
-    !X(a) || !ie(a) || (Object.assign(a.style, n), Object.keys(i).forEach(function(s) {
-      var o = i[s];
-      o === !1 ? a.removeAttribute(s) : a.setAttribute(s, o === !0 ? "" : o);
+    !X(a) || !ie(a) || (Object.assign(a.style, n), Object.keys(i).forEach(function(o) {
+      var s = i[o];
+      s === !1 ? a.removeAttribute(o) : a.setAttribute(o, s === !0 ? "" : s);
     }));
   });
 }
@@ -2702,10 +2702,10 @@ function yc(e) {
   };
   return Object.assign(t.elements.popper.style, r.popper), t.styles = r, t.elements.arrow && Object.assign(t.elements.arrow.style, r.arrow), function() {
     Object.keys(t.elements).forEach(function(n) {
-      var i = t.elements[n], a = t.attributes[n] || {}, s = Object.keys(t.styles.hasOwnProperty(n) ? t.styles[n] : r[n]), o = s.reduce(function(l, u) {
+      var i = t.elements[n], a = t.attributes[n] || {}, o = Object.keys(t.styles.hasOwnProperty(n) ? t.styles[n] : r[n]), s = o.reduce(function(l, u) {
         return l[u] = "", l;
       }, {});
-      !X(i) || !ie(i) || (Object.assign(i.style, o), Object.keys(a).forEach(function(l) {
+      !X(i) || !ie(i) || (Object.assign(i.style, s), Object.keys(a).forEach(function(l) {
         i.removeAttribute(l);
       }));
     });
@@ -2733,7 +2733,7 @@ function $c(e, t, r) {
   return n > r ? r : n;
 }
 function Ec(e) {
-  var t = e.state, r = e.options, n = e.name, i = r.mainAxis, a = i === void 0 ? !0 : i, s = r.altAxis, o = s === void 0 ? !1 : s, l = r.boundary, u = r.rootBoundary, c = r.altBoundary, f = r.padding, p = r.tether, d = p === void 0 ? !0 : p, v = r.tetherOffset, b = v === void 0 ? 0 : v, w = en(t, {
+  var t = e.state, r = e.options, n = e.name, i = r.mainAxis, a = i === void 0 ? !0 : i, o = r.altAxis, s = o === void 0 ? !1 : o, l = r.boundary, u = r.rootBoundary, c = r.altBoundary, f = r.padding, p = r.tether, d = p === void 0 ? !0 : p, v = r.tetherOffset, b = v === void 0 ? 0 : v, w = en(t, {
     boundary: l,
     rootBoundary: u,
     padding: f,
@@ -2758,8 +2758,8 @@ function Ec(e) {
       }, ve = t.modifiersData["arrow#persistent"] ? t.modifiersData["arrow#persistent"].padding : Ji(), tt = ve[L], bt = ve[V], Ie = At(0, g[R], Ve[R]), Jt = I ? g[R] / 2 - gt - Ie - tt - x.mainAxis : Yt - Ie - tt - x.mainAxis, fa = I ? -g[R] / 2 + gt + Ie + bt + x.mainAxis : et + Ie + bt + x.mainAxis, Zt = t.elements.arrow && Gt(t.elements.arrow), da = Zt ? E === "y" ? Zt.clientTop || 0 : Zt.clientLeft || 0 : 0, rn = (q = $ == null ? void 0 : $[E]) != null ? q : 0, pa = M + Jt - rn - da, ha = M + fa - rn, nn = At(d ? qt(vt, pa) : vt, M, d ? qe(Ae, ha) : Ae);
       m[E] = nn, C[E] = nn - M;
     }
-    if (o) {
-      var an, ma = E === "x" ? J : ue, va = E === "x" ? ae : Ee, Pe = m[O], wt = O === "y" ? "height" : "width", sn = Pe + w[ma], on = Pe - w[va], er = [J, ue].indexOf(T) !== -1, ln = (an = $ == null ? void 0 : $[O]) != null ? an : 0, un = er ? sn : Pe - g[wt] - S[wt] - ln + x.altAxis, cn = er ? Pe + g[wt] + S[wt] - ln - x.altAxis : on, fn = d && er ? $c(un, Pe, cn) : At(d ? un : sn, Pe, d ? cn : on);
+    if (s) {
+      var an, ma = E === "x" ? J : ue, va = E === "x" ? ae : Ee, Pe = m[O], wt = O === "y" ? "height" : "width", on = Pe + w[ma], sn = Pe - w[va], er = [J, ue].indexOf(T) !== -1, ln = (an = $ == null ? void 0 : $[O]) != null ? an : 0, un = er ? on : Pe - g[wt] - S[wt] - ln + x.altAxis, cn = er ? Pe + g[wt] + S[wt] - ln - x.altAxis : sn, fn = d && er ? $c(un, Pe, cn) : At(d ? un : on, Pe, d ? cn : sn);
       m[O] = fn, C[O] = fn - Pe;
     }
     t.modifiersData[n] = C;
@@ -2794,7 +2794,7 @@ function Bn(e) {
 }
 function Ac(e, t) {
   t === void 0 && (t = {});
-  var r = t, n = r.placement, i = r.boundary, a = r.rootBoundary, s = r.padding, o = r.flipVariations, l = r.allowedAutoPlacements, u = l === void 0 ? Lu : l, c = Xe(n), f = c ? o ? An : An.filter(function(v) {
+  var r = t, n = r.placement, i = r.boundary, a = r.rootBoundary, o = r.padding, s = r.flipVariations, l = r.allowedAutoPlacements, u = l === void 0 ? Lu : l, c = Xe(n), f = c ? s ? An : An.filter(function(v) {
     return Xe(v) === c;
   }) : Xt, p = f.filter(function(v) {
     return u.indexOf(v) >= 0;
@@ -2805,7 +2805,7 @@ function Ac(e, t) {
       placement: b,
       boundary: i,
       rootBoundary: a,
-      padding: s
+      padding: o
     })[ce(b)], v;
   }, {});
   return Object.keys(d).sort(function(v, b) {
@@ -2821,7 +2821,7 @@ function Ic(e) {
 function Pc(e) {
   var t = e.state, r = e.options, n = e.name;
   if (!t.modifiersData[n]._skip) {
-    for (var i = r.mainAxis, a = i === void 0 ? !0 : i, s = r.altAxis, o = s === void 0 ? !0 : s, l = r.fallbackPlacements, u = r.padding, c = r.boundary, f = r.rootBoundary, p = r.altBoundary, d = r.flipVariations, v = d === void 0 ? !0 : d, b = r.allowedAutoPlacements, w = t.options.placement, T = ce(w), A = T === w, I = l || (A || !v ? [It(w)] : Ic(w)), E = [w].concat(I).reduce(function(Ve, ve) {
+    for (var i = r.mainAxis, a = i === void 0 ? !0 : i, o = r.altAxis, s = o === void 0 ? !0 : o, l = r.fallbackPlacements, u = r.padding, c = r.boundary, f = r.rootBoundary, p = r.altBoundary, d = r.flipVariations, v = d === void 0 ? !0 : d, b = r.allowedAutoPlacements, w = t.options.placement, T = ce(w), A = T === w, I = l || (A || !v ? [It(w)] : Ic(w)), E = [w].concat(I).reduce(function(Ve, ve) {
       return Ve.concat(ce(ve) === Kt ? Ac(t, {
         placement: ve,
         boundary: c,
@@ -2840,7 +2840,7 @@ function Pc(e) {
       }), M = L ? q ? Ee : ue : q ? ae : J;
       O[V] > m[V] && (M = It(M));
       var vt = It(M), Ae = [];
-      if (a && Ae.push(R[C] <= 0), o && Ae.push(R[M] <= 0, R[vt] <= 0), Ae.every(function(Ve) {
+      if (a && Ae.push(R[C] <= 0), s && Ae.push(R[M] <= 0, R[vt] <= 0), Ae.every(function(Ve) {
         return Ve;
       })) {
         _ = $, S = !1;
@@ -2960,8 +2960,8 @@ const Cc = {
   }
 }, jc = { ref: "tooltip" };
 function qc(e, t, r, n, i, a) {
-  const s = ei("OnClickOutside");
-  return j(), K(s, {
+  const o = ei("OnClickOutside");
+  return j(), K(o, {
     style: Pt(a.wrapperStyle),
     do: a.hide,
     opened: i.opened,
@@ -3001,14 +3001,14 @@ const Bc = /* @__PURE__ */ Ne(Dc, [["render", qc]]), Lc = {
   },
   setup(e) {
     const t = U("$splade") || {}, r = U("$spladeOptions") || {};
-    return (n, i) => H(t).isSsr ? (j(), K(oe, {
+    return (n, i) => H(t).isSsr ? (j(), K(se, {
       key: e.keepAliveKey,
       html: H(t).htmlForDynamicComponent(e.name)
     }, null, 8, ["html"])) : (j(), K(Jn, {
       key: 0,
       max: H(r).max_keep_alive
     }, [
-      (j(), K(oe, {
+      (j(), K(se, {
         key: e.keepAliveKey,
         html: H(t).htmlForDynamicComponent(e.name)
       }, null, 8, ["html"]))
@@ -3071,10 +3071,10 @@ const Fc = {
     }), this.listeners.forEach((e) => {
       const t = this.subscription.listen(e, (r) => {
         const n = "splade.redirect", i = "splade.refresh", a = "splade.toast";
-        let s = null, o = !1, l = [];
+        let o = null, s = !1, l = [];
         be(r, (u) => {
-          !ne(u) || (n in u && (s = u[n]), i in u && (o = u[i]), a in u && l.push(u));
-        }), s ? h.visit(s) : o ? h.refresh() : this.events.push({ name: e, data: r }), l.length > 0 && l.forEach((u) => {
+          !ne(u) || (n in u && (o = u[n]), i in u && (s = u[i]), a in u && l.push(u));
+        }), o ? h.visit(o) : s ? h.refresh() : this.events.push({ name: e, data: r }), l.length > 0 && l.forEach((u) => {
           h.pushToast(u);
         }), this.$root.$emit(`event.${e}`, r);
       });
@@ -3227,17 +3227,17 @@ function ef(e, t) {
 }
 var tf = 1, rf = 2;
 function na(e, t, r, n, i, a) {
-  var s = r & tf, o = e.length, l = t.length;
-  if (o != l && !(s && l > o))
+  var o = r & tf, s = e.length, l = t.length;
+  if (s != l && !(o && l > s))
     return !1;
   var u = a.get(e), c = a.get(t);
   if (u && c)
     return u == t && c == e;
   var f = -1, p = !0, d = r & rf ? new Bt() : void 0;
-  for (a.set(e, t), a.set(t, e); ++f < o; ) {
+  for (a.set(e, t), a.set(t, e); ++f < s; ) {
     var v = e[f], b = t[f];
     if (n)
-      var w = s ? n(b, v, f, t, e, a) : n(v, b, f, e, t, a);
+      var w = o ? n(b, v, f, t, e, a) : n(v, b, f, e, t, a);
     if (w !== void 0) {
       if (w)
         continue;
@@ -3259,7 +3259,7 @@ function na(e, t, r, n, i, a) {
   }
   return a.delete(e), a.delete(t), p;
 }
-var nf = se.Uint8Array;
+var nf = oe.Uint8Array;
 const Ln = nf;
 function af(e) {
   var t = -1, r = Array(e.size);
@@ -3267,14 +3267,14 @@ function af(e) {
     r[++t] = [i, n];
   }), r;
 }
-function sf(e) {
+function of(e) {
   var t = -1, r = Array(e.size);
   return e.forEach(function(n) {
     r[++t] = n;
   }), r;
 }
-var of = 1, lf = 2, uf = "[object Boolean]", cf = "[object Date]", ff = "[object Error]", df = "[object Map]", pf = "[object Number]", hf = "[object RegExp]", mf = "[object Set]", vf = "[object String]", gf = "[object Symbol]", yf = "[object ArrayBuffer]", bf = "[object DataView]", Fn = Se ? Se.prototype : void 0, lr = Fn ? Fn.valueOf : void 0;
-function wf(e, t, r, n, i, a, s) {
+var sf = 1, lf = 2, uf = "[object Boolean]", cf = "[object Date]", ff = "[object Error]", df = "[object Map]", pf = "[object Number]", hf = "[object RegExp]", mf = "[object Set]", vf = "[object String]", gf = "[object Symbol]", yf = "[object ArrayBuffer]", bf = "[object DataView]", Fn = Se ? Se.prototype : void 0, lr = Fn ? Fn.valueOf : void 0;
+function wf(e, t, r, n, i, a, o) {
   switch (r) {
     case bf:
       if (e.byteLength != t.byteLength || e.byteOffset != t.byteOffset)
@@ -3292,17 +3292,17 @@ function wf(e, t, r, n, i, a, s) {
     case vf:
       return e == t + "";
     case df:
-      var o = af;
+      var s = af;
     case mf:
-      var l = n & of;
-      if (o || (o = sf), e.size != t.size && !l)
+      var l = n & sf;
+      if (s || (s = of), e.size != t.size && !l)
         return !1;
-      var u = s.get(e);
+      var u = o.get(e);
       if (u)
         return u == t;
-      n |= lf, s.set(e, t);
-      var c = na(o(e), o(t), n, i, a, s);
-      return s.delete(e), c;
+      n |= lf, o.set(e, t);
+      var c = na(s(e), s(t), n, i, a, o);
+      return o.delete(e), c;
     case gf:
       if (lr)
         return lr.call(e) == lr.call(t);
@@ -3320,8 +3320,8 @@ function Of(e, t, r) {
 }
 function ia(e, t) {
   for (var r = -1, n = e == null ? 0 : e.length, i = 0, a = []; ++r < n; ) {
-    var s = e[r];
-    t(s, r, e) && (a[i++] = s);
+    var o = e[r];
+    t(o, r, e) && (a[i++] = o);
   }
   return a;
 }
@@ -3339,12 +3339,12 @@ function kn(e) {
 }
 var Af = 1, If = Object.prototype, Pf = If.hasOwnProperty;
 function Cf(e, t, r, n, i, a) {
-  var s = r & Af, o = kn(e), l = o.length, u = kn(t), c = u.length;
-  if (l != c && !s)
+  var o = r & Af, s = kn(e), l = s.length, u = kn(t), c = u.length;
+  if (l != c && !o)
     return !1;
   for (var f = l; f--; ) {
-    var p = o[f];
-    if (!(s ? p in t : Pf.call(t, p)))
+    var p = s[f];
+    if (!(o ? p in t : Pf.call(t, p)))
       return !1;
   }
   var d = a.get(e), v = a.get(t);
@@ -3352,11 +3352,11 @@ function Cf(e, t, r, n, i, a) {
     return d == t && v == e;
   var b = !0;
   a.set(e, t), a.set(t, e);
-  for (var w = s; ++f < l; ) {
-    p = o[f];
+  for (var w = o; ++f < l; ) {
+    p = s[f];
     var T = e[p], A = t[p];
     if (n)
-      var I = s ? n(A, T, p, t, e, a) : n(T, A, p, e, t, a);
+      var I = o ? n(A, T, p, t, e, a) : n(T, A, p, e, t, a);
     if (!(I === void 0 ? T === A || i(T, A, r, n, a) : I)) {
       b = !1;
       break;
@@ -3369,13 +3369,13 @@ function Cf(e, t, r, n, i, a) {
   }
   return a.delete(e), a.delete(t), b;
 }
-var Df = ke(se, "DataView");
+var Df = ke(oe, "DataView");
 const Er = Df;
-var jf = ke(se, "Promise");
+var jf = ke(oe, "Promise");
 const _r = jf;
-var qf = ke(se, "Set");
+var qf = ke(oe, "Set");
 const xr = qf;
-var Bf = ke(se, "WeakMap");
+var Bf = ke(oe, "WeakMap");
 const Tr = Bf;
 var Mn = "[object Map]", Lf = "[object Object]", Nn = "[object Promise]", Vn = "[object Set]", Hn = "[object WeakMap]", Un = "[object DataView]", Ff = Re(Er), Rf = Re(ut), kf = Re(_r), Mf = Re(xr), Nf = Re(Tr), je = xe;
 (Er && je(new Er(new ArrayBuffer(1))) != Un || ut && je(new ut()) != Mn || _r && je(_r.resolve()) != Nn || xr && je(new xr()) != Vn || Tr && je(new Tr()) != Hn) && (je = function(e) {
@@ -3398,16 +3398,16 @@ var Mn = "[object Map]", Lf = "[object Object]", Nn = "[object Promise]", Vn = "
 const Wn = je;
 var Vf = 1, zn = "[object Arguments]", Gn = "[object Array]", xt = "[object Object]", Hf = Object.prototype, Kn = Hf.hasOwnProperty;
 function Uf(e, t, r, n, i, a) {
-  var s = k(e), o = k(t), l = s ? Gn : Wn(e), u = o ? Gn : Wn(t);
+  var o = k(e), s = k(t), l = o ? Gn : Wn(e), u = s ? Gn : Wn(t);
   l = l == zn ? xt : l, u = u == zn ? xt : u;
   var c = l == xt, f = u == xt, p = l == u;
   if (p && cr(e)) {
     if (!cr(t))
       return !1;
-    s = !0, c = !1;
+    o = !0, c = !1;
   }
   if (p && !c)
-    return a || (a = new fe()), s || oi(e) ? na(e, t, r, n, i, a) : wf(e, t, l, r, n, i, a);
+    return a || (a = new fe()), o || si(e) ? na(e, t, r, n, i, a) : wf(e, t, l, r, n, i, a);
   if (!(r & Vf)) {
     var d = c && Kn.call(e, "__wrapped__"), v = f && Kn.call(t, "__wrapped__");
     if (d || v) {
@@ -3422,18 +3422,18 @@ function Qt(e, t, r, n, i) {
 }
 var Wf = 1, zf = 2;
 function Gf(e, t, r, n) {
-  var i = r.length, a = i, s = !n;
+  var i = r.length, a = i, o = !n;
   if (e == null)
     return !a;
   for (e = Object(e); i--; ) {
-    var o = r[i];
-    if (s && o[2] ? o[1] !== e[o[0]] : !(o[0] in e))
+    var s = r[i];
+    if (o && s[2] ? s[1] !== e[s[0]] : !(s[0] in e))
       return !1;
   }
   for (; ++i < a; ) {
-    o = r[i];
-    var l = o[0], u = e[l], c = o[1];
-    if (s && o[2]) {
+    s = r[i];
+    var l = s[0], u = e[l], c = s[1];
+    if (o && s[2]) {
       if (u === void 0 && !(l in e))
         return !1;
     } else {
@@ -3456,14 +3456,14 @@ function Kf(e) {
   }
   return t;
 }
-function sa(e, t) {
+function oa(e, t) {
   return function(r) {
     return r == null ? !1 : r[e] === t && (t !== void 0 || e in Object(r));
   };
 }
 function Xf(e) {
   var t = Kf(e);
-  return t.length == 1 && t[0][2] ? sa(t[0][0], t[0][1]) : function(r) {
+  return t.length == 1 && t[0][2] ? oa(t[0][0], t[0][1]) : function(r) {
     return r === e || Gf(r, e, t);
   };
 }
@@ -3475,7 +3475,7 @@ function Yf(e, t) {
 }
 var Jf = 1, Zf = 2;
 function ed(e, t) {
-  return Rr(e) && aa(t) ? sa(pt(e), t) : function(r) {
+  return Rr(e) && aa(t) ? oa(pt(e), t) : function(r) {
     var n = Xr(r, e);
     return n === void 0 && n === t ? Yf(r, e) : Qt(t, n, Jf | Zf);
   };
@@ -3501,12 +3501,12 @@ function id(e) {
     var i = Object(t);
     if (!Ft(t)) {
       var a = mt(r);
-      t = Rt(t), r = function(o) {
-        return a(i[o], o, i);
+      t = Rt(t), r = function(s) {
+        return a(i[s], s, i);
       };
     }
-    var s = e(t, r, n);
-    return s > -1 ? i[a ? t[s] : s] : void 0;
+    var o = e(t, r, n);
+    return o > -1 ? i[a ? t[o] : o] : void 0;
   };
 }
 function ad(e, t, r, n) {
@@ -3515,18 +3515,18 @@ function ad(e, t, r, n) {
       return a;
   return -1;
 }
-var Xn = 1 / 0, sd = 17976931348623157e292;
-function od(e) {
+var Xn = 1 / 0, od = 17976931348623157e292;
+function sd(e) {
   if (!e)
     return e === 0 ? e : 0;
   if (e = wr(e), e === Xn || e === -Xn) {
     var t = e < 0 ? -1 : 1;
-    return t * sd;
+    return t * od;
   }
   return e === e ? e : 0;
 }
 function tn(e) {
-  var t = od(e), r = t % 1;
+  var t = sd(e), r = t % 1;
   return t === t ? r ? t - r : t : 0;
 }
 var ld = Math.max;
@@ -3538,7 +3538,7 @@ function ud(e, t, r) {
   return i < 0 && (i = ld(n + i, 0)), ad(e, mt(t), i);
 }
 var cd = id(ud);
-const oa = cd;
+const sa = cd;
 var fd = "[object Boolean]";
 function la(e) {
   return e === !0 || e === !1 || Oe(e) && xe(e) == fd;
@@ -3695,15 +3695,17 @@ const dd = {
     async request() {
       await this.$nextTick(), this.processing = !0, this.wasSuccessful = !1, this.recentlySuccessful = !1, clearTimeout(this.recentlySuccessfulTimeoutId);
       const e = this.values instanceof FormData ? this.values : ea(this.values), t = { Accept: "application/json" };
-      this.stay && (t["X-Splade-Prevent-Refresh"] = !0), h.request(this.action, this.method.toUpperCase(), e, t).then((r) => {
-        this.$emit("success", r), this.restoreOnSuccess && this.restore(), this.resetOnSuccess && this.reset(), this.processing = !1, this.wasSuccessful = !0, this.recentlySuccessful = !0, this.recentlySuccessfulTimeoutId = setTimeout(() => this.recentlySuccessful = !1, 2e3);
-      }).catch(async (r) => {
-        if (this.processing = !1, this.$emit("error", r), !this.scrollOnError)
+      this.stay && (t["X-Splade-Prevent-Refresh"] = !0);
+      let r = this.method.toUpperCase();
+      r !== "GET" && r !== "POST" && (e.append("_method", r), r = "POST"), h.request(this.action, r, e, t).then((n) => {
+        this.$emit("success", n), this.restoreOnSuccess && this.restore(), this.resetOnSuccess && this.reset(), this.processing = !1, this.wasSuccessful = !0, this.recentlySuccessful = !0, this.recentlySuccessfulTimeoutId = setTimeout(() => this.recentlySuccessful = !1, 2e3);
+      }).catch(async (n) => {
+        if (this.processing = !1, this.$emit("error", n), !this.scrollOnError)
           return;
         await this.$nextTick();
-        const n = oa(Object.keys(this.errors), (i) => this.formElement.querySelector(`[data-validation-key="${i}"]`));
-        n && this.focusAndScrollToElement(
-          this.formElement.querySelector(`[data-validation-key="${n}"]`)
+        const i = sa(Object.keys(this.errors), (a) => this.formElement.querySelector(`[data-validation-key="${a}"]`));
+        i && this.focusAndScrollToElement(
+          this.formElement.querySelector(`[data-validation-key="${i}"]`)
         );
       });
     }
@@ -3804,7 +3806,7 @@ function md(e, t, r, n, i, a) {
   ], 512);
 }
 const vd = /* @__PURE__ */ Ne(pd, [["render", md]]), gd = {
-  components: { Render: oe },
+  components: { Render: se },
   props: {
     name: {
       type: String,
@@ -3845,8 +3847,8 @@ const vd = /* @__PURE__ */ Ne(pd, [["render", md]]), gd = {
   }
 };
 function yd(e, t, r, n, i, a) {
-  const s = ei("Render");
-  return i.html ? (j(), K(s, {
+  const o = ei("Render");
+  return i.html ? (j(), K(o, {
     key: 0,
     html: i.html
   }, null, 8, ["html"])) : r.show ? re(e.$slots, "default", { key: 1 }) : Lt("", !0);
@@ -4055,7 +4057,7 @@ const bd = /* @__PURE__ */ Ne(gd, [["render", yd]]), wd = ["href", "onClick"], S
     },
     getItemOfCurrentModel() {
       const e = this.modelValue;
-      return oa(this.choicesInstance._store.choices, (t) => t.value == e);
+      return sa(this.choicesInstance._store.choices, (t) => t.value == e);
     },
     handlePlaceholderVisibility() {
       if (!this.multiple)
@@ -4085,10 +4087,10 @@ const bd = /* @__PURE__ */ Ne(gd, [["render", yd]]), wd = ["href", "onClick"], S
         }), e.addEventListener("showDropdown", function() {
           if (r.multiple || !r.modelValue)
             return;
-          const a = r.getItemOfCurrentModel(), s = r.choicesInstance.dropdown.element.querySelector(
+          const a = r.getItemOfCurrentModel(), o = r.choicesInstance.dropdown.element.querySelector(
             `.choices__item[data-id="${a.id}"]`
           );
-          r.choicesInstance.choiceList.scrollToChildElement(s, 1), r.choicesInstance._highlightChoice(s);
+          r.choicesInstance.choiceList.scrollToChildElement(o, 1), r.choicesInstance._highlightChoice(o);
         }), this.setValueOnChoices(this.modelValue);
       });
     },
@@ -4153,8 +4155,8 @@ function Qn(e, t) {
 }
 function Cd(e, t) {
   var r = -1, n = Ft(e) ? Array(e.length) : [];
-  return jr(e, function(i, a, s) {
-    n[++r] = t(i, a, s);
+  return jr(e, function(i, a, o) {
+    n[++r] = t(i, a, o);
   }), n;
 }
 function Dd(e, t) {
@@ -4283,8 +4285,8 @@ const jd = {
           t[i] = n[1];
           return;
         }
-        const a = i.split("["), s = a[1].substring(0, a[1].length - 1);
-        parseInt(s) == s ? (i = a[0], k(t[i]) || (t[i] = []), t[i].push(n[1])) : t[i] = n[1];
+        const a = i.split("["), o = a[1].substring(0, a[1].length - 1);
+        parseInt(o) == o ? (i = a[0], k(t[i]) || (t[i] = []), t[i].push(n[1])) : t[i] = n[1];
       }), t;
     },
     updateQuery(e, t, r, n) {
@@ -4293,7 +4295,7 @@ const jd = {
       i[e] = t, (Tt(e, "perPage") || Tt(e, "filter[")) && delete i.page, this.visitWithQueryObject(i, r, n);
     },
     visitWithQueryObject(e, t, r) {
-      var o;
+      var s;
       typeof r > "u" && (r = !0);
       let n = {};
       be(e, (l, u) => {
@@ -4313,11 +4315,11 @@ const jd = {
       if (!r)
         return h.replaceUrlOfCurrentPage(a);
       this.isLoading = !0;
-      let s = null;
-      typeof t < "u" && t && (s = (o = document.querySelector(`[name="${t.name}"]`)) == null ? void 0 : o.value), h.replace(a).then(() => {
+      let o = null;
+      typeof t < "u" && t && (o = (s = document.querySelector(`[name="${t.name}"]`)) == null ? void 0 : s.value), h.replace(a).then(() => {
         this.isLoading = !1, typeof t < "u" && t && Ue(() => {
           const l = document.querySelector(`[name="${t.name}"]`);
-          l.focus(), s && (l.value = s);
+          l.focus(), o && (l.value = o);
         });
       });
     },
@@ -4497,7 +4499,7 @@ const Md = /* @__PURE__ */ Ne(Fd, [["render", kd]]), Nd = {
       toasts: this.toasts,
       dismissToast: this.dismissToast,
       hasBackdrop: this.hasBackdrop,
-      Render: oe,
+      Render: se,
       TransitionRoot: Ze,
       TransitionChild: Je
     });
@@ -4650,7 +4652,7 @@ const Md = /* @__PURE__ */ Ne(Fd, [["render", kd]]), Nd = {
   install: (e, t) => {
     t = t || {}, t.max_keep_alive = G(t, "max_keep_alive") ? t.max_keep_alive : 10, t.prefix = G(t, "prefix") ? t.prefix : "Splade", t.transform_anchors = G(t, "transform_anchors") ? t.transform_anchors : !1, t.link_component = G(t, "link_component") ? t.link_component : "Link", t.progress_bar = G(t, "progress_bar") ? t.progress_bar : !1, t.components = G(t, "components") ? t.components : {};
     const r = t.prefix;
-    if (e.component(`${r}Confirm`, ou).component(`${r}Data`, pu).component(`${r}Defer`, xu).component(`${r}Dialog`, Tu).component(`${r}Dropdown`, Bc).component(`${r}DynamicHtml`, Lc).component(`${r}Errors`, Fc).component(`${r}Event`, Rc).component(`${r}File`, Vc).component(`${r}Flash`, Hc).component(`${r}Form`, dd).component(`${r}Input`, vd).component(`${r}Lazy`, bd).component(`${r}Modal`, Od).component(`${r}OnClickOutside`, Wi).component(`${r}Render`, oe).component(`${r}Select`, xd).component(`${r}State`, Td).component(`${r}Table`, jd).component(`${r}Teleport`, Ld).component(`${r}Textarea`, Md).component(`${r}Toast`, Nd).component(`${r}Toasts`, Hd).component(`${r}Toggle`, Ud).component(`${r}Transition`, Wd).component(t.link_component, Sd), Object.defineProperty(e.config.globalProperties, "$splade", { get: () => h }), Object.defineProperty(e.config.globalProperties, "$spladeOptions", { get: () => Object.assign({}, { ...t }) }), e.provide("$splade", e.config.globalProperties.$splade), e.provide("$spladeOptions", e.config.globalProperties.$spladeOptions), t.progress_bar) {
+    if (e.component(`${r}Confirm`, su).component(`${r}Data`, pu).component(`${r}Defer`, xu).component(`${r}Dialog`, Tu).component(`${r}Dropdown`, Bc).component(`${r}DynamicHtml`, Lc).component(`${r}Errors`, Fc).component(`${r}Event`, Rc).component(`${r}File`, Vc).component(`${r}Flash`, Hc).component(`${r}Form`, dd).component(`${r}Input`, vd).component(`${r}Lazy`, bd).component(`${r}Modal`, Od).component(`${r}OnClickOutside`, Wi).component(`${r}Render`, se).component(`${r}Select`, xd).component(`${r}State`, Td).component(`${r}Table`, jd).component(`${r}Teleport`, Ld).component(`${r}Textarea`, Md).component(`${r}Toast`, Nd).component(`${r}Toasts`, Hd).component(`${r}Toggle`, Ud).component(`${r}Transition`, Wd).component(t.link_component, Sd), Object.defineProperty(e.config.globalProperties, "$splade", { get: () => h }), Object.defineProperty(e.config.globalProperties, "$spladeOptions", { get: () => Object.assign({}, { ...t }) }), e.provide("$splade", e.config.globalProperties.$splade), e.provide("$spladeOptions", e.config.globalProperties.$spladeOptions), t.progress_bar) {
       const n = {
         delay: 250,
         color: "#4B5563",
@@ -4669,28 +4671,28 @@ const Md = /* @__PURE__ */ Ne(Fd, [["render", kd]]), Nd = {
 function Yd(e, t, r) {
   const n = {};
   process.argv.slice(2).forEach((a) => {
-    const s = a.replace(/^-+/, "").split("=");
-    n[s[0]] = s.length === 2 ? s[1] : !0;
+    const o = a.replace(/^-+/, "").split("=");
+    n[o[0]] = o.length === 2 ? o[1] : !0;
   });
   const i = n.port || 9e3;
-  e(async (a, s) => {
+  e(async (a, o) => {
     if (a.method == "POST") {
-      let o = "";
-      a.on("data", (l) => o += l), a.on("end", async () => {
-        const l = JSON.parse(o), u = r({
+      let s = "";
+      a.on("data", (l) => s += l), a.on("end", async () => {
+        const l = JSON.parse(s), u = r({
           components: l.components,
           initialDynamics: l.dynamics,
           initialHtml: l.html,
           initialSpladeData: l.splade
         }), c = await t(u);
-        s.writeHead(200, { "Content-Type": "application/json", Server: "Splade SSR" }), s.write(JSON.stringify({ body: c })), s.end();
+        o.writeHead(200, { "Content-Type": "application/json", Server: "Splade SSR" }), o.write(JSON.stringify({ body: c })), o.end();
       });
     }
   }).listen(i, () => console.log(`Splade SSR server started on port ${i}.`));
 }
 export {
   h as Splade,
-  $o as SpladeApp,
+  $s as SpladeApp,
   Qd as SpladePlugin,
   Kd as renderSpladeApp,
   Yd as startServer
