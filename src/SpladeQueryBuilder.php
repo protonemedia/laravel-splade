@@ -356,7 +356,7 @@ class SpladeQueryBuilder extends SpladeTable
             $this->builder->whereKey($ids);
         }
 
-        $this->builder->chunkById(100, function (Collection $results) use ($action) {
+        $this->builder->chunkById(1000, function (Collection $results) use ($action) {
             $results->each($action);
         });
     }
