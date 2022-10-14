@@ -4,20 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Tables\Projects;
-use ProtoneMedia\Splade\Facades\Toast;
 use ProtoneMedia\Splade\SpladeTable;
 
 class TableController
 {
-    public function touch()
-    {
-        User::query()->whereKey(request()->input('ids'))->touch();
-
-        Toast::info('The users are updated!');
-
-        return redirect()->back();
-    }
-
     public function custom()
     {
         $users = User::query()->orderBy('name')->paginate(10);
