@@ -37,6 +37,12 @@ trait HasResource
         return $this;
     }
 
+    /**
+     * Same as rowLink() but it opens in a Modal.
+     *
+     * @param  callable  $callback
+     * @return self
+     */
     public function rowModal(callable $callback): self
     {
         return tap($this->rowLink($callback), function () {
@@ -44,6 +50,12 @@ trait HasResource
         });
     }
 
+    /**
+     * Same as rowLink() but it open in a Slideover.
+     *
+     * @param  callable  $callback
+     * @return self
+     */
     public function rowSlideover(callable $callback): self
     {
         return tap($this->rowLink($callback), function () {

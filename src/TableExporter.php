@@ -3,6 +3,8 @@
 namespace ProtoneMedia\Splade;
 
 use Illuminate\Contracts\Support\Responsable;
+use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
+use Illuminate\Database\Query\Builder as BaseQueryBuilder;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\FromQuery;
@@ -15,6 +17,7 @@ use Maatwebsite\Excel\Concerns\WithStyles;
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use ProtoneMedia\Splade\Table\Column;
+use Spatie\QueryBuilder\QueryBuilder as SpatieQueryBuilder;
 
 class TableExporter implements FromQuery, Responsable, ShouldAutoSize, WithColumnFormatting, WithEvents, WithHeadings, WithMapping, WithStyles
 {
@@ -30,11 +33,21 @@ class TableExporter implements FromQuery, Responsable, ShouldAutoSize, WithColum
     ) {
     }
 
-    public function query()
+    /**
+     * Returns the Query Builder to fetch the records.
+     *
+     * @return BaseQueryBuilder|EloquentBuilder|SpatieQueryBuilder
+     */
+    public function query(): BaseQueryBuilder|EloquentBuilder|SpatieQueryBuilder
     {
         return $this->table->getBuilderForExport();
     }
 
+    /**
+     * Returns a collection with all columns used in the export.
+     *
+     * @return \Illuminate\Support\Collection
+     */
     private function columns(): Collection
     {
         return $this->table->columns()->reject(function (Column $column) {
@@ -42,11 +55,21 @@ class TableExporter implements FromQuery, Responsable, ShouldAutoSize, WithColum
         })->values();
     }
 
+    /**
+     * Returns an array of all column labels.
+     *
+     * @return array
+     */
     public function headings(): array
     {
         return $this->columns()->map->label->all();
     }
 
+    /**
+     * Returns an array with optional formatting for the columns.
+     *
+     * @return array
+     */
     public function columnFormats(): array
     {
         return $this->columns()->mapWithKeys(function (Column $column, $key) {
@@ -66,6 +89,13 @@ class TableExporter implements FromQuery, Responsable, ShouldAutoSize, WithColum
         })->all();
     }
 
+    /**
+     * Returns an array with optional styling for each column. The column
+     * may also be styled with a callback.
+     *
+     * @param  \PhpOffice\PhpSpreadsheet\Worksheet\Worksheet  $sheet
+     * @return array
+     */
     public function styles(Worksheet $sheet)
     {
         $highest = $sheet->getHighestRowAndColumn();
@@ -95,6 +125,12 @@ class TableExporter implements FromQuery, Responsable, ShouldAutoSize, WithColum
         })->all();
     }
 
+    /**
+     * Maps an item into cells for a row.
+     *
+     * @param  mixed  $item
+     * @return array
+     */
     public function map($item): array
     {
         return $this->columns()->map(function (Column $column) use ($item) {
@@ -109,6 +145,7 @@ class TableExporter implements FromQuery, Responsable, ShouldAutoSize, WithColum
     }
 
     /**
+     * An array with Events that should be registered.
      * https://docs.laravel-excel.com/3.1/exports/extending.html#events
      *
      * @return array

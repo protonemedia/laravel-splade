@@ -287,7 +287,7 @@ class ServiceProvider extends BaseServiceProvider
     }
 
     /**
-     * Registers a route that's used to handle Table actions.
+     * Registers a route macro that can be used to handle Table bulk actions and exports.
      *
      * @return void
      */

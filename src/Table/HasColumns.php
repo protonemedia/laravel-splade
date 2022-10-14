@@ -24,6 +24,12 @@ trait HasColumns
         static::$defaultColumnCanBeHidden = $state;
     }
 
+    /**
+     * Set a default highlight setting for the first column.
+     *
+     * @param  bool  $state
+     * @return void
+     */
     public static function defaultHighlightFirstColumn(bool $state = true)
     {
         static::$defaultHighlightFirstColumn = $state;
