@@ -4,7 +4,7 @@
 
 FormSubmitOnChange
 
-<x-splade-form dusk="all" action="/form/twoFields" submit-on-change>
+<x-splade-form dusk="form-all" action="/form/twoFields" submit-on-change>
     <input v-model="form.name" dusk="name" />
     <p v-text="form.errors.name" />
 
@@ -12,7 +12,7 @@ FormSubmitOnChange
     <p v-text="form.errors.email" />
 </x-splade-form>
 
-<x-splade-form dusk="single" action="/form/twoFields" submit-on-change="name">
+<x-splade-form dusk="form-single" action="/form/twoFields" submit-on-change="name">
     <input v-model="form.name" dusk="name" />
     <p v-text="form.errors.name" />
 
@@ -20,7 +20,7 @@ FormSubmitOnChange
     <p v-text="form.errors.email" />
 </x-splade-form>
 
-<x-splade-form dusk="string" action="/form/twoFields" submit-on-change="name, email">
+<x-splade-form dusk="form-string" action="/form/twoFields" submit-on-change="name, email">
     <input v-model="form.name" dusk="name" />
     <p v-text="form.errors.name" />
 
@@ -28,7 +28,7 @@ FormSubmitOnChange
     <p v-text="form.errors.email" />
 </x-splade-form>
 
-<x-splade-form dusk="array" action="/form/twoFields" :submit-on-change="['name', 'email']">
+<x-splade-form dusk="form-array" action="/form/twoFields" :submit-on-change="['name', 'email']">
     <input v-model="form.name" dusk="name" />
     <p v-text="form.errors.name" />
 
