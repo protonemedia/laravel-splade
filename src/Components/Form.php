@@ -75,7 +75,7 @@ class Form extends Component
     /**
      * Split the value by comma, trim each item, and filter empty items.
      *
-     * @param string $value
+     * @param  string  $value
      * @return array
      */
     private static function splitByComma(string $value): array
