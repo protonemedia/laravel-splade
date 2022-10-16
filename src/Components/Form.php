@@ -48,7 +48,8 @@ class Form extends Component
         $default = null,
         public string $scope = 'form',
         $unguarded = null,
-        public bool $scrollOnError = true
+        public bool $scrollOnError = true,
+        public array|bool|string $submitOnChange = false,
     ) {
         // We'll use this instance in the static 'selected()' method,
         // which is a workaround for a Vue bug. Later, when the
@@ -65,6 +66,21 @@ class Form extends Component
 
         $this->parseResource($default);
         $this->parseUnguardedValue($unguarded, $default);
+
+        if (is_string($submitOnChange)) {
+            $this->submitOnChange = static::splitByComma($submitOnChange);
+        }
+    }
+
+    /**
+     * Split the value by comma, trim each item, and filter empty items.
+     *
+     * @param  string  $value
+     * @return array
+     */
+    private static function splitByComma(string $value): array
+    {
+        return array_filter(array_map('trim', explode(',', $value)));
     }
 
     /**
@@ -112,7 +128,7 @@ class Form extends Component
             $this->guarded = !$unguarded;
         } elseif (is_string($unguarded)) {
             // If it's a string, parse it into an array.
-            $unguarded = array_filter(array_map('trim', explode(',', $unguarded)));
+            $unguarded = static::splitByComma($unguarded);
         }
 
         // If there are unguarded attributes, allow those and guard the others.
