@@ -26,8 +26,8 @@
         "phpunit/phpunit": "^9.5"
     },
     "suggest": {
-        "kirschbaum-development/eloquent-power-joins": "To support sorting by (nested) relationships in Splade Tables",
-        "maatwebsite/excel": "To support exports in Splade Tables"
+        "kirschbaum-development/eloquent-power-joins": "Required to enable support sorting by (nested) relationships in Splade Tables (^2.6)",
+        "maatwebsite/excel": "Required to enable support exports in Splade Tables (^3.1)"
     },
     "autoload": {
         "psr-4": {

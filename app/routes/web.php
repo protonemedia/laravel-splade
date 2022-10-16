@@ -17,6 +17,7 @@ use App\Http\Controllers\SimpleFormController;
 use App\Http\Controllers\SlowFormController;
 use App\Http\Controllers\TableController;
 use App\Http\Controllers\ToastController;
+use App\Http\Controllers\TwoFieldsFormController;
 use App\Http\UserTableView;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
@@ -75,6 +76,9 @@ Route::middleware('splade')->group(function () {
     Route::put('form/put', SimpleFormController::class)->name('form.put.submit');
     Route::post('form/slow', SlowFormController::class)->name('form.slow.submit');
     Route::post('form/back', BackFormController::class)->name('form.back.submit');
+    Route::post('form/twoFields', TwoFieldsFormController::class)->name('form.twoFields.submit');
+
+    Route::view('form/submitOnChange', 'form.submitOnChange')->name('form.submitOnChange');
 
     Route::view('form/confirm', 'form.confirm')->name('form.confirm');
     Route::view('form/customConfirm', 'form.customConfirm')->name('form.customConfirm');

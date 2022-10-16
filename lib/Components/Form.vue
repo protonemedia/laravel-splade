@@ -4,6 +4,7 @@ import { Splade } from "../Splade.js";
 import find from "lodash-es/find";
 import get from "lodash-es/get";
 import has from "lodash-es/has";
+import isArray from "lodash-es/isArray";
 import isBoolean from "lodash-es/isBoolean";
 import mapValues from "lodash-es/mapValues";
 import set from "lodash-es/set";
@@ -90,6 +91,12 @@ export default {
             type: Boolean,
             required: false,
             default: true
+        },
+
+        submitOnChange: {
+            type: [Boolean, Array],
+            required: false,
+            default: false
         }
     },
 
@@ -160,6 +167,19 @@ export default {
         });
 
         this.missingAttributes = [];
+
+        // Create watchers
+        if(this.submitOnChange === true) {
+            this.$watch("values", () => {
+                this.$nextTick(() => this.request());
+            }, { deep: true });
+        }else if(isArray(this.submitOnChange)) {
+            this.submitOnChange.forEach((key) => {
+                this.$watch(`values.${key}`, () => {
+                    this.$nextTick(() => this.request());
+                }, { deep: true });
+            });
+        }
     },
 
     methods: {
@@ -358,6 +378,6 @@ export default {
                 }
             )
         );
-    },
+    }
 };
 </script>
