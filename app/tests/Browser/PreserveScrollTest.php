@@ -24,7 +24,7 @@ class PreserveScrollTest extends DuskTestCase
             );
 
             $browser
-                ->pause(500)    
+                ->pause(500)
                 ->click('@to-b')
                 ->waitForRoute('preserveScroll.b')
                 ->pause(500);
