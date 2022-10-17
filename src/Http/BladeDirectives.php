@@ -15,6 +15,7 @@ class BladeDirectives
     {
         Blade::directive('splade', [$this, 'splade']);
         Blade::directive('spladeHead', [$this, 'spladeHead']);
+        Blade::directive('preserveScroll', [$this, 'preserveScroll']);
 
         $this->registerTableCellDirective();
     }
@@ -44,6 +45,18 @@ class BladeDirectives
     public function spladeHead(): string
     {
         return '{{ app(\'laravel-splade-seo\')->renderHead() }}';
+    }
+
+    /**
+     * Returns a Vue directive to preserve the scroll props of the element.
+     *
+     * @return string
+     */
+    public function preserveScroll($expression): string
+    {
+        $key = md5(trim(trim($expression), "\'\""));
+
+        return "v-SpladePreserveScroll:{$key}";
     }
 
     /**

@@ -187,6 +187,9 @@ Route::middleware('splade')->group(function () {
 
     Route::view('transition/default', 'transition.default')->name('transition.default');
 
+    Route::view('preserveScroll/a', 'preserveScroll')->name('preserveScroll.a');
+    Route::view('preserveScroll/b', 'preserveScroll')->name('preserveScroll.b');
+
     Route::prefix('table')->group(function () {
         $table = new UserTableView;
 
