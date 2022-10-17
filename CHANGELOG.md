@@ -2,6 +2,13 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 0.6.2 - 2022-10-17
+
+- Form `submit-on-change` attribute
+- `@preserveScroll` directive
+- Form `stay` now also ignores responses that don't redirect back
+- Additional test for using form components with `v-model` instead of a `name` attribute
+
 ## 0.6.1 - 2022-10-14
 
 - Added test + fix for form method spoofing
