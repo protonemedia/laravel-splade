@@ -36,4 +36,9 @@ class ModalController
     {
         return view('modal.validation');
     }
+
+    public function size($size)
+    {
+        return view('modal.size', ['size' => $size]);
+    }
 }

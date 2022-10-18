@@ -153,6 +153,7 @@ Route::middleware('splade')->group(function () {
     Route::get('modal/two', [ModalController::class, 'two'])->name('modal.two');
     Route::get('modal/slideover', [ModalController::class, 'slideover'])->name('modal.slideover');
     Route::get('modal/validation', [ModalController::class, 'validation'])->name('modal.validation');
+    Route::get('modal/size/{size}', [ModalController::class, 'size'])->name('modal.size');
 
     Route::post('state', function () {
         Splade::share('info', 'This is invalid');

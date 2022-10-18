@@ -4,8 +4,8 @@
         <!-- Container to center the panel -->
         <div class="flex min-h-full items-center justify-end">
             <!-- The actual dialog panel -->
-            <x-splade-component is="transition" child animation="slide-right" after-leave="modal.emitClose">
-                <x-splade-component is="dialog" panel class="transition w-full" v-bind:class="{
+            <x-splade-component is="transition" child animation="slide-right" after-leave="modal.emitClose" v-bind:class="{
+                    'transition w-full': true,
                     'blur-sm': !modal.onTopOfStack,
                     'sm:max-w-sm': modal.maxWidth == 'sm',
                     'sm:max-w-md': modal.maxWidth == 'md',
@@ -18,6 +18,7 @@
                     'sm:max-w-md md:max-w-xl lg:max-w-3xl xl:max-w-5xl 2xl:max-w-6xl': modal.maxWidth == '6xl',
                     'sm:max-w-md md:max-w-xl lg:max-w-3xl xl:max-w-5xl 2xl:max-w-7xl': modal.maxWidth == '7xl'
                 }">
+                <x-splade-component is="dialog" panel dusk="slideover-dialog">
                     <div class="bg-white p-6 min-h-screen relative">
                         <div v-if="modal.closeButton" class="absolute top-0 right-0 pt-3 pr-3">
                             <button dusk="close-modal-button" @click="modal.close" type="button" class="text-gray-400 hover:text-gray-500">
