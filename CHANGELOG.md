@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 0.6.3 - 2022-10-18
+
+- Modal/slideover size tests + styling bugfix
+
 ## 0.6.2 - 2022-10-17
 
 - Form `submit-on-change` attribute
