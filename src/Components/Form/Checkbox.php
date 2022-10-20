@@ -17,12 +17,13 @@ class Checkbox extends Component
     public function __construct(
         public string $name = '',
         public string $vModel = '',
-        public $value = 1,
+        public $value = true,
         public string $label = '',
         public string $validationKey = '',
         public bool $showErrors = true,
         public string $help = '',
-        public bool $relation = false
+        public bool $relation = false,
+        public $falseValue = false,
     ) {
         Form::allowAttribute($name);
 

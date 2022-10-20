@@ -104,6 +104,7 @@ Route::middleware('splade')->group(function () {
 
     Route::get('form/components/simple', [FormComponentsController::class, 'simple'])->name('form.components.simple');
     Route::get('form/components/vmodel', [FormComponentsController::class, 'vmodel'])->name('form.components.vmodel');
+    Route::get('form/components/checkbox', [FormComponentsController::class, 'checkbox'])->name('form.components.checkbox');
     Route::get('form/components/checkboxes', [FormComponentsController::class, 'checkboxes'])->name('form.components.checkboxes');
     Route::post('form/components/checkboxes', [FormComponentsController::class, 'submitCheckboxes'])->name('form.components.submitCheckboxes');
     Route::get('form/components/radios', [FormComponentsController::class, 'radios'])->name('form.components.radios');
