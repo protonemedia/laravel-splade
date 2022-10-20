@@ -37,4 +37,47 @@ class ComponentsTest extends DuskTestCase
                 ->assertRouteIs('navigation.one');
         });
     }
+
+    /** @test */
+    public function it_can_change_the_value_of_a_checkbox_element()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('form/components/checkbox')
+                ->waitForText('FormCheckbox')
+                ->assertNotChecked('check_0')
+                ->assertChecked('check_1')
+                ->assertNotChecked('check_false')
+                ->assertChecked('check_true')
+                ->assertNotChecked('check_0_diff_false')
+                ->assertChecked('check_1_diff_false')
+                ->assertNotChecked('check_false_diff_false')
+                ->assertChecked('check_true_diff_false');
+
+            $checkboxes = [
+                'check_0',
+                'check_1',
+                'check_false',
+                'check_true',
+                'check_0_diff_false',
+                'check_1_diff_false',
+                'check_false_diff_false',
+                'check_true_diff_false',
+            ];
+
+            // uncheck everything
+            foreach ($checkboxes as $field) {
+                $browser->check($field);
+                $browser->uncheck($field);
+            }
+
+            $browser->assertSeeIn('@all', '{ "check_0": false, "check_1": false, "check_false": false, "check_true": false, "check_0_diff_false": "no", "check_1_diff_false": "no", "check_false_diff_false": "no", "check_true_diff_false": "no" }');
+
+            // check everything
+            foreach ($checkboxes as $field) {
+                $browser->check($field);
+            }
+
+            $browser->assertSeeIn('@all', '{ "check_0": "1", "check_1": "1", "check_false": true, "check_true": true, "check_0_diff_false": "1", "check_1_diff_false": "1", "check_false_diff_false": true, "check_true_diff_false": true }');
+        });
+    }
 }

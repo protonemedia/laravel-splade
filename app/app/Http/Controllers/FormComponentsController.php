@@ -31,6 +31,11 @@ class FormComponentsController
         return view('form.components.vmodel', ['countries' => $this->countries()]);
     }
 
+    public function checkbox()
+    {
+        return view('form.components.checkbox');
+    }
+
     public function checkboxes()
     {
         return view('form.components.checkboxes', [
