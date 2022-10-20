@@ -4,9 +4,7 @@ namespace ProtoneMedia\Splade\Http;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\View as ViewFacade;
 use Illuminate\Support\Str;
-use Illuminate\View\Factory;
 use Illuminate\View\View;
 use ProtoneMedia\Splade\Components\SpladeComponent;
 
@@ -174,12 +172,6 @@ class PrepareTableCells
      */
     public function registerEventListener(): self
     {
-        if (method_exists(Factory::class, 'creator')) {
-            ViewFacade::creator('*', function () {
-                //
-            });
-        }
-
         $listener = $this->interceptCreatingViews(SpladeComponent::tag('table'), function (View $view) {
             return $view->renderWithTableCellComponents();
         });
