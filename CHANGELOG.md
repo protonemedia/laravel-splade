@@ -2,6 +2,11 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 0.6.5 - 2022-10-20
+
+- Checkbox value fix
+- Revert fix for micro-optimization on view events (https://github.com/laravel/framework/pull/44653)
+
 ## 0.6.4 - 2022-10-20
 
 - Choices.js fix for default array values
