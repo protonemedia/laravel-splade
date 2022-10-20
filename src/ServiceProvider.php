@@ -194,14 +194,18 @@ class ServiceProvider extends BaseServiceProvider
                 /** @var Browser browser */
                 $browser = $this;
 
-                if (Str::startsWith($selectName, '@')) {
-                    $browser->click($selectName);
-                } else {
-                    $browser->click("div.choices__inner[data-select-name='{$selectName}']");
-                }
+                $choicesSelector = Str::startsWith($selectName, '@')
+                    ? '[dusk="' . explode('@', $selectName)[1] . '"]'
+                    : 'div.choices__inner[data-select-name="' . $selectName . '"]';
+
+                $dataType = $browser->script("return document.querySelector('{$choicesSelector}').parentNode.getAttribute('data-type');")[0] ?? 'select-one';
+
+                $browser->click(
+                    $dataType === 'select-multiple' ? "{$choicesSelector} input" : $choicesSelector
+                );
 
                 return $browser
-                    ->whenAvailable('div.choices.is-open', function (Browser $browser) use ($value) {
+                    ->whenAvailable('div.choices.is-open', function (Browser $browser) use ($value, $dataType) {
                         $value = $value ? addslashes($value) : $value;
 
                         $selector = $value
@@ -209,8 +213,12 @@ class ServiceProvider extends BaseServiceProvider
                             : 'div.choices__item[data-value]:not(.choices__placeholder)';
 
                         $browser->click($selector);
+
+                        if ($dataType === 'select-multiple') {
+                            $browser->keys('input', '{ESCAPE}');
+                        }
                     })
-                    ->waitUntilMissing("div.choices.is-open[data-type='select-one']");
+                    ->waitUntilMissing("div.choices.is-open[data-type='{$dataType}']");
             });
         }
 

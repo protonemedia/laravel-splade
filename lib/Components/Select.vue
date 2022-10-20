@@ -8,6 +8,7 @@
 
 <script>
 import find from "lodash-es/find";
+import map from "lodash-es/map";
 
 export default {
     inject: ["stack"],
@@ -100,7 +101,7 @@ export default {
     /*
      * Destroy the Choices.js instance to prevent memory leaks.
      */
-    beforeUnmount(){
+    beforeUnmount() {
         if(this.choices && this.choicesInstance) {
             if(this.headlessListener) {
                 document.querySelector("#headlessui-portal-root")?.removeEventListener("click", this.headlessListener);
@@ -116,6 +117,9 @@ export default {
          */
         setValueOnChoices(value) {
             if (Array.isArray(value)) {
+                // Choices.js doesn't like numeric values.
+                value = map(value, (value) => `${value}`);
+
                 this.choicesInstance.removeActiveItems();
             }
 
@@ -199,6 +203,13 @@ export default {
                     "data-select-name",
                     selectElement.name
                 );
+
+                if(selectElement.hasAttribute("dusk")) {
+                    // Move the Dusk selector from the select element to the Choices.js element.
+                    const duskSelector = selectElement.getAttribute("dusk");
+                    selectElement.removeAttribute("dusk");
+                    this.choicesInstance.containerInner.element.setAttribute("dusk", duskSelector);
+                }
 
                 this.handlePlaceholderVisibility();
                 this.updateHasSelectionAttribute();

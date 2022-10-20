@@ -39,6 +39,43 @@ class RelationsTest extends DuskTestCase
     }
 
     /** @test */
+    public function it_can_handle_a_belongs_to_many_relationship_with_the_choices_library()
+    {
+        $tags = Tag::query()->get();
+
+        $user = User::first();
+
+        $user->tags()->sync($oldIds = $tags->take(3)->map->id);
+
+        $newIds = [$tags->get(0)->id, $tags->get(7)->id, $tags->get(8)->id, $tags->get(9)->id];
+
+        $this->browse(function (Browser $browser) use ($tags, $oldIds, $newIds) {
+            $browser->visit('form/relations/belongsToMany/choices')
+                ->waitForText('FormComponents')
+                ->assertSelected('tags[]', $tags->get(0)->id)
+                ->assertSelected('tags[]', $tags->get(1)->id)
+                ->assertSelected('tags[]', $tags->get(2)->id)
+                ->assertNotSelected('tags[]', $tags->get(3)->id)
+                ->assertNotSelected('tags[]', $tags->get(9)->id);
+
+            foreach ($oldIds as $oldId) {
+                $browser->choicesRemoveItem('tags[]', $oldId);
+            }
+
+            foreach ($newIds as $newId) {
+                $browser->choicesSelect('tags[]', $newId);
+            }
+
+            $browser
+                ->press('Submit')
+                ->waitUntilMissingText('FormComponents')
+                ->waitForRoute('navigation.one');
+        });
+
+        $this->assertEquals($newIds, $user->tags()->get()->map->id->all());
+    }
+
+    /** @test */
     public function it_can_handle_a_morph_to_many_relationship()
     {
         $keywords = Keyword::query()->get();

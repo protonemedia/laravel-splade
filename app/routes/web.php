@@ -127,6 +127,7 @@ Route::middleware('splade')->group(function () {
     Route::post('form/components/submitValue/{approved?}', [FormComponentsController::class, 'submitValueSubmit'])->name('form.components.submitValueSubmit');
 
     Route::get('form/relations/belongsToMany', [FormRelationsController::class, 'belongsToMany'])->name('form.relations.belongsToMany');
+    Route::get('form/relations/belongsToMany/choices', [FormRelationsController::class, 'belongsToManyChoices'])->name('form.relations.belongsToManyChoices');
     Route::post('form/relations/belongsToMany', [FormRelationsController::class, 'storeBelongsToMany'])->name('form.relations.storeBelongsToMany');
     Route::get('form/relations/morphToMany', [FormRelationsController::class, 'morphToMany'])->name('form.relations.morphToMany');
     Route::post('form/relations/morphToMany', [FormRelationsController::class, 'storeMorphToMany'])->name('form.relations.storeMorphToMany');

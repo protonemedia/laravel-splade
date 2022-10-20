@@ -18,6 +18,15 @@ class FormRelationsController
         ]);
     }
 
+    public function belongsToManyChoices()
+    {
+        return view('form.components.belongs-to-many-choices', [
+            'user' => User::first(),
+
+            'tagOptions' => Tag::get()->keyBy->id->map->name,
+        ]);
+    }
+
     public function storeBelongsToMany(Request $request)
     {
         $data = $request->validate([
