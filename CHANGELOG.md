@@ -2,6 +2,11 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 0.6.4 - 2022-10-20
+
+- Choices.js fix for default array values
+- Improved Dusk macro for Choices.js
+
 ## 0.6.3 - 2022-10-18
 
 - Modal/slideover size tests + styling bugfix
