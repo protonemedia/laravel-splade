@@ -205,7 +205,7 @@ class ServiceProvider extends BaseServiceProvider
                 );
 
                 return $browser
-                    ->whenAvailable('div.choices.is-open', function (Browser $browser) use ($value, $dataType) {
+                    ->whenAvailable('div.choices.is-open', function (Browser $browser) use ($value, $choicesSelector, $dataType) {
                         $value = $value ? addslashes($value) : $value;
 
                         $selector = $value
@@ -215,7 +215,7 @@ class ServiceProvider extends BaseServiceProvider
                         $browser->click($selector);
 
                         if ($dataType === 'select-multiple') {
-                            $browser->keys('input', '{ESCAPE}');
+                            $browser->script("return document.querySelector('{$choicesSelector}').dispatchEvent(new Event('hideDropdownFromDusk'));");
                         }
                     })
                     ->waitUntilMissing("div.choices.is-open[data-type='{$dataType}']");

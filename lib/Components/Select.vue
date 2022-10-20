@@ -231,6 +231,10 @@ export default {
                     }
                 });
 
+                this.choicesInstance.containerInner.element.addEventListener("hideDropdownFromDusk", function () {
+                    vm.choicesInstance.hideDropdown();
+                });
+
                 // Scroll to the selected item when the dropdown is shown.
                 selectElement.addEventListener("showDropdown", function() {
                     if (vm.multiple || !vm.modelValue) {

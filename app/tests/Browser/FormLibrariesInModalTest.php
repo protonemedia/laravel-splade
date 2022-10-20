@@ -37,7 +37,7 @@ class FormLibrariesInModalTest extends DuskTestCase
     }
 
     /** @test */
-    public function it_can_use_the_choices_js_library_for_a_multiple_select_element()
+    public function it_can_use_the_choices_js_library_for_a_multiple_select_element_in_a_modal()
     {
         $this->browse(function (Browser $browser) {
             $browser->visit('modal/base')
