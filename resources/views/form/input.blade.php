@@ -27,6 +27,7 @@
                 'v-model' => $flatpickrOptions() ? null : $vueModel(),
                 'data-validation-key' => $validationKey(),
             ]) }}
+                v-on:blur="form.$touch(@js($formKey()))"
             />
 
             @if($append)

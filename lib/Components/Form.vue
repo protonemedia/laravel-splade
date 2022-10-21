@@ -117,6 +117,7 @@ export default {
             recentlySuccessful: false,
             recentlySuccessfulTimeoutId: null,
             formElement: null,
+            touchedKeys: [],
         };
     },
 
@@ -173,6 +174,7 @@ export default {
         });
 
         this.missingAttributes = [];
+        this.touchedKeys = [];
 
         // Create watchers
         if(this.submitOnChange === true) {
@@ -202,7 +204,13 @@ export default {
         },
 
         $put(key, value) {
+            this.$touch(key);
+
             return set(this.values, key, value);
+        },
+
+        $touch(key) {
+            this.touchedKeys = [...new Set([key, ...this.touchedKeys])];
         },
 
         focusAndScrollToElement(element) {
@@ -291,6 +299,8 @@ export default {
 
             if(this.precognition) {
                 headers["Precognition"] = true;
+
+                headers["Precognition-Validate-Only"] = this.touchedKeys.join(",");
             }
 
             let method = this.method.toUpperCase();
@@ -361,6 +371,7 @@ export default {
                             "$all",
                             "$attrs",
                             "$put",
+                            "$touch",
                             "errors",
                             "restore",
                             "reset",
