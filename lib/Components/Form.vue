@@ -97,7 +97,13 @@ export default {
             type: [Boolean, Array],
             required: false,
             default: false
-        }
+        },
+
+        precognition: {
+            type: Boolean,
+            required: false,
+            default: false
+        },
     },
 
     emits: ["success", "error"],
@@ -283,6 +289,10 @@ export default {
                 headers["X-Splade-Prevent-Refresh"] = true;
             }
 
+            if(this.precognition) {
+                headers["Precognition"] = true;
+            }
+
             let method = this.method.toUpperCase();
 
             if(method !== "GET" && method !== "POST") {
@@ -292,6 +302,12 @@ export default {
 
             Splade.request(this.action, method, data, headers)
                 .then((response) => {
+                    this.processing = false;
+
+                    if (response.headers.precognition) {
+                        return;
+                    }
+
                     this.$emit("success", response);
 
                     if (this.restoreOnSuccess) {
@@ -302,7 +318,6 @@ export default {
                         this.reset();
                     }
 
-                    this.processing = false;
                     this.wasSuccessful = true;
                     this.recentlySuccessful = true;
                     this.recentlySuccessfulTimeoutId = setTimeout(() => this.recentlySuccessful = false, 2000);

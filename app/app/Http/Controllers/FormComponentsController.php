@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ComponentsRequest;
 use App\Models\Dummy;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -203,24 +204,8 @@ class FormComponentsController
         ]]);
     }
 
-    public function submit(Request $request)
+    public function submit(ComponentsRequest $request)
     {
-        $request->validate([
-            'name'      => ['required', 'string'],
-            'password'  => ['required', 'string'],
-            'secret'    => ['required', 'string'],
-            'file'      => ['required', 'file'],
-            'files'     => ['required', 'array', 'min:2'],
-            'files.*'   => ['required', 'file'],
-            'date'      => ['required', 'string'],
-            'time'      => ['required', 'string'],
-            'biography' => ['required', 'string'],
-            'options'   => ['required', 'array', 'min:1'],
-            'language'  => ['required', 'in:en,nl'],
-            'country'   => ['required', 'string', Rule::in(array_keys($this->countries()))],
-            'terms'     => ['required', 'boolean', 'accepted'],
-        ]);
-
         return redirect()->route('navigation.one');
     }
 }

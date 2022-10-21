@@ -19,6 +19,7 @@ use App\Http\Controllers\TableController;
 use App\Http\Controllers\ToastController;
 use App\Http\Controllers\TwoFieldsFormController;
 use App\Http\UserTableView;
+use Illuminate\Foundation\Http\Middleware\HandlePrecognitiveRequests;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
@@ -123,7 +124,7 @@ Route::middleware('splade')->group(function () {
     Route::get('form/components/fluent', [FormComponentsController::class, 'fluent'])->name('form.components.fluent');
     Route::get('form/components/unguarded', [FormComponentsController::class, 'unguarded'])->name('form.components.unguarded');
     Route::get('form/components/defaultUnguarded', [FormComponentsController::class, 'defaultUnguarded'])->name('form.components.defaultUnguarded');
-    Route::post('form/components', [FormComponentsController::class, 'submit'])->name('form.components.submit');
+    Route::post('form/components', [FormComponentsController::class, 'submit'])->name('form.components.submit')->middleware(HandlePrecognitiveRequests::class);
     Route::get('form/components/submitValue/{approved?}', [FormComponentsController::class, 'submitValue'])->name('form.components.submitValue');
     Route::post('form/components/submitValue/{approved?}', [FormComponentsController::class, 'submitValueSubmit'])->name('form.components.submitValueSubmit');
 
