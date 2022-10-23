@@ -60,8 +60,9 @@ class SpladeMiddleware
         // Gather the required meta data for the app.
         $spladeData = $this->spladeData($request->session());
 
-        if ($response instanceof RedirectResponse && $this->redirectsAway($response)) {
-            return Splade::redirectAway($response->getTargetUrl());
+        // The response should redirect away from the Splade app.
+        if ($redirect = $this->shouldRedirectsAway($response)) {
+            return $redirect;
         }
 
         // If the response is a redirect, put the toasts into the session
@@ -276,7 +277,6 @@ class SpladeMiddleware
                 $session->pull(static::FLASH_TOASTS, []),
                 $this->splade->getToasts(),
             ),
-
             'preventRefresh' => $this->splade->dontRefreshPage(),
             'lazy'           => $this->splade->isLazyRequest(),
         ];
@@ -285,14 +285,25 @@ class SpladeMiddleware
     /**
      * Returns a boolean whether the Target URL is outside of the app.
      *
-     * @param  \Illuminate\Http\RedirectResponse  $redirect
+     * @param  \Symfony\Component\HttpFoundation\Response  $redirect
      * @return bool
      */
-    private function redirectsAway(RedirectResponse $redirect): bool
+    private function shouldRedirectsAway(Response $response): bool|Response
     {
-        $targetUrl = $redirect->getTargetUrl();
+        if ($response->headers->has(SpladeCore::HEADER_REDIRECT_AWAY)) {
+            // This is already a redirect to an outside target.
+            return $response;
+        }
+
+        if (!$response instanceof RedirectResponse) {
+            // No redirect at all.
+            return false;
+        }
+
+        $targetUrl = $response->getTargetUrl();
 
         if (Str::startsWith($targetUrl, '/')) {
+            // Relative URL.
             return false;
         }
 
@@ -304,7 +315,12 @@ class SpladeMiddleware
             '/'
         );
 
-        return $this->urlToHostAndPort($appUrl) !== $this->urlToHostAndPort($targetUrl);
+        if ($this->urlToHostAndPort($appUrl) === $this->urlToHostAndPort($targetUrl)) {
+            // A redirect inside the app.
+            return false;
+        }
+
+        return Splade::redirectAway($targetUrl);
     }
 
     /**

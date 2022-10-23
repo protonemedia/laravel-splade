@@ -8,6 +8,7 @@
         <Link dusk="video" href="/navigation/video/one">Video</Link>
         <Link dusk="redirectToTwo" href="/navigation/redirectToTwo">redirectToTwo</Link>
         <Link dusk="away" href="/navigation/away">Away</Link>
+        <Link dusk="awayViaFacade" href="/navigation/awayViaFacade">AwayViaFacade</Link>
         <Link dusk="lazy" href="/lazy">Lazy</Link>
 
         <Link confirm dusk="confirm" href="/navigation/two">Confirm to two</Link>
