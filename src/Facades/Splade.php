@@ -4,6 +4,7 @@ namespace ProtoneMedia\Splade\Facades;
 
 use Closure;
 use Illuminate\Foundation\Exceptions\Handler;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Facade;
 use ProtoneMedia\Splade\EventRedirectFactory;
 use ProtoneMedia\Splade\EventRefresh;
@@ -31,6 +32,7 @@ use ProtoneMedia\Splade\SpladeToast;
  * @method static SpladeToast toastOnEvent(string $message = '')
  * @method static string getModalKey()
  * @method static string modalType()
+ * @method static JsonResponse location(string $targetUrl)
  *
  * @see \ProtoneMedia\Splade\SpladeCore
  */

@@ -4,6 +4,7 @@ namespace ProtoneMedia\Splade;
 
 use Closure;
 use Illuminate\Foundation\Exceptions\Handler;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Validation\ValidationException;
@@ -19,6 +20,8 @@ class SpladeCore
     const HEADER_PREVENT_REFRESH = 'X-Splade-Prevent-Refresh';
 
     const HEADER_LAZY = 'X-Splade-Lazy';
+
+    const HEADER_REDIRECT_AWAY = 'X-Splade-Redirect-Away';
 
     const MODAL_TYPE_MODAL = 'modal';
 
@@ -361,5 +364,19 @@ class SpladeCore
             'slideover' => static::MODAL_TYPE_SLIDEOVER,
             default     => static::MODAL_TYPE_MODAL
         };
+    }
+
+    /**
+     * Returns a JSON response that indicates that the Splade frontend
+     * should redirect to an external URL.
+     *
+     * @param string $targetUrl
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function location(string $targetUrl): JsonResponse
+    {
+        return new JsonResponse(null, 409, [
+            static::HEADER_REDIRECT_AWAY => $targetUrl,
+        ]);
     }
 }
