@@ -32,7 +32,7 @@ use ProtoneMedia\Splade\SpladeToast;
  * @method static SpladeToast toastOnEvent(string $message = '')
  * @method static string getModalKey()
  * @method static string modalType()
- * @method static JsonResponse location(string $targetUrl)
+ * @method static JsonResponse redirectAway(string $targetUrl)
  *
  * @see \ProtoneMedia\Splade\SpladeCore
  */

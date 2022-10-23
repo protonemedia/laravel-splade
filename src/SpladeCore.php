@@ -373,7 +373,7 @@ class SpladeCore
      * @param  string  $targetUrl
      * @return \Illuminate\Http\JsonResponse
      */
-    public function location(string $targetUrl): JsonResponse
+    public function redirectAway(string $targetUrl): JsonResponse
     {
         return new JsonResponse(null, 409, [
             static::HEADER_REDIRECT_AWAY => $targetUrl,

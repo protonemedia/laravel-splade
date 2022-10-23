@@ -60,8 +60,8 @@ class SpladeMiddleware
         // Gather the required meta data for the app.
         $spladeData = $this->spladeData($request->session());
 
-        if ($response instanceof RedirectResponse && $this->redirectsAway($request, $response)) {
-            return Splade::location($response->getTargetUrl());
+        if ($response instanceof RedirectResponse && $this->redirectsAway($response)) {
+            return Splade::redirectAway($response->getTargetUrl());
         }
 
         // If the response is a redirect, put the toasts into the session
@@ -285,11 +285,10 @@ class SpladeMiddleware
     /**
      * Returns a boolean whether the Target URL is outside of the app.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  \Illuminate\Http\RedirectResponse  $redirect
      * @return bool
      */
-    private function redirectsAway(Request $request, RedirectResponse $redirect): bool
+    private function redirectsAway(RedirectResponse $redirect): bool
     {
         $targetUrl = $redirect->getTargetUrl();
 
