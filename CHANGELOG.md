@@ -2,6 +2,11 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 0.6.6 - 2022-10-23
+
+- Support for external redirects (automatic and explicit via `Splade::redirectAway()`)
+- With a Date-range Form Input component, only update the internal Vue model when both dates are selected
+
 ## 0.6.5 - 2022-10-20
 
 - Checkbox value fix
