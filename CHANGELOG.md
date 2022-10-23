@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 0.6.7 - 2022-10-23
+
+- Splade Middleware refactor
+
 ## 0.6.6 - 2022-10-23
 
 - Support for external redirects (automatic and explicit via `Splade::redirectAway()`)
