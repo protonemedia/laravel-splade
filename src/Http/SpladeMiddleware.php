@@ -7,13 +7,16 @@ use Illuminate\Contracts\Session\Session;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response as LaravelResponse;
+use Illuminate\Routing\UrlGenerator;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
+use ProtoneMedia\Splade\Facades\Splade;
 use ProtoneMedia\Splade\SpladeCore;
 use ProtoneMedia\Splade\Ssr;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
@@ -56,6 +59,10 @@ class SpladeMiddleware
 
         // Gather the required meta data for the app.
         $spladeData = $this->spladeData($request->session());
+
+        if ($response instanceof RedirectResponse && $this->redirectsAway($response)) {
+            return Splade::redirectAway($response->getTargetUrl());
+        }
 
         // If the response is a redirect, put the toasts into the session
         // so they won't be lost in the next request.
@@ -273,6 +280,55 @@ class SpladeMiddleware
             'preventRefresh' => $this->splade->dontRefreshPage(),
             'lazy'           => $this->splade->isLazyRequest(),
         ];
+    }
+
+    /**
+     * Returns a boolean whether the Target URL is outside of the app.
+     *
+     * @param  \Illuminate\Http\RedirectResponse  $redirect
+     * @return bool
+     */
+    private function redirectsAway(RedirectResponse $redirect): bool
+    {
+        $targetUrl = $redirect->getTargetUrl();
+
+        if (Str::startsWith($targetUrl, '/')) {
+            return false;
+        }
+
+        /** @var UrlGenerator $urlGenerator */
+        $urlGenerator = app('url');
+
+        $appUrl = $urlGenerator->format(
+            $urlGenerator->formatRoot($urlGenerator->formatScheme()) ?: config('app.url'),
+            '/'
+        );
+
+        return $this->urlToHostAndPort($appUrl) !== $this->urlToHostAndPort($targetUrl);
+    }
+
+    /**
+     * Maps a full URL to a host:port formatted string.
+     *
+     * @param  string  $url
+     * @return string
+     */
+    public static function urlToHostAndPort(string $url): string
+    {
+        if (!parse_url($url, PHP_URL_HOST)) {
+            $url = "http://{$url}";
+        }
+
+        $parsed = parse_url($url);
+
+        $host = $parsed['host'] ?? 'host';
+        $port = $parsed['port'] ?? null;
+
+        if (!$port) {
+            $port = $parsed['scheme'] === 'http' ? 80 : 443;
+        }
+
+        return "{$host}:{$port}";
     }
 
     /**

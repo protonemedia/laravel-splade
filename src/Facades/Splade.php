@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Facade;
 use ProtoneMedia\Splade\EventRedirectFactory;
 use ProtoneMedia\Splade\EventRefresh;
 use ProtoneMedia\Splade\SpladeToast;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @method static array getShared()
@@ -31,6 +32,7 @@ use ProtoneMedia\Splade\SpladeToast;
  * @method static SpladeToast toastOnEvent(string $message = '')
  * @method static string getModalKey()
  * @method static string modalType()
+ * @method static Response redirectAway(string $targetUrl)
  *
  * @see \ProtoneMedia\Splade\SpladeCore
  */

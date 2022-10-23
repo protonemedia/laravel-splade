@@ -26,6 +26,32 @@ class NavigationTest extends DuskTestCase
     }
 
     /** @test */
+    public function it_can_redirect_without_reloading_the_whole_page()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('/navigation/one')
+                ->waitForText('NavigationOne')
+                ->tap(fn (Browser $browser) => $browser->script('document.body.classList.add("persistent")'))
+                ->click('@redirectToTwo')
+                ->waitForText('NavigationTwo')
+                ->assertRouteIs('navigation.two')
+                ->tap(fn (Browser $browser) => $this->assertStringContainsString('persistent', $browser->element('')->getAttribute('class')));
+        });
+    }
+
+    /** @test */
+    public function it_can_redirect_away_from_the_splade_spa()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('/navigation/one')
+                ->waitForText('NavigationOne')
+                ->click('@away')
+                ->waitUntilMissingText('NavigationOne')
+                ->assertUrlIs('https://splade.dev/');
+        });
+    }
+
+    /** @test */
     public function it_can_use_the_back_and_forward_buttons()
     {
         $this->browse(function (Browser $browser) {
