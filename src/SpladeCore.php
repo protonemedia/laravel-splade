@@ -370,7 +370,7 @@ class SpladeCore
      * Returns a JSON response that indicates that the Splade frontend
      * should redirect to an external URL.
      *
-     * @param string $targetUrl
+     * @param  string  $targetUrl
      * @return \Illuminate\Http\JsonResponse
      */
     public function location(string $targetUrl): JsonResponse

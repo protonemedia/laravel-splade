@@ -285,9 +285,9 @@ class SpladeMiddleware
     /**
      * Returns a boolean whether the Target URL is outside of the app.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param \Illuminate\Http\RedirectResponse $redirect
-     * @return boolean
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\RedirectResponse  $redirect
+     * @return bool
      */
     private function redirectsAway(Request $request, RedirectResponse $redirect): bool
     {
@@ -311,7 +311,7 @@ class SpladeMiddleware
     /**
      * Maps a full URL to a host:port formatted string.
      *
-     * @param string $url
+     * @param  string  $url
      * @return string
      */
     public static function urlToHostAndPort(string $url): string
