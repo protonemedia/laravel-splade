@@ -56,6 +56,12 @@ const props = defineProps({
         required: false,
         default: false,
     },
+
+    away: {
+        type: Boolean,
+        required: false,
+        default: false,
+    },
 });
 
 /*
@@ -84,6 +90,10 @@ function navigate() {
  * Calls the modal/slideover or replace/visit method on the Splade instance.
  */
 function perform() {
+    if (props.away) {
+        return window.location = props.href;
+    }
+
     if (props.modal) {
         return Splade.modal(props.href);
     }

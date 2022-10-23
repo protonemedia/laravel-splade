@@ -64,6 +64,18 @@ class NavigationTest extends DuskTestCase
     }
 
     /** @test */
+    public function it_can_redirect_away_from_the_splade_spa_with_the_link_component()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('/navigation/one')
+                ->waitForText('NavigationOne')
+                ->click('@awayViaLink')
+                ->waitUntilMissingText('NavigationOne')
+                ->assertUrlIs('https://splade.dev/');
+        });
+    }
+
+    /** @test */
     public function it_can_use_the_back_and_forward_buttons()
     {
         $this->browse(function (Browser $browser) {
