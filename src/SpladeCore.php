@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Validation\ValidationException;
 use ProtoneMedia\Splade\Http\ResolvableData;
+use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 
 class SpladeCore
@@ -371,10 +372,14 @@ class SpladeCore
      * should redirect to an external URL.
      *
      * @param  string  $targetUrl
-     * @return \Illuminate\Http\JsonResponse
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function redirectAway(string $targetUrl): JsonResponse
+    public function redirectAway(string $targetUrl): Response
     {
+        if (!$this->isSpladeRequest()) {
+            return redirect()->away($targetUrl);
+        }
+
         return new JsonResponse(null, 409, [
             static::HEADER_REDIRECT_AWAY => $targetUrl,
         ]);
