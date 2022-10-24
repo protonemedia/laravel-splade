@@ -38,7 +38,7 @@ trait OpenGraph
     /**
      * Setter for the 'og:type' Meta Property.
      *
-     * @param string $value
+     * @param  string  $value
      * @return self
      */
     public function openGraphType(string $value): self
@@ -49,7 +49,7 @@ trait OpenGraph
     /**
      * Setter for the 'og:site_name' Meta Property.
      *
-     * @param string $value
+     * @param  string  $value
      * @return self
      */
     public function openGraphSiteName(string $value): self
@@ -60,7 +60,7 @@ trait OpenGraph
     /**
      * Setter for the 'og:title' Meta Property.
      *
-     * @param string $value
+     * @param  string  $value
      * @return self
      */
     public function openGraphTitle(string $value): self
@@ -71,7 +71,7 @@ trait OpenGraph
     /**
      * Setter for the 'og:url' Meta Property.
      *
-     * @param string $value
+     * @param  string  $value
      * @return self
      */
     public function openGraphUrl(string $value): self
@@ -82,7 +82,7 @@ trait OpenGraph
     /**
      * Setter for the 'og:image' Meta Property.
      *
-     * @param string $value
+     * @param  string  $value
      * @return self
      */
     public function openGraphImage(string $value): self

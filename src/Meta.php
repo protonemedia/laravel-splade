@@ -56,7 +56,7 @@ class Meta implements Arrayable, JsonSerializable
     /**
      * Dynamic getter for the attributes.
      *
-     * @param string $key
+     * @param  string  $key
      * @return mixed
      */
     public function __get(string $key)

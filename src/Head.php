@@ -197,7 +197,7 @@ class Head implements Arrayable, JsonSerializable
     /**
      * Get a Meta instance by name.
      *
-     * @param string $name
+     * @param  string  $name
      * @return Meta|null
      */
     public function getMetaByName(string $name): ?Meta
@@ -210,7 +210,7 @@ class Head implements Arrayable, JsonSerializable
     /**
      * Get a Meta instance by property.
      *
-     * @param string $property
+     * @param  string  $property
      * @return Meta|null
      */
     public function getMetaByProperty(string $property): ?Meta

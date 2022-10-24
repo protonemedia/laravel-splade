@@ -92,7 +92,7 @@ class ServiceProvider extends BaseServiceProvider
         }
 
         $this->publishes([
-            __DIR__ . '/../config/splade.php'     => config_path('splade.php'),
+            __DIR__ . '/../config/splade.php' => config_path('splade.php'),
         ], 'config');
 
         $this->publishes([
