@@ -200,7 +200,7 @@ class Head implements Arrayable, JsonSerializable
     /**
      * Remove a meta tag that matches the given attributes
      *
-     * @param array $attributes
+     * @param  array  $attributes
      * @return void
      */
     public function removeMeta(array $attributes)

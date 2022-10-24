@@ -34,8 +34,8 @@ class Meta implements Arrayable, JsonSerializable
     /**
      * Returns a boolean whether the given attributes match.
      *
-     * @param array $attributes
-     * @return boolean
+     * @param  array  $attributes
+     * @return bool
      */
     public function hasAllAttributes(array $attributes): bool
     {
