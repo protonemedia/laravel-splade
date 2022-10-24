@@ -4,13 +4,25 @@ namespace ProtoneMedia\Splade;
 
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Htmlable;
+use Illuminate\Support\Collection;
 use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
+use Illuminate\Support\Traits\Macroable;
 use JsonSerializable;
+use ProtoneMedia\Splade\SEO\OpenGraph;
+use ProtoneMedia\Splade\SEO\Twitter;
 
 class Head implements Arrayable, JsonSerializable
 {
-    private string $title;
+    use Macroable;
+    use OpenGraph;
+    use Twitter;
+
+    private bool $autoFillOverwrite = false;
+
+    private string $title = '';
+
+    private ?string $canonical = null;
 
     private array $meta = [];
 
@@ -19,10 +31,34 @@ class Head implements Arrayable, JsonSerializable
      */
     public function __construct()
     {
+        $this->fillOpenGraphDefaults();
+        $this->fillTwitterDefaults();
+
         $this
-            ->title(config('splade.seo.defaults.title'))
-            ->description(config('splade.seo.defaults.description'))
-            ->keywords(config('splade.seo.defaults.keywords'));
+            ->title(config('splade.seo.defaults.title') ?: '')
+            ->description(config('splade.seo.defaults.description') ?: '')
+            ->keywords(config('splade.seo.defaults.keywords') ?: '');
+
+        if (config('splade.seo.auto_canonical_link')) {
+            $this->canonical(request()->fullUrl());
+        }
+
+        $this->autoFillOverwrite = true;
+    }
+
+    /**
+     * Use the traits the fill the meta properties with the default data.
+     *
+     * @return self
+     */
+    private function autoFill(): self
+    {
+        if ($this->autoFillOverwrite) {
+            $this->autoFillOpenGraph();
+            $this->autoFillTwitter();
+        }
+
+        return $this;
     }
 
     /**
@@ -34,13 +70,34 @@ class Head implements Arrayable, JsonSerializable
      */
     public function title(string $title, bool $withPrefixAndSuffix = true): self
     {
-        $this->title = trim(implode(' ', [
-            $withPrefixAndSuffix ? trim(config('splade.seo.title_prefix')) : '',
+        $title     = trim($title);
+        $prefix    = trim(config('splade.seo.title_prefix'));
+        $suffix    = trim(config('splade.seo.title_suffix'));
+        $separator = trim(config('splade.seo.title_separator'));
 
-            trim($title),
+        $withPrefix = $withPrefixAndSuffix && $prefix && $prefix !== $title;
+        $withSuffix = $withPrefixAndSuffix && $suffix && $suffix !== $title;
 
-            $withPrefixAndSuffix ? trim(config('splade.seo.title_suffix')) : '',
+        $this->title = implode(' ', array_filter([
+            $withPrefix ? $prefix : false,
+            $withPrefix ? $separator : false,
+            $title,
+            $withSuffix ? $separator : false,
+            $withSuffix ? $suffix : false,
         ]));
+
+        return $this->autoFill();
+    }
+
+    /**
+     * Setter for the canonical URL.
+     *
+     * @param  string  $url
+     * @return $this
+     */
+    public function canonical(string $url): self
+    {
+        $this->canonical = $url;
 
         return $this;
     }
@@ -53,7 +110,9 @@ class Head implements Arrayable, JsonSerializable
      */
     public function description(string $description): self
     {
-        return $this->metaByName('description', trim($description));
+        $this->metaByName('description', trim($description));
+
+        return $this->autoFill();
     }
 
     /**
@@ -73,7 +132,9 @@ class Head implements Arrayable, JsonSerializable
                 ->implode(', ');
         }
 
-        return $this->metaByName('keywords', $keywords);
+        $this->metaByName('keywords', $keywords);
+
+        return $this->autoFill();
     }
 
     /**
@@ -85,6 +146,12 @@ class Head implements Arrayable, JsonSerializable
      */
     public function metaByName(string $name, string $content): self
     {
+        $content = trim($content);
+
+        if (!$content) {
+            return $this;
+        }
+
         return $this->meta(['name' => $name, 'content' => $content]);
     }
 
@@ -97,6 +164,12 @@ class Head implements Arrayable, JsonSerializable
      */
     public function metaByProperty(string $property, string $content): self
     {
+        $content = trim($content);
+
+        if (!$content) {
+            return $this;
+        }
+
         return $this->meta(['property' => $property, 'content' => $content]);
     }
 
@@ -122,6 +195,42 @@ class Head implements Arrayable, JsonSerializable
     }
 
     /**
+     * Get a Meta instance by name.
+     *
+     * @param  string  $name
+     * @return Meta|null
+     */
+    public function getMetaByName(string $name): ?Meta
+    {
+        $key = "name.{$name}";
+
+        return $this->meta[$key] ?? null;
+    }
+
+    /**
+     * Get a Meta instance by property.
+     *
+     * @param  string  $property
+     * @return Meta|null
+     */
+    public function getMetaByProperty(string $property): ?Meta
+    {
+        $key = "property.{$property}";
+
+        return $this->meta[$key] ?? null;
+    }
+
+    /**
+     * Getter for the title.
+     *
+     * @return string
+     */
+    public function getTitle(): string
+    {
+        return $this->title;
+    }
+
+    /**
      * Renders a Title tag with the title.
      *
      * @return string
@@ -138,9 +247,14 @@ class Head implements Arrayable, JsonSerializable
      */
     private function renderMeta(): string
     {
-        return collect($this->meta)->map(function (Meta $meta) {
-            return $meta->render();
-        })->implode(PHP_EOL);
+        return Collection::make($this->meta)
+            ->map(fn (Meta $meta) => $meta->render())
+            ->when($this->canonical, function (Collection $collection, string $href) {
+                $collection->prepend(
+                    "<link rel=\"canonical\" href=\"{$href}\">"
+                );
+            })
+            ->implode(PHP_EOL);
     }
 
     /**

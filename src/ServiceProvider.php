@@ -30,6 +30,16 @@ class ServiceProvider extends BaseServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(__DIR__ . '/../config/splade.php', 'splade');
+
+        $this->mergeConfigFrom($defaultSeoPath = __DIR__ . '/../config/splade-seo.php', 'splade-seo');
+
+        if (file_exists($seoPath = config_path('splade-seo.php'))) {
+            // New SEO file has been publish, merge into splade config.
+            $this->mergeConfigFrom($seoPath, 'splade.seo');
+        } elseif (!config('splade.seo')) {
+            // The Splade file has not been published, merge the default SEO into the config.
+            $this->mergeConfigFrom($defaultSeoPath, 'splade.seo');
+        }
     }
 
     /**
@@ -84,6 +94,10 @@ class ServiceProvider extends BaseServiceProvider
         $this->publishes([
             __DIR__ . '/../config/splade.php' => config_path('splade.php'),
         ], 'config');
+
+        $this->publishes([
+            __DIR__ . '/../config/splade-seo.php' => config_path('splade-seo.php'),
+        ], 'seo');
 
         $this->publishes([
             __DIR__ . '/../resources/views' => base_path('resources/views/vendor/splade'),

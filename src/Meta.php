@@ -52,4 +52,15 @@ class Meta implements Arrayable, JsonSerializable
     {
         return $this->toArray();
     }
+
+    /**
+     * Dynamic getter for the attributes.
+     *
+     * @param  string  $key
+     * @return mixed
+     */
+    public function __get(string $key)
+    {
+        return $this->attributes[$key] ?? null;
+    }
 }
