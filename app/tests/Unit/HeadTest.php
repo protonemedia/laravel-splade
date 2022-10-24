@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use ProtoneMedia\Splade\Facades\SEO;
 use ProtoneMedia\Splade\Head;
 use Tests\TestCase;
 
@@ -137,5 +138,18 @@ class HeadTest extends TestCase
         $head->canonical('https://splade.dev');
 
         $this->assertStringContainsString('<link rel="canonical" href="https://splade.dev">', $head->renderHead()->toHtml());
+    }
+
+    /** @test */
+    public function it_is_macroable()
+    {
+        SEO::macro('openGraphLocale', function (string $value) {
+            return $this->metaByProperty('og:locale', $value);
+        });
+
+        $head = new Head;
+        $head->openGraphLocale('nl');
+
+        $this->assertStringContainsString('<meta property="og:locale" content="nl" />', $head->renderHead()->toHtml());
     }
 }
