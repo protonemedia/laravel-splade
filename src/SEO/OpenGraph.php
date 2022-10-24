@@ -83,10 +83,11 @@ trait OpenGraph
      * Setter for the 'og:image' Meta Property.
      *
      * @param  string  $value
+     * @param  bool  $replace
      * @return self
      */
-    public function openGraphImage(string $value): self
+    public function openGraphImage(string $value, bool $replace = true): self
     {
-        return $this->metaByProperty('og:image', $value);
+        return $this->metaByProperty('og:image', $value, $replace);
     }
 }

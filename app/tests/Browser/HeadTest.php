@@ -8,7 +8,7 @@ use Tests\DuskTestCase;
 class HeadTest extends DuskTestCase
 {
     /** @test */
-    public function it_updates_the_title_and_meta_tags()
+    public function it_updates_the_title_and_meta_and_link_tags()
     {
         $this->browse(function (Browser $browser) {
             $browser->visit('/navigation/one')
@@ -16,11 +16,13 @@ class HeadTest extends DuskTestCase
                 ->assertTitle('Navigation One')
                 ->assertMetaByName('description', 'First Navigation')
                 ->assertMetaByName('keywords', 'een, one')
+                ->assertLinkCanonical(route('navigation.one'))
                 ->click('@two')
                 ->waitForText('NavigationTwo')
                 ->assertTitle('Navigation Two')
                 ->assertMetaByName('description', 'Second Navigation')
                 ->assertMetaByName('keywords', 'twee, two')
+                ->assertLinkCanonical(route('navigation.two'))
                 ->click('@three')
                 ->waitForText('NavigationThree')
 

@@ -93,17 +93,17 @@ class HeadTest extends TestCase
 
         $head = new Head;
 
-        $this->assertEquals($head->getMetaByName('twitter:card')->content, 'summary_large_image');
-        $this->assertEquals($head->getMetaByName('twitter:site')->content, '@username');
-        $this->assertEquals($head->getMetaByName('twitter:title')->content, 'Default Title');
-        $this->assertEquals($head->getMetaByName('twitter:description')->content, 'Default Description');
-        $this->assertEquals($head->getMetaByName('twitter:image')->content, 'http://image');
+        $this->assertEquals($head->getMetaByName('twitter:card')->first()->content, 'summary_large_image');
+        $this->assertEquals($head->getMetaByName('twitter:site')->first()->content, '@username');
+        $this->assertEquals($head->getMetaByName('twitter:title')->first()->content, 'Default Title');
+        $this->assertEquals($head->getMetaByName('twitter:description')->first()->content, 'Default Description');
+        $this->assertEquals($head->getMetaByName('twitter:image')->first()->content, 'http://image');
 
         $head->title('Updated Title');
         $head->description('Updated Description');
 
-        $this->assertEquals($head->getMetaByName('twitter:title')->content, 'Updated Title');
-        $this->assertEquals($head->getMetaByName('twitter:description')->content, 'Updated Description');
+        $this->assertEquals($head->getMetaByName('twitter:title')->first()->content, 'Updated Title');
+        $this->assertEquals($head->getMetaByName('twitter:description')->first()->content, 'Updated Description');
     }
 
     /** @test */
@@ -120,15 +120,15 @@ class HeadTest extends TestCase
 
         $head = new Head;
 
-        $this->assertEquals($head->getMetaByProperty('og:type')->content, 'WebPage');
-        $this->assertEquals($head->getMetaByProperty('og:site_name')->content, 'Default Site Name');
-        $this->assertEquals($head->getMetaByProperty('og:title')->content, 'Default Title');
-        $this->assertEquals($head->getMetaByProperty('og:url')->content, 'http://url');
-        $this->assertEquals($head->getMetaByProperty('og:image')->content, 'http://image');
+        $this->assertEquals($head->getMetaByProperty('og:type')->first()->content, 'WebPage');
+        $this->assertEquals($head->getMetaByProperty('og:site_name')->first()->content, 'Default Site Name');
+        $this->assertEquals($head->getMetaByProperty('og:title')->first()->content, 'Default Title');
+        $this->assertEquals($head->getMetaByProperty('og:url')->first()->content, 'http://url');
+        $this->assertEquals($head->getMetaByProperty('og:image')->first()->content, 'http://image');
 
         $head->title('Updated Title');
 
-        $this->assertEquals($head->getMetaByProperty('og:title')->content, 'Updated Title');
+        $this->assertEquals($head->getMetaByProperty('og:title')->first()->content, 'Updated Title');
     }
 
     /** @test */

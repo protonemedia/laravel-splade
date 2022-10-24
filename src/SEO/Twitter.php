@@ -34,7 +34,7 @@ trait Twitter
             $this->twitterTitle($this->title);
         }
 
-        if ($meta = $this->getMetaByName('description')) {
+        if ($meta = $this->getMetaByName('description')->first()) {
             $this->twitterDescription($meta->content);
         }
     }

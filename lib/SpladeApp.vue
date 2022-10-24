@@ -120,6 +120,7 @@ provide("stack", 0);
 const html = ref();
 const modals = ref([]);
 const serverErrorHtml = ref(null);
+const currentMeta = ref(null);
 
 const $spladeOptions = inject("$spladeOptions") || {};
 
@@ -158,32 +159,28 @@ function closeModal(stack) {
  * It finds the meta tag with the given attribute and content. If it
  * doesn't exists, we create it and append it to the head.
  */
-function findOrCreateMeta(attribute, content)
+function insertMetaElement(meta)
 {
-    let $el = document.querySelector(`meta[${attribute}="${content}"]`);
-
-    if($el) {
-        return $el;
-    }
-
-    $el = document.createElement("meta");
-    $el[attribute] = content;
-    document.getElementsByTagName("head")[0].appendChild($el);
-
-    return $el;
-}
-
-/**
- * Updates the meta tag by the given meta object.
- */
-function updateMetaElement(meta) {
-    const $el = meta.name
-        ? findOrCreateMeta("name", meta.name)
-        : findOrCreateMeta("property", meta.property);
+    const $el = document.createElement("meta");
 
     forOwn(meta, (value, key) => {
         $el[key] = value;
     });
+
+    document.getElementsByTagName("head")[0].appendChild($el);
+}
+
+/**
+ * Removes the meta tag by the given meta object.
+ */
+function removeMetaElement(meta) {
+    let selector = "meta";
+
+    forOwn(meta, (content, attribute) => {
+        selector = `${selector}[${attribute}="${content}"]`;
+    });
+
+    document.querySelector(selector)?.remove();
 }
 
 /**
@@ -194,11 +191,30 @@ Splade.setOnHead((newHead) => {
         return;
     }
 
+    if(currentMeta.value === null) {
+        return currentMeta.value = newHead.meta;
+    }
+
+    currentMeta.value.forEach((meta) => {
+        removeMetaElement(meta);
+    });
+
+    currentMeta.value = newHead.meta;
     document.title = newHead.title;
 
     newHead.meta.forEach((meta) => {
-        updateMetaElement(meta);
+        insertMetaElement(meta);
     });
+
+    document.querySelector("link[rel=\"canonical\"]")?.remove();
+
+    if(newHead.canonical) {
+        const $el = document.createElement("link");
+        $el.rel = "canonical";
+        $el.href = newHead.canonical;
+
+        document.getElementsByTagName("head")[0].appendChild($el);
+    }
 });
 
 /**

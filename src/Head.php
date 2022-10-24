@@ -6,7 +6,6 @@ use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\Collection;
 use Illuminate\Support\HtmlString;
-use Illuminate\Support\Str;
 use Illuminate\Support\Traits\Macroable;
 use JsonSerializable;
 use ProtoneMedia\Splade\SEO\OpenGraph;
@@ -24,13 +23,15 @@ class Head implements Arrayable, JsonSerializable
 
     private ?string $canonical = null;
 
-    private array $meta = [];
+    private Collection $meta;
 
     /**
      * Creates a new instance and sets the defaults from the config.
      */
     public function __construct()
     {
+        $this->meta = new Collection;
+
         $this->fillOpenGraphDefaults();
         $this->fillTwitterDefaults();
 
@@ -142,10 +143,15 @@ class Head implements Arrayable, JsonSerializable
      *
      * @param  string  $name
      * @param  string  $content
+     * @param  bool  $replace
      * @return $this
      */
-    public function metaByName(string $name, string $content): self
+    public function metaByName(string $name, string $content, bool $replace = true): self
     {
+        if ($replace) {
+            $this->removeMeta(['name' => $name]);
+        }
+
         $content = trim($content);
 
         if (!$content) {
@@ -160,10 +166,15 @@ class Head implements Arrayable, JsonSerializable
      *
      * @param  string  $property
      * @param  string  $content
+     * @param  bool  $replace
      * @return $this
      */
-    public function metaByProperty(string $property, string $content): self
+    public function metaByProperty(string $property, string $content, bool $replace = true): self
     {
+        if ($replace) {
+            $this->removeMeta(['property' => $property]);
+        }
+
         $content = trim($content);
 
         if (!$content) {
@@ -174,22 +185,29 @@ class Head implements Arrayable, JsonSerializable
     }
 
     /**
-     * Sets a meta tag by the given attributes.
+     * Adds a meta tag by the given attributes.
      *
      * @param  array  $attributes
      * @return $this
      */
     public function meta(array $attributes): self
     {
-        if ($value = data_get($attributes, 'name')) {
-            $key = "name.{$value}";
-        } elseif ($value = data_get($attributes, 'property')) {
-            $key = "property.{$value}";
-        } else {
-            $key = Str::uuid()->toString();
-        }
+        $this->meta->push(new Meta($attributes));
 
-        $this->meta[$key] = new Meta($key, $attributes);
+        return $this;
+    }
+
+    /**
+     * Remove a meta tag that matches the given attributes
+     *
+     * @param array $attributes
+     * @return void
+     */
+    public function removeMeta(array $attributes)
+    {
+        $this->meta = $this->meta->reject(function (Meta $meta) use ($attributes) {
+            return $meta->hasAllAttributes($attributes);
+        });
 
         return $this;
     }
@@ -198,26 +216,26 @@ class Head implements Arrayable, JsonSerializable
      * Get a Meta instance by name.
      *
      * @param  string  $name
-     * @return Meta|null
+     * @return \Illuminate\Support\Collection
      */
-    public function getMetaByName(string $name): ?Meta
+    public function getMetaByName(string $name): Collection
     {
-        $key = "name.{$name}";
-
-        return $this->meta[$key] ?? null;
+        return $this->meta->filter(function (Meta $meta) use ($name) {
+            return $meta->name === $name;
+        });
     }
 
     /**
      * Get a Meta instance by property.
      *
      * @param  string  $property
-     * @return Meta|null
+     * @return \Illuminate\Support\Collection
      */
-    public function getMetaByProperty(string $property): ?Meta
+    public function getMetaByProperty(string $property): Collection
     {
-        $key = "property.{$property}";
-
-        return $this->meta[$key] ?? null;
+        return $this->meta->filter(function (Meta $meta) use ($property) {
+            return $meta->property === $property;
+        });
     }
 
     /**
@@ -247,7 +265,7 @@ class Head implements Arrayable, JsonSerializable
      */
     private function renderMeta(): string
     {
-        return Collection::make($this->meta)
+        return $this->meta
             ->map(fn (Meta $meta) => $meta->render())
             ->when($this->canonical, function (Collection $collection, string $href) {
                 $collection->prepend(
@@ -275,8 +293,9 @@ class Head implements Arrayable, JsonSerializable
     public function toArray(): array
     {
         return [
-            'title' => $this->title,
-            'meta'  => array_values($this->meta),
+            'canonical' => $this->canonical,
+            'meta'      => $this->meta->values()->all(),
+            'title'     => $this->title,
         ];
     }
 
