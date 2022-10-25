@@ -1,0 +1,1 @@
+<x-splade-content as="article" class="prose" :html="$html" />

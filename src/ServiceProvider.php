@@ -156,6 +156,7 @@ class ServiceProvider extends BaseServiceProvider
             Components\ButtonWithDropdown::class,
             Components\Cell::class,
             Components\Confirm::class,
+            Components\Content::class,
             Components\Data::class,
             Components\Defer::class,
             Components\Dialog::class,
