@@ -14,7 +14,6 @@ use App\Http\Controllers\LazyController;
 use App\Http\Controllers\ModalController;
 use App\Http\Controllers\NavigationController;
 use App\Http\Controllers\NestedFormController;
-use App\Http\Controllers\OptionsApiController;
 use App\Http\Controllers\SimpleFormController;
 use App\Http\Controllers\SlowFormController;
 use App\Http\Controllers\TableController;
@@ -137,7 +136,6 @@ Route::middleware('splade')->group(function () {
     Route::post('form/components/submitValue/{approved?}', [FormComponentsController::class, 'submitValueSubmit'])->name('form.components.submitValueSubmit');
 
     Route::get('form/components/selectAsync', [FormComponentsController::class, 'selectAsync'])->name('form.components.selectAsync');
-
 
     Route::get('form/relations/belongsToMany', [FormRelationsController::class, 'belongsToMany'])->name('form.relations.belongsToMany');
     Route::get('form/relations/belongsToMany/choices', [FormRelationsController::class, 'belongsToManyChoices'])->name('form.relations.belongsToManyChoices');
