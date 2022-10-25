@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 0.6.9 - 2022-10-25
+
+- Improved SEO handling with support for Open Graph and Twitter meta tags, Canonical URL, and separate configuration file.
+
 ## 0.6.8 - 2022-10-23
 
 - Support for external domains in the Link component
