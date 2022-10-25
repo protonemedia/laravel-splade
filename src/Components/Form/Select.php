@@ -31,6 +31,9 @@ class Select extends Component
         public bool $showErrors = true,
         public bool $relation = false,
         public string $help = '',
+        public string $dynamicUrl = '',
+        public string $urlValue = '',
+        public string $urlLabel = '',
     ) {
         if (is_bool($placeholder) && $placeholder) {
             $this->placeholder = __('Search') . '...';

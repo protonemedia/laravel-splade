@@ -7,7 +7,11 @@
 </template>
 
 <script>
+import { default as Axios } from "axios";
 import find from "lodash-es/find";
+import forOwn from "lodash-es/forOwn";
+import isArray from "lodash-es/isArray";
+import isObject from "lodash-es/isObject";
 import map from "lodash-es/map";
 
 export default {
@@ -43,6 +47,24 @@ export default {
             type: Boolean,
             required: false,
             default: false,
+        },
+
+        dynamicUrl: {
+            type: String,
+            required: false,
+            default: null,
+        },
+
+        urlValue: {
+            type: String,
+            required: false,
+            default: null,
+        },
+
+        urlLabel: {
+            type: String,
+            required: false,
+            default: null,
         },
     },
 
@@ -88,6 +110,34 @@ export default {
                 this.setValueOnChoices(updatedValue);
             }
         },
+
+
+        dynamicUrl: {
+            immediate: true,
+            handler(url) {
+                // this.processing = true;
+
+                Axios( {
+                    url: url,
+                    method: "GET",
+                    headers: {
+                        Accept: "application/json",
+                    },
+                })
+                    .then((response) => {
+                        // this.response = response.data;
+                        const options = this.normalizeOptions(response.data, []);
+
+
+
+                        console.log(options);
+                        // this.processing = false;
+                    })
+                    .catch(() => {
+                        // this.processing = false;
+                    });
+            }
+        }
     },
 
     mounted() {
@@ -112,6 +162,29 @@ export default {
     },
 
     methods: {
+        normalizeOptions(data, results) {
+            if(isObject(data)) {
+                if(this.urlValue && this.urlLabel) {
+                    results.push({
+                        value: data[this.urlValue],
+                        label: data[this.urlLabel]
+                    });
+                } else {
+                    forOwn(data, (value, label) => {
+                        results.push({ value, label });
+                    });
+                }
+            }
+
+            if(isArray(data)) {
+                data.forEach((element) => {
+                    this.normalizeOptions(element, results);
+                });
+            }
+
+            return results;
+        },
+
         /*
          * Set the given value on the Choices.js instance.
          */

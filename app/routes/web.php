@@ -5,6 +5,7 @@ use App\Events\RefreshEvent;
 use App\Events\SimpleEvent;
 use App\Events\ToastEvent;
 use App\Http\Controllers\BackFormController;
+use App\Http\Controllers\CountriesController;
 use App\Http\Controllers\FileFormController;
 use App\Http\Controllers\FormComponentsController;
 use App\Http\Controllers\FormRelationsController;
@@ -13,6 +14,7 @@ use App\Http\Controllers\LazyController;
 use App\Http\Controllers\ModalController;
 use App\Http\Controllers\NavigationController;
 use App\Http\Controllers\NestedFormController;
+use App\Http\Controllers\OptionsApiController;
 use App\Http\Controllers\SimpleFormController;
 use App\Http\Controllers\SlowFormController;
 use App\Http\Controllers\TableController;
@@ -44,6 +46,9 @@ Route::get('event/toast', fn () => event(new ToastEvent))->name('event.toast');
 
 Route::middleware('splade')->group(function () {
     Route::spladeTable();
+
+    Route::get('/api/countries/keyValue', [CountriesController::class, 'keyValue'])->name('api.countries.keyValue');
+    Route::get('/api/countries/objects', [CountriesController::class, 'objects'])->name('api.countries.objects');
 
     Route::view('content', 'content', [
         'html' => file_get_contents(resource_path('rendered_markdown.html')),
@@ -130,6 +135,9 @@ Route::middleware('splade')->group(function () {
     Route::post('form/components', [FormComponentsController::class, 'submit'])->name('form.components.submit');
     Route::get('form/components/submitValue/{approved?}', [FormComponentsController::class, 'submitValue'])->name('form.components.submitValue');
     Route::post('form/components/submitValue/{approved?}', [FormComponentsController::class, 'submitValueSubmit'])->name('form.components.submitValueSubmit');
+
+    Route::get('form/components/selectAsync', [FormComponentsController::class, 'selectAsync'])->name('form.components.selectAsync');
+
 
     Route::get('form/relations/belongsToMany', [FormRelationsController::class, 'belongsToMany'])->name('form.relations.belongsToMany');
     Route::get('form/relations/belongsToMany/choices', [FormRelationsController::class, 'belongsToManyChoices'])->name('form.relations.belongsToManyChoices');

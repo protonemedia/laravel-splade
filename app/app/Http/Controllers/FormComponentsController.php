@@ -223,4 +223,9 @@ class FormComponentsController
 
         return redirect()->route('navigation.one');
     }
+
+    public function selectAsync()
+    {
+        return view('form.components.selectAsync');
+    }
 }
