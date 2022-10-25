@@ -90,6 +90,10 @@ export default {
                     element,
                     Object.assign({}, this.flatpickr, this.jsFlatpickrOptions, {
                         onChange: (selectedDates, newValue) => {
+                            if(this.flatpickrInstance.config.mode === "range" && this.flatpickrInstance.selectedDates.length < 2) {
+                                return;
+                            }
+
                             if (newValue != this.modelValue) {
                                 this.$emit("update:modelValue", newValue);
                             }

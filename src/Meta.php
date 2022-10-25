@@ -10,11 +10,9 @@ class Meta implements Arrayable, JsonSerializable
     /**
      * Creates a new instance.
      *
-     * @param  string  $key
      * @param  array  $attributes
      */
     public function __construct(
-        private string $key,
         private array $attributes
     ) {
     }
@@ -31,6 +29,27 @@ class Meta implements Arrayable, JsonSerializable
         })->implode(' ');
 
         return "<meta {$attributes} />";
+    }
+
+    /**
+     * Returns a boolean whether the given attributes match.
+     *
+     * @param  array  $attributes
+     * @return bool
+     */
+    public function hasAllAttributes(array $attributes): bool
+    {
+        foreach ($attributes as $key => $value) {
+            if (!array_key_exists($key, $this->attributes)) {
+                return false;
+            }
+
+            if ($this->attributes[$key] !== $value) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**
@@ -51,5 +70,16 @@ class Meta implements Arrayable, JsonSerializable
     public function jsonSerialize(): mixed
     {
         return $this->toArray();
+    }
+
+    /**
+     * Dynamic getter for the attributes.
+     *
+     * @param  string  $key
+     * @return mixed
+     */
+    public function __get(string $key)
+    {
+        return $this->attributes[$key] ?? null;
     }
 }

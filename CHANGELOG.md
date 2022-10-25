@@ -2,6 +2,28 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 0.6.9 - 2022-10-25
+
+- Improved SEO handling with support for Open Graph and Twitter meta tags, Canonical URL, and separate configuration file.
+
+## 0.6.8 - 2022-10-23
+
+- Support for external domains in the Link component
+
+## 0.6.7 - 2022-10-23
+
+- Splade Middleware refactor
+
+## 0.6.6 - 2022-10-23
+
+- Support for external redirects (automatic and explicit via `Splade::redirectAway()`)
+- With a Date-range Form Input component, only update the internal Vue model when both dates are selected
+
+## 0.6.5 - 2022-10-20
+
+- Checkbox value fix
+- Revert fix for micro-optimization on view events (https://github.com/laravel/framework/pull/44653)
+
 ## 0.6.4 - 2022-10-20
 
 - Choices.js fix for default array values

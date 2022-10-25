@@ -46,6 +46,10 @@ Route::get('event/toast', fn () => event(new ToastEvent))->name('event.toast');
 Route::middleware('splade')->group(function () {
     Route::spladeTable();
 
+    Route::view('content', 'content', [
+        'html' => file_get_contents(resource_path('rendered_markdown.html')),
+    ])->name('content');
+
     Route::view('custom', 'custom')->name('custom');
     Route::view('data/binding', 'data.binding')->name('data.binding');
     Route::view('data/default', 'data.default')->name('data.default');
@@ -148,6 +152,9 @@ Route::middleware('splade')->group(function () {
     Route::get('navigation/video/one', [NavigationController::class, 'videoOne'])->name('navigation.videoOne');
     Route::get('navigation/video/two', [NavigationController::class, 'videoTwo'])->name('navigation.videoTwo');
 
+    Route::get('navigation/redirectToTwo', fn () => redirect()->route('navigation.two'))->name('navigation.redirectToTwo');
+    Route::get('navigation/away', fn () => redirect()->away('https://splade.dev/'))->name('navigation.away');
+    Route::get('navigation/awayViaFacade', fn () => Splade::redirectAway('https://splade.dev/'))->name('navigation.awayViaFacade');
     Route::get('navigation/notFound', fn () => abort(404))->name('navigation.notFound');
     Route::get('navigation/serverError', fn () => throw new Exception('Whoops!'))->name('navigation.serverError');
 
