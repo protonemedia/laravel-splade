@@ -3,6 +3,7 @@
 namespace ProtoneMedia\Splade;
 
 use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Support\Collection;
 use JsonSerializable;
 
 class Meta implements Arrayable, JsonSerializable
@@ -25,6 +26,7 @@ class Meta implements Arrayable, JsonSerializable
     public function render(): string
     {
         $attributes = collect($this->attributes)->map(function ($value, $key) {
+            $value = e($value);
             return "{$key}=\"{$value}\"";
         })->implode(' ');
 
@@ -59,7 +61,11 @@ class Meta implements Arrayable, JsonSerializable
      */
     public function toArray(): array
     {
-        return $this->attributes;
+        return Collection::make($this->attributes)
+            ->mapWithKeys(function ($value, $key) {
+                return [$key => e($value)];
+            })
+            ->all();
     }
 
     /**
