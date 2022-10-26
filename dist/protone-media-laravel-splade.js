@@ -537,13 +537,19 @@ const le = {
       let d = "meta";
       oe(f, (g, w) => {
         d = `${d}[${w}="${g}"]`;
-      }), (h = document.querySelector(d)) == null || h.remove();
+      });
+      try {
+        (h = document.querySelector(d)) == null || h.remove();
+      } catch {
+      }
     }
     return m.setOnHead((f) => {
       var d;
       if (!m.isSsr) {
-        if (a.value === null)
-          return a.value = f.meta;
+        if (a.value === null) {
+          a.value = f.meta;
+          return;
+        }
         if (a.value.forEach((h) => {
           p(h);
         }), a.value = f.meta, document.title = f.title, f.meta.forEach((h) => {
