@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 0.6.10 - 2022-10-26
+
+- Axios fix
+
 ## 0.6.9 - 2022-10-25
 
 - Improved SEO handling with support for Open Graph and Twitter meta tags, Canonical URL, and separate configuration file.
