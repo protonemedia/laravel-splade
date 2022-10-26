@@ -27,6 +27,7 @@ class Meta implements Arrayable, JsonSerializable
     {
         $attributes = collect($this->attributes)->map(function ($value, $key) {
             $value = e($value);
+
             return "{$key}=\"{$value}\"";
         })->implode(' ');
 
