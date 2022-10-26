@@ -1,6 +1,6 @@
 {
   "name": "@protonemedia/laravel-splade",
-  "version": "0.6.9",
+  "version": "0.6.10",
   "description": "Laravel Splade: the magic of Inertia.js with the simplicity of Blade.",
   "private": false,
   "author": "Pascal Baljet <pascal@protone.media>",
@@ -25,7 +25,7 @@
     "pre-publish": "composer extract-transitions && npm upgrade && vite build && npm pack"
   },
   "peerDependencies": {
-    "axios": "^0.27",
+    "axios": "^0.27 || ^1.1.2",
     "vue": "^3.2.37"
   },
   "devDependencies": {
