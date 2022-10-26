@@ -5,9 +5,9 @@
     :multiple="@js($multiple)"
     :placeholder="@js($placeholder ? true : false)"
     v-model="{{ $vueModel() }}"
-    :dynamic-url="{!! $dynamicUrl !!}"
-    :url-value="@js($urlValue)"
-    :url-label="@js($urlLabel)"
+    :remote-url="{!! $remoteUrl ?: 'null' !!}"
+    :remote-value="@js($remoteValue)"
+    :remote-label="@js($remoteLabel)"
 >
     <label class="block">
         @includeWhen($label, 'splade::form.label', ['label' => $label])

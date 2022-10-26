@@ -31,9 +31,9 @@ class Select extends Component
         public bool $showErrors = true,
         public bool $relation = false,
         public string $help = '',
-        public string $dynamicUrl = '',
-        public string $urlValue = '',
-        public string $urlLabel = '',
+        public string $remoteUrl = '',
+        public string $remoteValue = '',
+        public string $remoteLabel = '',
     ) {
         if (is_bool($placeholder) && $placeholder) {
             $this->placeholder = __('Search') . '...';
@@ -154,16 +154,18 @@ class Select extends Component
 
         if ($this->placeholder) {
             $options = Arr::prepend($options, new FormSelectOption([
-                'value'       => '',
-                'label'       => $this->placeholder,
-                'disabled'    => $this->choices === false,
-                'placeholder' => $this->choices !== false,
+                'value'                   => '',
+                'label'                   => $this->placeholder,
+                'disabled'                => $this->choices === false,
+                'placeholder'             => $this->choices !== false,
+                'data-splade-placeholder' => true,
             ]));
         } elseif (!$this->placeholder && $this->choices !== false && !$this->multiple) {
             $options = Arr::prepend($options, new FormSelectOption([
-                'label'       => '',
-                'value'       => '',
-                'placeholder' => true,
+                'label'                   => '',
+                'value'                   => '',
+                'placeholder'             => true,
+                'data-splade-placeholder' => true,
             ]));
         }
 

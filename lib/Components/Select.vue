@@ -49,19 +49,19 @@ export default {
             default: false,
         },
 
-        dynamicUrl: {
+        remoteUrl: {
             type: String,
             required: false,
             default: null,
         },
 
-        urlValue: {
+        remoteValue: {
             type: String,
             required: false,
             default: null,
         },
 
-        urlLabel: {
+        remoteLabel: {
             type: String,
             required: false,
             default: null,
@@ -112,12 +112,10 @@ export default {
         },
 
 
-        dynamicUrl: {
+        remoteUrl: {
             immediate: true,
             handler(url) {
-                // this.processing = true;
-
-                Axios( {
+                Axios({
                     url: url,
                     method: "GET",
                     headers: {
@@ -125,13 +123,29 @@ export default {
                     },
                 })
                     .then((response) => {
-                        // this.response = response.data;
                         const options = this.normalizeOptions(response.data, []);
 
+                        var i;
+                        var currentOptionsCount = this.element.options.length - 1;
+
+                        for(i = currentOptionsCount; i >= 0; i--) {
+                            const option = this.element.options[i];
+                            if(!option.dataset.spladePlaceholder) {
+                                this.element.remove(i);
+                            }
+                        }
 
 
-                        console.log(options);
-                        // this.processing = false;
+                        forOwn(options, (option) => {
+                            var optionElement = document.createElement("option");
+                            optionElement.value = option.value;
+                            optionElement.text = option.label;
+                            this.element.appendChild(optionElement);
+                        });
+
+                        if(this.choicesInstance) {
+                            this.choicesInstance.setChoices(options);
+                        }
                     })
                     .catch(() => {
                         // this.processing = false;
@@ -163,11 +177,13 @@ export default {
 
     methods: {
         normalizeOptions(data, results) {
-            if(isObject(data)) {
-                if(this.urlValue && this.urlLabel) {
+            const dataIsArray = isArray(data);
+
+            if(!dataIsArray && isObject(data)) {
+                if(this.remoteValue && this.remoteLabel) {
                     results.push({
-                        value: data[this.urlValue],
-                        label: data[this.urlLabel]
+                        value: data[this.remoteValue],
+                        label: data[this.remoteLabel]
                     });
                 } else {
                     forOwn(data, (value, label) => {
@@ -175,8 +191,7 @@ export default {
                     });
                 }
             }
-
-            if(isArray(data)) {
+            else if(dataIsArray) {
                 data.forEach((element) => {
                     this.normalizeOptions(element, results);
                 });
