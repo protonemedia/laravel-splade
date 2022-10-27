@@ -115,6 +115,10 @@ export default {
         remoteUrl: {
             immediate: true,
             handler(url) {
+                if(!url) {
+                    return;
+                }
+
                 Axios({
                     url: url,
                     method: "GET",
