@@ -4,6 +4,8 @@ namespace ProtoneMedia\Splade\Components\Form;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Js;
+use Illuminate\Support\Str;
 use Illuminate\View\Component;
 use ProtoneMedia\Splade\Components\Form;
 use ProtoneMedia\Splade\FormSelectOption;
@@ -52,6 +54,10 @@ class Select extends Component
         if ($multiple) {
             // This removes the last '[]' from the name.
             $this->validationKey = static::dottedName($name);
+        }
+
+        if (!Str::startsWith($remoteUrl, '`') && !Str::endsWith($remoteUrl, '`')) {
+            $this->remoteUrl = Js::from($remoteUrl);
         }
     }
 
