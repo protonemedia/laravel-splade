@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 0.6.13 - 2022-10-31
+
+- Fix for closing the Choices.js dropdown when rendered in a Headless UI Modal
+
 ## 0.6.12 - 2022-10-31
 
 - Support for nested relationships in Form Components
