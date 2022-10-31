@@ -54,6 +54,25 @@ class FormLibrariesInModalTest extends DuskTestCase
     }
 
     /** @test */
+    public function it_can_close_the_choices_js_library_without_selecting_an_option()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('modal/base')
+                ->waitForText('ModalComponent')
+                ->click('@form-select')
+                ->waitForText('FormComponents')
+                ->click('@select-choices')
+                ->whenAvailable('div.choices.is-open', function (Browser $browser) {
+                    $coordinates = $browser->script("return document.querySelector('[dusk=\"text\"]').getBoundingClientRect()");
+
+                    $browser->clickAtPoint($coordinates[0]['x'], $coordinates[0]['y'])
+                        ->pause(500)
+                        ->assertMissing('div.choices.is-open');
+                });
+        });
+    }
+
+    /** @test */
     public function it_can_use_flatpickr_to_pick_a_date()
     {
         $this->browse(function (Browser $browser) {

@@ -188,8 +188,12 @@ export default {
                     // The Headless UI Dialog blocks the events on the Choices.js
                     // instance, so we put an event listener on the portal root.
                     vm.headlessListener = function(e) {
-                        if(e.target === selectElement) {
+                        const isActive = vm.choicesInstance.dropdown.isActive;
+
+                        if(!isActive && e.target === selectElement) {
                             vm.choicesInstance.showDropdown();
+                        } else if(isActive && e.target !== selectElement) {
+                            vm.choicesInstance.hideDropdown();
                         }
                     };
 
