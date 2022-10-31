@@ -4123,7 +4123,8 @@ const _d = {
       import("choices.js").then((n) => {
         const i = Object.assign({}, this.choices, this.jsChoicesOptions);
         if (r.choicesInstance = new n.default(e, i), r.stack > 0 && (r.headlessListener = function(a) {
-          a.target === e && r.choicesInstance.showDropdown();
+          const s = r.choicesInstance.dropdown.isActive;
+          !s && a.target === e ? r.choicesInstance.showDropdown() : s && a.target !== e && r.choicesInstance.hideDropdown();
         }, document.querySelector("#headlessui-portal-root").addEventListener("click", r.headlessListener, { capture: !0 })), this.choicesInstance.containerInner.element.setAttribute(
           "data-select-name",
           e.name
