@@ -43,4 +43,15 @@ class DefaultsTest extends DuskTestCase
                 ->assertInputValue('time', '00:21');
         });
     }
+
+    /** @test */
+    public function it_can_select_the_default_option_when_the_options_attribute_is_not_used()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('form/components/customSelectOptions')
+                ->waitForText('FormComponents')
+                ->assertSelected('@select-regular', 'NL')
+                ->assertSeeIn('div[data-select-name="country"] .choices__item--selectable', 'Netherlands');
+        });
+    }
 }

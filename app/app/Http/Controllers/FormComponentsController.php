@@ -213,6 +213,11 @@ class FormComponentsController
         ]);
     }
 
+    public function customSelectOptions()
+    {
+        return view('form.components.customSelectOptions');
+    }
+
     public function submit(Request $request)
     {
         $request->validate([
