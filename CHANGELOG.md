@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 0.6.12 - 2022-10-31
+
+- Support for nested relationships in Form Components
+
 ## 0.6.11 - 2022-10-26
 
 - Escape meta tag values
