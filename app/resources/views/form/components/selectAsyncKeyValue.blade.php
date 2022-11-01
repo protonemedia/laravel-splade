@@ -23,6 +23,8 @@ FormComponents
         <x-splade-select multiple placeholder dusk="countries_d" name="countries_d[]" remote-url="/api/countries/keyValue" choices />
 
         <x-splade-submit />
+
+        <div id="all">@{{ form.$all }}</div>
     </x-splade-form>
 </div>
 

@@ -5,6 +5,7 @@
     :multiple="@js($multiple)"
     :placeholder="@js($placeholderOption()?->toArray() ?: false)"
     v-model="{{ $vueModel() }}"
+    :dusk="@js($attributes->get('dusk'))"
     :remote-url="{!! $remoteUrl ?: 'null' !!}"
     :remote-value="@js($remoteValue)"
     :remote-label="@js($remoteLabel)"

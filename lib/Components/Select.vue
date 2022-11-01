@@ -49,6 +49,12 @@ export default {
             default: false,
         },
 
+        dusk: {
+            type: String,
+            required: false,
+            default: null,
+        },
+
         remoteUrl: {
             type: String,
             required: false,
@@ -355,9 +361,11 @@ export default {
 
                 if(selectElement.hasAttribute("dusk")) {
                     // Move the Dusk selector from the select element to the Choices.js element.
-                    const duskSelector = selectElement.getAttribute("dusk");
                     selectElement.removeAttribute("dusk");
-                    this.choicesInstance.containerInner.element.setAttribute("dusk", duskSelector);
+                }
+
+                if(this.dusk) {
+                    this.choicesInstance.containerInner.element.setAttribute("dusk", this.dusk);
                 }
 
                 this.handlePlaceholderVisibility();
