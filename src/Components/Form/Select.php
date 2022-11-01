@@ -172,7 +172,7 @@ class Select extends Component
      *
      * @return \ProtoneMedia\Splade\FormSelectOption
      */
-    public function placeholderOption(): ? FormSelectOption
+    public function placeholderOption(): ?FormSelectOption
     {
         if ($this->choices && $this->multiple) {
             // Choices.js supports a placeholder for multiple selects
