@@ -109,6 +109,18 @@ export default {
          * section, apply it to the Choices instance.
          */
         modelValue(updatedValue, oldValue) {
+            if(!this.choicesInstance && this.multiple && isArray(updatedValue)) {
+                // Filter out any blank values and set the model value when needed.
+                const filteredValue = updatedValue.filter((value)=> {
+                    return value !== "" && value !== null && value !== undefined;
+                });
+
+                if (JSON.stringify(filteredValue) != JSON.stringify(updatedValue)) {
+                    this.$emit("update:modelValue", filteredValue);
+                    return;
+                }
+            }
+
             if (this.choicesInstance) {
                 if (JSON.stringify(updatedValue) == JSON.stringify(oldValue)) {
                     return;
@@ -197,7 +209,7 @@ export default {
                         }
 
                         if(option.disabled) {
-                            optionElement.disabled = true;
+                            optionElement.disabled = option.disabled;
                         }
 
                         if(option.placeholder) {
@@ -240,6 +252,7 @@ export default {
                 }
 
                 this.choicesInstance.destroy();
+                this.choicesInstance = null;
             }
         },
 

@@ -16,14 +16,15 @@ class SelectRemoteTest extends DuskTestCase
                 ->pause(250)
                 ->assertSelectMissingOption('country_a', '')    // placeholder
                 ->assertSelectHasOption('country_c', '')    // placeholder
+
                 ->select('@country_a', 'NL')
                 ->choicesSelect('@country_b', 'BE')
                 ->select('@country_c', 'FR')
                 ->choicesSelect('@country_d', 'DE')
 
-                ->select('@countries_a', 'NL')
+                ->select('@countries_a', ['NL'])
                 ->choicesSelect('@countries_b', 'BE')
-                ->select('@countries_c', 'FR')
+                ->select('@countries_c', ['FR'])
                 ->choicesSelect('@countries_d', 'DE')
 
                 ->press('Submit')
