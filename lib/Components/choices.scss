@@ -109,7 +109,7 @@ fieldset:disabled .#{$choices-selector} {
             @apply pr-8 py-2;
 
             &[data-has-selection="true"]{
-                @apply pb-1;
+                @apply pt-1.5 pb-2;
             }
         }
 
@@ -118,7 +118,7 @@ fieldset:disabled .#{$choices-selector} {
         }
 
         .#{$choices-selector}__input {
-            @apply m-0 py-px pl-0 text-base min-w-0;
+            @apply m-0 py-px pl-0 text-base min-w-0 leading-none;
         }
     }
 }
