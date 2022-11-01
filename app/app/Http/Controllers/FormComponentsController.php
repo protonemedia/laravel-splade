@@ -15,10 +15,7 @@ class FormComponentsController
 {
     private function countries(): array
     {
-        return collect(json_decode(file_get_contents(resource_path('iso3166.json'))))
-            ->keyBy->{'alpha-2'}
-            ->map->name
-            ->all();
+        return app('countries.keyValue');
     }
 
     public function simple()

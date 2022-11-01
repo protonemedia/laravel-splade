@@ -2,7 +2,7 @@
   <div
     ref="select"
   >
-    <slot />
+    <slot :loading="loading" />
   </div>
 </template>
 
@@ -44,7 +44,7 @@ export default {
         },
 
         placeholder: {
-            type: [Boolean, String],
+            type: [Boolean, Object],
             required: false,
             default: false,
         },
@@ -75,7 +75,8 @@ export default {
             choicesInstance: null,
             element: null,
             placeholderText: null,
-            headlessListener: null
+            headlessListener: null,
+            loading: false,
         };
     },
 
@@ -88,7 +89,7 @@ export default {
                 return Array.isArray(this.modelValue) ? this.modelValue.length > 0 : false;
             }
 
-            if (this.modelValue === null || this.modelValue === "") {
+            if (this.modelValue === null || this.modelValue === "" || this.modelValue === undefined) {
                 return false;
             }
 
@@ -141,6 +142,8 @@ export default {
                 return;
             }
 
+            this.loading = true;
+
             Axios({
                 url: this.remoteUrl,
                 method: "GET",
@@ -149,37 +152,41 @@ export default {
                 },
             })
                 .then((response) => {
+                    // Cleanup previous choices instance.
                     this.destroyChoicesInstance();
 
                     let options = [];
 
+                    // Start with the the placeholder.
                     if(this.placeholder) {
-                        options.push({
-                            value: "",
-                            label: this.placeholder === true ? "" : this.placeholder,
-                            disabled: this.choices === false,
-                            placeholder: this.choices !== false,
-                        });
+                        options.push(this.placeholder);
                     }
 
+                    // Normalize the response.
                     options = this.normalizeOptions(response.data, options);
 
-                    var i;
+                    this.loading = false;
+
+                    var index;
                     var currentOptionsCount = this.element.options.length - 1;
 
-                    for(i = currentOptionsCount; i >= 0; i--) {
-                        this.element.remove(i);
+                    for(index = currentOptionsCount; index >= 0; index--) {
+                        // Remove all current options.
+                        this.element.remove(index);
                     }
 
                     let hasSelectedOption = false;
 
                     forOwn(options, (option) => {
+                        // Add the new options.
                         var optionElement = document.createElement("option");
 
                         optionElement.value = option.value;
                         optionElement.text = option.label;
 
                         if(option.value === this.modelValue) {
+                            // The current value is in the new options, we use this later on
+                            // to set the value on the select element and Choices instance.
                             hasSelectedOption = true;
                         }
 
@@ -191,27 +198,32 @@ export default {
                             optionElement.placeholder = option.placeholder;
                         }
 
+                        // Add the option to the select element.
                         this.element.appendChild(optionElement);
                     });
 
                     if(!hasSelectedOption) {
-                        this.$emit("update:modelValue", null);
+                        // The current value is not in the new options, we set the value to null.
+                        this.$emit("update:modelValue", "");
                     }
 
-                    if(this.choicesInstance) {
+                    if(this.choices) {
+                        // Re-initialize the Choices instance.
                         this.initChoices(this.element);
                     } else {
-                        if(!hasSelectedOption) {
+                        if(hasSelectedOption) {
+                            // The current value is in the new options, we set the value on the select element.
+                            this.element.value = this.modelValue;
+                        } else {
+                            // The current value is not in the new options, we set the value to null.
                             this.$nextTick(() => {
                                 this.element.selectedIndex = 0;
                             });
-                        } else {
-                            this.element.value = this.modelValue;
                         }
                     }
                 })
                 .catch(() => {
-                    // this.processing = false;
+                    this.loading = false;
                 });
         },
 
@@ -260,7 +272,7 @@ export default {
                 this.choicesInstance.removeActiveItems();
             }
 
-            if (value === null) {
+            if (value === null || value === undefined) {
                 value = "";
             }
 
@@ -285,7 +297,7 @@ export default {
          * and applies some additional minor styling.
          */
         handlePlaceholderVisibility() {
-            if(!this.multiple){
+            if(!this.multiple) {
                 return;
             }
 
@@ -353,7 +365,13 @@ export default {
 
                 // Listen for changes so we can update the Vue model of this component.
                 selectElement.addEventListener("change", function () {
-                    vm.$emit("update:modelValue", vm.choicesInstance.getValue(true));
+                    let currentValue = vm.choicesInstance.getValue(true);
+
+                    if(currentValue === null || currentValue === undefined) {
+                        currentValue = "";
+                    }
+
+                    vm.$emit("update:modelValue", currentValue);
 
                     // Hide dropdown if there are no more items to choose from.
                     if (!vm.multiple || totalItems < 1) {
@@ -395,7 +413,6 @@ export default {
          * Update the 'data-has-selection' attribute based on the current selection.
          */
         updateHasSelectionAttribute() {
-            console.log("updateHasSelectionAttribute", this.hasSelection);
             this.choicesInstance.containerInner.element.setAttribute(
                 "data-has-selection",
                 this.hasSelection

@@ -36,6 +36,7 @@ class Select extends Component
         public string $remoteUrl = '',
         public string $remoteValue = '',
         public string $remoteLabel = '',
+        public string $scope = 'select',
     ) {
         if (is_bool($placeholder) && $placeholder) {
             $this->placeholder = __('Search') . '...';
@@ -98,6 +99,7 @@ class Select extends Component
             [
                 'allowHTML'        => false,
                 'itemSelectText'   => '',
+                'placeholderValue' => $this->placeholder ?: '',
                 'removeItemButton' => true,
                 'shouldSort'       => false,
             ],
@@ -158,33 +160,44 @@ class Select extends Component
     {
         $options = $this->mapOptions($this->options);
 
-        if ($this->placeholder) {
-            $options = Arr::prepend($options, new FormSelectOption([
-                'value'       => '',
-                'label'       => $this->placeholder,
-                'disabled'    => $this->choices === false,
-                'placeholder' => $this->choices !== false,
-            ]));
-        } elseif (!$this->placeholder && $this->choices !== false && !$this->multiple) {
-            $options = Arr::prepend($options, new FormSelectOption([
-                'label'       => '',
-                'value'       => '',
-                'placeholder' => true,
-            ]));
+        if ($placeholder = $this->placeholderOption()) {
+            $options = Arr::prepend($options, $placeholder);
         }
 
         return $options;
     }
 
-    public function jsPlaceholder(): bool|string
+    /**
+     * Returns the placeholder option when necessary.
+     *
+     * @return \ProtoneMedia\Splade\FormSelectOption
+     */
+    public function placeholderOption(): ? FormSelectOption
     {
-        if ($this->placeholder) {
-            return $this->placeholder;
-        } elseif (!$this->placeholder && $this->choices !== false && !$this->multiple) {
-            return true;
+        if ($this->choices && $this->multiple) {
+            // Choices.js supports a placeholder for multiple selects
+            // using the 'placeholderValue' configuration.
+            return null;
         }
 
-        return false;
+        $attributes = [
+            'value' => '',
+            'label' => $this->placeholder ?: '',
+        ];
+
+        if ($this->choices) {
+            // Choices.js need a dummy placeholder, otherwise it will select the
+            // first option, so we'll always return a placeholder option.
+            return new FormSelectOption($attributes + ['placeholder' => true]);
+        }
+
+        if (!$this->placeholder) {
+            // No placeholder is needed.
+            return null;
+        }
+
+        // Regular selects need a disabled attribute.
+        return new FormSelectOption($attributes + ['disabled' => true]);
     }
 
     /**

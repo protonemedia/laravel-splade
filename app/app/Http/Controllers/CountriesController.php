@@ -9,9 +9,8 @@ class CountriesController
 {
     private function countries(): Collection
     {
-        return Collection::make(
-            json_decode(file_get_contents(resource_path('iso3166.json')))
-        );
+        // See AppServiceProvider.php for the 'countries' binding...
+        return app('countries');
     }
 
     public function keyValue()
