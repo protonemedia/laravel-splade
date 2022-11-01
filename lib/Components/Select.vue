@@ -44,7 +44,7 @@ export default {
         },
 
         placeholder: {
-            type: Boolean,
+            type: [Boolean, String],
             required: false,
             default: false,
         },
@@ -70,7 +70,7 @@ export default {
 
     emits: ["update:modelValue"],
 
-    data(){
+    data() {
         return {
             choicesInstance: null,
             element: null,
@@ -85,10 +85,10 @@ export default {
          */
         hasSelection() {
             if (this.multiple) {
-                return Array.isArray(this.model) ? this.model.length > 0 : false;
+                return Array.isArray(this.modelValue) ? this.modelValue.length > 0 : false;
             }
 
-            if (this.model === null || this.model === "") {
+            if (this.modelValue === null || this.modelValue === "") {
                 return false;
             }
 
@@ -111,49 +111,9 @@ export default {
             }
         },
 
-
         remoteUrl: {
-            immediate: true,
-            handler(url) {
-                if(!url) {
-                    return;
-                }
-
-                Axios({
-                    url: url,
-                    method: "GET",
-                    headers: {
-                        Accept: "application/json",
-                    },
-                })
-                    .then((response) => {
-                        const options = this.normalizeOptions(response.data, []);
-
-                        var i;
-                        var currentOptionsCount = this.element.options.length - 1;
-
-                        for(i = currentOptionsCount; i >= 0; i--) {
-                            const option = this.element.options[i];
-                            if(!option.dataset.spladePlaceholder) {
-                                this.element.remove(i);
-                            }
-                        }
-
-
-                        forOwn(options, (option) => {
-                            var optionElement = document.createElement("option");
-                            optionElement.value = option.value;
-                            optionElement.text = option.label;
-                            this.element.appendChild(optionElement);
-                        });
-
-                        if(this.choicesInstance) {
-                            this.choicesInstance.setChoices(options);
-                        }
-                    })
-                    .catch(() => {
-                        // this.processing = false;
-                    });
+            handler() {
+                this.loadRemoteOptions();
             }
         }
     },
@@ -164,22 +124,107 @@ export default {
         if(this.choices) {
             this.initChoices(this.element);
         }
+
+        this.loadRemoteOptions();
     },
 
     /*
      * Destroy the Choices.js instance to prevent memory leaks.
      */
     beforeUnmount() {
-        if(this.choices && this.choicesInstance) {
-            if(this.headlessListener) {
-                document.querySelector("#headlessui-portal-root")?.removeEventListener("click", this.headlessListener);
-            }
-
-            this.choicesInstance.destroy();
-        }
+        this.destroyChoicesInstance();
     },
 
     methods: {
+        loadRemoteOptions() {
+            if(!this.remoteUrl) {
+                return;
+            }
+
+            Axios({
+                url: this.remoteUrl,
+                method: "GET",
+                headers: {
+                    Accept: "application/json",
+                },
+            })
+                .then((response) => {
+                    this.destroyChoicesInstance();
+
+                    let options = [];
+
+                    if(this.placeholder) {
+                        options.push({
+                            value: "",
+                            label: this.placeholder === true ? "" : this.placeholder,
+                            disabled: this.choices === false,
+                            placeholder: this.choices !== false,
+                        });
+                    }
+
+                    options = this.normalizeOptions(response.data, options);
+
+                    var i;
+                    var currentOptionsCount = this.element.options.length - 1;
+
+                    for(i = currentOptionsCount; i >= 0; i--) {
+                        this.element.remove(i);
+                    }
+
+                    let hasSelectedOption = false;
+
+                    forOwn(options, (option) => {
+                        var optionElement = document.createElement("option");
+
+                        optionElement.value = option.value;
+                        optionElement.text = option.label;
+
+                        if(option.value === this.modelValue) {
+                            hasSelectedOption = true;
+                        }
+
+                        if(option.disabled) {
+                            optionElement.disabled = true;
+                        }
+
+                        if(option.placeholder) {
+                            optionElement.placeholder = option.placeholder;
+                        }
+
+                        this.element.appendChild(optionElement);
+                    });
+
+                    if(!hasSelectedOption) {
+                        this.$emit("update:modelValue", null);
+                    }
+
+                    if(this.choicesInstance) {
+                        this.initChoices(this.element);
+                    } else {
+                        if(!hasSelectedOption) {
+                            this.$nextTick(() => {
+                                this.element.selectedIndex = 0;
+                            });
+                        } else {
+                            this.element.value = this.modelValue;
+                        }
+                    }
+                })
+                .catch(() => {
+                    // this.processing = false;
+                });
+        },
+
+        destroyChoicesInstance() {
+            if(this.choices && this.choicesInstance) {
+                if(this.headlessListener) {
+                    document.querySelector("#headlessui-portal-root")?.removeEventListener("click", this.headlessListener);
+                }
+
+                this.choicesInstance.destroy();
+            }
+        },
+
         normalizeOptions(data, results) {
             const dataIsArray = isArray(data);
 
@@ -190,8 +235,8 @@ export default {
                         label: data[this.remoteLabel]
                     });
                 } else {
-                    forOwn(data, (value, label) => {
-                        results.push({ value, label });
+                    forOwn(data, (label, value) => {
+                        results.push({ label, value });
                     });
                 }
             }
@@ -306,7 +351,6 @@ export default {
                 this.handlePlaceholderVisibility();
                 this.updateHasSelectionAttribute();
 
-
                 // Listen for changes so we can update the Vue model of this component.
                 selectElement.addEventListener("change", function () {
                     vm.$emit("update:modelValue", vm.choicesInstance.getValue(true));
@@ -351,6 +395,7 @@ export default {
          * Update the 'data-has-selection' attribute based on the current selection.
          */
         updateHasSelectionAttribute() {
+            console.log("updateHasSelectionAttribute", this.hasSelection);
             this.choicesInstance.containerInner.element.setAttribute(
                 "data-has-selection",
                 this.hasSelection

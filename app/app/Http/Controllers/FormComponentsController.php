@@ -224,8 +224,27 @@ class FormComponentsController
         return redirect()->route('navigation.one');
     }
 
-    public function selectAsync()
+    public function selectAsync(Request $request)
     {
-        return view('form.components.selectAsync');
+        $countries = array_keys($this->countries());
+
+        $request->validate([
+            'country_a' => ['required', 'string', Rule::in($countries)],
+            'country_b' => ['required', 'string', Rule::in($countries)],
+            'country_c' => ['required', 'string', Rule::in($countries)],
+            'country_d' => ['required', 'string', Rule::in($countries)],
+
+            'countries_a' => ['required', 'array', 'min:1'],
+            'countries_b' => ['required', 'array', 'min:1'],
+            'countries_c' => ['required', 'array', 'min:1'],
+            'countries_d' => ['required', 'array', 'min:1'],
+
+            'countries_a.*' => ['required', 'string', Rule::in($countries)],
+            'countries_b.*' => ['required', 'string', Rule::in($countries)],
+            'countries_c.*' => ['required', 'string', Rule::in($countries)],
+            'countries_d.*' => ['required', 'string', Rule::in($countries)],
+        ]);
+
+        return redirect()->route('navigation.one');
     }
 }

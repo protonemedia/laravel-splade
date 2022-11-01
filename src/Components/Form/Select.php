@@ -160,22 +160,31 @@ class Select extends Component
 
         if ($this->placeholder) {
             $options = Arr::prepend($options, new FormSelectOption([
-                'value'                   => '',
-                'label'                   => $this->placeholder,
-                'disabled'                => $this->choices === false,
-                'placeholder'             => $this->choices !== false,
-                'data-splade-placeholder' => true,
+                'value'       => '',
+                'label'       => $this->placeholder,
+                'disabled'    => $this->choices === false,
+                'placeholder' => $this->choices !== false,
             ]));
         } elseif (!$this->placeholder && $this->choices !== false && !$this->multiple) {
             $options = Arr::prepend($options, new FormSelectOption([
-                'label'                   => '',
-                'value'                   => '',
-                'placeholder'             => true,
-                'data-splade-placeholder' => true,
+                'label'       => '',
+                'value'       => '',
+                'placeholder' => true,
             ]));
         }
 
         return $options;
+    }
+
+    public function jsPlaceholder(): bool|string
+    {
+        if ($this->placeholder) {
+            return $this->placeholder;
+        } elseif (!$this->placeholder && $this->choices !== false && !$this->multiple) {
+            return true;
+        }
+
+        return false;
     }
 
     /**

@@ -3,7 +3,7 @@
     :choices="@js($choicesOptions())"
     :js-choices-options="{!! $jsChoicesOptions() !!}"
     :multiple="@js($multiple)"
-    :placeholder="@js($placeholder ? true : false)"
+    :placeholder="@js($jsPlaceholder())"
     v-model="{{ $vueModel() }}"
     :remote-url="{!! $remoteUrl ?: 'null' !!}"
     :remote-value="@js($remoteValue)"
