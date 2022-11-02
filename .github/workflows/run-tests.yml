@@ -96,6 +96,7 @@ jobs:
       - name: Execute Dusk tests
         uses: nick-invision/retry@v2
         with:
+          timeout_minutes: 10
           max_attempts: 3
           command: cd app && php artisan dusk
 
