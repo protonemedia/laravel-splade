@@ -13,10 +13,9 @@ class SelectRemoteTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $browser->visit('form/components/selectAsync/keyValue')
                 ->waitForText('FormComponents')
-                ->pause(250)
+                ->waitUntilMissing('svg')
                 ->assertSelectMissingOption('country_a', '')    // placeholder
                 ->assertSelectHasOption('country_c', '')    // placeholder
-
                 ->select('@country_a', 'NL')
                 ->choicesSelect('@country_b', 'BE')
                 ->select('@country_c', 'FR')
@@ -38,7 +37,7 @@ class SelectRemoteTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $browser->visit('form/components/selectAsync/objects')
                 ->waitForText('FormComponents')
-                ->pause(250)
+                ->waitUntilMissing('svg')
                 ->assertSelectMissingOption('country_a', '')    // placeholder
                 ->assertSelectHasOption('country_c', '')    // placeholder
                 ->select('@country_a', 'NL')
