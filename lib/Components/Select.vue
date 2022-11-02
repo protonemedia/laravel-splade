@@ -223,7 +223,7 @@ export default {
 
                     if(!hasSelectedOption) {
                         // The current value is not in the new options, we set the value to null.
-                        this.$emit("update:modelValue", "");
+                        this.$emit("update:modelValue", this.multiple ? [] : "");
                     }
 
                     if(this.choices) {
@@ -363,94 +363,96 @@ export default {
                 const vm = this;
 
                 import("choices.js").then((Choices) => {
-                    const options = Object.assign({}, this.choices, this.jsChoicesOptions);
+                    const options = Object.assign({}, this.choices, this.jsChoicesOptions, {
+                        callbackOnInit: function() {
+                            vm.choicesInstance = this;
 
-                    vm.choicesInstance = new Choices.default(selectElement, options);
+                            if(vm.stack > 0) {
+                                // The Headless UI Dialog blocks the events on the Choices.js
+                                // instance, so we put an event listener on the portal root.
+                                vm.headlessListener = function(e) {
+                                    if(e.target === selectElement) {
+                                        vm.choicesInstance.showDropdown();
+                                    }
+                                };
 
-                    if(vm.stack > 0) {
-                        // The Headless UI Dialog blocks the events on the Choices.js
-                        // instance, so we put an event listener on the portal root.
-                        vm.headlessListener = function(e) {
-                            if(e.target === selectElement) {
-                                vm.choicesInstance.showDropdown();
+                                document.querySelector("#headlessui-portal-root")
+                                    .addEventListener("click", vm.headlessListener, { capture: true });
                             }
-                        };
 
-                        document.querySelector("#headlessui-portal-root")
-                            .addEventListener("click", vm.headlessListener, { capture: true });
-                    }
+                            // Set the name of the select element on the Choices.js element
+                            // so we can perform test assertions with Laravel Dusk.
+                            vm.choicesInstance.containerInner.element.setAttribute(
+                                "data-select-name",
+                                selectElement.name
+                            );
 
-                    // Set the name of the select element on the Choices.js element
-                    // so we can perform test assertions with Laravel Dusk.
-                    this.choicesInstance.containerInner.element.setAttribute(
-                        "data-select-name",
-                        selectElement.name
-                    );
+                            if(selectElement.hasAttribute("dusk")) {
+                                // Move the Dusk selector from the select element to the Choices.js element.
+                                selectElement.removeAttribute("dusk");
+                            }
 
-                    if(selectElement.hasAttribute("dusk")) {
-                        // Move the Dusk selector from the select element to the Choices.js element.
-                        selectElement.removeAttribute("dusk");
-                    }
+                            if(vm.dusk) {
+                                vm.choicesInstance.containerInner.element.setAttribute("dusk", vm.dusk);
+                                vm.choicesInstance.choiceList.element.setAttribute("dusk", `${vm.dusk}-listbox`);
+                            }
 
-                    if(this.dusk) {
-                        this.choicesInstance.containerInner.element.setAttribute("dusk", this.dusk);
-                        this.choicesInstance.choiceList.element.setAttribute("dusk", `${this.dusk}-listbox`);
-                    }
+                            vm.handlePlaceholderVisibility();
+                            vm.updateHasSelectionAttribute();
 
-                    this.handlePlaceholderVisibility();
-                    this.updateHasSelectionAttribute();
+                            // Listen for changes so we can update the Vue model of this component.
+                            vm.selectChangeListener = function () {
+                                let currentValue = vm.choicesInstance.getValue(true);
 
-                    // Listen for changes so we can update the Vue model of this component.
-                    vm.selectChangeListener = function () {
-                        let currentValue = vm.choicesInstance.getValue(true);
+                                if(currentValue === null || currentValue === undefined) {
+                                    currentValue = "";
+                                }
 
-                        console.log(currentValue);
+                                vm.$emit("update:modelValue", currentValue);
 
-                        if(currentValue === null || currentValue === undefined) {
-                            currentValue = "";
+                                // Hide dropdown if there are no more items to choose from.
+                                if (!vm.multiple || totalItems < 1) {
+                                    return;
+                                }
+
+                                const selectedItems = vm.choicesInstance.getValue().length;
+
+                                if (selectedItems >= totalItems) {
+                                    vm.choicesInstance.hideDropdown();
+                                }
+                            };
+
+                            selectElement.addEventListener("change", vm.selectChangeListener);
+
+                            vm.choicesInstance.containerInner.element.addEventListener("hideDropdownFromDusk", function () {
+                                vm.choicesInstance.hideDropdown();
+                            });
+
+                            // Scroll to the selected item when the dropdown is shown.
+                            vm.selectShowDropdownListener = function() {
+                                if (vm.multiple || !vm.modelValue) {
+                                    return;
+                                }
+
+                                const item = vm.getItemOfCurrentModel();
+
+                                const itemElement = vm.choicesInstance.dropdown.element.querySelector(
+                                    `.choices__item[data-id="${item.id}"]`
+                                );
+
+                                vm.choicesInstance.choiceList.scrollToChildElement(itemElement, 1);
+                                vm.choicesInstance._highlightChoice(itemElement);
+                            };
+
+                            selectElement.addEventListener("showDropdown", vm.selectShowDropdownListener);
+
+                            vm.setValueOnChoices(vm.modelValue);
+
+                            resolve();
                         }
-
-                        vm.$emit("update:modelValue", currentValue);
-
-                        // Hide dropdown if there are no more items to choose from.
-                        if (!vm.multiple || totalItems < 1) {
-                            return;
-                        }
-
-                        const selectedItems = vm.choicesInstance.getValue().length;
-
-                        if (selectedItems >= totalItems) {
-                            vm.choicesInstance.hideDropdown();
-                        }
-                    };
-
-                    selectElement.addEventListener("change", vm.selectChangeListener);
-
-                    this.choicesInstance.containerInner.element.addEventListener("hideDropdownFromDusk", function () {
-                        vm.choicesInstance.hideDropdown();
                     });
 
-                    // Scroll to the selected item when the dropdown is shown.
-                    vm.selectShowDropdownListener = function() {
-                        if (vm.multiple || !vm.modelValue) {
-                            return;
-                        }
-
-                        const item = vm.getItemOfCurrentModel();
-
-                        const itemElement = vm.choicesInstance.dropdown.element.querySelector(
-                            `.choices__item[data-id="${item.id}"]`
-                        );
-
-                        vm.choicesInstance.choiceList.scrollToChildElement(itemElement, 1);
-                        vm.choicesInstance._highlightChoice(itemElement);
-                    };
-
-                    selectElement.addEventListener("showDropdown", vm.selectShowDropdownListener);
-
-                    this.setValueOnChoices(this.modelValue);
-
-                    resolve();
+                    vm.choicesInstance = new Choices.default(selectElement, options);
                 });
             });
         },

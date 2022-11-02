@@ -3,6 +3,7 @@
 namespace ProtoneMedia\Splade;
 
 use Illuminate\Routing\Middleware\ValidateSignature;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
@@ -209,31 +210,36 @@ class ServiceProvider extends BaseServiceProvider
                 /** @var Browser browser */
                 $browser = $this;
 
-                $choicesSelector = Str::startsWith($selectName, '@')
+                Collection::wrap($value)->each(function ($value) use ($selectName, $browser) {
+                    $choicesSelector = Str::startsWith($selectName, '@')
                     ? '[dusk="' . explode('@', $selectName)[1] . '"]'
                     : 'div.choices__inner[data-select-name="' . $selectName . '"]';
 
-                $dataType = $browser->script("return document.querySelector('{$choicesSelector}').parentNode.getAttribute('data-type');")[0] ?? 'select-one';
+                    $formattedChoicesSelector = $browser->resolver->format($choicesSelector);
 
-                $browser->click(
-                    $dataType === 'select-multiple' ? "{$choicesSelector} input" : $choicesSelector
-                );
+                    $dataType = $browser->script("return document.querySelector('{$formattedChoicesSelector}').parentNode.getAttribute('data-type');")[0] ?? 'select-one';
 
-                return $browser
-                    ->whenAvailable('div.choices.is-open', function (Browser $browser) use ($value, $choicesSelector, $dataType) {
-                        $value = $value ? addslashes($value) : $value;
+                    $browser
+                        ->click(
+                            $dataType === 'select-multiple' ? "{$choicesSelector} input" : $choicesSelector
+                        )
+                        ->whenAvailable('div.choices.is-open', function (Browser $browser) use ($value, $formattedChoicesSelector, $dataType) {
+                            $value = $value ? addslashes($value) : $value;
 
-                        $selector = $value
-                            ? "div.choices__item[data-value='{$value}']"
-                            : 'div.choices__item[data-value]:not(.choices__placeholder)';
+                            $selector = $value
+                                ? "div.choices__item[data-value='{$value}']"
+                                : 'div.choices__item[data-value]:not(.choices__placeholder)';
 
-                        $browser->click($selector);
+                            $browser->click($selector);
 
-                        if ($dataType === 'select-multiple') {
-                            $browser->script("return document.querySelector('{$choicesSelector}').dispatchEvent(new Event('hideDropdownFromDusk'));");
-                        }
-                    })
-                    ->waitUntilMissing("div.choices.is-open[data-type='{$dataType}']");
+                            if ($dataType === 'select-multiple') {
+                                $browser->script("return document.querySelector('{$formattedChoicesSelector}').dispatchEvent(new Event('hideDropdownFromDusk'));");
+                            }
+                        })
+                        ->waitUntilMissing("div.choices.is-open[data-type='{$dataType}']");
+                });
+
+                return $browser;
             });
         }
 
@@ -248,13 +254,15 @@ class ServiceProvider extends BaseServiceProvider
 
                 return $browser
                     ->within("{$choicesSelector} div.choices__list", function (Browser $browser) use ($value) {
-                        $value = $value ? addslashes($value) : $value;
+                        Collection::wrap($value)->each(function ($value) use ($browser) {
+                            $value = $value ? addslashes($value) : $value;
 
-                        $selector = $value
+                            $selector = $value
                             ? "div.choices__item[data-value='{$value}'] button"
                             : 'div.choices__item button';
 
-                        $browser->click($selector)->waitUntilMissing($selector);
+                            $browser->click($selector)->waitUntilMissing($selector);
+                        });
                     });
             });
         }
