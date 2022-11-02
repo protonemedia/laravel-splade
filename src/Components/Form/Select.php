@@ -118,7 +118,7 @@ class Select extends Component
     {
         $collection = Collection::make($options);
 
-        if($this->optionLabel && $this->optionValue) {
+        if ($this->optionLabel && $this->optionValue) {
             $collection = $collection->pluck($this->optionLabel, $this->optionValue);
         }
 
