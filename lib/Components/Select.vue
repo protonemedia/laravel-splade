@@ -144,7 +144,9 @@ export default {
         this.element = this.$refs.select.querySelector("select");
 
         if(this.choices) {
-            this.initChoices(this.element);
+            return this.initChoices(this.element).then(() => {
+                this.loadRemoteOptions();
+            });
         }
 
         this.loadRemoteOptions();
@@ -365,7 +367,7 @@ export default {
                 import("choices.js").then((Choices) => {
                     const options = Object.assign({}, this.choices, this.jsChoicesOptions, {
                         callbackOnInit: function() {
-                            vm.choicesInstance = this;
+                            const choicesInstance = this;
 
                             if(vm.stack > 0) {
                                 // The Headless UI Dialog blocks the events on the Choices.js
@@ -382,7 +384,7 @@ export default {
 
                             // Set the name of the select element on the Choices.js element
                             // so we can perform test assertions with Laravel Dusk.
-                            vm.choicesInstance.containerInner.element.setAttribute(
+                            choicesInstance.containerInner.element.setAttribute(
                                 "data-select-name",
                                 selectElement.name
                             );
@@ -393,16 +395,13 @@ export default {
                             }
 
                             if(vm.dusk) {
-                                vm.choicesInstance.containerInner.element.setAttribute("dusk", vm.dusk);
-                                vm.choicesInstance.choiceList.element.setAttribute("dusk", `${vm.dusk}-listbox`);
+                                choicesInstance.containerInner.element.setAttribute("dusk", vm.dusk);
+                                choicesInstance.choiceList.element.setAttribute("dusk", `${vm.dusk}-listbox`);
                             }
-
-                            vm.handlePlaceholderVisibility();
-                            vm.updateHasSelectionAttribute();
 
                             // Listen for changes so we can update the Vue model of this component.
                             vm.selectChangeListener = function () {
-                                let currentValue = vm.choicesInstance.getValue(true);
+                                let currentValue = choicesInstance.getValue(true);
 
                                 if(currentValue === null || currentValue === undefined) {
                                     currentValue = "";
@@ -415,17 +414,17 @@ export default {
                                     return;
                                 }
 
-                                const selectedItems = vm.choicesInstance.getValue().length;
+                                const selectedItems = choicesInstance.getValue().length;
 
                                 if (selectedItems >= totalItems) {
-                                    vm.choicesInstance.hideDropdown();
+                                    choicesInstance.hideDropdown();
                                 }
                             };
 
                             selectElement.addEventListener("change", vm.selectChangeListener);
 
-                            vm.choicesInstance.containerInner.element.addEventListener("hideDropdownFromDusk", function () {
-                                vm.choicesInstance.hideDropdown();
+                            choicesInstance.containerInner.element.addEventListener("hideDropdownFromDusk", function () {
+                                choicesInstance.hideDropdown();
                             });
 
                             // Scroll to the selected item when the dropdown is shown.
@@ -436,15 +435,17 @@ export default {
 
                                 const item = vm.getItemOfCurrentModel();
 
-                                const itemElement = vm.choicesInstance.dropdown.element.querySelector(
+                                const itemElement = choicesInstance.dropdown.element.querySelector(
                                     `.choices__item[data-id="${item.id}"]`
                                 );
 
-                                vm.choicesInstance.choiceList.scrollToChildElement(itemElement, 1);
-                                vm.choicesInstance._highlightChoice(itemElement);
+                                choicesInstance.choiceList.scrollToChildElement(itemElement, 1);
+                                choicesInstance._highlightChoice(itemElement);
                             };
 
                             selectElement.addEventListener("showDropdown", vm.selectShowDropdownListener);
+
+                            vm.choicesInstance = choicesInstance;
 
                             vm.setValueOnChoices(vm.modelValue);
 
@@ -452,7 +453,7 @@ export default {
                         }
                     });
 
-                    vm.choicesInstance = new Choices.default(selectElement, options);
+                    new Choices.default(selectElement, options);
                 });
             });
         },

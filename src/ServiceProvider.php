@@ -206,7 +206,7 @@ class ServiceProvider extends BaseServiceProvider
         }
 
         if ($macroName = config('splade.dusk.choices_select_macro')) {
-            Browser::macro($macroName, function ($selectName, $value = null): Browser {
+            Browser::macro($macroName, function ($selectName, $value = ''): Browser {
                 /** @var Browser browser */
                 $browser = $this;
 
@@ -244,7 +244,7 @@ class ServiceProvider extends BaseServiceProvider
         }
 
         if ($macroName = config('splade.dusk.choices_remove_item_macro')) {
-            Browser::macro($macroName, function ($selectName, $value = null): Browser {
+            Browser::macro($macroName, function ($selectName, $value = ''): Browser {
                 /** @var Browser browser */
                 $browser = $this;
 
@@ -258,8 +258,8 @@ class ServiceProvider extends BaseServiceProvider
                             $value = $value ? addslashes($value) : $value;
 
                             $selector = $value
-                            ? "div.choices__item[data-value='{$value}'] button"
-                            : 'div.choices__item button';
+                                ? "div.choices__item[data-value='{$value}'] button"
+                                : 'div.choices__item button';
 
                             $browser->click($selector)->waitUntilMissing($selector);
                         });
