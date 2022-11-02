@@ -394,7 +394,7 @@ export default {
 
                     if(this.dusk) {
                         this.choicesInstance.containerInner.element.setAttribute("dusk", this.dusk);
-                        this.choicesInstance.itemList.element.setAttribute("dusk", `${this.dusk}-listbox`);
+                        this.choicesInstance.choiceList.element.setAttribute("dusk", `${this.dusk}-listbox`);
                     }
 
                     this.handlePlaceholderVisibility();
