@@ -242,15 +242,19 @@ class ServiceProvider extends BaseServiceProvider
                 /** @var Browser browser */
                 $browser = $this;
 
+                $choicesSelector = Str::startsWith($selectName, '@')
+                    ? '[dusk="' . explode('@', $selectName)[1] . '"]'
+                    : 'div.choices__inner[data-select-name="' . $selectName . '"]';
+
                 return $browser
-                    ->within("div.choices__inner[data-select-name='{$selectName}'] div.choices__list", function (Browser $browser) use ($value) {
+                    ->within("{$choicesSelector} div.choices__list", function (Browser $browser) use ($value) {
                         $value = $value ? addslashes($value) : $value;
 
                         $selector = $value
                             ? "div.choices__item[data-value='{$value}'] button"
                             : 'div.choices__item button';
 
-                        $browser->click($selector);
+                        $browser->click($selector)->waitUntilMissing($selector);
                     });
             });
         }

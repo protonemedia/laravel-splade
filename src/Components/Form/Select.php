@@ -34,8 +34,8 @@ class Select extends Component
         public bool $relation = false,
         public string $help = '',
         public string $remoteUrl = '',
-        public string $remoteValue = '',
-        public string $remoteLabel = '',
+        public string $optionValue = '',
+        public string $optionLabel = '',
         public string $scope = 'select',
     ) {
         if (is_bool($placeholder) && $placeholder) {
@@ -117,6 +117,10 @@ class Select extends Component
     private function mapOptions($options): array
     {
         $collection = Collection::make($options);
+
+        if($this->optionLabel && $this->optionValue) {
+            $collection = $collection->pluck($this->optionLabel, $this->optionValue);
+        }
 
         $options = $collection->toArray();
 

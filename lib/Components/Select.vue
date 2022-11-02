@@ -10,6 +10,7 @@
 import { default as Axios } from "axios";
 import find from "lodash-es/find";
 import forOwn from "lodash-es/forOwn";
+import get from "lodash-es/get";
 import isArray from "lodash-es/isArray";
 import isObject from "lodash-es/isObject";
 import map from "lodash-es/map";
@@ -61,13 +62,13 @@ export default {
             default: null,
         },
 
-        remoteValue: {
+        optionValue: {
             type: String,
             required: false,
             default: null,
         },
 
-        remoteLabel: {
+        optionLabel: {
             type: String,
             required: false,
             default: null,
@@ -260,10 +261,10 @@ export default {
             const dataIsArray = isArray(data);
 
             if(!dataIsArray && isObject(data)) {
-                if(this.remoteValue && this.remoteLabel) {
+                if(this.optionValue && this.optionLabel) {
                     results.push({
-                        value: data[this.remoteValue],
-                        label: data[this.remoteLabel]
+                        value: get(data, this.optionValue),
+                        label: get(data, this.optionLabel)
                     });
                 } else {
                     forOwn(data, (label, value) => {
@@ -379,6 +380,7 @@ export default {
 
                 if(this.dusk) {
                     this.choicesInstance.containerInner.element.setAttribute("dusk", this.dusk);
+                    this.choicesInstance.dropdown.element.setAttribute("dusk", `${this.dusk}-listbox`);
                 }
 
                 this.handlePlaceholderVisibility();

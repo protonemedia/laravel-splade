@@ -8,7 +8,7 @@ FormComponents
 
 <div class="max-w-xl mx-auto px-4">
     <x-splade-form class="space-y-4">
-        <x-splade-select dusk="regular-no-placeholder" label="Regular No Placeholder" name="regularNoPlaceholder" :options="$countries" />
+        <x-splade-select dusk="regular-no-placeholder" label="Regular No Placeholder" name="regularNoPlaceholder" :options="app('countries')" option-label="name" option-value="alpha-2" />
         <x-splade-select multiple dusk="multiple-regular-no-placeholder" label="Multiple Regular No Placeholder" name="multipleRegularNoPlaceholder[]" :options="$countries" />
         <x-splade-select dusk="regular-with-placeholder" label="Regular With Placeholder" name="regularWithPlaceholder" :options="$countries" placeholder="Country" />
         <x-splade-select multiple dusk="multiple-regular-with-placeholder" label="Multiple Regular With Placeholder" name="multipleRegularWithPlaceholder[]" :options="$countries" placeholder="Country" />

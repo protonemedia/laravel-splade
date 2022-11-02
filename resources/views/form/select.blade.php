@@ -7,8 +7,8 @@
     v-model="{{ $vueModel() }}"
     :dusk="@js($attributes->get('dusk'))"
     :remote-url="{!! $remoteUrl ?: 'null' !!}"
-    :remote-value="@js($remoteValue)"
-    :remote-label="@js($remoteLabel)"
+    :option-value="@js($optionValue)"
+    :option-label="@js($optionLabel)"
 >
     <template #default="{!! $scope !!}">
         <label class="block" v-bind:class="{ 'pointer-events-none': select.loading }">
