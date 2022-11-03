@@ -2,11 +2,13 @@
 
 namespace ProtoneMedia\Splade\FileUploads;
 
+use Exception;
 use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use League\Flysystem\Local\LocalFilesystemAdapter;
 
 class Filesystem
 {
@@ -15,6 +17,10 @@ class Filesystem
     public function __construct(private string $disk)
     {
         $this->filesystem = Storage::disk($disk);
+
+        if (!$this->filesystem->getAdapter() instanceof LocalFilesystemAdapter) {
+            throw new Exception('The Splade File Upload disk must be a local disk.');
+        }
     }
 
     /**
@@ -26,7 +32,7 @@ class Filesystem
     public function storeUploadedFileTemporarely(UploadedFile $file): TemporaryFileUpload
     {
         $path = $file->store(
-            path: 'splade-upload-' . Str::uuid(),
+            path: TemporaryFileUpload::PATH_PREFIX . Str::uuid(),
             options: ['disk' => $this->disk]
         );
 
@@ -47,7 +53,7 @@ class Filesystem
         $lifetime = time() - config('splade.file_uploads.temporary_file_lifetime');
 
         Collection::make($this->filesystem->directories())->each(function (string $directory) use ($lifetime) {
-            if (!Str::startsWith($directory, 'splade-upload-')) {
+            if (!Str::startsWith($directory, TemporaryFileUpload::PATH_PREFIX)) {
                 return;
             }
 

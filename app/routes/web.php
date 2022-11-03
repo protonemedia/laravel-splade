@@ -7,6 +7,7 @@ use App\Events\ToastEvent;
 use App\Http\Controllers\BackFormController;
 use App\Http\Controllers\CountriesController;
 use App\Http\Controllers\FileFormController;
+use App\Http\Controllers\FilepondController;
 use App\Http\Controllers\FormComponentsController;
 use App\Http\Controllers\FormRelationsController;
 use App\Http\Controllers\FormViewController;
@@ -25,6 +26,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use ProtoneMedia\Splade\Facades\Splade;
+use ProtoneMedia\Splade\FileUploads\HandleSpladeFileUploads;
 
 Route::post('defer/api', function () {
     sleep(1);
@@ -138,8 +140,17 @@ Route::middleware('splade')->group(function () {
     Route::post('form/components/submitValue/{approved?}', [FormComponentsController::class, 'submitValueSubmit'])->name('form.components.submitValueSubmit');
     Route::get('form/components/relation', [FormComponentsController::class, 'relation'])->name('form.components.relation');
     Route::get('form/components/customSelectOptions', [FormComponentsController::class, 'customSelectOptions'])->name('form.components.customSelectOptions');
-    Route::get('form/components/filepond', [FormComponentsController::class, 'filepond'])->name('form.components.filepond');
-    Route::post('form/components/filepond', [FormComponentsController::class, 'filepondStore'])->name('form.components.filepondStore');
+
+    Route::get('form/components/filepond', [FilepondController::class, 'show'])->name('form.components.filepond');
+
+    Route::post('form/components/storeSingle', [FilepondController::class, 'storeSingle'])->name('form.components.filepond.storeSingle');
+    Route::post('form/components/storeMultiple', [FilepondController::class, 'storeMultiple'])->name('form.components.filepond.storeMultiple');
+
+    Route::post('form/components/storeWithRouteMiddleware', [FilepondController::class, 'storeWithRouteMiddleware'])
+        ->middleware(HandleSpladeFileUploads::for('avatar'))
+        ->name('form.components.filepond.storeWithRouteMiddleware');
+
+    Route::post('form/components/storeWithFormRequest', [FilepondController::class, 'storeWithFormRequest'])->name('form.components.filepond.storeWithFormRequest');
 
     Route::view('form/components/selectPlaceholder', 'form.components.selectPlaceholder')->name('form.components.selectPlaceholder');
 

@@ -13,7 +13,7 @@ return [
 
         'disk' => '',
 
-        'temporary_file_lifetime' => 60 * 60 * 24, // 1 day
+        'temporary_file_lifetime' => 60 * 60, // 1 hour
 
         'route' => '/_splade/fileUpload',
 

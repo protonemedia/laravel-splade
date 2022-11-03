@@ -12,7 +12,6 @@ use Illuminate\Validation\Rule;
 use ProtoneMedia\Splade\Components\Form;
 use ProtoneMedia\Splade\Components\Form\Input;
 use ProtoneMedia\Splade\Components\Form\Select;
-use ProtoneMedia\Splade\FileUploads\HandleSpladeFileUploads;
 
 class FormComponentsController extends Controller
 {
@@ -215,27 +214,6 @@ class FormComponentsController extends Controller
     public function customSelectOptions()
     {
         return view('form.components.customSelectOptions');
-    }
-
-    public function filepond()
-    {
-        return view('form.components.filepond');
-    }
-
-    public function __construct()
-    {
-        $this->middleware(HandleSpladeFileUploads::class)->only('filepondStore');
-    }
-
-    public function filepondStore(Request $request)
-    {
-        $request->validate([
-            'avatar-direct' => ['required', 'file', 'image'],
-        ]);
-
-        $file = $request->file('avatar-direct');
-
-        // $file->storeAs('heeee', 'jatoch.jpg');
     }
 
     public function submit(Request $request)

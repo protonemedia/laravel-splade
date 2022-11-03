@@ -4,6 +4,8 @@ namespace ProtoneMedia\Splade\FileUploads;
 
 class TemporaryFileUpload
 {
+    const PATH_PREFIX = 'splade-upload-';
+
     public function __construct(
         private string $path,
         private string $name,

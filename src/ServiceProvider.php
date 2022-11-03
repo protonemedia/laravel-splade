@@ -19,6 +19,8 @@ use ProtoneMedia\Splade\Commands\SpladeInstallCommand;
 use ProtoneMedia\Splade\Commands\SsrTestCommand;
 use ProtoneMedia\Splade\Commands\TableMakeCommand;
 use ProtoneMedia\Splade\FileUploads\Filesystem;
+use ProtoneMedia\Splade\FileUploads\HandleSpladeFileUploads;
+use ProtoneMedia\Splade\FileUploads\HasSpladeFileUploads;
 use ProtoneMedia\Splade\Http\BladeDirectives;
 use ProtoneMedia\Splade\Http\EventRedirectController;
 use ProtoneMedia\Splade\Http\FileUploadController;
@@ -158,6 +160,10 @@ class ServiceProvider extends BaseServiceProvider
             }
 
             return new Filesystem($disk ?: 'splade_temporary_file_uploads');
+        });
+
+        $this->app->resolving(HasSpladeFileUploads::class, function ($resolved) {
+            return HandleSpladeFileUploads::forFormRequest($resolved);
         });
     }
 
