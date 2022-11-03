@@ -135,6 +135,8 @@ Route::middleware('splade')->group(function () {
     Route::post('form/components', [FormComponentsController::class, 'submit'])->name('form.components.submit');
     Route::get('form/components/submitValue/{approved?}', [FormComponentsController::class, 'submitValue'])->name('form.components.submitValue');
     Route::post('form/components/submitValue/{approved?}', [FormComponentsController::class, 'submitValueSubmit'])->name('form.components.submitValueSubmit');
+    Route::get('form/components/relation', [FormComponentsController::class, 'relation'])->name('form.components.relation');
+    Route::get('form/components/customSelectOptions', [FormComponentsController::class, 'customSelectOptions'])->name('form.components.customSelectOptions');
 
     Route::view('form/components/selectPlaceholder', 'form.components.selectPlaceholder')->name('form.components.selectPlaceholder');
 

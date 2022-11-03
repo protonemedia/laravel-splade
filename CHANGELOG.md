@@ -2,6 +2,22 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 0.6.13 - 2022-10-31
+
+- Fix for closing the Choices.js dropdown when rendered in a Headless UI Modal
+
+## 0.6.12 - 2022-10-31
+
+- Support for nested relationships in Form Components
+
+## 0.6.11 - 2022-10-26
+
+- Escape meta tag values
+
+## 0.6.10 - 2022-10-26
+
+- Axios fix
+
 ## 0.6.9 - 2022-10-25
 
 - Improved SEO handling with support for Open Graph and Twitter meta tags, Canonical URL, and separate configuration file.

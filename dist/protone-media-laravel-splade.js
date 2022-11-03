@@ -537,13 +537,19 @@ const le = {
       let d = "meta";
       oe(f, (g, w) => {
         d = `${d}[${w}="${g}"]`;
-      }), (h = document.querySelector(d)) == null || h.remove();
+      });
+      try {
+        (h = document.querySelector(d)) == null || h.remove();
+      } catch {
+      }
     }
     return m.setOnHead((f) => {
       var d;
       if (!m.isSsr) {
-        if (a.value === null)
-          return a.value = f.meta;
+        if (a.value === null) {
+          a.value = f.meta;
+          return;
+        }
         if (a.value.forEach((h) => {
           p(h);
         }), a.value = f.meta, document.title = f.title, f.meta.forEach((h) => {
@@ -4117,7 +4123,8 @@ const _d = {
       import("choices.js").then((n) => {
         const i = Object.assign({}, this.choices, this.jsChoicesOptions);
         if (r.choicesInstance = new n.default(e, i), r.stack > 0 && (r.headlessListener = function(a) {
-          a.target === e && r.choicesInstance.showDropdown();
+          const s = r.choicesInstance.dropdown.isActive;
+          !s && a.target === e ? r.choicesInstance.showDropdown() : s && a.target !== e && r.choicesInstance.hideDropdown();
         }, document.querySelector("#headlessui-portal-root").addEventListener("click", r.headlessListener, { capture: !0 })), this.choicesInstance.containerInner.element.setAttribute(
           "data-select-name",
           e.name

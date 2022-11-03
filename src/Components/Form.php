@@ -239,9 +239,9 @@ class Form extends Component
     /**
      * Returns an array with all allowed attributes, sorted by their length.
      *
-     * @return array
+     * @return \Illuminate\Support\Collection
      */
-    private static function allowedAttributesSorted(): array
+    private static function allowedAttributesSorted(): Collection
     {
         return Collection::make(static::$allowedAttributes)
             ->filter()
@@ -249,8 +249,7 @@ class Form extends Component
             ->sortBy(function ($key) {
                 return Str::substrCount($key, '.');
             })
-            ->values()
-            ->all();
+            ->values();
     }
 
     /**
@@ -275,13 +274,31 @@ class Form extends Component
         $guardedData = [];
 
         // Loop through all attributes, and add the data to the $guardedData when it exists.
-        foreach (static::allowedAttributesSorted() as $attribute) {
-            if (!Arr::has($rawData, $attribute)) {
-                continue;
+        static::allowedAttributesSorted()->each(function ($attribute) use ($rawData, &$guardedData) {
+            if (Arr::has($rawData, $attribute)) {
+                return data_set($guardedData, $attribute, data_get($rawData, $attribute));
             }
 
-            data_set($guardedData, $attribute, data_get($rawData, $attribute));
-        }
+            if (!$this->model) {
+                return;
+            }
+
+            $parts = explode('.', $attribute);
+
+            if (count($parts) < 2) {
+                return;
+            }
+
+            $column = array_pop($parts);
+
+            $relation = data_get($this->model, implode('.', $parts));
+
+            $relationAttributes = $relation->attributesToArray();
+
+            if (Arr::has($relationAttributes, $column)) {
+                data_set($guardedData, $attribute, data_get($relationAttributes, $column));
+            }
+        });
 
         if (!$this->model) {
             return (object) $guardedData;

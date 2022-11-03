@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Dummy;
+use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Fluent;
@@ -198,6 +199,20 @@ class FormComponentsController
             'input'  => 'input',
             'secret' => 'secret',
         ]]);
+    }
+
+    public function relation()
+    {
+        $project = Project::first();
+
+        return view('form.components.relation', [
+            'project' => $project,
+        ]);
+    }
+
+    public function customSelectOptions()
+    {
+        return view('form.components.customSelectOptions');
     }
 
     public function submit(Request $request)

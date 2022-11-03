@@ -3,6 +3,7 @@
 namespace Tests\Browser\Form;
 
 use App\Models\Keyword;
+use App\Models\Project;
 use App\Models\Tag;
 use App\Models\User;
 use Laravel\Dusk\Browser;
@@ -10,6 +11,18 @@ use Tests\DuskTestCase;
 
 class RelationsTest extends DuskTestCase
 {
+    /** @test */
+    public function it_can_find_the_default_value_of_a_nested_relationship()
+    {
+        $this->browse(function (Browser $browser) {
+            $project = Project::first();
+            $browser->visit('form/components/relation')
+                ->waitForText('FormComponents')
+                ->assertValue('@name', $project->name)
+                ->assertValue('@city', $project->organization->address->city);
+        });
+    }
+
     /** @test */
     public function it_can_handle_a_belongs_to_many_relationship()
     {
