@@ -13,6 +13,15 @@ class FilepondTest extends DuskTestCase
         parent::setUp();
 
         (new Filesystem)->cleanDirectory(storage_path('app/avatars'));
+        (new Filesystem)->cleanDirectory(storage_path('splade-temporary-file-uploads'));
+    }
+
+    public function tearDown(): void
+    {
+        (new Filesystem)->cleanDirectory(storage_path('app/avatars'));
+        (new Filesystem)->cleanDirectory(storage_path('splade-temporary-file-uploads'));
+
+        parent::tearDown();
     }
 
     /** @test */
