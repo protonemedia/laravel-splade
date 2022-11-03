@@ -10,24 +10,32 @@ use Symfony\Component\Process\Process;
 
 trait UsesWebsocketsServerTrait
 {
-    private $websocketsServerProcess;
+    private ?Process $websocketsServerProcess = null;
 
     protected function setUpUsesWebsocketsServerTrait()
     {
+        /** @var PusherBroadcaster $connection */
+        $connection = Broadcast::connection();
+
+        $settings = $connection->getPusher()->getSettings();
+
+        $url = "{$settings['scheme']}://{$settings['host']}:{$settings['port']}";
+
         try {
-            /** @var PusherBroadcaster $connection */
-            $connection = Broadcast::connection();
-            $settings   = $connection->getPusher()->getSettings();
-            Http::get("{$settings['scheme']}://{$settings['host']}:{$settings['port']}");
+            Http::get($url);
         } catch (ConnectionException $e) {
             $this->websocketsServerProcess = tap(Process::fromShellCommandline('php artisan websockets:serve', base_path()))->start();
+
+            retry(10, function () use ($url) {
+                Http::get($url);
+            }, 1000);
         }
     }
 
     protected function tearDownUsesWebsocketsServerTrait()
     {
         if ($this->websocketsServerProcess) {
-            $this->websocketsServerProcess->stop();
+            $this->websocketsServerProcess->stop(0);
         }
     }
 }
