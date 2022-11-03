@@ -11,6 +11,7 @@ use Tests\DuskTestCase;
 class EventTest extends DuskTestCase
 {
     use RefreshDatabase;
+    use UsesWebsocketsServerTrait;
 
     public $seed = true;
 
