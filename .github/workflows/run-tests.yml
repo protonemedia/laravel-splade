@@ -94,9 +94,11 @@ jobs:
           php artisan test
 
       - name: Execute Dusk tests
-        run: |
-          cd app
-          php artisan dusk
+        uses: nick-invision/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 3
+          command: cd app && php artisan dusk
 
       - name: Upload Screenshots
         if: failure()

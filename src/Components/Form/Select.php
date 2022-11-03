@@ -4,6 +4,8 @@ namespace ProtoneMedia\Splade\Components\Form;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Js;
+use Illuminate\Support\Str;
 use Illuminate\View\Component;
 use ProtoneMedia\Splade\Components\Form;
 use ProtoneMedia\Splade\FormSelectOption;
@@ -31,6 +33,10 @@ class Select extends Component
         public bool $showErrors = true,
         public bool $relation = false,
         public string $help = '',
+        public string $remoteUrl = '',
+        public string $optionValue = '',
+        public string $optionLabel = '',
+        public string $scope = 'select',
     ) {
         if (is_bool($placeholder) && $placeholder) {
             $this->placeholder = __('Search') . '...';
@@ -49,6 +55,10 @@ class Select extends Component
         if ($multiple) {
             // This removes the last '[]' from the name.
             $this->validationKey = static::dottedName($name);
+        }
+
+        if (!Str::startsWith($remoteUrl, '`') && !Str::endsWith($remoteUrl, '`')) {
+            $this->remoteUrl = Js::from($remoteUrl);
         }
     }
 
@@ -89,6 +99,7 @@ class Select extends Component
             [
                 'allowHTML'        => false,
                 'itemSelectText'   => '',
+                'placeholderValue' => $this->placeholder ?: '',
                 'removeItemButton' => true,
                 'shouldSort'       => false,
             ],
@@ -106,6 +117,10 @@ class Select extends Component
     private function mapOptions($options): array
     {
         $collection = Collection::make($options);
+
+        if ($this->optionLabel && $this->optionValue) {
+            $collection = $collection->pluck($this->optionLabel, $this->optionValue);
+        }
 
         $options = $collection->toArray();
 
@@ -149,22 +164,44 @@ class Select extends Component
     {
         $options = $this->mapOptions($this->options);
 
-        if ($this->placeholder) {
-            $options = Arr::prepend($options, new FormSelectOption([
-                'value'       => '',
-                'label'       => $this->placeholder,
-                'disabled'    => $this->choices === false,
-                'placeholder' => $this->choices !== false,
-            ]));
-        } elseif (!$this->placeholder && $this->choices !== false && !$this->multiple) {
-            $options = Arr::prepend($options, new FormSelectOption([
-                'label'       => '',
-                'value'       => '',
-                'placeholder' => true,
-            ]));
+        if ($placeholder = $this->placeholderOption()) {
+            $options = Arr::prepend($options, $placeholder);
         }
 
         return $options;
+    }
+
+    /**
+     * Returns the placeholder option when necessary.
+     *
+     * @return \ProtoneMedia\Splade\FormSelectOption
+     */
+    public function placeholderOption(): ?FormSelectOption
+    {
+        if ($this->choices && $this->multiple) {
+            // Choices.js supports a placeholder for multiple selects
+            // using the 'placeholderValue' configuration.
+            return null;
+        }
+
+        $attributes = [
+            'value' => '',
+            'label' => $this->placeholder ?: '',
+        ];
+
+        if ($this->choices) {
+            // Choices.js need a dummy placeholder, otherwise it will select the
+            // first option, so we'll always return a placeholder option.
+            return new FormSelectOption($attributes + ['placeholder' => true]);
+        }
+
+        if (!$this->placeholder) {
+            // No placeholder is needed.
+            return null;
+        }
+
+        // Regular selects need a disabled attribute.
+        return new FormSelectOption($attributes + ['disabled' => true]);
     }
 
     /**
