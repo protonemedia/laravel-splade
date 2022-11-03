@@ -46,7 +46,6 @@
     "filepond-plugin-file-validate-type": "^1.2.8",
     "filepond-plugin-image-preview": "^4.6.11",
     "flatpickr": "^4.6.13",
-    "nprogress": "^0.2.0",
-    "vue-filepond": "^7.0.3"
+    "nprogress": "^0.2.0"
   }
 }

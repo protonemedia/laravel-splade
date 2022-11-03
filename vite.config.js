@@ -21,7 +21,6 @@ export default defineConfig({
                 "flatpickr",
                 "nprogress",
                 "filepond",
-                "vue-filepond",
                 "filepond-plugin-file-validate-type",
                 "filepond-plugin-image-preview"
             ],
@@ -32,7 +31,7 @@ export default defineConfig({
                     autosize: "autosize",
                     "choices.js": "Choices",
                     "nprogress": "NProgress",
-                    "vue-filepond": "vueFilePond",
+                    "filepond": "FilePond",
                     "filepond-plugin-file-validate-type": "FilePondPluginFileValidateType",
                     "filepond-plugin-image-preview": "FilePondPluginImagePreview"
                 },
