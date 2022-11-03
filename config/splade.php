@@ -11,7 +11,7 @@ return [
 
     'share_session_flash_data' => true,
 
-    'file_upload_disk' => 'local',
+    'file_uploads_disk' => 'local',
 
     'blade' => [
         'component_prefix' => 'splade',

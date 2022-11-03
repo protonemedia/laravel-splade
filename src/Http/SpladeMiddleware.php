@@ -58,7 +58,8 @@ class SpladeMiddleware
         }
 
         // This response should be ignored by Splade.
-        if ($response->headers->has(SpladeCore::HEADER_IGNORE)) {
+        if ($response->headers->has(SpladeCore::HEADER_SKIP_MIDDLEWARE)) {
+            $response->headers->remove(SpladeCore::HEADER_SKIP_MIDDLEWARE);
             return $response;
         }
 

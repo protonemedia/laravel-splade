@@ -4,7 +4,6 @@
     :multiple="@js($multiple)"
     :filepond="@js($filepond)"
     :server="@js($server)"
-    :csrf-token="@js(csrf_token())"
     {{ $attributes->only(['v-if', 'v-show', 'class']) }}
 >
     <template #default="{!! $scope !!}">

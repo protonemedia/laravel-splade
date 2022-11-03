@@ -3,28 +3,48 @@
 namespace ProtoneMedia\Splade\Http;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Str;
-use ProtoneMedia\Splade\SpladeCore;
+use ProtoneMedia\Splade\FileUploads\Filesystem;
+use ProtoneMedia\Splade\FileUploads\TemporaryFileUpload;
 
 class FileUploadController extends Controller
 {
-    public function store(Request $request)
+    /**
+     * Store the uploaded file and return the encrypted path.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request, Filesystem $filesystem): Response
     {
         $request->validate([
             'file' => ['required', 'file'],
         ]);
 
-        $uuid = Str::uuid();
+        $temporaryFileUpload = $filesystem->storeUploadedFileTemporarely($request->file('file'));
 
-        return response(
-            encrypt($request->file('file')->store("uploads/{$uuid}", ['disk' => config('splade.file_upload_disk')])),
-            200,
-            [SpladeCore::HEADER_IGNORE => true]
-        );
+        return response($temporaryFileUpload->encryptAttributes())->skipSpladeMiddleware();
     }
 
-    public function delete(Request $request)
+    /**
+     * Decrypt the requested path and delete the file.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function delete(Request $request, Filesystem $filesystem): Response
     {
+        $request->validate([
+            'file' => ['required', 'string'],
+        ]);
+
+        $temporaryFileUpload = TemporaryFileUpload::fromEncryptedString($request->input('file'));
+
+        if ($temporaryFileUpload) {
+            $filesystem->delete($temporaryFileUpload);
+        }
+
+        return response()->noContent()->skipSpladeMiddleware();
     }
 }

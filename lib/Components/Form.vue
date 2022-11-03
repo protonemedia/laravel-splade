@@ -8,6 +8,7 @@ import isArray from "lodash-es/isArray";
 import isBoolean from "lodash-es/isBoolean";
 import mapValues from "lodash-es/mapValues";
 import set from "lodash-es/set";
+import startsWith from "lodash-es/startsWith";
 
 export default {
     inject: ["stack"],
@@ -104,6 +105,7 @@ export default {
 
     data() {
         return {
+            isMounted: false,
             missingAttributes: [],
             values: Object.assign({}, { ...this.default }),
             processing: false,
@@ -180,6 +182,8 @@ export default {
                 }, { deep: true });
             });
         }
+
+        this.isMounted = true;
     },
 
     methods: {
@@ -361,10 +365,14 @@ export default {
                             return self[name];
                         }
 
+                        if(startsWith(name, "__v_")) {
+                            return self[name];
+                        }
+
                         // If the data does not have the requested name, we add it to
                         // the missingAttributes array, and when the component is
                         // mounted, it'll try to find sensible defaults.
-                        if (!has(self.values, name)) {
+                        if (!self.isMounted && !has(self.values, name)) {
                             self.missingAttributes.push(name);
                             self.$put(name, "");
                         }
@@ -373,6 +381,8 @@ export default {
                     },
 
                     set(target, name, value) {
+                        console.log("set", name);
+
                         return self.$put(name, value);
                     },
                 }

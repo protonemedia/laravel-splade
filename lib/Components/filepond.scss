@@ -1,5 +1,9 @@
 @import "filepond/dist/filepond.css";
 
+.filepond--root  {
+    @apply mb-0;
+}
+
 .filepond--panel-root {
     @apply bg-gray-100;
 }

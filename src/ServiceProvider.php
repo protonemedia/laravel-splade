@@ -2,6 +2,7 @@
 
 namespace ProtoneMedia\Splade;
 
+use Illuminate\Http\Response;
 use Illuminate\Routing\Middleware\ValidateSignature;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Blade;
@@ -16,6 +17,7 @@ use ProtoneMedia\Splade\Commands\PublishFormStylesheetsCommand;
 use ProtoneMedia\Splade\Commands\SpladeInstallCommand;
 use ProtoneMedia\Splade\Commands\SsrTestCommand;
 use ProtoneMedia\Splade\Commands\TableMakeCommand;
+use ProtoneMedia\Splade\FileUploads\Filesystem;
 use ProtoneMedia\Splade\Http\BladeDirectives;
 use ProtoneMedia\Splade\Http\EventRedirectController;
 use ProtoneMedia\Splade\Http\FileUploadController;
@@ -77,6 +79,7 @@ class ServiceProvider extends BaseServiceProvider
         $this->registerBladeComponentsAndDirectives();
         $this->registerDuskMacros();
         $this->registerViewMacros();
+        $this->registerResponseMacro();
         $this->registerRouteForEventRedirect();
         $this->registerMacroForFileUploads();
         $this->registerMacroForTableRoutes();
@@ -139,6 +142,11 @@ class ServiceProvider extends BaseServiceProvider
         });
 
         $this->app->alias(TransitionRepository::class, 'laravel-splade-transition-repository');
+
+        // Splade File Uploads
+        $this->app->singleton(Filesystem::class, function ($app) {
+            return new Filesystem(config('splade.file_uploads_disk'));
+        });
     }
 
     /**
@@ -351,6 +359,20 @@ class ServiceProvider extends BaseServiceProvider
             Route::get(config('splade.table_export_route'), TableExportController::class)
                 ->name('splade.table.export')
                 ->middleware(ValidateSignature::class);
+        });
+    }
+
+    /**
+     * Registers a route macro that can be used to ignore the response by the Splade Middleware.
+     *
+     * @return void
+     */
+    private function registerResponseMacro()
+    {
+        Response::macro('skipSpladeMiddleware', function () {
+            $this->headers->set(SpladeCore::HEADER_SKIP_MIDDLEWARE, true);
+
+            return $this;
         });
     }
 

@@ -139,6 +139,7 @@ Route::middleware('splade')->group(function () {
     Route::get('form/components/relation', [FormComponentsController::class, 'relation'])->name('form.components.relation');
     Route::get('form/components/customSelectOptions', [FormComponentsController::class, 'customSelectOptions'])->name('form.components.customSelectOptions');
     Route::get('form/components/filepond', [FormComponentsController::class, 'filepond'])->name('form.components.filepond');
+    Route::post('form/components/filepond', [FormComponentsController::class, 'filepondStore'])->name('form.components.filepondStore');
 
     Route::view('form/components/selectPlaceholder', 'form.components.selectPlaceholder')->name('form.components.selectPlaceholder');
 
