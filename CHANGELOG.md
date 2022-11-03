@@ -2,6 +2,13 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 0.7.1 - 2022-11-03
+
+- Support remote options in Form Select component
+- Choices.js placeholder and styling improvements
+- Improved Dusk macros for selecting Choices.js options
+- The Dusk suite now checks whether the websockets server is running
+
 ## 0.6.13 - 2022-10-31
 
 - Fix for closing the Choices.js dropdown when rendered in a Headless UI Modal
