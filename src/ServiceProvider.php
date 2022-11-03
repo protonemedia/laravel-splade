@@ -13,6 +13,7 @@ use Illuminate\Support\Str;
 use Illuminate\View\ComponentAttributeBag;
 use Illuminate\View\Factory;
 use Laravel\Dusk\Browser;
+use ProtoneMedia\Splade\Commands\CleanupTemporaryFileUploads;
 use ProtoneMedia\Splade\Commands\PublishFormStylesheetsCommand;
 use ProtoneMedia\Splade\Commands\SpladeInstallCommand;
 use ProtoneMedia\Splade\Commands\SsrTestCommand;
@@ -54,6 +55,7 @@ class ServiceProvider extends BaseServiceProvider
         $this->registerPublishedPaths();
 
         $this->commands([
+            CleanupTemporaryFileUploads::class,
             PublishFormStylesheetsCommand::class,
             SpladeInstallCommand::class,
             SsrTestCommand::class,
@@ -145,7 +147,17 @@ class ServiceProvider extends BaseServiceProvider
 
         // Splade File Uploads
         $this->app->singleton(Filesystem::class, function ($app) {
-            return new Filesystem(config('splade.file_uploads_disk'));
+            $disk = config('splade.file_uploads_disk');
+
+            if (!$disk) {
+                config(['filesystems.disks.splade_temporary_file_uploads' => [
+                    'driver' => 'local',
+                    'root'   => storage_path('splade-temporary-file-uploads'),
+                    'throw'  => false,
+                ]]);
+            }
+
+            return new Filesystem($disk ?: 'splade_temporary_file_uploads');
         });
     }
 
@@ -339,8 +351,8 @@ class ServiceProvider extends BaseServiceProvider
     private function registerMacroForFileUploads()
     {
         Route::macro('spladeUploads', function () {
-            Route::post(config('splade.file_upload_route'), [FileUploadController::class, 'store'])->name('splade.fileUpload.store');
-            Route::delete(config('splade.file_upload_route'), [FileUploadController::class, 'delete'])->name('splade.fileUpload.delete');
+            Route::post(config('splade.file_uploads.route'), [FileUploadController::class, 'store'])->name('splade.fileUpload.store');
+            Route::delete(config('splade.file_uploads.route'), [FileUploadController::class, 'delete'])->name('splade.fileUpload.delete');
         });
     }
 

@@ -11,6 +11,12 @@ class TemporaryFileUpload
     ) {
     }
 
+    /**
+     * Decrypts the string and returns a new instance, or null if the string is invalid.
+     *
+     * @param string $value
+     * @return static|null
+     */
     public static function fromEncryptedString(string $value): ?static
     {
         $data = rescue(fn () => decrypt($value), null, false);
@@ -30,21 +36,41 @@ class TemporaryFileUpload
         );
     }
 
+    /**
+     * Returns the path to the file.
+     *
+     * @return string
+     */
     public function getPath(): string
     {
         return $this->path;
     }
 
+    /**
+     * Returns the name of the file.
+     *
+     * @return string
+     */
     public function getName(): string
     {
         return $this->name;
     }
 
+    /**
+     * Returns the mime type of the file.
+     *
+     * @return string
+     */
     public function getMime(): string
     {
         return $this->mime;
     }
 
+    /**
+     * Returns the attributes as an encrypted string.
+     *
+     * @return string
+     */
     public function encryptAttributes(): string
     {
         return encrypt([
