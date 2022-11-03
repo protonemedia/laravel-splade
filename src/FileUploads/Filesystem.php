@@ -64,8 +64,8 @@ class Filesystem
     /**
      * Returns a boolean whether the file exists.
      *
-     * @param \ProtoneMedia\Splade\FileUploads\TemporaryFileUpload $temporaryFileUpload
-     * @return boolean
+     * @param  \ProtoneMedia\Splade\FileUploads\TemporaryFileUpload  $temporaryFileUpload
+     * @return bool
      */
     public function exists(TemporaryFileUpload $temporaryFileUpload): bool
     {
@@ -75,7 +75,7 @@ class Filesystem
     /**
      * Returns an instance of SpladeUploadedFile when the temporary file exists.
      *
-     * @param \ProtoneMedia\Splade\FileUploads\TemporaryFileUpload $temporaryFileUpload
+     * @param  \ProtoneMedia\Splade\FileUploads\TemporaryFileUpload  $temporaryFileUpload
      * @return \ProtoneMedia\Splade\FileUploads\SpladeUploadedFile|null
      */
     public function makeUploadedFile(TemporaryFileUpload $temporaryFileUpload): ?SpladeUploadedFile
@@ -96,7 +96,7 @@ class Filesystem
     /**
      * Deletes the temporary file.
      *
-     * @param \ProtoneMedia\Splade\FileUploads\TemporaryFileUpload $temporaryFileUpload
+     * @param  \ProtoneMedia\Splade\FileUploads\TemporaryFileUpload  $temporaryFileUpload
      * @return bool
      */
     public function delete(TemporaryFileUpload $temporaryFileUpload): bool

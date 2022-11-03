@@ -14,7 +14,7 @@ class TemporaryFileUpload
     /**
      * Decrypts the string and returns a new instance, or null if the string is invalid.
      *
-     * @param string $value
+     * @param  string  $value
      * @return static|null
      */
     public static function fromEncryptedString(string $value): ?static

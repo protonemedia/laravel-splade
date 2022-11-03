@@ -34,7 +34,7 @@ class HandleSpladeFileUploads extends TransformsRequest
     /**
      * Helper method to clean the request.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Request
      */
     public static function transformRequest(Request $request): Request
@@ -45,8 +45,8 @@ class HandleSpladeFileUploads extends TransformsRequest
     /**
      * Transforms encrypted temporary file uploads to SpladeUploadedFile instances.
      *
-     * @param string $key
-     * @param mixed $value
+     * @param  string  $key
+     * @param  mixed  $value
      * @return mixed
      */
     protected function transform($key, $value)

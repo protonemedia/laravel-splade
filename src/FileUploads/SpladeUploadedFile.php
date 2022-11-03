@@ -11,7 +11,7 @@ class SpladeUploadedFile extends BaseUploadedFile
     /**
      * Returns a boolean indicating if the file is valid.
      *
-     * @return boolean
+     * @return bool
      */
     public function isValid(): bool
     {
@@ -24,7 +24,7 @@ class SpladeUploadedFile extends BaseUploadedFile
     /**
      * Sets the temporary file upload.
      *
-     * @param \ProtoneMedia\Splade\FileUploads\TemporaryFileUpload $temporaryFileUpload
+     * @param  \ProtoneMedia\Splade\FileUploads\TemporaryFileUpload  $temporaryFileUpload
      * @return self
      */
     public function setTemporaryFileUpload(TemporaryFileUpload $temporaryFileUpload): self
