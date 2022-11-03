@@ -20,7 +20,7 @@ trait UsesWebsocketsServerTrait
             $settings   = $connection->getPusher()->getSettings();
             Http::get("{$settings['scheme']}://{$settings['host']}:{$settings['port']}");
         } catch (ConnectionException $e) {
-            $this->websocketsServerProcess = tap(Process::fromShellCommandline("php artisan websockets:serve", base_path()))->start();
+            $this->websocketsServerProcess = tap(Process::fromShellCommandline('php artisan websockets:serve', base_path()))->start();
         }
     }
 
