@@ -57,6 +57,11 @@ class SpladeMiddleware
             return $response;
         }
 
+        // This response should be ignored by Splade.
+        if ($response->headers->has(SpladeCore::HEADER_IGNORE)) {
+            return $response;
+        }
+
         // Gather the required meta data for the app.
         $spladeData = $this->spladeData($request->session());
 

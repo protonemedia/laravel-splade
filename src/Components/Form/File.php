@@ -23,11 +23,17 @@ class File extends Component
         public bool $multiple = false,
         public string $scope = 'file',
         public string $help = '',
+        public bool|array|string|null $filepond = null,
+        public bool|string $server = false,
     ) {
         Form::allowAttribute($name);
 
         if ($multiple) {
             $this->validationKey = static::dottedName($name);
+        }
+
+        if ($server === true) {
+            $this->server = route('splade.fileUpload.store');
         }
     }
 

@@ -1,0 +1,27 @@
+@import "filepond/dist/filepond.css";
+
+.filepond--panel-root {
+    @apply bg-gray-100;
+}
+
+.filepond--drop-label {
+    @apply text-black;
+}
+
+.filepond--item-panel {
+    @apply bg-indigo-500;
+}
+
+.filepond--file-action-button {
+    @apply bg-indigo-700;
+}
+
+.filepond--file-info {
+    .filepond--file-info-sub {
+        @apply opacity-75;
+    }
+}
+
+[data-filepond-item-state*="invalid"] .filepond--item-panel, [data-filepond-item-state*="error"] .filepond--item-panel {
+    @apply bg-red-500;
+}

@@ -3,11 +3,15 @@
 return [
     'event_redirect_route' => '/_splade/eventRedirect/{uuid}',
 
+    'file_upload_route' => '/_splade/fileUpload',
+
     'table_bulk_action_route' => '/_splade/table/action/{table}/{action}/{slug}',
 
     'table_export_route' => '/_splade/table/export/{table}/{export}/{slug}',
 
     'share_session_flash_data' => true,
+
+    'file_upload_disk' => 'local',
 
     'blade' => [
         'component_prefix' => 'splade',

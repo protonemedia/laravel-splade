@@ -18,6 +18,7 @@ use ProtoneMedia\Splade\Commands\SsrTestCommand;
 use ProtoneMedia\Splade\Commands\TableMakeCommand;
 use ProtoneMedia\Splade\Http\BladeDirectives;
 use ProtoneMedia\Splade\Http\EventRedirectController;
+use ProtoneMedia\Splade\Http\FileUploadController;
 use ProtoneMedia\Splade\Http\PrepareTableCells;
 use ProtoneMedia\Splade\Http\PrepareViewWithLazyComponents;
 use ProtoneMedia\Splade\Http\TableBulkActionController;
@@ -77,6 +78,7 @@ class ServiceProvider extends BaseServiceProvider
         $this->registerDuskMacros();
         $this->registerViewMacros();
         $this->registerRouteForEventRedirect();
+        $this->registerMacroForFileUploads();
         $this->registerMacroForTableRoutes();
     }
 
@@ -319,6 +321,19 @@ class ServiceProvider extends BaseServiceProvider
         Route::get(config('splade.event_redirect_route'), EventRedirectController::class)
             ->name('splade.eventRedirect')
             ->middleware(ValidateSignature::class);
+    }
+
+    /**
+     * Registers a route macro that can be used to handle Table bulk actions and exports.
+     *
+     * @return void
+     */
+    private function registerMacroForFileUploads()
+    {
+        Route::macro('spladeUploads', function () {
+            Route::post(config('splade.file_upload_route'), [FileUploadController::class, 'store'])->name('splade.fileUpload.store');
+            Route::delete(config('splade.file_upload_route'), [FileUploadController::class, 'delete'])->name('splade.fileUpload.delete');
+        });
     }
 
     /**

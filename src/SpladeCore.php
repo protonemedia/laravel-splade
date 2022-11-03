@@ -24,6 +24,8 @@ class SpladeCore
 
     const HEADER_REDIRECT_AWAY = 'X-Splade-Redirect-Away';
 
+    const HEADER_IGNORE = 'X-Splade-Ignore';
+
     const MODAL_TYPE_MODAL = 'modal';
 
     const MODAL_TYPE_SLIDEOVER = 'slideover';

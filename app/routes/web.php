@@ -45,6 +45,7 @@ Route::get('event/toast', fn () => event(new ToastEvent))->name('event.toast');
 
 Route::middleware('splade')->group(function () {
     Route::spladeTable();
+    Route::spladeUploads();
 
     Route::get('/api/countries/keyValue', [CountriesController::class, 'keyValue'])->name('api.countries.keyValue');
     Route::get('/api/countries/objects', [CountriesController::class, 'objects'])->name('api.countries.objects');

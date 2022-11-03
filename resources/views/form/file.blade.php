@@ -2,26 +2,24 @@
     :form="form"
     :field="@js($formKey())"
     :multiple="@js($multiple)"
+    :filepond="@js($filepond)"
+    :server="@js($server)"
+    :csrf-token="@js(csrf_token())"
     {{ $attributes->only(['v-if', 'v-show', 'class']) }}
 >
     <template #default="{!! $scope !!}">
         <label class="block">
             @includeWhen($label, 'splade::form.label', ['label' => $label])
 
-            <component
-                :is="file.filepond"
-                v-if="file.filepond"
-                :name="@js($name)"
-                ref="pond"
-                label-idle="Drop files here..."
-                v-bind:allow-multiple="true"
-                accepted-file-types="image/jpeg, image/png"
-                v-bind:files="file.filepondFiles"
-                :multiple="@js($multiple)"
-                v-on:addfile="file.addFilepondFile"
-            />
-
-            <div v-else>
+            @if($filepond)
+                <input {{ $attributes->except(['v-if', 'v-show', 'class'])->merge([
+                    'name' => $name,
+                    'multiple' => $multiple,
+                    'type' => 'file',
+                    'data-validation-key' => $validationKey(),
+                ]) }}
+                />
+            @else
                 <a @submit.prevent
                     class="inline-block px-3 py-1 rounded-md border border-gray-300 shadow-sm bg-gray-100 hover:bg-gray-300 relative cursor-pointer">
 
@@ -41,14 +39,16 @@
                     ]) }}
                     />
                 </a>
+            @endif
 
-                @includeWhen($help, 'splade::form.help', ['help' => $help])
-            </div>
+            @includeWhen($help, 'splade::form.help', ['help' => $help])
         </label>
 
-        <div class="mt-2 text-sm italic" v-if="file.filenames.length > 0">
-            <p v-for="(filename, key) in file.filenames" v-bind:key="key" v-text="filename" />
-        </div>
+        @if(!$filepond)
+            <div class="mt-2 text-sm italic" v-if="file.filenames.length > 0">
+                <p v-for="(filename, key) in file.filenames" v-bind:key="key" v-text="filename" />
+            </div>
+        @endif
 
         @includeWhen($showErrors, 'splade::form.error', ['name' => $validationKey()])
     </template>
