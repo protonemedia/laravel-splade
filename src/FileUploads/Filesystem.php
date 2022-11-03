@@ -19,13 +19,13 @@ class Filesystem
     /**
      * Stores the uploaded file as a temporary file.
      *
-     * @param \Illuminate\Http\UploadedFile $file
+     * @param  \Illuminate\Http\UploadedFile  $file
      * @return \ProtoneMedia\Splade\FileUploads\TemporaryFileUpload
      */
     public function storeUploadedFileTemporarely(UploadedFile $file): TemporaryFileUpload
     {
         $path = $file->store(
-            path: "splade-upload-" . Str::uuid(),
+            path: 'splade-upload-' . Str::uuid(),
             options: ['disk' => $this->disk]
         );
 

@@ -13,7 +13,7 @@ class FileUploadController extends Controller
     /**
      * Store the uploaded file and return the encrypted path.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request, Filesystem $filesystem): Response
@@ -30,7 +30,7 @@ class FileUploadController extends Controller
     /**
      * Decrypt the requested path and delete the file.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function delete(Request $request, Filesystem $filesystem): Response
