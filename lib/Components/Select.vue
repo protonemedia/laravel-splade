@@ -160,6 +160,11 @@ export default {
     },
 
     methods: {
+        /*
+         * Loads the options from a remote URL. It removes all current options from the select
+         * element, and then adds the new options. If the components uses Choices.js,
+         * it will first destroy the instance and then re-initialize it.
+         */
         loadRemoteOptions() {
             if(!this.remoteUrl) {
                 return;
@@ -253,6 +258,9 @@ export default {
                 });
         },
 
+        /**
+         * Removes the event listeners and then destroys the Choices.js instance.
+         */
         destroyChoicesInstance() {
             if(this.choices && this.choicesInstance) {
                 if(this.headlessListener) {
@@ -272,6 +280,9 @@ export default {
             }
         },
 
+        /**
+         * Transforms the options from the remote URL into an array of objects.
+         */
         normalizeOptions(data, results) {
             const dataIsArray = isArray(data);
 
@@ -307,6 +318,7 @@ export default {
                 this.choicesInstance.removeActiveItems();
             }
 
+            // Choices.js doesn't like undefined or null.
             if (value === null || value === undefined) {
                 value = "";
             }
