@@ -3,6 +3,7 @@
 namespace ProtoneMedia\Splade;
 
 use Illuminate\Routing\Middleware\ValidateSignature;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
@@ -205,7 +206,45 @@ class ServiceProvider extends BaseServiceProvider
         }
 
         if ($macroName = config('splade.dusk.choices_select_macro')) {
-            Browser::macro($macroName, function ($selectName, $value = null): Browser {
+            Browser::macro($macroName, function ($selectName, $value = ''): Browser {
+                /** @var Browser browser */
+                $browser = $this;
+
+                Collection::wrap($value)->each(function ($value) use ($selectName, $browser) {
+                    $choicesSelector = Str::startsWith($selectName, '@')
+                    ? '[dusk="' . explode('@', $selectName)[1] . '"]'
+                    : 'div.choices__inner[data-select-name="' . $selectName . '"]';
+
+                    $formattedChoicesSelector = $browser->resolver->format($choicesSelector);
+
+                    $dataType = $browser->script("return document.querySelector('{$formattedChoicesSelector}').parentNode.getAttribute('data-type');")[0] ?? 'select-one';
+
+                    $browser
+                        ->click(
+                            $dataType === 'select-multiple' ? "{$choicesSelector} input" : $choicesSelector
+                        )
+                        ->whenAvailable('div.choices.is-open', function (Browser $browser) use ($value, $formattedChoicesSelector, $dataType) {
+                            $value = $value ? addslashes($value) : $value;
+
+                            $selector = $value
+                                ? "div.choices__item[data-value='{$value}']"
+                                : 'div.choices__item[data-value]:not(.choices__placeholder)';
+
+                            $browser->click($selector);
+
+                            if ($dataType === 'select-multiple') {
+                                $browser->script("return document.querySelector('{$formattedChoicesSelector}').dispatchEvent(new Event('hideDropdownFromDusk'));");
+                            }
+                        })
+                        ->waitUntilMissing("div.choices.is-open[data-type='{$dataType}']");
+                });
+
+                return $browser;
+            });
+        }
+
+        if ($macroName = config('splade.dusk.choices_remove_item_macro')) {
+            Browser::macro($macroName, function ($selectName, $value = ''): Browser {
                 /** @var Browser browser */
                 $browser = $this;
 
@@ -213,44 +252,17 @@ class ServiceProvider extends BaseServiceProvider
                     ? '[dusk="' . explode('@', $selectName)[1] . '"]'
                     : 'div.choices__inner[data-select-name="' . $selectName . '"]';
 
-                $dataType = $browser->script("return document.querySelector('{$choicesSelector}').parentNode.getAttribute('data-type');")[0] ?? 'select-one';
-
-                $browser->click(
-                    $dataType === 'select-multiple' ? "{$choicesSelector} input" : $choicesSelector
-                );
-
                 return $browser
-                    ->whenAvailable('div.choices.is-open', function (Browser $browser) use ($value, $choicesSelector, $dataType) {
-                        $value = $value ? addslashes($value) : $value;
+                    ->within("{$choicesSelector} div.choices__list", function (Browser $browser) use ($value) {
+                        Collection::wrap($value)->each(function ($value) use ($browser) {
+                            $value = $value ? addslashes($value) : $value;
 
-                        $selector = $value
-                            ? "div.choices__item[data-value='{$value}']"
-                            : 'div.choices__item[data-value]:not(.choices__placeholder)';
+                            $selector = $value
+                                ? "div.choices__item[data-value='{$value}'] button"
+                                : 'div.choices__item button';
 
-                        $browser->click($selector);
-
-                        if ($dataType === 'select-multiple') {
-                            $browser->script("return document.querySelector('{$choicesSelector}').dispatchEvent(new Event('hideDropdownFromDusk'));");
-                        }
-                    })
-                    ->waitUntilMissing("div.choices.is-open[data-type='{$dataType}']");
-            });
-        }
-
-        if ($macroName = config('splade.dusk.choices_remove_item_macro')) {
-            Browser::macro($macroName, function ($selectName, $value = null): Browser {
-                /** @var Browser browser */
-                $browser = $this;
-
-                return $browser
-                    ->within("div.choices__inner[data-select-name='{$selectName}'] div.choices__list", function (Browser $browser) use ($value) {
-                        $value = $value ? addslashes($value) : $value;
-
-                        $selector = $value
-                            ? "div.choices__item[data-value='{$value}'] button"
-                            : 'div.choices__item button';
-
-                        $browser->click($selector);
+                            $browser->click($selector)->waitUntilMissing($selector);
+                        });
                     });
             });
         }

@@ -2,12 +2,17 @@
   <div
     ref="select"
   >
-    <slot />
+    <slot :loading="loading" />
   </div>
 </template>
 
 <script>
+import { default as Axios } from "axios";
 import find from "lodash-es/find";
+import forOwn from "lodash-es/forOwn";
+import get from "lodash-es/get";
+import isArray from "lodash-es/isArray";
+import isObject from "lodash-es/isObject";
 import map from "lodash-es/map";
 
 export default {
@@ -40,20 +45,47 @@ export default {
         },
 
         placeholder: {
-            type: Boolean,
+            type: [Boolean, Object],
             required: false,
             default: false,
+        },
+
+        dusk: {
+            type: String,
+            required: false,
+            default: null,
+        },
+
+        remoteUrl: {
+            type: String,
+            required: false,
+            default: null,
+        },
+
+        optionValue: {
+            type: String,
+            required: false,
+            default: null,
+        },
+
+        optionLabel: {
+            type: String,
+            required: false,
+            default: null,
         },
     },
 
     emits: ["update:modelValue"],
 
-    data(){
+    data() {
         return {
             choicesInstance: null,
             element: null,
             placeholderText: null,
-            headlessListener: null
+            headlessListener: null,
+            selectChangeListener: null,
+            selectShowDropdownListener: null,
+            loading: false,
         };
     },
 
@@ -63,10 +95,10 @@ export default {
          */
         hasSelection() {
             if (this.multiple) {
-                return Array.isArray(this.model) ? this.model.length > 0 : false;
+                return Array.isArray(this.modelValue) ? this.modelValue.length > 0 : false;
             }
 
-            if (this.model === null || this.model === "") {
+            if (this.modelValue === null || this.modelValue === "" || this.modelValue === undefined) {
                 return false;
             }
 
@@ -80,6 +112,18 @@ export default {
          * section, apply it to the Choices instance.
          */
         modelValue(updatedValue, oldValue) {
+            if(!this.choicesInstance && this.multiple && isArray(updatedValue)) {
+                // Filter out any blank values and set the model value when needed.
+                const filteredValue = updatedValue.filter((value)=> {
+                    return value !== "" && value !== null && value !== undefined;
+                });
+
+                if (JSON.stringify(filteredValue) != JSON.stringify(updatedValue)) {
+                    this.$emit("update:modelValue", filteredValue);
+                    return;
+                }
+            }
+
             if (this.choicesInstance) {
                 if (JSON.stringify(updatedValue) == JSON.stringify(oldValue)) {
                     return;
@@ -88,30 +132,181 @@ export default {
                 this.setValueOnChoices(updatedValue);
             }
         },
+
+        remoteUrl: {
+            handler() {
+                this.loadRemoteOptions();
+            }
+        }
     },
 
     mounted() {
         this.element = this.$refs.select.querySelector("select");
 
         if(this.choices) {
-            this.initChoices(this.element);
+            return this.initChoices(this.element).then(() => {
+                this.loadRemoteOptions();
+            });
         }
+
+        this.loadRemoteOptions();
     },
 
     /*
      * Destroy the Choices.js instance to prevent memory leaks.
      */
     beforeUnmount() {
-        if(this.choices && this.choicesInstance) {
-            if(this.headlessListener) {
-                document.querySelector("#headlessui-portal-root")?.removeEventListener("click", this.headlessListener);
-            }
-
-            this.choicesInstance.destroy();
-        }
+        this.destroyChoicesInstance();
     },
 
     methods: {
+        /*
+         * Loads the options from a remote URL. It removes all current options from the select
+         * element, and then adds the new options. If the components uses Choices.js,
+         * it will first destroy the instance and then re-initialize it.
+         */
+        loadRemoteOptions() {
+            if(!this.remoteUrl) {
+                return;
+            }
+
+            this.loading = true;
+
+            Axios({
+                url: this.remoteUrl,
+                method: "GET",
+                headers: {
+                    Accept: "application/json",
+                },
+            })
+                .then((response) => {
+                    // Cleanup previous choices instance.
+                    this.destroyChoicesInstance();
+
+                    let options = [];
+
+                    // Start with the the placeholder.
+                    if(this.placeholder) {
+                        options.push(this.placeholder);
+                    }
+
+                    // Normalize the response.
+                    options = this.normalizeOptions(response.data, options);
+
+                    var index;
+                    var currentOptionsCount = this.element.options.length - 1;
+
+                    for(index = currentOptionsCount; index >= 0; index--) {
+                        // Remove all current options.
+                        this.element.remove(index);
+                    }
+
+                    let hasSelectedOption = false;
+
+                    forOwn(options, (option) => {
+                        // Add the new options.
+                        var optionElement = document.createElement("option");
+
+                        optionElement.value = option.value;
+                        optionElement.text = option.label;
+
+                        if(option.value === this.modelValue) {
+                            // The current value is in the new options, we use this later on
+                            // to set the value on the select element and Choices instance.
+                            hasSelectedOption = true;
+                        }
+
+                        if(option.disabled) {
+                            optionElement.disabled = option.disabled;
+                        }
+
+                        if(option.placeholder) {
+                            optionElement.placeholder = option.placeholder;
+                        }
+
+                        // Add the option to the select element.
+                        this.element.appendChild(optionElement);
+                    });
+
+                    if(!hasSelectedOption) {
+                        // The current value is not in the new options, we set the value to null.
+                        this.$emit("update:modelValue", this.multiple ? [] : "");
+                    }
+
+                    if(this.choices) {
+                        // Re-initialize the Choices instance.
+                        return this.initChoices(this.element).then(() => {
+                            this.loading = false;
+                        });
+                    }
+
+                    if(hasSelectedOption) {
+                        // The current value is in the new options, we set the value on the select element.
+                        this.element.value = this.modelValue;
+                    } else {
+                        // The current value is not in the new options, we set the value to null.
+                        this.$nextTick(() => {
+                            this.element.selectedIndex = 0;
+                        });
+                    }
+
+                    this.loading = false;
+
+                })
+                .catch(() => {
+                    this.loading = false;
+                });
+        },
+
+        /**
+         * Removes the event listeners and then destroys the Choices.js instance.
+         */
+        destroyChoicesInstance() {
+            if(this.choices && this.choicesInstance) {
+                if(this.headlessListener) {
+                    document.querySelector("#headlessui-portal-root")?.removeEventListener("click", this.headlessListener);
+                }
+
+                if(this.selectChangeListener) {
+                    this.element.removeEventListener("change", this.selectChangeListener);
+                }
+
+                if(this.selectShowDropdownListener) {
+                    this.element.removeEventListener("showDropdown", this.selectShowDropdownListener);
+                }
+
+                this.choicesInstance.destroy();
+                this.choicesInstance = null;
+            }
+        },
+
+        /**
+         * Transforms the options from the remote URL into an array of objects.
+         */
+        normalizeOptions(data, results) {
+            const dataIsArray = isArray(data);
+
+            if(!dataIsArray && isObject(data)) {
+                if(this.optionValue && this.optionLabel) {
+                    results.push({
+                        value: get(data, this.optionValue),
+                        label: get(data, this.optionLabel)
+                    });
+                } else {
+                    forOwn(data, (label, value) => {
+                        results.push({ label, value });
+                    });
+                }
+            }
+            else if(dataIsArray) {
+                data.forEach((element) => {
+                    this.normalizeOptions(element, results);
+                });
+            }
+
+            return results;
+        },
+
         /*
          * Set the given value on the Choices.js instance.
          */
@@ -123,7 +318,8 @@ export default {
                 this.choicesInstance.removeActiveItems();
             }
 
-            if (value === null) {
+            // Choices.js doesn't like undefined or null.
+            if (value === null || value === undefined) {
                 value = "";
             }
 
@@ -148,7 +344,7 @@ export default {
          * and applies some additional minor styling.
          */
         handlePlaceholderVisibility() {
-            if(!this.multiple){
+            if(!this.multiple) {
                 return;
             }
 
@@ -173,89 +369,108 @@ export default {
          * Instantiate Choices.js with the combined PHP and JS options.
          */
         initChoices(selectElement) {
-            const totalItems = Array.from(
-                selectElement.querySelectorAll("option:not([placeholder])")
-            ).length;
+            return new Promise(resolve => {
+                const totalItems = Array.from(
+                    selectElement.querySelectorAll("option:not([placeholder])")
+                ).length;
 
-            const vm = this;
+                const vm = this;
 
-            import("choices.js").then((Choices) => {
-                const options = Object.assign({}, this.choices, this.jsChoicesOptions);
+                import("choices.js").then((Choices) => {
+                    const options = Object.assign({}, this.choices, this.jsChoicesOptions, {
+                        callbackOnInit: function() {
+                            const choicesInstance = this;
 
-                vm.choicesInstance = new Choices.default(selectElement, options);
+                            if(vm.stack > 0) {
+                                // The Headless UI Dialog blocks the events on the Choices.js
+                                // instance, so we put an event listener on the portal root.
+                                vm.headlessListener = function(e) {
+                                    const isActive = vm.choicesInstance.dropdown.isActive;
 
-                if(vm.stack > 0) {
-                    // The Headless UI Dialog blocks the events on the Choices.js
-                    // instance, so we put an event listener on the portal root.
-                    vm.headlessListener = function(e) {
-                        const isActive = vm.choicesInstance.dropdown.isActive;
+                                    if(!isActive && e.target === selectElement) {
+                                        vm.choicesInstance.showDropdown();
+                                    } else if(isActive && e.target !== selectElement) {
+                                        vm.choicesInstance.hideDropdown();
+                                    }
+                                };
 
-                        if(!isActive && e.target === selectElement) {
-                            vm.choicesInstance.showDropdown();
-                        } else if(isActive && e.target !== selectElement) {
-                            vm.choicesInstance.hideDropdown();
+                                document.querySelector("#headlessui-portal-root")
+                                    .addEventListener("click", vm.headlessListener, { capture: true });
+                            }
+
+                            // Set the name of the select element on the Choices.js element
+                            // so we can perform test assertions with Laravel Dusk.
+                            choicesInstance.containerInner.element.setAttribute(
+                                "data-select-name",
+                                selectElement.name
+                            );
+
+                            if(selectElement.hasAttribute("dusk")) {
+                                // Move the Dusk selector from the select element to the Choices.js element.
+                                selectElement.removeAttribute("dusk");
+                            }
+
+                            if(vm.dusk) {
+                                choicesInstance.containerInner.element.setAttribute("dusk", vm.dusk);
+                                choicesInstance.choiceList.element.setAttribute("dusk", `${vm.dusk}-listbox`);
+                            }
+
+                            // Listen for changes so we can update the Vue model of this component.
+                            vm.selectChangeListener = function () {
+                                let currentValue = choicesInstance.getValue(true);
+
+                                if(currentValue === null || currentValue === undefined) {
+                                    currentValue = "";
+                                }
+
+                                vm.$emit("update:modelValue", currentValue);
+
+                                // Hide dropdown if there are no more items to choose from.
+                                if (!vm.multiple || totalItems < 1) {
+                                    return;
+                                }
+
+                                const selectedItems = choicesInstance.getValue().length;
+
+                                if (selectedItems >= totalItems) {
+                                    choicesInstance.hideDropdown();
+                                }
+                            };
+
+                            selectElement.addEventListener("change", vm.selectChangeListener);
+
+                            choicesInstance.containerInner.element.addEventListener("hideDropdownFromDusk", function () {
+                                choicesInstance.hideDropdown();
+                            });
+
+                            // Scroll to the selected item when the dropdown is shown.
+                            vm.selectShowDropdownListener = function() {
+                                if (vm.multiple || !vm.modelValue) {
+                                    return;
+                                }
+
+                                const item = vm.getItemOfCurrentModel();
+
+                                const itemElement = choicesInstance.dropdown.element.querySelector(
+                                    `.choices__item[data-id="${item.id}"]`
+                                );
+
+                                choicesInstance.choiceList.scrollToChildElement(itemElement, 1);
+                                choicesInstance._highlightChoice(itemElement);
+                            };
+
+                            selectElement.addEventListener("showDropdown", vm.selectShowDropdownListener);
+
+                            vm.choicesInstance = choicesInstance;
+
+                            vm.setValueOnChoices(vm.modelValue);
+
+                            resolve();
                         }
-                    };
+                    });
 
-                    document.querySelector("#headlessui-portal-root")
-                        .addEventListener("click", vm.headlessListener, { capture: true });
-                }
-
-                // Set the name of the select element on the Choices.js element
-                // so we can perform test assertions with Laravel Dusk.
-                this.choicesInstance.containerInner.element.setAttribute(
-                    "data-select-name",
-                    selectElement.name
-                );
-
-                if(selectElement.hasAttribute("dusk")) {
-                    // Move the Dusk selector from the select element to the Choices.js element.
-                    const duskSelector = selectElement.getAttribute("dusk");
-                    selectElement.removeAttribute("dusk");
-                    this.choicesInstance.containerInner.element.setAttribute("dusk", duskSelector);
-                }
-
-                this.handlePlaceholderVisibility();
-                this.updateHasSelectionAttribute();
-
-
-                // Listen for changes so we can update the Vue model of this component.
-                selectElement.addEventListener("change", function () {
-                    vm.$emit("update:modelValue", vm.choicesInstance.getValue(true));
-
-                    // Hide dropdown if there are no more items to choose from.
-                    if (!vm.multiple || totalItems < 1) {
-                        return;
-                    }
-
-                    const selectedItems = vm.choicesInstance.getValue().length;
-
-                    if (selectedItems >= totalItems) {
-                        vm.choicesInstance.hideDropdown();
-                    }
+                    new Choices.default(selectElement, options);
                 });
-
-                this.choicesInstance.containerInner.element.addEventListener("hideDropdownFromDusk", function () {
-                    vm.choicesInstance.hideDropdown();
-                });
-
-                // Scroll to the selected item when the dropdown is shown.
-                selectElement.addEventListener("showDropdown", function() {
-                    if (vm.multiple || !vm.modelValue) {
-                        return;
-                    }
-
-                    const item = vm.getItemOfCurrentModel();
-
-                    const itemElement = vm.choicesInstance.dropdown.element.querySelector(
-                        `.choices__item[data-id="${item.id}"]`
-                    );
-
-                    vm.choicesInstance.choiceList.scrollToChildElement(itemElement, 1);
-                    vm.choicesInstance._highlightChoice(itemElement);
-                });
-
-                this.setValueOnChoices(this.modelValue);
             });
         },
 

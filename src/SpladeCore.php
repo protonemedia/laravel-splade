@@ -232,7 +232,7 @@ class SpladeCore
 
     /**
      * Returns a Closure that prevents generating a response from
-     * a ValidationExceptions when this is a Splade request.
+     * a ValidationException when this is a Splade request.
      *
      * @param  \Illuminate\Foundation\Exceptions\Handler  $exceptionHandler
      * @return Closure

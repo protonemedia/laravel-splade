@@ -5,6 +5,7 @@ use App\Events\RefreshEvent;
 use App\Events\SimpleEvent;
 use App\Events\ToastEvent;
 use App\Http\Controllers\BackFormController;
+use App\Http\Controllers\CountriesController;
 use App\Http\Controllers\FileFormController;
 use App\Http\Controllers\FormComponentsController;
 use App\Http\Controllers\FormRelationsController;
@@ -44,6 +45,10 @@ Route::get('event/toast', fn () => event(new ToastEvent))->name('event.toast');
 
 Route::middleware('splade')->group(function () {
     Route::spladeTable();
+
+    Route::get('/api/countries/keyValue', [CountriesController::class, 'keyValue'])->name('api.countries.keyValue');
+    Route::get('/api/countries/objects', [CountriesController::class, 'objects'])->name('api.countries.objects');
+    Route::get('/api/provinces/{country}', [CountriesController::class, 'provinces'])->name('api.countries.provinces');
 
     Route::view('content', 'content', [
         'html' => file_get_contents(resource_path('rendered_markdown.html')),
@@ -132,6 +137,13 @@ Route::middleware('splade')->group(function () {
     Route::post('form/components/submitValue/{approved?}', [FormComponentsController::class, 'submitValueSubmit'])->name('form.components.submitValueSubmit');
     Route::get('form/components/relation', [FormComponentsController::class, 'relation'])->name('form.components.relation');
     Route::get('form/components/customSelectOptions', [FormComponentsController::class, 'customSelectOptions'])->name('form.components.customSelectOptions');
+
+    Route::view('form/components/selectPlaceholder', 'form.components.selectPlaceholder')->name('form.components.selectPlaceholder');
+
+    Route::view('form/components/selectAsync/keyValue', 'form.components.selectAsyncKeyValue')->name('form.components.selectAsyncKeyValue');
+    Route::view('form/components/selectAsync/objects', 'form.components.selectAsyncObjects')->name('form.components.selectAsyncObjects');
+    Route::view('form/components/selectAsync/dependent', 'form.components.selectAsyncDependent')->name('form.components.selectAsyncDependent');
+    Route::post('form/components/selectAsync', [FormComponentsController::class, 'selectAsync'])->name('form.components.selectAsync');
 
     Route::get('form/relations/belongsToMany', [FormRelationsController::class, 'belongsToMany'])->name('form.relations.belongsToMany');
     Route::get('form/relations/belongsToMany/choices', [FormRelationsController::class, 'belongsToManyChoices'])->name('form.relations.belongsToManyChoices');
