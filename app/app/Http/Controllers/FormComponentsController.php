@@ -218,6 +218,11 @@ class FormComponentsController
         return view('form.components.customSelectOptions');
     }
 
+    public function filepond()
+    {
+        return view('form.components.filepond');
+    }
+
     public function submit(Request $request)
     {
         $request->validate([

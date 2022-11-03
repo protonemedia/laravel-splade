@@ -13,14 +13,28 @@ export default defineConfig({
             fileName: "protone-media-laravel-splade"
         },
         rollupOptions: {
-            external: ["vue", "axios", "autosize", "choices.js", "flatpickr", "nprogress"],
+            external: [
+                "vue",
+                "axios",
+                "autosize",
+                "choices.js",
+                "flatpickr",
+                "nprogress",
+                "filepond",
+                "vue-filepond",
+                "filepond-plugin-file-validate-type",
+                "filepond-plugin-image-preview"
+            ],
             output: {
                 globals: {
                     axios: "axios",
                     vue: "Vue",
                     autosize: "autosize",
                     "choices.js": "Choices",
-                    "nprogress": "NProgress"
+                    "nprogress": "NProgress",
+                    "vue-filepond": "vueFilePond",
+                    "filepond-plugin-file-validate-type": "FilePondPluginFileValidateType",
+                    "filepond-plugin-image-preview": "FilePondPluginImagePreview"
                 },
             }
         }
