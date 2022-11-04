@@ -4,6 +4,16 @@
 
 FormFilePond
 
+<x-splade-form dusk="regular-avatar" :action="route('form.components.filepond.storeSingle')" class="space-y-4">
+    <x-splade-file filepond name="avatar" />
+    <x-splade-submit />
+</x-splade-form>
+
+<x-splade-form dusk="regular-avatars" :action="route('form.components.filepond.storeMultiple')" class="space-y-4">
+    <x-splade-file filepond name="avatars" multiple />
+    <x-splade-submit />
+</x-splade-form>
+
 <x-splade-form dusk="single-avatar" :action="route('form.components.filepond.storeSingle')" class="space-y-4">
     <x-splade-file filepond name="avatar" server />
     <x-splade-submit />

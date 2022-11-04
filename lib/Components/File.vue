@@ -105,7 +105,7 @@ export default {
 
                 if(this.server) {
                     options.server = {
-                        process: (fieldName, file, metadata, load, error, progress, abort, transfer, options) => {
+                        process: (fieldName, file, metadata, load, error, progress, abort) => {
                             // fieldName is the name of the input field
                             // file is the actual file object to send
                             const formData = new FormData();

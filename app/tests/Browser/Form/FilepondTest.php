@@ -25,6 +25,44 @@ class FilepondTest extends DuskTestCase
     }
 
     /** @test */
+    public function it_can_upload_a_file_using_a_regular_single_request()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('form/components/filepond')
+                ->waitForText('FormFilePond')
+                ->within('@regular-avatar', function (Browser $browser) {
+                    $browser->attach('avatar', __DIR__ . '/../small.jpeg')
+                        ->waitForText('small.jpeg')
+                        ->press('Submit');
+                })
+                ->waitForRoute('navigation.one');
+
+            $this->assertFileExists(storage_path('app/avatars/avatar.jpg'));
+        });
+    }
+
+    /** @test */
+    public function it_can_upload_multiple_files_using_a_regular_single_request()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('form/components/filepond')
+                ->waitForText('FormFilePond')
+                ->within('@regular-avatars', function (Browser $browser) {
+                    $browser
+                        ->attach('avatars', __DIR__ . '/../small.jpeg')
+                        ->attach('avatars', __DIR__ . '/../small.png')
+                        ->waitForText('small.jpeg')
+                        ->waitForText('small.png')
+                        ->press('Submit');
+                })
+                ->waitForRoute('navigation.one');
+
+            $this->assertFileExists(storage_path('app/avatars/avatar0.jpg'));
+            $this->assertFileExists(storage_path('app/avatars/avatar1.jpg'));
+        });
+    }
+
+    /** @test */
     public function it_can_upload_a_temporary_file_using_controller_middleware()
     {
         $this->browse(function (Browser $browser) {
