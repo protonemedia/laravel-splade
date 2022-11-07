@@ -96,17 +96,20 @@ function perform() {
         return window.location = props.href;
     }
 
-    if(startsWith(props.href, "#")) {
-        // TODO: Check if the preloaded modal exists
-        return Splade.openPreloadedModal(props.href.substring(1));
-    }
-
     if (props.modal) {
         return Splade.modal(props.href);
     }
 
     if (props.slideover) {
         return Splade.slideover(props.href);
+    }
+
+    if(startsWith(props.href, "#")) {
+        if(Splade.openPreloadedModal(props.href.substring(1))) {
+            return;
+        }
+
+        console.log("No preloaded modal found for " + props.href);
     }
 
     props.replace ? Splade.replace(props.href) : Splade.visit(props.href);

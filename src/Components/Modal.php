@@ -34,13 +34,12 @@ class Modal extends Component
     public function render()
     {
         if ($this->name) {
-            return function ($data) {
+            return function (array $data) {
                 $modalView = $this->getModalView();
 
                 $content = Blade::render(
                     $this->modal ? 'splade::modal' : 'splade::slideover',
-                    array_merge($data, $modalView->getData(), [
-                    ])
+                    array_merge($data, $modalView->getData())
                 );
 
                 return view('splade::preloaded-modal', [
