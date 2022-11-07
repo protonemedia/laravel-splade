@@ -61,6 +61,13 @@ export default {
     },
 
     methods: {
+        loadFilepondPlugins() {
+            return Promise.all([
+                import("filepond-plugin-image-preview"),
+                import("filepond-plugin-image-exif-orientation")
+            ]);
+        },
+
         initFilepond() {
             const vm = this;
 
@@ -151,7 +158,10 @@ export default {
                     };
                 }
 
-                this.filepondInstance = filepond.create(this.inputElement, options);
+                this.loadFilepondPlugins(filepond).then((plugins) => {
+                    filepond.registerPlugin(...plugins.map(plugin => plugin.default));
+                    this.filepondInstance = filepond.create(this.inputElement, options);
+                });
             });
         },
 
