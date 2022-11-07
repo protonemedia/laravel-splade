@@ -38,4 +38,17 @@ ModalComponent
     <Link slideover dusk="slideover-size-7xl" href="/modal/size/7xl">Slideover 7xl</Link>
 </div>
 
+<div class="flex space-x-3">
+    <Link href="#menu-modal">Preloaded modal</Link>
+    <Link href="#menu-slideover">Preloaded slideover</Link>
+</div>
+
+<x-splade-modal name="menu-modal" modal>
+    <h1>Check out my modal!</h1>
+</x-splade-modal>
+
+<x-splade-modal name="menu-slideover" slideover>
+    <h1>Check out my slideover!</h1>
+</x-splade-modal>
+
 @endsection

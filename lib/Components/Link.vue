@@ -8,11 +8,13 @@
 <script setup>
 import { Splade } from "./../Splade.js";
 import isBoolean from "lodash-es/isBoolean";
+import startsWith from "lodash-es/startsWith";
 
 const props = defineProps({
     href: {
         type: String,
-        required: true,
+        required: false,
+        default: "#"
     },
 
     replace: {
@@ -92,6 +94,11 @@ function navigate() {
 function perform() {
     if (props.away) {
         return window.location = props.href;
+    }
+
+    if(startsWith(props.href, "#")) {
+        // TODO: Check if the preloaded modal exists
+        return Splade.openPreloadedModal(props.href.substring(1));
     }
 
     if (props.modal) {
