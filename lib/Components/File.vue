@@ -34,6 +34,12 @@ export default {
             default: true,
         },
 
+        preview: {
+            type: Boolean,
+            required: false,
+            default: false,
+        },
+
         server: {
             type: [Boolean, String],
             required: false,
@@ -62,10 +68,10 @@ export default {
 
     methods: {
         loadFilepondPlugins() {
-            return Promise.all([
+            return Promise.all(this.preview ? [
                 import("filepond-plugin-image-preview"),
                 import("filepond-plugin-image-exif-orientation")
-            ]);
+            ] : []);
         },
 
         initFilepond() {
@@ -76,7 +82,6 @@ export default {
                     multiple: this.multiple,
                     name: "file",
                     onaddfile(error, file) {
-                        console.log("onaddfile", error, file);
                         if(error) {
                             return;
                         }
@@ -86,8 +91,6 @@ export default {
                         }
                     },
                     onremovefile(error, file) {
-                        console.log("onremovefile", error, file);
-
                         if(error) {
                             return;
                         }
@@ -95,8 +98,6 @@ export default {
                         vm.removeFile(file.file);
                     },
                     onprocessfile(error, file) {
-                        console.log("onprocessfile", error, file);
-
                         if(error) {
                             return;
                         }
@@ -159,7 +160,10 @@ export default {
                 }
 
                 this.loadFilepondPlugins(filepond).then((plugins) => {
-                    filepond.registerPlugin(...plugins.map(plugin => plugin.default));
+                    if(plugins.length > 0) {
+                        filepond.registerPlugin(...plugins.map(plugin => plugin.default));
+                    }
+
                     this.filepondInstance = filepond.create(this.inputElement, options);
                 });
             });

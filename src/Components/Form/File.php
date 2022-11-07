@@ -25,6 +25,7 @@ class File extends Component
         public string $help = '',
         public bool|array|string|null $filepond = null,
         public bool|string $server = false,
+        public bool $preview = false,
     ) {
         Form::allowAttribute($name);
 

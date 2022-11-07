@@ -4,6 +4,7 @@
     :multiple="@js($multiple)"
     :filepond="@js($filepond)"
     :server="@js($server)"
+    :preview="@js($preview)"
     {{ $attributes->only(['v-if', 'v-show', 'class']) }}
 >
     <template #default="{!! $scope !!}">
