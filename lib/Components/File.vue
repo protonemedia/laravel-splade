@@ -34,6 +34,12 @@ export default {
             default: true,
         },
 
+        placeholder: {
+            type: String,
+            required: false,
+            default: "",
+        },
+
         preview: {
             type: Boolean,
             required: false,
@@ -46,6 +52,8 @@ export default {
             default: false,
         }
     },
+
+    emits: ["start-uploading", "stop-uploading"],
 
     data() {
         return {
@@ -81,6 +89,7 @@ export default {
                 const options = {
                     multiple: this.multiple,
                     name: "file",
+                    labelIdle: this.placeholder,
                     onaddfile(error, file) {
                         if(error) {
                             return;
@@ -88,6 +97,8 @@ export default {
 
                         if(!vm.server) {
                             vm.addFiles([file.file]);
+                        } else {
+                            vm.$emit("start-uploading");
                         }
                     },
                     onremovefile(error, file) {
@@ -108,6 +119,8 @@ export default {
                         });
 
                         vm.addFiles([file.serverId]);
+
+                        vm.$emit("stop-uploading");
                     },
                 };
 
@@ -134,9 +147,12 @@ export default {
                                 if (response.status >= 200 && response.status < 300) {
                                     load(response.data);
                                 } else {
+                                    vm.$emit("stop-uploading");
                                     error(response.statusText);
                                 }
                             }).catch(function (thrown) {
+                                vm.$emit("stop-uploading");
+
                                 if (axios.isCancel(thrown)) {
                                     abort();
                                 } else {

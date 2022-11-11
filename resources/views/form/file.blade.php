@@ -2,9 +2,12 @@
     :form="form"
     :field="@js($formKey())"
     :multiple="@js($multiple)"
+    :placeholder="@js($placeholder)"
     :filepond="@js($filepond)"
     :server="@js($server)"
     :preview="@js($preview)"
+    v-on:start-uploading="form.$startUploading(@js($uploadKey = Str::uuid()))"
+    v-on:stop-uploading="form.$stopUploading(@js($uploadKey))"
     {{ $attributes->only(['v-if', 'v-show', 'class']) }}
 >
     <template #default="{!! $scope !!}">
@@ -26,7 +29,7 @@
                     @if(trim($slot))
                         {{ $slot }}
                     @else
-                        {{ __('Browse...') }}
+                        {{ $placeholder }}
                     @endif
 
                     <input @change="file.handleFileInput" {{ $attributes->except(['v-if', 'v-show', 'class'])->class([

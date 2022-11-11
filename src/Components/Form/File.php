@@ -18,6 +18,7 @@ class File extends Component
         public string $name = '',
         public string $vModel = '',
         public string $label = '',
+        public bool|string $placeholder = true,
         public string $validationKey = '',
         public bool $showErrors = true,
         public bool $multiple = false,
@@ -27,6 +28,12 @@ class File extends Component
         public bool|string $server = false,
         public bool $preview = false,
     ) {
+        if ($placeholder === true) {
+            $this->placeholder = $filepond
+                ? __('Drag and drop your files or Browse') . '...'
+                : __('Browse') . '...';
+        }
+
         Form::allowAttribute($name);
 
         if ($multiple) {

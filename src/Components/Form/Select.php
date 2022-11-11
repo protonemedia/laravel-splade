@@ -38,7 +38,7 @@ class Select extends Component
         public string $optionLabel = '',
         public string $scope = 'select',
     ) {
-        if (is_bool($placeholder) && $placeholder) {
+        if ($placeholder === true) {
             $this->placeholder = __('Search') . '...';
         }
 

@@ -113,12 +113,17 @@ export default {
             recentlySuccessful: false,
             recentlySuccessfulTimeoutId: null,
             formElement: null,
+            elementsUploading: [],
         };
     },
 
     computed: {
         $all() {
             return this.values;
+        },
+
+        $uploading() {
+            return this.elementsUploading.length > 0;
         },
 
         /*
@@ -187,6 +192,14 @@ export default {
     },
 
     methods: {
+        $startUploading(key) {
+            this.elementsUploading.push(key);
+        },
+
+        $stopUploading(key) {
+            this.elementsUploading = this.elementsUploading.filter(element => element != key);
+        },
+
         hasError(key) {
             return key in this.errors;
         },
@@ -240,6 +253,10 @@ export default {
          * before it performs the request.
          */
         submit($event) {
+            if(this.$uploading) {
+                return;
+            }
+
             if($event) {
                 const submitter = $event.submitter;
 
@@ -270,6 +287,10 @@ export default {
          * performs an async request.
          */
         async request() {
+            if(this.$uploading) {
+                return;
+            }
+
             await this.$nextTick();
 
             this.processing = true;
@@ -350,6 +371,10 @@ export default {
                             "$all",
                             "$attrs",
                             "$put",
+                            "$startUploading",
+                            "$stopUploading",
+                            "$processing",
+                            "$uploading",
                             "errors",
                             "restore",
                             "reset",
@@ -381,8 +406,6 @@ export default {
                     },
 
                     set(target, name, value) {
-                        console.log("set", name);
-
                         return self.$put(name, value);
                     },
                 }
