@@ -192,12 +192,12 @@ export default {
     },
 
     methods: {
-        $startUploading(key) {
-            this.elementsUploading.push(key);
+        $startUploading(eventData) {
+            this.elementsUploading.push(eventData[0]);
         },
 
-        $stopUploading(key) {
-            this.elementsUploading = this.elementsUploading.filter(element => element != key);
+        $stopUploading(eventData) {
+            this.elementsUploading = this.elementsUploading.filter(id => id != eventData[0]);
         },
 
         hasError(key) {

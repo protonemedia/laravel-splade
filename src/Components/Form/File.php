@@ -28,8 +28,8 @@ class File extends Component
         public bool|string $server = false,
         public bool $preview = false,
         public array|string $accept = '',
-        public bool|int|string $minFileSize = false,
-        public bool|int|string $maxFileSize = false,
+        public bool|int|string $minSize = false,
+        public bool|int|string $maxSize = false,
         public bool|int $width = false,
         public bool|int $height = false,
         public bool|int $minWidth = false,
@@ -55,14 +55,14 @@ class File extends Component
             $this->server = route('splade.fileUpload.store');
         }
 
-        if ($imageWidth) {
-            $this->minImageWidth = $imageWidth;
-            $this->maxImageWidth = $imageWidth;
+        if ($width) {
+            $this->minWidth = $width;
+            $this->maxWidth = $width;
         }
 
-        if ($imageHeight) {
-            $this->minImageHeight = $imageHeight;
-            $this->maxImageHeight = $imageHeight;
+        if ($height) {
+            $this->minHeight = $height;
+            $this->maxHeight = $height;
         }
 
         $this->accept = is_string($accept) ? Form::splitByComma($accept) : $accept;
