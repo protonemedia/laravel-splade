@@ -6,6 +6,15 @@
     :filepond="@js($filepond)"
     :server="@js($server)"
     :preview="@js($preview)"
+    :accept="@js($accept)"
+    :min-file-size="@js($minFileSize)"
+    :max-file-size="@js($maxFileSize)"
+    :min-image-width="@js($minImageWidth)"
+    :max-image-width="@js($maxImageWidth)"
+    :min-image-height="@js($minImageHeight)"
+    :max-image-height="@js($maxImageHeight)"
+    :min-image-resolution="@js($minImageResolution)"
+    :max-image-resolution="@js($maxImageResolution)"
     v-on:start-uploading="form.$startUploading(@js($uploadKey = Str::uuid()))"
     v-on:stop-uploading="form.$stopUploading(@js($uploadKey))"
     {{ $attributes->only(['v-if', 'v-show', 'class']) }}
@@ -40,6 +49,9 @@
                         'type' => 'file',
                         'data-validation-key' => $validationKey(),
                     ]) }}
+                        @if(count($accept) > 0)
+                            accept="{{ implode(',', $accept) }}"
+                        @endif
                     />
                 </a>
             @endif
