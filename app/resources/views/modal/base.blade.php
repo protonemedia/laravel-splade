@@ -39,10 +39,10 @@ ModalComponent
 </div>
 
 <div class="flex space-x-3">
-    <Link href="#menu-modal">Preloaded modal</Link>
-    <Link href="#menu-slideover">Preloaded slideover</Link>
-    <Link href="#menu-modal-large">Preloaded modal (large)</Link>
-    <Link href="#menu-slideover-large">Preloaded slideover (large)</Link>
+    <Link dusk="menu-modal" href="#menu-modal">Preloaded modal</Link>
+    <Link dusk="menu-slideover" href="#menu-slideover">Preloaded slideover</Link>
+    <Link dusk="menu-modal-large" href="#menu-modal-large">Preloaded modal (large)</Link>
+    <Link dusk="menu-slideover-large" href="#menu-slideover-large">Preloaded slideover (large)</Link>
 </div>
 
 <x-splade-modal name="menu-modal" modal>

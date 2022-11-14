@@ -34,12 +34,11 @@ class Modal extends Component
     public function render()
     {
         if ($this->name) {
+            // If the name is set, this is a preloaded modal that won't be fetched from the server asyncronously.
             return function (array $data) {
-                $modalView = $this->getModalView();
-
                 $content = Blade::render(
                     $this->modal ? 'splade::modal' : 'splade::slideover',
-                    array_merge($data, $modalView->getData())
+                    array_merge($data, $this->getModalView()->getData())
                 );
 
                 return view('splade::preloaded-modal', [
@@ -51,9 +50,11 @@ class Modal extends Component
         }
 
         if ($this->splade->isModalRequest()) {
+            // Wrap the slot in a modal or slideover.
             return $this->getModalView();
         }
 
+        // Regular request, just render the slot.
         return '{{ $slot }}';
     }
 
