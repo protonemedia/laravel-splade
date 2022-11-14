@@ -252,7 +252,7 @@ class SpladeTable
         if (Str::startsWith($sort, '-')) {
             $sort      = Str::after($sort, '-');
             $direction = $direction ?: 'desc';
-        };
+        }
 
         $this->defaultSort = $direction === 'desc' ? "-{$sort}" : $sort;
 
