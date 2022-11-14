@@ -25,6 +25,7 @@ class PreloadedModalTest extends DuskTestCase
                 ->waitUntilMissingText('Check out my modal!');
         });
     }
+
     /** @test */
     public function it_can_show_a_preloaded_slideover()
     {
@@ -62,6 +63,7 @@ class PreloadedModalTest extends DuskTestCase
                 ->waitUntilMissingText('Check out my modal!');
         });
     }
+
     /** @test */
     public function it_can_show_a_large_preloaded_slideover()
     {
