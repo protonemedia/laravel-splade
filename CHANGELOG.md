@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 0.7.2 - 2022-11-14
+
+- Support for pre-loaded modals/slideovers
+
 ## 0.7.1 - 2022-11-03
 
 - Support remote options in Form Select component
