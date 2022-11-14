@@ -136,7 +136,7 @@ class SpladeQueryBuilder extends SpladeTable
     {
         return Collection::make(str_getcsv($terms, ' ', '"'))
             ->reject(function ($term = null) {
-                return is_null($term) || trim($term ?: "") === "";
+                return is_null($term) || trim($term) === "";
             })
             ->values()
             ->map(function (string $term) {
