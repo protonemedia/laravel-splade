@@ -1,5 +1,5 @@
 <!--START-SPLADE-MODAL-{{ $key }}-->
-<SpladeModal {{ $baseAttributes->mergeVueBinding(':close-button', $closeButton) }}>
+<SpladeModal {{ $baseAttributes->mergeVueBinding(':close-button', $closeButton) }} :name="@js($name)">
     <template #default="modal">
         <x-splade-component is="transition" show="modal.isOpen">
             <x-splade-component is="dialog" v-bind:dusk="`modal.${modal.stack}`" close="modal.setIsOpen" class="relative z-20">

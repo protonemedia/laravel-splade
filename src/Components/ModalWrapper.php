@@ -14,7 +14,8 @@ class ModalWrapper extends Component
     public function __construct(
         public string $key,
         public $baseAttributes,
-        public bool $closeButton
+        public bool $closeButton,
+        public string $name = '',
     ) {
     }
 

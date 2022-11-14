@@ -1,4 +1,4 @@
-<x-splade-component is="modal-wrapper" :base-attributes="$attributes" :key="$modalKey" :close-button="$closeButton">
+<x-splade-component is="modal-wrapper" :base-attributes="$attributes" :key="$modalKey" :close-button="$closeButton" :name="$name">
     <!-- Full-screen scrollable container -->
     <div class="fixed inset-0 z-40 overflow-y-auto">
         <!-- Container to center the panel -->
