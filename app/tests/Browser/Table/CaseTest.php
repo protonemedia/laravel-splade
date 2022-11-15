@@ -36,7 +36,7 @@ class CaseTest extends DuskTestCase
     public function it_can_search_case_sensitive()
     {
         if (DB::connection() instanceof SQLiteConnection) {
-            return $this->markTestSkipped("SQLite supports case sensitive queries through a global setting.");
+            return $this->markTestSkipped('SQLite supports case sensitive queries through a global setting.');
         }
 
         $this->browse(function (Browser $browser) {
