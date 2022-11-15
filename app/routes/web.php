@@ -226,7 +226,6 @@ Route::middleware('splade')->group(function () {
         Route::get('/rowSlideover', [TableController::class, 'rowSlideover'])->name('table.rowSlideover');
         Route::post('/touch', [TableController::class, 'touch'])->name('table.touch');
 
-
         Route::get('/caseSensitive', [TableController::class, 'caseSensitive'])->name('table.caseSensitive');
         Route::get('/caseInsensitive', [TableController::class, 'caseInsensitive'])->name('table.caseInsensitive');
 

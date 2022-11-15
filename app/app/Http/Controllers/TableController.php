@@ -101,7 +101,7 @@ class TableController
         $users = User::query()->paginate(10);
 
         return view('table.users', [
-            'users'              => SpladeTable::for($users)
+            'users' => SpladeTable::for($users)
                 ->rowModal(fn () => route('modal.one'))
                 ->column('name'),
         ]);
@@ -112,7 +112,7 @@ class TableController
         $users = User::query()->paginate(10);
 
         return view('table.users', [
-            'users'                  => SpladeTable::for($users)
+            'users' => SpladeTable::for($users)
                 ->rowSlideover(fn () => route('modal.one'))
                 ->column('name'),
         ]);
