@@ -143,6 +143,7 @@ jobs:
           php artisan serve &
 
       - name: Execute Dusk tests (only table tests - MySQL)
+        if: ${{ matrix.db == 'mysql' }}
         uses: nick-invision/retry@v2
         with:
           timeout_minutes: 10
@@ -152,6 +153,7 @@ jobs:
           DB_PORT: ${{ job.services.mysql.ports[3306] }}
 
       - name: Execute Dusk tests (only table tests - PostgreSQL)
+        if: ${{ matrix.db == 'postgres' }}
         uses: nick-invision/retry@v2
         with:
           timeout_minutes: 10
@@ -161,6 +163,7 @@ jobs:
           DB_PORT: ${{ job.services.postgres.ports[5432] }}
 
       - name: Execute Dusk tests (only table tests - SQLite)
+        if: ${{ matrix.db == 'sqlite' }}
         uses: nick-invision/retry@v2
         with:
           timeout_minutes: 10
