@@ -37,10 +37,13 @@ class FilterTest extends DuskTestCase
         });
     }
 
-    /** @test */
-    public function it_can_use_boolean_keys_for_the_filter_options()
+    /**
+     * @test
+     * @dataProvider booleanDataset
+     */
+    public function it_can_use_boolean_keys_for_the_filter_options($spladeQueryBuilder)
     {
-        $this->browse(function (Browser $browser) {
+        $this->browse(function (Browser $browser) use ($spladeQueryBuilder) {
             User::orderBy('name')->first()->forceFill([
                 'is_admin' => '1',
             ])->save();
@@ -48,7 +51,7 @@ class FilterTest extends DuskTestCase
             $firstAdmin    = User::query()->orderBy('name')->where('is_admin', 1)->first();
             $firstNonAdmin = User::query()->orderBy('name')->where('is_admin', 0)->first();
 
-            $browser->visit('/table/boolean')
+            $browser->visit('/table/boolean/' . (int) $spladeQueryBuilder)
                 ->assertSeeIn('tr:nth-child(1) td:nth-child(1)', $firstAdmin->name)
                 ->assertSeeIn('tr:nth-child(2) td:nth-child(1)', $firstNonAdmin->name)
 

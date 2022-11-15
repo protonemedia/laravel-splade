@@ -37,6 +37,11 @@ abstract class DuskTestCase extends BaseTestCase
         ];
     }
 
+    public function booleanDataset()
+    {
+        return [[false], [true]];
+    }
+
     protected function configureDownloadPath($browser, $path)
     {
         (new Filesystem)->ensureDirectoryExists($path);

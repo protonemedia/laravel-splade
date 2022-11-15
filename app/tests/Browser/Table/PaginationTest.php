@@ -84,16 +84,19 @@ class PaginationTest extends DuskTestCase
         });
     }
 
-    /** @test */
-    public function it_disabled_the_per_page_selection_on_less_than_two_options()
+    /**
+     * @test
+     * @dataProvider booleanDataset
+     */
+    public function it_disabled_the_per_page_selection_on_less_than_two_options($spladeQueryBuilder)
     {
-        $this->browse(function (Browser $browser) {
+        $this->browse(function (Browser $browser) use ($spladeQueryBuilder) {
             $users = User::query()
                 ->select(['id', 'name'])
                 ->orderBy('name')
                 ->get();
 
-            $browser->visit('/table/noPerPage')
+            $browser->visit('/table/noPerPage/' . (int) $spladeQueryBuilder)
                 ->resize(1920, 1080)
                 ->assertSeeIn('tr:first-child td:nth-child(1)', $users->get(0)->name)
                 ->assertMissing('select[name="per_page"]');

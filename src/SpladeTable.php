@@ -297,6 +297,7 @@ class SpladeTable
      */
     public function beforeRender()
     {
+        $this->resolveRowLinks();
     }
 
     public function performBulkAction(callable $action, array $ids)
