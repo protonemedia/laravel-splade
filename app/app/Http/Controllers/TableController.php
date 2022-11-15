@@ -20,6 +20,20 @@ class TableController
         ]);
     }
 
+    public function boolean()
+    {
+        return view('table.users', [
+            'users' => SpladeTable::for(User::query()->orderBy('name'))
+                ->column('name')
+                ->column('is_admin')
+                ->selectFilter('is_admin', [
+                    0 => 'No',
+                    1 => 'Yes',
+                ])
+                ->paginate(10),
+        ]);
+    }
+
     public function overflow()
     {
         $users = User::query()->orderBy('name')->paginate(1);

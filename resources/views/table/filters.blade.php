@@ -29,7 +29,7 @@
                             @change="table.updateQuery('filter[{{ $filter->key }}]', $event.target.value)"
                         >
                             @foreach($filter->options() as $optionKey => $option)
-                                <option @selected($filter->value == $optionKey) value="{{ $optionKey }}">
+                                <option @selected($filter->hasValue() && $filter->value == $optionKey) value="{{ $optionKey }}">
                                     {{ $option }}
                                 </option>
                             @endforeach

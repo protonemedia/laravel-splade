@@ -83,6 +83,6 @@ trait HasFilters
      */
     public function hasFiltersEnabled(): bool
     {
-        return $this->filters()->filter->value->isNotEmpty();
+        return $this->filters()->reject(fn (Filter $filter) => is_null($filter->value))->isNotEmpty();
     }
 }
