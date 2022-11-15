@@ -4232,7 +4232,7 @@ const Id = {
       }), t;
     },
     setValueOnChoices(e) {
-      Array.isArray(e) && (e = pa(e, (t) => `${t}`), this.choicesInstance.removeActiveItems()), e == null && (e = ""), this.choicesInstance.setChoiceByValue(e), this.updateHasSelectionAttribute(), this.handlePlaceholderVisibility();
+      Array.isArray(e) && (e = pa(e, (t) => `${t}`), this.choicesInstance.removeActiveItems()), e == null ? e = "" : Array.isArray(e) || (e = `${e}`), this.choicesInstance.setChoiceByValue(e), this.updateHasSelectionAttribute(), this.handlePlaceholderVisibility();
     },
     getItemOfCurrentModel() {
       const e = this.modelValue;
