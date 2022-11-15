@@ -163,7 +163,7 @@ jobs:
         with:
           timeout_minutes: 10
           max_attempts: 3
-          command: cd app && php artisan dusk --group=table
+          command: cd app && php artisan dusk --stop-on-error --stop-on-failure --group=table
         env:
           DB_PORT: ${{ job.services.postgres.ports[5432] }}
 
