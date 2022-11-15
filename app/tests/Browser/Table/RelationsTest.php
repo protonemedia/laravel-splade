@@ -8,6 +8,9 @@ use App\Models\Project;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 
+/**
+ * @group table
+ */
 class RelationsTest extends DuskTestCase
 {
     /** @test */
