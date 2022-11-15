@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Dummy;
 use App\Models\Project;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Fluent;
 use Illuminate\Validation\Rule;
@@ -13,7 +12,7 @@ use ProtoneMedia\Splade\Components\Form;
 use ProtoneMedia\Splade\Components\Form\Input;
 use ProtoneMedia\Splade\Components\Form\Select;
 
-class FormComponentsController extends Controller
+class FormComponentsController
 {
     private function countries(): array
     {

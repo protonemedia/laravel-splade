@@ -21,8 +21,11 @@ export default defineConfig({
                 "flatpickr",
                 "nprogress",
                 "filepond",
+                "filepond-plugin-file-validate-size",
                 "filepond-plugin-file-validate-type",
-                "filepond-plugin-image-preview"
+                "filepond-plugin-image-exif-orientation",
+                "filepond-plugin-image-preview",
+                "filepond-plugin-image-validate-size",
             ],
             output: {
                 globals: {
@@ -32,8 +35,11 @@ export default defineConfig({
                     "choices.js": "Choices",
                     "nprogress": "NProgress",
                     "filepond": "FilePond",
+                    "filepond-plugin-file-validate-size": "FilePondPluginFileValidateSize",
                     "filepond-plugin-file-validate-type": "FilePondPluginFileValidateType",
-                    "filepond-plugin-image-preview": "FilePondPluginImagePreview"
+                    "filepond-plugin-image-exif-orientation": "FilePondPluginImageExifOrientation",
+                    "filepond-plugin-image-preview": "FilePondPluginImagePreview",
+                    "filepond-plugin-image-validate-size": "FilePondPluginImageValidateSize"
                 },
             }
         }

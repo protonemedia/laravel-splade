@@ -19,6 +19,11 @@ class FilepondController extends Controller
         return view('form.components.filepond');
     }
 
+    public function showValidation()
+    {
+        return view('form.components.filepondValidation');
+    }
+
     public function storeSingle(Request $request)
     {
         $request->validate([
