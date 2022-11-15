@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
+use InvalidArgumentException;
 use ProtoneMedia\Splade\Table\HasBulkActions;
 use ProtoneMedia\Splade\Table\HasColumns;
 use ProtoneMedia\Splade\Table\HasExports;
@@ -237,14 +239,45 @@ class SpladeTable
     /**
      * Setter for the default sort key.
      *
-     * @param  string  $defaultSort
+     * @param  string  $sort
+     * @param  string  $direction
      * @return $this
      */
-    public function defaultSort(string $defaultSort): self
+    public function defaultSort(string $sort, string $direction = ''): self
     {
-        $this->defaultSort = $defaultSort;
+        if ($direction && !in_array($direction, ['asc', 'desc'], true)) {
+            throw new InvalidArgumentException('Direction must be "asc" or "desc".');
+        }
+
+        if (Str::startsWith($sort, '-')) {
+            $sort      = Str::after($sort, '-');
+            $direction = $direction ?: 'desc';
+        }
+
+        $this->defaultSort = $direction === 'desc' ? "-{$sort}" : $sort;
 
         return $this;
+    }
+
+    /**
+     * Sets a descending default sort key
+     *
+     * @param  string  $sort
+     * @return $this
+     */
+    public function defaultSortDesc(string $sort): self
+    {
+        return $this->defaultSort($sort, 'desc');
+    }
+
+    /**
+     * Returns the default sort key.
+     *
+     * @return string
+     */
+    public function getDefaultSort(): string
+    {
+        return $this->defaultSort;
     }
 
     /**
