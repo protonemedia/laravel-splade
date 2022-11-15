@@ -172,22 +172,6 @@ class SpladeQueryBuilder extends SpladeTable
         };
     }
 
-    /**
-     * Qualify the column by the model's table and wrap it.
-     *
-     * @param  \Illuminate\Database\Eloquent\Builder  $builder
-     * @param  string  $column
-     * @return string
-     */
-    private function qualifyColumn(EloquentBuilder $builder, string $column): string
-    {
-        $column = $builder->qualifyColumn($column);
-
-        return $this->ignoreCase
-             ? $builder->getGrammar()->wrap($column)
-             : $column;
-    }
-
     private function applyConstraint(array $columns, string $terms)
     {
         $terms = $this->parseTerms
@@ -203,9 +187,7 @@ class SpladeQueryBuilder extends SpladeTable
 
                     if (!Str::contains($column, '.')) {
                         // Not a relationship, but a column on the table.
-                        $column = $this->qualifyColumn($builder, $column);
-
-                        return $builder->orWhere($column, $whereOperator, $term);
+                        return $builder->orWhere($builder->qualifyColumn($column), $whereOperator, $term);
                     }
 
                     // Split the column into the relationship name and the key on the relationship.
@@ -213,9 +195,7 @@ class SpladeQueryBuilder extends SpladeTable
                     $key      = Str::afterLast($column, '.');
 
                     $builder->orWhereHas($relation, function (EloquentBuilder $relation) use ($key, $whereOperator, $term) {
-                        $column = $this->qualifyColumn($relation, $key);
-
-                        return $relation->where($column, $whereOperator, $term);
+                        return $relation->where($relation->qualifyColumn($key), $whereOperator, $term);
                     });
                 });
             });
