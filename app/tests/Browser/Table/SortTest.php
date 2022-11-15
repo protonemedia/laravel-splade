@@ -23,7 +23,10 @@ class SortTest extends DuskTestCase
                 ->orderBy('name')
                 ->get();
 
-            $usersByEmail = $users->sortBy->email->values();
+            $usersByEmail = User::query()
+                ->select(['id', 'name', 'email'])
+                ->orderBy('email')
+                ->get();
 
             $browser->visit($url)
                 // First user
@@ -31,21 +34,18 @@ class SortTest extends DuskTestCase
                 ->assertSeeIn('tr:last-child td:nth-child(1)', $users->get(9)->name)
 
                 // Sort desc
-                ->pause(250)
                 ->click('@sort-name')
                 ->waitUntilMissingText($users->get(0)->name)
                 ->assertSeeIn('tr:first-child td:nth-child(1)', $users->get(99)->name)
                 ->assertSeeIn('tr:last-child td:nth-child(1)', $users->get(90)->name)
 
                 // Restore asc sort
-                ->pause(250)
                 ->click('@sort-name')
                 ->waitUntilMissingText($users->get(99)->name)
                 ->assertSeeIn('tr:first-child td:nth-child(1)', $users->get(0)->name)
                 ->assertSeeIn('tr:last-child td:nth-child(1)', $users->get(9)->name)
 
                 // Sort by other column
-                ->pause(250)
                 ->click('@sort-email')
                 ->waitForText($usersByEmail->get(9)->email)
                 ->waitForTextIn('tr:first-child td:nth-child(2)', $usersByEmail->get(0)->email)
