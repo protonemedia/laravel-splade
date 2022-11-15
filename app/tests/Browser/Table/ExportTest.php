@@ -6,6 +6,9 @@ use App\Models\Project;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 
+/**
+ * @group table
+ */
 class ExportTest extends DuskTestCase
 {
     /** @test */

@@ -34,6 +34,28 @@ class TableController
         ]);
     }
 
+    public function caseSensitive()
+    {
+        return view('table.users', [
+            'users' => SpladeTable::for(User::query()->orderBy('name'))
+                ->withGlobalSearch(columns: ['name'])
+                ->column('name')
+                ->ignoreCase(false)
+                ->paginate(10),
+        ]);
+    }
+
+    public function caseInsensitive()
+    {
+        return view('table.users', [
+            'users' => SpladeTable::for(User::query()->orderBy('name'))
+                ->withGlobalSearch(columns: ['name'])
+                ->column('name')
+                ->ignoreCase(true)
+                ->paginate(10),
+        ]);
+    }
+
     public function overflow()
     {
         $users = User::query()->orderBy('name')->paginate(1);

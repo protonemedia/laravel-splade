@@ -93,12 +93,12 @@ jobs:
           cd app
           php artisan test
 
-      - name: Execute Dusk tests
+      - name: Execute Dusk tests (except table tests)
         uses: nick-invision/retry@v2
         with:
           timeout_minutes: 10
           max_attempts: 3
-          command: cd app && php artisan dusk --stop-on-error --stop-on-failure
+          command: cd app && php artisan dusk --stop-on-error --stop-on-failure --exclude-group=table
 
       - name: Upload Screenshots
         if: failure()
@@ -127,102 +127,3 @@ jobs:
         with:
           name: logs
           path: app/storage/logs
-
-  stub-tests:
-    runs-on: ${{ matrix.os }}
-
-    strategy:
-      fail-fast: true
-      matrix:
-        os: [ubuntu-latest, windows-latest]
-        php: [8.1, 8.0]
-        laravel: [9.*]
-        dependency-version: [prefer-lowest, prefer-stable]
-
-    name: Test Stubs ${{ matrix.os }} - P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.dependency-version }}
-
-    steps:
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: ${{ matrix.php }}
-          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick, mysql, mysqli, pdo_mysql, fileinfo
-          coverage: none
-
-      - name: Setup Laravel
-        run: |
-          composer create-project laravel/laravel:^9.3 .
-          composer require protonemedia/laravel-splade
-
-      - name: Remove installed Splade (Unix)
-        run: rm -rf vendor/protonemedia/laravel-splade
-        if: matrix.os == 'ubuntu-latest'
-
-      - name: Remove installed Splade (Windows)
-        run: rd "vendor/protonemedia/laravel-splade" /s /q
-        shell: cmd
-        if: matrix.os == 'windows-latest'
-
-      - name: Checkout code
-        uses: actions/checkout@v3.1.0
-        with:
-          path: "vendor/protonemedia/laravel-splade"
-
-      - name: Install Splade
-        run: |
-          composer dump
-          php artisan splade:install
-
-      - name: Install NPM dependencies
-        run: |
-          npm i
-          npm i autosize choices.js flatpickr
-
-      - name: Remove installed Splade and copy front-end build from Checkout (Unix)
-        run: |
-          rm -rf node_modules/@protonemedia/laravel-splade/dist
-          cp -R vendor/protonemedia/laravel-splade/dist node_modules/@protonemedia/laravel-splade/
-        if: matrix.os == 'ubuntu-latest'
-
-      - name: Remove installed Splade and copy front-end build from Checkout (Windows)
-        run: |
-          rd "node_modules/@protonemedia/laravel-splade/dist" /s /q
-          mkdir "node_modules/@protonemedia/laravel-splade/dist"
-          xcopy "vendor/protonemedia/laravel-splade/dist" "node_modules/@protonemedia/laravel-splade/dist" /E /I
-        shell: cmd
-        if: matrix.os == 'windows-latest'
-
-      - name: Compile assets
-        run: npm run build
-
-      - name: Run Laravel Server (Unix)
-        run: php artisan serve &
-        if: matrix.os == 'ubuntu-latest'
-
-      - name: Run Test (Unix)
-        run: php vendor/protonemedia/laravel-splade/TestStubs.php
-        if: matrix.os == 'ubuntu-latest'
-
-      - name: Run Laravel Server (Windows) and Run Test
-        run: |
-          start /b cmd /v:on /c "(php artisan serve) &"
-          php vendor/protonemedia/laravel-splade/TestStubs.php
-        shell: cmd
-        if: matrix.os == 'windows-latest'
-
-      - name: Start SSR server (Unix)
-        run: |
-          echo "SPLADE_SSR_ENABLED=true" >> .env
-          node bootstrap/ssr/ssr.mjs &
-        if: matrix.os == 'ubuntu-latest'
-
-      - name: Run Test command (Unix)
-        run: php artisan splade:ssr-test
-        if: matrix.os == 'ubuntu-latest'
-
-      - name: Start SSR server (Windows) and Run Test command
-        run: |
-          echo "SPLADE_SSR_ENABLED=true" >> .env
-          node bootstrap/ssr/ssr.mjs &
-          php artisan splade:ssr-test
-        if: matrix.os == 'windows-latest'
