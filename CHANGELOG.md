@@ -2,6 +2,13 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 0.7.4 - 2022-11-15
+
+- Preserves the default `perPage` pagination value in the `perPage` selector.
+- Added `build()` helper method to dedicated tables.
+- Added MySQL, PostgreSQL and SQLite to the test matrix.
+- DB performance improvements in SpladeTable wildcard searches.
+
 ## 0.7.3 - 2022-11-15
 
 - Added helper methods to sort the Table Resource in descending order
