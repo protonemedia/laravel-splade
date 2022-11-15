@@ -12,6 +12,6 @@ TeleportComponent
     </x-splade-teleport>
 </x-splade-form>
 
-<div id="footer" class="p-4 bg-green-500 text-white" />
+<div id="footer" class="p-4 bg-success-500 text-white" />
 
 @endsection

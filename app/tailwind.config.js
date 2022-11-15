@@ -1,4 +1,4 @@
-const defaultTheme = require("tailwindcss/defaultTheme");
+const colors = require("tailwindcss/colors");
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -11,5 +11,19 @@ module.exports = {
         "./resources/js/**/*.vue",
     ],
 
-    plugins: [require("@tailwindcss/forms"), require("@tailwindcss/typography")],
+    theme: {
+        extend: {
+            colors: {
+                danger: colors.red,
+                primary: colors.blue,
+                success: colors.green,
+                warning: colors.yellow,
+            },
+        },
+    },
+
+    plugins: [
+        require("@tailwindcss/forms"),
+        require("@tailwindcss/typography")
+    ],
 };

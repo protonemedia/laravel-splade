@@ -1,0 +1,37 @@
+// TODO:
+// $calendarBorderColor ?= #d1d5db
+// $dayHoverBackground ?= #f3f4f6
+// $monthForeground ?= #111827
+// $weekdaysForeground ?= #d1d5db
+// $dayForeground ?= #374151
+// $arrow_hover_color ?= #6366f1
+// $selectedDayBackground ?= #6366f1
+
+@import "flatpickr/dist/flatpickr.css";
+
+.flatpickr-calendar {
+	border-radius: 0.375rem;
+	margin-top: 1px;
+}
+
+.flatpickr-calendar:before,
+.flatpickr-calendar:after {
+	@apply hidden;
+}
+
+.flatpickr-wrapper {
+	@apply w-full;
+}
+
+.flatpickr-current-month .flatpickr-monthDropdown-months,
+.flatpickr-current-month input.cur-year {
+	font-size: 1rem;
+}
+
+.flatpickr-time {
+	input {
+		&:focus {
+			@apply shadow-none;
+		}
+	}
+}

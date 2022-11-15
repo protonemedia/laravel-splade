@@ -19,9 +19,9 @@ TransitionDefault
 <x-splade-toggle>
     <button @click.prevent="toggle">Toggle</button>
 
-    <div class="p-4 bg-red-500">
+    <div class="p-4 bg-danger-500">
         <x-splade-transition animation="custom-demo" show="toggled">
-            <div class="bg-green-500 p-4">Slot</div>
+            <div class="bg-success-500 p-4">Slot</div>
         </x-splade-transition>
     </div>
 </x-splade-toggle>

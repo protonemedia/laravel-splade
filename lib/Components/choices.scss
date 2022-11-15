@@ -25,7 +25,7 @@ fieldset:disabled .#{$choices-selector} {
 
     &.is-focused {
         .#{$choices-selector}__inner {
-            @apply border-indigo-300 ring ring-indigo-200 ring-opacity-50;
+            @apply border-primary-300 ring ring-primary-200 ring-opacity-50;
         }
     }
 
@@ -85,7 +85,7 @@ fieldset:disabled .#{$choices-selector} {
             @apply text-gray-900 text-base px-4;
 
             &.is-highlighted {
-                @apply bg-indigo-500 text-white;
+                @apply bg-primary-500 text-white;
             }
         }
     }
@@ -94,10 +94,10 @@ fieldset:disabled .#{$choices-selector} {
         @apply mb-0;
 
         .#{$choices-selector}__item {
-            @apply bg-indigo-500 border-indigo-500 rounded-md font-medium py-1 text-sm mb-0;
+            @apply bg-primary-500 border-primary-500 rounded-md font-medium py-1 text-sm mb-0;
 
             &:hover{
-                @apply bg-indigo-700 border-indigo-700
+                @apply bg-primary-700 border-primary-700
             }
 
             line-height: 1;

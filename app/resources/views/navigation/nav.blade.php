@@ -32,7 +32,7 @@
 
     <x-splade-dialog open="toggled">
         <div v-show="toggled" class="fixed inset-0 z-20 overflow-y-auto">
-            <div class="min-h-full relative w-full max-w-xs bg-blue-100 px-4 pt-5 pb-12">
+            <div class="min-h-full relative w-full max-w-xs bg-primary-100 px-4 pt-5 pb-12">
                 <div class="flex space-x-3">
                     <Link dusk="dialog-one" href="/navigation/one">One</Link>
                     <Link dusk="dialog-two" href="/navigation/two">Two</Link>

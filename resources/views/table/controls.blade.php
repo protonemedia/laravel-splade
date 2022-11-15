@@ -20,7 +20,7 @@
     <button
         v-show="@js($canResetTable()) || table.columnsAreToggled || table.hasForcedVisibleSearchInputs"
         type="button"
-        class="order-6 sm:order-4 ml-auto mr-2 sm:mr-3 bg-white border rounded-md shadow-sm px-2.5 sm:px-4 py-2 inline-flex justify-center text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 border-gray-300"
+        class="order-6 sm:order-4 ml-auto mr-2 sm:mr-3 bg-white border rounded-md shadow-sm px-2.5 sm:px-4 py-2 inline-flex justify-center text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 border-gray-300"
         @click.prevent="table.reset"
         dusk="reset-table"
     >
