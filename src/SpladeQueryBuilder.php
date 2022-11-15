@@ -3,11 +3,12 @@
 namespace ProtoneMedia\Splade;
 
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
+use Illuminate\Database\MySqlConnection;
+use Illuminate\Database\PostgresConnection;
 use Illuminate\Database\Query\Builder as BaseQueryBuilder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Kirschbaum\PowerJoins\PowerJoins;
 use ProtoneMedia\Splade\Table\Column;
@@ -138,28 +139,36 @@ class SpladeQueryBuilder extends SpladeTable
             ->reject(function ($term = null) {
                 return is_null($term) || trim($term) === '';
             })
-            ->values()
-            ->map(function (string $term) {
-                return $this->ignoreCase ? Str::lower($term) : $term;
-            });
+            ->values();
     }
 
     /**
      * Formats the terms and returns the right where operator for the given search method.
      *
+     * @param  \Illuminate\Database\Eloquent\Builder  $builder
      * @param  string  $term
      * @param  string|null  $searchMethod
      * @return array
      */
-    private function getTermAndWhereOperator(string $term, ?string $searchMethod = null): array
+    private function getTermAndWhereOperator(EloquentBuilder $builder, string $term, ?string $searchMethod = null): array
     {
+        $like = 'LIKE';
+
+        if ($builder->getConnection() instanceof MySqlConnection) {
+            $like = $this->ignoreCase ? 'LIKE' : 'LIKE BINARY';
+        }
+
+        if ($builder->getConnection() instanceof PostgresConnection) {
+            $like = $this->ignoreCase ? 'ILIKE' : 'LIKE';
+        }
+
         $searchMethod = $searchMethod ?: SearchInput::WILDCARD;
 
         return match ($searchMethod) {
             SearchInput::EXACT          => [$term, '='],
-            SearchInput::WILDCARD       => ["%{$term}%", 'LIKE'],
-            SearchInput::WILDCARD_LEFT  => ["%{$term}", 'LIKE'],
-            SearchInput::WILDCARD_RIGHT => ["{$term}%", 'LIKE'],
+            SearchInput::WILDCARD       => ["%{$term}%", $like],
+            SearchInput::WILDCARD_LEFT  => ["%{$term}", $like],
+            SearchInput::WILDCARD_RIGHT => ["{$term}%", $like],
         };
     }
 
@@ -190,15 +199,13 @@ class SpladeQueryBuilder extends SpladeTable
         $this->builder->where(function (EloquentBuilder $builder) use ($columns, $terms) {
             $terms->each(function (string $term) use ($builder, $columns) {
                 Collection::wrap($columns)->each(function (?string $searchMethod, string $column) use ($builder, $term) {
-                    [$term, $whereOperator] = $this->getTermAndWhereOperator($term, $searchMethod);
+                    [$term, $whereOperator] = $this->getTermAndWhereOperator($builder, $term, $searchMethod);
 
                     if (!Str::contains($column, '.')) {
                         // Not a relationship, but a column on the table.
                         $column = $this->qualifyColumn($builder, $column);
 
-                        return $this->ignoreCase
-                            ? $builder->orWhere(DB::raw("LOWER({$column})"), $whereOperator, $term)
-                            : $builder->orWhere($column, $whereOperator, $term);
+                        return $builder->orWhere($column, $whereOperator, $term);
                     }
 
                     // Split the column into the relationship name and the key on the relationship.
@@ -208,9 +215,7 @@ class SpladeQueryBuilder extends SpladeTable
                     $builder->orWhereHas($relation, function (EloquentBuilder $relation) use ($key, $whereOperator, $term) {
                         $column = $this->qualifyColumn($relation, $key);
 
-                        return $this->ignoreCase
-                            ? $relation->where(DB::raw("LOWER({$column})"), $whereOperator, $term)
-                            : $relation->where($column, $whereOperator, $term);
+                        return $relation->where($column, $whereOperator, $term);
                     });
                 });
             });
