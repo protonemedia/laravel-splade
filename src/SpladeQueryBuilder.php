@@ -135,7 +135,9 @@ class SpladeQueryBuilder extends SpladeTable
     public function parseTermsIntoCollection(string $terms): Collection
     {
         return Collection::make(str_getcsv($terms, ' ', '"'))
-            ->filter()
+            ->reject(function ($term = null) {
+                return is_null($term) || trim($term) === '';
+            })
             ->values()
             ->map(function (string $term) {
                 return $this->ignoreCase ? Str::lower($term) : $term;
@@ -254,9 +256,18 @@ class SpladeQueryBuilder extends SpladeTable
      */
     private function applyFilters()
     {
-        $this->filters()->filter->value->each(
+        $ignoreCaseSetting = $this->ignoreCase;
+        $parseTermsSetting = $this->parseTerms;
+
+        $this->ignoreCase(false);
+        $this->parseTerms(false);
+
+        $this->filters()->filter->hasValue()->each(
             fn (Filter $filter) => $this->applyConstraint([$filter->key => SearchInput::EXACT], $filter->value)
         );
+
+        $this->ignoreCase($ignoreCaseSetting);
+        $this->parseTerms($parseTermsSetting);
     }
 
     /**

@@ -217,6 +217,7 @@ Route::middleware('splade')->group(function () {
     Route::prefix('table')->group(function () {
         $table = new UserTableView;
 
+        Route::get('/boolean', [TableController::class, 'boolean'])->name('table.boolean');
         Route::get('/custom', [TableController::class, 'custom'])->name('table.custom');
         Route::get('/noPerPage', [TableController::class, 'noPerPage'])->name('table.noPerPage');
         Route::get('/overflow', [TableController::class, 'overflow'])->name('table.overflow');
