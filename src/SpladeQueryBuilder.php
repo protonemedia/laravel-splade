@@ -343,6 +343,7 @@ class SpladeQueryBuilder extends SpladeTable
         }
 
         $this->loadResults();
+        $this->resolveRowLinks();
     }
 
     /**
