@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 0.7.5 - 2022-11-15
+
+- Table Component: resolve row links after the resource has been loaded
+
 ## 0.7.4 - 2022-11-15
 
 - Preserves the default `perPage` pagination value in the `perPage` selector.
