@@ -45,6 +45,7 @@ class SortTest extends DuskTestCase
                 // Sort by other column
                 ->click('@sort-email')
                 ->waitForTextIn('tr:first-child td:nth-child(2)', $usersByEmail->get(0)->email)
+                ->waitForText($usersByEmail->get(9)->email)
                 ->assertSeeIn('tr:first-child td:nth-child(2)', $usersByEmail->get(0)->email)
                 ->assertSeeIn('tr:last-child td:nth-child(2)', $usersByEmail->get(9)->email);
         });
