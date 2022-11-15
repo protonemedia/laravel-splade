@@ -36,6 +36,18 @@ abstract class AbstractTable
     }
 
     /**
+     * Helper method to create a new SpladeTable instance.
+     *
+     * @return \ProtoneMedia\Splade\SpladeTable
+     */
+    public static function build(...$arguments): SpladeTable
+    {
+        $table = new static(...$arguments);
+
+        return $table->make();
+    }
+
+    /**
      * Creates a new SpladeTable instance with the resource or
      * query builder from the 'for()' method of this class.
      *
@@ -82,7 +94,7 @@ abstract class AbstractTable
             $export = $table->getExports()[$key];
 
             return new TableExporter(
-                $this->make(),
+                $table,
                 $export->filename,
                 $export->type,
                 $export->events
