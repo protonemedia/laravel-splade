@@ -8,29 +8,51 @@ use ProtoneMedia\Splade\SpladeTable;
 
 class TableController
 {
-    public function custom()
+    public function custom(bool $spladeQueryBuilder = false)
     {
-        $users = User::query()->orderBy('name')->paginate(10);
+        $query = User::query()->orderBy('name');
+
+        $resource = $spladeQueryBuilder ? $query : $query->paginate(10);
+
+        $table = SpladeTable::for($resource)
+            ->column('name')
+            ->column('email')
+            ->column('actions');
+
+        if ($spladeQueryBuilder) {
+            $table->paginate(10);
+        }
 
         return view('table.custom', [
-            'users' => SpladeTable::for($users)
-                ->column('name')
-                ->column('email')
-                ->column('actions'),
+            'users' => $table,
         ]);
     }
 
-    public function boolean()
+    public function boolean(bool $spladeQueryBuilder = false)
     {
+        $query = User::query()->orderBy('name');
+
+        $resource = $spladeQueryBuilder ? $query : $query->when(
+            request()->query('filter'),
+            function ($query, $filter) {
+                $query->where('is_admin', $filter['is_admin']);
+            }
+        )->paginate(10);
+
+        $table = SpladeTable::for($resource)
+            ->column('name')
+            ->column('is_admin')
+            ->selectFilter('is_admin', [
+                0 => 'No',
+                1 => 'Yes',
+            ]);
+
+        if ($spladeQueryBuilder) {
+            $table->paginate(10);
+        }
+
         return view('table.users', [
-            'users' => SpladeTable::for(User::query()->orderBy('name'))
-                ->column('name')
-                ->column('is_admin')
-                ->selectFilter('is_admin', [
-                    0 => 'No',
-                    1 => 'Yes',
-                ])
-                ->paginate(10),
+            'users' => $table,
         ]);
     }
 
@@ -56,65 +78,105 @@ class TableController
         ]);
     }
 
-    public function overflow()
+    public function overflow(bool $spladeQueryBuilder = false)
     {
-        $users = User::query()->orderBy('name')->paginate(1);
+        $query = User::query()->orderBy('name');
+
+        $resource = $spladeQueryBuilder ? $query : $query->paginate(1);
+
+        $table = SpladeTable::for($resource)
+            ->column('name')
+            ->column('email')
+            ->column('actions');
+
+        if ($spladeQueryBuilder) {
+            $table->paginate(1);
+        }
 
         return view('table.overflow', [
-            'users' => SpladeTable::for($users)
-                ->column('name')
-                ->column('email')
-                ->column('actions'),
+            'users' => $table,
         ]);
     }
 
-    public function noPerPage()
+    public function noPerPage(bool $spladeQueryBuilder = false)
     {
-        $users = User::query()->orderBy('name')->paginate(10);
+        $query = User::query()->orderBy('name');
+
+        $resource = $spladeQueryBuilder ? $query : $query->paginate(10);
+
+        $table = SpladeTable::for($resource)
+            ->column('name')
+            ->column('email')
+            ->column('actions');
+
+        if ($spladeQueryBuilder) {
+            $table->paginate(10);
+        }
 
         SpladeTable::defaultPerPageOptions([10]);
 
         return view('table.users', [
-            'users' => SpladeTable::for($users)
-                ->column('name')
-                ->column('email')
-                ->column('actions'),
+            'users' => $table,
         ]);
     }
 
-    public function rowLink()
+    public function rowLink(bool $spladeQueryBuilder = false)
     {
-        $users = User::query()->orderBy('name')->paginate(10);
+        $query = User::query()->orderBy('name');
+
+        $resource = $spladeQueryBuilder ? $query : $query->paginate(10);
+
+        $table = SpladeTable::for($resource)
+            ->defaultSort('name')
+            ->rowLink(fn (User $user) => route('navigation.one', ['id' => $user->id]))
+            ->column('name')
+            ->column('email')
+            ->column('actions');
+
+        if ($spladeQueryBuilder) {
+            $table->paginate(10);
+        }
 
         return view('table.users', [
-            'users' => SpladeTable::for($users)
-                ->defaultSort('name')
-                ->rowLink(fn (User $user) => route('navigation.one', ['id' => $user->id]))
-                ->column('name')
-                ->column('email')
-                ->column('actions'),
+            'users' => $table,
         ]);
     }
 
-    public function rowModal()
+    public function rowModal(bool $spladeQueryBuilder = false)
     {
-        $users = User::query()->paginate(10);
+        $query = User::query();
+
+        $resource = $spladeQueryBuilder ? $query : $query->paginate(10);
+
+        $table = SpladeTable::for($resource)
+            ->rowModal(fn () => route('modal.one'))
+            ->column('name');
+
+        if ($spladeQueryBuilder) {
+            $table->paginate(10);
+        }
 
         return view('table.users', [
-            'users' => SpladeTable::for($users)
-                ->rowModal(fn () => route('modal.one'))
-                ->column('name'),
+            'users' => $table,
         ]);
     }
 
-    public function rowSlideover()
+    public function rowSlideover(bool $spladeQueryBuilder = false)
     {
-        $users = User::query()->paginate(10);
+        $query = User::query();
+
+        $resource = $spladeQueryBuilder ? $query : $query->paginate(10);
+
+        $table = SpladeTable::for($resource)
+            ->rowSlideover(fn () => route('modal.one'))
+            ->column('name');
+
+        if ($spladeQueryBuilder) {
+            $table->paginate(10);
+        }
 
         return view('table.users', [
-            'users' => SpladeTable::for($users)
-                ->rowSlideover(fn () => route('modal.one'))
-                ->column('name'),
+            'users' => $table,
         ]);
     }
 

@@ -217,17 +217,15 @@ Route::middleware('splade')->group(function () {
     Route::prefix('table')->group(function () {
         $table = new UserTableView;
 
-        Route::get('/boolean', [TableController::class, 'boolean'])->name('table.boolean');
-        Route::get('/custom', [TableController::class, 'custom'])->name('table.custom');
-        Route::get('/noPerPage', [TableController::class, 'noPerPage'])->name('table.noPerPage');
-        Route::get('/overflow', [TableController::class, 'overflow'])->name('table.overflow');
-        Route::get('/rowLink', [TableController::class, 'rowLink'])->name('table.rowLink');
-        Route::get('/rowModal', [TableController::class, 'rowModal'])->name('table.rowModal');
-        Route::get('/rowSlideover', [TableController::class, 'rowSlideover'])->name('table.rowSlideover');
-        Route::post('/touch', [TableController::class, 'touch'])->name('table.touch');
-
-        Route::get('/caseSensitive', [TableController::class, 'caseSensitive'])->name('table.caseSensitive');
-        Route::get('/caseInsensitive', [TableController::class, 'caseInsensitive'])->name('table.caseInsensitive');
+        Route::get('/boolean/{spladeQueryBuilder?}', [TableController::class, 'boolean'])->name('table.boolean');
+        Route::get('/custom/{spladeQueryBuilder?}', [TableController::class, 'custom'])->name('table.custom');
+        Route::get('/noPerPage/{spladeQueryBuilder?}', [TableController::class, 'noPerPage'])->name('table.noPerPage');
+        Route::get('/overflow/{spladeQueryBuilder?}', [TableController::class, 'overflow'])->name('table.overflow');
+        Route::get('/rowLink/{spladeQueryBuilder?}', [TableController::class, 'rowLink'])->name('table.rowLink');
+        Route::get('/rowModal/{spladeQueryBuilder?}', [TableController::class, 'rowModal'])->name('table.rowModal');
+        Route::get('/rowSlideover/{spladeQueryBuilder?}', [TableController::class, 'rowSlideover'])->name('table.rowSlideover');
+        Route::get('/caseSensitive/{spladeQueryBuilder?}', [TableController::class, 'caseSensitive'])->name('table.caseSensitive');
+        Route::get('/caseInsensitive/{spladeQueryBuilder?}', [TableController::class, 'caseInsensitive'])->name('table.caseInsensitive');
 
         Route::get('/relationsAndExports', [TableController::class, 'relationsAndExports'])->name('table.relationsAndExports');
 

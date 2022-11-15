@@ -13,10 +13,13 @@ use Tests\DuskTestCase;
  */
 class CaseTest extends DuskTestCase
 {
-    /** @test */
-    public function it_can_search_case_insensitive()
+    /**
+     * @test
+     * @dataProvider booleanDataset
+     */
+    public function it_can_search_case_insensitive($spladeQueryBuilder)
     {
-        $this->browse(function (Browser $browser) {
+        $this->browse(function (Browser $browser) use ($spladeQueryBuilder) {
             $firstUser = User::query()
                 ->orderBy('name')
                 ->first();
@@ -25,21 +28,24 @@ class CaseTest extends DuskTestCase
                 'name' => strtoupper($firstUser->name),
             ])->save();
 
-            $browser->visit('table/caseInsensitive')
+            $browser->visit('table/caseInsensitive/' . (int) $spladeQueryBuilder)
                 ->waitForText(strtoupper($firstUser->name))
                 ->type('searchInput-global', strtolower($firstUser->name))
                 ->waitForText(strtoupper($firstUser->name));
         });
     }
 
-    /** @test */
-    public function it_can_search_case_sensitive()
+    /**
+     * @test
+     * @dataProvider booleanDataset
+     */
+    public function it_can_search_case_sensitive($spladeQueryBuilder)
     {
         if (DB::connection() instanceof SQLiteConnection) {
             return $this->markTestSkipped('SQLite supports case sensitive queries through a global setting.');
         }
 
-        $this->browse(function (Browser $browser) {
+        $this->browse(function (Browser $browser) use ($spladeQueryBuilder) {
             $firstUser = User::query()
                 ->orderBy('name')
                 ->first();
@@ -48,7 +54,7 @@ class CaseTest extends DuskTestCase
                 'name' => strtoupper($firstUser->name),
             ])->save();
 
-            $browser->visit('table/caseSensitive')
+            $browser->visit('table/caseSensitive/' . (int) $spladeQueryBuilder)
                 ->waitForText(strtoupper($firstUser->name))
                 ->type('searchInput-global', strtolower($firstUser->name))
                 ->waitUntilMissingText(strtoupper($firstUser->name))
