@@ -21,7 +21,10 @@ class PreloadedModalTest extends DuskTestCase
 
             $this->assertEquals(672, $width);
 
-            $browser->click('@close-modal-button')
+            $browser
+                ->pause(500)
+                ->click('@close-modal-button')
+                ->pause(500)
                 ->waitUntilMissingText('Check out my modal!');
         });
     }
@@ -40,7 +43,10 @@ class PreloadedModalTest extends DuskTestCase
 
             $this->assertEquals(448, $width);
 
-            $browser->click('@close-modal-button')
+            $browser
+                ->pause(500)
+                ->click('@close-modal-button')
+                ->pause(500)
                 ->waitUntilMissingText('Check out my slideover!');
         });
     }
@@ -59,7 +65,10 @@ class PreloadedModalTest extends DuskTestCase
 
             $this->assertEquals(1280, $width);
 
-            $browser->click('@close-modal-button')
+            $browser
+                ->pause(500)
+                ->click('@close-modal-button')
+                ->pause(500)
                 ->waitUntilMissingText('Check out my modal!');
         });
     }
@@ -78,7 +87,10 @@ class PreloadedModalTest extends DuskTestCase
 
             $this->assertEquals(1280, $width);
 
-            $browser->click('@close-modal-button')
+            $browser
+                ->pause(500)
+                ->click('@close-modal-button')
+                ->pause(500)
                 ->waitUntilMissingText('Check out my slideover!');
         });
     }
