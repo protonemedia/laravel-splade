@@ -1,0 +1,204 @@
+name: run-table-tests
+
+on: [push, pull_request]
+
+jobs:
+  table-test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        php: [8.1, 8.0]
+        laravel: [9.*]
+        db: [mysql, postgres, sqlite]
+        ssr: [true, false]
+        dependency-version: [prefer-lowest, prefer-stable]
+        exclude:
+          - db: mysql
+            ssr: true
+          - db: postgres
+            ssr: true
+
+    name: Test P${{ matrix.php }} - L${{ matrix.laravel }} - DB ${{ matrix.db }} - SSR ${{ matrix.ssr }} - ${{ matrix.dependency-version }}
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: no
+          MYSQL_USER: protone_media_db_test
+          MYSQL_DATABASE: protone_media_db_test_mysql
+          MYSQL_PASSWORD: secret
+          MYSQL_ROOT_PASSWORD: secret
+        ports:
+          - 3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+      postgres:
+        image: postgres:15.0
+        env:
+          POSTGRES_USER: protone_media_db_test
+          POSTGRES_PASSWORD: secret
+          POSTGRES_DB: protone_media_db_test_postgres
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3.1.0
+
+      - name: Cache node modules
+        id: cache-npm
+        uses: actions/cache@v3
+        env:
+          cache-name: cache-node-modules
+        with:
+          # npm cache files are stored in `~/.npm` on Linux/macOS
+          path: ~/.npm
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
+      - if: ${{ steps.cache-npm.outputs.cache-hit == 'false' }}
+        name: List the state of node modules
+        continue-on-error: true
+        run: npm list
+
+      - name: "Install locked dependencies with npm"
+        run: |
+          npm ci --ignore-scripts
+
+      - name: Build package
+        run: |
+          npm run build
+          npm pack
+          rm -rf node_modules
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick, mysql, mysqli, pdo_mysql
+          coverage: none
+
+      - name: Prepare environment file (MySQL)
+        if: ${{ matrix.db == 'mysql' }}
+        run: |
+          cd app
+          cp .env.example.mysql .env
+
+      - name: Prepare environment file (PostgreSQL)
+        if: ${{ matrix.db == 'postgres' }}
+        run: |
+          cd app
+          cp .env.example.postgres .env
+
+      - name: Prepare environment file (SQLite)
+        if: ${{ matrix.db == 'sqlite' }}
+        run: |
+          cd app
+          cp .env.example .env
+          touch database/database.sqlite
+
+      - name: Prepare demo app
+        run: |
+          cd app
+          npm upgrade
+          composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction --no-suggest
+          npm run build
+          php artisan dusk:chrome-driver `/opt/google/chrome/chrome --version | cut -d " " -f3 | cut -d "." -f1`
+
+      - name: Start Chrome Driver
+        run: |
+          cd app
+          ./vendor/laravel/dusk/bin/chromedriver-linux &
+
+      - name: Start SSR server
+        run: |
+          cd app
+          sed -i -e "s|SPLADE_SSR_ENABLED=false|SPLADE_SSR_ENABLED=true|g" .env
+          node bootstrap/ssr/ssr.mjs &
+        if: matrix.ssr == true
+
+      - name: Migrate DB and Run Laravel Server (MySQL)
+        run: |
+          cd app
+          php artisan migrate:fresh --seed
+          php artisan serve &
+        if: ${{ matrix.db == 'mysql' }}
+        env:
+          DB_PORT: ${{ job.services.mysql.ports[3306] }}
+
+      - name: Migrate DB and Run Laravel Server (PostgreSQL)
+        run: |
+          cd app
+          php artisan migrate:fresh --seed
+          php artisan serve &
+        if: ${{ matrix.db == 'postgres' }}
+        env:
+          DB_PORT: ${{ job.services.postgres.ports[5432] }}
+
+      - name: Migrate DB and Run Laravel Server (SQLite)
+        if: ${{ matrix.db == 'sqlite' }}
+        run: |
+          cd app
+          php artisan migrate:fresh --seed
+          php artisan serve &
+
+      - name: Execute Dusk tests (only table tests - MySQL)
+        if: ${{ matrix.db == 'mysql' }}
+        uses: nick-invision/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 3
+          command: cd app && php artisan dusk --stop-on-error --stop-on-failure --group=table
+        env:
+          DB_PORT: ${{ job.services.mysql.ports[3306] }}
+
+      - name: Execute Dusk tests (only table tests - PostgreSQL)
+        if: ${{ matrix.db == 'postgres' }}
+        uses: nick-invision/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 3
+          command: cd app && php artisan dusk --stop-on-error --stop-on-failure --group=table
+        env:
+          DB_PORT: ${{ job.services.postgres.ports[5432] }}
+
+      - name: Execute Dusk tests (only table tests - SQLite)
+        if: ${{ matrix.db == 'sqlite' }}
+        uses: nick-invision/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 3
+          command: cd app && php artisan dusk --stop-on-error --stop-on-failure --group=table
+
+      - name: Upload Screenshots
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: screenshots
+          path: app/tests/Browser/screenshots
+
+      - name: Upload Snapshots
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: snapshots
+          path: app/tests/Browser/__snapshots__
+
+      - name: Upload Console Logs
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: console
+          path: app/tests/Browser/console
+
+      - name: Upload Logs
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: logs
+          path: app/storage/logs

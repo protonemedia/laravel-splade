@@ -321,6 +321,9 @@ export default {
             // Choices.js doesn't like undefined or null.
             if (value === null || value === undefined) {
                 value = "";
+            } else if(!Array.isArray(value)) {
+                // Choices.js doesn't like numeric values.
+                value = `${value}`;
             }
 
             this.choicesInstance.setChoiceByValue(value);

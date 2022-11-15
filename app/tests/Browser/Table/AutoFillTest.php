@@ -7,6 +7,9 @@ use Illuminate\Support\Str;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 
+/**
+ * @group table
+ */
 class AutoFillTest extends DuskTestCase
 {
     /**
