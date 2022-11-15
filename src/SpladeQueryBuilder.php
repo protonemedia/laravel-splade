@@ -318,9 +318,29 @@ class SpladeQueryBuilder extends SpladeTable
         // The 'perPage' value is taken from the request query
         // string, or from the configured parameter, or it's
         // the first from the 'perPage' selector options.
-        $perPage = $this->query('perPage', $this->perPage ?: Arr::first($this->perPageOptions));
+        $defaultPerPage = $this->perPage ?: Arr::first($this->perPageOptions);
+
+        $perPage = $this->query('perPage', $defaultPerPage);
+
+        if (!in_array($perPage, $this->perPageOptions)) {
+            // The 'perPage' value is not in the allowed options.
+            // So we'll use the first option.
+            $perPage = $defaultPerPage;
+        }
 
         $this->resource = $this->builder->{$this->paginateMethod}($perPage)->withQueryString();
+    }
+
+    /**
+     * Adds the given 'perPage' value to the 'perPageOptions' array.
+     *
+     * @return void
+     */
+    public function addCurrentPerPageValueToOptions()
+    {
+        if ($this->perPage && !in_array($this->perPage, $this->perPageOptions)) {
+            $this->perPageOptions[] = $this->perPage;
+        }
     }
 
     /**
@@ -334,6 +354,7 @@ class SpladeQueryBuilder extends SpladeTable
             $this->applyFilters();
             $this->applySearchInputs();
             $this->applySortingAndEagerLoading();
+            $this->addCurrentPerPageValueToOptions();
         }
 
         $this->loadResults();
