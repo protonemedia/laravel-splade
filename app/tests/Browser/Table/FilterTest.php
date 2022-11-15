@@ -53,13 +53,13 @@ class FilterTest extends DuskTestCase
                 ->select('filter-is_admin', '1')
                 ->waitUntilMissingText($firstNonAdmin->name)
                 ->assertSeeIn('tr:nth-child(1) td:nth-child(1)', $firstAdmin->name)
-                ->assertDontSeeIn('tr:nth-child(2) td:nth-child(1)', $firstNonAdmin->name)
+                ->assertDontSee($firstNonAdmin->name)
 
                 ->press('@filters-dropdown')
                 ->select('filter-is_admin', '0')
                 ->waitUntilMissingText($firstAdmin->name)
                 ->assertSeeIn('tr:nth-child(1) td:nth-child(1)', $firstNonAdmin->name)
-                ->assertDontSeeIn('tr:nth-child(2) td:nth-child(1)', $firstAdmin->name)
+                ->assertDontSee($firstAdmin->name)
 
                 ->press('@reset-table')
                 ->waitForText($firstAdmin->name)
