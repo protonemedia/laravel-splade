@@ -86,7 +86,7 @@ class File extends Component
      */
     public function filepondOptions(): bool|array
     {
-        if ($this->filepond === false) {
+        if (!$this->filepond) {
             return false;
         }
 
