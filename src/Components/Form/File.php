@@ -94,7 +94,7 @@ class File extends Component
             [
                 'labelIdle' => $this->placeholder,
                 'multiple'  => $this->multiple,
-                'name'      => "file",
+                'name'      => 'file',
             ],
             is_array($this->filepond) ? $this->filepond : [],
         );
