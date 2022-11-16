@@ -149,7 +149,7 @@ class ServiceProvider extends BaseServiceProvider
 
         // Splade File Uploads
         $this->app->singleton(Filesystem::class, function ($app) {
-            $disk = config('splade.file_uploads_disk');
+            $disk = config('splade.file_uploads.disk');
 
             if (!$disk) {
                 config(['filesystems.disks.splade_temporary_file_uploads' => [
