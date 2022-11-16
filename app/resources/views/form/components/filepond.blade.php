@@ -34,4 +34,12 @@ FormFilePond
     <x-splade-submit />
 </x-splade-form>
 
+<x-splade-form dusk="js-config">
+    <x-splade-file filepond="{ credits: null }" name="file" />
+</x-splade-form>
+
+<x-splade-form dusk="php-config">
+    <x-splade-file :filepond="['credits' => null]" name="file" />
+</x-splade-form>
+
 @endsection

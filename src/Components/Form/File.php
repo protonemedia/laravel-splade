@@ -69,6 +69,38 @@ class File extends Component
     }
 
     /**
+     * Returns the JSON representation of the Filepond options.
+     *
+     * @return string
+     */
+    public function jsFilepondOptions(): string
+    {
+        return is_string($this->filepond) ? $this->filepond : '{}';
+    }
+
+    /**
+     * Returns an array with Filepond options. If Filepond won't
+     * be used, it returns a negative boolean.
+     *
+     * @return bool|array
+     */
+    public function filepondOptions(): bool|array
+    {
+        if ($this->filepond === false) {
+            return false;
+        }
+
+        return array_merge(
+            [
+                'labelIdle' => $this->placeholder,
+                'multiple'  => $this->multiple,
+                'name'      => "file",
+            ],
+            is_array($this->filepond) ? $this->filepond : [],
+        );
+    }
+
+    /**
      * Get the view / contents that represent the component.
      *
      * @return \Illuminate\Contracts\View\View|\Closure|string

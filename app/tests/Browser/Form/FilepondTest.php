@@ -133,4 +133,28 @@ class FilepondTest extends DuskTestCase
             $this->assertFileExists(storage_path('app/avatars/avatar.jpg'));
         });
     }
+
+    /** @test */
+    public function it_can_use_a_custom_js_config()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('form/components/filepond')
+                ->waitForText('FormFilePond')
+                ->within('@js-config', function (Browser $browser) {
+                    $browser->assertDontSee('Powered by PQINA');
+                });
+        });
+    }
+
+    /** @test */
+    public function it_can_use_a_custom_php_config()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('form/components/filepond')
+                ->waitForText('FormFilePond')
+                ->within('@php-config', function (Browser $browser) {
+                    $browser->assertDontSee('Powered by PQINA');
+                });
+        });
+    }
 }

@@ -34,6 +34,14 @@ export default {
             default: true,
         },
 
+        jsFilepondOptions: {
+            type: Object,
+            required: false,
+            default: () => {
+                return {};
+            }
+        },
+
         placeholder: {
             type: String,
             required: false,
@@ -156,10 +164,7 @@ export default {
             const vm = this;
 
             import("filepond").then((filepond) => {
-                const options = {
-                    multiple: this.multiple,
-                    name: "file",
-                    labelIdle: this.placeholder,
+                const options = Object.assign({}, vm.filepond, vm.jsFilepondOptions, {
                     onaddfile(error, file) {
                         if(error) {
                             return;
@@ -192,7 +197,7 @@ export default {
 
                         vm.$emit("stop-uploading", [file.id]);
                     },
-                };
+                });
 
                 if(this.accept.length > 0) {
                     options.acceptedFileTypes = this.accept;
