@@ -9,7 +9,7 @@ class PublishFormStylesheetsCommand extends Command
 {
     public $signature = 'splade:publish-form-stylesheets';
 
-    public $description = 'Publish the stylesheets for Choices.js and Flatpickr';
+    public $description = 'Publish the stylesheets for Choices.js, FilePond, and Flatpickr';
 
     /**
      * Publishes the stylesheets for the Choices.js and
@@ -22,6 +22,7 @@ class PublishFormStylesheetsCommand extends Command
         (new Filesystem)->ensureDirectoryExists(resource_path('css'));
 
         copy(__DIR__ . '/../../lib/Components/choices.scss', resource_path('css'));
+        copy(__DIR__ . '/../../lib/Components/filepond.scss', resource_path('css'));
         copy(__DIR__ . '/../../lib/Components/flatpickr.styl', resource_path('css'));
 
         $this->comment('All done');
