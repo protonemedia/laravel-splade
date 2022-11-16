@@ -19,4 +19,7 @@ Route::middleware(['splade'])->group(function () {
 
     // Registers routes to support Table Bulk Actions and Exports...
     Route::spladeTable();
+
+    // Registers routes to support async File Uploads with Filepond...
+    Route::spladeUploads();
 });

@@ -2,6 +2,7 @@
 
 namespace ProtoneMedia\Splade;
 
+use Illuminate\Http\Response;
 use Illuminate\Routing\Middleware\ValidateSignature;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Blade;
@@ -12,12 +13,17 @@ use Illuminate\Support\Str;
 use Illuminate\View\ComponentAttributeBag;
 use Illuminate\View\Factory;
 use Laravel\Dusk\Browser;
+use ProtoneMedia\Splade\Commands\CleanupTemporaryFileUploads;
 use ProtoneMedia\Splade\Commands\PublishFormStylesheetsCommand;
 use ProtoneMedia\Splade\Commands\SpladeInstallCommand;
 use ProtoneMedia\Splade\Commands\SsrTestCommand;
 use ProtoneMedia\Splade\Commands\TableMakeCommand;
+use ProtoneMedia\Splade\FileUploads\Filesystem;
+use ProtoneMedia\Splade\FileUploads\HandleSpladeFileUploads;
+use ProtoneMedia\Splade\FileUploads\HasSpladeFileUploads;
 use ProtoneMedia\Splade\Http\BladeDirectives;
 use ProtoneMedia\Splade\Http\EventRedirectController;
+use ProtoneMedia\Splade\Http\FileUploadController;
 use ProtoneMedia\Splade\Http\PrepareTableCells;
 use ProtoneMedia\Splade\Http\PrepareViewWithLazyComponents;
 use ProtoneMedia\Splade\Http\TableBulkActionController;
@@ -51,6 +57,7 @@ class ServiceProvider extends BaseServiceProvider
         $this->registerPublishedPaths();
 
         $this->commands([
+            CleanupTemporaryFileUploads::class,
             PublishFormStylesheetsCommand::class,
             SpladeInstallCommand::class,
             SsrTestCommand::class,
@@ -76,7 +83,9 @@ class ServiceProvider extends BaseServiceProvider
         $this->registerBladeComponentsAndDirectives();
         $this->registerDuskMacros();
         $this->registerViewMacros();
+        $this->registerResponseMacro();
         $this->registerRouteForEventRedirect();
+        $this->registerMacroForFileUploads();
         $this->registerMacroForTableRoutes();
     }
 
@@ -137,6 +146,25 @@ class ServiceProvider extends BaseServiceProvider
         });
 
         $this->app->alias(TransitionRepository::class, 'laravel-splade-transition-repository');
+
+        // Splade File Uploads
+        $this->app->singleton(Filesystem::class, function ($app) {
+            $disk = config('splade.file_uploads.disk');
+
+            if (!$disk) {
+                config(['filesystems.disks.splade_temporary_file_uploads' => [
+                    'driver' => 'local',
+                    'root'   => storage_path('splade-temporary-file-uploads'),
+                    'throw'  => false,
+                ]]);
+            }
+
+            return new Filesystem($disk ?: 'splade_temporary_file_uploads');
+        });
+
+        $this->app->resolving(HasSpladeFileUploads::class, function ($resolved) {
+            return HandleSpladeFileUploads::forFormRequest($resolved);
+        });
     }
 
     /**
@@ -327,6 +355,19 @@ class ServiceProvider extends BaseServiceProvider
      *
      * @return void
      */
+    private function registerMacroForFileUploads()
+    {
+        Route::macro('spladeUploads', function () {
+            Route::post(config('splade.file_uploads.route'), [FileUploadController::class, 'store'])->name('splade.fileUpload.store');
+            Route::delete(config('splade.file_uploads.route'), [FileUploadController::class, 'delete'])->name('splade.fileUpload.delete');
+        });
+    }
+
+    /**
+     * Registers a route macro that can be used to handle Table bulk actions and exports.
+     *
+     * @return void
+     */
     private function registerMacroForTableRoutes()
     {
         Route::macro('spladeTable', function () {
@@ -337,6 +378,20 @@ class ServiceProvider extends BaseServiceProvider
             Route::get(config('splade.table_export_route'), TableExportController::class)
                 ->name('splade.table.export')
                 ->middleware(ValidateSignature::class);
+        });
+    }
+
+    /**
+     * Registers a route macro that can be used to ignore the response by the Splade Middleware.
+     *
+     * @return void
+     */
+    private function registerResponseMacro()
+    {
+        Response::macro('skipSpladeMiddleware', function () {
+            $this->headers->set(SpladeCore::HEADER_SKIP_MIDDLEWARE, true);
+
+            return $this;
         });
     }
 

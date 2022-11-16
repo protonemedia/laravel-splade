@@ -8,6 +8,7 @@ import isArray from "lodash-es/isArray";
 import isBoolean from "lodash-es/isBoolean";
 import mapValues from "lodash-es/mapValues";
 import set from "lodash-es/set";
+import startsWith from "lodash-es/startsWith";
 
 export default {
     inject: ["stack"],
@@ -104,6 +105,7 @@ export default {
 
     data() {
         return {
+            isMounted: false,
             missingAttributes: [],
             values: Object.assign({}, { ...this.default }),
             processing: false,
@@ -111,12 +113,17 @@ export default {
             recentlySuccessful: false,
             recentlySuccessfulTimeoutId: null,
             formElement: null,
+            elementsUploading: [],
         };
     },
 
     computed: {
         $all() {
             return this.values;
+        },
+
+        $uploading() {
+            return this.elementsUploading.length > 0;
         },
 
         /*
@@ -180,9 +187,19 @@ export default {
                 }, { deep: true });
             });
         }
+
+        this.isMounted = true;
     },
 
     methods: {
+        $startUploading(eventData) {
+            this.elementsUploading.push(eventData[0]);
+        },
+
+        $stopUploading(eventData) {
+            this.elementsUploading = this.elementsUploading.filter(id => id != eventData[0]);
+        },
+
         hasError(key) {
             return key in this.errors;
         },
@@ -236,6 +253,10 @@ export default {
          * before it performs the request.
          */
         submit($event) {
+            if(this.$uploading) {
+                return;
+            }
+
             if($event) {
                 const submitter = $event.submitter;
 
@@ -266,6 +287,10 @@ export default {
          * performs an async request.
          */
         async request() {
+            if(this.$uploading) {
+                return;
+            }
+
             await this.$nextTick();
 
             this.processing = true;
@@ -346,6 +371,10 @@ export default {
                             "$all",
                             "$attrs",
                             "$put",
+                            "$startUploading",
+                            "$stopUploading",
+                            "$processing",
+                            "$uploading",
                             "errors",
                             "restore",
                             "reset",
@@ -361,10 +390,14 @@ export default {
                             return self[name];
                         }
 
+                        if(startsWith(name, "__v_")) {
+                            return self[name];
+                        }
+
                         // If the data does not have the requested name, we add it to
                         // the missingAttributes array, and when the component is
                         // mounted, it'll try to find sensible defaults.
-                        if (!has(self.values, name)) {
+                        if (!self.isMounted && !has(self.values, name)) {
                             self.missingAttributes.push(name);
                             self.$put(name, "");
                         }

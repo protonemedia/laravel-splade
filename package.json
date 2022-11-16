@@ -42,6 +42,12 @@
   "dependencies": {
     "autosize": "^5.0.1",
     "choices.js": "^10.1.0",
+    "filepond": "^4.30.4",
+    "filepond-plugin-file-validate-size": "^2.2.7",
+    "filepond-plugin-file-validate-type": "^1.2.8",
+    "filepond-plugin-image-exif-orientation": "^1.0.11",
+    "filepond-plugin-image-preview": "^4.6.11",
+    "filepond-plugin-image-validate-size": "^1.2.7",
     "flatpickr": "^4.6.13",
     "nprogress": "^0.2.0"
   }

@@ -78,7 +78,7 @@ class Form extends Component
      * @param  string  $value
      * @return array
      */
-    private static function splitByComma(string $value): array
+    public static function splitByComma(string $value): array
     {
         return array_filter(array_map('trim', explode(',', $value)));
     }

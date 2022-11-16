@@ -9,6 +9,16 @@ return [
 
     'share_session_flash_data' => true,
 
+    'file_uploads' => [
+
+        'disk' => '',
+
+        'temporary_file_lifetime' => 60 * 60, // 1 hour
+
+        'route' => '/_splade/fileUpload',
+
+    ],
+
     'blade' => [
         'component_prefix' => 'splade',
 

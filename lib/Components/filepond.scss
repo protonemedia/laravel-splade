@@ -1,0 +1,46 @@
+@import "filepond/dist/filepond.css";
+@import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
+
+.filepond--root  {
+    @apply mb-0;
+
+    .filepond--drop-label {
+        @apply min-h-[2.625rem];
+    }
+}
+
+.filepond--panel-root {
+    @apply bg-white rounded-md border border-gray-300 shadow-sm;
+}
+
+.filepond--drop-label {
+    @apply text-black justify-start text-gray-500 px-2;
+}
+
+.filepond--item-panel {
+    @apply bg-indigo-500;
+}
+
+.filepond--file-action-button {
+    @apply bg-indigo-700;
+}
+
+.filepond--file,
+.filepond--item-panel,
+.filepond--image-preview-wrapper {
+    @apply rounded-md;
+}
+
+.filepond--image-preview-overlay-success {
+    @apply text-gray-900;
+}
+
+.filepond--file-info {
+    .filepond--file-info-sub {
+        @apply opacity-75;
+    }
+}
+
+[data-filepond-item-state*="invalid"] .filepond--item-panel, [data-filepond-item-state*="error"] .filepond--item-panel {
+    @apply bg-red-500;
+}
