@@ -198,6 +198,7 @@ class ServiceProvider extends BaseServiceProvider
             Components\Flash::class,
             Components\Form::class,
             Components\Lazy::class,
+            Components\Link::class,
             Components\Modal::class,
             Components\ModalWrapper::class,
             Components\Outside::class,

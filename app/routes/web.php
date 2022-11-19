@@ -186,6 +186,9 @@ Route::middleware('splade')->group(function () {
     Route::get('navigation/notFound', fn () => abort(404))->name('navigation.notFound');
     Route::get('navigation/serverError', fn () => throw new Exception('Whoops!'))->name('navigation.serverError');
 
+    Route::post('navigation/post', [NavigationController::class, 'post'])->name('navigation.post');
+    Route::put('navigation/put', [NavigationController::class, 'put'])->name('navigation.put');
+
     Route::get('modal/base', [ModalController::class, 'base'])->name('modal.base');
     Route::get('modal/one', [ModalController::class, 'one'])->name('modal.one');
     Route::get('modal/two', [ModalController::class, 'two'])->name('modal.two');
