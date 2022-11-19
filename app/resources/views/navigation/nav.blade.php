@@ -28,6 +28,13 @@
         <button dusk="open-dialog" @click="toggle">Open Menu in Dialog</button>
     </div>
 
+    <div class="flex space-x-3">
+        <x-splade-link dusk="x-one" href="/navigation/one" confirm>X-One</x-splade-link>
+        <x-splade-link dusk="x-two" href="/navigation/two">X-Two</x-splade-link>
+        <x-splade-link dusk="x-post" href="/navigation/post" data="{ foo: 'bar' }" headers="{ 'X-Nav-Test': 'test' }" method="post">X-Post-JS</x-splade-link>
+        <x-splade-link dusk="x-put" href="/navigation/put" :data="['foo' => 'bar']" :headers="['X-Nav-Test' => 'test']" method="put">X-Put-PHP</x-splade-link>
+    </div>
+
     <div v-show="toggled" class="absolute inset-0 bg-black/75 z-10"></div>
 
     <x-splade-dialog open="toggled">
