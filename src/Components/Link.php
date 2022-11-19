@@ -9,8 +9,11 @@ class Link extends Component
     use ParsesJsonDataAttribute;
 
     public $data;
+
     public $headers;
+
     public $jsonData;
+
     public $jsonHeaders;
 
     /**
