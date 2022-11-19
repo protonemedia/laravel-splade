@@ -41,7 +41,7 @@ class ShowSpladeVersions extends Command
             })['version'] ?? null;
 
         $composerPackage
-            ? $this->info("Composer (PHP) package version: " . $composerPackage['version'])
+            ? $this->info('Composer (PHP) package version: ' . $composerPackage['version'])
             : $this->error('Composer (PHP) package not found');
 
         $npmPackage
@@ -54,7 +54,7 @@ class ShowSpladeVersions extends Command
     /**
      * Get the contents of a file.
      *
-     * @param string $path
+     * @param  string  $path
      * @return array
      */
     private function get($path): array
