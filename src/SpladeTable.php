@@ -303,4 +303,26 @@ class SpladeTable
     public function performBulkAction(callable $action, array $ids)
     {
     }
+
+    private function preventPaginationCall()
+    {
+        throw new PaginationException(
+            "You should call the paginate-method on the resource, or pass a query builder as a resource so you can work with the Splade Query Builder."
+        );
+    }
+
+    public function paginate($perPage = null)
+    {
+        $this->preventPaginationCall();
+    }
+
+    public function simplePaginate($perPage = null)
+    {
+        $this->preventPaginationCall();
+    }
+
+    public function cursorPaginate($perPage = null)
+    {
+        $this->preventPaginationCall();
+    }
 }
