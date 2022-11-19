@@ -7,10 +7,12 @@ import { renderToString } from "@vue/server-renderer";
 
 // for build
 import { renderSpladeApp, SpladePlugin, startServer } from "@protonemedia/laravel-splade";
+import Counter from "./Counter.vue";
 
 startServer(createServer, renderToString, (props) => {
     return createSSRApp({
         render: renderSpladeApp(props)
     })
+        .component("Counter", Counter)
         .use(SpladePlugin);
 });
