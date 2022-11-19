@@ -15,6 +15,7 @@ use Illuminate\View\Factory;
 use Laravel\Dusk\Browser;
 use ProtoneMedia\Splade\Commands\CleanupTemporaryFileUploads;
 use ProtoneMedia\Splade\Commands\PublishFormStylesheetsCommand;
+use ProtoneMedia\Splade\Commands\ShowSpladeVersions;
 use ProtoneMedia\Splade\Commands\SpladeInstallCommand;
 use ProtoneMedia\Splade\Commands\SsrTestCommand;
 use ProtoneMedia\Splade\Commands\TableMakeCommand;
@@ -59,6 +60,7 @@ class ServiceProvider extends BaseServiceProvider
         $this->commands([
             CleanupTemporaryFileUploads::class,
             PublishFormStylesheetsCommand::class,
+            ShowSpladeVersions::class,
             SpladeInstallCommand::class,
             SsrTestCommand::class,
             TableMakeCommand::class,
