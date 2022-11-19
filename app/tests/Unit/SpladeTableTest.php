@@ -31,7 +31,8 @@ class SpladeTableTest extends TestCase
     /** @test */
     public function it_prevents_double_pagination()
     {
-        $table = new class extends AbstractTable {
+        $table = new class extends AbstractTable
+        {
             public function for()
             {
                 return new LengthAwarePaginator([], 100, 10, 1);
