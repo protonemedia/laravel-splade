@@ -111,8 +111,8 @@ class ServiceProvider extends BaseServiceProvider
 
         $this->publishes([
             __DIR__ . '/../resources/views/components' => base_path('resources/views/vendor/splade/components'),
-            __DIR__ . '/../resources/views/form' => base_path('resources/views/vendor/splade/form'),
-            __DIR__ . '/../resources/views/table' => base_path('resources/views/vendor/splade/table'),
+            __DIR__ . '/../resources/views/form'       => base_path('resources/views/vendor/splade/form'),
+            __DIR__ . '/../resources/views/table'      => base_path('resources/views/vendor/splade/table'),
         ], 'views');
     }
 
