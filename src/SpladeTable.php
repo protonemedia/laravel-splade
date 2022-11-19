@@ -307,7 +307,7 @@ class SpladeTable
     private function preventPaginationCall()
     {
         throw new PaginationException(
-            "You should call the paginate-method on the resource, or pass a query builder as a resource so you can work with the Splade Query Builder."
+            'You should call the paginate-method on the resource, or pass a query builder as a resource so you can work with the Splade Query Builder.'
         );
     }
 
