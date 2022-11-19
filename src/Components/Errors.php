@@ -23,6 +23,6 @@ class Errors extends Component
      */
     public function render()
     {
-        return view('splade::errors');
+        return view('splade::functional.errors');
     }
 }

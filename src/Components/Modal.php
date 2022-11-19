@@ -37,11 +37,11 @@ class Modal extends Component
             // If the name is set, this is a preloaded modal that won't be fetched from the server asyncronously.
             return function (array $data) {
                 $content = Blade::render(
-                    $this->modal ? 'splade::modal' : 'splade::slideover',
+                    $this->modal ? 'splade::components.modal' : 'splade::components.slideover',
                     array_merge($data, $this->getModalView()->getData())
                 );
 
-                return view('splade::preloaded-modal', [
+                return view('splade::functional.preloaded-modal', [
                     'name' => $this->name,
                     'html' => $content,
                     'type' => $this->modal ? 'modal' : 'slideover',
@@ -61,7 +61,7 @@ class Modal extends Component
     private function getModalView(): View
     {
         return view(
-            $this->splade->getModalType() === SpladeCore::MODAL_TYPE_MODAL ? 'splade::modal' : 'splade::slideover',
+            $this->splade->getModalType() === SpladeCore::MODAL_TYPE_MODAL ? 'splade::components.modal' : 'splade::components.slideover',
             [
                 'closeButton' => $this->closeButton,
                 'modalKey'    => $this->splade->getModalKey(),
