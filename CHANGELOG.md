@@ -2,15 +2,37 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 0.7.7 - 2022-11-19
+
+- Allow Link component to make non-GET requests (#122)
+- Prevent wrong pagination call (#110)
+- Move the ESM bundler from `vite.config.js` to `app.js`
+
+## 0.7.6.1 - 2022-11-19
+
+- Added `splade:show-versions` Artisan command
+
 ## 0.7.6 - 2022-11-16
 
 - FilePond integration with support for:
 - - Drag-and-drop uploads
+- 
+- 
 - - Image previews
+- 
+- 
 - - Async uploads
+- 
+- 
 - - File type validation
+- 
+- 
 - - File size validation
+- 
+- 
 - - Image validation
+- 
+- 
 - 
 
 ## 0.7.5 - 2022-11-15
