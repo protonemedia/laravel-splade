@@ -26,6 +26,6 @@ class ModalWrapper extends Component
      */
     public function render()
     {
-        return view('splade::modal-wrapper');
+        return view('splade::components.modal-wrapper');
     }
 }

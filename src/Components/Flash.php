@@ -23,6 +23,6 @@ class Flash extends Component
      */
     public function render()
     {
-        return view('splade::flash');
+        return view('splade::functional.flash');
     }
 }

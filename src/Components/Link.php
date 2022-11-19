@@ -49,7 +49,7 @@ class Link extends Component
      */
     public function render()
     {
-        return view('splade::link', [
+        return view('splade::functional.link', [
             'data'        => $this->data,
             'jsonData'    => $this->jsonData,
             'headers'     => $this->headers,

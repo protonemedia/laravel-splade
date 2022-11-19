@@ -13,6 +13,6 @@ class ToastWrapper extends Component
      */
     public function render()
     {
-        return view('splade::toast-wrapper');
+        return view('splade::components.toast-wrapper');
     }
 }

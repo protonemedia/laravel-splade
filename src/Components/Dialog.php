@@ -30,7 +30,7 @@ class Dialog extends Component
      */
     public function render()
     {
-        return view('splade::dialog', [
+        return view('splade::functional.dialog', [
             'panel'   => $this->panel,
             'open'    => $this->open,
             'unmount' => $this->unmount,
