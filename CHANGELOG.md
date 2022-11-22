@@ -2,6 +2,11 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 0.7.8 - 2022-11-22
+
+- Fix for custom cells of nested columns
+- Vue main element cleanup after mount
+
 ## 0.7.7 - 2022-11-19
 
 - Allow Link component to make non-GET requests (#122)
@@ -18,19 +23,25 @@ All notable changes to `laravel-splade` will be documented in this file.
 - - Drag-and-drop uploads
 - 
 - 
+- 
 - - Image previews
+- 
 - 
 - 
 - - Async uploads
 - 
 - 
+- 
 - - File type validation
+- 
 - 
 - 
 - - File size validation
 - 
 - 
+- 
 - - Image validation
+- 
 - 
 - 
 - 
