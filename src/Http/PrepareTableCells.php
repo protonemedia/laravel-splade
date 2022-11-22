@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
 use ProtoneMedia\Splade\Components\SpladeComponent;
-use ProtoneMedia\Splade\Table\Column;
 
 class PrepareTableCells
 {
@@ -88,7 +87,7 @@ class PrepareTableCells
                 return [];
             });
 
-            $name = Column::hashKey($arguments->get('name'));
+            $name = $arguments->get('name');
             $as   = $arguments->get('as', $defaultAs);
             $key  = $arguments->get('key', $defaultKey);
             $use  = $arguments->get('use', $defaultUse);
