@@ -32,8 +32,8 @@
                     v-show="table.columnIsVisible(@js($column->key))"
                     class="whitespace-nowrap text-sm @if($loop->first && $hasBulkActions) pr-6 @else px-6 @endif py-4 @if($column->highlight) text-gray-900 font-medium @else text-gray-500 @endif"
                 >
-                    @isset(${'spladeTableCell' . $column->key})
-                        {{ ${'spladeTableCell' . $column->key}($item, $itemKey) }}
+                    @isset(${'spladeTableCell' . $column->keyHash()})
+                        {{ ${'spladeTableCell' . $column->keyHash()}($item, $itemKey) }}
                     @else
                         {!! nl2br(e($getColumnDataFromItem($item, $column))) !!}
                     @endisset

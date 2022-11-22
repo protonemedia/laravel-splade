@@ -128,4 +128,14 @@ class Column implements Arrayable
     {
         return Str::afterLast($this->key, '.');
     }
+
+    public static function hashKey(string $name)
+    {
+        return md5($name);
+    }
+
+    public function keyHash(): string
+    {
+        return static::hashKey($this->key);
+    }
 }

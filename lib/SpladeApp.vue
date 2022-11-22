@@ -43,7 +43,7 @@
 </template>
 
 <script setup>
-import { ref, provide, nextTick, inject, computed } from "vue";
+import { ref, provide, nextTick, inject, computed, onMounted } from "vue";
 import { Splade } from "./Splade.js";
 import forOwn from "lodash-es/forOwn";
 import isString from "lodash-es/isString";
@@ -278,4 +278,17 @@ Splade.setOnServerError(function (html) {
  * Initialize the Splade app with the data from the div#app attributes.
  */
 Splade.init(props.initialHtml, props.initialDynamics, props.initialSpladeData);
+
+onMounted(() => {
+    if(Splade.isSsr) {
+        return;
+    }
+
+    const $el = isString(props.el) ? document.getElementById(props.el) : props.el;
+
+    ["components", "html", "dynamics", "splade"].forEach((attribute) => {
+        delete $el.dataset[attribute];
+    });
+
+});
 </script>
