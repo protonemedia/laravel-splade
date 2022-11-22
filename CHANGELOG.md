@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 0.7.8.1 - 2022-11-22
+
+- Allow modal/slider classes on outer div
+
 ## 0.7.8 - 2022-11-22
 
 - Fix for custom cells of nested columns
@@ -24,7 +28,9 @@ All notable changes to `laravel-splade` will be documented in this file.
 - 
 - 
 - 
+- 
 - - Image previews
+- 
 - 
 - 
 - 
@@ -32,7 +38,9 @@ All notable changes to `laravel-splade` will be documented in this file.
 - 
 - 
 - 
+- 
 - - File type validation
+- 
 - 
 - 
 - 
@@ -40,7 +48,9 @@ All notable changes to `laravel-splade` will be documented in this file.
 - 
 - 
 - 
+- 
 - - Image validation
+- 
 - 
 - 
 - 
