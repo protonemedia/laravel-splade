@@ -2,6 +2,26 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 1.0.0 - 2022-11-23
+
+Splade gives you a massive head start when building applications. Navigate the documentation or watch the videos to discover its power, but to give you a glance, here's a short overview of some of the best features:
+
+- Splade allows you to use the Laravel Blade template engine and build a single-page application using regular server-side routing without building an API. You still have the full power of Vue.js when you need it.
+- Splade aims to stick as close as possible to the default Laravel features and development flow.
+- Automatic installer and support for the Laravel Breeze starter kit.
+- Besides the SPA navigation features, it has more than 20 interactive components that are huge timesavers.
+- Most components are functional and unstyled, giving you complete control over the implementation.
+- Other components are styled with Tailwind CSS 3.0, but can be fully customized by publishing the Blade templates. You don't need to rebuild or recompile *any* JavaScript for this.
+- Built-in support for Modals and Slideover that can show any route or pre-loaded content.
+- Beautiful Form Components with support for Validation and (Eloquent) Model binding. Built-in integration with Autosize, Choices.js, FilePond, and Flatpickr, including async file uploads.
+- DataTables-like Table component that supports auto-fill, bulk actions, exports, searching, sorting, and more!
+- Support Lazy Loading (templates and data), Persistent Layout, Animations, and Teleports.
+- Laravel Echo integration to control browser behavior from the backend (redirecting, refreshing, and showing a toast).
+- Built-in SEO (title, description, keywords) with support for Open Graph and Twitter tags.
+- Support for custom Blade and Vue components.
+- Support for existing Blade and Vue libraries.
+- Support for SSR (server-side rendering).
+
 ## 0.7.8.2 - 2022-11-23
 
 - Fix for publishing Form stylesheets
