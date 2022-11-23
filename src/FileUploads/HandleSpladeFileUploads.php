@@ -83,10 +83,6 @@ class HandleSpladeFileUploads extends TransformsRequest
                 return true;
             }
 
-            if (!class_exists(File::class)) {
-                return false;
-            }
-
             foreach ($rules as $rule) {
                 if ($rule instanceof File) {
                     return true;
