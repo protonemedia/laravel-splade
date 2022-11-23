@@ -23,38 +23,7 @@ All notable changes to `laravel-splade` will be documented in this file.
 
 ## 0.7.6 - 2022-11-16
 
-- FilePond integration with support for:
-- - Drag-and-drop uploads
-- 
-- 
-- 
-- 
-- - Image previews
-- 
-- 
-- 
-- 
-- - Async uploads
-- 
-- 
-- 
-- 
-- - File type validation
-- 
-- 
-- 
-- 
-- - File size validation
-- 
-- 
-- 
-- 
-- - Image validation
-- 
-- 
-- 
-- 
-- 
+- FilePond integration with support for: Drag-and-drop uploads, Image previews, Async uploads, File type validation, File size validation, and Image validation
 
 ## 0.7.5 - 2022-11-15
 
