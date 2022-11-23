@@ -33,7 +33,7 @@ Splade gives you a massive head start when building applications. Navigate the d
 * Built-in SEO (title, description, keywords) with support for Open Graph and Twitter tags.
 * Support for custom Blade and Vue components.
 * Support for existing Blade and Vue libraries.
-* Support for SSR (server-side rendering)
+* Support for SSR (server-side rendering).
 
 ## Documentation and Website
 
