@@ -21,9 +21,9 @@ class PublishFormStylesheetsCommand extends Command
     {
         (new Filesystem)->ensureDirectoryExists(resource_path('css'));
 
-        copy(__DIR__ . '/../../lib/Components/choices.scss', resource_path('css'));
-        copy(__DIR__ . '/../../lib/Components/filepond.scss', resource_path('css'));
-        copy(__DIR__ . '/../../lib/Components/flatpickr.styl', resource_path('css'));
+        copy(__DIR__ . '/../../lib/Components/choices.scss', resource_path('css/choices.scss'));
+        copy(__DIR__ . '/../../lib/Components/filepond.scss', resource_path('css/filepond.scss'));
+        copy(__DIR__ . '/../../lib/Components/flatpickr.styl', resource_path('css/flatpickr.styl'));
 
         $this->comment('All done');
 
