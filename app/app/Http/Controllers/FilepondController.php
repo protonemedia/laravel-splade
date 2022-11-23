@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\AvatarUpload;
+use App\Http\Requests\AvatarUploadFileRule;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use ProtoneMedia\Splade\FileUploads\HandleSpladeFileUploads;
@@ -62,6 +63,13 @@ class FilepondController extends Controller
     }
 
     public function storeWithFormRequest(AvatarUpload $request)
+    {
+        $request->file('avatar')->storeAs('avatars', 'avatar.jpg');
+
+        return redirect()->route('navigation.one');
+    }
+
+    public function storeWithFormRequestRuleObject(AvatarUploadFileRule $request)
     {
         $request->file('avatar')->storeAs('avatars', 'avatar.jpg');
 

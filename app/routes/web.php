@@ -152,6 +152,7 @@ Route::middleware('splade')->group(function () {
         ->name('form.components.filepond.storeWithRouteMiddleware');
 
     Route::post('form/components/storeWithFormRequest', [FilepondController::class, 'storeWithFormRequest'])->name('form.components.filepond.storeWithFormRequest');
+    Route::post('form/components/storeWithFormRequestRuleObject', [FilepondController::class, 'storeWithFormRequestRuleObject'])->name('form.components.filepond.storeWithFormRequestRuleObject');
 
     Route::view('form/components/selectPlaceholder', 'form.components.selectPlaceholder')->name('form.components.selectPlaceholder');
 

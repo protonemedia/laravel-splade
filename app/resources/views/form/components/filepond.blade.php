@@ -34,6 +34,11 @@ FormFilePond
     <x-splade-submit />
 </x-splade-form>
 
+<x-splade-form dusk="form-request-rule-object" :action="route('form.components.filepond.storeWithFormRequestRuleObject')" class="space-y-4">
+    <x-splade-file filepond name="avatar" server />
+    <x-splade-submit />
+</x-splade-form>
+
 <x-splade-form dusk="js-config">
     <x-splade-file filepond="{ credits: null }" name="file" />
 </x-splade-form>

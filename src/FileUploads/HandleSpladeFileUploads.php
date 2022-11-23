@@ -10,6 +10,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rules\File;
 
 class HandleSpladeFileUploads extends TransformsRequest
 {
@@ -78,7 +79,17 @@ class HandleSpladeFileUploads extends TransformsRequest
         $rules = Validator::make([], $formRequest->rules())->getRules();
 
         $keys = Collection::make($rules)->filter(function ($rules) {
-            return in_array('file', $rules);
+            if (in_array('file', $rules)) {
+                return true;
+            }
+
+            foreach ($rules as $rule) {
+                if ($rule instanceof File) {
+                    return true;
+                }
+            }
+
+            return false;
         })->keys()->values();
 
         return static::forRequest($formRequest, $keys->isEmpty() ? null : $keys->all());

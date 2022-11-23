@@ -135,6 +135,23 @@ class FilepondTest extends DuskTestCase
     }
 
     /** @test */
+    public function it_can_upload_a_temporary_file_using_a_form_request_that_has_a_validation_rule_object()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('form/components/filepond')
+                ->waitForText('FormFilePond')
+                ->within('@form-request-rule-object', function (Browser $browser) {
+                    $browser->attach('avatar', __DIR__ . '/../small.jpeg')
+                        ->waitForText('Upload complete')
+                        ->press('Submit');
+                })
+                ->waitForRoute('navigation.one');
+
+            $this->assertFileExists(storage_path('app/avatars/avatar.jpg'));
+        });
+    }
+
+    /** @test */
     public function it_can_use_a_custom_js_config()
     {
         $this->browse(function (Browser $browser) {
