@@ -19,7 +19,7 @@
                 'sm:max-w-md md:max-w-xl lg:max-w-3xl xl:max-w-5xl 2xl:max-w-7xl': modal.maxWidth == '7xl'
             }">
                 <x-splade-component is="dialog" panel dusk="slideover-dialog">
-                    <div {{ $attributes->class('bg-white p-6 rounded relative') }}>
+                    <div {{ $attributes->class('bg-white p-6 min-h-screen relative') }}>
                         <div v-if="modal.closeButton" class="absolute top-0 right-0 pt-3 pr-3">
                             <button dusk="close-modal-button" @click="modal.close" type="button" class="text-gray-400 hover:text-gray-500">
                                 <span class="sr-only">Close</span>
