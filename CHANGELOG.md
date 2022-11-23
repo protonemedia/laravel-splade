@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 1.0.1 - 2022-11-23
+
+- Fix for validating uploads with a `Rules\File::class` instance
+
 ## 1.0.0 - 2022-11-23
 
 Splade gives you a massive head start when building applications. Navigate the documentation or watch the videos to discover its power, but to give you a glance, here's a short overview of some of the best features:
