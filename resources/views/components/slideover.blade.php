@@ -5,19 +5,19 @@
         <div class="flex min-h-full items-center justify-end">
             <!-- The actual dialog panel -->
             <x-splade-component is="transition" child animation="slide-right" after-leave="modal.emitClose" v-bind:class="{
-                    'transition w-full': true,
-                    'blur-sm': !modal.onTopOfStack,
-                    'sm:max-w-sm': modal.maxWidth == 'sm',
-                    'sm:max-w-md': modal.maxWidth == 'md',
-                    'sm:max-w-md md:max-w-lg': modal.maxWidth == 'lg',
-                    'sm:max-w-md md:max-w-xl': modal.maxWidth == 'xl',
-                    'sm:max-w-md md:max-w-xl lg:max-w-2xl': modal.maxWidth == '2xl',
-                    'sm:max-w-md md:max-w-xl lg:max-w-3xl': modal.maxWidth == '3xl',
-                    'sm:max-w-md md:max-w-xl lg:max-w-3xl xl:max-w-4xl': modal.maxWidth == '4xl',
-                    'sm:max-w-md md:max-w-xl lg:max-w-3xl xl:max-w-5xl': modal.maxWidth == '5xl',
-                    'sm:max-w-md md:max-w-xl lg:max-w-3xl xl:max-w-5xl 2xl:max-w-6xl': modal.maxWidth == '6xl',
-                    'sm:max-w-md md:max-w-xl lg:max-w-3xl xl:max-w-5xl 2xl:max-w-7xl': modal.maxWidth == '7xl'
-                }">
+                'transition w-full': true,
+                'blur-sm': !modal.onTopOfStack,
+                'sm:max-w-sm': modal.maxWidth == 'sm',
+                'sm:max-w-md': modal.maxWidth == 'md',
+                'sm:max-w-md md:max-w-lg': modal.maxWidth == 'lg',
+                'sm:max-w-md md:max-w-xl': modal.maxWidth == 'xl',
+                'sm:max-w-md md:max-w-xl lg:max-w-2xl': modal.maxWidth == '2xl',
+                'sm:max-w-md md:max-w-xl lg:max-w-3xl': modal.maxWidth == '3xl',
+                'sm:max-w-md md:max-w-xl lg:max-w-3xl xl:max-w-4xl': modal.maxWidth == '4xl',
+                'sm:max-w-md md:max-w-xl lg:max-w-3xl xl:max-w-5xl': modal.maxWidth == '5xl',
+                'sm:max-w-md md:max-w-xl lg:max-w-3xl xl:max-w-5xl 2xl:max-w-6xl': modal.maxWidth == '6xl',
+                'sm:max-w-md md:max-w-xl lg:max-w-3xl xl:max-w-5xl 2xl:max-w-7xl': modal.maxWidth == '7xl'
+            }">
                 <x-splade-component is="dialog" panel dusk="slideover-dialog">
                     <div {{ $attributes->class('bg-white p-6 rounded relative') }}>
                         <div v-if="modal.closeButton" class="absolute top-0 right-0 pt-3 pr-3">
@@ -28,7 +28,6 @@
                                 </svg>
                             </button>
                         </div>
-
                         {{ $slot }}
                     </div>
                 </x-splade-component>

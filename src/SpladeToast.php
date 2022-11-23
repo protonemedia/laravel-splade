@@ -344,7 +344,7 @@ class SpladeToast implements Arrayable, JsonSerializable
             'splade.toast' => true,
             'backdrop'     => $this->backdrop,
             'position'     => "{$this->positionX}-{$this->positionY}",
-            'html'         => view('splade::toast', $this->toArray())->render(),
+            'html'         => view('splade::components.toast', $this->toArray())->render(),
         ];
     }
 }

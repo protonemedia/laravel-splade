@@ -393,6 +393,6 @@ class Form extends Component
      */
     public function render()
     {
-        return view('splade::form');
+        return view('splade::functional.form');
     }
 }

@@ -37,7 +37,7 @@ class Data extends Component
      */
     public function render()
     {
-        return view('splade::data', [
+        return view('splade::functional.data', [
             'data' => $this->data,
             'json' => $this->json,
         ]);

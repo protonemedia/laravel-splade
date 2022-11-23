@@ -19,7 +19,6 @@ class Transition extends Component
         private bool $unmount = true,
         private bool $child = false,
         private string $afterLeave = '',
-        public string $scope = 'transition',
     ) {
     }
 
@@ -32,7 +31,7 @@ class Transition extends Component
     {
         $transitionRepository = app(TransitionRepository::class);
 
-        return view('splade::transition', [
+        return view('splade::functional.transition', [
             'animation'  => $transitionRepository->get($this->animation),
             'child'      => $this->child,
             'show'       => $this->show,

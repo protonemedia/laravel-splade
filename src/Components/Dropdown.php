@@ -15,7 +15,6 @@ class Dropdown extends Component
      * @return void
      */
     public function __construct(
-        public string $scope = 'dropdown',
         public bool $inline = false,
         public bool $teleport = false,
         public bool $closeOnClick = false,
@@ -30,6 +29,6 @@ class Dropdown extends Component
      */
     public function render()
     {
-        return view('splade::dropdown');
+        return view('splade::components.dropdown');
     }
 }

@@ -48,7 +48,7 @@ trait InterceptsCreatingViews
                 $view->{$preventLoopVar}    = false;
 
                 $view->setPath(
-                    $view->getFactory()->getFinder()->find(ViewName::normalize('splade::html'))
+                    $view->getFactory()->getFinder()->find(ViewName::normalize('splade::functional.html'))
                 );
             });
         };

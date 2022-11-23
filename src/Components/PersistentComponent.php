@@ -21,7 +21,7 @@ abstract class PersistentComponent extends Component
     {
         $original = parent::resolveView();
 
-        return view('splade::persistent-layout', [
+        return view('splade::functional.persistent-layout', [
             'originalName' => $original->name(),
             'originalData' => $original->getData(),
         ]);

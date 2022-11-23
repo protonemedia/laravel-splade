@@ -39,7 +39,7 @@ class Toggle extends Component
     {
         $toggles = collect($this->toggles)->keys();
 
-        return view('splade::toggle', [
+        return view('splade::functional.toggle', [
             'props' => $toggles->all() === ['default']
                 ? implode(', ', ['toggle', 'setToggle', 'toggled'])
                 : collect($this->toggles)->keys()->merge([

@@ -289,6 +289,5 @@ onMounted(() => {
     ["components", "html", "dynamics", "splade"].forEach((attribute) => {
         delete $el.dataset[attribute];
     });
-
 });
 </script>

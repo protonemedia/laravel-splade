@@ -27,7 +27,7 @@ class Lazy extends Component
     {
         return $this->splade->isLazyRequest()
             ? '{{ $slot }}'
-            : view('splade::lazy', [
+            : view('splade::functional.lazy', [
                 'name' => $this->splade->newLazyComponentKey(),
             ]);
     }

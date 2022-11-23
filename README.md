@@ -4,21 +4,46 @@
 
 ***The magic of Inertia.js with the simplicity of Blade.***
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/protonemedia/laravel-splade.svg?style=flat-square)](https://packagist.org/packages/protonemedia/laravel-splade)
+Splade provides a **super easy** way to build ***Single Page Applications*** (SPA) using standard **Laravel Blade** templates, enhanced with renderless **Vue 3** components. In essence, you can write your app using the simplicity of Blade, and besides that magic SPA-feeling, you can sparkle it to make it interactive. **All without ever leaving Blade.**
+
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/protonemedia/laravel-splade.svg?style=flat-squa
+re)](https://packagist.org/packages/protonemedia/laravel-splade)
 [![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/protonemedia/laravel-splade/run-tests?label=tests)](https://github.com/protonemedia/laravel-splade/actions?query=workflow%3Arun-tests+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/protonemedia/laravel-splade.svg?style=flat-square)](https://packagist.org/packages/protonemedia/laravel-splade)
 
-## Support Splade.
+## Support Splade
 
 ❤️ We proudly support the community by developing Laravel packages and giving them away for free. If this package saves you time or if you're relying on it professionally, please consider [sponsoring the maintenance and development](https://github.com/sponsors/pascalbaljet). Keeping track of issues and pull requests takes time, but we're happy to help!
 
-## Video
+## Features
 
-📺 Check out the [introduction video](https://www.youtube.com/watch?v=9V9BUHtvwXI)!
+Splade gives you a massive head start when building applications. Navigate the documentation or watch the videos to discover its power, but to give you a glance, here's a short overview of some of the best features:
 
-## Documentation
+* Splade allows you to use the Laravel Blade template engine and build a single-page application using regular server-side routing without building an API. You still have the full power of Vue.js when you need it.
+* Splade aims to stick as close as possible to the default Laravel features and development flow.
+* Automatic installer and support for the Laravel Breeze starter kit.
+* Besides the SPA navigation features, it has more than 20 interactive components that are huge timesavers.
+* Most components are functional and unstyled, giving you complete control over the implementation.
+* Other components are styled with Tailwind CSS 3.0, but can be fully customized by publishing the Blade templates. You don't need to rebuild or recompile *any* JavaScript for this.
+* Built-in support for Modals and Slideover that can show any route or pre-loaded content.
+* Beautiful Form Components with support for Validation and (Eloquent) Model binding. Built-in integration with Autosize, Choices.js, FilePond, and Flatpickr, including async file uploads.
+* DataTables-like Table component that supports auto-fill, bulk actions, exports, searching, sorting, and more!
+* Support Lazy Loading (templates and data), Persistent Layout, Animations, and Teleports.
+* Laravel Echo integration to control browser behavior from the backend (redirecting, refreshing, and showing a toast).
+* Built-in SEO (title, description, keywords) with support for Open Graph and Twitter tags.
+* Support for custom Blade and Vue components.
+* Support for existing Blade and Vue libraries.
+* Support for SSR (server-side rendering).
+
+## Documentation and Website
 
 📖 You can find the documentation at [Splade.dev](https://splade.dev/) (and [here](https://github.com/protonemedia/laravel-splade-docs) its source code).
+
+🌎 The website is also [open source](https://github.com/protonemedia/splade.dev), and built with Splade!
+
+## Video
+
+📺 Check out the [introduction video](https://www.youtube.com/watch?v=9V9BUHtvwXI), or [click here](https://www.youtube.com/playlist?list=PLmEkRPCduet8MPP_gFm_ETJ0m74hvXZWl) for the YouTube Playlist with all Splade videos.
 
 ## Changelog
 

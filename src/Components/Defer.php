@@ -56,7 +56,7 @@ class Defer extends Component
      */
     public function render()
     {
-        return view('splade::defer', [
+        return view('splade::functional.defer', [
             'data' => $this->data,
             'json' => $this->json,
         ]);

@@ -42,6 +42,6 @@ class Event extends Component
      */
     public function render()
     {
-        return view('splade::event');
+        return view('splade::functional.event');
     }
 }

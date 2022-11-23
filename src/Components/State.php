@@ -23,6 +23,6 @@ class State extends Component
      */
     public function render()
     {
-        return view('splade::state');
+        return view('splade::functional.state');
     }
 }

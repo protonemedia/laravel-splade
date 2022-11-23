@@ -13,6 +13,6 @@ class Slot extends Component
      */
     public function render()
     {
-        return view('splade::slot');
+        return '{{ $slot }}';
     }
 }

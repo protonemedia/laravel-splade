@@ -22,6 +22,6 @@ class Content extends Component
      */
     public function render()
     {
-        return view('splade::content');
+        return view('splade::functional.content');
     }
 }
