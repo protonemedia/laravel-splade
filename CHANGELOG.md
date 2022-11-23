@@ -2,6 +2,11 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 0.7.8.2 - 2022-11-23
+
+- Fix for publishing Form stylesheets
+- Slideover styling fix
+
 ## 0.7.8.1 - 2022-11-22
 
 - Allow modal/slider classes on outer div
