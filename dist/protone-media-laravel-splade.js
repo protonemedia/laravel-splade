@@ -3846,17 +3846,19 @@ const vd = {
   },
   mounted() {
     let e = document.querySelector(`form[data-splade-id="${this.spladeId}"]`);
-    e || (e = document), this.formElement = e, this.missingAttributes.forEach((t) => {
-      let r = "";
-      const n = e.querySelector(`[name="${t}"]`);
-      n ? r = n.type === "checkbox" ? !1 : "" : e.querySelector(`[name="${t}[]"]`) ? r = [] : (e.querySelector(`[name^="${t}."]`) || e.querySelector(`[name^="${t}["]`)) && (r = {}), this.$put(t, r);
+    e || (e = document), this.formElement = e, this.missingAttributes.forEach((r) => {
+      let n = "";
+      const i = e.querySelector(`[name="${r}"]`);
+      i ? n = i.type === "checkbox" ? !1 : "" : e.querySelector(`[name="${r}[]"]`) ? n = [] : (e.querySelector(`[name^="${r}."]`) || e.querySelector(`[name^="${r}["]`)) && (n = {}), this.$put(r, n);
     }), this.missingAttributes = [], this.submitOnChange === !0 ? this.$watch("values", () => {
       this.$nextTick(() => this.request());
-    }, { deep: !0 }) : L(this.submitOnChange) && this.submitOnChange.forEach((t) => {
-      this.$watch(`values.${t}`, () => {
+    }, { deep: !0 }) : L(this.submitOnChange) && this.submitOnChange.forEach((r) => {
+      this.$watch(`values.${r}`, () => {
         this.$nextTick(() => this.request());
       }, { deep: !0 });
     }), this.isMounted = !0;
+    const t = this.formElement.querySelector("[autofocus]");
+    t && this.focusAndScrollToElement(t);
   },
   methods: {
     $startUploading(e) {
@@ -4616,8 +4618,10 @@ const Bd = {
     }), t.length === 0 ? this.visibleColumns = this.defaultVisibleToggleableColumns : this.visibleColumns = t;
   },
   methods: {
-    visitLink(e, t) {
-      return t === "modal" ? m.modal(e) : t === "slideover" ? m.slideover(e) : m.visit(e);
+    visitLink(e, t, r) {
+      var n, i;
+      if (!(((n = r == null ? void 0 : r.target) == null ? void 0 : n.tagName) === "A" || ((i = r == null ? void 0 : r.target) == null ? void 0 : i.tagName) === "BUTTON"))
+        return t === "modal" ? m.modal(e) : t === "slideover" ? m.slideover(e) : m.visit(e);
     },
     reset() {
       this.forcedVisibleSearchInputs = [], this.visibleColumns = this.defaultVisibleToggleableColumns;
