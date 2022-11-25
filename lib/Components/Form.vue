@@ -189,6 +189,12 @@ export default {
         }
 
         this.isMounted = true;
+
+        const autofocusElement = this.formElement.querySelector("[autofocus]");
+
+        if(autofocusElement){
+            this.focusAndScrollToElement(autofocusElement);
+        }
     },
 
     methods: {

@@ -143,7 +143,11 @@ export default {
     },
 
     methods: {
-        visitLink(url, type) {
+        visitLink(url, type, $event) {
+            if($event?.target?.tagName === "A" || $event?.target?.tagName === "BUTTON") {
+                return;
+            }
+
             if(type === "modal") {
                 return Splade.modal(url);
             }
