@@ -120,7 +120,7 @@ export default {
             recentlySuccessful: false,
             recentlySuccessfulTimeoutId: null,
             formElement: null,
-            touchedKeys: [],
+            touchedPrecognitionKeys: [],
             elementsUploading: [],
             precognitionDebounceFunction: null,
         };
@@ -187,7 +187,7 @@ export default {
         });
 
         this.missingAttributes = [];
-        this.touchedKeys = [];
+        this.touchedPrecognitionKeys = [];
 
         // Create watchers
         if(this.submitOnChange === true) {
@@ -246,13 +246,13 @@ export default {
         },
 
         $put(key, value) {
-            this.$touch(key);
+            this.$touchForPrecognition(key);
 
             return set(this.values, key, value);
         },
 
-        $touch(key) {
-            this.touchedKeys = [...new Set([key, ...this.touchedKeys])];
+        $touchForPrecognition(key) {
+            this.touchedPrecognitionKeys = [...new Set([key, ...this.touchedPrecognitionKeys])];
         },
 
         focusAndScrollToElement(element) {
@@ -360,12 +360,17 @@ export default {
             if(precognition) {
                 headers["Precognition"] = true;
 
-                let validateOnly = this.touchedKeys;
+                let validateOnly = this.touchedPrecognitionKeys;
 
                 if(precognitionRules.length > 0) {
                     validateOnly = validateOnly.filter((key) => {
-                        return this.touchedKeys.includes(key);
+                        return precognitionRules.includes(key);
                     });
+
+                    if(validateOnly.length === 0) {
+                        // Non of the touched keys are in the precognition rules.
+                        return;
+                    }
                 }
 
                 headers["Precognition-Validate-Only"] = validateOnly.join(",");
