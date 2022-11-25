@@ -13,6 +13,6 @@ class Teleport extends Component
      */
     public function render()
     {
-        return view('splade::teleport');
+        return view('splade::functional.teleport');
     }
 }

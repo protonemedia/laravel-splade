@@ -2,9 +2,10 @@
 
 namespace ProtoneMedia\Splade;
 
+use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\View\ComponentAttributeBag;
 
-class FormSelectOption
+class FormSelectOption implements Arrayable
 {
     /**
      * Creates a new instance.
@@ -46,5 +47,15 @@ class FormSelectOption
     public function attributes(): ComponentAttributeBag
     {
         return (new ComponentAttributeBag($this->attributes))->except('options');
+    }
+
+    /**
+     * Returns the attributes as an array.
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        return $this->attributes()->getAttributes();
     }
 }

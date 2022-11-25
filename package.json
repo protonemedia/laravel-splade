@@ -1,6 +1,6 @@
 {
   "name": "@protonemedia/laravel-splade",
-  "version": "0.6.9",
+  "version": "1.0.1",
   "description": "Laravel Splade: the magic of Inertia.js with the simplicity of Blade.",
   "private": false,
   "author": "Pascal Baljet <pascal@protone.media>",
@@ -25,7 +25,7 @@
     "pre-publish": "composer extract-transitions && npm upgrade && vite build && npm pack"
   },
   "peerDependencies": {
-    "axios": "^0.27",
+    "axios": "^0.27 || ^1.1.2",
     "vue": "^3.2.37"
   },
   "devDependencies": {
@@ -42,6 +42,12 @@
   "dependencies": {
     "autosize": "^5.0.1",
     "choices.js": "^10.1.0",
+    "filepond": "^4.30.4",
+    "filepond-plugin-file-validate-size": "^2.2.7",
+    "filepond-plugin-file-validate-type": "^1.2.8",
+    "filepond-plugin-image-exif-orientation": "^1.0.11",
+    "filepond-plugin-image-preview": "^4.6.11",
+    "filepond-plugin-image-validate-size": "^1.2.7",
     "flatpickr": "^4.6.13",
     "nprogress": "^0.2.0"
   }

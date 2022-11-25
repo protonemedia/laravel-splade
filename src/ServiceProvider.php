@@ -2,7 +2,9 @@
 
 namespace ProtoneMedia\Splade;
 
+use Illuminate\Http\Response;
 use Illuminate\Routing\Middleware\ValidateSignature;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
@@ -11,12 +13,18 @@ use Illuminate\Support\Str;
 use Illuminate\View\ComponentAttributeBag;
 use Illuminate\View\Factory;
 use Laravel\Dusk\Browser;
+use ProtoneMedia\Splade\Commands\CleanupTemporaryFileUploads;
 use ProtoneMedia\Splade\Commands\PublishFormStylesheetsCommand;
+use ProtoneMedia\Splade\Commands\ShowSpladeVersions;
 use ProtoneMedia\Splade\Commands\SpladeInstallCommand;
 use ProtoneMedia\Splade\Commands\SsrTestCommand;
 use ProtoneMedia\Splade\Commands\TableMakeCommand;
+use ProtoneMedia\Splade\FileUploads\Filesystem;
+use ProtoneMedia\Splade\FileUploads\HandleSpladeFileUploads;
+use ProtoneMedia\Splade\FileUploads\HasSpladeFileUploads;
 use ProtoneMedia\Splade\Http\BladeDirectives;
 use ProtoneMedia\Splade\Http\EventRedirectController;
+use ProtoneMedia\Splade\Http\FileUploadController;
 use ProtoneMedia\Splade\Http\PrepareTableCells;
 use ProtoneMedia\Splade\Http\PrepareViewWithLazyComponents;
 use ProtoneMedia\Splade\Http\TableBulkActionController;
@@ -50,7 +58,9 @@ class ServiceProvider extends BaseServiceProvider
         $this->registerPublishedPaths();
 
         $this->commands([
+            CleanupTemporaryFileUploads::class,
             PublishFormStylesheetsCommand::class,
+            ShowSpladeVersions::class,
             SpladeInstallCommand::class,
             SsrTestCommand::class,
             TableMakeCommand::class,
@@ -75,7 +85,9 @@ class ServiceProvider extends BaseServiceProvider
         $this->registerBladeComponentsAndDirectives();
         $this->registerDuskMacros();
         $this->registerViewMacros();
+        $this->registerResponseMacro();
         $this->registerRouteForEventRedirect();
+        $this->registerMacroForFileUploads();
         $this->registerMacroForTableRoutes();
     }
 
@@ -100,7 +112,9 @@ class ServiceProvider extends BaseServiceProvider
         ], 'seo');
 
         $this->publishes([
-            __DIR__ . '/../resources/views' => base_path('resources/views/vendor/splade'),
+            __DIR__ . '/../resources/views/components' => base_path('resources/views/vendor/splade/components'),
+            __DIR__ . '/../resources/views/form'       => base_path('resources/views/vendor/splade/form'),
+            __DIR__ . '/../resources/views/table'      => base_path('resources/views/vendor/splade/table'),
         ], 'views');
     }
 
@@ -136,6 +150,25 @@ class ServiceProvider extends BaseServiceProvider
         });
 
         $this->app->alias(TransitionRepository::class, 'laravel-splade-transition-repository');
+
+        // Splade File Uploads
+        $this->app->singleton(Filesystem::class, function ($app) {
+            $disk = config('splade.file_uploads.disk');
+
+            if (!$disk) {
+                config(['filesystems.disks.splade_temporary_file_uploads' => [
+                    'driver' => 'local',
+                    'root'   => storage_path('splade-temporary-file-uploads'),
+                    'throw'  => false,
+                ]]);
+            }
+
+            return new Filesystem($disk ?: 'splade_temporary_file_uploads');
+        });
+
+        $this->app->resolving(HasSpladeFileUploads::class, function ($resolved) {
+            return HandleSpladeFileUploads::forFormRequest($resolved);
+        });
     }
 
     /**
@@ -167,9 +200,11 @@ class ServiceProvider extends BaseServiceProvider
             Components\Flash::class,
             Components\Form::class,
             Components\Lazy::class,
+            Components\Link::class,
             Components\Modal::class,
             Components\ModalWrapper::class,
             Components\Outside::class,
+            Components\PreloadedModal::class,
             Components\Slot::class,
             Components\State::class,
             Components\Table::class,
@@ -205,7 +240,45 @@ class ServiceProvider extends BaseServiceProvider
         }
 
         if ($macroName = config('splade.dusk.choices_select_macro')) {
-            Browser::macro($macroName, function ($selectName, $value = null): Browser {
+            Browser::macro($macroName, function ($selectName, $value = ''): Browser {
+                /** @var Browser browser */
+                $browser = $this;
+
+                Collection::wrap($value)->each(function ($value) use ($selectName, $browser) {
+                    $choicesSelector = Str::startsWith($selectName, '@')
+                    ? '[dusk="' . explode('@', $selectName)[1] . '"]'
+                    : 'div.choices__inner[data-select-name="' . $selectName . '"]';
+
+                    $formattedChoicesSelector = $browser->resolver->format($choicesSelector);
+
+                    $dataType = $browser->script("return document.querySelector('{$formattedChoicesSelector}').parentNode.getAttribute('data-type');")[0] ?? 'select-one';
+
+                    $browser
+                        ->click(
+                            $dataType === 'select-multiple' ? "{$choicesSelector} input" : $choicesSelector
+                        )
+                        ->whenAvailable('div.choices.is-open', function (Browser $browser) use ($value, $formattedChoicesSelector, $dataType) {
+                            $value = $value ? addslashes($value) : $value;
+
+                            $selector = $value
+                                ? "div.choices__item[data-value='{$value}']"
+                                : 'div.choices__item[data-value]:not(.choices__placeholder)';
+
+                            $browser->click($selector);
+
+                            if ($dataType === 'select-multiple') {
+                                $browser->script("return document.querySelector('{$formattedChoicesSelector}').dispatchEvent(new Event('hideDropdownFromDusk'));");
+                            }
+                        })
+                        ->waitUntilMissing("div.choices.is-open[data-type='{$dataType}']");
+                });
+
+                return $browser;
+            });
+        }
+
+        if ($macroName = config('splade.dusk.choices_remove_item_macro')) {
+            Browser::macro($macroName, function ($selectName, $value = ''): Browser {
                 /** @var Browser browser */
                 $browser = $this;
 
@@ -213,44 +286,17 @@ class ServiceProvider extends BaseServiceProvider
                     ? '[dusk="' . explode('@', $selectName)[1] . '"]'
                     : 'div.choices__inner[data-select-name="' . $selectName . '"]';
 
-                $dataType = $browser->script("return document.querySelector('{$choicesSelector}').parentNode.getAttribute('data-type');")[0] ?? 'select-one';
-
-                $browser->click(
-                    $dataType === 'select-multiple' ? "{$choicesSelector} input" : $choicesSelector
-                );
-
                 return $browser
-                    ->whenAvailable('div.choices.is-open', function (Browser $browser) use ($value, $choicesSelector, $dataType) {
-                        $value = $value ? addslashes($value) : $value;
+                    ->within("{$choicesSelector} div.choices__list", function (Browser $browser) use ($value) {
+                        Collection::wrap($value)->each(function ($value) use ($browser) {
+                            $value = $value ? addslashes($value) : $value;
 
-                        $selector = $value
-                            ? "div.choices__item[data-value='{$value}']"
-                            : 'div.choices__item[data-value]:not(.choices__placeholder)';
+                            $selector = $value
+                                ? "div.choices__item[data-value='{$value}'] button"
+                                : 'div.choices__item button';
 
-                        $browser->click($selector);
-
-                        if ($dataType === 'select-multiple') {
-                            $browser->script("return document.querySelector('{$choicesSelector}').dispatchEvent(new Event('hideDropdownFromDusk'));");
-                        }
-                    })
-                    ->waitUntilMissing("div.choices.is-open[data-type='{$dataType}']");
-            });
-        }
-
-        if ($macroName = config('splade.dusk.choices_remove_item_macro')) {
-            Browser::macro($macroName, function ($selectName, $value = null): Browser {
-                /** @var Browser browser */
-                $browser = $this;
-
-                return $browser
-                    ->within("div.choices__inner[data-select-name='{$selectName}'] div.choices__list", function (Browser $browser) use ($value) {
-                        $value = $value ? addslashes($value) : $value;
-
-                        $selector = $value
-                            ? "div.choices__item[data-value='{$value}'] button"
-                            : 'div.choices__item button';
-
-                        $browser->click($selector);
+                            $browser->click($selector)->waitUntilMissing($selector);
+                        });
                     });
             });
         }
@@ -314,6 +360,19 @@ class ServiceProvider extends BaseServiceProvider
      *
      * @return void
      */
+    private function registerMacroForFileUploads()
+    {
+        Route::macro('spladeUploads', function () {
+            Route::post(config('splade.file_uploads.route'), [FileUploadController::class, 'store'])->name('splade.fileUpload.store');
+            Route::delete(config('splade.file_uploads.route'), [FileUploadController::class, 'delete'])->name('splade.fileUpload.delete');
+        });
+    }
+
+    /**
+     * Registers a route macro that can be used to handle Table bulk actions and exports.
+     *
+     * @return void
+     */
     private function registerMacroForTableRoutes()
     {
         Route::macro('spladeTable', function () {
@@ -324,6 +383,20 @@ class ServiceProvider extends BaseServiceProvider
             Route::get(config('splade.table_export_route'), TableExportController::class)
                 ->name('splade.table.export')
                 ->middleware(ValidateSignature::class);
+        });
+    }
+
+    /**
+     * Registers a route macro that can be used to ignore the response by the Splade Middleware.
+     *
+     * @return void
+     */
+    private function registerResponseMacro()
+    {
+        Response::macro('skipSpladeMiddleware', function () {
+            $this->headers->set(SpladeCore::HEADER_SKIP_MIDDLEWARE, true);
+
+            return $this;
         });
     }
 

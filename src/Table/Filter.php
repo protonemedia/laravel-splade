@@ -48,6 +48,16 @@ class Filter implements Arrayable
     }
 
     /**
+     * Returns a boolean whether the value is not null.
+     *
+     * @return bool
+     */
+    public function hasValue(): bool
+    {
+        return !is_null($this->value);
+    }
+
+    /**
      * Returns the options array, and if set, prepends
      * a 'no filter' option to the options array.
      *

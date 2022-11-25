@@ -192,4 +192,55 @@ class NavigationTest extends DuskTestCase
             $this->assertScreenshotSnapshot('NavigationServerError');
         });
     }
+
+    /** @test */
+    public function it_can_use_a_blade_link_component()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('/navigation/one')
+                ->waitForText('NavigationOne')
+                ->click('@x-two')
+                ->waitForText('NavigationTwo')
+                ->assertRouteIs('navigation.two');
+        });
+    }
+
+    /** @test */
+    public function it_can_use_additional_attributes_on_a_blade_link_component()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('/navigation/two')
+                ->waitForText('NavigationTwo')
+                ->click('@x-one')
+                ->waitForText('Are you sure you want to continue?')
+                ->press('@splade-confirm-confirm')
+                ->waitUntilMissingText('Are you sure you want to continue?')
+                ->waitForText('NavigationOne')
+                ->assertRouteIs('navigation.one');
+        });
+    }
+
+    /** @test */
+    public function it_can_use_the_link_component_to_post_data()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('/navigation/one')
+                ->waitForText('NavigationOne')
+                ->click('@x-post')
+                ->waitForText('NavigationThree')
+                ->assertRouteIs('navigation.three');
+        });
+    }
+
+    /** @test */
+    public function it_can_use_the_link_component_to_put_data()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('/navigation/one')
+                ->waitForText('NavigationOne')
+                ->click('@x-put')
+                ->waitForText('NavigationThree')
+                ->assertRouteIs('navigation.three');
+        });
+    }
 }

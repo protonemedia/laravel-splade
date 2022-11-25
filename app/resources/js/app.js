@@ -1,10 +1,11 @@
 import "./bootstrap";
 import "../css/app.css";
 
-import { createApp } from "vue";
+import { createApp } from "vue/dist/vue.esm-bundler.js";
 
 // for dev
 // import "../../../lib/Components/choices.scss";
+// import "../../../lib/Components/filepond.scss";
 // import "../../../lib/Components/flatpickr.styl";
 // import { renderSpladeApp, SpladePlugin } from "../../../dist/protone-media-laravel-splade";
 

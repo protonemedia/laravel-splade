@@ -24,6 +24,8 @@ class SpladeCore
 
     const HEADER_REDIRECT_AWAY = 'X-Splade-Redirect-Away';
 
+    const HEADER_SKIP_MIDDLEWARE = 'X-Splade-Skip-Middleware';
+
     const MODAL_TYPE_MODAL = 'modal';
 
     const MODAL_TYPE_SLIDEOVER = 'slideover';
@@ -232,7 +234,7 @@ class SpladeCore
 
     /**
      * Returns a Closure that prevents generating a response from
-     * a ValidationExceptions when this is a Splade request.
+     * a ValidationException when this is a Splade request.
      *
      * @param  \Illuminate\Foundation\Exceptions\Handler  $exceptionHandler
      * @return Closure

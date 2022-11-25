@@ -14,7 +14,8 @@ class ModalWrapper extends Component
     public function __construct(
         public string $key,
         public $baseAttributes,
-        public bool $closeButton
+        public bool $closeButton,
+        public string $name = '',
     ) {
     }
 
@@ -25,6 +26,6 @@ class ModalWrapper extends Component
      */
     public function render()
     {
-        return view('splade::modal-wrapper');
+        return view('splade::components.modal-wrapper');
     }
 }

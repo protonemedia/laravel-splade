@@ -6,13 +6,38 @@
 </template>
 
 <script setup>
+import { objectToFormData } from "./FormHelpers.js";
 import { Splade } from "./../Splade.js";
 import isBoolean from "lodash-es/isBoolean";
+import startsWith from "lodash-es/startsWith";
 
 const props = defineProps({
     href: {
         type: String,
-        required: true,
+        required: false,
+        default: "#"
+    },
+
+    method: {
+        type: String,
+        required: false,
+        default: "GET",
+    },
+
+    data: {
+        type: Object,
+        required: false,
+        default: () => {
+            return {};
+        },
+    },
+
+    headers: {
+        type: Object,
+        required: false,
+        default: () => {
+            return { Accept: "application/json" };
+        },
     },
 
     replace: {
@@ -102,6 +127,29 @@ function perform() {
         return Splade.slideover(props.href);
     }
 
-    props.replace ? Splade.replace(props.href) : Splade.visit(props.href);
+    if(startsWith(props.href, "#")) {
+        if(Splade.openPreloadedModal(props.href.substring(1))) {
+            return;
+        }
+
+        console.log("No preloaded modal found for " + props.href);
+    }
+
+    let method = props.method.trim().toUpperCase();
+
+    if(method === "GET") {
+        return props.replace ? Splade.replace(props.href) : Splade.visit(props.href);
+    }
+
+    const data = (props.data instanceof FormData)
+        ? props.data
+        : objectToFormData(props.data);
+
+    if(method !== "POST") {
+        data.append("_method", method);
+        method = "POST";
+    }
+
+    Splade.request(props.href, method, data, props.headers, props.replace);
 }
 </script>

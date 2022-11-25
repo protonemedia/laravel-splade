@@ -43,6 +43,12 @@ export default {
                 return props.type === "modal" ? "2xl" : "md";
             },
         },
+
+        name: {
+            type: String,
+            required: false,
+            default: null,
+        },
     },
 
     emits: ["close"],

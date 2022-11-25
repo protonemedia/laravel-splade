@@ -255,7 +255,9 @@ class Head implements Arrayable, JsonSerializable
      */
     private function renderTitle(): string
     {
-        return "<title>{$this->title}</title>";
+        $title = e($this->title);
+
+        return "<title>{$title}</title>";
     }
 
     /**
@@ -267,7 +269,7 @@ class Head implements Arrayable, JsonSerializable
     {
         return $this->meta
             ->map(fn (Meta $meta) => $meta->render())
-            ->when($this->canonical, function (Collection $collection, string $href) {
+            ->when(e($this->canonical), function (Collection $collection, string $href) {
                 $collection->prepend(
                     "<link rel=\"canonical\" href=\"{$href}\">"
                 );
@@ -294,7 +296,7 @@ class Head implements Arrayable, JsonSerializable
     {
         return [
             'canonical' => $this->canonical,
-            'meta'      => $this->meta->values()->all(),
+            'meta'      => $this->meta->map->toArray()->values()->all(),
             'title'     => $this->title,
         ];
     }

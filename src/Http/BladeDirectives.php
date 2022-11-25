@@ -3,6 +3,8 @@
 namespace ProtoneMedia\Splade\Http;
 
 use Illuminate\Support\Facades\Blade;
+use ProtoneMedia\Splade\Components\Cell;
+use ProtoneMedia\Splade\Table\Column;
 
 class BladeDirectives
 {
@@ -69,7 +71,7 @@ class BladeDirectives
      */
     public static function parseTableCellDirectiveExpression(string $expression): array
     {
-        preg_match("/('|\")(\w+)('|\")(,)?(\s*)(.*)/", $expression, $matches);
+        preg_match("/('|\")([\w\-_\.]+)('|\")(,)?(\s*)(.*)/", $expression, $matches);
 
         $name = trim($matches[2] ?? '');
 
@@ -99,6 +101,8 @@ class BladeDirectives
 
         Blade::directive($cellDirectiveName, function ($expression) {
             [$name, $function] = BladeDirectives::parseTableCellDirectiveExpression($expression);
+
+            $name = Column::hashKey($name);
 
             return "<?php \$__env->slot('spladeTableCell{$name}', {$function} { ?>";
         });

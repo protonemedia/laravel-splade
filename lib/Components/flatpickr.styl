@@ -1,29 +1,29 @@
-$calendarBorderColor ?= #d1d5db
-$dayHoverBackground ?= #f3f4f6
-$monthForeground ?= #111827
-$weekdaysForeground ?= #d1d5db
-$dayForeground ?= #374151
-$arrow_hover_color ?= #6366f1
-$selectedDayBackground ?= #6366f1
+$calendarBorderColor ?= #d1d5db // gray-300
+$dayHoverBackground ?= #f3f4f6  // gray-100
+$monthForeground ?= #111827 // gray-900
+$weekdaysForeground ?= #d1d5db // gray-300
+$dayForeground ?= #374151 // gray-700
+$arrow_hover_color ?= #6366f1 // indigo-500
+$selectedDayBackground ?= #6366f1 // indigo-500
 
 @import "flatpickr/src/style/flatpickr.styl"
 
 .flatpickr-calendar
-    border-radius 0.375rem
-    margin-top 1px
+    border-radius 0.375rem  // .rounded-md
+    margin-top 1px  // .mt-px
 
     &:before, &:after
-        display none
+        display none    // .hidden
 
 .flatpickr-wrapper
-    width 100%
+    width 100%  // .w-full
 
 .flatpickr-current-month
     .flatpickr-monthDropdown-months
     input.cur-year
-        font-size 1rem
+        font-size 1rem  // .font-base
 
 .flatpickr-time
     input
         &:focus
-            box-shadow none
+            box-shadow none // .shadow-none

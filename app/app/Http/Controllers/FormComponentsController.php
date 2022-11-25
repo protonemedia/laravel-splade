@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ComponentsRequest;
 use App\Models\Dummy;
+use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Fluent;
@@ -16,10 +16,7 @@ class FormComponentsController
 {
     private function countries(): array
     {
-        return collect(json_decode(file_get_contents(resource_path('iso3166.json'))))
-            ->keyBy->{'alpha-2'}
-            ->map->name
-            ->all();
+        return app('countries.keyValue');
     }
 
     public function simple()
@@ -204,8 +201,46 @@ class FormComponentsController
         ]]);
     }
 
-    public function submit(ComponentsRequest $request)
+    public function relation()
     {
+        $project = Project::first();
+
+        return view('form.components.relation', [
+            'project' => $project,
+        ]);
+    }
+
+    public function customSelectOptions()
+    {
+        return view('form.components.customSelectOptions');
+    }
+
+    public function submit(Request $request)
+    {
+        return redirect()->route('navigation.one');
+    }
+
+    public function selectAsync(Request $request)
+    {
+        $countries = array_keys($this->countries());
+
+        $request->validate([
+            'country_a' => ['required', 'string', Rule::in($countries)],
+            'country_b' => ['required', 'string', Rule::in($countries)],
+            'country_c' => ['required', 'string', Rule::in($countries)],
+            'country_d' => ['required', 'string', Rule::in($countries)],
+
+            'countries_a' => ['required', 'array', 'min:1'],
+            'countries_b' => ['required', 'array', 'min:1'],
+            'countries_c' => ['required', 'array', 'min:1'],
+            'countries_d' => ['required', 'array', 'min:1'],
+
+            'countries_a.*' => ['required', 'string', Rule::in($countries)],
+            'countries_b.*' => ['required', 'string', Rule::in($countries)],
+            'countries_c.*' => ['required', 'string', Rule::in($countries)],
+            'countries_d.*' => ['required', 'string', Rule::in($countries)],
+        ]);
+
         return redirect()->route('navigation.one');
     }
 }

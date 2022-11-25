@@ -11,6 +11,8 @@ trait HasResource
 {
     public $resource = [];
 
+    public $rowLinkCallable;
+
     public Collection $rowLinks;
 
     public string $rowLinkType = '';
@@ -26,15 +28,24 @@ trait HasResource
      */
     public function rowLink(callable $callback): self
     {
+        $this->rowLinkCallable = $callback;
+
         $this->rowLinkType = 'link';
+
+        return $this;
+    }
+
+    protected function resolveRowLinks()
+    {
+        if (!$this->rowLinkCallable) {
+            return;
+        }
 
         $collection = $this->resource instanceof LengthAwarePaginator
             ? $this->resource->items()
             : $this->resource;
 
-        $this->rowLinks = Collection::make($collection)->map($callback);
-
-        return $this;
+        $this->rowLinks = Collection::make($collection)->map($this->rowLinkCallable);
     }
 
     /**

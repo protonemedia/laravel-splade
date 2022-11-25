@@ -5,7 +5,9 @@ use App\Events\RefreshEvent;
 use App\Events\SimpleEvent;
 use App\Events\ToastEvent;
 use App\Http\Controllers\BackFormController;
+use App\Http\Controllers\CountriesController;
 use App\Http\Controllers\FileFormController;
+use App\Http\Controllers\FilepondController;
 use App\Http\Controllers\FormComponentsController;
 use App\Http\Controllers\FormRelationsController;
 use App\Http\Controllers\FormViewController;
@@ -25,6 +27,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use ProtoneMedia\Splade\Facades\Splade;
+use ProtoneMedia\Splade\FileUploads\HandleSpladeFileUploads;
 
 Route::post('defer/api', function () {
     sleep(1);
@@ -45,6 +48,11 @@ Route::get('event/toast', fn () => event(new ToastEvent))->name('event.toast');
 
 Route::middleware('splade')->group(function () {
     Route::spladeTable();
+    Route::spladeUploads();
+
+    Route::get('/api/countries/keyValue', [CountriesController::class, 'keyValue'])->name('api.countries.keyValue');
+    Route::get('/api/countries/objects', [CountriesController::class, 'objects'])->name('api.countries.objects');
+    Route::get('/api/provinces/{country}', [CountriesController::class, 'provinces'])->name('api.countries.provinces');
 
     Route::view('content', 'content', [
         'html' => file_get_contents(resource_path('rendered_markdown.html')),
@@ -131,6 +139,28 @@ Route::middleware('splade')->group(function () {
     Route::post('form/components', [FormComponentsController::class, 'submit'])->name('form.components.submit')->middleware(HandlePrecognitiveRequests::class);
     Route::get('form/components/submitValue/{approved?}', [FormComponentsController::class, 'submitValue'])->name('form.components.submitValue');
     Route::post('form/components/submitValue/{approved?}', [FormComponentsController::class, 'submitValueSubmit'])->name('form.components.submitValueSubmit');
+    Route::get('form/components/relation', [FormComponentsController::class, 'relation'])->name('form.components.relation');
+    Route::get('form/components/customSelectOptions', [FormComponentsController::class, 'customSelectOptions'])->name('form.components.customSelectOptions');
+
+    Route::get('form/components/filepond', [FilepondController::class, 'show'])->name('form.components.filepond');
+    Route::get('form/components/filepondValidation', [FilepondController::class, 'showValidation'])->name('form.components.filepondValidation');
+
+    Route::post('form/components/storeSingle', [FilepondController::class, 'storeSingle'])->name('form.components.filepond.storeSingle');
+    Route::post('form/components/storeMultiple', [FilepondController::class, 'storeMultiple'])->name('form.components.filepond.storeMultiple');
+
+    Route::post('form/components/storeWithRouteMiddleware', [FilepondController::class, 'storeWithRouteMiddleware'])
+        ->middleware(HandleSpladeFileUploads::for('avatar'))
+        ->name('form.components.filepond.storeWithRouteMiddleware');
+
+    Route::post('form/components/storeWithFormRequest', [FilepondController::class, 'storeWithFormRequest'])->name('form.components.filepond.storeWithFormRequest');
+    Route::post('form/components/storeWithFormRequestRuleObject', [FilepondController::class, 'storeWithFormRequestRuleObject'])->name('form.components.filepond.storeWithFormRequestRuleObject');
+
+    Route::view('form/components/selectPlaceholder', 'form.components.selectPlaceholder')->name('form.components.selectPlaceholder');
+
+    Route::view('form/components/selectAsync/keyValue', 'form.components.selectAsyncKeyValue')->name('form.components.selectAsyncKeyValue');
+    Route::view('form/components/selectAsync/objects', 'form.components.selectAsyncObjects')->name('form.components.selectAsyncObjects');
+    Route::view('form/components/selectAsync/dependent', 'form.components.selectAsyncDependent')->name('form.components.selectAsyncDependent');
+    Route::post('form/components/selectAsync', [FormComponentsController::class, 'selectAsync'])->name('form.components.selectAsync');
 
     Route::get('form/relations/belongsToMany', [FormRelationsController::class, 'belongsToMany'])->name('form.relations.belongsToMany');
     Route::get('form/relations/belongsToMany/choices', [FormRelationsController::class, 'belongsToManyChoices'])->name('form.relations.belongsToManyChoices');
@@ -157,6 +187,9 @@ Route::middleware('splade')->group(function () {
     Route::get('navigation/awayViaFacade', fn () => Splade::redirectAway('https://splade.dev/'))->name('navigation.awayViaFacade');
     Route::get('navigation/notFound', fn () => abort(404))->name('navigation.notFound');
     Route::get('navigation/serverError', fn () => throw new Exception('Whoops!'))->name('navigation.serverError');
+
+    Route::post('navigation/post', [NavigationController::class, 'post'])->name('navigation.post');
+    Route::put('navigation/put', [NavigationController::class, 'put'])->name('navigation.put');
 
     Route::get('modal/base', [ModalController::class, 'base'])->name('modal.base');
     Route::get('modal/one', [ModalController::class, 'one'])->name('modal.one');
@@ -204,13 +237,15 @@ Route::middleware('splade')->group(function () {
     Route::prefix('table')->group(function () {
         $table = new UserTableView;
 
-        Route::get('/custom', [TableController::class, 'custom'])->name('table.custom');
-        Route::get('/noPerPage', [TableController::class, 'noPerPage'])->name('table.noPerPage');
-        Route::get('/overflow', [TableController::class, 'overflow'])->name('table.overflow');
-        Route::get('/rowLink', [TableController::class, 'rowLink'])->name('table.rowLink');
-        Route::get('/rowModal', [TableController::class, 'rowModal'])->name('table.rowModal');
-        Route::get('/rowSlideover', [TableController::class, 'rowSlideover'])->name('table.rowSlideover');
-        Route::post('/touch', [TableController::class, 'touch'])->name('table.touch');
+        Route::get('/boolean/{spladeQueryBuilder?}', [TableController::class, 'boolean'])->name('table.boolean');
+        Route::get('/custom/{spladeQueryBuilder?}', [TableController::class, 'custom'])->name('table.custom');
+        Route::get('/noPerPage/{spladeQueryBuilder?}', [TableController::class, 'noPerPage'])->name('table.noPerPage');
+        Route::get('/overflow/{spladeQueryBuilder?}', [TableController::class, 'overflow'])->name('table.overflow');
+        Route::get('/rowLink/{spladeQueryBuilder?}', [TableController::class, 'rowLink'])->name('table.rowLink');
+        Route::get('/rowModal/{spladeQueryBuilder?}', [TableController::class, 'rowModal'])->name('table.rowModal');
+        Route::get('/rowSlideover/{spladeQueryBuilder?}', [TableController::class, 'rowSlideover'])->name('table.rowSlideover');
+        Route::get('/caseSensitive/{spladeQueryBuilder?}', [TableController::class, 'caseSensitive'])->name('table.caseSensitive');
+        Route::get('/caseInsensitive/{spladeQueryBuilder?}', [TableController::class, 'caseInsensitive'])->name('table.caseInsensitive');
 
         Route::get('/relationsAndExports', [TableController::class, 'relationsAndExports'])->name('table.relationsAndExports');
 

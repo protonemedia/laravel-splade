@@ -2,6 +2,102 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 1.0.1 - 2022-11-23
+
+- Fix for validating uploads with a `Rules\File::class` instance
+
+## 1.0.0 - 2022-11-23
+
+Splade gives you a massive head start when building applications. Navigate the documentation or watch the videos to discover its power, but to give you a glance, here's a short overview of some of the best features:
+
+- Splade allows you to use the Laravel Blade template engine and build a single-page application using regular server-side routing without building an API. You still have the full power of Vue.js when you need it.
+- Splade aims to stick as close as possible to the default Laravel features and development flow.
+- Automatic installer and support for the Laravel Breeze starter kit.
+- Besides the SPA navigation features, it has more than 20 interactive components that are huge timesavers.
+- Most components are functional and unstyled, giving you complete control over the implementation.
+- Other components are styled with Tailwind CSS 3.0, but can be fully customized by publishing the Blade templates. You don't need to rebuild or recompile *any* JavaScript for this.
+- Built-in support for Modals and Slideover that can show any route or pre-loaded content.
+- Beautiful Form Components with support for Validation and (Eloquent) Model binding. Built-in integration with Autosize, Choices.js, FilePond, and Flatpickr, including async file uploads.
+- DataTables-like Table component that supports auto-fill, bulk actions, exports, searching, sorting, and more!
+- Support Lazy Loading (templates and data), Persistent Layout, Animations, and Teleports.
+- Laravel Echo integration to control browser behavior from the backend (redirecting, refreshing, and showing a toast).
+- Built-in SEO (title, description, keywords) with support for Open Graph and Twitter tags.
+- Support for custom Blade and Vue components.
+- Support for existing Blade and Vue libraries.
+- Support for SSR (server-side rendering).
+
+## 0.7.8.2 - 2022-11-23
+
+- Fix for publishing Form stylesheets
+- Slideover styling fix
+
+## 0.7.8.1 - 2022-11-22
+
+- Allow modal/slider classes on outer div
+
+## 0.7.8 - 2022-11-22
+
+- Fix for custom cells of nested columns
+- Vue main element cleanup after mount
+
+## 0.7.7 - 2022-11-19
+
+- Allow Link component to make non-GET requests (#122)
+- Prevent wrong pagination call (#110)
+- Move the ESM bundler from `vite.config.js` to `app.js`
+
+## 0.7.6.1 - 2022-11-19
+
+- Added `splade:show-versions` Artisan command
+
+## 0.7.6 - 2022-11-16
+
+- FilePond integration with support for: Drag-and-drop uploads, Image previews, Async uploads, File type validation, File size validation, and Image validation
+
+## 0.7.5 - 2022-11-15
+
+- Table Component: resolve row links after the resource has been loaded
+
+## 0.7.4 - 2022-11-15
+
+- Preserves the default `perPage` pagination value in the `perPage` selector.
+- Added `build()` helper method to dedicated tables.
+- Added MySQL, PostgreSQL and SQLite to the test matrix.
+- DB performance improvements in SpladeTable wildcard searches.
+
+## 0.7.3 - 2022-11-15
+
+- Added helper methods to sort the Table Resource in descending order
+- Table component fix for Select Filter with numeric keys
+- Choices.js fix for selecting a default value
+
+## 0.7.2 - 2022-11-14
+
+- Support for pre-loaded modals/slideovers
+
+## 0.7.1 - 2022-11-03
+
+- Support remote options in Form Select component
+- Choices.js placeholder and styling improvements
+- Improved Dusk macros for selecting Choices.js options
+- The Dusk suite now checks whether the websockets server is running
+
+## 0.6.13 - 2022-10-31
+
+- Fix for closing the Choices.js dropdown when rendered in a Headless UI Modal
+
+## 0.6.12 - 2022-10-31
+
+- Support for nested relationships in Form Components
+
+## 0.6.11 - 2022-10-26
+
+- Escape meta tag values
+
+## 0.6.10 - 2022-10-26
+
+- Axios fix
+
 ## 0.6.9 - 2022-10-25
 
 - Improved SEO handling with support for Open Graph and Twitter meta tags, Canonical URL, and separate configuration file.

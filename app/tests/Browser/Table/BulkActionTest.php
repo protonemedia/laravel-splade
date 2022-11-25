@@ -6,18 +6,21 @@ use App\Models\Project;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 
+/**
+ * @group table
+ */
 class BulkActionTest extends DuskTestCase
 {
     /** @test */
     public function it_can_perform_one_row()
     {
         $this->browse(function (Browser $browser) {
-            $longTimeAgo = now()->subCentury();
+            $someTimeAgo = now()->subDecade();
 
             $this->assertEquals(30, Project::count());
 
-            Project::withoutTouching(function () use ($longTimeAgo) {
-                Project::query()->update(['updated_at' => $longTimeAgo]);
+            Project::withoutTouching(function () use ($someTimeAgo) {
+                Project::query()->update(['updated_at' => $someTimeAgo]);
             });
 
             $browser->visit('table/relationsAndExports')
@@ -29,7 +32,7 @@ class BulkActionTest extends DuskTestCase
                 ->press('@action.touch-timestamp')
                 ->waitForText('Timestamps updated!');
 
-            $this->assertEquals(29, Project::whereUpdatedAt($longTimeAgo)->count());
+            $this->assertEquals(29, Project::whereUpdatedAt($someTimeAgo)->count());
         });
     }
 
@@ -37,12 +40,12 @@ class BulkActionTest extends DuskTestCase
     public function it_can_perform_one_all_rows_on_the_current_page_with_a_confirmation()
     {
         $this->browse(function (Browser $browser) {
-            $longTimeAgo = now()->subCentury();
+            $someTimeAgo = now()->subDecade();
 
             $this->assertEquals(30, Project::count());
 
-            Project::withoutTouching(function () use ($longTimeAgo) {
-                Project::query()->update(['updated_at' => $longTimeAgo]);
+            Project::withoutTouching(function () use ($someTimeAgo) {
+                Project::query()->update(['updated_at' => $someTimeAgo]);
             });
 
             $browser->visit('table/relationsAndExports')
@@ -60,7 +63,7 @@ class BulkActionTest extends DuskTestCase
                 ->press('@splade-confirm-confirm')
                 ->waitForText('Timestamps updated!');
 
-            $this->assertEquals(15, Project::whereUpdatedAt($longTimeAgo)->count());
+            $this->assertEquals(15, Project::whereUpdatedAt($someTimeAgo)->count());
         });
     }
 
@@ -68,12 +71,12 @@ class BulkActionTest extends DuskTestCase
     public function it_can_perform_one_all_rows_on_the_all_pages_with_a_custom_confirmation()
     {
         $this->browse(function (Browser $browser) {
-            $longTimeAgo = now()->subCentury();
+            $someTimeAgo = now()->subDecade();
 
             $this->assertEquals(30, Project::count());
 
-            Project::withoutTouching(function () use ($longTimeAgo) {
-                Project::query()->update(['updated_at' => $longTimeAgo]);
+            Project::withoutTouching(function () use ($someTimeAgo) {
+                Project::query()->update(['updated_at' => $someTimeAgo]);
             });
 
             $browser->visit('table/relationsAndExports')
@@ -89,7 +92,7 @@ class BulkActionTest extends DuskTestCase
                 ->press('@splade-confirm-confirm')
                 ->waitForText('Timestamps updated!');
 
-            $this->assertEquals(0, Project::whereUpdatedAt($longTimeAgo)->count());
+            $this->assertEquals(0, Project::whereUpdatedAt($someTimeAgo)->count());
         });
     }
 }

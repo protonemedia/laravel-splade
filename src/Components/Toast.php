@@ -14,7 +14,6 @@ class Toast extends Component
      */
     public function __construct(
         public SpladeToast $toast,
-        public string $scope = 'toast'
     ) {
     }
 
@@ -25,6 +24,6 @@ class Toast extends Component
      */
     public function render()
     {
-        return view('splade::toast', $this->toast->toArray());
+        return view('splade::components.toast', $this->toast->toArray());
     }
 }

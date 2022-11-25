@@ -13,6 +13,6 @@ class Confirm extends Component
      */
     public function render()
     {
-        return view('splade::confirm');
+        return view('splade::components.confirm');
     }
 }
