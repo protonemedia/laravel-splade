@@ -2,6 +2,11 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 1.0.2 - 2022-11-25
+
+- Form Components now respect the `autofocus` attribute
+- Fix for Table `rowLink` feature when combined with custom cells containing other links
+
 ## 1.0.1 - 2022-11-23
 
 - Fix for validating uploads with a `Rules\File::class` instance
