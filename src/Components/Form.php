@@ -50,6 +50,7 @@ class Form extends Component
         $unguarded = null,
         public bool $scrollOnError = true,
         public array|bool|string $submitOnChange = false,
+        public array|bool|string $precognition = false,
     ) {
         // We'll use this instance in the static 'selected()' method,
         // which is a workaround for a Vue bug. Later, when the
@@ -69,6 +70,10 @@ class Form extends Component
 
         if (is_string($submitOnChange)) {
             $this->submitOnChange = static::splitByComma($submitOnChange);
+        }
+
+        if (is_string($precognition)) {
+            $this->precognition = static::splitByComma($precognition);
         }
     }
 
