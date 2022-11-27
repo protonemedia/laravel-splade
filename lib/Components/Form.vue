@@ -9,6 +9,7 @@ import isBoolean from "lodash-es/isBoolean";
 import mapValues from "lodash-es/mapValues";
 import set from "lodash-es/set";
 import startsWith from "lodash-es/startsWith";
+import debounce from "lodash-es/debounce";
 
 export default {
     inject: ["stack"],
@@ -98,7 +99,13 @@ export default {
             type: [Boolean, Array],
             required: false,
             default: false
-        }
+        },
+
+        precognition: {
+            type: [Boolean, Array],
+            required: false,
+            default: false
+        },
     },
 
     emits: ["success", "error"],
@@ -113,7 +120,9 @@ export default {
             recentlySuccessful: false,
             recentlySuccessfulTimeoutId: null,
             formElement: null,
+            touchedPrecognitionKeys: [],
             elementsUploading: [],
+            precognitionDebounceFunction: null,
         };
     },
 
@@ -173,17 +182,35 @@ export default {
             this.$put(attribute, defaultValue);
         });
 
+        this.formElement.querySelectorAll("[data-validation-key]").forEach((element) => {
+            element.addEventListener("change", this.handlePrecognition);
+        });
+
         this.missingAttributes = [];
+        this.touchedPrecognitionKeys = [];
 
         // Create watchers
         if(this.submitOnChange === true) {
             this.$watch("values", () => {
                 this.$nextTick(() => this.request());
             }, { deep: true });
-        }else if(isArray(this.submitOnChange)) {
+        } else if(isArray(this.submitOnChange)) {
             this.submitOnChange.forEach((key) => {
                 this.$watch(`values.${key}`, () => {
                     this.$nextTick(() => this.request());
+                }, { deep: true });
+            });
+        }
+
+        // Create watchers
+        if(this.precognition === true) {
+            this.$watch("values", () => {
+                this.$nextTick(() => this.precognitionDebounceFunction());
+            }, { deep: true });
+        } else if(isArray(this.precognition)) {
+            this.precognition.forEach((key) => {
+                this.$watch(`values.${key}`, () => {
+                    this.$nextTick(() => this.precognitionDebounceFunction());
                 }, { deep: true });
             });
         }
@@ -195,6 +222,12 @@ export default {
         if(autofocusElement){
             this.focusAndScrollToElement(autofocusElement);
         }
+    },
+
+    created() {
+        this.precognitionDebounceFunction = debounce(() => {
+            this.handlePrecognition();
+        }, 1250);
     },
 
     methods: {
@@ -219,7 +252,13 @@ export default {
         },
 
         $put(key, value) {
+            this.$touchForPrecognition(key);
+
             return set(this.values, key, value);
+        },
+
+        $touchForPrecognition(key) {
+            this.touchedPrecognitionKeys = [...new Set([key, ...this.touchedPrecognitionKeys])];
         },
 
         focusAndScrollToElement(element) {
@@ -288,21 +327,31 @@ export default {
                 .catch(() => {});
         },
 
+        async handlePrecognition() {
+            await this.handleRequest(true, isArray(this.precognition) ?this.precognition:[]);
+        },
+
+        async request() {
+            await this.handleRequest(false, []);
+        },
+
         /*
          * Maps the values into a FormData instance and then
          * performs an async request.
          */
-        async request() {
+        async handleRequest(precognition, precognitionRules) {
             if(this.$uploading) {
                 return;
             }
 
             await this.$nextTick();
 
-            this.processing = true;
-            this.wasSuccessful = false;
-            this.recentlySuccessful = false;
-            clearTimeout(this.recentlySuccessfulTimeoutId);
+            if(!precognition) {
+                this.processing = true;
+                this.wasSuccessful = false;
+                this.recentlySuccessful = false;
+                clearTimeout(this.recentlySuccessfulTimeoutId);
+            }
 
             const data = (this.values instanceof FormData)
                 ? this.values
@@ -314,6 +363,25 @@ export default {
                 headers["X-Splade-Prevent-Refresh"] = true;
             }
 
+            if(precognition) {
+                headers["Precognition"] = true;
+
+                let validateOnly = this.touchedPrecognitionKeys;
+
+                if(precognitionRules.length > 0) {
+                    validateOnly = validateOnly.filter((key) => {
+                        return precognitionRules.includes(key);
+                    });
+
+                    if(validateOnly.length === 0) {
+                        // Non of the touched keys are in the precognition rules.
+                        return;
+                    }
+                }
+
+                headers["Precognition-Validate-Only"] = validateOnly.join(",");
+            }
+
             let method = this.method.toUpperCase();
 
             if(method !== "GET" && method !== "POST") {
@@ -323,6 +391,12 @@ export default {
 
             Splade.request(this.action, method, data, headers)
                 .then((response) => {
+                    if (response.headers.precognition) {
+                        return;
+                    }
+
+                    this.processing = false;
+
                     this.$emit("success", response);
 
                     if (this.restoreOnSuccess) {
@@ -333,12 +407,15 @@ export default {
                         this.reset();
                     }
 
-                    this.processing = false;
                     this.wasSuccessful = true;
                     this.recentlySuccessful = true;
                     this.recentlySuccessfulTimeoutId = setTimeout(() => this.recentlySuccessful = false, 2000);
                 })
                 .catch(async (error) => {
+                    if(precognition) {
+                        return;
+                    }
+
                     this.processing = false;
                     this.$emit("error", error);
 
@@ -377,6 +454,7 @@ export default {
                             "$all",
                             "$attrs",
                             "$put",
+                            "$touch",
                             "$startUploading",
                             "$stopUploading",
                             "$processing",

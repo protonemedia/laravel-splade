@@ -15,12 +15,14 @@ use App\Http\Controllers\LazyController;
 use App\Http\Controllers\ModalController;
 use App\Http\Controllers\NavigationController;
 use App\Http\Controllers\NestedFormController;
+use App\Http\Controllers\PrecognitionFormController;
 use App\Http\Controllers\SimpleFormController;
 use App\Http\Controllers\SlowFormController;
 use App\Http\Controllers\TableController;
 use App\Http\Controllers\ToastController;
 use App\Http\Controllers\TwoFieldsFormController;
 use App\Http\UserTableView;
+use Illuminate\Foundation\Http\Middleware\HandlePrecognitiveRequests;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
@@ -113,6 +115,11 @@ Route::middleware('splade')->group(function () {
 
     Route::view('form/nested', 'form.nested')->name('form.nested');
     Route::post('form/nested', NestedFormController::class)->name('form.nested.submit');
+
+    Route::view('form/precognition', 'form.precognition')->name('form.precognition');
+    Route::post('form/precognition', PrecognitionFormController::class)
+        ->name('form.precognition.submit')
+        ->middleware(HandlePrecognitiveRequests::class);
 
     Route::get('form/components/simple', [FormComponentsController::class, 'simple'])->name('form.components.simple');
     Route::get('form/components/vmodel', [FormComponentsController::class, 'vmodel'])->name('form.components.vmodel');
