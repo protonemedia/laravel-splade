@@ -16,11 +16,18 @@ class PersistentLayoutTest extends DuskTestCase
                 ->assertScript('return document.querySelector("video").paused', true)
                 ->tap(fn ($browser) => $browser->script('document.querySelector("video").play()'))
                 ->pause(500)
-                ->assertScript('return document.querySelector("video").paused', false)
-                ->click('@two')
+                ->assertScript('return document.querySelector("video").paused', false);
+
+            $usersContentOnePageOne = $browser->element('@random-users')->getText();
+
+            $browser->click('@two')
                 ->waitForText('Chapter two')
                 ->pause(500)
                 ->assertScript('return document.querySelector("video").paused', false);
+
+            $usersContentOnePageTwo = $browser->element('@random-users')->getText();
+
+            $this->assertEquals($usersContentOnePageOne, $usersContentOnePageTwo);
         });
     }
 
