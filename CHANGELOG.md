@@ -2,6 +2,11 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 1.0.3 - 2022-11-27
+
+- Better JS console error message when the response is not a Splade response
+- Improved persistent layout handling
+
 ## 1.0.2 - 2022-11-25
 
 - Form Components now respect the `autofocus` attribute
