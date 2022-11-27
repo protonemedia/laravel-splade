@@ -48,6 +48,7 @@ class SpladeMiddleware
         // Set and restore some defaults before handling the request.
         $this->splade->setModalKey(Str::uuid());
         $this->splade->resetLazyComponentCounter();
+        $this->splade->resetPersistentLayoutKey();
 
         /** @var Response $response */
         $response = $next($request);
@@ -284,8 +285,9 @@ class SpladeMiddleware
                 $session->pull(static::FLASH_TOASTS, []),
                 $this->splade->getToasts(),
             ),
-            'preventRefresh' => $this->splade->dontRefreshPage(),
-            'lazy'           => $this->splade->isLazyRequest(),
+            'preventRefresh'   => $this->splade->dontRefreshPage(),
+            'lazy'             => $this->splade->isLazyRequest(),
+            'persistentLayout' => $this->splade->getPersistentLayoutKey(),
         ];
     }
 

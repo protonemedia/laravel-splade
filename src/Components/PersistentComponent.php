@@ -8,6 +8,8 @@ use Illuminate\Support\HtmlString;
 use Illuminate\View\Component;
 use Illuminate\View\ComponentSlot;
 use Illuminate\View\Factory;
+use ProtoneMedia\Splade\Facades\Splade;
+use ProtoneMedia\Splade\SpladeCore;
 
 abstract class PersistentComponent extends Component
 {
@@ -20,6 +22,8 @@ abstract class PersistentComponent extends Component
     public function resolveView()
     {
         $original = parent::resolveView();
+
+        app(SpladeCore::class)->setPersistentLayoutKey(md5($original->name()));
 
         return view('splade::functional.persistent-layout', [
             'originalName' => $original->name(),

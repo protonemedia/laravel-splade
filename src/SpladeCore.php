@@ -32,6 +32,8 @@ class SpladeCore
 
     private string $modalKey;
 
+    private ?string $persistentLayoutKey;
+
     private array $shared = [];
 
     private array $toasts = [];
@@ -88,6 +90,8 @@ class SpladeCore
         $this->shared   = [];
         $this->toasts   = [];
 
+        $this->persistentLayoutKey = null;
+
         return $this;
     }
 
@@ -135,6 +139,29 @@ class SpladeCore
     }
 
     /**
+     * Returns the Persistent Layout Key.
+     *
+     * @return null|string
+     */
+    public function getPersistentLayoutKey(): ?string
+    {
+        return $this->persistentLayoutKey;
+    }
+
+    /**
+     * Setter for the Persistent Layout Key.
+     *
+     * @param  string  $key
+     * @return $this
+     */
+    public function setPersistentLayoutKey(string $key): self
+    {
+        $this->persistentLayoutKey = $key;
+
+        return $this;
+    }
+
+    /**
      * Increases the amount of Lazy Components and returns the latest key.
      *
      * @return string
@@ -152,6 +179,18 @@ class SpladeCore
     public function resetLazyComponentCounter(): self
     {
         $this->lazyComponents = 0;
+
+        return $this;
+    }
+
+    /**
+     * Resets the Persistent Layout key.
+     *
+     * @return $this
+     */
+    public function resetPersistentLayoutKey(): self
+    {
+        $this->persistentLayoutKey = null;
 
         return $this;
     }
