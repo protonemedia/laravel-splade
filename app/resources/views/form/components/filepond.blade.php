@@ -39,6 +39,12 @@ FormFilePond
     <x-splade-submit />
 </x-splade-form>
 
+<x-splade-form dusk="form-request-rule-object-with-title" :action="route('form.components.filepond.storeWithFormRequestRuleObjectWithTitle', \App\Models\Project::first())" class="space-y-4">
+    <x-splade-input name="title" label="Title" />
+    <x-splade-file filepond name="avatar" server />
+    <x-splade-submit />
+</x-splade-form>
+
 <x-splade-form dusk="js-config">
     <x-splade-file filepond="{ credits: null }" name="file" />
 </x-splade-form>

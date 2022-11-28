@@ -78,6 +78,8 @@ class HandleSpladeFileUploads extends TransformsRequest
     {
         $rules = Validator::make([], $formRequest->rules())->getRules();
 
+        $formRequest->clearConvertedFiles();
+
         $keys = Collection::make($rules)->filter(function ($rules) {
             if (in_array('file', $rules)) {
                 return true;

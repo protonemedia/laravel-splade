@@ -3,6 +3,7 @@
 namespace Tests\Browser\Form;
 
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Str;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 
@@ -143,6 +144,24 @@ class FilepondTest extends DuskTestCase
                 ->within('@form-request-rule-object', function (Browser $browser) {
                     $browser->attach('avatar', __DIR__ . '/../small.jpeg')
                         ->waitForText('Upload complete')
+                        ->press('Submit');
+                })
+                ->waitForRoute('navigation.one');
+
+            $this->assertFileExists(storage_path('app/avatars/avatar.jpg'));
+        });
+    }
+
+    /** @test */
+    public function it_can_upload_a_temporary_file_using_a_form_request_and_it_clear_the_converted_files()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('form/components/filepond')
+                ->waitForText('FormFilePond')
+                ->within('@form-request-rule-object-with-title', function (Browser $browser) {
+                    $browser->attach('avatar', __DIR__ . '/../small.jpeg')
+                        ->waitForText('Upload complete')
+                        ->type('title', Str::random())
                         ->press('Submit');
                 })
                 ->waitForRoute('navigation.one');

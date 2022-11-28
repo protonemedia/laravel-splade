@@ -2,6 +2,7 @@
 
 namespace ProtoneMedia\Splade;
 
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Middleware\ValidateSignature;
 use Illuminate\Support\Collection;
@@ -164,6 +165,10 @@ class ServiceProvider extends BaseServiceProvider
             }
 
             return new Filesystem($disk ?: 'splade_temporary_file_uploads');
+        });
+
+        FormRequest::macro('clearConvertedFiles', function () {
+            $this->convertedFiles = null;
         });
 
         $this->app->resolving(HasSpladeFileUploads::class, function ($resolved) {
