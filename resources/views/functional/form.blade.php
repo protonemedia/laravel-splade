@@ -5,6 +5,7 @@
     :scroll-on-error="@js($scrollOnError)"
     :splade-id="@js($spladeId)"
     :submit-on-change="@js($submitOnChange)"
+    :escape-validation-messages="@js($escapeValidationMessages)"
 >
     <template #default="{!! $scope !!}">
         <form data-splade-id="{{ $spladeId }}" v-bind="form.$attrs" @submit.prevent="form.submit" {{ $attributes->only(['action', 'method'])->merge(['method' => 'POST']) }}>

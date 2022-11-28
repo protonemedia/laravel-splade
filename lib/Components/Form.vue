@@ -98,7 +98,13 @@ export default {
             type: [Boolean, Array],
             required: false,
             default: false
-        }
+        },
+
+        escapeValidationMessages: {
+            type: Boolean,
+            required: false,
+            default: true
+        },
     },
 
     emits: ["success", "error"],
@@ -208,6 +214,12 @@ export default {
 
         hasError(key) {
             return key in this.errors;
+        },
+
+        $errorAttributes(key) {
+            return {
+                [this.escapeValidationMessages ? "textContent" : "innerHTML"]: this.errors[key]
+            };
         },
 
         reset() {
@@ -381,6 +393,7 @@ export default {
                             "$stopUploading",
                             "$processing",
                             "$uploading",
+                            "$errorAttributes",
                             "errors",
                             "restore",
                             "reset",
