@@ -11,7 +11,7 @@ Splade provides a **super easy** way to build ***Single Page Applications*** (SP
 [![Total Downloads](https://img.shields.io/packagist/dt/protonemedia/laravel-splade.svg)](https://packagist.org/packages/protonemedia/laravel-splade)
 [![GitHub Sponsors](https://img.shields.io/github/sponsors/pascalbaljet)](https://github.com/sponsors/pascalbaljet)
 
-## Support Splade
+## Sponsor Splade
 
 ❤️ We proudly support the community by developing Laravel packages and giving them away for free. If this package saves you time or if you're relying on it professionally, please consider [sponsoring the maintenance and development](https://github.com/sponsors/pascalbaljet). Keeping track of issues and pull requests takes time, but we're happy to help!
 
