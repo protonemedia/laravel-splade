@@ -259,4 +259,22 @@ class FormComponentsController
 
         return redirect()->route('navigation.one');
     }
+
+    public function showValidateMessage()
+    {
+        if (request()->query('escape') === 'no') {
+            config(['splade.blade.escape_validation_messages' => false]);
+        }
+
+        return view('form.components.validateMessage');
+    }
+
+    public function storeValidateMessage(Request $request)
+    {
+        $request->validate([
+            'name' => ['required'],
+        ], [
+            'name.required' => 'Here is a <a href="#">Link</a>',
+        ]);
+    }
 }
