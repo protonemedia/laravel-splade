@@ -393,6 +393,8 @@ class Form extends Component
      */
     public function render()
     {
-        return view('splade::functional.form');
+        return view('splade::functional.form', [
+            'escapeValidationMessages' => config('splade.blade.escape_validation_messages'),
+        ]);
     }
 }

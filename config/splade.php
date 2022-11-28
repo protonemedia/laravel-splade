@@ -46,8 +46,9 @@ return [
      * @see https://splade.dev/docs/form-overview
      */
     'blade' => [
-        'component_prefix'     => 'splade',
-        'table_cell_directive' => 'cell',
+        'component_prefix'           => 'splade',
+        'table_cell_directive'       => 'cell',
+        'escape_validation_messages' => true,
     ],
 
     /**

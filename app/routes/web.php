@@ -162,6 +162,9 @@ Route::middleware('splade')->group(function () {
     Route::view('form/components/selectAsync/dependent', 'form.components.selectAsyncDependent')->name('form.components.selectAsyncDependent');
     Route::post('form/components/selectAsync', [FormComponentsController::class, 'selectAsync'])->name('form.components.selectAsync');
 
+    Route::get('form/components/validateMessage', [FormComponentsController::class, 'showValidateMessage'])->name('form.components.showValidateMessage');
+    Route::post('form/components/validateMessage', [FormComponentsController::class, 'storeValidateMessage'])->name('form.components.storeValidateMessage');
+
     Route::get('form/relations/belongsToMany', [FormRelationsController::class, 'belongsToMany'])->name('form.relations.belongsToMany');
     Route::get('form/relations/belongsToMany/choices', [FormRelationsController::class, 'belongsToManyChoices'])->name('form.relations.belongsToManyChoices');
     Route::post('form/relations/belongsToMany', [FormRelationsController::class, 'storeBelongsToMany'])->name('form.relations.storeBelongsToMany');
