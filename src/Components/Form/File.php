@@ -2,6 +2,7 @@
 
 namespace ProtoneMedia\Splade\Components\Form;
 
+use Illuminate\Support\Collection;
 use Illuminate\View\Component;
 use ProtoneMedia\Splade\Components\Form;
 
@@ -38,6 +39,7 @@ class File extends Component
         public bool|int $maxHeight = false,
         public bool|int $minResolution = false,
         public bool|int $maxResolution = false,
+        public array|string|null $files = null,
     ) {
         if ($placeholder === true) {
             $this->placeholder = $filepond
@@ -66,6 +68,7 @@ class File extends Component
         }
 
         $this->accept = is_string($accept) ? Form::splitByComma($accept) : $accept;
+        $this->files  = Collection::wrap($files)->map([$this, 'mapExistingFile'])->all();
     }
 
     /**
@@ -98,6 +101,16 @@ class File extends Component
             ],
             is_array($this->filepond) ? $this->filepond : [],
         );
+    }
+
+    public function mapExistingFile($file): array
+    {
+        return [
+            'source'  => $file,
+            'options' => [
+                'type' => 'remote',
+            ],
+        ];
     }
 
     /**

@@ -120,6 +120,7 @@ export default {
             recentlySuccessfulTimeoutId: null,
             formElement: null,
             elementsUploading: [],
+            fileponds: {},
         };
     },
 
@@ -214,6 +215,21 @@ export default {
 
         hasError(key) {
             return key in this.errors;
+        },
+
+        $registerFilepond(field, addFile, addFiles) {
+            this.fileponds[field] = {
+                addFile,
+                addFiles
+            };
+        },
+
+        $addFile(field, file) {
+            this.fileponds[field].addFile(file);
+        },
+
+        $addFiles(field, files) {
+            this.fileponds[field].addFiles(files);
         },
 
         $errorAttributes(key) {
@@ -394,6 +410,9 @@ export default {
                             "$processing",
                             "$uploading",
                             "$errorAttributes",
+                            "$registerFilepond",
+                            "$addFile",
+                            "$addFiles",
                             "errors",
                             "restore",
                             "reset",

@@ -27,6 +27,24 @@ class FilepondController extends Controller
         return view('form.components.filepondValidation');
     }
 
+    public function showExisting()
+    {
+        return view('form.components.filepondExisting', [
+            'upload'  => url('1.jpeg'),
+            'uploads' => [
+                url('1.jpeg'),
+                url('2.jpeg'),
+            ],
+        ]);
+    }
+
+    public function storeExisting(Request $request)
+    {
+        HandleSpladeFileUploads::forRequest($request);
+
+        dd($request->all());
+    }
+
     public function storeSingle(Request $request)
     {
         $request->validate([

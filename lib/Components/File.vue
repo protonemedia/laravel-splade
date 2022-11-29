@@ -113,6 +113,12 @@ export default {
             required: false,
             default: false
         },
+
+        files: {
+            type: Array,
+            required: false,
+            default: () => [],
+        },
     },
 
     emits: ["start-uploading", "stop-uploading"],
@@ -133,10 +139,19 @@ export default {
 
         if(this.filepond) {
             this.initFilepond();
+            this.form.$registerFilepond(this.field, this.addFileToFilepond, this.addFilesToFilepond);
         }
     },
 
     methods: {
+        addFileToFilepond(file) {
+            this.filepondInstance.addFile(file);
+        },
+
+        addFilesToFilepond(files) {
+            files.forEach(file => this.addFileToFilepond(file));
+        },
+
         loadFilepondPlugins() {
             const plugins = [];
 
@@ -197,6 +212,8 @@ export default {
 
                         vm.$emit("stop-uploading", [file.id]);
                     },
+
+                    files: this.files
                 });
 
                 if(this.accept.length > 0) {
