@@ -27,7 +27,8 @@ class ExistingFile implements Arrayable, JsonSerializable
     protected static function serialize($value)
     {
         if (!static::$serializer) {
-            static::$serializer = new class {
+            static::$serializer = new class
+            {
                 use SerializesAndRestoresModelIdentifiers;
 
                 public function __invoke($value)
