@@ -118,7 +118,7 @@ export default {
         }, this.searchDebounce);
     },
 
-    mounted(){
+    mounted() {
         const query = this.getCurrentQuery();
 
         const columns = query.columns || [];
@@ -126,7 +126,7 @@ export default {
         // Parse the query string and figure out whether there
         // are Search Inputs that should be visible.
         forOwn(query, (value, key) => {
-            if(startsWith(key, "filter[") && !value){
+            if(startsWith(key, "filter[") && !value) {
                 const splittedKey = key.split("[");
                 const filterKey = splittedKey[1].substring(0, splittedKey[1].length - 1);
 
@@ -174,7 +174,7 @@ export default {
             query.sort = null;
 
             forOwn(query, (queryValue, queryKey) => {
-                if(startsWith(queryKey, "filter[")){
+                if(startsWith(queryKey, "filter[")) {
                     query[queryKey] = null;
                 }
             });
@@ -185,7 +185,7 @@ export default {
         /*
          * Returns a boolean whether the given key is visible.
          */
-        columnIsVisible(key){
+        columnIsVisible(key) {
             return this.visibleColumns.includes(key);
         },
 
@@ -238,7 +238,7 @@ export default {
         /*
          * Forces the given Search Input key to be visible, and focuses the input element.
          */
-        showSearchInput(key){
+        showSearchInput(key) {
             this.forcedVisibleSearchInputs = [...this.forcedVisibleSearchInputs, key];
 
             nextTick(() => {
@@ -315,14 +315,14 @@ export default {
             queryObject[key] = value;
 
             // Reset the page value when the 'perPage' or filters change.
-            if(startsWith(key, "perPage") || startsWith(key, "filter[")){
+            if(startsWith(key, "perPage") || startsWith(key, "filter[")) {
                 delete queryObject["page"];
             }
 
             this.visitWithQueryObject(queryObject, $el, reload);
         },
 
-        visitWithQueryObject(queryObject, $el, reload){
+        visitWithQueryObject(queryObject, $el, reload) {
             // When reload is false, it only updates the query
             // string, but doesn't perform a new request.
             if(typeof reload === "undefined") {
@@ -378,7 +378,7 @@ export default {
             this.isLoading = true;
             let currentValueOfElement = null;
 
-            if(typeof $el !== "undefined" && $el){
+            if(typeof $el !== "undefined" && $el) {
                 currentValueOfElement = document.querySelector(`[name="${$el.name}"]`)?.value;
             }
 
@@ -386,7 +386,7 @@ export default {
             Splade.replace(url).then(() => {
                 this.isLoading = false;
 
-                if(typeof $el !== "undefined" && $el){
+                if(typeof $el !== "undefined" && $el) {
                     nextTick(() => {
                         const $newEl = document.querySelector(`[name="${$el.name}"]`);
 

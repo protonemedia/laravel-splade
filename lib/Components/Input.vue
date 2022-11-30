@@ -81,7 +81,7 @@ export default {
     },
 
     methods: {
-        initFlatpickr(element){
+        initFlatpickr(element) {
             import("flatpickr").then((flatpickr) => {
                 // Instantiate Flatpickr with the combined PHP and
                 // JS options, and listen for changes so we can

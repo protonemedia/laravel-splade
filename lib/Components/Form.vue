@@ -165,6 +165,10 @@ export default {
         this.formElement = formElement;
 
         this.missingAttributes.forEach((attribute) => {
+            if(has(this.values, attribute)) {
+                return;
+            }
+
             let defaultValue = "";
 
             const inputElement = formElement.querySelector(`[name="${attribute}"]`);
@@ -199,7 +203,7 @@ export default {
 
         const autofocusElement = this.formElement.querySelector("[autofocus]");
 
-        if(autofocusElement){
+        if(autofocusElement) {
             this.focusAndScrollToElement(autofocusElement);
         }
     },

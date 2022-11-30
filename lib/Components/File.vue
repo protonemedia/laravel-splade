@@ -133,17 +133,17 @@ export default {
         };
     },
 
+    computed: {
+        existingField() {
+            return this.field + this.existingSuffix;
+        }
+    },
+
     mounted() {
         this.inputElement = this.$refs["file"].querySelector("input[type=\"file\"]");
 
-
-        if(!this.form[this.field]){
-            this.form.$put(this.field, this.multiple ? [] : null);
-        }
-
         const boundValue = this.form[this.field];
         this.hadExistingFiles = (this.multiple && boundValue.length > 0) || (!this.multiple && boundValue);
-
         this.form.$put(this.field, this.multiple ? [] : null);
 
         if(this.filepond) {
@@ -159,7 +159,7 @@ export default {
                 return;
             }
 
-            this.form.$put(this.field + this.existingSuffix, value);
+            this.form.$put(this.existingField, value);
         },
 
         addFileToFilepond(file) {
@@ -219,7 +219,7 @@ export default {
                         }
 
                         if(vm.multiple) {
-                            vm.setExisting(vm.form[vm.field + vm.existingSuffix].filter((existingFile) => {
+                            vm.setExisting(vm.form[vm.existingField].filter((existingFile) => {
                                 return file.getMetadata("identifier") !== existingFile.options.metadata.identifier;
                             }));
                         } else{
@@ -242,9 +242,11 @@ export default {
 
                         vm.$emit("stop-uploading", [file.id]);
                     },
-
-                    files: this.hadExistingFiles ? (this.multiple ? files : [files]) : null
                 });
+
+                if(this.hadExistingFiles) {
+                    options.files = this.multiple ? files : [files];
+                }
 
                 if(this.accept.length > 0) {
                     options.acceptedFileTypes = this.accept;
@@ -283,7 +285,7 @@ export default {
                 }
 
                 options.server = {
-                    load: (source, load, error, progress, abort, headers) => {
+                    load: (source, load, error, progress, abort) => {
                         const loadCancelToken = Axios.CancelToken;
                         const loadCancelTokenSource = loadCancelToken.source();
 
@@ -297,7 +299,6 @@ export default {
 
                             load(file);
                         }).catch(function (thrown) {
-                            console.log(thrown);
                             if (!axios.isCancel(thrown)) {
                                 error(thrown);
                             }
