@@ -10,7 +10,7 @@ FormFilePond
 </x-splade-form>
 
 <x-splade-form dusk="regular-avatars" :action="route('form.components.filepond.storeMultiple')" class="space-y-4">
-    <x-splade-file filepond name="avatars" multiple />
+    <x-splade-file filepond name="avatars[]" multiple />
     <x-splade-submit />
 </x-splade-form>
 
@@ -20,7 +20,7 @@ FormFilePond
 </x-splade-form>
 
 <x-splade-form dusk="multiple-avatars" :action="route('form.components.filepond.storeMultiple')" class="space-y-4">
-    <x-splade-file filepond name="avatars" multiple server />
+    <x-splade-file filepond name="avatars[]" multiple server />
     <x-splade-submit />
 </x-splade-form>
 

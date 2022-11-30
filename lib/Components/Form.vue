@@ -165,10 +165,6 @@ export default {
         this.formElement = formElement;
 
         this.missingAttributes.forEach((attribute) => {
-            if(has(this.values, attribute)) {
-                return;
-            }
-
             let defaultValue = "";
 
             const inputElement = formElement.querySelector(`[name="${attribute}"]`);
