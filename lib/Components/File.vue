@@ -148,7 +148,7 @@ export default {
 
         if(this.filepond) {
             this.setExisting(boundValue);
-            this.initFilepond(boundValue);
+            this.initFilepond(boundValue ? boundValue : []);
             this.form.$registerFilepond(this.field, this.addFileToFilepond, this.addFilesToFilepond);
         }
     },
@@ -243,7 +243,7 @@ export default {
                         vm.$emit("stop-uploading", [file.id]);
                     },
 
-                    files: this.multiple ? files : [files]
+                    files: this.hadExistingFiles ? (this.multiple ? files : [files]) : null
                 });
 
                 if(this.accept.length > 0) {

@@ -4,16 +4,14 @@ namespace ProtoneMedia\Splade\FileUploads;
 
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Queue\SerializesAndRestoresModelIdentifiers;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 use JsonSerializable;
+use ProtoneMedia\Splade\EloquentSerializer;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class ExistingFile implements Arrayable, JsonSerializable
 {
-    protected static $serializer = null;
-
     public function __construct(
         public string $filename,
         public array $metadata = [],
@@ -22,25 +20,6 @@ class ExistingFile implements Arrayable, JsonSerializable
         public ?string $mimeType = null,
         public ?int $sizeInBytes = null,
     ) {
-    }
-
-    protected static function serialize($value)
-    {
-        if (!static::$serializer) {
-            static::$serializer = new class
-            {
-                use SerializesAndRestoresModelIdentifiers;
-
-                public function __invoke($value)
-                {
-                    return $this->getSerializedPropertyValue($value);
-                }
-            };
-        }
-
-        $serializer = static::$serializer;
-
-        return $serializer($value);
     }
 
     public static function fromMediaLibrary(
@@ -65,7 +44,7 @@ class ExistingFile implements Arrayable, JsonSerializable
 
         $file = static::withFilename($media->file_name)
             ->name($media->name)
-            ->metadata(['model' => static::serialize($media)])
+            ->metadata(['model' => app(EloquentSerializer::class)->serialize($media)])
             ->mimeType($media->mime_type)
             ->sizeInBytes($media->size);
 
@@ -85,9 +64,19 @@ class ExistingFile implements Arrayable, JsonSerializable
         return $file->previewUrl($previewUrl);
     }
 
+    public static function fromMediaLibraryWithoutPreview($media)
+    {
+        return static::fromMediaLibrary($media, false);
+    }
+
     public static function fromDisk(string $disk): ExistingFileFromDisk
     {
         return new ExistingFileFromDisk($disk);
+    }
+
+    public static function fromDiskWithoutPreview(string $disk): ExistingFileFromDisk
+    {
+        return static::fromDisk($disk)->withoutPreview();
     }
 
     public static function withFilename($filename)

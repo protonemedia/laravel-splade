@@ -174,6 +174,10 @@ class ServiceProvider extends BaseServiceProvider
         $this->app->resolving(HasSpladeFileUploads::class, function ($resolved) {
             return HandleSpladeFileUploads::forFormRequest($resolved);
         });
+
+        $this->app->singleton(EloquentSerializer::class, function () {
+            return new EloquentSerializer;
+        });
     }
 
     /**
