@@ -27,8 +27,7 @@ class ExistingFile implements Arrayable, JsonSerializable
     protected static function serialize($value)
     {
         if (!static::$serializer) {
-            static::$serializer = new class
-            {
+            static::$serializer = new class {
                 use SerializesAndRestoresModelIdentifiers;
 
                 public function __invoke($value)
@@ -137,25 +136,26 @@ class ExistingFile implements Arrayable, JsonSerializable
 
     public function toArray(): array
     {
-        $data = [
-            'source'  => $this->previewUrl,
+        $file = [
+            'name' => $this->filename,
+            'size' => $this->sizeInBytes,
+            'type' => $this->mimeType,
+        ];
+
+        return [
+            'source' => $this->previewUrl ? [
+                'preview_url' => $this->previewUrl,
+                ...$file,
+            ] : null,
             'options' => [
                 'type' => 'local',
 
                 'metadata' => [
                     'metadata' => encrypt(json_encode($this->metadata)),
                 ],
+
+                'file' => $this->previewUrl ? null : $file,
             ],
         ];
-
-        if (!$this->previewUrl) {
-            $data['options']['file'] = [
-                'name' => $this->filename,
-                'size' => $this->sizeInBytes,
-                'type' => $this->mimeType,
-            ];
-        }
-
-        return $data;
     }
 }

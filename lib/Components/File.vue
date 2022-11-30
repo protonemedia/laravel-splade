@@ -288,13 +288,16 @@ export default {
                         const loadCancelTokenSource = loadCancelToken.source();
 
                         Axios({
-                            url: source,
+                            url: source.preview_url,
                             method: "GET",
-                            cancelToken: source.token,
+                            cancelToken: loadCancelTokenSource.token,
                             responseType: "blob",
                         }).then((response) => {
-                            load(response.data);
+                            const file = new File([response.data], source.name, { type: source.type });
+
+                            load(file);
                         }).catch(function (thrown) {
+                            console.log(thrown);
                             if (!axios.isCancel(thrown)) {
                                 error(thrown);
                             }

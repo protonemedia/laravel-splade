@@ -1,7 +1,6 @@
 <SpladeFile
     :form="form"
     :field="@js($formKey())"
-    :files="@js($files)"
     :multiple="@js($multiple)"
     :placeholder="@js($placeholder)"
     :filepond="@js($filepondOptions())"
