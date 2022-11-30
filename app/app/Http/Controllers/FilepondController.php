@@ -6,8 +6,10 @@ use App\Http\Requests\AvatarUpload;
 use App\Http\Requests\AvatarUploadFileRule;
 use App\Http\Requests\TitleWithAvatarUploadFileRule;
 use App\Models\Project;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use ProtoneMedia\Splade\FileUploads\ExistingFile;
 use ProtoneMedia\Splade\FileUploads\HandleSpladeFileUploads;
 
 class FilepondController extends Controller
@@ -30,11 +32,7 @@ class FilepondController extends Controller
     public function showExisting()
     {
         return view('form.components.filepondExisting', [
-            'upload'  => url('1.jpeg'),
-            'uploads' => [
-                url('1.jpeg'),
-                url('2.jpeg'),
-            ],
+            'photos' => ExistingFile::fromMediaLibrary(User::first()->getMedia('photos')),
         ]);
     }
 

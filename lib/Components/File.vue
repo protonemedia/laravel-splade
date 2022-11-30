@@ -114,11 +114,11 @@ export default {
             default: false
         },
 
-        files: {
-            type: Array,
+        existingSuffix: {
+            type: [Boolean, String],
             required: false,
-            default: () => [],
-        },
+            default: "_existing"
+        }
     },
 
     emits: ["start-uploading", "stop-uploading"],
@@ -135,15 +135,33 @@ export default {
     mounted() {
         this.inputElement = this.$refs["file"].querySelector("input[type=\"file\"]");
 
-        this.form.$put(this.field, this.multiple ? [] : null);
+
+        if(!this.form[this.field]){
+            this.form.$put(this.field, this.multiple ? [] : null);
+        }
+
+        const boundValue = this.form[this.field];
+
+        if(this.filepond && this.existingSuffix) {
+            this.setExisting(boundValue);
+            this.form.$put(this.field, this.multiple ? [] : null);
+        }
 
         if(this.filepond) {
-            this.initFilepond();
+            this.initFilepond(boundValue);
             this.form.$registerFilepond(this.field, this.addFileToFilepond, this.addFilesToFilepond);
         }
     },
 
     methods: {
+        setExisting(value) {
+            if(!this.existingSuffix) {
+                return;
+            }
+
+            this.form.$put(this.field + this.existingSuffix, value);
+        },
+
         addFileToFilepond(file) {
             this.filepondInstance.addFile(file);
         },
@@ -175,13 +193,17 @@ export default {
             return Promise.all(plugins);
         },
 
-        initFilepond() {
+        initFilepond(boundValue) {
             const vm = this;
 
             import("filepond").then((filepond) => {
                 const options = Object.assign({}, vm.filepond, vm.jsFilepondOptions, {
                     onaddfile(error, file) {
                         if(error) {
+                            return;
+                        }
+
+                        if(file.origin === filepond.FileOrigin.LOCAL) {
                             return;
                         }
 
@@ -194,6 +216,14 @@ export default {
                     onremovefile(error, file) {
                         if(error) {
                             return;
+                        }
+
+                        if(vm.multiple) {
+                            vm.setExisting(vm.form[vm.field + vm.existingSuffix].filter((existingFile) => {
+                                return file.getMetadata("identifier") !== existingFile.options.metadata.identifier;
+                            }));
+                        } else{
+                            vm.setExisting(null);
                         }
 
                         vm.removeFile(file.file);
@@ -213,7 +243,7 @@ export default {
                         vm.$emit("stop-uploading", [file.id]);
                     },
 
-                    files: this.files
+                    files: this.multiple ? boundValue : [boundValue]
                 });
 
                 if(this.accept.length > 0) {
@@ -252,51 +282,76 @@ export default {
                     options.imageValidateSizeMaxResolution = this.maxImageResolution;
                 }
 
+                options.server = {
+                    load: (source, load, error, progress, abort, headers) => {
+                        const loadCancelToken = Axios.CancelToken;
+                        const loadCancelTokenSource = loadCancelToken.source();
+
+                        Axios({
+                            url: source,
+                            method: "GET",
+                            cancelToken: source.token,
+                            responseType: "blob",
+                        }).then((response) => {
+                            load(response.data);
+                        }).catch(function (thrown) {
+                            if (!axios.isCancel(thrown)) {
+                                error(thrown);
+                            }
+                        });
+
+                        return {
+                            abort: () => {
+                                loadCancelTokenSource.cancel();
+                                abort();
+                            },
+                        };
+                    }
+                };
+
                 if(this.server) {
-                    options.server = {
-                        process: (fieldName, file, metadata, load, error, progress, abort) => {
-                            // fieldName is the name of the input field
-                            // file is the actual file object to send
-                            const formData = new FormData();
-                            formData.append("file", file, file.name);
+                    options.server.process = (fieldName, file, metadata, load, error, progress, abort) => {
+                        // fieldName is the name of the input field
+                        // file is the actual file object to send
+                        const formData = new FormData();
+                        formData.append("file", file, file.name);
 
-                            const CancelToken = Axios.CancelToken;
-                            const source = CancelToken.source();
+                        const CancelToken = Axios.CancelToken;
+                        const source = CancelToken.source();
 
-                            Axios({
-                                url: vm.server,
-                                method: "POST",
-                                data: formData,
-                                cancelToken: source.token,
-                                onUploadProgress: e => {
-                                    progress(e.lengthComputable, e.loaded, e.total);
-                                },
-                            }).then((response) => {
-                                if (response.status >= 200 && response.status < 300) {
-                                    load(response.data);
-                                } else {
-                                    error(response.statusText);
-                                }
-                            }).catch(function (thrown) {
-                                if (axios.isCancel(thrown)) {
-                                    abort();
-                                } else {
-                                    error(thrown.response?.statusText);
-                                }
-                            });
-                        },
-
-                        revert: (path, load, error) => {
-                            Axios({
-                                url: vm.server,
-                                method: "POST",
-                                data: { _method: "DELETE", file: path },
-                            }).then(() => {
-                                load();
-                            }).catch(function (thrown) {
+                        Axios({
+                            url: vm.server,
+                            method: "POST",
+                            data: formData,
+                            cancelToken: source.token,
+                            onUploadProgress: e => {
+                                progress(e.lengthComputable, e.loaded, e.total);
+                            },
+                        }).then((response) => {
+                            if (response.status >= 200 && response.status < 300) {
+                                load(response.data);
+                            } else {
+                                error(response.statusText);
+                            }
+                        }).catch(function (thrown) {
+                            if (axios.isCancel(thrown)) {
+                                abort();
+                            } else {
                                 error(thrown.response?.statusText);
-                            });
-                        },
+                            }
+                        });
+                    };
+
+                    options.server.revert = (path, load, error) => {
+                        Axios({
+                            url: vm.server,
+                            method: "POST",
+                            data: { _method: "DELETE", file: path },
+                        }).then(() => {
+                            load();
+                        }).catch(function (thrown) {
+                            error(thrown.response?.statusText);
+                        });
                     };
                 }
 
@@ -330,6 +385,7 @@ export default {
             } else {
                 // Directly put the file(s) on the form instance.
                 this.form.$put(this.field, input[0]);
+                this.setExisting(null);
             }
 
             if(!this.filepond) {
