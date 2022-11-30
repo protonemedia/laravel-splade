@@ -93,7 +93,7 @@ class File extends Component
         return array_merge(
             [
                 'allowReorder'       => true,
-                'itemInsertLocation' => 'before',
+                'itemInsertLocation' => 'after',
                 'labelIdle'          => $this->placeholder,
                 'multiple'           => $this->multiple,
                 'name'               => 'file',

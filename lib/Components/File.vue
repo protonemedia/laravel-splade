@@ -115,7 +115,7 @@ export default {
         },
 
         existingSuffix: {
-            type: [Boolean, String],
+            type: String,
             required: false,
             default: "_existing"
         }
@@ -129,6 +129,7 @@ export default {
             filepondInstance: null,
             filenames: [],
             uploadedFiles: [],
+            hadExistingFiles: false,
         };
     },
 
@@ -141,13 +142,12 @@ export default {
         }
 
         const boundValue = this.form[this.field];
+        this.hadExistingFiles = (this.multiple && boundValue.length > 0) || (!this.multiple && boundValue);
 
-        if(this.filepond && this.existingSuffix) {
-            this.setExisting(boundValue);
-            this.form.$put(this.field, this.multiple ? [] : null);
-        }
+        this.form.$put(this.field, this.multiple ? [] : null);
 
         if(this.filepond) {
+            this.setExisting(boundValue);
             this.initFilepond(boundValue);
             this.form.$registerFilepond(this.field, this.addFileToFilepond, this.addFilesToFilepond);
         }
@@ -155,7 +155,7 @@ export default {
 
     methods: {
         setExisting(value) {
-            if(!this.existingSuffix) {
+            if(!this.hadExistingFiles) {
                 return;
             }
 
@@ -193,7 +193,7 @@ export default {
             return Promise.all(plugins);
         },
 
-        initFilepond(boundValue) {
+        initFilepond(files) {
             const vm = this;
 
             import("filepond").then((filepond) => {
@@ -243,7 +243,7 @@ export default {
                         vm.$emit("stop-uploading", [file.id]);
                     },
 
-                    files: this.multiple ? boundValue : [boundValue]
+                    files: this.multiple ? files : [files]
                 });
 
                 if(this.accept.length > 0) {
