@@ -418,7 +418,7 @@ class ServiceProvider extends BaseServiceProvider
 
         Request::macro('orderedSpladeFileUploads', function ($key) {
             /** @var Request $this */
-            $newFiles = Collection::make($this->file($key, []));
+            $newFiles = Collection::wrap($this->file($key, []));
 
             $existingFiles = $this->collect($key . File::getSuffixForExistingFiles())->keyBy->getIdentifier();
 

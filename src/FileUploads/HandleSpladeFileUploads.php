@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use ProtoneMedia\Splade\Components\Form\File;
 use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class HandleSpladeFileUploads extends TransformsRequest
 {
@@ -82,6 +83,7 @@ class HandleSpladeFileUploads extends TransformsRequest
 
             $mediaClass = config('media-library.media_model');
 
+            /** @var Media $mediaInstance */
             $mediaInstance = new $mediaClass();
 
             $mediaInstance::setNewOrder($media->map->getKey()->all());
