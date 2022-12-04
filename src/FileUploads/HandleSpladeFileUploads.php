@@ -10,7 +10,8 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
-use Illuminate\Validation\Rules\File;
+use ProtoneMedia\Splade\Components\Form\File;
+use Spatie\MediaLibrary\HasMedia;
 
 class HandleSpladeFileUploads extends TransformsRequest
 {
@@ -62,6 +63,31 @@ class HandleSpladeFileUploads extends TransformsRequest
         return static::class . ':' . $keys;
     }
 
+    public static function syncMediaLibrary(Request $request, HasMedia $model, string $key, string $collectionName = '', string $diskName = ''): Collection
+    {
+        static::forRequest($request, [$key, "{$key}.*"]);
+
+        $collectionName = $collectionName ?: 'default';
+
+        return $request->orderedSpladeFileUploads($key)->map(function (SpladeFile $file) use ($model, $collectionName, $diskName) {
+            if ($file->exists()) {
+                return $file->existing->getModel();
+            }
+
+            if ($file->doesntExist()) {
+                return $model->addMedia($file->upload)->toMediaCollection($collectionName, $diskName);
+            }
+        })->filter()->tap(function (Collection $media) use ($model, $collectionName) {
+            $model->clearMediaCollectionExcept($collectionName, $media);
+
+            $mediaClass = config('media-library.media_model');
+
+            $mediaInstance = new $mediaClass();
+
+            $mediaInstance::setNewOrder($media->map->getKey()->all());
+        });
+    }
+
     /**
      * Helper method to clean the request.
      *
@@ -97,6 +123,42 @@ class HandleSpladeFileUploads extends TransformsRequest
         return static::forRequest($formRequest, $keys->isEmpty() ? null : $keys->all());
     }
 
+    private function shouldHandleKey($key)
+    {
+        if (!is_array($this->keys)) {
+            return true;
+        }
+
+        if (Arr::first($this->keys, fn ($allowedKey) => Str::is($allowedKey, $key)) === null) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Transforms encrypted existing upload to SpladeExistingFile instances.
+     *
+     * @param  string  $key
+     * @param  mixed  $value
+     * @return mixed
+     */
+    protected function transformExistingUpload($key, $value)
+    {
+        if (!is_string($value)) {
+            return $value;
+        }
+
+        $temporaryFileUpload = ExistingFile::fromEncryptedString($value);
+
+        if (!$temporaryFileUpload) {
+            // Not an existing file upload, just a regular string.
+            return $value;
+        }
+
+        return $temporaryFileUpload;
+    }
+
     /**
      * Transforms encrypted temporary file uploads to SpladeUploadedFile instances.
      *
@@ -106,10 +168,28 @@ class HandleSpladeFileUploads extends TransformsRequest
      */
     protected function transform($key, $value)
     {
-        if (is_array($this->keys)) {
-            if (Arr::first($this->keys, fn ($allowedKey) => Str::is($allowedKey, $key)) === null) {
+        $realKey = $key;
+
+        $suffix = File::getSuffixForExistingFiles();
+
+        $keyParts = explode('.', $key);
+
+        if (is_numeric($keyParts[count($keyParts) - 1])) {
+            $realKey = implode('.', array_slice($keyParts, 0, -1));
+        }
+
+        if ($suffix && Str::endsWith($realKey, $suffix)) {
+            $keyWithoutSuffix = Str::beforeLast($realKey, $suffix);
+
+            if (!$this->shouldHandleKey($keyWithoutSuffix)) {
                 return $value;
             }
+
+            return $this->transformExistingUpload($key, $value);
+        }
+
+        if (!$this->shouldHandleKey($key)) {
+            return $value;
         }
 
         if (!is_string($value)) {

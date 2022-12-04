@@ -9,6 +9,9 @@ class File extends Component
 {
     use InteractsWithFormElement;
 
+    private static bool|string $defaultSuffixForExistingUploads = '_existing';
+    private static bool|string $defaultSuffixForUploadOrder     = '_order';
+
     /**
      * Create a new component instance.
      *
@@ -68,6 +71,26 @@ class File extends Component
         $this->accept = is_string($accept) ? Form::splitByComma($accept) : $accept;
     }
 
+    public static function defaultSuffixForExistingUploads(bool|string $suffix)
+    {
+        static::$defaultSuffixForExistingUploads = $suffix;
+    }
+
+    public static function defaultSuffixForUploadOrder(bool|string $suffix)
+    {
+        static::$defaultSuffixForUploadOrder = $suffix;
+    }
+
+    public static function getSuffixForExistingFiles(): string|bool
+    {
+        return static::$defaultSuffixForExistingUploads;
+    }
+
+    public static function getSuffixForUploadOrder(): string|bool
+    {
+        return static::$defaultSuffixForUploadOrder;
+    }
+
     /**
      * Returns the JSON representation of the Filepond options.
      *
@@ -109,6 +132,9 @@ class File extends Component
      */
     public function render()
     {
-        return view('splade::form.file');
+        return view('splade::form.file', [
+            'existingSuffix' => static::$defaultSuffixForExistingUploads,
+            'orderSuffix'    => static::$defaultSuffixForUploadOrder,
+        ]);
     }
 }

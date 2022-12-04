@@ -4,8 +4,10 @@ namespace ProtoneMedia\Splade\FileUploads;
 
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use JsonSerializable;
 use ProtoneMedia\Splade\EloquentSerializer;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -19,7 +21,44 @@ class ExistingFile implements Arrayable, JsonSerializable
         public ?string $previewUrl = null,
         public ?string $mimeType = null,
         public ?int $sizeInBytes = null,
+        private ?string $identifier = null,
     ) {
+        $this->identifier = $identifier ?: Str::random();
+    }
+
+    /**
+     * Decrypts the string and returns a new instance, or null if the string is invalid.
+     *
+     * @param  string  $value
+     * @return static|null
+     */
+    public static function fromEncryptedString(string $value): ?static
+    {
+        $data = rescue(fn () => decrypt($value), null, false);
+
+        if (!is_array($data)) {
+            return null;
+        }
+
+        if (!array_key_exists('splade_existing_file_upload', $data)) {
+            return null;
+        }
+
+        $serializer = app(EloquentSerializer::class);
+
+        $metadata = Collection::make($data['metadata'])
+            ->map(fn ($value) => $serializer->restore($value))
+            ->all();
+
+        return new static(
+            $data['filename'],
+            $metadata,
+            $data['name'],
+            $data['preview_url'],
+            $data['mime_type'],
+            $data['size_in_bytes'],
+            $data['identifier'],
+        );
     }
 
     public static function fromMediaLibrary(
@@ -44,7 +83,7 @@ class ExistingFile implements Arrayable, JsonSerializable
 
         $file = static::withFilename($media->file_name)
             ->name($media->name)
-            ->metadata(['model' => app(EloquentSerializer::class)->serialize($media)])
+            ->metadata(['model' => $media])
             ->mimeType($media->mime_type)
             ->sizeInBytes($media->size);
 
@@ -141,11 +180,53 @@ class ExistingFile implements Arrayable, JsonSerializable
                 'type' => 'local',
 
                 'metadata' => [
-                    'metadata' => encrypt(json_encode($this->metadata)),
+                    'identifier' => $this->identifier,
+                    'metadata'   => $this->encryptAttributes(),
                 ],
 
                 'file' => $this->previewUrl ? null : $file,
             ],
         ];
+    }
+
+    public function getIdentifier(): string
+    {
+        return $this->identifier;
+    }
+
+    public function getMetadata(string $key = null)
+    {
+        return $key ? Arr::get($this->metadata, $key) : $this->metadata;
+    }
+
+    public function getModel()
+    {
+        return $this->getMetadata('model');
+    }
+
+    /**
+     * Returns the attributes as an encrypted string.
+     *
+     * @return string
+     */
+    public function encryptAttributes(): string
+    {
+        $serializer = app(EloquentSerializer::class);
+
+        $metadata = Collection::make($this->metadata)
+            ->map(fn ($value) => $serializer->serialize($value))
+            ->all();
+
+        return encrypt([
+            'splade_existing_file_upload' => true,
+
+            'filename'      => $this->filename,
+            'metadata'      => $metadata,
+            'name'          => $this->name,
+            'preview_url'   => $this->previewUrl,
+            'mime_type'     => $this->mimeType,
+            'size_in_bytes' => $this->sizeInBytes,
+            'identifier'    => $this->identifier,
+        ]);
     }
 }

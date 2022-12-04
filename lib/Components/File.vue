@@ -10,6 +10,9 @@
 <script>
 import { default as Axios } from "axios";
 import find from "lodash-es/find";
+import isArray from "lodash-es/isArray";
+import isObject from "lodash-es/isObject";
+import isString from "lodash-es/isString";
 
 export default {
     props: {
@@ -118,7 +121,13 @@ export default {
             type: String,
             required: false,
             default: "_existing"
-        }
+        },
+
+        orderSuffix: {
+            type: String,
+            required: false,
+            default: "_order"
+        },
     },
 
     emits: ["start-uploading", "stop-uploading"],
@@ -136,6 +145,14 @@ export default {
     computed: {
         existingField() {
             return this.field + this.existingSuffix;
+        },
+
+        orderField() {
+            return this.field + this.orderSuffix;
+        },
+
+        handlesExistingFiles() {
+            return this.existingSuffix && this.hadExistingFiles;
         }
     },
 
@@ -154,12 +171,64 @@ export default {
     },
 
     methods: {
+        extractMetadataFromExistingFile(file) {
+            if(!file) {
+                return null;
+            }
+
+            if(isString(file)) {
+                return file;
+            }
+
+            if(isArray(file)) {
+                return file.map(this.extractMetadataFromExistingFile);
+            }
+
+            if(isObject(file)) {
+                return file.options.metadata.metadata;
+            }
+
+            return null;
+        },
+
         setExisting(value) {
-            if(!this.hadExistingFiles) {
+            if(!this.handlesExistingFiles) {
                 return;
             }
 
-            this.form.$put(this.existingField, value);
+            this.form.$put(this.existingField, this.extractMetadataFromExistingFile(value));
+
+            this.setOrder();
+        },
+
+        setOrder() {
+            if(!this.multiple) {
+                return;
+            }
+
+            if(!this.handlesExistingFiles) {
+                return;
+            }
+
+            if(!this.filepondInstance) {
+                return;
+            }
+
+            const files = this.filepondInstance.getFiles();
+
+            const newFiles = files.filter(file => !file.getMetadata("identifier"));
+
+            const order = this.filepondInstance.getFiles().map((file) => {
+                const identifier = file.getMetadata("identifier");
+
+                if(identifier) {
+                    return "existing-file-" + identifier;
+                }
+
+                return "new-file-" + newFiles.indexOf(file);
+            });
+
+            this.form.$put(this.orderField, order);
         },
 
         addFileToFilepond(file) {
@@ -198,6 +267,10 @@ export default {
 
             import("filepond").then((filepond) => {
                 const options = Object.assign({}, vm.filepond, vm.jsFilepondOptions, {
+                    oninit() {
+                        vm.setOrder();
+                    },
+
                     onaddfile(error, file) {
                         if(error) {
                             return;
@@ -212,18 +285,22 @@ export default {
                         } else {
                             vm.$emit("start-uploading", [file.id]);
                         }
+
+                        vm.setOrder();
                     },
                     onremovefile(error, file) {
                         if(error) {
                             return;
                         }
 
-                        if(vm.multiple) {
-                            vm.setExisting(vm.form[vm.existingField].filter((existingFile) => {
-                                return file.getMetadata("identifier") !== existingFile.options.metadata.identifier;
-                            }));
-                        } else{
-                            vm.setExisting(null);
+                        if(vm.handlesExistingFiles) {
+                            if(vm.multiple) {
+                                vm.setExisting(vm.form[vm.existingField].filter((existingFile) => {
+                                    return file.getMetadata("metadata") !== existingFile;
+                                }));
+                            } else {
+                                vm.setExisting(null);
+                            }
                         }
 
                         vm.removeFile(file.file);
@@ -242,6 +319,9 @@ export default {
 
                         vm.$emit("stop-uploading", [file.id]);
                     },
+                    onreorderfiles() {
+                        vm.setOrder();
+                    }
                 });
 
                 if(this.hadExistingFiles) {

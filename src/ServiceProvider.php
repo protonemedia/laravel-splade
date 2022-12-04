@@ -3,6 +3,7 @@
 namespace ProtoneMedia\Splade;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Middleware\ValidateSignature;
 use Illuminate\Support\Collection;
@@ -20,9 +21,11 @@ use ProtoneMedia\Splade\Commands\ShowSpladeVersions;
 use ProtoneMedia\Splade\Commands\SpladeInstallCommand;
 use ProtoneMedia\Splade\Commands\SsrTestCommand;
 use ProtoneMedia\Splade\Commands\TableMakeCommand;
+use ProtoneMedia\Splade\Components\Form\File;
 use ProtoneMedia\Splade\FileUploads\Filesystem;
 use ProtoneMedia\Splade\FileUploads\HandleSpladeFileUploads;
 use ProtoneMedia\Splade\FileUploads\HasSpladeFileUploads;
+use ProtoneMedia\Splade\FileUploads\SpladeFile;
 use ProtoneMedia\Splade\Http\BladeDirectives;
 use ProtoneMedia\Splade\Http\EventRedirectController;
 use ProtoneMedia\Splade\Http\FileUploadController;
@@ -87,6 +90,7 @@ class ServiceProvider extends BaseServiceProvider
         $this->registerDuskMacros();
         $this->registerViewMacros();
         $this->registerResponseMacro();
+        $this->registerRequestMacros();
         $this->registerRouteForEventRedirect();
         $this->registerMacroForFileUploads();
         $this->registerMacroForTableRoutes();
@@ -165,10 +169,6 @@ class ServiceProvider extends BaseServiceProvider
             }
 
             return new Filesystem($disk ?: 'splade_temporary_file_uploads');
-        });
-
-        FormRequest::macro('clearConvertedFiles', function () {
-            $this->convertedFiles = null;
         });
 
         $this->app->resolving(HasSpladeFileUploads::class, function ($resolved) {
@@ -406,6 +406,34 @@ class ServiceProvider extends BaseServiceProvider
             $this->headers->set(SpladeCore::HEADER_SKIP_MIDDLEWARE, true);
 
             return $this;
+        });
+    }
+
+    private function registerRequestMacros()
+    {
+        FormRequest::macro('clearConvertedFiles', function () {
+            /** @var FormRequest $this */
+            $this->convertedFiles = null;
+        });
+
+        Request::macro('orderedSpladeFileUploads', function ($key) {
+            /** @var Request $this */
+            $newFiles = Collection::make($this->file($key, []));
+
+            $existingFiles = $this->collect($key . File::getSuffixForExistingFiles())->keyBy->getIdentifier();
+
+            return $this->collect($key . File::getSuffixForUploadOrder(), [])
+                ->map(function (string $uploadId) use ($newFiles, $existingFiles) {
+                    if (Str::startsWith($uploadId, 'new-file-')) {
+                        return $newFiles->get(Str::after($uploadId, 'new-file-'));
+                    }
+
+                    if (Str::startsWith($uploadId, 'existing-file-')) {
+                        return $existingFiles->get(Str::after($uploadId, 'existing-file-'));
+                    }
+                })
+                ->filter()
+                ->mapInto(SpladeFile::class);
         });
     }
 

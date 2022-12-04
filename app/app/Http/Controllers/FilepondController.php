@@ -9,6 +9,7 @@ use App\Models\Project;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use ProtoneMedia\Splade\Facades\Toast;
 use ProtoneMedia\Splade\FileUploads\ExistingFile;
 use ProtoneMedia\Splade\FileUploads\HandleSpladeFileUploads;
 
@@ -38,9 +39,11 @@ class FilepondController extends Controller
 
     public function storeExisting(Request $request)
     {
-        HandleSpladeFileUploads::forRequest($request);
+        HandleSpladeFileUploads::syncMediaLibrary($request, User::first(), 'photos', 'photos');
 
-        dd($request->all());
+        Toast::info('The photos have been saved.');
+
+        return redirect()->back();
     }
 
     public function storeSingle(Request $request)

@@ -8,6 +8,8 @@
     :server="@js($server)"
     :preview="@js($preview)"
     :accept="@js($accept)"
+    :existing-suffix="@js($existingSuffix)"
+    :order-suffix="@js($orderSuffix)"
     :min-file-size="@js($minSize)"
     :max-file-size="@js($maxSize)"
     :min-image-width="@js($minWidth)"
