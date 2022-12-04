@@ -30,7 +30,7 @@ class FilepondTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
             $browser->visit('form/components/filepond')
-                ->waitForText('FormFilePond')
+                ->waitForText('Drag and drop your files')
                 ->within('@regular-avatar', function (Browser $browser) {
                     $browser->attach('avatar', __DIR__ . '/../small.jpeg')
                         ->waitForText('small.jpeg')
@@ -47,11 +47,11 @@ class FilepondTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
             $browser->visit('form/components/filepond')
-                ->waitForText('FormFilePond')
+                ->waitForText('Drag and drop your files')
                 ->within('@regular-avatars', function (Browser $browser) {
                     $browser
-                        ->attach('avatars', __DIR__ . '/../small.jpeg')
-                        ->attach('avatars', __DIR__ . '/../small.png')
+                        ->attach('avatars[]', __DIR__ . '/../small.jpeg')
+                        ->attach('avatars[]', __DIR__ . '/../small.png')
                         ->waitForText('small.jpeg')
                         ->waitForText('small.png')
                         ->press('Submit');
@@ -68,7 +68,7 @@ class FilepondTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
             $browser->visit('form/components/filepond')
-                ->waitForText('FormFilePond')
+                ->waitForText('Drag and drop your files')
                 ->within('@single-avatar', function (Browser $browser) {
                     $browser->attach('avatar', __DIR__ . '/../small.jpeg')
                         ->waitForText('Upload complete')
@@ -85,11 +85,11 @@ class FilepondTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
             $browser->visit('form/components/filepond')
-                ->waitForText('FormFilePond')
+                ->waitForText('Drag and drop your files')
                 ->within('@multiple-avatars', function (Browser $browser) {
                     $browser
-                        ->attach('avatars', __DIR__ . '/../small.jpeg')
-                        ->attach('avatars', __DIR__ . '/../small.png')
+                        ->attach('avatars[]', __DIR__ . '/../small.jpeg')
+                        ->attach('avatars[]', __DIR__ . '/../small.png')
                         ->waitForText('Uploading')
                         ->waitUntilMissingText('Uploading')
                         ->press('Submit');
@@ -106,7 +106,7 @@ class FilepondTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
             $browser->visit('form/components/filepond')
-                ->waitForText('FormFilePond')
+                ->waitForText('Drag and drop your files')
                 ->within('@route-middleware', function (Browser $browser) {
                     $browser->attach('avatar', __DIR__ . '/../small.jpeg')
                         ->waitForText('Upload complete')
@@ -123,7 +123,7 @@ class FilepondTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
             $browser->visit('form/components/filepond')
-                ->waitForText('FormFilePond')
+                ->waitForText('Drag and drop your files')
                 ->within('@form-request', function (Browser $browser) {
                     $browser->attach('avatar', __DIR__ . '/../small.jpeg')
                         ->waitForText('Upload complete')
@@ -140,7 +140,7 @@ class FilepondTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
             $browser->visit('form/components/filepond')
-                ->waitForText('FormFilePond')
+                ->waitForText('Drag and drop your files')
                 ->within('@form-request-rule-object', function (Browser $browser) {
                     $browser->attach('avatar', __DIR__ . '/../small.jpeg')
                         ->waitForText('Upload complete')
@@ -157,7 +157,7 @@ class FilepondTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
             $browser->visit('form/components/filepond')
-                ->waitForText('FormFilePond')
+                ->waitForText('Drag and drop your files')
                 ->within('@form-request-rule-object-with-title', function (Browser $browser) {
                     $browser->attach('avatar', __DIR__ . '/../small.jpeg')
                         ->waitForText('Upload complete')
@@ -175,7 +175,7 @@ class FilepondTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
             $browser->visit('form/components/filepond')
-                ->waitForText('FormFilePond')
+                ->waitForText('Drag and drop your files')
                 ->within('@js-config', function (Browser $browser) {
                     $browser->assertDontSee('Powered by PQINA');
                 });
@@ -187,7 +187,7 @@ class FilepondTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
             $browser->visit('form/components/filepond')
-                ->waitForText('FormFilePond')
+                ->waitForText('Drag and drop your files')
                 ->within('@php-config', function (Browser $browser) {
                     $browser->assertDontSee('Powered by PQINA');
                 });
