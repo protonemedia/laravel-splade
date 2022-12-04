@@ -2,6 +2,11 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 1.0.4 - 2022-11-28
+
+- Added setting to escape validation messages or not (#134)
+- Bugfix for resolving FilePond uploads (#126)
+
 ## 1.0.3 - 2022-11-27
 
 - Better JS console error message when the response is not a Splade response
