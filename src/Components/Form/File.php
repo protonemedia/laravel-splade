@@ -10,7 +10,8 @@ class File extends Component
     use InteractsWithFormElement;
 
     private static bool|string $defaultSuffixForExistingUploads = '_existing';
-    private static bool|string $defaultSuffixForUploadOrder     = '_order';
+
+    private static bool|string $defaultSuffixForUploadOrder = '_order';
 
     /**
      * Create a new component instance.

@@ -7,6 +7,7 @@ use Illuminate\Http\UploadedFile;
 class SpladeFile
 {
     public UploadedFile $upload;
+
     public ExistingFile $existing;
 
     public function __construct(public ExistingFile|UploadedFile $file)
