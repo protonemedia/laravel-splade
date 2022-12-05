@@ -48,7 +48,7 @@ class HandleSpladeFileUploads extends TransformsRequest
     /**
      * Sets the request on the class.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request  $request
      * @return self
      */
     public function setRequest(Request $request): self
@@ -61,13 +61,14 @@ class HandleSpladeFileUploads extends TransformsRequest
     /**
      * Setter for the keys that should be cleaned.
      *
-     * @param mixed $keys
+     * @param  mixed  $keys
      * @return self
      */
     public function keys($keys = null): self
     {
         if (is_null($keys)) {
             $this->keys = null;
+
             return $this;
         }
 
@@ -79,7 +80,7 @@ class HandleSpladeFileUploads extends TransformsRequest
         foreach ($this->request->keys() as $key) {
             if ($existingSuffix && Str::endsWith($key, $existingSuffix)) {
                 $keys[] = $key;
-                $keys[] = $key . ".*";
+                $keys[] = $key . '.*';
             }
 
             if ($orderSuffix && Str::endsWith($key, $orderSuffix)) {
@@ -95,7 +96,7 @@ class HandleSpladeFileUploads extends TransformsRequest
     /**
      * Helper method to generate a Middleware string that can be used in the routes file.
      *
-     * @param mixed $keys
+     * @param  mixed  $keys
      * @return string
      */
     public static function for($keys): string
@@ -155,7 +156,7 @@ class HandleSpladeFileUploads extends TransformsRequest
      * Helper method to handle a FormRequest. It extracts the keys from the
      * validation rules that have a file rule.
      *
-     * @param FormRequest $formRequest
+     * @param  FormRequest  $formRequest
      * @return FormRequest
      */
     public static function forFormRequest(FormRequest $formRequest): FormRequest
@@ -184,8 +185,8 @@ class HandleSpladeFileUploads extends TransformsRequest
     /**
      * Returns a boolean whether the key should be cleaned.
      *
-     * @param string $key
-     * @return boolean
+     * @param  string  $key
+     * @return bool
      */
     private function shouldHandleKey(string $key): bool
     {
@@ -221,6 +222,7 @@ class HandleSpladeFileUploads extends TransformsRequest
 
         return $existingFile;
     }
+
     /**
      * Transforms encrypted temporary file to a TemporaryFileUpload instance.
      *
