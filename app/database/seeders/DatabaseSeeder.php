@@ -29,13 +29,7 @@ class DatabaseSeeder extends Seeder
             'email' => 'test@example.com',
         ]);
 
-        $firstUser->addMedia(public_path('1.jpeg'))->preservingOriginal()->toMediaCollection('avatar');
-
-        $firstUser->addMedia(public_path('1.jpeg'))->preservingOriginal()->toMediaCollection('photos');
-        $firstUser->addMedia(public_path('2.jpeg'))->preservingOriginal()->toMediaCollection('photos');
-
-        $firstUser->addMedia(public_path('dummy1.txt'))->preservingOriginal()->toMediaCollection('documents');
-        $firstUser->addMedia(public_path('dummy2.txt'))->preservingOriginal()->toMediaCollection('documents');
+        static::giveUserMedia($firstUser);
 
         $users = UserFactory::new()->count(99)->create();
 
@@ -52,5 +46,19 @@ class DatabaseSeeder extends Seeder
         ProjectFactory::new()
             ->count(30)
             ->create();
+    }
+
+    public static function giveUserMedia(User $user)
+    {
+        $user
+            ->clearMediaCollection('avatar')
+            ->clearMediaCollection('photos')
+            ->clearMediaCollection('documents');
+
+        $user->addMedia(public_path('1.jpeg'))->preservingOriginal()->toMediaCollection('avatar');
+        $user->addMedia(public_path('1.jpeg'))->preservingOriginal()->toMediaCollection('photos');
+        $user->addMedia(public_path('2.jpeg'))->preservingOriginal()->toMediaCollection('photos');
+        $user->addMedia(public_path('dummy1.txt'))->preservingOriginal()->toMediaCollection('documents');
+        $user->addMedia(public_path('dummy2.txt'))->preservingOriginal()->toMediaCollection('documents');
     }
 }

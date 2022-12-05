@@ -3,6 +3,7 @@
 namespace ProtoneMedia\Splade\FileUploads;
 
 use Closure;
+use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Foundation\Http\Middleware\TransformsRequest;
 use Illuminate\Http\Request;
@@ -32,65 +33,13 @@ class HandleSpladeFileUploads extends TransformsRequest
      */
     public function handle($request, Closure $next, $keys = null)
     {
-        $this->setRequest($request);
-
         $this->filesystem = app(Filesystem::class);
 
-        if ($keys) {
-            $this->keys($keys);
-        }
-
-        $this->clean($request);
+        $this->setRequest($request)
+            ->setKeys($keys)
+            ->clean($request);
 
         return $next($request);
-    }
-
-    /**
-     * Sets the request on the class.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return self
-     */
-    public function setRequest(Request $request): self
-    {
-        $this->request = $request;
-
-        return $this;
-    }
-
-    /**
-     * Setter for the keys that should be cleaned.
-     *
-     * @param  mixed  $keys
-     * @return self
-     */
-    public function keys($keys = null): self
-    {
-        if (is_null($keys)) {
-            $this->keys = null;
-
-            return $this;
-        }
-
-        $keys = is_array($keys) ? $keys : Form::splitByComma($keys);
-
-        $existingSuffix = File::getSuffixForExistingFiles();
-        $orderSuffix    = File::getSuffixForUploadOrder();
-
-        foreach ($this->request->keys() as $key) {
-            if ($existingSuffix && Str::endsWith($key, $existingSuffix)) {
-                $keys[] = $key;
-                $keys[] = $key . '.*';
-            }
-
-            if ($orderSuffix && Str::endsWith($key, $orderSuffix)) {
-                $keys[] = $key;
-            }
-        }
-
-        $this->keys = $keys;
-
-        return $this;
     }
 
     /**
@@ -104,37 +53,6 @@ class HandleSpladeFileUploads extends TransformsRequest
         $keys = is_array($keys) ? implode(',', $keys) : $keys;
 
         return static::class . ':' . $keys;
-    }
-
-    public static function syncMediaLibrary(Request $request, HasMedia $model, string $key, string $collectionName = '', string $diskName = ''): Collection
-    {
-        $orderKey = $key . File::getSuffixForUploadOrder();
-
-        $isMultipleField = $request->filled($orderKey);
-
-        static::forRequest($request, $isMultipleField ? "{$key}.*" : $key);
-
-        $collectionName = $collectionName ?: 'default';
-
-        return $request->orderedSpladeFileUploads($key)->map(function (SpladeFile $file) use ($model, $collectionName, $diskName) {
-            if ($file->exists()) {
-                return $file->existing->getModel();
-            }
-
-            if ($file->doesntExist()) {
-                return $model->addMedia($file->upload)->toMediaCollection($collectionName, $diskName);
-            }
-        })->filter()->tap(function (Collection $media) use ($model, $collectionName) {
-            // Clear unused media.
-            $model->clearMediaCollectionExcept($collectionName, $media);
-
-            // Reorder the media.
-            $mediaClass = config('media-library.media_model');
-
-            /** @var Media $mediaInstance */
-            $mediaInstance = new $mediaClass();
-            $mediaInstance::setNewOrder($media->map->getKey()->all());
-        });
     }
 
     /**
@@ -177,6 +95,105 @@ class HandleSpladeFileUploads extends TransformsRequest
         })->keys()->values();
 
         return static::forRequest($formRequest, $keys->isEmpty() ? null : $keys->all());
+    }
+
+    /**
+     *
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param \Spatie\MediaLibrary\HasMedia $subject
+     * @param string $key
+     * @param string $collectionName
+     * @param string $diskName
+     * @return \Illuminate\Support\Collection
+     */
+    public static function syncMediaLibrary(Request $request, HasMedia $subject, string $key, string $collectionName = '', string $diskName = ''): Collection
+    {
+        $collectionName = $collectionName ?: 'default';
+
+        // When the request has an '_order' key, we assume that it's a 'multiple' file upload.
+        $isMultipleField = $request->filled(
+            $key . File::getSuffixForUploadOrder()
+        );
+
+        // Convert encrypted temporary uploads and existing files to instances.
+        static::forRequest($request, $isMultipleField ? "{$key}.*" : $key);
+
+        /** @var Collection $allFiles */
+        $allFiles = $request->orderedSpladeFileUploads($key);
+
+        return $allFiles
+            ->map(function (SpladeFile $file) use ($subject, $collectionName, $diskName) {
+                // Return the existing Media model, or add it to the subject.
+                if ($file->exists()) {
+                    return $file->existing->getModel();
+                }
+
+                if ($file->doesntExist()) {
+                    return $subject->addMedia($file->upload)->toMediaCollection($collectionName, $diskName);
+                }
+            })
+            ->filter()
+            ->pipeInto(EloquentCollection::class)
+            ->tap(function (Collection $media) use ($subject, $collectionName) {
+                // Clear unused media.
+                $subject->clearMediaCollectionExcept($collectionName, $media);
+
+                // Reorder the media.
+                $mediaClass = config('media-library.media_model');
+
+                /** @var Media $mediaInstance */
+                $mediaInstance = new $mediaClass();
+                $mediaInstance::setNewOrder($media->map->getKey()->all());
+            });
+    }
+
+    /**
+     * Sets the request on the class.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return self
+     */
+    public function setRequest(Request $request): self
+    {
+        $this->request = $request;
+
+        return $this;
+    }
+
+    /**
+     * Setter for the keys that should be cleaned.
+     *
+     * @param  mixed  $keys
+     * @return self
+     */
+    public function setKeys($keys = null): self
+    {
+        if (is_null($keys)) {
+            $this->keys = null;
+
+            return $this;
+        }
+
+        $keys = is_array($keys) ? $keys : Form::splitByComma($keys);
+
+        $existingSuffix = File::getSuffixForExistingFiles();
+        $orderSuffix    = File::getSuffixForUploadOrder();
+
+        foreach ($this->request->keys() as $key) {
+            if ($existingSuffix && Str::endsWith($key, $existingSuffix)) {
+                $keys[] = $key;
+                $keys[] = $key . '.*';
+            }
+
+            if ($orderSuffix && Str::endsWith($key, $orderSuffix)) {
+                $keys[] = $key;
+            }
+        }
+
+        $this->keys = $keys;
+
+        return $this;
     }
 
     /**

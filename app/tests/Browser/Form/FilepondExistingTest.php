@@ -3,11 +3,19 @@
 namespace Tests\Browser\Form;
 
 use App\Models\User;
+use Database\Seeders\DatabaseSeeder;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 
 class FilepondExistingTest extends DuskTestCase
 {
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        DatabaseSeeder::giveUserMedia(User::first());
+    }
+
     /** @test */
     public function it_can_keep_the_existing_single_media_upload()
     {
