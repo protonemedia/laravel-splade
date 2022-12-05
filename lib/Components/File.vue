@@ -161,16 +161,23 @@ export default {
 
         const boundValue = this.form[this.field];
         this.hadExistingFiles = (this.multiple && boundValue.length > 0) || (!this.multiple && boundValue);
+
+        // Clear the form's field, so that we can use it to store the uploaded files.
         this.form.$put(this.field, this.multiple ? [] : null);
 
         if(this.filepond) {
             this.setExisting(boundValue);
             this.initFilepond(boundValue ? boundValue : []);
+
+            // We bind the filepond instance to the form, so that we can access it from the form.
             this.form.$registerFilepond(this.field, this.addFileToFilepond, this.addFilesToFilepond);
         }
     },
 
     methods: {
+        /*
+         * This extracts the encrypted string from the backend data.
+         */
         extractMetadataFromExistingFile(file) {
             if(!file) {
                 return null;
@@ -191,6 +198,9 @@ export default {
             return null;
         },
 
+        /**
+         * This sets the existing files on the form.
+         */
         setExisting(value) {
             if(!this.handlesExistingFiles) {
                 return;
@@ -201,6 +211,9 @@ export default {
             this.setOrder();
         },
 
+        /**
+         * This determines the order of all files, existing and new, and sets it on the form.
+         */
         setOrder() {
             if(!this.multiple) {
                 return;
@@ -216,6 +229,7 @@ export default {
 
             const files = this.filepondInstance.getFiles();
 
+            // New files don't have an identifier.
             const newFiles = files.filter(file => !file.getMetadata("identifier"));
 
             const order = this.filepondInstance.getFiles().map((file) => {
@@ -231,6 +245,9 @@ export default {
             this.form.$put(this.orderField, order);
         },
 
+        /**
+         * This is meant for external URLs.
+         */
         addFileToFilepond(file) {
             this.filepondInstance.addFile(file);
         },
@@ -277,6 +294,7 @@ export default {
                         }
 
                         if(file.origin === filepond.FileOrigin.LOCAL) {
+                            // This is an existing file, so we don't need to add or upload it.
                             return;
                         }
 
@@ -294,6 +312,7 @@ export default {
                         }
 
                         if(vm.handlesExistingFiles) {
+                            // Remove the file from the existing files.
                             if(vm.multiple) {
                                 vm.setExisting(vm.form[vm.existingField].filter((existingFile) => {
                                     return file.getMetadata("metadata") !== existingFile;
@@ -365,6 +384,7 @@ export default {
                 }
 
                 options.server = {
+                    // This handles to loading of the file preview of existing files.
                     load: (source, load, error, progress, abort) => {
                         const loadCancelToken = Axios.CancelToken;
                         const loadCancelTokenSource = loadCancelToken.source();

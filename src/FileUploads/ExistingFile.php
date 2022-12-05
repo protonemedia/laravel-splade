@@ -247,10 +247,9 @@ class ExistingFile implements Arrayable, JsonSerializable
         ];
 
         return [
-            'source' => $this->previewUrl ? [
+            'source' => $this->previewUrl ? array_merge($file, [
                 'preview_url' => $this->previewUrl,
-                ...$file,
-            ] : null,
+            ]) : null,
             'options' => [
                 'type' => 'local',
 
