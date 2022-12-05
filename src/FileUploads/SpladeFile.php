@@ -26,7 +26,7 @@ class SpladeFile
     /**
      * Returns a boolean whether the file exists.
      *
-     * @return boolean
+     * @return bool
      */
     public function exists(): bool
     {
@@ -36,7 +36,7 @@ class SpladeFile
     /**
      * Returns a boolean whether the file is uploaded.
      *
-     * @return boolean
+     * @return bool
      */
     public function doesntExist(): bool
     {
@@ -46,7 +46,7 @@ class SpladeFile
     /**
      * Returns true if the file is uploaded.
      *
-     * @return boolean
+     * @return bool
      */
     public function new(): bool
     {

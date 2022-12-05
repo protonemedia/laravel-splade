@@ -65,10 +65,10 @@ class ExistingFile implements Arrayable, JsonSerializable
     /**
      * Helper method to create an instance based on a Spatie Media Library model or collection.
      *
-     * @param mixed $media
-     * @param string $previewConversionName
-     * @param mixed $previewUrlExpiration
-     * @param array $previewUrlOptions
+     * @param  mixed  $media
+     * @param  string  $previewConversionName
+     * @param  mixed  $previewUrlExpiration
+     * @param  array  $previewUrlOptions
      * @return ExistingFile|array
      */
     public static function fromMediaLibrary(
@@ -116,7 +116,7 @@ class ExistingFile implements Arrayable, JsonSerializable
     /**
      * Same as `fromMediaLibrary`, but withou the preview URL.
      *
-     * @param mixed $media
+     * @param  mixed  $media
      * @return void
      */
     public static function fromMediaLibraryWithoutPreview($media)
@@ -127,7 +127,7 @@ class ExistingFile implements Arrayable, JsonSerializable
     /**
      * Returns an instance of ExistingFileFromDisk to load the file from a disk.
      *
-     * @param string $disk
+     * @param  string  $disk
      * @return \ProtoneMedia\Splade\FileUploads\ExistingFileFromDisk
      */
     public static function fromDisk(string $disk): ExistingFileFromDisk
@@ -139,7 +139,7 @@ class ExistingFile implements Arrayable, JsonSerializable
      * Returns an instance of ExistingFileFromDisk to load the file from a disk,
      * but without a preview.
      *
-     * @param string $disk
+     * @param  string  $disk
      * @return \ProtoneMedia\Splade\FileUploads\ExistingFileFromDisk
      */
     public static function fromDiskWithoutPreview(string $disk): ExistingFileFromDisk
@@ -150,7 +150,7 @@ class ExistingFile implements Arrayable, JsonSerializable
     /**
      * Helper method to create a new instance with the filename.
      *
-     * @param string $filename
+     * @param  string  $filename
      * @return static
      */
     public static function withFilename(string $filename): static
@@ -161,7 +161,7 @@ class ExistingFile implements Arrayable, JsonSerializable
     /**
      * Setter for the metadata.
      *
-     * @param array $metadata
+     * @param  array  $metadata
      * @return self
      */
     public function metadata(array $metadata): self
@@ -174,7 +174,7 @@ class ExistingFile implements Arrayable, JsonSerializable
     /**
      * Setter for the name.
      *
-     * @param string $name
+     * @param  string  $name
      * @return self
      */
     public function name(string $name): self
@@ -187,7 +187,7 @@ class ExistingFile implements Arrayable, JsonSerializable
     /**
      * Setter for the previewUrl.
      *
-     * @param string $previewUrl
+     * @param  string  $previewUrl
      * @return self
      */
     public function previewUrl(string $previewUrl): self
@@ -200,7 +200,7 @@ class ExistingFile implements Arrayable, JsonSerializable
     /**
      * Setter for the MIME Type.
      *
-     * @param string $mimeType
+     * @param  string  $mimeType
      * @return self
      */
     public function mimeType(string $mimeType): self
@@ -213,7 +213,7 @@ class ExistingFile implements Arrayable, JsonSerializable
     /**
      * Setter for the size in bytes.
      *
-     * @param int $sizeInBytes
+     * @param  int  $sizeInBytes
      * @return self
      */
     public function sizeInBytes(int $sizeInBytes): self

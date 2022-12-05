@@ -22,7 +22,7 @@ class ExistingFileFromDisk
     /**
      * Enables the preview URL generation.
      *
-     * @param boolean $value
+     * @param  bool  $value
      * @return self
      */
     public function withPreview($value = true): self
@@ -45,9 +45,9 @@ class ExistingFileFromDisk
     /**
      * Generates a preview URL.
      *
-     * @param string $path
-     * @param mixed $expiration
-     * @param array $options
+     * @param  string  $path
+     * @param  mixed  $expiration
+     * @param  array  $options
      * @return string
      */
     public function previewUrl(string $path, $expiration = null, array $options = []): string
@@ -62,9 +62,9 @@ class ExistingFileFromDisk
     /**
      * Returns an ExistingFile instance for the given path.
      *
-     * @param mixed $path
-     * @param mixed $previewUrlExpiration
-     * @param array $previewUrlOptions
+     * @param  mixed  $path
+     * @param  mixed  $previewUrlExpiration
+     * @param  array  $previewUrlOptions
      * @return ExistingFile|array
      */
     public function get($path, $previewUrlExpiration = null, array $previewUrlOptions = []): ExistingFile|array
