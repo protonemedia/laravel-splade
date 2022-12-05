@@ -98,13 +98,11 @@ class HandleSpladeFileUploads extends TransformsRequest
     }
 
     /**
-     *
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param \Spatie\MediaLibrary\HasMedia $subject
-     * @param string $key
-     * @param string $collectionName
-     * @param string $diskName
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Spatie\MediaLibrary\HasMedia  $subject
+     * @param  string  $key
+     * @param  string  $collectionName
+     * @param  string  $diskName
      * @return \Illuminate\Support\Collection
      */
     public static function syncMediaLibrary(Request $request, HasMedia $subject, string $key, string $collectionName = '', string $diskName = ''): Collection
