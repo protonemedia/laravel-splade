@@ -44,6 +44,7 @@ class ExistingFile implements Arrayable, JsonSerializable
             return null;
         }
 
+        /** @var EloquentSerializer $serializer */
         $serializer = app(EloquentSerializer::class);
 
         $metadata = Collection::make($data['metadata'])
@@ -61,6 +62,15 @@ class ExistingFile implements Arrayable, JsonSerializable
         );
     }
 
+    /**
+     * Helper method to create an instance based on a Spatie Media Library model or collection.
+     *
+     * @param mixed $media
+     * @param string $previewConversionName
+     * @param mixed $previewUrlExpiration
+     * @param array $previewUrlOptions
+     * @return ExistingFile|array
+     */
     public static function fromMediaLibrary(
         $media,
         bool|string $previewConversionName = '',
@@ -103,26 +113,57 @@ class ExistingFile implements Arrayable, JsonSerializable
         return $file->previewUrl($previewUrl);
     }
 
+    /**
+     * Same as `fromMediaLibrary`, but withou the preview URL.
+     *
+     * @param mixed $media
+     * @return void
+     */
     public static function fromMediaLibraryWithoutPreview($media)
     {
         return static::fromMediaLibrary($media, false);
     }
 
+    /**
+     * Returns an instance of ExistingFileFromDisk to load the file from a disk.
+     *
+     * @param string $disk
+     * @return \ProtoneMedia\Splade\FileUploads\ExistingFileFromDisk
+     */
     public static function fromDisk(string $disk): ExistingFileFromDisk
     {
         return new ExistingFileFromDisk($disk);
     }
 
+    /**
+     * Returns an instance of ExistingFileFromDisk to load the file from a disk,
+     * but without a preview.
+     *
+     * @param string $disk
+     * @return \ProtoneMedia\Splade\FileUploads\ExistingFileFromDisk
+     */
     public static function fromDiskWithoutPreview(string $disk): ExistingFileFromDisk
     {
         return static::fromDisk($disk)->withoutPreview();
     }
 
-    public static function withFilename($filename)
+    /**
+     * Helper method to create a new instance with the filename.
+     *
+     * @param string $filename
+     * @return static
+     */
+    public static function withFilename(string $filename): static
     {
         return new static($filename);
     }
 
+    /**
+     * Setter for the metadata.
+     *
+     * @param array $metadata
+     * @return self
+     */
     public function metadata(array $metadata): self
     {
         $this->metadata = $metadata;
@@ -130,6 +171,12 @@ class ExistingFile implements Arrayable, JsonSerializable
         return $this;
     }
 
+    /**
+     * Setter for the name.
+     *
+     * @param string $name
+     * @return self
+     */
     public function name(string $name): self
     {
         $this->name = $name;
@@ -137,6 +184,12 @@ class ExistingFile implements Arrayable, JsonSerializable
         return $this;
     }
 
+    /**
+     * Setter for the previewUrl.
+     *
+     * @param string $previewUrl
+     * @return self
+     */
     public function previewUrl(string $previewUrl): self
     {
         $this->previewUrl = $previewUrl;
@@ -144,6 +197,12 @@ class ExistingFile implements Arrayable, JsonSerializable
         return $this;
     }
 
+    /**
+     * Setter for the MIME Type.
+     *
+     * @param string $mimeType
+     * @return self
+     */
     public function mimeType(string $mimeType): self
     {
         $this->mimeType = $mimeType;
@@ -151,6 +210,12 @@ class ExistingFile implements Arrayable, JsonSerializable
         return $this;
     }
 
+    /**
+     * Setter for the size in bytes.
+     *
+     * @param int $sizeInBytes
+     * @return self
+     */
     public function sizeInBytes(int $sizeInBytes): self
     {
         $this->sizeInBytes = $sizeInBytes;
@@ -158,11 +223,21 @@ class ExistingFile implements Arrayable, JsonSerializable
         return $this;
     }
 
+    /**
+     * Returns the same as the 'toArray()' metod.
+     *
+     * @return array
+     */
     public function jsonSerialize(): mixed
     {
         return $this->toArray();
     }
 
+    /**
+     * Returns the data as an array.
+     *
+     * @return array
+     */
     public function toArray(): array
     {
         $file = [
@@ -189,16 +264,31 @@ class ExistingFile implements Arrayable, JsonSerializable
         ];
     }
 
+    /**
+     * Getter for the identifier.
+     *
+     * @return string
+     */
     public function getIdentifier(): string
     {
         return $this->identifier;
     }
 
+    /**
+     * Getter for the metadata.
+     *
+     * @return string
+     */
     public function getMetadata(string $key = null)
     {
         return $key ? Arr::get($this->metadata, $key) : $this->metadata;
     }
 
+    /**
+     * Helper method to get the 'model' key from the metadata.
+     *
+     * @return mixed
+     */
     public function getModel()
     {
         return $this->getMetadata('model');
@@ -211,6 +301,7 @@ class ExistingFile implements Arrayable, JsonSerializable
      */
     public function encryptAttributes(): string
     {
+        /** @var EloquentSerializer $serializer */
         $serializer = app(EloquentSerializer::class);
 
         $metadata = Collection::make($this->metadata)

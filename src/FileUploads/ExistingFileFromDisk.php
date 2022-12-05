@@ -2,7 +2,7 @@
 
 namespace ProtoneMedia\Splade\FileUploads;
 
-use Exception;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
@@ -19,6 +19,12 @@ class ExistingFileFromDisk
         $this->disk = Storage::disk($diskName);
     }
 
+    /**
+     * Enables the preview URL generation.
+     *
+     * @param boolean $value
+     * @return self
+     */
     public function withPreview($value = true): self
     {
         $this->withPreview = $value;
@@ -26,12 +32,25 @@ class ExistingFileFromDisk
         return $this;
     }
 
+    /**
+     * Disables the preview URL generation.
+     *
+     * @return self
+     */
     public function withoutPreview(): self
     {
         return $this->withPreview(false);
     }
 
-    public function previewUrl($path, $expiration = null, array $options = []): string
+    /**
+     * Generates a preview URL.
+     *
+     * @param string $path
+     * @param mixed $expiration
+     * @param array $options
+     * @return string
+     */
+    public function previewUrl(string $path, $expiration = null, array $options = []): string
     {
         $expiration = $expiration ?: now()->addMinutes(5);
 
@@ -40,6 +59,14 @@ class ExistingFileFromDisk
             : $this->disk->url($path);
     }
 
+    /**
+     * Returns an ExistingFile instance for the given path.
+     *
+     * @param mixed $path
+     * @param mixed $previewUrlExpiration
+     * @param array $previewUrlOptions
+     * @return ExistingFile|array
+     */
     public function get($path, $previewUrlExpiration = null, array $previewUrlOptions = []): ExistingFile|array
     {
         if (!is_string($path)) {
@@ -47,7 +74,7 @@ class ExistingFileFromDisk
         }
 
         if (!$this->disk->fileExists($path)) {
-            throw new Exception("The file '{$path}' does not exist on disk '{$this->diskName}'.");
+            throw new FileNotFoundException("File does not exist at path {$path} on disk {$this->diskName}.");
         }
 
         $file = ExistingFile::withFilename($path)

@@ -23,16 +23,31 @@ class SpladeFile
         }
     }
 
+    /**
+     * Returns a boolean whether the file exists.
+     *
+     * @return boolean
+     */
     public function exists(): bool
     {
         return $this->file instanceof ExistingFile;
     }
 
+    /**
+     * Returns a boolean whether the file is uploaded.
+     *
+     * @return boolean
+     */
     public function doesntExist(): bool
     {
         return !$this->exists();
     }
 
+    /**
+     * Returns true if the file is uploaded.
+     *
+     * @return boolean
+     */
     public function new(): bool
     {
         return $this->file instanceof UploadedFile;
