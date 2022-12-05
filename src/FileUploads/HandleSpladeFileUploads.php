@@ -146,10 +146,7 @@ class HandleSpladeFileUploads extends TransformsRequest
      */
     public static function forRequest(Request $request, $keys = null): Request
     {
-        return (new static)
-            ->setRequest($request)
-            ->keys($keys)
-            ->handle($request, fn ($request) => $request);
+        return (new static)->handle($request, fn ($request) => $request, $keys);
     }
 
     /**
@@ -272,18 +269,18 @@ class HandleSpladeFileUploads extends TransformsRequest
             }
         }
 
-        $temporaryFileUpload = $this->transformTemporaryValue($value);
+        $uploadedFile = $this->transformTemporaryValue($value);
 
-        if (!$temporaryFileUpload instanceof TemporaryFileUpload) {
+        if (!$uploadedFile instanceof SpladeUploadedFile) {
             // Not a temporary file upload, just a regular string.
             return $value;
         }
 
         // We need to set the file on the request, otherwise the validation will fail.
         $files = $this->request->files->all();
-        Arr::set($files, $key, $temporaryFileUpload);
+        Arr::set($files, $key, $uploadedFile);
         $this->request->files->replace($files);
 
-        return $temporaryFileUpload;
+        return $uploadedFile;
     }
 }

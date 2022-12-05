@@ -11,8 +11,9 @@ use Illuminate\Support\Str;
 use JsonSerializable;
 use ProtoneMedia\Splade\EloquentSerializer;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Stringable;
 
-class ExistingFile implements Arrayable, JsonSerializable
+class ExistingFile implements Arrayable, JsonSerializable, Stringable
 {
     public function __construct(
         public string $filename,
@@ -322,5 +323,15 @@ class ExistingFile implements Arrayable, JsonSerializable
             'size_in_bytes' => $this->sizeInBytes,
             'identifier'    => $this->identifier,
         ]);
+    }
+
+    /**
+     * Returns the same as the 'encryptAttributes()' method.
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->encryptAttributes();
     }
 }
