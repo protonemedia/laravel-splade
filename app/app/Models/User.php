@@ -55,6 +55,12 @@ class User extends Authenticatable implements HasMedia
         return $this->morphToMany(Keyword::class, 'keywordable');
     }
 
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('avatar')->singleFile();
+        $this->addMediaCollection('photos');
+    }
+
     public function registerMediaConversions(Media $media = null): void
     {
         $this->addMediaConversion('thumb')->fit('contain', 50, 50);

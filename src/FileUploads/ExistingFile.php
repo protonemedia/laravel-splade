@@ -69,14 +69,18 @@ class ExistingFile implements Arrayable, JsonSerializable
      * @param  string  $previewConversionName
      * @param  mixed  $previewUrlExpiration
      * @param  array  $previewUrlOptions
-     * @return ExistingFile|array
+     * @return ExistingFile|array|null
      */
     public static function fromMediaLibrary(
         $media,
         bool|string $previewConversionName = '',
         $previewUrlExpiration = null,
         array $previewUrlOptions = []
-    ): ExistingFile|array {
+    ): ExistingFile|array|null {
+        if (is_null($media)) {
+            return null;
+        }
+
         $previewUrlExpiration = $previewUrlExpiration ?: now()->addMinutes(5);
 
         /** @var Media $media */
@@ -88,7 +92,7 @@ class ExistingFile implements Arrayable, JsonSerializable
                     $previewUrlExpiration,
                     $previewUrlOptions
                 )
-            )->all();
+            )->filter()->all();
         }
 
         $file = static::withFilename($media->file_name)

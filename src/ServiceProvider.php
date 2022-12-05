@@ -417,23 +417,33 @@ class ServiceProvider extends BaseServiceProvider
         });
 
         Request::macro('orderedSpladeFileUploads', function ($key) {
+            $existingKey = $key . File::getSuffixForExistingFiles();
+            $orderKey    = $key . File::getSuffixForUploadOrder();
+
             /** @var Request $this */
             $newFiles = Collection::wrap($this->file($key, []));
 
-            $existingFiles = $this->collect($key . File::getSuffixForExistingFiles())->keyBy->getIdentifier();
+            // If the order key is present, we assume that the key is a 'multiple' field.
+            // Otherwise, we assume that the key is a 'single' field.
+            $isMultipleField = $this->filled($orderKey);
 
-            return $this->collect($key . File::getSuffixForUploadOrder(), [])
-                ->map(function (string $uploadId) use ($newFiles, $existingFiles) {
-                    if (Str::startsWith($uploadId, 'new-file-')) {
-                        return $newFiles->get(Str::after($uploadId, 'new-file-'));
-                    }
+            $existingFiles = Collection::wrap(
+                $isMultipleField ? $this->collect($existingKey) : $this->input($existingKey)
+            )->keyBy->getIdentifier();
 
-                    if (Str::startsWith($uploadId, 'existing-file-')) {
-                        return $existingFiles->get(Str::after($uploadId, 'existing-file-'));
-                    }
-                })
-                ->filter()
-                ->mapInto(SpladeFile::class);
+            $keys = $isMultipleField
+                ? $this->collect($orderKey, [])
+                : Collection::make(['new-file-0', 'existing-file-' . $existingFiles->keys()->first()]);
+
+            return $keys->map(function (string $uploadId) use ($newFiles, $existingFiles) {
+                if (Str::startsWith($uploadId, 'new-file-')) {
+                    return $newFiles->get(Str::after($uploadId, 'new-file-'));
+                }
+
+                if (Str::startsWith($uploadId, 'existing-file-')) {
+                    return $existingFiles->get(Str::after($uploadId, 'existing-file-'));
+                }
+            })->filter()->values()->mapInto(SpladeFile::class);
         });
     }
 

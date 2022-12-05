@@ -31,6 +31,7 @@
         "phpunit/phpunit": "^9.5.10",
         "protonemedia/laravel-splade": "*",
         "spatie/laravel-ignition": "^1.0",
+        "spatie/laravel-ray": "^1.31",
         "spatie/phpunit-snapshot-assertions": "^4.2"
     },
     "autoload": {

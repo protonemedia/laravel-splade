@@ -10,6 +10,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use ProtoneMedia\Splade\Components\Form;
 use ProtoneMedia\Splade\Components\Form\File;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -31,7 +32,7 @@ class HandleSpladeFileUploads extends TransformsRequest
      */
     public function handle($request, Closure $next, $keys = null)
     {
-        $this->request = $request;
+        $this->setRequest($request);
 
         $this->filesystem = app(Filesystem::class);
 
@@ -44,19 +45,59 @@ class HandleSpladeFileUploads extends TransformsRequest
         return $next($request);
     }
 
-    public function keys($keys = null): self
+    /**
+     * Sets the request on the class.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return self
+     */
+    public function setRequest(Request $request): self
     {
-        if (is_null($keys)) {
-            return $this;
-        }
-
-        $this->keys = is_array($keys)
-            ? $keys
-            : array_filter(array_map('trim', explode(',', $keys)));
+        $this->request = $request;
 
         return $this;
     }
 
+    /**
+     * Setter for the keys that should be cleaned.
+     *
+     * @param mixed $keys
+     * @return self
+     */
+    public function keys($keys = null): self
+    {
+        if (is_null($keys)) {
+            $this->keys = null;
+            return $this;
+        }
+
+        $keys = is_array($keys) ? $keys : Form::splitByComma($keys);
+
+        $existingSuffix = File::getSuffixForExistingFiles();
+        $orderSuffix    = File::getSuffixForUploadOrder();
+
+        foreach ($this->request->keys() as $key) {
+            if ($existingSuffix && Str::endsWith($key, $existingSuffix)) {
+                $keys[] = $key;
+                $keys[] = $key . ".*";
+            }
+
+            if ($orderSuffix && Str::endsWith($key, $orderSuffix)) {
+                $keys[] = $key;
+            }
+        }
+
+        $this->keys = $keys;
+
+        return $this;
+    }
+
+    /**
+     * Helper method to generate a Middleware string that can be used in the routes file.
+     *
+     * @param mixed $keys
+     * @return string
+     */
     public static function for($keys): string
     {
         $keys = is_array($keys) ? implode(',', $keys) : $keys;
@@ -66,7 +107,11 @@ class HandleSpladeFileUploads extends TransformsRequest
 
     public static function syncMediaLibrary(Request $request, HasMedia $model, string $key, string $collectionName = '', string $diskName = ''): Collection
     {
-        static::forRequest($request, [$key, "{$key}.*"]);
+        $orderKey = $key . File::getSuffixForUploadOrder();
+
+        $isMultipleField = $request->filled($orderKey);
+
+        static::forRequest($request, $isMultipleField ? "{$key}.*" : $key);
 
         $collectionName = $collectionName ?: 'default';
 
@@ -79,13 +124,14 @@ class HandleSpladeFileUploads extends TransformsRequest
                 return $model->addMedia($file->upload)->toMediaCollection($collectionName, $diskName);
             }
         })->filter()->tap(function (Collection $media) use ($model, $collectionName) {
+            // Clear unused media.
             $model->clearMediaCollectionExcept($collectionName, $media);
 
+            // Reorder the media.
             $mediaClass = config('media-library.media_model');
 
             /** @var Media $mediaInstance */
             $mediaInstance = new $mediaClass();
-
             $mediaInstance::setNewOrder($media->map->getKey()->all());
         });
     }
@@ -99,9 +145,19 @@ class HandleSpladeFileUploads extends TransformsRequest
      */
     public static function forRequest(Request $request, $keys = null): Request
     {
-        return (new static)->keys($keys)->handle($request, fn ($request) => $request);
+        return (new static)
+            ->setRequest($request)
+            ->keys($keys)
+            ->handle($request, fn ($request) => $request);
     }
 
+    /**
+     * Helper method to handle a FormRequest. It extracts the keys from the
+     * validation rules that have a file rule.
+     *
+     * @param FormRequest $formRequest
+     * @return FormRequest
+     */
     public static function forFormRequest(FormRequest $formRequest): FormRequest
     {
         $rules = Validator::make([], $formRequest->rules())->getRules();
@@ -125,7 +181,13 @@ class HandleSpladeFileUploads extends TransformsRequest
         return static::forRequest($formRequest, $keys->isEmpty() ? null : $keys->all());
     }
 
-    private function shouldHandleKey($key)
+    /**
+     * Returns a boolean whether the key should be cleaned.
+     *
+     * @param string $key
+     * @return boolean
+     */
+    private function shouldHandleKey(string $key): bool
     {
         if (!is_array($this->keys)) {
             return true;
@@ -139,61 +201,34 @@ class HandleSpladeFileUploads extends TransformsRequest
     }
 
     /**
-     * Transforms encrypted existing upload to SpladeExistingFile instances.
+     * Transforms encrypted existing file to a SpladeExistingFile instance.
      *
-     * @param  string  $key
      * @param  mixed  $value
      * @return mixed
      */
-    protected function transformExistingUpload($key, $value)
+    protected function transformExistingValue($value)
     {
         if (!is_string($value)) {
             return $value;
         }
 
-        $temporaryFileUpload = ExistingFile::fromEncryptedString($value);
+        $existingFile = ExistingFile::fromEncryptedString($value);
 
-        if (!$temporaryFileUpload) {
+        if (!$existingFile) {
             // Not an existing file upload, just a regular string.
             return $value;
         }
 
-        return $temporaryFileUpload;
+        return $existingFile;
     }
-
     /**
-     * Transforms encrypted temporary file uploads to SpladeUploadedFile instances.
+     * Transforms encrypted temporary file to a TemporaryFileUpload instance.
      *
-     * @param  string  $key
      * @param  mixed  $value
      * @return mixed
      */
-    protected function transform($key, $value)
+    protected function transformTemporaryValue($value)
     {
-        $realKey = $key;
-
-        $suffix = File::getSuffixForExistingFiles();
-
-        $keyParts = explode('.', $key);
-
-        if (is_numeric($keyParts[count($keyParts) - 1])) {
-            $realKey = implode('.', array_slice($keyParts, 0, -1));
-        }
-
-        if ($suffix && Str::endsWith($realKey, $suffix)) {
-            $keyWithoutSuffix = Str::beforeLast($realKey, $suffix);
-
-            if (!$this->shouldHandleKey($keyWithoutSuffix)) {
-                return $value;
-            }
-
-            return $this->transformExistingUpload($key, $value);
-        }
-
-        if (!$this->shouldHandleKey($key)) {
-            return $value;
-        }
-
         if (!is_string($value)) {
             return $value;
         }
@@ -205,18 +240,48 @@ class HandleSpladeFileUploads extends TransformsRequest
             return $value;
         }
 
-        $uploadedFile = $this->filesystem->makeUploadedFile($temporaryFileUpload);
+        return $this->filesystem->makeUploadedFile($temporaryFileUpload);
+    }
 
-        if (!$uploadedFile) {
-            // The file doesn't exist anymore, return null.
-            return null;
+    /**
+     * Transforms encrypted temporary file uploads to SpladeUploadedFile instances.
+     *
+     * @param  string  $key
+     * @param  mixed  $value
+     * @return mixed
+     */
+    protected function transform($key, $value)
+    {
+        if (!$this->shouldHandleKey($key)) {
+            return $value;
+        }
+
+        if ($existingSuffix = File::getSuffixForExistingFiles()) {
+            $keyWithoutNumericEnd = $key;
+
+            $keyParts = explode('.', $key);
+
+            if (is_numeric(Arr::last($keyParts))) {
+                $keyWithoutNumericEnd = implode('.', array_slice($keyParts, 0, -1));
+            }
+
+            if (Str::endsWith($key, $existingSuffix) || Str::endsWith($keyWithoutNumericEnd, $existingSuffix)) {
+                return $this->transformExistingValue($value);
+            }
+        }
+
+        $temporaryFileUpload = $this->transformTemporaryValue($value);
+
+        if (!$temporaryFileUpload instanceof TemporaryFileUpload) {
+            // Not a temporary file upload, just a regular string.
+            return $value;
         }
 
         // We need to set the file on the request, otherwise the validation will fail.
         $files = $this->request->files->all();
-        Arr::set($files, $key, $uploadedFile);
+        Arr::set($files, $key, $temporaryFileUpload);
         $this->request->files->replace($files);
 
-        return $uploadedFile;
+        return $temporaryFileUpload;
     }
 }

@@ -2,9 +2,20 @@
 
 @section('content')
 
-<x-splade-form :default="['photos' => $photos]" class="space-y-4" style="word-break: break-all;">
-    <h1 class="text-2xl">Photo manager</h1>
-    <x-splade-file filepond preview server multiple name="photos" />
+FormFilePondExisting
+
+<x-splade-form :action="request()->fullUrlWithQuery(['form' => 'avatar'])" dusk="avatar" :default="['avatar' => $avatar]">
+    <x-splade-file filepond preview server name="avatar" />
+    <x-splade-submit />
+</x-splade-form>
+
+<x-splade-form :action="request()->fullUrlWithQuery(['form' => 'photos'])" dusk="photos" :default="['photos' => $photos]">
+    <x-splade-file filepond multiple preview server name="photos[]" />
+    <x-splade-submit />
+</x-splade-form>
+
+<x-splade-form :action="request()->fullUrlWithQuery(['form' => 'documents'])" dusk="documents" :default="['documents' => $documents]">
+    <x-splade-file filepond multiple name="documents[]" />
     <x-splade-submit />
 </x-splade-form>
 

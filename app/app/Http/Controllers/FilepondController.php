@@ -32,14 +32,26 @@ class FilepondController extends Controller
 
     public function showExisting()
     {
+        $user = User::first();
+
         return view('form.components.filepondExisting', [
-            'photos' => ExistingFile::fromMediaLibrary(User::first()->getMedia('photos')),
+            'avatar'    => ExistingFile::fromMediaLibrary($user->getFirstMedia('avatar')),
+            'photos'    => ExistingFile::fromMediaLibrary($user->getMedia('photos'), 'thumb'),
+            'documents' => ExistingFile::fromMediaLibrary($user->getMedia('documents')),
         ]);
     }
 
     public function storeExisting(Request $request)
     {
-        HandleSpladeFileUploads::syncMediaLibrary($request, User::first(), 'photos', 'photos');
+        $user = User::first();
+
+        if ($request->query('form') === 'avatar') {
+            HandleSpladeFileUploads::syncMediaLibrary($request, $user, 'avatar', 'avatar');
+        } elseif ($request->query('form') === 'photos') {
+            HandleSpladeFileUploads::syncMediaLibrary($request, $user, 'photos', 'photos');
+        } elseif ($request->query('form') === 'documents') {
+            HandleSpladeFileUploads::syncMediaLibrary($request, $user, 'documents', 'documents');
+        }
 
         Toast::info('The photos have been saved.');
 
