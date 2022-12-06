@@ -167,10 +167,11 @@ export default {
 
         if(this.filepond) {
             this.setExisting(boundValue);
-            this.initFilepond(boundValue ? boundValue : []);
 
-            // We bind the filepond instance to the form, so that we can access it from the form.
-            this.form.$registerFilepond(this.field, this.addFileToFilepond, this.addFilesToFilepond);
+            this.initFilepond(boundValue ? boundValue : []).then(() => {
+                // We bind the filepond instance to the form, so that we can access it from the form.
+                this.form.$registerFilepond(this.field, this.addFileToFilepond, this.addFilesToFilepond);
+            });
         }
     },
 
@@ -282,189 +283,199 @@ export default {
         initFilepond(files) {
             const vm = this;
 
-            import("filepond").then((filepond) => {
-                const options = Object.assign({}, vm.filepond, vm.jsFilepondOptions, {
-                    oninit() {
-                        vm.setOrder();
-                    },
+            return new Promise(resolve => {
+                import("filepond").then((filepond) => {
+                    const options = Object.assign({}, vm.filepond, vm.jsFilepondOptions, {
+                        oninit() {
+                            vm.setOrder();
 
-                    onaddfile(error, file) {
-                        if(error) {
-                            return;
-                        }
+                            vm.$nextTick(() => {
+                                resolve();
+                            });
+                        },
 
-                        if(file.origin === filepond.FileOrigin.LOCAL) {
+                        onaddfile(error, file) {
+                            if(error) {
+                                return;
+                            }
+
+                            if(file.origin === filepond.FileOrigin.LOCAL) {
                             // This is an existing file, so we don't need to add or upload it.
-                            return;
-                        }
+                                return;
+                            }
 
-                        if(!vm.server) {
-                            vm.addFiles([file.file]);
-                        } else {
-                            vm.$emit("start-uploading", [file.id]);
-                        }
-
-                        vm.setOrder();
-                    },
-                    onremovefile(error, file) {
-                        if(error) {
-                            return;
-                        }
-
-                        if(vm.handlesExistingFiles) {
-                            // Remove the file from the existing files.
-                            if(vm.multiple) {
-                                vm.setExisting(vm.form[vm.existingField].filter((existingFile) => {
-                                    return file.getMetadata("metadata") !== existingFile;
-                                }));
+                            if(!vm.server) {
+                                vm.addFiles([file.file]);
                             } else {
-                                vm.setExisting(null);
+                                vm.$emit("start-uploading", [file.id]);
                             }
+
+                            vm.setOrder();
+                        },
+                        onremovefile(error, file) {
+                            if(error) {
+                                return;
+                            }
+
+                            if(vm.handlesExistingFiles) {
+                            // Remove the file from the existing files.
+                                if(vm.multiple) {
+                                    vm.setExisting(vm.form[vm.existingField].filter((existingFile) => {
+                                        return file.getMetadata("metadata") !== existingFile;
+                                    }));
+                                } else {
+                                    vm.setExisting(null);
+                                }
+                            }
+
+                            vm.removeFile(file.file);
+                        },
+                        onprocessfile(error, file) {
+                            if(error) {
+                                return;
+                            }
+
+                            vm.uploadedFiles.push({
+                                file: file.file,
+                                id: file.serverId
+                            });
+
+                            vm.addFiles([file.serverId]);
+
+                            vm.$emit("stop-uploading", [file.id]);
+                        },
+                        onreorderfiles() {
+                            vm.setOrder();
+                        },
+                        onactivatefile() {
+                            vm.setOrder();
+                            console.log("x");
                         }
+                    });
 
-                        vm.removeFile(file.file);
-                    },
-                    onprocessfile(error, file) {
-                        if(error) {
-                            return;
-                        }
-
-                        vm.uploadedFiles.push({
-                            file: file.file,
-                            id: file.serverId
-                        });
-
-                        vm.addFiles([file.serverId]);
-
-                        vm.$emit("stop-uploading", [file.id]);
-                    },
-                    onreorderfiles() {
-                        vm.setOrder();
+                    if(this.hadExistingFiles) {
+                        options.files = this.multiple ? files : [files];
                     }
-                });
 
-                if(this.hadExistingFiles) {
-                    options.files = this.multiple ? files : [files];
-                }
+                    if(this.accept.length > 0) {
+                        options.acceptedFileTypes = this.accept;
+                    }
 
-                if(this.accept.length > 0) {
-                    options.acceptedFileTypes = this.accept;
-                }
+                    if(this.minFileSize) {
+                        options.minFileSize = this.minFileSize;
+                    }
 
-                if(this.minFileSize) {
-                    options.minFileSize = this.minFileSize;
-                }
+                    if(this.maxFileSize) {
+                        options.maxFileSize = this.maxFileSize;
+                    }
 
-                if(this.maxFileSize) {
-                    options.maxFileSize = this.maxFileSize;
-                }
+                    if(this.minImageWidth) {
+                        options.imageValidateSizeMinWidth = this.minImageWidth;
+                    }
 
-                if(this.minImageWidth) {
-                    options.imageValidateSizeMinWidth = this.minImageWidth;
-                }
+                    if(this.maxImageWidth) {
+                        options.imageValidateSizeMaxWidth = this.maxImageWidth;
+                    }
 
-                if(this.maxImageWidth) {
-                    options.imageValidateSizeMaxWidth = this.maxImageWidth;
-                }
+                    if(this.minImageHeight) {
+                        options.imageValidateSizeMinHeight = this.minImageHeight;
+                    }
 
-                if(this.minImageHeight) {
-                    options.imageValidateSizeMinHeight = this.minImageHeight;
-                }
+                    if(this.maxImageHeight) {
+                        options.imageValidateSizeMaxHeight = this.maxImageHeight;
+                    }
 
-                if(this.maxImageHeight) {
-                    options.imageValidateSizeMaxHeight = this.maxImageHeight;
-                }
+                    if(this.minImageResolution) {
+                        options.imageValidateSizeMinResolution = this.minImageResolution;
+                    }
 
-                if(this.minImageResolution) {
-                    options.imageValidateSizeMinResolution = this.minImageResolution;
-                }
+                    if(this.maxImageResolution) {
+                        options.imageValidateSizeMaxResolution = this.maxImageResolution;
+                    }
 
-                if(this.maxImageResolution) {
-                    options.imageValidateSizeMaxResolution = this.maxImageResolution;
-                }
+                    options.server = {
+                        // This handles to loading of the file preview of existing files.
+                        load: (source, load, error, progress, abort) => {
+                            const loadCancelToken = Axios.CancelToken;
+                            const loadCancelTokenSource = loadCancelToken.source();
 
-                options.server = {
-                    // This handles to loading of the file preview of existing files.
-                    load: (source, load, error, progress, abort) => {
-                        const loadCancelToken = Axios.CancelToken;
-                        const loadCancelTokenSource = loadCancelToken.source();
+                            Axios({
+                                url: source.preview_url,
+                                method: "GET",
+                                cancelToken: loadCancelTokenSource.token,
+                                responseType: "blob",
+                            }).then((response) => {
+                                const file = new File([response.data], source.name, { type: source.type });
 
-                        Axios({
-                            url: source.preview_url,
-                            method: "GET",
-                            cancelToken: loadCancelTokenSource.token,
-                            responseType: "blob",
-                        }).then((response) => {
-                            const file = new File([response.data], source.name, { type: source.type });
+                                load(file);
+                            }).catch(function (thrown) {
+                                if (!axios.isCancel(thrown)) {
+                                    error(thrown);
+                                }
+                            });
 
-                            load(file);
-                        }).catch(function (thrown) {
-                            if (!axios.isCancel(thrown)) {
-                                error(thrown);
-                            }
-                        });
+                            return {
+                                abort: () => {
+                                    loadCancelTokenSource.cancel();
+                                    abort();
+                                },
+                            };
+                        }
+                    };
 
-                        return {
-                            abort: () => {
-                                loadCancelTokenSource.cancel();
-                                abort();
-                            },
+                    if(this.server) {
+                        options.server.process = (fieldName, file, metadata, load, error, progress, abort) => {
+                            // fieldName is the name of the input field
+                            // file is the actual file object to send
+                            const formData = new FormData();
+                            formData.append("file", file, file.name);
+
+                            const CancelToken = Axios.CancelToken;
+                            const source = CancelToken.source();
+
+                            Axios({
+                                url: vm.server,
+                                method: "POST",
+                                data: formData,
+                                cancelToken: source.token,
+                                onUploadProgress: e => {
+                                    progress(e.lengthComputable, e.loaded, e.total);
+                                },
+                            }).then((response) => {
+                                if (response.status >= 200 && response.status < 300) {
+                                    load(response.data);
+                                } else {
+                                    error(response.statusText);
+                                }
+                            }).catch(function (thrown) {
+                                if (axios.isCancel(thrown)) {
+                                    abort();
+                                } else {
+                                    error(thrown.response?.statusText);
+                                }
+                            });
+                        };
+
+                        options.server.revert = (path, load, error) => {
+                            Axios({
+                                url: vm.server,
+                                method: "POST",
+                                data: { _method: "DELETE", file: path },
+                            }).then(() => {
+                                load();
+                            }).catch(function (thrown) {
+                                error(thrown.response?.statusText);
+                            });
                         };
                     }
-                };
 
-                if(this.server) {
-                    options.server.process = (fieldName, file, metadata, load, error, progress, abort) => {
-                        // fieldName is the name of the input field
-                        // file is the actual file object to send
-                        const formData = new FormData();
-                        formData.append("file", file, file.name);
+                    this.loadFilepondPlugins(filepond).then((plugins) => {
+                        if(plugins.length > 0) {
+                            filepond.registerPlugin(...plugins.map(plugin => plugin.default));
+                        }
 
-                        const CancelToken = Axios.CancelToken;
-                        const source = CancelToken.source();
-
-                        Axios({
-                            url: vm.server,
-                            method: "POST",
-                            data: formData,
-                            cancelToken: source.token,
-                            onUploadProgress: e => {
-                                progress(e.lengthComputable, e.loaded, e.total);
-                            },
-                        }).then((response) => {
-                            if (response.status >= 200 && response.status < 300) {
-                                load(response.data);
-                            } else {
-                                error(response.statusText);
-                            }
-                        }).catch(function (thrown) {
-                            if (axios.isCancel(thrown)) {
-                                abort();
-                            } else {
-                                error(thrown.response?.statusText);
-                            }
-                        });
-                    };
-
-                    options.server.revert = (path, load, error) => {
-                        Axios({
-                            url: vm.server,
-                            method: "POST",
-                            data: { _method: "DELETE", file: path },
-                        }).then(() => {
-                            load();
-                        }).catch(function (thrown) {
-                            error(thrown.response?.statusText);
-                        });
-                    };
-                }
-
-                this.loadFilepondPlugins(filepond).then((plugins) => {
-                    if(plugins.length > 0) {
-                        filepond.registerPlugin(...plugins.map(plugin => plugin.default));
-                    }
-
-                    this.filepondInstance = filepond.create(this.inputElement, options);
+                        this.filepondInstance = filepond.create(this.inputElement, options);
+                    });
                 });
             });
         },

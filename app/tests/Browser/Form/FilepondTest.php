@@ -4,7 +4,7 @@ namespace Tests\Browser\Form;
 
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Str;
-use Laravel\Dusk\Browser;
+use Tests\Browser;
 use Tests\DuskTestCase;
 
 class FilepondTest extends DuskTestCase
@@ -33,7 +33,7 @@ class FilepondTest extends DuskTestCase
                 ->within('@regular-avatar', function (Browser $browser) {
                     $browser->waitForText('Drag and drop your files')->pause(500);
 
-                    $browser->attach('avatar', __DIR__ . '/../small.jpeg')
+                    $browser->attachToFilepond(__DIR__ . '/../small.jpeg')
                         ->waitForText('small.jpeg')
                         ->press('Submit');
                 })
@@ -52,8 +52,8 @@ class FilepondTest extends DuskTestCase
                     $browser->waitForText('Drag and drop your files')->pause(500);
 
                     $browser
-                        ->attach('avatars[]', __DIR__ . '/../small.jpeg')
-                        ->attach('avatars[]', __DIR__ . '/../small.png')
+                        ->attachToFilepond(__DIR__ . '/../small.jpeg')
+                        ->attachToFilepond(__DIR__ . '/../small.png')
                         ->waitForText('small.jpeg')
                         ->waitForText('small.png')
                         ->press('Submit');
@@ -73,8 +73,8 @@ class FilepondTest extends DuskTestCase
                 ->within('@single-avatar', function (Browser $browser) {
                     $browser->waitForText('Drag and drop your files')->pause(500);
 
-                    $browser->attach('avatar', __DIR__ . '/../small.jpeg')
-                        ->waitForText('Upload complete')
+                    $browser->attachToFilepond(__DIR__ . '/../small.jpeg')
+                        ->waitForText('Upload complete', 10)
                         ->press('Submit');
                 })
                 ->waitForRoute('navigation.one');
@@ -92,8 +92,8 @@ class FilepondTest extends DuskTestCase
                     $browser->waitForText('Drag and drop your files')->pause(500);
 
                     $browser
-                        ->attach('avatars[]', __DIR__ . '/../small.jpeg')
-                        ->attach('avatars[]', __DIR__ . '/../small.png')
+                        ->attachToFilepond(__DIR__ . '/../small.jpeg')
+                        ->attachToFilepond(__DIR__ . '/../small.png')
                         ->waitForText('Uploading')
                         ->waitUntilMissingText('Uploading')
                         ->press('Submit');
@@ -113,8 +113,8 @@ class FilepondTest extends DuskTestCase
                 ->within('@route-middleware', function (Browser $browser) {
                     $browser->waitForText('Drag and drop your files')->pause(500);
 
-                    $browser->attach('avatar', __DIR__ . '/../small.jpeg')
-                        ->waitForText('Upload complete')
+                    $browser->attachToFilepond(__DIR__ . '/../small.jpeg')
+                        ->waitForText('Upload complete', 10)
                         ->press('Submit');
                 })
                 ->waitForRoute('navigation.one');
@@ -131,8 +131,8 @@ class FilepondTest extends DuskTestCase
                 ->within('@form-request', function (Browser $browser) {
                     $browser->waitForText('Drag and drop your files')->pause(500);
 
-                    $browser->attach('avatar', __DIR__ . '/../small.jpeg')
-                        ->waitForText('Upload complete')
+                    $browser->attachToFilepond(__DIR__ . '/../small.jpeg')
+                        ->waitForText('Upload complete', 10)
                         ->press('Submit');
                 })
                 ->waitForRoute('navigation.one');
@@ -149,8 +149,8 @@ class FilepondTest extends DuskTestCase
                 ->within('@form-request-rule-object', function (Browser $browser) {
                     $browser->waitForText('Drag and drop your files')->pause(500);
 
-                    $browser->attach('avatar', __DIR__ . '/../small.jpeg')
-                        ->waitForText('Upload complete')
+                    $browser->attachToFilepond(__DIR__ . '/../small.jpeg')
+                        ->waitForText('Upload complete', 10)
                         ->press('Submit');
                 })
                 ->waitForRoute('navigation.one');
@@ -167,8 +167,8 @@ class FilepondTest extends DuskTestCase
                 ->within('@form-request-rule-object-with-title', function (Browser $browser) {
                     $browser->waitForText('Drag and drop your files')->pause(500);
 
-                    $browser->attach('avatar', __DIR__ . '/../small.jpeg')
-                        ->waitForText('Upload complete')
+                    $browser->attachToFilepond(__DIR__ . '/../small.jpeg')
+                        ->waitForText('Upload complete', 10)
                         ->type('title', Str::random())
                         ->press('Submit');
                 })
