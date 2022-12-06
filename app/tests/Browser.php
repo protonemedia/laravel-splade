@@ -37,7 +37,7 @@ class Browser extends BaseBrowser
     public function attachToFilepond($path)
     {
         $element = $this->resolver->firstOrFail([
-            "input[type=file].filepond--browser",
+            'input[type=file].filepond--browser',
         ]);
 
         $element->setFileDetector(new LocalFileDetector)->sendKeys($path);
