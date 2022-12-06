@@ -20,6 +20,7 @@
     :max-image-resolution="@js($maxResolution)"
     v-on:start-uploading="form.$startUploading"
     v-on:stop-uploading="form.$stopUploading"
+    :dusk="@js($attributes->get('dusk'))"
     {{ $attributes->only(['v-if', 'v-show', 'class']) }}
 >
     <template #default="{!! $scope !!}">

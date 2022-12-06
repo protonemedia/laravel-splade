@@ -128,6 +128,12 @@ export default {
             required: false,
             default: "_order"
         },
+
+        dusk: {
+            type: String,
+            required: false,
+            default: null,
+        },
     },
 
     emits: ["start-uploading", "stop-uploading"],
@@ -281,17 +287,42 @@ export default {
         },
 
         initFilepond(files) {
+            const originalName = this.inputElement.getAttribute("name");
+
             const vm = this;
 
             return new Promise(resolve => {
                 import("filepond").then((filepond) => {
                     const options = Object.assign({}, vm.filepond, vm.jsFilepondOptions, {
                         oninit() {
-                            vm.setOrder();
+                            const statusCheck = setInterval(() => {
+                                if(vm.filepondInstance.status === 1) {
+                                    clearInterval(statusCheck);
+                                } else {
+                                    return;
+                                }
 
-                            vm.$nextTick(() => {
+                                vm.setOrder();
+
+                                const fileInput = vm.filepondInstance.element.querySelector("input[type=\"file\"]");
+
+                                if(!fileInput.hasAttribute("name")) {
+                                    fileInput.setAttribute("name", originalName);
+                                }
+
+                                if(vm.dusk) {
+                                    vm.filepondInstance.element.setAttribute("dusk", vm.dusk);
+                                }
+
+                                if(vm.multiple) {
+                                    vm.filepondInstance.element.addEventListener("moveFile", function (event) {
+                                        vm.filepondInstance.moveFile(event.detail[0], event.detail[1]);
+                                        vm.setOrder();
+                                    });
+                                }
+
                                 resolve();
-                            });
+                            }, 15);
                         },
 
                         onaddfile(error, file) {
@@ -346,10 +377,6 @@ export default {
                         },
                         onreorderfiles() {
                             vm.setOrder();
-                        },
-                        onactivatefile() {
-                            vm.setOrder();
-                            console.log("x");
                         }
                     });
 

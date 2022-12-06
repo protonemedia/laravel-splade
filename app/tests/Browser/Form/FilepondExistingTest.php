@@ -165,4 +165,30 @@ class FilepondExistingTest extends DuskTestCase
 
         $this->assertTrue($newMedia[0]->is($media[1]));
     }
+
+    /** @test */
+    public function it_can_reorder_multiple_uploads()
+    {
+        $user = User::first();
+
+        $this->browse(function (Browser $browser) {
+            $browser->visit('form/components/filepondExisting')
+                ->within('@photos', function (Browser $browser) {
+                    $formattedFilepondSelector = $browser->resolver->format('@photos-file-input');
+
+                    $browser->waitForText('1.jpeg')
+                        ->script("return document.querySelector('{$formattedFilepondSelector}').dispatchEvent(new CustomEvent('moveFile', { detail: [0, 2] }));");
+
+                    $browser->pause(250)->press('Submit');
+                })
+                ->waitForText('The photos have been saved');
+        });
+
+        $newMedia = $user->fresh()->getMedia('photos');
+
+        $this->assertCount(2, $newMedia);
+
+        $this->assertEquals('2.jpeg', $newMedia[0]->file_name);
+        $this->assertEquals('1.jpeg', $newMedia[1]->file_name);
+    }
 }

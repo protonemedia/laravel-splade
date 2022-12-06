@@ -10,7 +10,7 @@ FormFilePondExisting
 </x-splade-form>
 
 <x-splade-form :action="request()->fullUrlWithQuery(['form' => 'photos'])" dusk="photos" :default="['photos' => $photos]">
-    <x-splade-file filepond multiple preview server name="photos[]" />
+    <x-splade-file filepond multiple preview server name="photos[]" dusk="photos-file-input" />
     <x-splade-submit />
 </x-splade-form>
 
