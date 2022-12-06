@@ -1,17 +1,23 @@
 <template>
-  <Teleport
-    v-if="isMounted"
+  <component
+    :is="isMounted ? Teleport : 'div'"
+    v-show="isMounted"
     v-bind="$attrs"
   >
     <slot />
-  </Teleport>
+  </component>
 </template>
 
 <script>
+import { Teleport } from "vue";
+
 export default {
+    inheritAttrs: false,
+
     data() {
         return {
-            isMounted: false
+            isMounted: false,
+            Teleport
         };
     },
 
