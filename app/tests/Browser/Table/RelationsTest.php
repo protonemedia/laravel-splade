@@ -56,10 +56,14 @@ class RelationsTest extends DuskTestCase
             $browser->visit('table/relationsAndExports')
                 ->assertSeeIn('tbody tr:first-child td:nth-child(2)', $firstProject->name) // first column = checkboxes
                 ->click('@sort-organization.name')
+                ->pause(100)
                 ->waitForText($firstOrganization->name)
+                ->pause(100)
                 ->assertSeeIn('tbody tr:first-child td:nth-child(4)', $firstOrganization->name)
                 ->click('@sort-organization.address.city')
+                ->pause(100)
                 ->waitForText($firstAddress->city)
+                ->pause(100)
                 ->assertSeeIn('tbody tr:first-child td:nth-child(5)', $firstAddress->city);
         });
     }
