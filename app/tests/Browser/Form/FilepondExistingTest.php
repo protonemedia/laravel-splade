@@ -152,6 +152,7 @@ class FilepondExistingTest extends DuskTestCase
             $browser->visit('form/components/filepondExisting')
                 ->within('@photos', function (Browser $browser) {
                     $browser->waitForText('1.jpeg')
+                        ->pause(500)
                         ->press('.filepond--action-remove-item')
                         ->pause(500)
                         ->press('Submit');
