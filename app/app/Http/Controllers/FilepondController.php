@@ -6,8 +6,11 @@ use App\Http\Requests\AvatarUpload;
 use App\Http\Requests\AvatarUploadFileRule;
 use App\Http\Requests\TitleWithAvatarUploadFileRule;
 use App\Models\Project;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use ProtoneMedia\Splade\Facades\Toast;
+use ProtoneMedia\Splade\FileUploads\ExistingFile;
 use ProtoneMedia\Splade\FileUploads\HandleSpladeFileUploads;
 
 class FilepondController extends Controller
@@ -25,6 +28,34 @@ class FilepondController extends Controller
     public function showValidation()
     {
         return view('form.components.filepondValidation');
+    }
+
+    public function showExisting()
+    {
+        $user = User::first();
+
+        return view('form.components.filepondExisting', [
+            'avatar'    => ExistingFile::fromMediaLibrary($user->getFirstMedia('avatar')),
+            'photos'    => ExistingFile::fromMediaLibrary($user->getMedia('photos'), 'thumb'),
+            'documents' => ExistingFile::fromMediaLibrary($user->getMedia('documents')),
+        ]);
+    }
+
+    public function storeExisting(Request $request)
+    {
+        $user = User::first();
+
+        if ($request->query('form') === 'avatar') {
+            HandleSpladeFileUploads::syncMediaLibrary($request, $user, 'avatar', 'avatar');
+        } elseif ($request->query('form') === 'photos') {
+            HandleSpladeFileUploads::syncMediaLibrary($request, $user, 'photos', 'photos');
+        } elseif ($request->query('form') === 'documents') {
+            HandleSpladeFileUploads::syncMediaLibrary($request, $user, 'documents', 'documents');
+        }
+
+        Toast::info('The photos have been saved.');
+
+        return redirect()->back();
     }
 
     public function storeSingle(Request $request)

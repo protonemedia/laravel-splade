@@ -144,6 +144,9 @@ Route::middleware('splade')->group(function () {
     Route::get('form/components/filepond', [FilepondController::class, 'show'])->name('form.components.filepond');
     Route::get('form/components/filepondValidation', [FilepondController::class, 'showValidation'])->name('form.components.filepondValidation');
 
+    Route::get('form/components/filepondExisting', [FilepondController::class, 'showExisting'])->name('form.components.filepondExisting');
+    Route::post('form/components/filepondExisting', [FilepondController::class, 'storeExisting'])->name('form.components.filepondStoreExisting');
+
     Route::post('form/components/storeSingle', [FilepondController::class, 'storeSingle'])->name('form.components.filepond.storeSingle');
     Route::post('form/components/storeMultiple', [FilepondController::class, 'storeMultiple'])->name('form.components.filepond.storeMultiple');
 

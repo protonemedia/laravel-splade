@@ -12,3 +12,4 @@ vendor
 node_modules
 protonemedia-laravel-splade-*.tgz
 app/bootstrap/ssr*
+app/storage/splade-temporary-file-uploads/*
