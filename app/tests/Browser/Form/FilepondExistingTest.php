@@ -238,14 +238,19 @@ class FilepondExistingTest extends DuskTestCase
                     $browser->waitForText('dummy1.txt')
                         ->waitForText('Drag and drop your files')
                         ->pause(500)
+                        ->screenshot('Filepond-1-BeforeRemovingFirstDummy')
                         ->press('.filepond--action-remove-item')
+                        ->screenshot('Filepond-2-BeforeAddingThirdDummy')
                         ->attachToFilepond(__DIR__ . '/../dummy3.txt')
                         ->waitForText('dummy3.txt')
-                        ->pause(500);
+                        ->pause(500)
+                        ->screenshot('Filepond-3-BeforeOrderingDummies');
 
                     $browser->script("return document.querySelector('{$formattedFilepondSelector}').dispatchEvent(new CustomEvent('moveFile', { detail: [0, 2] }));");
 
-                    $browser->pause(500)->press('Submit');
+                    $browser->pause(500)
+                        ->screenshot('Filepond-4-BeforeHittingSubmit')
+                        ->press('Submit');
                 })
                 ->waitForText('The photos have been saved');
         });
