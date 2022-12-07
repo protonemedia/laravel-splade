@@ -16,7 +16,7 @@
         }
     ],
     "require": {
-        "php": "^8.0 || ^8.1",
+        "php": "^8.0 || ^8.1 || ^8.2",
         "illuminate/contracts": "^9.22"
     },
     "require-dev": {
