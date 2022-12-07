@@ -225,10 +225,18 @@ export default {
         },
 
         $addFile(field, file) {
+            if(!this.fileponds[field]) {
+                return console.log("Filepond instance not found");
+            }
+
             this.fileponds[field].addFile(file);
         },
 
         $addFiles(field, files) {
+            if(!this.fileponds[field]) {
+                return console.log("Filepond instance not found");
+            }
+
             this.fileponds[field].addFiles(files);
         },
 

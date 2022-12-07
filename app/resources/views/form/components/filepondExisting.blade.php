@@ -15,7 +15,14 @@ FormFilePondExisting
 </x-splade-form>
 
 <x-splade-form :action="request()->fullUrlWithQuery(['form' => 'documents'])" dusk="documents" :default="['documents' => $documents]">
-    <x-splade-file filepond multiple name="documents[]" />
+    <x-splade-file filepond multiple name="documents[]" dusk="documents-file-input" />
+    <x-splade-submit />
+</x-splade-form>
+
+<x-splade-form :action="request()->fullUrlWithQuery(['form' => 'avatar'])" dusk="external">
+    <x-splade-file filepond server name="avatar" />
+    <x-splade-input name="external_url" label="External URL" />
+    <button class="block" @click.prevent="form.$addFile('avatar', form.external_url)">Add from URL</button>
     <x-splade-submit />
 </x-splade-form>
 

@@ -192,4 +192,97 @@ class FilepondExistingTest extends DuskTestCase
         $this->assertEquals('2.jpeg', $newMedia[0]->file_name);
         $this->assertEquals('1.jpeg', $newMedia[1]->file_name);
     }
+
+    /** @test */
+    public function it_can_add_and_delete_and_reorder_in_one_request()
+    {
+        $user = User::first();
+
+        $this->browse(function (Browser $browser) {
+            $browser->visit('form/components/filepondExisting')
+                ->within('@photos', function (Browser $browser) {
+                    $formattedFilepondSelector = $browser->resolver->format('@photos-file-input');
+
+                    $browser->waitForText('1.jpeg')
+                        ->waitForText('Drag and drop your files')
+                        ->pause(500)
+                        ->press('.filepond--action-remove-item')
+                        ->attachToFilepond(__DIR__ . '/../small.jpeg')
+                        ->waitForText('Upload complete', 10);
+
+                    $browser->script("return document.querySelector('{$formattedFilepondSelector}').dispatchEvent(new CustomEvent('moveFile', { detail: [0, 2] }));");
+
+                    $browser->pause(250)->press('Submit');
+                })
+                ->waitForText('The photos have been saved');
+        });
+
+        $newMedia = $user->fresh()->getMedia('photos');
+
+        $this->assertCount(2, $newMedia);
+
+        $this->assertEquals('2.jpeg', $newMedia[0]->file_name);
+        $this->assertEquals('small.jpeg', $newMedia[1]->file_name);
+    }
+
+    /** @test */
+    public function it_can_also_reorder_with_direct_uploads()
+    {
+        $user = User::first();
+
+        $this->browse(function (Browser $browser) {
+            $browser->visit('form/components/filepondExisting')
+                ->within('@documents', function (Browser $browser) {
+                    $formattedFilepondSelector = $browser->resolver->format('@documents-file-input');
+
+                    $browser->waitForText('dummy1.txt')
+                        ->waitForText('Drag and drop your files')
+                        ->pause(500)
+                        ->press('.filepond--action-remove-item')
+                        ->attachToFilepond(__DIR__ . '/../dummy3.txt')
+                        ->waitForText('dummy3.txt')
+                        ->pause(500);
+
+                    $browser->script("return document.querySelector('{$formattedFilepondSelector}').dispatchEvent(new CustomEvent('moveFile', { detail: [0, 2] }));");
+
+                    $browser->pause(250)->press('Submit');
+                })
+                ->waitForText('The photos have been saved');
+        });
+
+        $newMedia = $user->fresh()->getMedia('documents');
+
+        $this->assertCount(2, $newMedia);
+
+        $this->assertEquals('dummy2.txt', $newMedia[0]->file_name);
+        $this->assertEquals('dummy3.txt', $newMedia[1]->file_name);
+    }
+
+    /** @test */
+    public function it_can_add_a_file_from_a_external_link()
+    {
+        /** @var User $user */
+        $user = User::first();
+
+        $user->clearMediaCollection('avatar');
+
+        $this->browse(function (Browser $browser) {
+            $browser->visit('form/components/filepondExisting')
+                ->within('@external', function (Browser $browser) {
+                    $browser
+                        ->waitForText('Drag and drop your files')
+                        ->type('external_url', url('/storage/1.jpeg'))
+                        ->press('Add from URL')
+                        ->waitForText('Upload complete', 10);
+
+                    $browser->pause(250)->press('Submit');
+                })
+                ->waitForText('The photos have been saved');
+        });
+
+        $newMedia = $user->fresh()->getMedia('avatar');
+
+        $this->assertCount(1, $newMedia);
+        $this->assertEquals('1.jpeg', $newMedia[0]->file_name);
+    }
 }

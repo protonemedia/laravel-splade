@@ -256,7 +256,9 @@ export default {
          * This is meant for external URLs.
          */
         addFileToFilepond(file) {
-            this.filepondInstance.addFile(file);
+            if(file) {
+                this.filepondInstance.addFile(file);
+            }
         },
 
         addFilesToFilepond(files) {
@@ -296,7 +298,7 @@ export default {
                     const options = Object.assign({}, vm.filepond, vm.jsFilepondOptions, {
                         oninit() {
                             const statusCheck = setInterval(() => {
-                                if(vm.filepondInstance.status === 1) {
+                                if(vm.filepondInstance.status < 2) {
                                     clearInterval(statusCheck);
                                 } else {
                                     return;
