@@ -2,6 +2,8 @@
 
 namespace ProtoneMedia\Splade\FileUploads;
 
+use Illuminate\Support\Str;
+
 class TemporaryFileUpload
 {
     const PATH_PREFIX = 'splade-upload-';
@@ -10,7 +12,9 @@ class TemporaryFileUpload
         private string $path,
         private string $name,
         private string $mime,
+        private ?string $identifier = null,
     ) {
+        $this->identifier = $identifier ?: Str::random();
     }
 
     /**
@@ -35,6 +39,7 @@ class TemporaryFileUpload
             $data['path'],
             $data['name'],
             $data['mime'],
+            $data['identifier'],
         );
     }
 
@@ -78,9 +83,10 @@ class TemporaryFileUpload
         return encrypt([
             'splade_temporary_file_upload' => true,
 
-            'path' => $this->path,
-            'name' => $this->name,
-            'mime' => $this->mime,
+            'path'       => $this->path,
+            'name'       => $this->name,
+            'mime'       => $this->mime,
+            'identifier' => $this->identifier,
         ]);
     }
 }

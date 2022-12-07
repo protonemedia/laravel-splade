@@ -10,6 +10,9 @@
 <script>
 import { default as Axios } from "axios";
 import find from "lodash-es/find";
+import isArray from "lodash-es/isArray";
+import isObject from "lodash-es/isObject";
+import isString from "lodash-es/isString";
 
 export default {
     props: {
@@ -113,6 +116,24 @@ export default {
             required: false,
             default: false
         },
+
+        existingSuffix: {
+            type: String,
+            required: false,
+            default: "_existing"
+        },
+
+        orderSuffix: {
+            type: String,
+            required: false,
+            default: "_order"
+        },
+
+        dusk: {
+            type: String,
+            required: false,
+            default: null,
+        },
     },
 
     emits: ["start-uploading", "stop-uploading"],
@@ -123,20 +144,127 @@ export default {
             filepondInstance: null,
             filenames: [],
             uploadedFiles: [],
+            hadExistingFiles: false,
         };
+    },
+
+    computed: {
+        existingField() {
+            return this.field + this.existingSuffix;
+        },
+
+        orderField() {
+            return this.field + this.orderSuffix;
+        },
+
+        handlesExistingFiles() {
+            return this.existingSuffix && this.hadExistingFiles;
+        }
     },
 
     mounted() {
         this.inputElement = this.$refs["file"].querySelector("input[type=\"file\"]");
 
+        const boundValue = this.form[this.field];
+        this.hadExistingFiles = (this.multiple && boundValue.length > 0) || (!this.multiple && boundValue);
+
+        // Clear the form's field, so that we can use it to store the uploaded files.
         this.form.$put(this.field, this.multiple ? [] : null);
 
         if(this.filepond) {
-            this.initFilepond();
+            this.setExisting(boundValue);
+
+            this.initFilepond(boundValue ? boundValue : []).then(() => {
+                // We bind the filepond instance to the form, so that we can access it from the form.
+                this.form.$registerFilepond(this.field, this.addFileToFilepond, this.addFilesToFilepond);
+            });
         }
     },
 
     methods: {
+        /*
+         * This extracts the encrypted string from the backend data.
+         */
+        extractMetadataFromExistingFile(file) {
+            if(!file) {
+                return null;
+            }
+
+            if(isString(file)) {
+                return file;
+            }
+
+            if(isArray(file)) {
+                return file.map(this.extractMetadataFromExistingFile);
+            }
+
+            if(isObject(file)) {
+                return file.options.metadata.metadata;
+            }
+
+            return null;
+        },
+
+        /**
+         * This sets the existing files on the form.
+         */
+        setExisting(value) {
+            if(!this.handlesExistingFiles) {
+                return;
+            }
+
+            this.form.$put(this.existingField, this.extractMetadataFromExistingFile(value));
+
+            this.setOrder();
+        },
+
+        /**
+         * This determines the order of all files, existing and new, and sets it on the form.
+         */
+        setOrder() {
+            if(!this.multiple) {
+                return;
+            }
+
+            if(!this.handlesExistingFiles) {
+                return;
+            }
+
+            if(!this.filepondInstance) {
+                return;
+            }
+
+            const files = this.filepondInstance.getFiles();
+
+            // New files don't have an identifier.
+            const newFiles = files.filter(file => !file.getMetadata("identifier"));
+
+            const order = this.filepondInstance.getFiles().map((file) => {
+                const identifier = file.getMetadata("identifier");
+
+                if(identifier) {
+                    return "existing-file-" + identifier;
+                }
+
+                return "new-file-" + newFiles.indexOf(file);
+            });
+
+            this.form.$put(this.orderField, order);
+        },
+
+        /**
+         * This is meant for external URLs.
+         */
+        addFileToFilepond(file) {
+            if(file) {
+                this.filepondInstance.addFile(file);
+            }
+        },
+
+        addFilesToFilepond(files) {
+            files.forEach(file => this.addFileToFilepond(file));
+        },
+
         loadFilepondPlugins() {
             const plugins = [];
 
@@ -160,84 +288,172 @@ export default {
             return Promise.all(plugins);
         },
 
-        initFilepond() {
+        initFilepond(files) {
+            const originalName = this.inputElement.getAttribute("name");
+
             const vm = this;
 
-            import("filepond").then((filepond) => {
-                const options = Object.assign({}, vm.filepond, vm.jsFilepondOptions, {
-                    onaddfile(error, file) {
-                        if(error) {
-                            return;
+            return new Promise(resolve => {
+                import("filepond").then((filepond) => {
+                    const options = Object.assign({}, vm.filepond, vm.jsFilepondOptions, {
+                        oninit() {
+                            const statusCheck = setInterval(() => {
+                                if(vm.filepondInstance.status < 2) {
+                                    clearInterval(statusCheck);
+                                } else {
+                                    return;
+                                }
+
+                                vm.setOrder();
+
+                                const fileInput = vm.filepondInstance.element.querySelector("input[type=\"file\"]");
+
+                                if(!fileInput.hasAttribute("name")) {
+                                    fileInput.setAttribute("name", originalName);
+                                }
+
+                                if(vm.dusk) {
+                                    vm.filepondInstance.element.setAttribute("dusk", vm.dusk);
+                                }
+
+                                if(vm.multiple) {
+                                    vm.filepondInstance.element.addEventListener("moveFile", function (event) {
+                                        vm.filepondInstance.moveFile(event.detail[0], event.detail[1]);
+                                        vm.setOrder();
+                                    });
+                                }
+
+                                resolve();
+                            }, 15);
+                        },
+
+                        onaddfile(error, file) {
+                            if(error) {
+                                return;
+                            }
+
+                            if(file.origin === filepond.FileOrigin.LOCAL) {
+                            // This is an existing file, so we don't need to add or upload it.
+                                return;
+                            }
+
+                            if(!vm.server) {
+                                vm.addFiles([file.file]);
+                            } else {
+                                vm.$emit("start-uploading", [file.id]);
+                            }
+
+                            vm.setOrder();
+                        },
+                        onremovefile(error, file) {
+                            if(error) {
+                                return;
+                            }
+
+                            if(vm.handlesExistingFiles) {
+                            // Remove the file from the existing files.
+                                if(vm.multiple) {
+                                    vm.setExisting(vm.form[vm.existingField].filter((existingFile) => {
+                                        return file.getMetadata("metadata") !== existingFile;
+                                    }));
+                                } else {
+                                    vm.setExisting(null);
+                                }
+                            }
+
+                            vm.removeFile(file.file);
+                        },
+                        onprocessfile(error, file) {
+                            if(error) {
+                                return;
+                            }
+
+                            vm.uploadedFiles.push({
+                                file: file.file,
+                                id: file.serverId
+                            });
+
+                            vm.addFiles([file.serverId]);
+
+                            vm.$emit("stop-uploading", [file.id]);
+                        },
+                        onreorderfiles() {
+                            vm.setOrder();
                         }
+                    });
 
-                        if(!vm.server) {
-                            vm.addFiles([file.file]);
-                        } else {
-                            vm.$emit("start-uploading", [file.id]);
-                        }
-                    },
-                    onremovefile(error, file) {
-                        if(error) {
-                            return;
-                        }
+                    if(this.hadExistingFiles) {
+                        options.files = this.multiple ? files : [files];
+                    }
 
-                        vm.removeFile(file.file);
-                    },
-                    onprocessfile(error, file) {
-                        if(error) {
-                            return;
-                        }
+                    if(this.accept.length > 0) {
+                        options.acceptedFileTypes = this.accept;
+                    }
 
-                        vm.uploadedFiles.push({
-                            file: file.file,
-                            id: file.serverId
-                        });
+                    if(this.minFileSize) {
+                        options.minFileSize = this.minFileSize;
+                    }
 
-                        vm.addFiles([file.serverId]);
+                    if(this.maxFileSize) {
+                        options.maxFileSize = this.maxFileSize;
+                    }
 
-                        vm.$emit("stop-uploading", [file.id]);
-                    },
-                });
+                    if(this.minImageWidth) {
+                        options.imageValidateSizeMinWidth = this.minImageWidth;
+                    }
 
-                if(this.accept.length > 0) {
-                    options.acceptedFileTypes = this.accept;
-                }
+                    if(this.maxImageWidth) {
+                        options.imageValidateSizeMaxWidth = this.maxImageWidth;
+                    }
 
-                if(this.minFileSize) {
-                    options.minFileSize = this.minFileSize;
-                }
+                    if(this.minImageHeight) {
+                        options.imageValidateSizeMinHeight = this.minImageHeight;
+                    }
 
-                if(this.maxFileSize) {
-                    options.maxFileSize = this.maxFileSize;
-                }
+                    if(this.maxImageHeight) {
+                        options.imageValidateSizeMaxHeight = this.maxImageHeight;
+                    }
 
-                if(this.minImageWidth) {
-                    options.imageValidateSizeMinWidth = this.minImageWidth;
-                }
+                    if(this.minImageResolution) {
+                        options.imageValidateSizeMinResolution = this.minImageResolution;
+                    }
 
-                if(this.maxImageWidth) {
-                    options.imageValidateSizeMaxWidth = this.maxImageWidth;
-                }
+                    if(this.maxImageResolution) {
+                        options.imageValidateSizeMaxResolution = this.maxImageResolution;
+                    }
 
-                if(this.minImageHeight) {
-                    options.imageValidateSizeMinHeight = this.minImageHeight;
-                }
-
-                if(this.maxImageHeight) {
-                    options.imageValidateSizeMaxHeight = this.maxImageHeight;
-                }
-
-                if(this.minImageResolution) {
-                    options.imageValidateSizeMinResolution = this.minImageResolution;
-                }
-
-                if(this.maxImageResolution) {
-                    options.imageValidateSizeMaxResolution = this.maxImageResolution;
-                }
-
-                if(this.server) {
                     options.server = {
-                        process: (fieldName, file, metadata, load, error, progress, abort) => {
+                        // This handles to loading of the file preview of existing files.
+                        load: (source, load, error, progress, abort) => {
+                            const loadCancelToken = Axios.CancelToken;
+                            const loadCancelTokenSource = loadCancelToken.source();
+
+                            Axios({
+                                url: source.preview_url,
+                                method: "GET",
+                                cancelToken: loadCancelTokenSource.token,
+                                responseType: "blob",
+                            }).then((response) => {
+                                const file = new File([response.data], source.name, { type: source.type });
+
+                                load(file);
+                            }).catch(function (thrown) {
+                                if (!axios.isCancel(thrown)) {
+                                    error(thrown);
+                                }
+                            });
+
+                            return {
+                                abort: () => {
+                                    loadCancelTokenSource.cancel();
+                                    abort();
+                                },
+                            };
+                        }
+                    };
+
+                    if(this.server) {
+                        options.server.process = (fieldName, file, metadata, load, error, progress, abort) => {
                             // fieldName is the name of the input field
                             // file is the actual file object to send
                             const formData = new FormData();
@@ -267,9 +483,9 @@ export default {
                                     error(thrown.response?.statusText);
                                 }
                             });
-                        },
+                        };
 
-                        revert: (path, load, error) => {
+                        options.server.revert = (path, load, error) => {
                             Axios({
                                 url: vm.server,
                                 method: "POST",
@@ -279,16 +495,16 @@ export default {
                             }).catch(function (thrown) {
                                 error(thrown.response?.statusText);
                             });
-                        },
-                    };
-                }
-
-                this.loadFilepondPlugins(filepond).then((plugins) => {
-                    if(plugins.length > 0) {
-                        filepond.registerPlugin(...plugins.map(plugin => plugin.default));
+                        };
                     }
 
-                    this.filepondInstance = filepond.create(this.inputElement, options);
+                    this.loadFilepondPlugins(filepond).then((plugins) => {
+                        if(plugins.length > 0) {
+                            filepond.registerPlugin(...plugins.map(plugin => plugin.default));
+                        }
+
+                        this.filepondInstance = filepond.create(this.inputElement, options);
+                    });
                 });
             });
         },
@@ -313,6 +529,7 @@ export default {
             } else {
                 // Directly put the file(s) on the form instance.
                 this.form.$put(this.field, input[0]);
+                this.setExisting(null);
             }
 
             if(!this.filepond) {

@@ -60,9 +60,12 @@ jobs:
           cd app
           npm upgrade
           cp .env.example .env
+          cp public/1.jpeg storage/app/public/1.jpeg
+          cp public/2.jpeg storage/app/public/2.jpeg
           touch database/database.sqlite
           composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction --no-suggest
           npm run build
+          php artisan storage:link
           php artisan migrate:fresh --seed
           php artisan dusk:chrome-driver `/opt/google/chrome/chrome --version | cut -d " " -f3 | cut -d "." -f1`
 

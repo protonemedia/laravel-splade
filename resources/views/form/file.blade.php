@@ -8,6 +8,8 @@
     :server="@js($server)"
     :preview="@js($preview)"
     :accept="@js($accept)"
+    :existing-suffix="@js($existingSuffix)"
+    :order-suffix="@js($orderSuffix)"
     :min-file-size="@js($minSize)"
     :max-file-size="@js($maxSize)"
     :min-image-width="@js($minWidth)"
@@ -18,6 +20,7 @@
     :max-image-resolution="@js($maxResolution)"
     v-on:start-uploading="form.$startUploading"
     v-on:stop-uploading="form.$stopUploading"
+    :dusk="@js($attributes->get('dusk'))"
     {{ $attributes->only(['v-if', 'v-show', 'class']) }}
 >
     <template #default="{!! $scope !!}">

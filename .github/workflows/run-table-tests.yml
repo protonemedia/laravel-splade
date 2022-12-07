@@ -125,6 +125,7 @@ jobs:
       - name: Migrate DB and Run Laravel Server (MySQL)
         run: |
           cd app
+          php artisan storage:link
           php artisan migrate:fresh --seed
           php artisan serve &
         if: ${{ matrix.db == 'mysql' }}
@@ -134,6 +135,7 @@ jobs:
       - name: Migrate DB and Run Laravel Server (PostgreSQL)
         run: |
           cd app
+          php artisan storage:link
           php artisan migrate:fresh --seed
           php artisan serve &
         if: ${{ matrix.db == 'postgres' }}
@@ -144,6 +146,7 @@ jobs:
         if: ${{ matrix.db == 'sqlite' }}
         run: |
           cd app
+          php artisan storage:link
           php artisan migrate:fresh --seed
           php artisan serve &
 

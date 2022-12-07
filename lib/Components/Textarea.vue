@@ -54,7 +54,7 @@ export default {
     /*
      * Destroy the Autsize instance to prevent memory leaks.
      */
-    beforeUnmount(){
+    beforeUnmount() {
         if(this.autosize && this.autosizeInstance) {
             import("autosize").then((autosize) => {
                 autosize.default.destroy(this.element);
