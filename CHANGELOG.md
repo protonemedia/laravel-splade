@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 1.1.0 - 2022-12-08
+
+- Support for handling existing files with the FilePond integration, including support for Spatie's Media Library.
+- Support for PHP 8.2.
+- Refactored the Vue `Teleport` component.
+
 ## 1.0.4 - 2022-11-28
 
 - Added setting to escape validation messages or not (#134)
