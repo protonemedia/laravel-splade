@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Browser\Form;
+namespace Tests\Browser;
 
 use Faker\Provider\Lorem;
 use Laravel\Dusk\Browser;
