@@ -75,8 +75,17 @@ class SpladeInstallCommand extends Command
         copy(__DIR__ . '/../../stubs/resources/js/app.js', resource_path('js/app.js'));
         copy(__DIR__ . '/../../stubs/resources/js/ssr.js', resource_path('js/ssr.js'));
 
+        // Run npm install & npm run build automatically
+        if (file_exists(base_path('pnpm-lock.yaml'))) {
+            $this->runCommands(['pnpm install', 'pnpm run build']);
+        } elseif (file_exists(base_path('yarn.lock'))) {
+            $this->runCommands(['yarn install', 'yarn run build']);
+        } else {
+            $this->runCommands(['npm install', 'npm run build']);
+        }
+        
         $this->comment('All done');
-        $this->comment('Please execute "npm install && npm run dev" to build your assets.');
+        
 
         return self::SUCCESS;
     }
