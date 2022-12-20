@@ -23,6 +23,7 @@
         "laravel/pint": "^1.0",
         "nunomaduro/collision": "^6.0",
         "nunomaduro/larastan": "^2.0.1",
+        "orchestra/testbench": "^7.16",
         "phpunit/phpunit": "^9.5"
     },
     "conflict": {
