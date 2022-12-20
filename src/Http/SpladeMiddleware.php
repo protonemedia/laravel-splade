@@ -84,7 +84,7 @@ class SpladeMiddleware
             ? $this->handleSpladeRequest($request, $response, $spladeData)
             : $this->handleRegularRequest($request, $response, $spladeData);
     }
-    
+
     /**
      * Terminate and Reset Splade request
      *
