@@ -13,6 +13,7 @@ class ResetTest extends DuskTestCase
 {
     /**
      * @test
+     *
      * @dataProvider tableUrls
      */
     public function it_can_reset_toggled_columns($url)
@@ -36,6 +37,7 @@ class ResetTest extends DuskTestCase
 
     /**
      * @test
+     *
      * @dataProvider tableUrls
      */
     public function it_can_reset_select_filters($url)
@@ -65,6 +67,7 @@ class ResetTest extends DuskTestCase
 
     /**
      * @test
+     *
      * @dataProvider tableUrls
      */
     public function it_can_reset_global_search($url)
@@ -94,6 +97,7 @@ class ResetTest extends DuskTestCase
 
     /**
      * @test
+     *
      * @dataProvider tableUrls
      */
     public function it_can_reset_search_inputs($url)
@@ -125,6 +129,7 @@ class ResetTest extends DuskTestCase
 
     /**
      * @test
+     *
      * @dataProvider tableUrls
      */
     public function it_can_reset_the_sort($url)
@@ -159,6 +164,7 @@ class ResetTest extends DuskTestCase
 
     /**
      * @test
+     *
      * @dataProvider tableUrls
      */
     public function it_can_reset_to_the_first_page($url)

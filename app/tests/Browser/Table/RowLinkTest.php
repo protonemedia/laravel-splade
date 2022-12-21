@@ -13,6 +13,7 @@ class RowLinkTest extends DuskTestCase
 {
     /**
      * @test
+     *
      * @dataProvider booleanDataset
      */
     public function it_can_make_a_row_clickable($spladeQueryBuilder)
@@ -32,6 +33,7 @@ class RowLinkTest extends DuskTestCase
 
     /**
      * @test
+     *
      * @dataProvider booleanDataset
      */
     public function it_can_make_a_row_clickable_and_open_a_modal($spladeQueryBuilder)
@@ -46,6 +48,7 @@ class RowLinkTest extends DuskTestCase
 
     /**
      * @test
+     *
      * @dataProvider booleanDataset
      */
     public function it_can_make_a_row_clickable_and_open_a_slideover($spladeQueryBuilder)

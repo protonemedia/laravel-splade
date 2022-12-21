@@ -13,6 +13,7 @@ class SortTest extends DuskTestCase
 {
     /**
      * @test
+     *
      * @dataProvider tableUrls
      */
     public function it_sorts_by_name_by_default($url)

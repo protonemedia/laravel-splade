@@ -17,6 +17,7 @@ class SelectDependentTest extends DuskTestCase
 
     /**
      * @dataProvider dependentUrls
+     *
      * @test
      */
     public function it_restores_the_placeholder_on_regular_selects($url)
@@ -39,6 +40,7 @@ class SelectDependentTest extends DuskTestCase
 
     /**
      * @dataProvider dependentUrls
+     *
      * @test
      */
     public function it_restores_the_placeholder_on_choices_instances($url)
@@ -63,6 +65,7 @@ class SelectDependentTest extends DuskTestCase
 
     /**
      * @dataProvider dependentUrls
+     *
      * @test
      */
     public function it_restores_the_placeholder_on_regular_multiple_select($url)
@@ -85,6 +88,7 @@ class SelectDependentTest extends DuskTestCase
 
     /**
      * @dataProvider dependentUrls
+     *
      * @test
      */
     public function it_restores_the_placeholder_on_choices_multiple_select($url)

@@ -19,7 +19,7 @@ class ExistingFileTest extends TestCase
         $this->assertInstanceOf(ExistingFile::class, $file);
 
         Assert::assertArraySubset([
-            'source' => [
+            'source'  => [
                 'preview_url' => 'http://localhost:8000/storage/1.jpeg',
                 'name'        => '1.jpeg',
                 'size'        => 3235,
@@ -30,7 +30,7 @@ class ExistingFileTest extends TestCase
                 'metadata' => [
                     'identifier' => $file->getIdentifier(),
                 ],
-                'file' => null,
+                'file'     => null,
             ],
         ], $file->toArray());
     }
@@ -61,7 +61,7 @@ class ExistingFileTest extends TestCase
                 'metadata' => [
                     'identifier' => $file->getIdentifier(),
                 ],
-                'file' => [
+                'file'     => [
                     'name' => '1.jpeg',
                     'size' => 3235,
                     'type' => 'image/jpeg',

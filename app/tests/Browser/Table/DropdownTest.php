@@ -13,6 +13,7 @@ class DropdownTest extends DuskTestCase
 {
     /**
      * @test
+     *
      * @dataProvider booleanDataset
      */
     public function it_renders_the_dropdown_outside_of_the_table_wrapper($spladeQueryBuilder)

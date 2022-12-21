@@ -17,7 +17,7 @@ return [
     |
     */
 
-    'default' => env('LOG_CHANNEL', 'stack'),
+    'default'      => env('LOG_CHANNEL', 'stack'),
 
     /*
     |--------------------------------------------------------------------------
@@ -50,27 +50,27 @@ return [
     |
     */
 
-    'channels' => [
-        'stack' => [
+    'channels'     => [
+        'stack'      => [
             'driver'            => 'stack',
             'channels'          => ['single'],
             'ignore_exceptions' => false,
         ],
 
-        'single' => [
+        'single'     => [
             'driver' => 'single',
             'path'   => storage_path('logs/laravel.log'),
             'level'  => env('LOG_LEVEL', 'debug'),
         ],
 
-        'daily' => [
+        'daily'      => [
             'driver' => 'daily',
             'path'   => storage_path('logs/laravel.log'),
             'level'  => env('LOG_LEVEL', 'debug'),
             'days'   => 14,
         ],
 
-        'slack' => [
+        'slack'      => [
             'driver'   => 'slack',
             'url'      => env('LOG_SLACK_WEBHOOK_URL'),
             'username' => 'Laravel Log',
@@ -89,7 +89,7 @@ return [
             ],
         ],
 
-        'stderr' => [
+        'stderr'     => [
             'driver'    => 'monolog',
             'level'     => env('LOG_LEVEL', 'debug'),
             'handler'   => StreamHandler::class,
@@ -99,22 +99,22 @@ return [
             ],
         ],
 
-        'syslog' => [
+        'syslog'     => [
             'driver' => 'syslog',
             'level'  => env('LOG_LEVEL', 'debug'),
         ],
 
-        'errorlog' => [
+        'errorlog'   => [
             'driver' => 'errorlog',
             'level'  => env('LOG_LEVEL', 'debug'),
         ],
 
-        'null' => [
+        'null'       => [
             'driver'  => 'monolog',
             'handler' => NullHandler::class,
         ],
 
-        'emergency' => [
+        'emergency'  => [
             'path' => storage_path('logs/laravel.log'),
         ],
     ],
