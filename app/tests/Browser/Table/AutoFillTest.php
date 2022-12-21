@@ -14,6 +14,7 @@ class AutoFillTest extends DuskTestCase
 {
     /**
      * @test
+     *
      * @dataProvider tableUrls
      */
     public function it_generates_the_table_header_with_sort_buttons($url)
@@ -36,6 +37,7 @@ class AutoFillTest extends DuskTestCase
 
     /**
      * @test
+     *
      * @dataProvider tableUrls
      */
     public function it_generates_the_table_body_with_a_custom_action_column($url)

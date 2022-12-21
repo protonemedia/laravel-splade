@@ -83,10 +83,10 @@ class TemporaryFileUpload
         return encrypt([
             'splade_temporary_file_upload' => true,
 
-            'path'       => $this->path,
-            'name'       => $this->name,
-            'mime'       => $this->mime,
-            'identifier' => $this->identifier,
+            'path'                         => $this->path,
+            'name'                         => $this->name,
+            'mime'                         => $this->mime,
+            'identifier'                   => $this->identifier,
         ]);
     }
 }

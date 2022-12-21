@@ -276,12 +276,12 @@ class SpladeMiddleware
             ->toArray();
 
         return (object) [
-            'head'   => $this->splade->head()->toArray(),
-            'modal'  => $this->splade->isModalRequest() ? $this->splade->getModalType() : null,
-            'flash'  => (object) $flash,
-            'errors' => (object) session('errors')?->toArray(),
-            'shared' => (object) $this->splade->getShared(),
-            'toasts' => array_merge(
+            'head'             => $this->splade->head()->toArray(),
+            'modal'            => $this->splade->isModalRequest() ? $this->splade->getModalType() : null,
+            'flash'            => (object) $flash,
+            'errors'           => (object) session('errors')?->toArray(),
+            'shared'           => (object) $this->splade->getShared(),
+            'toasts'           => array_merge(
                 $session->pull(static::FLASH_TOASTS, []),
                 $this->splade->getToasts(),
             ),

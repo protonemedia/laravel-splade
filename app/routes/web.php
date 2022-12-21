@@ -163,6 +163,7 @@ Route::middleware('splade')->group(function () {
     Route::view('form/components/selectAsync/keyValue', 'form.components.selectAsyncKeyValue')->name('form.components.selectAsyncKeyValue');
     Route::view('form/components/selectAsync/objects', 'form.components.selectAsyncObjects')->name('form.components.selectAsyncObjects');
     Route::view('form/components/selectAsync/dependent', 'form.components.selectAsyncDependent')->name('form.components.selectAsyncDependent');
+    Route::view('form/components/selectAsync/nested', 'form.components.selectAsyncNested')->name('form.components.selectAsyncNested');
     Route::post('form/components/selectAsync', [FormComponentsController::class, 'selectAsync'])->name('form.components.selectAsync');
 
     Route::get('form/components/validateMessage', [FormComponentsController::class, 'showValidateMessage'])->name('form.components.showValidateMessage');

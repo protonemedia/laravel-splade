@@ -13,6 +13,7 @@ class CustomTest extends DuskTestCase
 {
     /**
      * @test
+     *
      * @dataProvider booleanDataset
      */
     public function it_can_provide_a_custom_head_and_body($spladeQueryBuilder)

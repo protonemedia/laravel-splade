@@ -27,7 +27,7 @@ class TitleWithAvatarUploadFileRule extends FormRequest implements HasSpladeFile
     public function rules()
     {
         return [
-            'title' => [
+            'title'  => [
                 'required',
                 'string',
                 'max:255',

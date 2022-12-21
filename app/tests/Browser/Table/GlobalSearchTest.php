@@ -13,6 +13,7 @@ class GlobalSearchTest extends DuskTestCase
 {
     /**
      * @test
+     *
      * @dataProvider tableUrls
      */
     public function it_can_globally_search($url)
@@ -43,6 +44,7 @@ class GlobalSearchTest extends DuskTestCase
 
     /**
      * @test
+     *
      * @dataProvider tableUrls
      */
     public function it_resets_the_page_on_search($url)
