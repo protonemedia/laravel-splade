@@ -49,17 +49,26 @@ export default {
             required: false,
             default: null,
         },
+
+        animate: {
+            type: Boolean,
+            required: false,
+            default: true,
+        },
     },
 
     emits: ["close"],
 
     data() {
         return {
+            staticAnimate: true,
             isOpen: false,
         };
     },
 
     mounted() {
+        this.staticAnimate = this.animate;
+
         this.setIsOpen(true);
     },
 
@@ -88,6 +97,7 @@ export default {
             maxWidth: this.maxWidth,
             emitClose: this.emitClose,
             closeButton: this.closeButton,
+            animate: this.staticAnimate,
 
             // These HeadlessUI exports will be removed in v1.0
             Dialog,
