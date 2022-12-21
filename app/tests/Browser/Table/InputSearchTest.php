@@ -13,6 +13,7 @@ class InputSearchTest extends DuskTestCase
 {
     /**
      * @test
+     *
      * @dataProvider tableUrls
      */
     public function it_can_search_by_name_or_email($url)
@@ -47,6 +48,7 @@ class InputSearchTest extends DuskTestCase
 
     /**
      * @test
+     *
      * @dataProvider tableUrls
      */
     public function it_doesnt_remove_the_search_input_when_the_field_is_cleared($url)

@@ -15,6 +15,7 @@ class CaseTest extends DuskTestCase
 {
     /**
      * @test
+     *
      * @dataProvider booleanDataset
      */
     public function it_can_search_case_insensitive($spladeQueryBuilder)
@@ -37,6 +38,7 @@ class CaseTest extends DuskTestCase
 
     /**
      * @test
+     *
      * @dataProvider booleanDataset
      */
     public function it_can_search_case_sensitive($spladeQueryBuilder)

@@ -12,7 +12,7 @@ class FormRelationsController
     public function belongsToMany()
     {
         return view('form.components.belongs-to-many', [
-            'user' => User::first(),
+            'user'       => User::first(),
 
             'tagOptions' => Tag::get()->keyBy->id->map->name,
         ]);
@@ -21,7 +21,7 @@ class FormRelationsController
     public function belongsToManyChoices()
     {
         return view('form.components.belongs-to-many-choices', [
-            'user' => User::first(),
+            'user'       => User::first(),
 
             'tagOptions' => Tag::get()->keyBy->id->map->name,
         ]);
@@ -44,7 +44,7 @@ class FormRelationsController
     public function morphToMany()
     {
         return view('form.components.morph-to-many', [
-            'user' => User::first(),
+            'user'           => User::first(),
 
             'keywordOptions' => Keyword::get()->keyBy->id->map->keyword,
         ]);
@@ -67,7 +67,7 @@ class FormRelationsController
     public function checkboxRelation()
     {
         return view('form.components.checkboxRelation', [
-            'user' => User::first(),
+            'user'           => User::first(),
 
             'keywordOptions' => Keyword::get()->keyBy->id->map->keyword,
         ]);

@@ -161,6 +161,7 @@ class ModalTest extends DuskTestCase
 
     /**
      * @test
+     *
      * @dataProvider sizeAndPixels
      */
     public function it_can_have_a_modal_with_different_max_widths($size, $expectedWidth)
@@ -180,6 +181,7 @@ class ModalTest extends DuskTestCase
 
     /**
      * @test
+     *
      * @dataProvider sizeAndPixels
      */
     public function it_can_have_a_slideover_with_different_max_widths($size, $expectedWidth)

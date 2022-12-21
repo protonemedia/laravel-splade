@@ -13,6 +13,7 @@ class ColumnTest extends DuskTestCase
 {
     /**
      * @test
+     *
      * @dataProvider tableUrls
      */
     public function it_can_toggle_columns($url)

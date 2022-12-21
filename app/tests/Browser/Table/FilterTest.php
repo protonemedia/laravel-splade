@@ -13,6 +13,7 @@ class FilterTest extends DuskTestCase
 {
     /**
      * @test
+     *
      * @dataProvider tableUrls
      */
     public function it_can_use_select_filters($url)
@@ -39,6 +40,7 @@ class FilterTest extends DuskTestCase
 
     /**
      * @test
+     *
      * @dataProvider booleanDataset
      */
     public function it_can_use_boolean_keys_for_the_filter_options($spladeQueryBuilder)

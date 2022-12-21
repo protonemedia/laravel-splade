@@ -89,11 +89,10 @@ abstract class AbstractTable
     {
         $table = $this->make();
 
-        if (! $table instanceof SpladeQueryBuilder) {
+        if (!$table instanceof SpladeQueryBuilder) {
             return null;
-
         }
-        
+
         /** @var Export $export */
         $export = $table->getExports()[$key];
 

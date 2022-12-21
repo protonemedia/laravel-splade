@@ -23,6 +23,7 @@ class PaginationTest extends DuskTestCase
 
     /**
      * @test
+     *
      * @dataProvider tableUrls
      */
     public function it_generates_a_paginator_with_links($url)
@@ -86,6 +87,7 @@ class PaginationTest extends DuskTestCase
 
     /**
      * @test
+     *
      * @dataProvider booleanDataset
      */
     public function it_disabled_the_per_page_selection_on_less_than_two_options($spladeQueryBuilder)
@@ -105,6 +107,7 @@ class PaginationTest extends DuskTestCase
 
     /**
      * @test
+     *
      * @dataProvider simpleUrls
      */
     public function it_generates_a_simple_paginator($url, $method)
