@@ -4,6 +4,8 @@ namespace ProtoneMedia\Splade\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
+use Symfony\Component\Process\Exception\RuntimeException;
+use Symfony\Component\Process\Process;
 
 class SpladeInstallCommand extends Command
 {
@@ -82,11 +84,10 @@ class SpladeInstallCommand extends Command
             $this->runCommands(['yarn install', 'yarn run build']);
         } else {
             $this->runCommands(['npm install', 'npm run build']);
-        }        
-               
+        }
+
         $this->comment('All done');
         $this->comment('Execute "npm run dev" to start the Vite dev server.');
-        
 
         return self::SUCCESS;
     }
@@ -148,5 +149,28 @@ class SpladeInstallCommand extends Command
             base_path('package.json'),
             json_encode($packages, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) . static::eol()
         );
+    }
+
+    /**
+     * Run the given commands.
+     *
+     * @param  array  $commands
+     * @return void
+     */
+    protected function runCommands($commands)
+    {
+        $process = Process::fromShellCommandline(implode(' && ', $commands), null, null, null, null);
+
+        if ('\\' !== DIRECTORY_SEPARATOR && file_exists('/dev/tty') && is_readable('/dev/tty')) {
+            try {
+                $process->setTty(true);
+            } catch (RuntimeException $e) {
+                $this->output->writeln('  <bg=yellow;fg=black> WARN </> ' . $e->getMessage() . PHP_EOL);
+            }
+        }
+
+        $process->run(function ($type, $line) {
+            $this->output->write('    ' . $line);
+        });
     }
 }
