@@ -82,9 +82,10 @@ class SpladeInstallCommand extends Command
             $this->runCommands(['yarn install', 'yarn run build']);
         } else {
             $this->runCommands(['npm install', 'npm run build']);
-        }
-        
+        }        
+               
         $this->comment('All done');
+        $this->comment('Execute "npm run dev" to start the Vite dev server.');
         
 
         return self::SUCCESS;
