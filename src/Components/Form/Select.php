@@ -34,6 +34,7 @@ class Select extends Component
         public bool $relation = false,
         public string $help = '',
         public string $remoteUrl = '',
+        public string $remoteRoot = '',
         public string $optionValue = '',
         public string $optionLabel = '',
         public string $scope = 'select',

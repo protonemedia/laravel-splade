@@ -7,6 +7,7 @@
     v-model="{{ $vueModel() }}"
     :dusk="@js($attributes->get('dusk'))"
     :remote-url="{!! $remoteUrl ?: 'null' !!}"
+    :remote-root="@js($remoteRoot ?: null)"
     :option-value="@js($optionValue)"
     :option-label="@js($optionLabel)"
 >

@@ -7,11 +7,22 @@ use Tests\DuskTestCase;
 
 class SelectDependentTest extends DuskTestCase
 {
-    /** @test */
-    public function it_restores_the_placeholder_on_regular_selects()
+    public function dependentUrls()
     {
-        $this->browse(function (Browser $browser) {
-            $browser->visit('form/components/selectAsync/dependent')
+        return [
+            ['form/components/selectAsync/dependent'],
+            ['form/components/selectAsync/nested'],
+        ];
+    }
+
+    /**
+     * @dataProvider dependentUrls
+     * @test
+     */
+    public function it_restores_the_placeholder_on_regular_selects($url)
+    {
+        $this->browse(function (Browser $browser) use ($url) {
+            $browser->visit($url)
                 ->waitForText('FormComponents')
                 ->waitUntilMissing('svg')
                 ->within('@select-regular', function (Browser $browser) {
@@ -26,11 +37,14 @@ class SelectDependentTest extends DuskTestCase
         });
     }
 
-    /** @test */
-    public function it_restores_the_placeholder_on_choices_instances()
+    /**
+     * @dataProvider dependentUrls
+     * @test
+     */
+    public function it_restores_the_placeholder_on_choices_instances($url)
     {
-        $this->browse(function (Browser $browser) {
-            $browser->visit('form/components/selectAsync/dependent')
+        $this->browse(function (Browser $browser) use ($url) {
+            $browser->visit($url)
                 ->waitForText('FormComponents')
                 ->waitUntilMissing('svg')
                 ->within('@select-choices', function (Browser $browser) {
@@ -47,11 +61,14 @@ class SelectDependentTest extends DuskTestCase
         });
     }
 
-    /** @test */
-    public function it_restores_the_placeholder_on_regular_multiple_select()
+    /**
+     * @dataProvider dependentUrls
+     * @test
+     */
+    public function it_restores_the_placeholder_on_regular_multiple_select($url)
     {
-        $this->browse(function (Browser $browser) {
-            $browser->visit('form/components/selectAsync/dependent')
+        $this->browse(function (Browser $browser) use ($url) {
+            $browser->visit($url)
                 ->waitForText('FormComponents')
                 ->waitUntilMissing('svg')
                 ->within('@select-multiple-regular', function (Browser $browser) {
@@ -66,11 +83,14 @@ class SelectDependentTest extends DuskTestCase
         });
     }
 
-    /** @test */
-    public function it_restores_the_placeholder_on_choices_multiple_select()
+    /**
+     * @dataProvider dependentUrls
+     * @test
+     */
+    public function it_restores_the_placeholder_on_choices_multiple_select($url)
     {
-        $this->browse(function (Browser $browser) {
-            $browser->visit('form/components/selectAsync/dependent')
+        $this->browse(function (Browser $browser) use ($url) {
+            $browser->visit($url)
                 ->waitForText('FormComponents')
                 ->waitUntilMissing('svg')
                 ->within('@select-multiple-choices', function (Browser $browser) {

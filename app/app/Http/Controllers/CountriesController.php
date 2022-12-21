@@ -25,8 +25,10 @@ class CountriesController
 
     public function provinces($country)
     {
-        return Collection::make(
+        $provinces = Collection::make(
             json_decode(file_get_contents(resource_path('provinces.json')))
         )->where(fn ($value, $key) => Str::startsWith($key, $country))->sort()->all();
+
+        return request()->query('nested') ? ['data' => ['nested' => $provinces]] : $provinces;
     }
 }
