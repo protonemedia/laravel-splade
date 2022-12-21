@@ -44,6 +44,12 @@ export default {
             },
         },
 
+        position: {
+            type: String,
+            required: false,
+            default: "center"
+        },
+
         name: {
             type: String,
             required: false,
@@ -98,6 +104,7 @@ export default {
             emitClose: this.emitClose,
             closeButton: this.closeButton,
             animate: this.staticAnimate,
+            position: this.position,
 
             // These HeadlessUI exports will be removed in v1.0
             Dialog,

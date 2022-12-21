@@ -2,7 +2,7 @@
 
 @section('content')
 
-<x-splade-modal max-width="3xl">
+<x-splade-modal max-width="3xl" position="top">
     <x-splade-table :for="$users" as="$user">
         <x-splade-cell actions>
             <a href="/users/{{ $user->id }}/edit"> Edit </a>
