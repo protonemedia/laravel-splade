@@ -278,6 +278,7 @@ class SpladeMiddleware
         return (object) [
             'head'             => $this->splade->head()->toArray(),
             'modal'            => $this->splade->isModalRequest() ? $this->splade->getModalType() : null,
+            'modalTarget'      => $this->splade->getModalTarget() ?: null,
             'flash'            => (object) $flash,
             'errors'           => (object) session('errors')?->toArray(),
             'shared'           => (object) $this->splade->getShared(),
