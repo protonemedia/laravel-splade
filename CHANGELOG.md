@@ -2,6 +2,13 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 1.1.1 - 2022-12-22
+
+- The vertical position of the Modal component is now configurable
+- Support for setting a root path for remote Select options (#154)
+- Improved install command (#144)
+- Fixes for using the Table component in a Modal (#141)
+
 ## 1.1.0 - 2022-12-08
 
 - Support for handling existing files with the FilePond integration, including support for Spatie's Media Library.
