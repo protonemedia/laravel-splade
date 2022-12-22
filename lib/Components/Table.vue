@@ -12,7 +12,17 @@ import map from "lodash-es/map";
 import startsWith from "lodash-es/startsWith";
 
 export default {
+    inject: ["stack"],
+
     props: {
+        baseUrl: {
+            type: String,
+            required: false,
+            default() {
+                return window.location.pathname;
+            }
+        },
+
         striped: {
             type: Boolean,
             required: false,
@@ -368,9 +378,14 @@ export default {
             }
 
             // Build the new URL.
-            const url = window.location.pathname + queryString;
+            const url = this.baseUrl + queryString;
 
             if(!reload) {
+                if(this.stack > 0) {
+                    // Table is mounted in a modal, so we can't replace the URL.
+                    return;
+                }
+
                 // Just replace the URL.
                 return Splade.replaceUrlOfCurrentPage(url);
             }
@@ -382,8 +397,13 @@ export default {
                 currentValueOfElement = document.querySelector(`[name="${$el.name}"]`)?.value;
             }
 
+            const headers = this.stack > 0 ? {
+                "X-Splade-Modal": Splade.stackType(this.stack),
+                "X-Splade-Modal-Target": this.stack,
+            } : {};
+
             // Perform the request, and optionally focus on the given element.
-            Splade.replace(url).then(() => {
+            Splade.replace(url, headers).then(() => {
                 this.isLoading = false;
 
                 if(typeof $el !== "undefined" && $el) {

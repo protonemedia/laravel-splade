@@ -244,6 +244,8 @@ Route::middleware('splade')->group(function () {
     Route::prefix('table')->group(function () {
         $table = new UserTableView;
 
+        Route::get('/modal', [TableController::class, 'modal'])->name('table.modal');
+
         Route::get('/boolean/{spladeQueryBuilder?}', [TableController::class, 'boolean'])->name('table.boolean');
         Route::get('/custom/{spladeQueryBuilder?}', [TableController::class, 'custom'])->name('table.custom');
         Route::get('/noPerPage/{spladeQueryBuilder?}', [TableController::class, 'noPerPage'])->name('table.noPerPage');

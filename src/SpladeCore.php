@@ -18,6 +18,8 @@ class SpladeCore
 
     const HEADER_MODAL = 'X-Splade-Modal';
 
+    const HEADER_MODAL_TARGET = 'X-Splade-Modal-Target';
+
     const HEADER_PREVENT_REFRESH = 'X-Splade-Prevent-Refresh';
 
     const HEADER_LAZY = 'X-Splade-Lazy';
@@ -396,7 +398,7 @@ class SpladeCore
     }
 
     /**
-     * Returns the Modal type from the request <header class=""></header>
+     * Returns the Modal type from the request header.
      *
      * @return string
      */
@@ -406,6 +408,18 @@ class SpladeCore
             'slideover' => static::MODAL_TYPE_SLIDEOVER,
             default     => static::MODAL_TYPE_MODAL
         };
+    }
+
+    /**
+     * Returns the Modal target from the request header.
+     *
+     * @return string
+     */
+    public function getModalTarget(): ?int
+    {
+        return $this->isModalRequest()
+            ? $this->request()->header(static::HEADER_MODAL_TARGET)
+            : null;
     }
 
     /**

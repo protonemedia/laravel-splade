@@ -30,6 +30,7 @@
       :html="modals[stack].html"
       :stack="stack"
       :on-top-of-stack="Splade.currentStack.value === stack"
+      :animate="animateModal"
       @close="closeModal(stack)"
     />
 
@@ -121,7 +122,7 @@ const html = ref();
 const modals = ref([]);
 const serverErrorHtml = ref(null);
 const currentMeta = ref(null);
-
+const animateModal = ref(true);
 const $spladeOptions = inject("$spladeOptions") || {};
 
 /**
@@ -151,7 +152,7 @@ function closeServerError() {
  * Closes the modal in the given stack count.
  */
 function closeModal(stack) {
-    modals[stack] = null;
+    modals.value[stack] = null;
     Splade.popStack();
 }
 
@@ -264,9 +265,16 @@ Splade.setOnHtml((newHtml, scrollY) => {
  * Push the modal HTML and type to the modals array.
  */
 Splade.setOnModal(function (html, type) {
-    modals.value[Splade.currentStack.value] = { html, type };
-});
+    if(modals.value[Splade.currentStack.value]) {
+        animateModal.value = false;
+    }
 
+    modals.value[Splade.currentStack.value] = { html, type };
+
+    nextTick(() => {
+        animateModal.value = true;
+    });
+});
 /**
  * Set the Server Error.
  */

@@ -186,4 +186,9 @@ class TableController
             'projects' => Projects::class,
         ]);
     }
+
+    public function modal()
+    {
+        return view('table.modal');
+    }
 }
