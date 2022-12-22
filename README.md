@@ -7,7 +7,7 @@
 Splade provides a **super easy** way to build ***Single Page Applications*** (SPA) using standard **Laravel Blade** templates, enhanced with renderless **Vue 3** components. In essence, you can write your app using the simplicity of Blade, and besides that magic SPA-feeling, you can sparkle it to make it interactive. **All without ever leaving Blade.**
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/protonemedia/laravel-splade.svg)](https://packagist.org/packages/protonemedia/laravel-splade)
-[![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/protonemedia/laravel-splade/run-tests?label=tests)](https://github.com/protonemedia/laravel-splade/actions?query=workflow%3Arun-tests+branch%3Amain)
+[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/protonemedia/laravel-splade/run-tests.yml?branch=main&label=tests)](https://github.com/protonemedia/laravel-splade/actions?query=workflow%3Arun-tests+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/protonemedia/laravel-splade.svg)](https://packagist.org/packages/protonemedia/laravel-splade)
 [![GitHub Sponsors](https://img.shields.io/github/sponsors/pascalbaljet)](https://github.com/sponsors/pascalbaljet)
 
