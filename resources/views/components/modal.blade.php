@@ -4,7 +4,7 @@
         <!-- Container to center the panel -->
         <div class="flex min-h-full justify-center" v-bind:class="{
             'items-start': modal.position === 'top',
-            'items-center': modal.position === 'center',
+            'items-center': !modal.position || modal.position === 'center',
             'items-end': modal.position === 'bottom'
         }">
             <!-- The actual dialog panel -->
