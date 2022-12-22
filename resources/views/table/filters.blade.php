@@ -15,28 +15,22 @@
       aria-orientation="horizontal"
       aria-labelledby="filter-menu"
     >
-        @foreach($table->filters() as $filter)
-            <div>
-                <h3 class="text-xs uppercase tracking-wide bg-gray-100 p-3">
-                    {{ $filter->label }}
-                </h3>
+        <x-splade-form :default="$table->filterValues()" v-on:change="table.updateFilterValues">
+            @foreach($table->filters() as $filter)
+                <div>
+                    <h3 class="text-xs uppercase tracking-wide bg-gray-100 p-3">
+                        {{ $filter->label }}
+                    </h3>
 
-                <div class="p-2">
-                    @if($filter->type === 'select')
-                        <select
-                            name="filter-{{ $filter->key }}"
-                            class="block focus:ring-indigo-500 focus:border-indigo-500 w-full shadow-sm text-sm border-gray-300 rounded-md"
-                            @change="table.updateQuery('filter[{{ $filter->key }}]', $event.target.value)"
-                        >
-                            @foreach($filter->options() as $optionKey => $option)
-                                <option @selected($filter->hasValue() && $filter->value == $optionKey) value="{{ $optionKey }}">
-                                    {{ $option }}
-                                </option>
-                            @endforeach
-                        </select>
-                    @endif
+                    <div class="p-2">
+                        @if($filter->type === \ProtoneMedia\Splade\Table\Filter::TYPE_DATE_RANGE)
+                            <x-splade-input class="text-sm" date range :name="$filter->key" />
+                        @elseif($filter->type === \ProtoneMedia\Splade\Table\Filter::TYPE_SELECT)
+                            <x-splade-select class="text-sm" :name="$filter->key" :options="$filter->options()" />
+                        @endif
+                    </div>
                 </div>
-            </div>
-        @endforeach
+            @endforeach
+        </x-splade-form>
     </div>
 </x-splade-component>

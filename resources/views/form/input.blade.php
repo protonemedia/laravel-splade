@@ -21,6 +21,7 @@
                 'min-w-0 flex-1 rounded-none' => $append || $prepend,
                 'rounded-l-md' => $append && !$prepend,
                 'rounded-r-md' => !$append && $prepend,
+                'text-sm' => $attributes->classHas('text-sm')
             ])->merge([
                 'name' => $name,
                 'type' => $type,

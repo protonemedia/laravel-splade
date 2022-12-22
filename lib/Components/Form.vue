@@ -107,7 +107,7 @@ export default {
         },
     },
 
-    emits: ["success", "error"],
+    emits: ["success", "error", "change"],
 
     data() {
         return {
@@ -183,11 +183,18 @@ export default {
         this.missingAttributes = [];
 
         // Create watchers
-        if(this.submitOnChange === true) {
-            this.$watch("values", () => {
-                this.$nextTick(() => this.request());
-            }, { deep: true });
-        }else if(isArray(this.submitOnChange)) {
+
+        this.$watch("values", () => {
+            this.$nextTick(() => {
+                this.$emit("change", this.values);
+
+                if(this.submitOnChange === true){
+                    this.request();
+                }
+            });
+        }, { deep: true });
+
+        if(isArray(this.submitOnChange)) {
             this.submitOnChange.forEach((key) => {
                 this.$watch(`values.${key}`, () => {
                     this.$nextTick(() => this.request());

@@ -46,6 +46,8 @@ class SpladeCore
 
     private $customToastFactory;
 
+    private $frontendTimezone;
+
     /**
      * Creates an instance.
      *
@@ -424,5 +426,17 @@ class SpladeCore
         return new JsonResponse(null, 409, [
             static::HEADER_REDIRECT_AWAY => $targetUrl,
         ]);
+    }
+
+    public function setFrontendTimezone($value): self
+    {
+        $this->frontendTimezone = $value;
+
+        return $this;
+    }
+
+    public function getFrontendTimezone(): string
+    {
+        return $this->frontendTimezone ? value($this->frontendTimezone) : config('app.timezone');
     }
 }

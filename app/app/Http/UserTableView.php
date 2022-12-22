@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Tables\SpatieUsers;
 use App\Tables\SpladeUsers;
 use Illuminate\Support\Collection;
+use ProtoneMedia\Splade\Facades\Splade;
 use ProtoneMedia\Splade\SpladeTable;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -55,6 +56,8 @@ class UserTableView
 
     public function splade($paginateMethod)
     {
+        Splade::setFrontendTimezone(fn () => 'Europe/Amsterdam');
+
         return view('table.users', [
             'users' => SpladeTable::for(User::class)
                 ->withGlobalSearch(columns: ['name', 'email'])
@@ -62,7 +65,10 @@ class UserTableView
                 ->column(key: 'name', searchable: true, sortable: true, canBeHidden: false)
                 ->column(key: 'email', searchable: true, sortable: true)
                 ->column(key: 'language_code', label: 'Language')
+                ->column(key: 'created_at', label: 'Created UTC', numeric: true)
+                ->column(key: 'created_at_amsterdam', label: 'Created Europe/Amsterdam', numeric: true)
                 ->column(label: 'Actions')
+                ->dateRangeFilter(key: 'created_at')
                 ->selectFilter(key: 'language_code', options: [
                     'en' => 'English',
                     'nl' => 'Dutch',

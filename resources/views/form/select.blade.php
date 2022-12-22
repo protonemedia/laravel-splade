@@ -19,6 +19,7 @@
                 <div v-bind:class="{ 'opacity-50': select.loading }">
                     <select {{ $attributes->except(['v-if', 'v-show', 'class'])->class([
                         'block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 disabled:opacity-50',
+                        'text-sm' => $attributes->classHas('text-sm')
                     ])->merge([
                         'multiple' => $multiple,
                         'name' => $name,

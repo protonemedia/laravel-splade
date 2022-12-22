@@ -6,6 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Middleware\ValidateSignature;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Redirect;
@@ -321,6 +322,13 @@ class ServiceProvider extends BaseServiceProvider
         Factory::macro('getFirstSlot', function () {
             /** @var Factory $this */
             return $this->slots[0] ?? [];
+        });
+
+        ComponentAttributeBag::macro('classHas', function ($value) {
+            /** @var ComponentAttributeBag $this */
+            $classes = explode(' ', Arr::toCssClasses($this->get('class')));
+
+            return in_array($value, $classes);
         });
 
         ComponentAttributeBag::macro('mergeVueBinding', function ($attribute, $value, bool $omitBlankValue = true, bool $escape = true) {

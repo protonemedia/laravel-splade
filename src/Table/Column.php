@@ -22,6 +22,7 @@ class Column implements Arrayable
      * @param  bool|Closure  $exportAs
      * @param  Closure|string  $exportFormat
      * @param  Closure|array  $exportStyling
+     * @param  bool  $numeric
      */
     public function __construct(
         public string $key,
@@ -34,6 +35,7 @@ class Column implements Arrayable
         public bool|Closure $exportAs,
         public Closure|string|null $exportFormat = null,
         public Closure|array|null $exportStyling = null,
+        public $numeric = false,
     ) {
     }
 
@@ -55,6 +57,7 @@ class Column implements Arrayable
             $this->exportAs,
             $this->exportFormat,
             $this->exportStyling,
+            $this->numeric,
         );
     }
 

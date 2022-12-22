@@ -45,7 +45,15 @@ export default {
             type: Number,
             required: false,
             default: 0
-        }
+        },
+
+        filterValues: {
+            type: Object,
+            required: false,
+            default() {
+                return {};
+            }
+        },
     },
 
     data() {
@@ -55,7 +63,8 @@ export default {
             forcedVisibleSearchInputs: [],
             debounceUpdateQuery: null,
             isLoading: false,
-            processingAction: false
+            processingAction: false,
+            preventReload: false,
         };
     },
 
@@ -143,6 +152,14 @@ export default {
     },
 
     methods: {
+        updateFilterValues(values) {
+            forOwn(values, (value, key) => {
+                if(this.filterValues[key] != value) {
+                    this.updateQuery(`filter[${key}]`, value);
+                }
+            });
+        },
+
         visitLink(url, type, $event) {
             if($event?.target?.tagName === "A" || $event?.target?.tagName === "BUTTON") {
                 return;
@@ -359,6 +376,8 @@ export default {
                     queryString += "&";
                 }
 
+                value=encodeURIComponent(value);
+
                 queryString += `${key}=${value}`;
             });
 
@@ -463,6 +482,7 @@ export default {
             performBulkAction: this.performBulkAction,
             processingAction: this.processingAction,
             isLoading: this.isLoading,
+            updateFilterValues: this.updateFilterValues,
         });
     },
 };

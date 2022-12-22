@@ -37,7 +37,35 @@ trait HasFilters
             value: $defaultValue,
             noFilterOption: $noFilterOption,
             noFilterOptionLabel: $noFilterOptionLabel ?: '-',
-            type: 'select'
+            type: Filter::TYPE_SELECT
+        ))->values();
+
+        return $this;
+    }
+
+    /**
+     * Add a date filter to the query builder.
+     *
+     * @param  string  $key
+     * @param  string|null  $label
+     * @param  string|null  $defaultValue
+     * @return $this
+     */
+    public function dateRangeFilter(
+        string $key,
+        string $label = null,
+        string $defaultValue = null,
+    ): self {
+        $this->filters = $this->filters->reject(function (Filter $filter) use ($key) {
+            return $filter->key === $key;
+        })->push(new Filter(
+            key: $key,
+            label: $label ?: Str::headline($key),
+            options: [],
+            value: $defaultValue,
+            noFilterOption: false,
+            noFilterOptionLabel: '',
+            type: Filter::TYPE_DATE_RANGE
         ))->values();
 
         return $this;
@@ -64,6 +92,19 @@ trait HasFilters
         }
 
         return $filters;
+    }
+
+    /**
+     * Returns a key-value array of all filters.
+     *
+     * @return array
+     */
+    public function filterValues(): array
+    {
+        return $this->filters()
+            ->keyBy->key
+            ->map->value
+            ->all();
     }
 
     /**
