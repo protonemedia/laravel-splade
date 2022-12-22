@@ -5,6 +5,7 @@
     :default-visible-toggleable-columns="@js($table->defaultVisibleToggleableColumns())"
     :items-on-this-page="@js($table->totalOnThisPage())"
     :items-on-all-pages="@js($table->totalOnAllPages())"
+    :base-url="@js(request()->url())"
     :filter-values="@js($table->filterValues())"
 >
     <template #default="{!! $scope !!}">

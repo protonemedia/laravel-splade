@@ -6,10 +6,13 @@
 </template>
 
 <script setup>
+import { inject } from "vue";
 import { objectToFormData } from "./FormHelpers.js";
 import { Splade } from "./../Splade.js";
 import isBoolean from "lodash-es/isBoolean";
 import startsWith from "lodash-es/startsWith";
+
+const stack = inject("stack");
 
 const props = defineProps({
     href: {
@@ -87,6 +90,12 @@ const props = defineProps({
         required: false,
         default: false,
     },
+
+    keepModal: {
+        type: Boolean,
+        required: false,
+        default: false,
+    },
 });
 
 /*
@@ -119,11 +128,14 @@ function perform() {
         return window.location = props.href;
     }
 
-    if (props.modal) {
+    const currentlyInModal = stack > 0;
+    const stayInModal = currentlyInModal && props.keepModal;
+
+    if (props.modal && !stayInModal) {
         return Splade.modal(props.href);
     }
 
-    if (props.slideover) {
+    if (props.slideover && !stayInModal) {
         return Splade.slideover(props.href);
     }
 
@@ -137,8 +149,17 @@ function perform() {
 
     let method = props.method.trim().toUpperCase();
 
+    const headers = {
+        ...props.headers,
+    };
+
+    if(stayInModal) {
+        headers["X-Splade-Modal"] = Splade.stackType(stack);
+        headers["X-Splade-Modal-Target"] = stack;
+    }
+
     if(method === "GET") {
-        return props.replace ? Splade.replace(props.href) : Splade.visit(props.href);
+        return props.replace ? Splade.replace(props.href, headers) : Splade.visit(props.href, headers);
     }
 
     const data = (props.data instanceof FormData)
@@ -150,6 +171,6 @@ function perform() {
         method = "POST";
     }
 
-    Splade.request(props.href, method, data, props.headers, props.replace);
+    Splade.request(props.href, method, data, headers, props.replace);
 }
 </script>

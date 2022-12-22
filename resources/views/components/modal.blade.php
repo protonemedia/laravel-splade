@@ -2,7 +2,11 @@
     <!-- Full-screen scrollable container -->
     <div class="fixed inset-0 z-40 overflow-y-auto p-4">
         <!-- Container to center the panel -->
-        <div class="flex min-h-full items-center justify-center">
+        <div class="flex min-h-full justify-center" v-bind:class="{
+            'items-start': modal.position === 'top',
+            'items-center': modal.position === 'center',
+            'items-end': modal.position === 'bottom'
+        }">
             <!-- The actual dialog panel -->
             <x-splade-component is="transition" child animation="fade" after-leave="modal.emitClose" v-bind:class="{
                 'transition w-full': true,

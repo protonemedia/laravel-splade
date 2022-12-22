@@ -12,7 +12,7 @@
                 class="@if($loop->first && $hasBulkActions) pr-6 @else px-6 @endif py-3 text-left text-xs font-medium tracking-wide text-gray-500"
             >
                 @if($column->sortable)
-                    <Link dusk="sort-{{ $column->key }}" href="{{ $sortBy($column) }}">
+                    <Link keep-modal dusk="sort-{{ $column->key }}" href="{{ $sortBy($column) }}">
                 @endif
 
                 <span class="flex flex-row items-center">
