@@ -52,6 +52,7 @@ class SpladeMiddleware
 
         /** @var Response $response */
         $response = $next($request);
+        $response->headers->add(['Vary' => 'X-Splade']);
 
         // Don't mess with file and streamed responses.
         if ($response instanceof BinaryFileResponse || $response instanceof StreamedResponse) {
