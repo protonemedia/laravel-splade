@@ -2,6 +2,6 @@
 
 @section('content')
 
-<Link modal href="/table/users/splade">Open Table In Modal</Link>
+<Link modal href="/table/users/splade" dusk="open-modal">Open Table In Modal</Link>
 
 @endsection
