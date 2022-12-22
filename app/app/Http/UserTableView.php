@@ -65,9 +65,9 @@ class UserTableView
                 ->column(key: 'name', searchable: true, sortable: true, canBeHidden: false)
                 ->column(key: 'email', searchable: true, sortable: true)
                 ->column(key: 'language_code', label: 'Language')
+                ->column(label: 'Actions')
                 ->column(key: 'created_at', label: 'Created UTC', numeric: true)
                 ->column(key: 'created_at_amsterdam', label: 'Created Europe/Amsterdam', numeric: true)
-                ->column(label: 'Actions')
                 ->dateRangeFilter(key: 'created_at')
                 ->selectFilter(key: 'language_code', options: [
                     'en' => 'English',
