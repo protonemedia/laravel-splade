@@ -8,7 +8,8 @@ use Illuminate\Support\Arr;
 class Filter implements Arrayable
 {
     const TYPE_DATE_RANGE = 'date_range';
-    const TYPE_SELECT     = 'select';
+
+    const TYPE_SELECT = 'select';
 
     /**
      * This class represents a filter in a Splade Table.

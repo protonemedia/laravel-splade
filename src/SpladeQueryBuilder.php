@@ -204,6 +204,7 @@ class SpladeQueryBuilder extends SpladeTable
             });
         });
     }
+
     private function applyDateRangeConstraint(string $column, string $terms)
     {
         $builder = $this->builder;
@@ -283,7 +284,7 @@ class SpladeQueryBuilder extends SpladeTable
                 Filter::TYPE_DATE_RANGE => $this->applyDateRangeConstraint($filter->key, $filter->value),
                 Filter::TYPE_SELECT     => $this->applyConstraint([$filter->key => SearchInput::EXACT], $filter->value),
 
-                default => throw new Exception("Invalid filter type"),
+                default                 => throw new Exception('Invalid filter type'),
             };
         });
 
