@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 1.1.2 - 2022-12-22
+
+- Fixed a navigation bug (Chromium browsers only) that occurred when switching between SPA and non-SPA pages using the back/forward buttons
+
 ## 1.1.1 - 2022-12-22
 
 - The vertical position of the Modal component is now configurable
