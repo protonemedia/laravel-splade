@@ -154,7 +154,7 @@ function perform() {
     };
 
     if(stayInModal) {
-        headers["X-Splade-Modal"] = "modal";
+        headers["X-Splade-Modal"] = Splade.stackType(stack);
         headers["X-Splade-Modal-Target"] = stack;
     }
 

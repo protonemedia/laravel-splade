@@ -398,7 +398,7 @@ export default {
             }
 
             const headers = this.stack > 0 ? {
-                "X-Splade-Modal": "modal",
+                "X-Splade-Modal": Splade.stackType(this.stack),
                 "X-Splade-Modal-Target": this.stack,
             } : {};
 
