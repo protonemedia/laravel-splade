@@ -243,4 +243,26 @@ class NavigationTest extends DuskTestCase
                 ->assertRouteIs('navigation.three');
         });
     }
+
+    /** @test */
+    public function it_adds_a_vary_header_so_switching_between_spa_and_non_spa_wont_break()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('/navigation/one')
+                ->waitForText('NavigationOne')
+                ->click('@two')
+                ->waitForText('NavigationTwo')
+                ->screenshot('NavigationTwoWithSpa')
+                ->click('@non-spa-one')
+                ->waitForText('NavigationOne')
+                ->back()
+                ->waitForText('NavigationTwo')
+                ->screenshot('NavigationTwoWithoutSpa');
+
+            $this->assertFileEquals(
+                __DIR__ . '/screenshots/NavigationTwoWithSpa.png',
+                __DIR__ . '/screenshots/NavigationTwoWithoutSpa.png'
+            );
+        });
+    }
 }
