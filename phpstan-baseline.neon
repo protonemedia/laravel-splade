@@ -421,7 +421,22 @@ parameters:
 			path: src/SpladeCore.php
 
 		-
+			message: "#^Method ProtoneMedia\\\\Splade\\\\SpladeCore\\:\\:getModalTarget\\(\\) should return int\\|null but returns array\\<string, string\\>\\|string\\|null\\.$#"
+			count: 1
+			path: src/SpladeCore.php
+
+		-
 			message: "#^Method ProtoneMedia\\\\Splade\\\\SpladeCore\\:\\:newLazyComponentKey\\(\\) should return string but returns int\\.$#"
+			count: 1
+			path: src/SpladeCore.php
+
+		-
+			message: "#^PHPDoc tag @return with type string is incompatible with native type int\\|null\\.$#"
+			count: 1
+			path: src/SpladeCore.php
+
+		-
+			message: "#^Property ProtoneMedia\\\\Splade\\\\SpladeCore\\:\\:\\$modalKey \\(string\\) does not accept null\\.$#"
 			count: 1
 			path: src/SpladeCore.php
 
