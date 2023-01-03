@@ -52,6 +52,7 @@ class SpladeMiddleware
 
         /** @var Response $response */
         $response = $next($request);
+        $response->headers->add(['Vary' => 'X-Splade']);
 
         // Don't mess with file and streamed responses.
         if ($response instanceof BinaryFileResponse || $response instanceof StreamedResponse) {
@@ -278,6 +279,7 @@ class SpladeMiddleware
         return (object) [
             'head'             => $this->splade->head()->toArray(),
             'modal'            => $this->splade->isModalRequest() ? $this->splade->getModalType() : null,
+            'modalTarget'      => $this->splade->getModalTarget() ?: null,
             'flash'            => (object) $flash,
             'errors'           => (object) session('errors')?->toArray(),
             'shared'           => (object) $this->splade->getShared(),

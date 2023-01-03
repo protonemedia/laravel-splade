@@ -44,10 +44,22 @@ export default {
             },
         },
 
+        position: {
+            type: String,
+            required: false,
+            default: "center"
+        },
+
         name: {
             type: String,
             required: false,
             default: null,
+        },
+
+        animate: {
+            type: Boolean,
+            required: false,
+            default: true,
         },
     },
 
@@ -55,11 +67,14 @@ export default {
 
     data() {
         return {
+            staticAnimate: true,
             isOpen: false,
         };
     },
 
     mounted() {
+        this.staticAnimate = this.animate;
+
         this.setIsOpen(true);
     },
 
@@ -88,6 +103,8 @@ export default {
             maxWidth: this.maxWidth,
             emitClose: this.emitClose,
             closeButton: this.closeButton,
+            animate: this.staticAnimate,
+            position: this.position,
 
             // These HeadlessUI exports will be removed in v1.0
             Dialog,

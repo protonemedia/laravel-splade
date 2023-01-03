@@ -73,6 +73,12 @@ export default {
             required: false,
             default: null,
         },
+
+        remoteRoot: {
+            type: String,
+            required: false,
+            default: null,
+        },
     },
 
     emits: ["update:modelValue"],
@@ -191,7 +197,7 @@ export default {
                     }
 
                     // Normalize the response.
-                    options = this.normalizeOptions(response.data, options);
+                    options = this.normalizeOptions(this.remoteRoot ? get(response.data, this.remoteRoot) : response.data, options);
 
                     var index;
                     var currentOptionsCount = this.element.options.length - 1;
