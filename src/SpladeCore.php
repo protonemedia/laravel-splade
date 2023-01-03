@@ -87,7 +87,7 @@ class SpladeCore
      */
     public function reset(): self
     {
-        $this->modalKey = Str::uuid();
+        $this->modalKey = null;
         $this->shared   = [];
         $this->toasts   = [];
 
