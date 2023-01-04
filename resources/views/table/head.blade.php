@@ -1,4 +1,4 @@
-<thead class="bg-gray-500 dark:bg-gray-700">
+<thead class="bg-gray-50 dark:bg-gray-700">
     <tr>
         @if($hasBulkActions = $table->hasBulkActions())
             <th width="64" class="px-6 py-3 text-xs">
