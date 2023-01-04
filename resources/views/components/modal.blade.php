@@ -23,8 +23,8 @@
                 'sm:max-w-md md:max-w-xl lg:max-w-3xl xl:max-w-5xl 2xl:max-w-7xl': modal.maxWidth == '7xl'
             }">
                 <x-splade-component is="dialog" panel dusk="modal-dialog">
-                    <div {{ $attributes->class('bg-white  dark:bg-gray-800 p-6 rounded relative') }}>
-                        <div v-if="modal.closeButton" class="absolute top-0 right-0 pt-3 pr-3">
+                    <div {{ $attributes->class('bg-white dark:bg-gray-800 p-6 rounded relative') }}>
+                        <div v-if="modal.closeButton" class="absolute top-0 right-0 rtl:left-0 rtl:right-auto rtl:pl-3 rtl:pr-0 pt-3 pr-3">
                             <button dusk="close-modal-button" @click="modal.close" type="button" class="text-gray-400 hover:text-gray-500">
                                 <span class="sr-only">Close</span>
                                 <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">

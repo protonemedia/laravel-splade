@@ -486,11 +486,11 @@ class ServiceProvider extends BaseServiceProvider
             ->new(
                 name: 'slide-right',
                 enter: 'transform transform ease-in-out duration-300',
-                enterFrom: 'opacity-0 translate-x-full',
+                enterFrom: 'opacity-0 translate-x-28 rtl:-translate-x-28',
                 enterTo: 'opacity-100 translate-x-0',
                 leave: 'transform transform ease-in-out duration-300',
                 leaveFrom: 'opacity-100 translate-x-0',
-                leaveTo: 'opacity-0 translate-x-full',
+                leaveTo: 'opacity-0 translate-x-28 rtl:-translate-x-28',
             );
     }
 }

@@ -1,4 +1,4 @@
-<thead class="bg-gray-50">
+<thead class="bg-gray-500 dark:bg-gray-700">
     <tr>
         @if($hasBulkActions = $table->hasBulkActions())
             <th width="64" class="px-6 py-3 text-xs">
@@ -9,7 +9,7 @@
         @foreach($table->columns() as $column)
             <th
                 v-show="table.columnIsVisible(@js($column->key))"
-                class="@if($loop->first && $hasBulkActions) pr-6 @else px-6 @endif py-3 text-left text-xs font-medium tracking-wide text-gray-500"
+                class="@if($loop->first && $hasBulkActions) pr-6 @else px-6 @endif py-3 text-left text-xs font-medium tracking-wide text-gray-500 dark:text-white"
             >
                 @if($column->sortable)
                     <Link keep-modal dusk="sort-{{ $column->key }}" href="{{ $sortBy($column) }}">

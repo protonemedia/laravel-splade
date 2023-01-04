@@ -10,6 +10,10 @@ module.exports = {
         "./resources/views/**/*.blade.php",
         "./resources/js/**/*.vue",
     ],
-
-    plugins: [require("@tailwindcss/forms"), require("@tailwindcss/typography")],
+    darkMode: "class",
+    plugins: [
+        require("@tailwindcss/forms"),
+        require("@tailwindcss/typography"),
+        require("tailwindcss-rtl"),
+    ],
 };
