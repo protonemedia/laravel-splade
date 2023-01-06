@@ -566,11 +566,6 @@ parameters:
 			path: src/SpladeTable.php
 
 		-
-			message: "#^Call to method throw\\(\\) on an unknown class GuzzleHttp\\\\Promise\\\\PromiseInterface\\.$#"
-			count: 1
-			path: src/Ssr.php
-
-		-
 			message: "#^Unsafe usage of new static\\(\\)\\.$#"
 			count: 1
 			path: src/Table/Column.php
