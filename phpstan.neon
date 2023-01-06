@@ -1,0 +1,14 @@
+includes:
+    - ./vendor/nunomaduro/larastan/extension.neon
+    - ./phpstan-baseline.neon
+
+parameters:
+
+    paths:
+        - src/
+    excludePaths:
+        - src/TableExporter.php
+
+    level: 5
+
+    checkGenericClassInNonGenericObjectType: false

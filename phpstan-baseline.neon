@@ -1,0 +1,601 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 1
+			path: src/AbstractTable.php
+
+		-
+			message: "#^Method ProtoneMedia\\\\Splade\\\\Components\\\\Event\\:\\:parseListeners\\(\\) with return type void returns array\\<int, string\\> but should not return anything\\.$#"
+			count: 1
+			path: src/Components/Event.php
+
+		-
+			message: "#^Method ProtoneMedia\\\\Splade\\\\Components\\\\Event\\:\\:parseListeners\\(\\) with return type void returns mixed but should not return anything\\.$#"
+			count: 1
+			path: src/Components/Event.php
+
+		-
+			message: "#^Property ProtoneMedia\\\\Splade\\\\Components\\\\Event\\:\\:\\$listeners \\(array\\) does not accept void\\.$#"
+			count: 1
+			path: src/Components/Event.php
+
+		-
+			message: "#^Result of method ProtoneMedia\\\\Splade\\\\Components\\\\Event\\:\\:parseListeners\\(\\) \\(void\\) is used\\.$#"
+			count: 1
+			path: src/Components/Event.php
+
+		-
+			message: "#^Access to an undefined property ProtoneMedia\\\\Splade\\\\Components\\\\Form\\:\\:\\$name\\.$#"
+			count: 2
+			path: src/Components/Form.php
+
+		-
+			message: "#^Method ProtoneMedia\\\\Splade\\\\Components\\\\Form\\:\\:getAttachedKeysFromRelation\\(\\) never returns null so it can be removed from the return type\\.$#"
+			count: 1
+			path: src/Components/Form.php
+
+		-
+			message: "#^Unsafe access to private property ProtoneMedia\\\\Splade\\\\Components\\\\Form\\:\\:\\$allowedAttributes through static\\:\\:\\.$#"
+			count: 4
+			path: src/Components/Form.php
+
+		-
+			message: "#^Unsafe access to private property ProtoneMedia\\\\Splade\\\\Components\\\\Form\\:\\:\\$defaultGuardAttributes through static\\:\\:\\.$#"
+			count: 2
+			path: src/Components/Form.php
+
+		-
+			message: "#^Unsafe access to private property ProtoneMedia\\\\Splade\\\\Components\\\\Form\\:\\:\\$eloquentRelations through static\\:\\:\\.$#"
+			count: 4
+			path: src/Components/Form.php
+
+		-
+			message: "#^Unsafe access to private property ProtoneMedia\\\\Splade\\\\Components\\\\Form\\:\\:\\$guardWhenCallable through static\\:\\:\\.$#"
+			count: 2
+			path: src/Components/Form.php
+
+		-
+			message: "#^Unsafe access to private property ProtoneMedia\\\\Splade\\\\Components\\\\Form\\:\\:\\$instances through static\\:\\:\\.$#"
+			count: 3
+			path: src/Components/Form.php
+
+		-
+			message: "#^Unsafe call to private method ProtoneMedia\\\\Splade\\\\Components\\\\Form\\:\\:allowedAttributesSorted\\(\\) through static\\:\\:\\.$#"
+			count: 1
+			path: src/Components/Form.php
+
+		-
+			message: "#^Unsafe call to private method ProtoneMedia\\\\Splade\\\\Components\\\\Form\\:\\:resourceShouldBeGuarded\\(\\) through static\\:\\:\\.$#"
+			count: 1
+			path: src/Components/Form.php
+
+		-
+			message: "#^Unsafe access to private property ProtoneMedia\\\\Splade\\\\Components\\\\Form\\\\File\\:\\:\\$defaultSuffixForExistingUploads through static\\:\\:\\.$#"
+			count: 3
+			path: src/Components/Form/File.php
+
+		-
+			message: "#^Unsafe access to private property ProtoneMedia\\\\Splade\\\\Components\\\\Form\\\\File\\:\\:\\$defaultSuffixForUploadOrder through static\\:\\:\\.$#"
+			count: 3
+			path: src/Components/Form/File.php
+
+		-
+			message: "#^Unsafe access to private property ProtoneMedia\\\\Splade\\\\Components\\\\Form\\\\Input\\:\\:\\$defaultDateFormat through static\\:\\:\\.$#"
+			count: 2
+			path: src/Components/Form/Input.php
+
+		-
+			message: "#^Unsafe access to private property ProtoneMedia\\\\Splade\\\\Components\\\\Form\\\\Input\\:\\:\\$defaultDatetimeFormat through static\\:\\:\\.$#"
+			count: 2
+			path: src/Components/Form/Input.php
+
+		-
+			message: "#^Unsafe access to private property ProtoneMedia\\\\Splade\\\\Components\\\\Form\\\\Input\\:\\:\\$defaultFlatpickrOptions through static\\:\\:\\.$#"
+			count: 5
+			path: src/Components/Form/Input.php
+
+		-
+			message: "#^Unsafe access to private property ProtoneMedia\\\\Splade\\\\Components\\\\Form\\\\Input\\:\\:\\$defaultTimeFormat through static\\:\\:\\.$#"
+			count: 2
+			path: src/Components/Form/Input.php
+
+		-
+			message: "#^Unsafe access to private property ProtoneMedia\\\\Splade\\\\Components\\\\Form\\\\Select\\:\\:\\$defaultChoicesOptions through static\\:\\:\\.$#"
+			count: 4
+			path: src/Components/Form/Select.php
+
+		-
+			message: "#^PHPDoc tag @param references unknown parameter\\: \\$options$#"
+			count: 1
+			path: src/Components/Form/Textarea.php
+
+		-
+			message: "#^Unsafe access to private property ProtoneMedia\\\\Splade\\\\Components\\\\Form\\\\Textarea\\:\\:\\$defaultAutosize through static\\:\\:\\.$#"
+			count: 2
+			path: src/Components/Form/Textarea.php
+
+		-
+			message: "#^PHPDoc tag @param references unknown parameter\\: \\$component$#"
+			count: 1
+			path: src/Components/SpladeComponent.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Support\\\\HigherOrderTapProxy\\<ProtoneMedia\\\\Splade\\\\AbstractTable\\|ProtoneMedia\\\\Splade\\\\SpladeTable\\|string\\>\\:\\:beforeRender\\(\\)\\.$#"
+			count: 1
+			path: src/Components/Table.php
+
+		-
+			message: "#^Method ProtoneMedia\\\\Splade\\\\EventRedirect\\:\\:jsonSerialize\\(\\) should return array but returns void\\.$#"
+			count: 1
+			path: src/EventRedirect.php
+
+		-
+			message: "#^Method ProtoneMedia\\\\Splade\\\\EventRedirect\\:\\:toArray\\(\\) with return type void returns array\\<string, string\\> but should not return anything\\.$#"
+			count: 1
+			path: src/EventRedirect.php
+
+		-
+			message: "#^Result of method ProtoneMedia\\\\Splade\\\\EventRedirect\\:\\:toArray\\(\\) \\(void\\) is used\\.$#"
+			count: 1
+			path: src/EventRedirect.php
+
+		-
+			message: "#^Return type \\(void\\) of method ProtoneMedia\\\\Splade\\\\EventRedirect\\:\\:toArray\\(\\) should be compatible with return type \\(array\\) of method Illuminate\\\\Contracts\\\\Support\\\\Arrayable\\<\\(int\\|string\\),mixed\\>\\:\\:toArray\\(\\)$#"
+			count: 1
+			path: src/EventRedirect.php
+
+		-
+			message: "#^Access to property \\$conversions_disk on an unknown class Spatie\\\\MediaLibrary\\\\MediaCollections\\\\Models\\\\Media\\.$#"
+			count: 1
+			path: src/FileUploads/ExistingFile.php
+
+		-
+			message: "#^Access to property \\$disk on an unknown class Spatie\\\\MediaLibrary\\\\MediaCollections\\\\Models\\\\Media\\.$#"
+			count: 1
+			path: src/FileUploads/ExistingFile.php
+
+		-
+			message: "#^Access to property \\$file_name on an unknown class Spatie\\\\MediaLibrary\\\\MediaCollections\\\\Models\\\\Media\\.$#"
+			count: 1
+			path: src/FileUploads/ExistingFile.php
+
+		-
+			message: "#^Access to property \\$mime_type on an unknown class Spatie\\\\MediaLibrary\\\\MediaCollections\\\\Models\\\\Media\\.$#"
+			count: 1
+			path: src/FileUploads/ExistingFile.php
+
+		-
+			message: "#^Access to property \\$name on an unknown class Spatie\\\\MediaLibrary\\\\MediaCollections\\\\Models\\\\Media\\.$#"
+			count: 1
+			path: src/FileUploads/ExistingFile.php
+
+		-
+			message: "#^Access to property \\$size on an unknown class Spatie\\\\MediaLibrary\\\\MediaCollections\\\\Models\\\\Media\\.$#"
+			count: 1
+			path: src/FileUploads/ExistingFile.php
+
+		-
+			message: "#^Call to method getUrlGenerator\\(\\) on an unknown class Spatie\\\\MediaLibrary\\\\MediaCollections\\\\Models\\\\Media\\.$#"
+			count: 1
+			path: src/FileUploads/ExistingFile.php
+
+		-
+			message: "#^Call to method providesTemporaryUrls\\(\\) on an unknown class ProtoneMedia\\\\Splade\\\\FileUploads\\\\FilesystemAdapter\\.$#"
+			count: 1
+			path: src/FileUploads/ExistingFile.php
+
+		-
+			message: "#^Method ProtoneMedia\\\\Splade\\\\FileUploads\\\\ExistingFile\\:\\:fromMediaLibraryWithoutPreview\\(\\) with return type void returns array\\|ProtoneMedia\\\\Splade\\\\FileUploads\\\\ExistingFile\\|null but should not return anything\\.$#"
+			count: 1
+			path: src/FileUploads/ExistingFile.php
+
+		-
+			message: "#^PHPDoc tag @var for variable \\$disk contains unknown class ProtoneMedia\\\\Splade\\\\FileUploads\\\\FilesystemAdapter\\.$#"
+			count: 1
+			path: src/FileUploads/ExistingFile.php
+
+		-
+			message: "#^PHPDoc tag @var for variable \\$media contains unknown class Spatie\\\\MediaLibrary\\\\MediaCollections\\\\Models\\\\Media\\.$#"
+			count: 1
+			path: src/FileUploads/ExistingFile.php
+
+		-
+			message: "#^Parameter \\#1 \\$value of static method Illuminate\\\\Support\\\\Collection\\<\\(int\\|string\\),mixed\\>\\:\\:wrap\\(\\) expects iterable\\<\\(int\\|string\\), mixed\\>, Spatie\\\\MediaLibrary\\\\MediaCollections\\\\Models\\\\Media given\\.$#"
+			count: 1
+			path: src/FileUploads/ExistingFile.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 2
+			path: src/FileUploads/ExistingFile.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Foundation\\\\Http\\\\FormRequest\\:\\:rules\\(\\)\\.$#"
+			count: 1
+			path: src/FileUploads/HandleSpladeFileUploads.php
+
+		-
+			message: "#^Call to method addMedia\\(\\) on an unknown class Spatie\\\\MediaLibrary\\\\HasMedia\\.$#"
+			count: 1
+			path: src/FileUploads/HandleSpladeFileUploads.php
+
+		-
+			message: "#^Call to method clearMediaCollectionExcept\\(\\) on an unknown class Spatie\\\\MediaLibrary\\\\HasMedia\\.$#"
+			count: 1
+			path: src/FileUploads/HandleSpladeFileUploads.php
+
+		-
+			message: "#^Call to static method setNewOrder\\(\\) on an unknown class Spatie\\\\MediaLibrary\\\\MediaCollections\\\\Models\\\\Media\\.$#"
+			count: 1
+			path: src/FileUploads/HandleSpladeFileUploads.php
+
+		-
+			message: "#^Method ProtoneMedia\\\\Splade\\\\FileUploads\\\\HandleSpladeFileUploads\\:\\:forFormRequest\\(\\) should return Illuminate\\\\Foundation\\\\Http\\\\FormRequest but returns Illuminate\\\\Http\\\\Request\\.$#"
+			count: 1
+			path: src/FileUploads/HandleSpladeFileUploads.php
+
+		-
+			message: "#^PHPDoc tag @var for variable \\$mediaInstance contains unknown class Spatie\\\\MediaLibrary\\\\MediaCollections\\\\Models\\\\Media\\.$#"
+			count: 1
+			path: src/FileUploads/HandleSpladeFileUploads.php
+
+		-
+			message: "#^Parameter \\$subject of method ProtoneMedia\\\\Splade\\\\FileUploads\\\\HandleSpladeFileUploads\\:\\:syncMediaLibrary\\(\\) has invalid type Spatie\\\\MediaLibrary\\\\HasMedia\\.$#"
+			count: 2
+			path: src/FileUploads/HandleSpladeFileUploads.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 1
+			path: src/FileUploads/HandleSpladeFileUploads.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 1
+			path: src/FileUploads/TemporaryFileUpload.php
+
+		-
+			message: "#^Access to an undefined property ProtoneMedia\\\\Splade\\\\Meta\\:\\:\\$name\\.$#"
+			count: 1
+			path: src/Head.php
+
+		-
+			message: "#^Access to an undefined property ProtoneMedia\\\\Splade\\\\Meta\\:\\:\\$property\\.$#"
+			count: 1
+			path: src/Head.php
+
+		-
+			message: "#^Method ProtoneMedia\\\\Splade\\\\Head\\:\\:description\\(\\) should return \\$this\\(ProtoneMedia\\\\Splade\\\\Head\\) but returns ProtoneMedia\\\\Splade\\\\Head\\.$#"
+			count: 1
+			path: src/Head.php
+
+		-
+			message: "#^Method ProtoneMedia\\\\Splade\\\\Head\\:\\:fillOpenGraphDefaults\\(\\) with return type void returns ProtoneMedia\\\\Splade\\\\Head but should not return anything\\.$#"
+			count: 1
+			path: src/Head.php
+
+		-
+			message: "#^Method ProtoneMedia\\\\Splade\\\\Head\\:\\:keywords\\(\\) should return \\$this\\(ProtoneMedia\\\\Splade\\\\Head\\) but returns ProtoneMedia\\\\Splade\\\\Head\\.$#"
+			count: 1
+			path: src/Head.php
+
+		-
+			message: "#^Method ProtoneMedia\\\\Splade\\\\Head\\:\\:removeMeta\\(\\) with return type void returns \\$this\\(ProtoneMedia\\\\Splade\\\\Head\\) but should not return anything\\.$#"
+			count: 1
+			path: src/Head.php
+
+		-
+			message: "#^Method ProtoneMedia\\\\Splade\\\\Head\\:\\:title\\(\\) should return \\$this\\(ProtoneMedia\\\\Splade\\\\Head\\) but returns ProtoneMedia\\\\Splade\\\\Head\\.$#"
+			count: 1
+			path: src/Head.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\View\\\\View\\:\\:\\$_spladeEvaluatedHtml\\.$#"
+			count: 1
+			path: src/Http/PrepareTableCells.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\View\\\\View\\:\\:\\$_spladeEvaluatedHtml\\.$#"
+			count: 1
+			path: src/Http/PrepareViewWithLazyComponents.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 1
+			path: src/Http/ResolvableData.php
+
+		-
+			message: "#^Instanceof between Illuminate\\\\Http\\\\Response and Illuminate\\\\Http\\\\JsonResponse will always evaluate to false\\.$#"
+			count: 2
+			path: src/Http/SpladeMiddleware.php
+
+		-
+			message: "#^Method ProtoneMedia\\\\Splade\\\\Http\\\\SpladeMiddleware\\:\\:handle\\(\\) should return Illuminate\\\\Http\\\\RedirectResponse\\|Illuminate\\\\Http\\\\Response but returns Symfony\\\\Component\\\\HttpFoundation\\\\BinaryFileResponse\\|Symfony\\\\Component\\\\HttpFoundation\\\\StreamedResponse\\.$#"
+			count: 1
+			path: src/Http/SpladeMiddleware.php
+
+		-
+			message: "#^Method ProtoneMedia\\\\Splade\\\\Http\\\\SpladeMiddleware\\:\\:handle\\(\\) should return Illuminate\\\\Http\\\\RedirectResponse\\|Illuminate\\\\Http\\\\Response but returns Symfony\\\\Component\\\\HttpFoundation\\\\Response\\.$#"
+			count: 1
+			path: src/Http/SpladeMiddleware.php
+
+		-
+			message: "#^Method ProtoneMedia\\\\Splade\\\\Http\\\\SpladeMiddleware\\:\\:handle\\(\\) should return Illuminate\\\\Http\\\\RedirectResponse\\|Illuminate\\\\Http\\\\Response but returns Symfony\\\\Component\\\\HttpFoundation\\\\Response\\|true\\.$#"
+			count: 1
+			path: src/Http/SpladeMiddleware.php
+
+		-
+			message: "#^Method ProtoneMedia\\\\Splade\\\\Http\\\\SpladeMiddleware\\:\\:parseModalContent\\(\\) never returns null so it can be removed from the return type\\.$#"
+			count: 1
+			path: src/Http/SpladeMiddleware.php
+
+		-
+			message: "#^PHPDoc tag @param references unknown parameter\\: \\$redirect$#"
+			count: 1
+			path: src/Http/SpladeMiddleware.php
+
+		-
+			message: "#^Parameter \\#1 \\$key of method Illuminate\\\\Contracts\\\\Session\\\\Session\\:\\:get\\(\\) expects string, array\\<TKey of \\(int\\|string\\), TValue\\>\\|bool given\\.$#"
+			count: 1
+			path: src/Http/SpladeMiddleware.php
+
+		-
+			message: "#^Parameter \\#2 \\$response of method ProtoneMedia\\\\Splade\\\\Http\\\\SpladeMiddleware\\:\\:handleRegularRequest\\(\\) expects Illuminate\\\\Http\\\\Response, Symfony\\\\Component\\\\HttpFoundation\\\\Response given\\.$#"
+			count: 1
+			path: src/Http/SpladeMiddleware.php
+
+		-
+			message: "#^Parameter \\#2 \\$response of method ProtoneMedia\\\\Splade\\\\Http\\\\SpladeMiddleware\\:\\:handleSpladeRequest\\(\\) expects Illuminate\\\\Http\\\\Response, Symfony\\\\Component\\\\HttpFoundation\\\\Response given\\.$#"
+			count: 1
+			path: src/Http/SpladeMiddleware.php
+
+		-
+			message: "#^Parameter \\#1 \\$key of method ProtoneMedia\\\\Splade\\\\AbstractTable\\:\\:performBulkAction\\(\\) expects int, string given\\.$#"
+			count: 1
+			path: src/Http/TableBulkActionController.php
+
+		-
+			message: "#^Parameter \\#1 \\$key of method ProtoneMedia\\\\Splade\\\\AbstractTable\\:\\:makeExporter\\(\\) expects int, string given\\.$#"
+			count: 1
+			path: src/Http/TableExportController.php
+
+		-
+			message: "#^Access to an undefined property ProtoneMedia\\\\Splade\\\\ServiceProvider\\:\\:\\$headers\\.$#"
+			count: 1
+			path: src/ServiceProvider.php
+
+		-
+			message: "#^Access to property \\$resolver on an unknown class Laravel\\\\Dusk\\\\Browser\\.$#"
+			count: 1
+			path: src/ServiceProvider.php
+
+		-
+			message: "#^Anonymous function has invalid return type Laravel\\\\Dusk\\\\Browser\\.$#"
+			count: 2
+			path: src/ServiceProvider.php
+
+		-
+			message: "#^Call to method click\\(\\) on an unknown class Laravel\\\\Dusk\\\\Browser\\.$#"
+			count: 3
+			path: src/ServiceProvider.php
+
+		-
+			message: "#^Call to method script\\(\\) on an unknown class Laravel\\\\Dusk\\\\Browser\\.$#"
+			count: 2
+			path: src/ServiceProvider.php
+
+		-
+			message: "#^Call to method within\\(\\) on an unknown class Laravel\\\\Dusk\\\\Browser\\.$#"
+			count: 1
+			path: src/ServiceProvider.php
+
+		-
+			message: "#^Class ProtoneMedia\\\\Splade\\\\Components\\\\PreloadedModal not found\\.$#"
+			count: 1
+			path: src/ServiceProvider.php
+
+		-
+			message: "#^Method Illuminate\\\\Http\\\\Request\\:\\:collect\\(\\) invoked with 2 parameters, 0\\-1 required\\.$#"
+			count: 1
+			path: src/ServiceProvider.php
+
+		-
+			message: "#^PHPDoc tag @var contains unknown class Laravel\\\\Dusk\\\\Browser\\.$#"
+			count: 2
+			path: src/ServiceProvider.php
+
+		-
+			message: "#^Parameter \\#1 \\$key of method Illuminate\\\\Support\\\\Collection\\<int,Illuminate\\\\Http\\\\UploadedFile\\>\\:\\:get\\(\\) expects int, string given\\.$#"
+			count: 1
+			path: src/ServiceProvider.php
+
+		-
+			message: "#^Parameter \\$browser of anonymous function has invalid type Laravel\\\\Dusk\\\\Browser\\.$#"
+			count: 2
+			path: src/ServiceProvider.php
+
+		-
+			message: "#^Method ProtoneMedia\\\\Splade\\\\SpladeCore\\:\\:getLazyComponentKey\\(\\) should return int but returns array\\<string, string\\>\\|string\\|null\\.$#"
+			count: 1
+			path: src/SpladeCore.php
+
+		-
+			message: "#^Method ProtoneMedia\\\\Splade\\\\SpladeCore\\:\\:getModalTarget\\(\\) should return int\\|null but returns array\\<string, string\\>\\|string\\|null\\.$#"
+			count: 1
+			path: src/SpladeCore.php
+
+		-
+			message: "#^Method ProtoneMedia\\\\Splade\\\\SpladeCore\\:\\:newLazyComponentKey\\(\\) should return string but returns int\\.$#"
+			count: 1
+			path: src/SpladeCore.php
+
+		-
+			message: "#^PHPDoc tag @return with type string is incompatible with native type int\\|null\\.$#"
+			count: 1
+			path: src/SpladeCore.php
+
+		-
+			message: "#^Property ProtoneMedia\\\\Splade\\\\SpladeCore\\:\\:\\$modalKey \\(string\\) does not accept null\\.$#"
+			count: 1
+			path: src/SpladeCore.php
+
+		-
+			message: "#^Call to method chunkById\\(\\) on an unknown class Spatie\\\\QueryBuilder\\\\QueryBuilder\\.$#"
+			count: 1
+			path: src/SpladeQueryBuilder.php
+
+		-
+			message: "#^Call to method get\\(\\) on an unknown class Spatie\\\\QueryBuilder\\\\QueryBuilder\\.$#"
+			count: 1
+			path: src/SpladeQueryBuilder.php
+
+		-
+			message: "#^Call to method getModel\\(\\) on an unknown class Spatie\\\\QueryBuilder\\\\QueryBuilder\\.$#"
+			count: 1
+			path: src/SpladeQueryBuilder.php
+
+		-
+			message: "#^Call to method orderBy\\(\\) on an unknown class Spatie\\\\QueryBuilder\\\\QueryBuilder\\.$#"
+			count: 1
+			path: src/SpladeQueryBuilder.php
+
+		-
+			message: "#^Call to method orderByLeftPowerJoins\\(\\) on an unknown class Spatie\\\\QueryBuilder\\\\QueryBuilder\\.$#"
+			count: 1
+			path: src/SpladeQueryBuilder.php
+
+		-
+			message: "#^Call to method where\\(\\) on an unknown class Spatie\\\\QueryBuilder\\\\QueryBuilder\\.$#"
+			count: 1
+			path: src/SpladeQueryBuilder.php
+
+		-
+			message: "#^Call to method whereKey\\(\\) on an unknown class Spatie\\\\QueryBuilder\\\\QueryBuilder\\.$#"
+			count: 1
+			path: src/SpladeQueryBuilder.php
+
+		-
+			message: "#^Call to method with\\(\\) on an unknown class Spatie\\\\QueryBuilder\\\\QueryBuilder\\.$#"
+			count: 1
+			path: src/SpladeQueryBuilder.php
+
+		-
+			message: "#^Class Spatie\\\\QueryBuilder\\\\QueryBuilder not found\\.$#"
+			count: 3
+			path: src/SpladeQueryBuilder.php
+
+		-
+			message: "#^Match expression does not handle remaining value\\: non\\-falsy\\-string$#"
+			count: 1
+			path: src/SpladeQueryBuilder.php
+
+		-
+			message: "#^Method ProtoneMedia\\\\Splade\\\\SpladeQueryBuilder\\:\\:applySorting\\(\\) with return type void returns Illuminate\\\\Database\\\\Eloquent\\\\Builder\\|Illuminate\\\\Database\\\\Query\\\\Builder but should not return anything\\.$#"
+			count: 1
+			path: src/SpladeQueryBuilder.php
+
+		-
+			message: "#^Method ProtoneMedia\\\\Splade\\\\SpladeQueryBuilder\\:\\:applySorting\\(\\) with return type void returns mixed but should not return anything\\.$#"
+			count: 1
+			path: src/SpladeQueryBuilder.php
+
+		-
+			message: "#^Method ProtoneMedia\\\\Splade\\\\SpladeQueryBuilder\\:\\:getBuilderForExport\\(\\) has invalid return type Spatie\\\\QueryBuilder\\\\QueryBuilder\\.$#"
+			count: 2
+			path: src/SpladeQueryBuilder.php
+
+		-
+			message: "#^Method ProtoneMedia\\\\Splade\\\\SpladeQueryBuilder\\:\\:loadResults\\(\\) with return type void returns Illuminate\\\\Support\\\\Collection but should not return anything\\.$#"
+			count: 1
+			path: src/SpladeQueryBuilder.php
+
+		-
+			message: "#^Parameter \\#1 \\$value of static method Illuminate\\\\Support\\\\Collection\\<\\(int\\|string\\),mixed\\>\\:\\:wrap\\(\\) expects iterable\\<\\(int\\|string\\), mixed\\>, string given\\.$#"
+			count: 1
+			path: src/SpladeQueryBuilder.php
+
+		-
+			message: "#^Parameter \\$builder of method ProtoneMedia\\\\Splade\\\\SpladeQueryBuilder\\:\\:__construct\\(\\) has invalid type Spatie\\\\QueryBuilder\\\\QueryBuilder\\.$#"
+			count: 2
+			path: src/SpladeQueryBuilder.php
+
+		-
+			message: "#^Property ProtoneMedia\\\\Splade\\\\SpladeQueryBuilder\\:\\:\\$builder has unknown class Spatie\\\\QueryBuilder\\\\QueryBuilder as its type\\.$#"
+			count: 2
+			path: src/SpladeQueryBuilder.php
+
+		-
+			message: "#^Class Spatie\\\\QueryBuilder\\\\QueryBuilder not found\\.$#"
+			count: 1
+			path: src/SpladeTable.php
+
+		-
+			message: "#^Left side of && is always true\\.$#"
+			count: 1
+			path: src/SpladeTable.php
+
+		-
+			message: "#^PHPDoc tag @param has invalid value \\(bool\\)\\: Unexpected token \"\\\\n     \\* \", expected variable at offset 72$#"
+			count: 1
+			path: src/SpladeTable.php
+
+		-
+			message: "#^Parameter \\$key of class ProtoneMedia\\\\Splade\\\\Table\\\\BulkAction constructor expects string, int\\<0, max\\> given\\.$#"
+			count: 1
+			path: src/SpladeTable.php
+
+		-
+			message: "#^Parameter \\$key of class ProtoneMedia\\\\Splade\\\\Table\\\\Export constructor expects string, int\\<0, max\\> given\\.$#"
+			count: 1
+			path: src/SpladeTable.php
+
+		-
+			message: "#^Unsafe call to private method ProtoneMedia\\\\Splade\\\\SpladeTable\\:\\:normalizeSearchColumnsWithMethod\\(\\) through static\\:\\:\\.$#"
+			count: 1
+			path: src/SpladeTable.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 1
+			path: src/SpladeTable.php
+
+		-
+			message: "#^Variable \\$filters in empty\\(\\) always exists and is not falsy\\.$#"
+			count: 1
+			path: src/SpladeTable.php
+
+		-
+			message: "#^Call to method throw\\(\\) on an unknown class GuzzleHttp\\\\Promise\\\\PromiseInterface\\.$#"
+			count: 1
+			path: src/Ssr.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 1
+			path: src/Table/Column.php
+
+		-
+			message: "#^Call to method getName\\(\\) on an unknown class ProtoneMedia\\\\Splade\\\\Table\\\\Route\\.$#"
+			count: 1
+			path: src/Table/Export.php
+
+		-
+			message: "#^PHPDoc tag @var for variable \\$route contains unknown class ProtoneMedia\\\\Splade\\\\Table\\\\Route\\.$#"
+			count: 1
+			path: src/Table/Export.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 1
+			path: src/Table/Filter.php
+
+		-
+			message: "#^PHPDoc tag @param references unknown parameter\\: \\$method$#"
+			count: 1
+			path: src/Table/SearchInput.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 1
+			path: src/Table/SearchInput.php
