@@ -214,6 +214,7 @@ class ServiceProvider extends BaseServiceProvider
             Components\ModalWrapper::class,
             Components\Outside::class,
             Components\PreloadedModal::class,
+            Components\Script::class,
             Components\Slot::class,
             Components\State::class,
             Components\Table::class,
