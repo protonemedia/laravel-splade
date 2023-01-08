@@ -93,9 +93,7 @@ class SpladeCore
         $this->shared   = [];
         $this->toasts   = [];
 
-        $this->persistentLayoutKey = null;
-
-        return $this;
+        return $this->resetLazyComponentCounter()->resetPersistentLayoutKey();
     }
 
     /**
