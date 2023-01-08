@@ -84,6 +84,8 @@ Route::middleware('splade')->group(function () {
 
     Route::view('form/simple', 'form.simple')->name('form.simple');
     Route::post('form/simple', SimpleFormController::class)->name('form.simple.submit');
+    Route::view('form/get', 'form.get')->name('form.get');
+    Route::get('form/getData', SimpleFormController::class)->name('form.get.submit');
     Route::view('form/put', 'form.put')->name('form.put');
     Route::put('form/put', SimpleFormController::class)->name('form.put.submit');
     Route::post('form/slow', SlowFormController::class)->name('form.slow.submit');
