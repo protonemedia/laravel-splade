@@ -7,6 +7,7 @@ use Illuminate\Foundation\Exceptions\Handler;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use ProtoneMedia\Splade\Http\ResolvableData;
 use Symfony\Component\HttpFoundation\Response;
@@ -90,13 +91,11 @@ class SpladeCore
      */
     public function reset(): self
     {
-        $this->modalKey = null;
+        $this->modalKey = Str::uuid();
         $this->shared   = [];
         $this->toasts   = [];
 
-        $this->persistentLayoutKey = null;
-
-        return $this;
+        return $this->resetLazyComponentCounter()->resetPersistentLayoutKey();
     }
 
     /**
