@@ -17,8 +17,8 @@ class PreserveScrollTest extends DuskTestCase
     public function it_can_preserve_the_scroll_value_with_a_form_component()
     {
         $this->browse(function (Browser $browser) {
-            $latestProject = Project::orderByDesc('id')->first();
-            $latestProject->forceFill(['name' => $company = fake()->company])->save();
+            $latestProject = Project::orderByDesc('name')->first();
+            $company       = $latestProject->name;
 
             $browser
                 ->visit('table/preserveScrollForm')
@@ -45,8 +45,8 @@ class PreserveScrollTest extends DuskTestCase
     public function it_can_preserve_the_scroll_value_with_a_link_component()
     {
         $this->browse(function (Browser $browser) {
-            $latestProject = Project::orderByDesc('id')->first();
-            $latestProject->forceFill(['name' => $company = fake()->company])->save();
+            $latestProject = Project::orderByDesc('name')->first();
+            $company       = $latestProject->name;
 
             $browser
                 ->visit('table/preserveScrollForm')

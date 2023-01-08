@@ -193,6 +193,7 @@ class TableController
     {
         return view('table.preserveScrollForm', [
             'projects' => SpladeTable::for(Project::class)
+                ->defaultSort('name')
                 ->column('name')
                 ->column('action')
                 ->paginate(100),
