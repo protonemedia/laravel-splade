@@ -436,11 +436,6 @@ parameters:
 			path: src/SpladeCore.php
 
 		-
-			message: "#^Property ProtoneMedia\\\\Splade\\\\SpladeCore\\:\\:\\$modalKey \\(string\\) does not accept null\\.$#"
-			count: 1
-			path: src/SpladeCore.php
-
-		-
 			message: "#^Call to method chunkById\\(\\) on an unknown class Spatie\\\\QueryBuilder\\\\QueryBuilder\\.$#"
 			count: 1
 			path: src/SpladeQueryBuilder.php
