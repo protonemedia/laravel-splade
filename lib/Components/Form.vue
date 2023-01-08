@@ -105,6 +105,12 @@ export default {
             required: false,
             default: true
         },
+
+        preserveScroll: {
+            type: Boolean,
+            required: false,
+            default: false
+        }
     },
 
     emits: ["success", "error"],
@@ -348,6 +354,10 @@ export default {
 
             if(this.stay) {
                 headers["X-Splade-Prevent-Refresh"] = true;
+            }
+
+            if(this.preserveScroll) {
+                headers["X-Splade-Preserve-Scroll"] = true;
             }
 
             let method = this.method.toUpperCase();

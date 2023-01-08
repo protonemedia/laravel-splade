@@ -22,6 +22,8 @@ class SpladeCore
 
     const HEADER_PREVENT_REFRESH = 'X-Splade-Prevent-Refresh';
 
+    const HEADER_PRESERVE_SCROLL = 'X-Splade-Preserve-Scroll';
+
     const HEADER_LAZY = 'X-Splade-Lazy';
 
     const HEADER_REDIRECT_AWAY = 'X-Splade-Redirect-Away';
@@ -384,6 +386,16 @@ class SpladeCore
     public function dontRefreshPage(): bool
     {
         return $this->request()->hasHeader(static::HEADER_PREVENT_REFRESH);
+    }
+
+    /**
+     * Returns a boolean whether the next page should preserve the scroll position.
+     *
+     * @return bool
+     */
+    public function preserveScroll(): bool
+    {
+        return $this->request()->hasHeader(static::HEADER_PRESERVE_SCROLL);
     }
 
     /**

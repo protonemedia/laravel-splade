@@ -258,6 +258,9 @@ Route::middleware('splade')->group(function () {
         Route::get('/caseSensitive/{spladeQueryBuilder?}', [TableController::class, 'caseSensitive'])->name('table.caseSensitive');
         Route::get('/caseInsensitive/{spladeQueryBuilder?}', [TableController::class, 'caseInsensitive'])->name('table.caseInsensitive');
 
+        Route::get('/preserveScrollForm', [TableController::class, 'preserveScrollForm'])->name('table.preserveScrollForm');
+        Route::post('/preserveScrollForm', [TableController::class, 'preserveScrollFormSubmit'])->name('table.preserveScrollFormSubmit');
+
         Route::get('/relationsAndExports', [TableController::class, 'relationsAndExports'])->name('table.relationsAndExports');
 
         // @todo refactor into matrix
