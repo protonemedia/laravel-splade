@@ -70,6 +70,9 @@ class ServiceProvider extends BaseServiceProvider
             TableMakeCommand::class,
         ]);
 
+        $this->loadJsonTranslationsFrom(__DIR__ . '/../resources/lang');
+        $this->loadJsonTranslationsFrom(lang_path('vendor/splade'));
+
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'splade');
 
         $this->registerBindingsInContainer();
@@ -121,6 +124,10 @@ class ServiceProvider extends BaseServiceProvider
             __DIR__ . '/../resources/views/form'       => base_path('resources/views/vendor/splade/form'),
             __DIR__ . '/../resources/views/table'      => base_path('resources/views/vendor/splade/table'),
         ], 'views');
+
+        $this->publishes([
+            __DIR__ . '/../resources/lang' => base_path('resources/lang/vendor/splade'),
+        ], 'translations');
     }
 
     /**

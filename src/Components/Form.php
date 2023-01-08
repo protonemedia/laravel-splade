@@ -50,6 +50,7 @@ class Form extends Component
         $unguarded = null,
         public bool $scrollOnError = true,
         public array|bool|string $submitOnChange = false,
+        public bool $preserveScroll = false,
     ) {
         // We'll use this instance in the static 'selected()' method,
         // which is a workaround for a Vue bug. Later, when the

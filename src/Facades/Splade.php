@@ -17,6 +17,7 @@ use Symfony\Component\HttpFoundation\Response;
  * @method static bool isLazyRequest()
  * @method static bool isModalRequest()
  * @method static bool isSpladeRequest()
+ * @method static bool preserveScroll()
  * @method static Closure exceptionHandler(Handler $exceptionHandler)
  * @method static EventRedirectFactory redirectOnEvent()
  * @method static EventRefresh refreshOnEvent()
