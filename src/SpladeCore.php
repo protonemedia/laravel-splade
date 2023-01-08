@@ -278,11 +278,20 @@ class SpladeCore
      * a ValidationException when this is a Splade request.
      *
      * @param  \Illuminate\Foundation\Exceptions\Handler  $exceptionHandler
+     * @param  callable  $renderUsing
      * @return Closure
      */
-    public static function exceptionHandler(Handler $exceptionHandler): Closure
+    public static function exceptionHandler(Handler $exceptionHandler, callable $renderUsing = null): Closure
     {
-        return Closure::bind(function (Throwable $e, $request) {
+        return Closure::bind(function (Throwable $e, $request) use ($renderUsing) {
+            if ($renderUsing) {
+                $response = $renderUsing($e, $request);
+
+                if (!is_null($response)) {
+                    return $response;
+                }
+            }
+
             if ($request->header(SpladeCore::HEADER_SPLADE) && !$e instanceof ValidationException) {
                 /** @var Handler $this */
                 return $this->prepareResponse($request, $e);
