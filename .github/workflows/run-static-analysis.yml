@@ -7,11 +7,10 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        php: [ 8.1, 8.0 ]
-        laravel: [ 9.* ]
-        dependency-version: [ prefer-lowest, prefer-stable ]
+        php: [8.1, 8.0]
+        laravel: [9.*]
 
-    name: Analyse P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.dependency-version }}
+    name: Analyse P${{ matrix.php }} - L${{ matrix.laravel }}
 
     steps:
       - name: Checkout code
@@ -24,29 +23,8 @@ jobs:
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick, mysql, mysqli, pdo_mysql
           coverage: none
 
-      - name: Get Composer Cache Directory 2
-        id: composer-cache
-        run: |
-          echo "::set-output name=dir::$(composer config cache-files-dir)"
-
-      - uses: actions/cache@v2
-        id: actions-cache
-        with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-composer-
-
-      - name: Cache PHP dependencies
-        uses: actions/cache@v2
-        id: vendor-cache
-        with:
-          path: vendor
-          key: ${{ runner.OS }}-build-${{ hashFiles('**/composer.lock') }}
-
       - name: Install Dependencies
-        if: steps.vendor-cache.outputs.cache-hit != 'true'
-        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+        run: composer update --prefer-dist --no-interaction --no-suggest
 
       - name: Execute Code Static Analysis (PHP Stan + Larastan)
         run: |
