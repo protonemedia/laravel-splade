@@ -19,8 +19,8 @@ class PreserveScrollTest extends DuskTestCase
     public function it_can_preserve_the_scroll_value_with_a_form_component($spladeQueryBuilder)
     {
         $this->browse(function (Browser $browser) use ($spladeQueryBuilder) {
-            $latestProject     = Project::orderByDesc('id')->first();
-            $latestProjectName = $latestProject->name;
+            $latestProject = Project::orderByDesc('id')->first();
+            $latestProject->forceFill(['name' => $company = fake()->company])->save();
 
             $browser
                 ->visit('table/preserveScrollForm/' . (int) $spladeQueryBuilder)
@@ -34,7 +34,7 @@ class PreserveScrollTest extends DuskTestCase
             $browser->press('tr:nth-child(30) td:nth-child(2) button')
                 ->waitForText('Project updated!');
 
-            $this->assertEquals("{$latestProjectName} updated", $latestProject->fresh()->name);
+            $this->assertEquals("{$company} updated", $latestProject->fresh()->name);
             $this->assertEquals($scrollY, $browser->script('return window.scrollY'));
         });
     }
@@ -47,8 +47,8 @@ class PreserveScrollTest extends DuskTestCase
     public function it_can_preserve_the_scroll_value_with_a_link_component($spladeQueryBuilder)
     {
         $this->browse(function (Browser $browser) use ($spladeQueryBuilder) {
-            $latestProject     = Project::orderByDesc('id')->first();
-            $latestProjectName = $latestProject->name;
+            $latestProject = Project::orderByDesc('id')->first();
+            $latestProject->forceFill(['name' => $company = fake()->company])->save();
 
             $browser
                 ->visit('table/preserveScrollForm/' . (int) $spladeQueryBuilder)
@@ -62,7 +62,7 @@ class PreserveScrollTest extends DuskTestCase
             $browser->press('tr:nth-child(30) td:nth-child(2) a')
                 ->waitForText('Project updated!');
 
-            $this->assertEquals("{$latestProjectName} updated", $latestProject->fresh()->name);
+            $this->assertEquals("{$company} updated", $latestProject->fresh()->name);
             $this->assertEquals($scrollY, $browser->script('return window.scrollY'));
         });
     }
