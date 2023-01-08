@@ -288,6 +288,7 @@ class SpladeMiddleware
                 $this->splade->getToasts(),
             ),
             'preventRefresh'   => $this->splade->dontRefreshPage(),
+            'preserveScroll'   => $this->splade->preserveScroll(),
             'lazy'             => $this->splade->isLazyRequest(),
             'persistentLayout' => $this->splade->getPersistentLayoutKey(),
         ];

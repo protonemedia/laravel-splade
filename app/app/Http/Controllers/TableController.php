@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Project;
 use App\Models\User;
 use App\Tables\Projects;
+use ProtoneMedia\Splade\Facades\Toast;
 use ProtoneMedia\Splade\SpladeTable;
 
 class TableController
@@ -185,6 +187,33 @@ class TableController
         return view('table.projects', [
             'projects' => Projects::class,
         ]);
+    }
+
+    public function preserveScrollForm()
+    {
+        return view('table.preserveScrollForm', [
+            'projects' => SpladeTable::for(Project::class)
+                ->column('name')
+                ->column('action')
+                ->paginate(100),
+        ]);
+    }
+
+    public function preserveScrollFormSubmit()
+    {
+        $data = request()->validate([
+            'id' => ['required', 'exists:projects'],
+        ]);
+
+        $project = Project::findOrFail($data['id']);
+
+        $project->forceFill([
+            'name' => "{$project->name} updated",
+        ])->save();
+
+        Toast::info('Project updated!');
+
+        return redirect()->back();
     }
 
     public function modal()
