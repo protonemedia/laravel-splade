@@ -17,7 +17,7 @@ class OrganizationFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->company,
+            'name' => str_replace('-', ' ', $this->faker->company),
         ];
     }
 }

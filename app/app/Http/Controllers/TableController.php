@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Project;
 use App\Models\User;
 use App\Tables\Projects;
+use App\Tables\SpatieProjects;
 use ProtoneMedia\Splade\Facades\Toast;
 use ProtoneMedia\Splade\SpladeTable;
 
@@ -182,10 +183,10 @@ class TableController
         ]);
     }
 
-    public function relationsAndExports()
+    public function relationsAndExports(bool $spatieQueryBuilder = false)
     {
         return view('table.projects', [
-            'projects' => Projects::class,
+            'projects' => $spatieQueryBuilder ? SpatieProjects::class : Projects::class,
         ]);
     }
 
