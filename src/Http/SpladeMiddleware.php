@@ -87,6 +87,17 @@ class SpladeMiddleware
     }
 
     /**
+     * Terminate and Reset Splade request
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Response  $response
+     */
+    public function terminate($request, $response)
+    {
+        $this->splade->reset();
+    }
+
+    /**
      * Handle a Splade request, made from the Vue app.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -288,6 +299,7 @@ class SpladeMiddleware
                 $this->splade->getToasts(),
             ),
             'preventRefresh'   => $this->splade->dontRefreshPage(),
+            'preserveScroll'   => $this->splade->preserveScroll(),
             'lazy'             => $this->splade->isLazyRequest(),
             'persistentLayout' => $this->splade->getPersistentLayoutKey(),
         ];

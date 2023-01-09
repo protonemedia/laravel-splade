@@ -13,6 +13,7 @@ import forOwn from "lodash-es/forOwn";
 import get from "lodash-es/get";
 import isArray from "lodash-es/isArray";
 import isObject from "lodash-es/isObject";
+import isString from "lodash-es/isString";
 import map from "lodash-es/map";
 
 export default {
@@ -216,7 +217,7 @@ export default {
                         optionElement.value = option.value;
                         optionElement.text = option.label;
 
-                        if(option.value === this.modelValue) {
+                        if(option.value === `${this.modelValue}`) {
                             // The current value is in the new options, we use this later on
                             // to set the value on the select element and Choices instance.
                             hasSelectedOption = true;
@@ -294,12 +295,24 @@ export default {
 
             if(!dataIsArray && isObject(data)) {
                 if(this.optionValue && this.optionLabel) {
+                    let value = get(data, this.optionValue);
+
+                    // As Choices.js don't like numeric values, we convert them to strings.
+                    if(!isString(value)) {
+                        value = `${value}`;
+                    }
+
                     results.push({
-                        value: get(data, this.optionValue),
+                        value,
                         label: get(data, this.optionLabel)
                     });
                 } else {
                     forOwn(data, (label, value) => {
+                        // As Choices.js don't like numeric values, we convert them to strings.
+                        if(!isString(value)) {
+                            value = `${value}`;
+                        }
+
                         results.push({ label, value });
                     });
                 }

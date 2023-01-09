@@ -2,6 +2,16 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 1.1.3 - 2023-01-08
+
+- Added a `preserve-scroll` attribute to Link and Form component
+- FormData passed to a `GET` request is now added as a query string (#188)
+- Fix for toasts firing multiple times on Octane (#151)
+- Added support for a custom exception handler
+- Added English and Dutch translations
+- Translations can now be published
+- Added Larastan static analysis
+
 ## 1.1.2 - 2022-12-22
 
 - Fixed a navigation bug (Chromium browsers only) that occurred when switching between SPA and non-SPA pages using the back/forward buttons

@@ -7,6 +7,7 @@ use Illuminate\Foundation\Exceptions\Handler;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use ProtoneMedia\Splade\Http\ResolvableData;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,6 +22,8 @@ class SpladeCore
     const HEADER_MODAL_TARGET = 'X-Splade-Modal-Target';
 
     const HEADER_PREVENT_REFRESH = 'X-Splade-Prevent-Refresh';
+
+    const HEADER_PRESERVE_SCROLL = 'X-Splade-Preserve-Scroll';
 
     const HEADER_LAZY = 'X-Splade-Lazy';
 
@@ -88,13 +91,11 @@ class SpladeCore
      */
     public function reset(): self
     {
-        $this->modalKey = null;
+        $this->modalKey = Str::uuid();
         $this->shared   = [];
         $this->toasts   = [];
 
-        $this->persistentLayoutKey = null;
-
-        return $this;
+        return $this->resetLazyComponentCounter()->resetPersistentLayoutKey();
     }
 
     /**
@@ -278,11 +279,20 @@ class SpladeCore
      * a ValidationException when this is a Splade request.
      *
      * @param  \Illuminate\Foundation\Exceptions\Handler  $exceptionHandler
+     * @param  callable  $renderUsing
      * @return Closure
      */
-    public static function exceptionHandler(Handler $exceptionHandler): Closure
+    public static function exceptionHandler(Handler $exceptionHandler, callable $renderUsing = null): Closure
     {
-        return Closure::bind(function (Throwable $e, $request) {
+        return Closure::bind(function (Throwable $e, $request) use ($renderUsing) {
+            if ($renderUsing) {
+                $response = $renderUsing($e, $request);
+
+                if (!is_null($response)) {
+                    return $response;
+                }
+            }
+
             if ($request->header(SpladeCore::HEADER_SPLADE) && !$e instanceof ValidationException) {
                 /** @var Handler $this */
                 return $this->prepareResponse($request, $e);
@@ -375,6 +385,16 @@ class SpladeCore
     public function dontRefreshPage(): bool
     {
         return $this->request()->hasHeader(static::HEADER_PREVENT_REFRESH);
+    }
+
+    /**
+     * Returns a boolean whether the next page should preserve the scroll position.
+     *
+     * @return bool
+     */
+    public function preserveScroll(): bool
+    {
+        return $this->request()->hasHeader(static::HEADER_PRESERVE_SCROLL);
     }
 
     /**

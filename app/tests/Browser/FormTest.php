@@ -20,6 +20,21 @@ class FormTest extends DuskTestCase
     }
 
     /** @test */
+    public function it_can_submit_data_to_a_get_endpoint()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('/form/get')
+                ->waitForText('FormGet')
+                ->press('Submit')
+                ->waitForText('The name field is required.')
+                ->assertSee('The name field is required.')
+                ->type('@name', 'Splade')
+                ->press('Submit')
+                ->waitForText('FormSimple'); // redirect
+        });
+    }
+
+    /** @test */
     public function it_can_submit_to_a_non_post_endpoint()
     {
         $this->browse(function (Browser $browser) {
