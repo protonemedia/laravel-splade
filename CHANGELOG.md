@@ -2,6 +2,11 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 1.1.5 - 2023-01-09
+
+- Fix for searching through nested relationships using Spatie's Query Builder (#178)
+- Added `es`, `pt_BR`, `pt_PT`, and `uk_AU` translation files (thanks @WendellAdriel, @Hladenkyi, and @JorgeNortes)
+
 ## 1.1.4 - 2023-01-09
 
 - Workaround for default numeric values using remote options with Choices.js (#163)
