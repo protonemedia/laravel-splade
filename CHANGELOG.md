@@ -2,6 +2,11 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 1.1.4 - 2023-01-09
+
+- Workaround for default numeric values using remote options with Choices.js (#163)
+- Fix for replacing the URL of the current page (#140)
+
 ## 1.1.3 - 2023-01-08
 
 - Added a `preserve-scroll` attribute to Link and Form component
