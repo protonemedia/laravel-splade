@@ -48,7 +48,10 @@ trait HasSearchInputs
     ): self {
         if (empty($columns)) {
             $columns = Arr::sort(Arr::wrap($key));
-            $key     = Str::slug(implode(' ', $columns));
+        }
+
+        if (is_array($key)) {
+            $key = Str::slug(implode(' ', $columns));
         }
 
         $columns = static::normalizeSearchColumnsWithMethod($columns);
