@@ -102,6 +102,7 @@ jobs:
           timeout_minutes: 10
           max_attempts: 3
           command: cd app && php artisan dusk --stop-on-error --stop-on-failure --exclude-group=table
+          on_retry_command: cd app && php artisan migrate:fresh --seed
 
       - name: Upload Screenshots
         if: failure()
