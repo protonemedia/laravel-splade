@@ -261,7 +261,7 @@ Route::middleware('splade')->group(function () {
         Route::get('/preserveScrollForm', [TableController::class, 'preserveScrollForm'])->name('table.preserveScrollForm');
         Route::post('/preserveScrollForm', [TableController::class, 'preserveScrollFormSubmit'])->name('table.preserveScrollFormSubmit');
 
-        Route::get('/relationsAndExports', [TableController::class, 'relationsAndExports'])->name('table.relationsAndExports');
+        Route::get('/relationsAndExports/{spatieQueryBuilder?}', [TableController::class, 'relationsAndExports'])->name('table.relationsAndExports');
 
         // @todo refactor into matrix
         Route::get('/users/spatie', fn () => $table->spatie(paginateMethod: 'paginate'));
