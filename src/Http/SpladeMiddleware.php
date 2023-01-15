@@ -109,8 +109,14 @@ class SpladeMiddleware
     {
         // We don't mess with JsonResponses, except we add the Splade data to it.
         if ($response instanceof JsonResponse) {
+            $decodedData = $response->getData(true);
+
+            if (!is_array($decodedData)) {
+                $decodedData = [];
+            }
+
             $newData = array_merge(
-                $response->getData(true),
+                $decodedData,
                 ['splade' => $spladeData]
             );
 
