@@ -2,6 +2,13 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 1.1.6 - 2023-01-15
+
+- Support for Laravel 10 (thanks @askdkc)
+- Added `ja`, `ar`, `fa`, `fr`, `it`, `ne`, `ur`, `bn`, `de`, and `ms` translation files (thanks @askdkc, @aeq-dev, @mszabeh, @KinArnaud, @ousid, @AndreaBellini23, @surajkhanal, @AamirSohailKmAs, @istiak-tridip, @Udaberrico, and @rusdyahmad)
+- Fix for (external) JSON responses without properly encoded JSON content
+- Improved Dusk tests
+
 ## 1.1.5 - 2023-01-09
 
 - Fix for searching through nested relationships using Spatie's Query Builder (#178)
