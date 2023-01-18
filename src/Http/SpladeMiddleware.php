@@ -87,6 +87,17 @@ class SpladeMiddleware
     }
 
     /**
+     * Terminate and Reset Splade request
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Response  $response
+     */
+    public function terminate($request, $response)
+    {
+        $this->splade->reset();
+    }
+
+    /**
      * Handle a Splade request, made from the Vue app.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -98,8 +109,14 @@ class SpladeMiddleware
     {
         // We don't mess with JsonResponses, except we add the Splade data to it.
         if ($response instanceof JsonResponse) {
+            $decodedData = $response->getData(true);
+
+            if (!is_array($decodedData)) {
+                $decodedData = [];
+            }
+
             $newData = array_merge(
-                $response->getData(true),
+                $decodedData,
                 ['splade' => $spladeData]
             );
 
@@ -288,6 +305,7 @@ class SpladeMiddleware
                 $this->splade->getToasts(),
             ),
             'preventRefresh'   => $this->splade->dontRefreshPage(),
+            'preserveScroll'   => $this->splade->preserveScroll(),
             'lazy'             => $this->splade->isLazyRequest(),
             'persistentLayout' => $this->splade->getPersistentLayoutKey(),
         ];

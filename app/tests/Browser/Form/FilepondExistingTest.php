@@ -178,9 +178,10 @@ class FilepondExistingTest extends DuskTestCase
                     $formattedFilepondSelector = $browser->resolver->format('@photos-file-input');
 
                     $browser->waitForText('1.jpeg')
+                        ->pause(500)
                         ->script("return document.querySelector('{$formattedFilepondSelector}').dispatchEvent(new CustomEvent('moveFile', { detail: [0, 2] }));");
 
-                    $browser->pause(250)->press('Submit');
+                    $browser->pause(500)->press('Submit');
                 })
                 ->waitForText('The photos have been saved');
         });

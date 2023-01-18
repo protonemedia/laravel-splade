@@ -1,0 +1,21 @@
+{
+    "Are you sure you want to continue?": "続行しますか？",
+    "Browse": "ファイルを選択",
+    "Cancel": "キャンセル",
+    "Clear selection": "選択箇所を解除",
+    "Confirm": "確認",
+    "Drag and drop your files or Browse": "ファイルをドラッグ&ドロップするか選択",
+    "Excel Export": "Excelにエクスポート",
+    "Export results": "エクスポート結果",
+    "Go to page :page": ":pageページに移動",
+    "Item selected": "選択されたアイテム",
+    "Items selected": "選択されたアイテム",
+    "Pagination Navigation": "ナビゲーションのページ送り",
+    "Search": "検索",
+    "Select all on this page": "このページの全てを選択",
+    "Select all results": "全ての結果を選択",
+    "of": "件目、全：",
+    "per page": "毎ページ",
+    "results": "件",
+    "to": "から"
+}

@@ -2,6 +2,33 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 1.1.6 - 2023-01-15
+
+- Support for Laravel 10 (thanks @askdkc)
+- Added `ja`, `ar`, `fa`, `fr`, `it`, `ne`, `ur`, `bn`, `de`, and `ms` translation files (thanks @askdkc, @aeq-dev, @mszabeh, @KinArnaud, @ousid, @AndreaBellini23, @surajkhanal, @AamirSohailKmAs, @istiak-tridip, @Udaberrico, and @rusdyahmad)
+- Fix for (external) JSON responses without properly encoded JSON content
+- Improved Dusk tests
+
+## 1.1.5 - 2023-01-09
+
+- Fix for searching through nested relationships using Spatie's Query Builder (#178)
+- Added `es`, `pt_BR`, `pt_PT`, and `uk_AU` translation files (thanks @WendellAdriel, @Hladenkyi, and @JorgeNortes)
+
+## 1.1.4 - 2023-01-09
+
+- Workaround for default numeric values using remote options with Choices.js (#163)
+- Fix for replacing the URL of the current page (#140)
+
+## 1.1.3 - 2023-01-08
+
+- Added a `preserve-scroll` attribute to Link and Form component
+- FormData passed to a `GET` request is now added as a query string (#188)
+- Fix for toasts firing multiple times on Octane (#151)
+- Added support for a custom exception handler
+- Added English and Dutch translations
+- Translations can now be published
+- Added Larastan static analysis
+
 ## 1.1.2 - 2022-12-22
 
 - Fixed a navigation bug (Chromium browsers only) that occurred when switching between SPA and non-SPA pages using the back/forward buttons

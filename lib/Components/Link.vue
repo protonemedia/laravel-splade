@@ -96,6 +96,12 @@ const props = defineProps({
         required: false,
         default: false,
     },
+
+    preserveScroll: {
+        type: Boolean,
+        required: false,
+        default: false,
+    },
 });
 
 /*
@@ -156,6 +162,10 @@ function perform() {
     if(stayInModal) {
         headers["X-Splade-Modal"] = Splade.stackType(stack);
         headers["X-Splade-Modal-Target"] = stack;
+    }
+
+    if(props.preserveScroll) {
+        headers["X-Splade-Preserve-Scroll"] = true;
     }
 
     if(method === "GET") {

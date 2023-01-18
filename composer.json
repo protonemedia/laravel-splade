@@ -17,13 +17,13 @@
     ],
     "require": {
         "php": "^8.0 || ^8.1 || ^8.2",
-        "illuminate/contracts": "^9.22"
+        "illuminate/contracts": "^9.28|^10.0"
     },
     "require-dev": {
         "laravel/pint": "^1.0",
         "nunomaduro/collision": "^6.0",
         "nunomaduro/larastan": "^2.0.1",
-        "orchestra/testbench": "^7.16",
+        "orchestra/testbench": "^7.7|^8.0",
         "phpunit/phpunit": "^9.5"
     },
     "conflict": {
