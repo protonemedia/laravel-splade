@@ -31,6 +31,7 @@ use ProtoneMedia\Splade\Http\EventRedirectController;
 use ProtoneMedia\Splade\Http\FileUploadController;
 use ProtoneMedia\Splade\Http\PrepareTableCells;
 use ProtoneMedia\Splade\Http\PrepareViewWithLazyComponents;
+use ProtoneMedia\Splade\Http\PrepareViewWithRehydrateComponents;
 use ProtoneMedia\Splade\Http\TableBulkActionController;
 use ProtoneMedia\Splade\Http\TableExportController;
 
@@ -82,6 +83,10 @@ class ServiceProvider extends BaseServiceProvider
         );
 
         (new PrepareViewWithLazyComponents)
+            ->registerMacro()
+            ->registerEventListener();
+
+        (new PrepareViewWithRehydrateComponents)
             ->registerMacro()
             ->registerEventListener();
 
@@ -221,6 +226,7 @@ class ServiceProvider extends BaseServiceProvider
             Components\ModalWrapper::class,
             Components\Outside::class,
             Components\PreloadedModal::class,
+            Components\Rehydrate::class,
             Components\Slot::class,
             Components\State::class,
             Components\Table::class,

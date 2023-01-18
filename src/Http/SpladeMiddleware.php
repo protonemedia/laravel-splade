@@ -48,6 +48,7 @@ class SpladeMiddleware
         // Set and restore some defaults before handling the request.
         $this->splade->setModalKey(Str::uuid());
         $this->splade->resetLazyComponentCounter();
+        $this->splade->resetRehydrateComponentCounter();
         $this->splade->resetPersistentLayoutKey();
 
         /** @var Response $response */
@@ -307,6 +308,7 @@ class SpladeMiddleware
             'preventRefresh'   => $this->splade->dontRefreshPage(),
             'preserveScroll'   => $this->splade->preserveScroll(),
             'lazy'             => $this->splade->isLazyRequest(),
+            'rehydrate'        => $this->splade->isRehydrateRequest(),
             'persistentLayout' => $this->splade->getPersistentLayoutKey(),
         ];
     }

@@ -27,6 +27,8 @@ class SpladeCore
 
     const HEADER_LAZY = 'X-Splade-Lazy';
 
+    const HEADER_REHYDRATE = 'X-Splade-Rehydrate';
+
     const HEADER_REDIRECT_AWAY = 'X-Splade-Redirect-Away';
 
     const HEADER_SKIP_MIDDLEWARE = 'X-Splade-Skip-Middleware';
@@ -46,6 +48,8 @@ class SpladeCore
     private string $rootView = 'root';
 
     private int $lazyComponents = 0;
+
+    private int $rehydrateComponents = 0;
 
     private Head $head;
 
@@ -182,6 +186,28 @@ class SpladeCore
     public function resetLazyComponentCounter(): self
     {
         $this->lazyComponents = 0;
+
+        return $this;
+    }
+
+    /**
+     * Increases the amount of Rehydrate Components and returns the latest key.
+     *
+     * @return string
+     */
+    public function newRehydrateComponentKey(): string
+    {
+        return $this->rehydrateComponents++;
+    }
+
+    /**
+     * Resets the Rehydrate Components counter.
+     *
+     * @return $this
+     */
+    public function resetRehydrateComponentCounter(): self
+    {
+        $this->rehydrateComponents = 0;
 
         return $this;
     }
@@ -408,6 +434,16 @@ class SpladeCore
     }
 
     /**
+     * Returns a boolean whether this is a Rehydrate request.
+     *
+     * @return bool
+     */
+    public function isRehydrateRequest(): bool
+    {
+        return $this->request()->hasHeader(static::HEADER_REHYDRATE);
+    }
+
+    /**
      * Retrieves the Lazy Component key from the request header.
      *
      * @return int
@@ -415,6 +451,16 @@ class SpladeCore
     public function getLazyComponentKey(): int
     {
         return $this->request()->header(static::HEADER_LAZY);
+    }
+
+    /**
+     * Retrieves the Rehydrate Component key from the request header.
+     *
+     * @return int
+     */
+    public function getRehydrateComponentKey(): int
+    {
+        return $this->request()->header(static::HEADER_REHYDRATE);
     }
 
     /**

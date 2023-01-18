@@ -13,17 +13,6 @@ class PrepareViewWithLazyComponents
     use InterceptsCreatingViews;
 
     /**
-     * Returns a regex pattern to match an HTML tag and its contents.
-     *
-     * @param  string  $tag
-     * @return string
-     */
-    public static function regexForTag(string $tag): string
-    {
-        return '/(<\s*' . $tag . '[^>]*>)(.|\n)*?(<\/' . $tag . '>)/';
-    }
-
-    /**
      * Registers the 'renderWithPreparedLazyComponents' macro that replaces the
      * lazy-component in a template with a placeholder (on initial request).
      * On the lazy request itself, it return the rendered lazy-component.
