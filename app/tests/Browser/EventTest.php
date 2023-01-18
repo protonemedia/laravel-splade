@@ -13,13 +13,11 @@ class EventTest extends DuskTestCase
     use RefreshDatabase;
     use UsesWebsocketsServerTrait;
 
-    public $seed = true;
-
     /** @test */
     public function it_can_redirect_on_an_event()
     {
         $this->browse(function (Browser $browser) {
-            $user = User::first();
+            $user = User::firstOrFail();
 
             $browser->loginAs($user)
                 ->visit('/event')
@@ -42,7 +40,7 @@ class EventTest extends DuskTestCase
     public function it_can_refresh_on_an_event()
     {
         $this->browse(function (Browser $browser) {
-            $user = User::first();
+            $user = User::firstOrFail();
 
             $browser->loginAs($user)
                 ->visit('/event')
@@ -67,7 +65,7 @@ class EventTest extends DuskTestCase
     public function it_can_show_the_event()
     {
         $this->browse(function (Browser $browser) {
-            $user = User::first();
+            $user = User::firstOrFail();
 
             $browser->loginAs($user)
                 ->visit('/event')
@@ -91,7 +89,7 @@ class EventTest extends DuskTestCase
     public function it_can_show_a_toast()
     {
         $this->browse(function (Browser $browser) {
-            $user = User::first();
+            $user = User::firstOrFail();
 
             $browser->loginAs($user)
                 ->visit('/event')
