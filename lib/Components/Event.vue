@@ -22,7 +22,7 @@ export default {
         },
     },
 
-    emits: ["subscribed", "event"],
+    emits: ["subscribed"],
 
     data() {
         return {
@@ -54,8 +54,6 @@ export default {
 
         this.listeners.forEach((name) => {
             const listener = this.subscription.listen(name, (e) => {
-                this.$emit("event", { name, data: e });
-
                 const redirectKey = "splade.redirect";
                 const refreshKey = "splade.refresh";
                 const toastKey = "splade.toast";
