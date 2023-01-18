@@ -227,6 +227,7 @@ class ServiceProvider extends BaseServiceProvider
             Components\Outside::class,
             Components\PreloadedModal::class,
             Components\Rehydrate::class,
+            Components\Script::class,
             Components\Slot::class,
             Components\State::class,
             Components\Table::class,
