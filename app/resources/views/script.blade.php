@@ -2,12 +2,12 @@
 
 @section('content')
 
+ScriptComponent
+
 <div id="hey">Hey</div>
 
 <x-splade-script>
-    jQuery('div#hey').html('Hello World!');
-
-    console.log(this.$splade);
-</x-splade-scipt>
+    document.querySelector('div#hey').innerText = 'Hello World!';
+</x-splade-script>
 
 @endsection
