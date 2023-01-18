@@ -291,16 +291,6 @@ parameters:
 			path: src/Head.php
 
 		-
-			message: "#^Access to an undefined property Illuminate\\\\View\\\\View\\:\\:\\$_spladeEvaluatedHtml\\.$#"
-			count: 1
-			path: src/Http/PrepareTableCells.php
-
-		-
-			message: "#^Access to an undefined property Illuminate\\\\View\\\\View\\:\\:\\$_spladeEvaluatedHtml\\.$#"
-			count: 1
-			path: src/Http/PrepareViewWithLazyComponents.php
-
-		-
 			message: "#^Unsafe usage of new static\\(\\)\\.$#"
 			count: 1
 			path: src/Http/ResolvableData.php

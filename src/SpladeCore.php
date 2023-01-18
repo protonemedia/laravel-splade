@@ -197,7 +197,7 @@ class SpladeCore
      */
     public function newRehydrateComponentKey(): string
     {
-        return $this->rehydrateComponents++;
+        return (string) $this->rehydrateComponents++;
     }
 
     /**
@@ -460,7 +460,7 @@ class SpladeCore
      */
     public function getRehydrateComponentKey(): int
     {
-        return $this->request()->header(static::HEADER_REHYDRATE);
+        return (int) $this->request()->header(static::HEADER_REHYDRATE);
     }
 
     /**

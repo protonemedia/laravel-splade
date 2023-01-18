@@ -55,6 +55,7 @@ trait InterceptsCreatingViews
             $view->{$preventLoopVar} = true;
 
             tap(new HtmlString($withView($view)), function ($html) use ($view, $preventLoopVar) {
+                /** @phpstan-ignore-next-line */
                 $view->_spladeEvaluatedHtml = $html;
                 $view->{$preventLoopVar}    = false;
 
