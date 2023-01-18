@@ -36,6 +36,8 @@ export default {
         }
     },
 
+    emits: ["loaded"],
+
     data() {
         return {
             html: null,
@@ -56,6 +58,7 @@ export default {
             Splade.rehydrate(this.url, this.name).then((response) => {
                 this.html = response.data.html;
                 this.loading = false;
+                this.$emit("loaded");
             });
         },
     }

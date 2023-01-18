@@ -22,6 +22,8 @@ export default {
         },
     },
 
+    emits: ["subscribed", "event"],
+
     data() {
         return {
             subscribed: false,
@@ -47,10 +49,13 @@ export default {
 
         this.subscription.on("pusher:subscription_succeeded", () => {
             this.subscribed = true;
+            this.$emit("subscribed");
         });
 
         this.listeners.forEach((name) => {
             const listener = this.subscription.listen(name, (e) => {
+                this.$emit("event", { name, data: e });
+
                 const redirectKey = "splade.redirect";
                 const refreshKey = "splade.refresh";
                 const toastKey = "splade.toast";

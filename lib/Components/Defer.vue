@@ -64,6 +64,8 @@ export default {
         }
     },
 
+    emits: ["success", "error"],
+
     data() {
         return {
             response: Object.assign({}, { ...this.default }),
@@ -116,9 +118,11 @@ export default {
                 .then((response) => {
                     this.response = response.data;
                     this.processing = false;
+                    this.$emit("success");
                 })
                 .catch(() => {
                     this.processing = false;
+                    this.$emit("error");
                 });
 
             if (this.poll) {

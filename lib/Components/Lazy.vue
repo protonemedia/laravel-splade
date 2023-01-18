@@ -32,6 +32,8 @@ export default {
             default: true
         }
     },
+    emits: ["loaded"],
+
     data() {
         return {
             html: null
@@ -62,6 +64,7 @@ export default {
 
             Splade.lazy(this.url, this.name).then((response) => {
                 this.html = response.data.html;
+                this.$emit("loaded");
             });
         },
     }
