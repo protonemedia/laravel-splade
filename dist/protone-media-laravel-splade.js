@@ -3946,7 +3946,7 @@ const Of = {
     restoreOnSuccess: {
       type: Boolean,
       required: !1,
-      default: !0
+      default: !1
     },
     resetOnSuccess: {
       type: Boolean,
