@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 1.1.7 - 2023-01-19
+
+- Fix default `restoreOnSuccess` property value in `Form` component
+- Added Indonesia translation (thanks @zulfikar-ditya)
+- Added missing `primaryKey` method (fixes #240)
+
 ## 1.1.6 - 2023-01-15
 
 - Support for Laravel 10 (thanks @askdkc)
