@@ -137,6 +137,19 @@ trait HasResource
     }
 
     /**
+     * Setter for the primary key of the resource.
+     *
+     * @param  string  $key
+     * @return self
+     */
+    public function primaryKey(string $key): self
+    {
+        $this->primaryKey = $key;
+
+        return $this;
+    }
+
+    /**
      * Returns the primary key of the given item.
      *
      * @param  mixed  $item
