@@ -3,14 +3,12 @@
 namespace Tests\Browser;
 
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Http;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 
 class EventTest extends DuskTestCase
 {
-    use RefreshDatabase;
     use UsesWebsocketsServerTrait;
 
     /** @test */

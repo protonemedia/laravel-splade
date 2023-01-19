@@ -2,14 +2,11 @@
 
 namespace Tests\Browser;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Browser;
 use Tests\DuskTestCase;
 
 class EventBusTest extends DuskTestCase
 {
-    use RefreshDatabase;
-
     /** @test */
     public function it_can_subscribe_to_an_event_with_a_custom_script()
     {

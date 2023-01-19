@@ -9,13 +9,15 @@ use Tests\DuskTestCase;
 class FormLibrariesInModalTest extends DuskTestCase
 {
     /** @test */
-    public function it_can_autosize_the_textarea()
+    public function it_can_autosize_the_textarea_in_a_modal()
     {
         $this->browse(function (Browser $browser) {
             $browser->visit('modal/base')
                 ->waitForText('ModalComponent')
+                ->pause(250)
                 ->click('@libraries')
                 ->waitForText('FormComponents')
+                ->pause(250)
                 ->type('textarea', Lorem::text(1000))
                 ->assertAttributeContains('textarea', 'style', 'height');
         });
@@ -64,7 +66,7 @@ class FormLibrariesInModalTest extends DuskTestCase
                 ->waitForText('FormComponents')
                 ->click('@select-choices')
                 ->whenAvailable('div.choices.is-open', function (Browser $browser) {
-                    $coordinates = $browser->script("return document.querySelector('[dusk=\"text\"]').getBoundingClientRect()");
+                    $coordinates = $browser->pause(250)->script("return document.querySelector('[dusk=\"text\"]').getBoundingClientRect()");
 
                     $browser->clickAtPoint($coordinates[0]['x'], $coordinates[0]['y'])
                         ->pause(500)
