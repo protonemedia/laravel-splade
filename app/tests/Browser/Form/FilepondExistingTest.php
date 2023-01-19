@@ -125,6 +125,7 @@ class FilepondExistingTest extends DuskTestCase
                 ->within('@photos', function (Browser $browser) {
                     $browser->waitForText('1.jpeg')
                         ->waitForText('Drag and drop your files')
+                        ->pause(500)
                         ->attachToFilepond(__DIR__ . '/../small.jpeg')
                         ->waitForText('Upload complete', 10)
                         ->press('Submit');

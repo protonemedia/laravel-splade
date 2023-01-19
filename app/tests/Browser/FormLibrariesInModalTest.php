@@ -48,9 +48,13 @@ class FormLibrariesInModalTest extends DuskTestCase
                 ->waitForText('FormComponents')
                 ->pause(500)
                 ->choicesSelect('countries[]', 'NL')
+                ->pause(100)
                 ->assertSee('Selected countries: NL')
+                ->pause(100)
                 ->choicesSelect('countries[]', 'BE')
+                ->pause(100)
                 ->assertSee('Selected countries: NL, BE')
+                ->pause(100)
                 ->choicesRemoveItem('countries[]', 'NL')
                 ->assertSee('Selected countries: BE');
         });
