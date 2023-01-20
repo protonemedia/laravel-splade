@@ -45,6 +45,11 @@ class User extends Authenticatable implements HasMedia
         'is_admin'          => 'boolean',
     ];
 
+    public function getCreatedAtAmsterdamAttribute()
+    {
+        return $this->created_at->clone()->timezone('Europe/Amsterdam')->format('Y-m-d H:i:s');
+    }
+
     public function tags()
     {
         return $this->belongsToMany(Tag::class);

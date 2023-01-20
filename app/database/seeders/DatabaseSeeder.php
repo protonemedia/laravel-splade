@@ -9,6 +9,7 @@ use Database\Factories\ProjectFactory;
 use Database\Factories\TagFactory;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Carbon;
 
 class DatabaseSeeder extends Seeder
 {
@@ -25,8 +26,9 @@ class DatabaseSeeder extends Seeder
 
         /** @var User $user */
         $firstUser = UserFactory::new()->create([
-            'name'  => 'Test User',
-            'email' => 'test@example.com',
+            'name'       => 'Test User',
+            'email'      => 'test@example.com',
+            'created_at' => Carbon::createFromFormat('Y-m-d H:i:s', '2022-12-01 00:00:00', 'Europe/Amsterdam')->timezone('UTC'),
         ]);
 
         static::giveUserMedia($firstUser);
