@@ -367,7 +367,12 @@ parameters:
 
 		-
 			message: "#^Call to method click\\(\\) on an unknown class Laravel\\\\Dusk\\\\Browser\\.$#"
-			count: 3
+			count: 2
+			path: src/ServiceProvider.php
+
+		-
+			message: "#^Call to method pause\\(\\) on an unknown class Laravel\\\\Dusk\\\\Browser\\.$#"
+			count: 2
 			path: src/ServiceProvider.php
 
 		-
