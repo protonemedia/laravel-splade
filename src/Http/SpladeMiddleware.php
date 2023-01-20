@@ -139,6 +139,12 @@ class SpladeMiddleware
         // Extract the Dynamic Content, we'll return that separately so Vue can handle it.
         [$content, $dynamics] = static::extractDynamicsFromContent($content);
 
+        if ($this->splade->isLazyRequest()) {
+            $content = PrepareViewWithLazyComponents::extractComponent($content, $this->splade->getLazyComponentKey()) ?: $content;
+        } elseif ($this->splade->isRehydrateRequest()) {
+            $content = PrepareViewWithRehydrateComponents::extractComponent($content, $this->splade->getRehydrateComponentKey());
+        }
+
         return $response->setContent(json_encode([
             // If this is Modal request, extract the content...
             'html'     => $this->splade->isModalRequest() ? $this->parseModalContent($content) : $content,

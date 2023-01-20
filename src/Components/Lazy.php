@@ -2,6 +2,7 @@
 
 namespace ProtoneMedia\Splade\Components;
 
+use Illuminate\Support\Str;
 use Illuminate\View\Component;
 use ProtoneMedia\Splade\SpladeCore;
 
@@ -25,9 +26,14 @@ class Lazy extends Component
      */
     public function render()
     {
+        $key = Str::random();
+
         return $this->splade->isLazyRequest()
-            ? '{{ $slot }}'
-            : view('splade::functional.lazy', [
+            ? implode([
+                '<!--START-SPLADE-LAZY-' . $key . '-->',
+                '{{ $slot }}',
+                '<!--END-SPLADE-LAZY-' . $key . '-->',
+            ]) : view('splade::functional.lazy', [
                 'name' => $this->splade->newLazyComponentKey(),
             ]);
     }
