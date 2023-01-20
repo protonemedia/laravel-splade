@@ -40,7 +40,7 @@ trait InterceptsCreatingViews
             $contents = file_get_contents($view->getPath());
 
             if (!preg_match(static::regexForTag($tag), $contents, $match)) {
-                // No lazy components
+                // No components found for this tag
                 return;
             }
 

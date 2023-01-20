@@ -99,7 +99,9 @@ class SpladeCore
         $this->shared   = [];
         $this->toasts   = [];
 
-        return $this->resetLazyComponentCounter()->resetPersistentLayoutKey();
+        return $this->resetLazyComponentCounter()
+            ->resetPersistentLayoutKey()
+            ->resetRehydrateComponentCounter();
     }
 
     /**

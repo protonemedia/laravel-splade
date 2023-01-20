@@ -287,10 +287,11 @@ class ServiceProvider extends BaseServiceProvider
                                 ? "div.choices__item[data-value='{$value}']"
                                 : 'div.choices__item[data-value]:not(.choices__placeholder)';
 
-                            $browser->click($selector);
+                            $browser->pause(100)->click($selector)->pause(100);
 
                             if ($dataType === 'select-multiple') {
                                 $browser->script("return document.querySelector('{$formattedChoicesSelector}').dispatchEvent(new Event('hideDropdownFromDusk'));");
+                                $browser->pause(100);
                             }
                         })
                         ->waitUntilMissing("div.choices.is-open[data-type='{$dataType}']");

@@ -242,6 +242,7 @@ class FilepondExistingTest extends DuskTestCase
                         ->pause(500)
                         ->screenshot('Filepond-1-BeforeRemovingFirstDummy')
                         ->press('.filepond--action-remove-item')
+                        ->pause(500)
                         ->screenshot('Filepond-2-BeforeAddingThirdDummy')
                         ->attachToFilepond(__DIR__ . '/../dummy3.txt')
                         ->waitForText('dummy3.txt')
