@@ -2,6 +2,7 @@
 
 namespace ProtoneMedia\Splade\Components;
 
+use Illuminate\Support\Str;
 use Illuminate\View\Component;
 use ProtoneMedia\Splade\SpladeCore;
 
@@ -28,9 +29,14 @@ class Rehydrate extends Component
      */
     public function render()
     {
+        $key = Str::random();
+
         return $this->splade->isRehydrateRequest()
-            ? '{{ $slot }}'
-            : view('splade::functional.rehydrate', [
+            ? implode([
+                '<!--START-SPLADE-REHYDRATE-' . $key . '-->',
+                '{{ $slot }}',
+                '<!--END-SPLADE-REHYDRATE-' . $key . '-->',
+            ]) : view('splade::functional.rehydrate', [
                 'name' => $this->splade->newRehydrateComponentKey(),
                 'on'   => $this->on,
             ]);
