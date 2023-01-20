@@ -2,6 +2,13 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 1.2.0 - 2023-01-20
+
+- Added Filipino (`fil`) translation (thanks @whoami15)
+- Event Bus added (`$splade.on()`, `$splade.emit()`)
+- Rehydrate feature
+- Custom Script component
+
 ## 1.1.7 - 2023-01-19
 
 - Fix default `restoreOnSuccess` property value in `Form` component
