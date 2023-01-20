@@ -157,6 +157,7 @@ class NavigationTest extends DuskTestCase
             $browser->visit('/navigation/one')
                 ->resize(1024, 768)
                 ->waitForText('NavigationOne')
+                ->pause(250)
                 ->click('@notFound')
                 ->waitFor('iframe')
                 ->withinFrame('iframe', function (Browser $browser) {

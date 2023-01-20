@@ -48,6 +48,7 @@ class SpladeMiddleware
         // Set and restore some defaults before handling the request.
         $this->splade->setModalKey(Str::uuid());
         $this->splade->resetLazyComponentCounter();
+        $this->splade->resetRehydrateComponentCounter();
         $this->splade->resetPersistentLayoutKey();
 
         /** @var Response $response */
@@ -293,8 +294,10 @@ class SpladeMiddleware
             ->mapWithKeys(fn ($key) => [$key => $session->get($key)])
             ->toArray();
 
+        $excludeHead = $this->splade->isLazyRequest() || $this->splade->isRehydrateRequest();
+
         return (object) [
-            'head'             => $this->splade->head()->toArray(),
+            'head'             => $excludeHead ? [] : $this->splade->head()->toArray(),
             'modal'            => $this->splade->isModalRequest() ? $this->splade->getModalType() : null,
             'modalTarget'      => $this->splade->getModalTarget() ?: null,
             'flash'            => (object) $flash,
@@ -307,6 +310,7 @@ class SpladeMiddleware
             'preventRefresh'   => $this->splade->dontRefreshPage(),
             'preserveScroll'   => $this->splade->preserveScroll(),
             'lazy'             => $this->splade->isLazyRequest(),
+            'rehydrate'        => $this->splade->isRehydrateRequest(),
             'persistentLayout' => $this->splade->getPersistentLayoutKey(),
         ];
     }

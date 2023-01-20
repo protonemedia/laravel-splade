@@ -25,11 +25,15 @@ class BulkActionTest extends DuskTestCase
 
             $browser->visit('table/relationsAndExports')
                 ->press('@bulk-actions-exports-dropdown')
+                ->pause(100)
                 ->assertMissing('@action.touch-timestamp')
                 ->press('@bulk-actions-exports-dropdown') // to hide
+                ->pause(100)
                 ->check('table-row-bulk-action', Project::orderBy('name')->first()->id)
                 ->press('@bulk-actions-exports-dropdown')
+                ->pause(100)
                 ->press('@action.touch-timestamp')
+                ->pause(100)
                 ->waitForText('Timestamps updated!');
 
             $this->assertEquals(29, Project::whereUpdatedAt($someTimeAgo)->count());
