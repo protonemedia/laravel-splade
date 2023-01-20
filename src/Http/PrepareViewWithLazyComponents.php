@@ -4,6 +4,7 @@ namespace ProtoneMedia\Splade\Http;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Str;
 use Illuminate\View\View;
 use ProtoneMedia\Splade\Components\SpladeComponent;
 use ProtoneMedia\Splade\Facades\Splade;
@@ -28,18 +29,8 @@ class PrepareViewWithLazyComponents
             // Find the lazy components within the view
             preg_match_all(PrepareViewWithLazyComponents::regexForTag(SpladeComponent::tag('lazy')), $view, $matches);
 
-            $lazyComponents = collect($matches[0] ?? []);
-
-            // If this is a lazy request, get the right component and render it.
-            if (Splade::isLazyRequest()) {
-                return Blade::render(
-                    $lazyComponents->get(Splade::getLazyComponentKey()),
-                    $this->getData()
-                );
-            }
-
-            // Otherwise, replace all lazy components with just the placeholder
-            $lazyComponents->each(function (string $lazyComponent, $key) use ($matches, &$view) {
+            // Replace all lazy components with just the placeholder
+            collect($matches[0] ?? [])->each(function (string $lazyComponent, $key) use ($matches, &$view) {
                 preg_match_all(PrepareViewWithLazyComponents::regexForTag('x-slot:placeholder'), $lazyComponent, $placeholderMatches);
 
                 $view = str_replace($lazyComponent, implode('', [
@@ -56,6 +47,30 @@ class PrepareViewWithLazyComponents
     }
 
     /**
+     * Grabs the lazy-component from the rendered content and returns it.
+     *
+     * @param  string  $content
+     * @param  int  $componentKey
+     * @return string
+     */
+    public static function extractComponent(string $content, int $componentKey): string
+    {
+        preg_match_all('/START-SPLADE-LAZY-(\w+)-->/', $content, $matches);
+
+        return (string) collect($matches[1] ?? [])
+            ->mapWithKeys(function (string $name, $key) use ($content) {
+                $rehydrate = Str::between(
+                    $content,
+                    "<!--START-SPLADE-LAZY-{$name}-->",
+                    "<!--END-SPLADE-LAZY-{$name}-->"
+                );
+
+                return [$key => trim($rehydrate)];
+            })
+            ->get($componentKey);
+    }
+
+    /**
      * Registers an event handler for the 'creating:' event, which is fired before
      * rendering a Blade template. This way we can, based on the request, replace
      * the lazy components with a placeholder, or with the actual content.
@@ -64,6 +79,11 @@ class PrepareViewWithLazyComponents
      */
     public function registerEventListener(): self
     {
+        if (Splade::isLazyRequest()) {
+            // Render normally
+            return $this;
+        }
+
         $listener = $this->interceptCreatingViews(SpladeComponent::tag('lazy'), function (View $view) {
             return $view->renderWithPreparedLazyComponents();
         });

@@ -23,6 +23,7 @@ use Symfony\Component\HttpFoundation\Response;
  * @method static EventRedirectFactory redirectOnEvent()
  * @method static EventRefresh refreshOnEvent()
  * @method static int getLazyComponentKey()
+ * @method static int getRehydrateComponentKey()
  * @method static mixed onInit($value)
  * @method static mixed onLazy($value)
  * @method static self defaultToast(callable $toastFactory):
