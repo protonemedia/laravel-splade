@@ -2,6 +2,11 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 1.2.1 - 2023-01-20
+
+- Russian (ru) translation (thanks @twent)
+- Bugfixes
+
 ## 1.2.0 - 2023-01-20
 
 - Added Filipino (`fil`) translation (thanks @whoami15)
