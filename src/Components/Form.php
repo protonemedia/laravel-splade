@@ -294,7 +294,7 @@ class Form extends Component
 
             $relation = data_get($this->model, implode('.', $parts));
 
-            $relationAttributes = is_string($relation) ? [] :$relation->attributesToArray();
+            $relationAttributes = is_string($relation) ? [] : $relation->attributesToArray();
 
             if (Arr::has($relationAttributes, $column)) {
                 data_set($guardedData, $attribute, data_get($relationAttributes, $column));
