@@ -50,6 +50,7 @@ class DataTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $browser->visit('/data/remember')
                 ->waitForText('DataRemember')
+                ->pause(250)
                 ->check('checkbox')
                 ->click('@binding')
                 ->waitForText('DataBinding')

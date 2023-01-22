@@ -1,0 +1,23 @@
+{
+    "Are you sure you want to continue?": "Вы уверены, что хотите продолжить?",
+    "Browse": "Открыть",
+    "Cancel": "Отмена",
+    "Clear selection": "Сбросить выбор",
+    "Confirm": "Подтвердить",
+    "Drag and drop your files or Browse": "Перетащите или откройте Ваши файлы",
+    "Excel Export": "Экспорт в Excel",
+    "Export results": "Результаты экспорта",
+    "Go to page :page": "Перейти к :page-й странице",
+    "Item selected": "Выбранный элемент",
+    "Items selected": "Выбранные элементы",
+    "Pagination Navigation": "Навигация",
+    "Remove search": "Сбросить поиск",
+    "Reset": "Сброс",
+    "Search": "Поиск",
+    "Select all on this page": "Выбрать все на этой странице",
+    "Select all results": "Выбрать все результаты",
+    "of": "из",
+    "per page": "на странице",
+    "results": "результатов",
+    "to": "по"
+}

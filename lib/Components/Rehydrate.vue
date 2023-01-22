@@ -3,7 +3,11 @@
     v-if="html"
     :html="html"
   />
-  <slot v-else-if="show" />
+  <slot
+    v-else-if="loading"
+    name="placeholder"
+  />
+  <slot v-else />
 </template>
 
 <script>
@@ -18,52 +22,42 @@ export default {
             required: true
         },
 
+        on: {
+            type: Array,
+            required: true
+        },
+
         url: {
             type: String,
             required: false,
             default() {
                 return Splade.isSsr ? "" : window.location.href;
             },
-        },
-
-        show: {
-            type: Boolean,
-            required: false,
-            default: true
         }
     },
+
     emits: ["loaded"],
 
     data() {
         return {
-            html: null
+            html: null,
+            loading: false
         };
     },
 
-    watch:{
-        show(newValue) {
-            if(newValue) {
-                // Perform a new request to refresh the content.
-                this.request();
-            } else {
-                // Clear the HTML so the placeholder will be shown to next time.
-                this.html = null;
-            }
-        }
-    },
-
     mounted() {
-        if(this.show) {
-            this.request();
-        }
+        this.on.forEach((eventName) => {
+            this.$splade.on(eventName, this.request);
+        });
     },
 
     methods: {
         async request() {
-            this.html = null;
+            this.loading = true;
 
-            Splade.lazy(this.url, this.name).then((response) => {
+            Splade.rehydrate(this.url, this.name).then((response) => {
                 this.html = response.data.html;
+                this.loading = false;
                 this.$emit("loaded");
             });
         },
