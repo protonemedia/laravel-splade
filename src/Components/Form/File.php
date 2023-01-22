@@ -42,6 +42,7 @@ class File extends Component
         public bool|int $maxHeight = false,
         public bool|int $minResolution = false,
         public bool|int $maxResolution = false,
+        public bool $showFilename = true,
     ) {
         if ($placeholder === true) {
             $this->placeholder = $filepond
