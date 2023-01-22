@@ -33,7 +33,7 @@ class RelationsTest extends DuskTestCase
                 ->press('@add-search-row-dropdown')
                 ->press('@add-search-row-organization.name')
                 ->type('searchInput-organization.name', $projects->get(0)->organization->name)
-                ->waitUntilMissingText($projects->get(1)->organization->name)
+                ->waitForTextIn('tbody', $projects->get(0)->name)
                 ->assertSeeIn('tbody', $projects->get(0)->name);
         });
     }

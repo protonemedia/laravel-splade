@@ -6,7 +6,7 @@ use Illuminate\Support\Str;
 use Illuminate\View\Component;
 use ProtoneMedia\Splade\SpladeCore;
 
-class Lazy extends Component
+class Rehydrate extends Component
 {
     /**
      * Create a new component instance.
@@ -15,8 +15,11 @@ class Lazy extends Component
      */
     public function __construct(
         public SpladeCore $splade,
-        public string $show = ''
+        public array|string $on = ''
     ) {
+        if (is_string($on)) {
+            $this->on = Form::splitByComma($on);
+        }
     }
 
     /**
@@ -28,13 +31,14 @@ class Lazy extends Component
     {
         $key = Str::random();
 
-        return $this->splade->isLazyRequest()
+        return $this->splade->isRehydrateRequest()
             ? implode([
-                '<!--START-SPLADE-LAZY-' . $key . '-->',
+                '<!--START-SPLADE-REHYDRATE-' . $key . '-->',
                 '{{ $slot }}',
-                '<!--END-SPLADE-LAZY-' . $key . '-->',
-            ]) : view('splade::functional.lazy', [
-                'name' => $this->splade->newLazyComponentKey(),
+                '<!--END-SPLADE-REHYDRATE-' . $key . '-->',
+            ]) : view('splade::functional.rehydrate', [
+                'name' => $this->splade->newRehydrateComponentKey(),
+                'on'   => $this->on,
             ]);
     }
 }

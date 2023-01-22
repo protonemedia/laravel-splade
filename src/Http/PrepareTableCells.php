@@ -33,17 +33,6 @@ class PrepareTableCells
     /x';
 
     /**
-     * Returns a regex pattern to match an HTML tag and its contents.
-     *
-     * @param  string  $tag
-     * @return string
-     */
-    public static function regexForTag(string $tag): string
-    {
-        return '/(<\s*' . $tag . '[^>]*>)(.|\n)*?(<\/' . $tag . '>)/';
-    }
-
-    /**
      * Replaces all custom cell components with the @cell directive.
      *
      * @param  string  $table

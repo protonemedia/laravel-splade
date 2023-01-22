@@ -48,6 +48,7 @@ class SpladeMiddleware
         // Set and restore some defaults before handling the request.
         $this->splade->setModalKey(Str::uuid());
         $this->splade->resetLazyComponentCounter();
+        $this->splade->resetRehydrateComponentCounter();
         $this->splade->resetPersistentLayoutKey();
 
         /** @var Response $response */
@@ -109,8 +110,14 @@ class SpladeMiddleware
     {
         // We don't mess with JsonResponses, except we add the Splade data to it.
         if ($response instanceof JsonResponse) {
+            $decodedData = $response->getData(true);
+
+            if (!is_array($decodedData)) {
+                $decodedData = [];
+            }
+
             $newData = array_merge(
-                $response->getData(true),
+                $decodedData,
                 ['splade' => $spladeData]
             );
 
@@ -131,6 +138,12 @@ class SpladeMiddleware
 
         // Extract the Dynamic Content, we'll return that separately so Vue can handle it.
         [$content, $dynamics] = static::extractDynamicsFromContent($content);
+
+        if ($this->splade->isLazyRequest()) {
+            $content = PrepareViewWithLazyComponents::extractComponent($content, $this->splade->getLazyComponentKey()) ?: $content;
+        } elseif ($this->splade->isRehydrateRequest()) {
+            $content = PrepareViewWithRehydrateComponents::extractComponent($content, $this->splade->getRehydrateComponentKey());
+        }
 
         return $response->setContent(json_encode([
             // If this is Modal request, extract the content...
@@ -287,8 +300,10 @@ class SpladeMiddleware
             ->mapWithKeys(fn ($key) => [$key => $session->get($key)])
             ->toArray();
 
+        $excludeHead = $this->splade->isLazyRequest() || $this->splade->isRehydrateRequest();
+
         return (object) [
-            'head'             => $this->splade->head()->toArray(),
+            'head'             => $excludeHead ? [] : $this->splade->head()->toArray(),
             'modal'            => $this->splade->isModalRequest() ? $this->splade->getModalType() : null,
             'modalTarget'      => $this->splade->getModalTarget() ?: null,
             'flash'            => (object) $flash,
@@ -301,6 +316,7 @@ class SpladeMiddleware
             'preventRefresh'   => $this->splade->dontRefreshPage(),
             'preserveScroll'   => $this->splade->preserveScroll(),
             'lazy'             => $this->splade->isLazyRequest(),
+            'rehydrate'        => $this->splade->isRehydrateRequest(),
             'persistentLayout' => $this->splade->getPersistentLayoutKey(),
         ];
     }

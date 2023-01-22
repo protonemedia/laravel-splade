@@ -84,6 +84,7 @@ Route::middleware('splade')->group(function () {
 
     Route::view('form/simple', 'form.simple')->name('form.simple');
     Route::post('form/simple', SimpleFormController::class)->name('form.simple.submit');
+    Route::view('form/emit', 'form.emit')->name('form.emit');
     Route::view('form/get', 'form.get')->name('form.get');
     Route::get('form/getData', SimpleFormController::class)->name('form.get.submit');
     Route::view('form/put', 'form.put')->name('form.put');
@@ -206,6 +207,8 @@ Route::middleware('splade')->group(function () {
     Route::get('modal/slideover', [ModalController::class, 'slideover'])->name('modal.slideover');
     Route::get('modal/validation', [ModalController::class, 'validation'])->name('modal.validation');
     Route::get('modal/size/{size}', [ModalController::class, 'size'])->name('modal.size');
+
+    Route::view('script', 'script')->name('script');
 
     Route::post('state', function () {
         Splade::share('info', 'This is invalid');

@@ -79,7 +79,7 @@ export default {
         restoreOnSuccess: {
             type: Boolean,
             required: false,
-            default: true,
+            default: false,
         },
 
         resetOnSuccess: {
@@ -113,7 +113,7 @@ export default {
         }
     },
 
-    emits: ["success", "error"],
+    emits: ["success", "error", "reset", "restored"],
 
     data() {
         return {
@@ -254,10 +254,12 @@ export default {
 
         reset() {
             this.values = {};
+            this.$emit("reset");
         },
 
         restore() {
             this.values = Object.assign({}, { ...this.default });
+            this.$emit("restored");
         },
 
         $put(key, value) {

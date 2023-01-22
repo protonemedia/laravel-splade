@@ -11,8 +11,16 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest]
         php: [8.2, 8.1, 8.0]
-        laravel: [9.*]
+        laravel: [10.*, 9.*]
         dependency-version: [prefer-lowest, prefer-stable]
+        include:
+          - laravel: 9.*
+            testbench: 7.*
+          - laravel: 10.*
+            testbench: 8.*
+        exclude:
+          - laravel: 10.*
+            php: 8.0
 
     name: Test Stubs ${{ matrix.os }} - P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.dependency-version }}
 

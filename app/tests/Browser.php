@@ -8,6 +8,11 @@ use PHPUnit\Framework\Assert as PHPUnit;
 
 class Browser extends BaseBrowser
 {
+    public function getTextIn($selector): string
+    {
+        return $this->resolver->findOrFail($selector)->getText();
+    }
+
     public function assertLinkCanonical($href)
     {
         $driverHref = $this->driver->executeScript('return document.querySelector("link[rel=\"canonical\"]")?.getAttribute("href")');

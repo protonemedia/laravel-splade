@@ -10,6 +10,17 @@ use Illuminate\View\ViewName;
 trait InterceptsCreatingViews
 {
     /**
+     * Returns a regex pattern to match an HTML tag and its contents.
+     *
+     * @param  string  $tag
+     * @return string
+     */
+    public static function regexForTag(string $tag): string
+    {
+        return '/(<\s*' . $tag . '[^>]*>)(.|\n)*?(<\/' . $tag . '>)/';
+    }
+
+    /**
      * Makes a listener for the 'creating:*' event, so we can interact
      * with the view instance before it gets send as a response.
      *
@@ -29,11 +40,11 @@ trait InterceptsCreatingViews
             $contents = file_get_contents($view->getPath());
 
             if (!preg_match(static::regexForTag($tag), $contents, $match)) {
-                // No lazy components
+                // No components found for this tag
                 return;
             }
 
-            $preventLoopVar = '_spladeIsLazyRendering' . $tag;
+            $preventLoopVar = '_spladeIsInterceptingView' . $tag;
 
             if ($view->{$preventLoopVar}) {
                 // Prevent the loop
@@ -44,6 +55,7 @@ trait InterceptsCreatingViews
             $view->{$preventLoopVar} = true;
 
             tap(new HtmlString($withView($view)), function ($html) use ($view, $preventLoopVar) {
+                /** @phpstan-ignore-next-line */
                 $view->_spladeEvaluatedHtml = $html;
                 $view->{$preventLoopVar}    = false;
 
