@@ -146,7 +146,7 @@ class NavigationTest extends DuskTestCase
                 ->visit('/navigation/one')
                 ->waitForText('NavigationOne')
                 ->click('@confirm-password')
-                ->waitForText('')Please confirm your password before continuing
+                ->waitForText('Please confirm your password before continuing')
                 ->press('@splade-confirm-confirm')
                 ->waitForText('No user is logged in');
 
