@@ -6,7 +6,7 @@ FormPasswordConfirm
 
 <x-splade-form
     confirm
-    confirm-password
+    require-password
     :action="route('form.simple.submit', ['password' => 1])">
     <input v-model="form.name" dusk="name" />
     <button type="submit">Submit</button>

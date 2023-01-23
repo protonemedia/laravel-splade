@@ -1,6 +1,7 @@
 <SpladeConfirm
     default-title="{{ __('Are you sure you want to continue?') }}"
     default-text=""
+    default-password-text="{{ __('Please confirm your password before continuing') }}"
     default-confirm-button="{{ __('Confirm') }}"
     default-cancel-button="{{ __('Cancel') }}"
     confirm-password-route="{{ route('splade.confirmPassword') }}"

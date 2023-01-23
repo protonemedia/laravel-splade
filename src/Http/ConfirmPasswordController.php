@@ -32,7 +32,7 @@ class ConfirmPasswordController
      */
     private function confirmWithoutForfify(Request $request): bool
     {
-        $guard = Auth::guard();
+        $guard = Auth::guard(config('splade.confirm_password_guard'));
 
         $user = $guard->user();
 
@@ -54,7 +54,7 @@ class ConfirmPasswordController
 
         if (!$user) {
             throw ValidationException::withMessages([
-                'password' => __('No user is logged in.'),
+                'password' => __('No user is logged in'),
             ]);
         }
 

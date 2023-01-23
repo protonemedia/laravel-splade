@@ -20,6 +20,11 @@ export default {
             required: false,
             default: "",
         },
+        defaultPasswordText: {
+            type: String,
+            required: false,
+            default: "",
+        },
         defaultConfirmButton: {
             type: String,
             required: false,
@@ -58,9 +63,11 @@ export default {
         },
 
         text: function () {
-            return Splade.confirmModal.value?.text
-                ? Splade.confirmModal.value.text
-                : this.defaultText;
+            if(Splade.confirmModal.value?.text){
+                return Splade.confirmModal.value.text;
+            }
+
+            return this.confirmPassword ? this.defaultPasswordText : this.defaultText;
         },
 
         confirmButton: function () {

@@ -46,6 +46,7 @@ Route::get('event/simple', fn () => event(new SimpleEvent))->name('event.simple'
 Route::get('event/toast', fn () => event(new ToastEvent))->name('event.toast');
 
 Route::middleware('splade')->group(function () {
+    Route::spladePasswordConfirmation();
     Route::spladeTable();
     Route::spladeUploads();
 

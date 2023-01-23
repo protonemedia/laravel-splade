@@ -6,6 +6,7 @@ import get from "lodash-es/get";
 import has from "lodash-es/has";
 import isArray from "lodash-es/isArray";
 import isBoolean from "lodash-es/isBoolean";
+import isString from "lodash-es/isString";
 import mapValues from "lodash-es/mapValues";
 import set from "lodash-es/set";
 import startsWith from "lodash-es/startsWith";
@@ -70,8 +71,8 @@ export default {
             default: "",
         },
 
-        confirmPassword: {
-            type: Boolean,
+        requirePassword: {
+            type: [Boolean, String],
             required: false,
             default: false,
         },
@@ -331,16 +332,19 @@ export default {
                 this.confirmText,
                 this.confirmButton,
                 this.cancelButton,
-                this.confirmPassword
+                this.requirePassword ? true : false
             )
                 .then((password) => {
-                    if(!this.confirmPassword) {
+                    if(!this.requirePassword) {
                         this.request();
                         return;
                     }
 
                     if(password) {
-                        this.$put("password", password);
+                        this.$put(
+                            isString(this.requirePassword) && this.requirePassword ? this.requirePassword : "password",
+                            password
+                        );
                     }
 
                     this.request();

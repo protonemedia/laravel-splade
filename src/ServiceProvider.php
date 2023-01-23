@@ -101,7 +101,7 @@ class ServiceProvider extends BaseServiceProvider
         $this->registerResponseMacro();
         $this->registerRequestMacros();
         $this->registerRouteForEventRedirect();
-        $this->registerRouteForPasswordConfirmation();
+        $this->registerMacroForPasswordConfirmation();
         $this->registerMacroForFileUploads();
         $this->registerMacroForTableRoutes();
     }
@@ -386,10 +386,11 @@ class ServiceProvider extends BaseServiceProvider
      *
      * @return void
      */
-    private function registerRouteForPasswordConfirmation()
+    private function registerMacroForPasswordConfirmation()
     {
-        Route::post(config('splade.confirm_password_route'), ConfirmPasswordController::class)
-            ->name('splade.confirmPassword');
+        Route::macro('spladePasswordConfirmation', function () {
+            Route::post(config('splade.confirm_password_route'), ConfirmPasswordController::class)->name('splade.confirmPassword');
+        });
     }
 
     /**

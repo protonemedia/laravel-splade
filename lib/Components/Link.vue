@@ -9,8 +9,9 @@
 import { inject, ref } from "vue";
 import { objectToFormData } from "./FormHelpers.js";
 import { Splade } from "./../Splade.js";
-import isBoolean from "lodash-es/isBoolean";
 import startsWith from "lodash-es/startsWith";
+import isString from "lodash-es/isString";
+import isBoolean from "lodash-es/isBoolean";
 
 const stack = inject("stack");
 
@@ -75,8 +76,8 @@ const props = defineProps({
         default: "",
     },
 
-    confirmPassword: {
-        type: Boolean,
+    requirePassword: {
+        type: [Boolean, String],
         required: false,
         default: false,
     },
@@ -129,16 +130,16 @@ function navigate() {
         props.confirmText,
         props.confirmButton,
         props.cancelButton,
-        this.confirmPassword
+        props.requirePassword ? true : false
     )
-        .then((password) => {
-            if(!this.confirmPassword) {
+        .then((filledPassword) => {
+            if(!props.requirePassword) {
                 perform();
                 return;
             }
 
-            if(password) {
-                password.value = password;
+            if(filledPassword) {
+                password.value = filledPassword;
             }
 
             perform();
@@ -202,7 +203,7 @@ function perform() {
     }
 
     if(password.value) {
-        data.append("password", password.value);
+        data.append(isString(props.requirePassword) && props.requirePassword ? props.requirePassword : "password", password.value);
         password.value = null;
     }
 
