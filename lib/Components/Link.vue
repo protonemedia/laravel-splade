@@ -6,13 +6,15 @@
 </template>
 
 <script setup>
-import { inject } from "vue";
+import { inject, ref } from "vue";
 import { objectToFormData } from "./FormHelpers.js";
 import { Splade } from "./../Splade.js";
 import isBoolean from "lodash-es/isBoolean";
 import startsWith from "lodash-es/startsWith";
 
 const stack = inject("stack");
+
+const password = ref(null);
 
 const props = defineProps({
     href: {
@@ -73,6 +75,12 @@ const props = defineProps({
         default: "",
     },
 
+    confirmPassword: {
+        type: Boolean,
+        required: false,
+        default: false,
+    },
+
     modal: {
         type: Boolean,
         required: false,
@@ -110,6 +118,8 @@ const props = defineProps({
  * before it performs the visit.
  */
 function navigate() {
+    password.value = null;
+
     if (!props.confirm) {
         return perform();
     }
@@ -118,9 +128,19 @@ function navigate() {
         isBoolean(props.confirm) ? "" : props.confirm,
         props.confirmText,
         props.confirmButton,
-        props.cancelButton
+        props.cancelButton,
+        this.confirmPassword
     )
-        .then(() => {
+        .then((password) => {
+            if(!this.confirmPassword) {
+                perform();
+                return;
+            }
+
+            if(password) {
+                password.value = password;
+            }
+
             perform();
         })
         .catch(() => {});
@@ -179,6 +199,11 @@ function perform() {
     if(method !== "POST") {
         data.append("_method", method);
         method = "POST";
+    }
+
+    if(password.value) {
+        data.append("password", password.value);
+        password.value = null;
     }
 
     Splade.request(props.href, method, data, headers, props.replace);

@@ -70,6 +70,12 @@ export default {
             default: "",
         },
 
+        confirmPassword: {
+            type: Boolean,
+            required: false,
+            default: false,
+        },
+
         stay: {
             type: Boolean,
             require: false,
@@ -324,9 +330,19 @@ export default {
                 isBoolean(this.confirm) ? "" : this.confirm,
                 this.confirmText,
                 this.confirmButton,
-                this.cancelButton
+                this.cancelButton,
+                this.confirmPassword
             )
-                .then(() => {
+                .then((password) => {
+                    if(!this.confirmPassword) {
+                        this.request();
+                        return;
+                    }
+
+                    if(password) {
+                        this.$put("password", password);
+                    }
+
                     this.request();
                 })
                 .catch(() => {});

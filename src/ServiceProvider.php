@@ -27,6 +27,7 @@ use ProtoneMedia\Splade\FileUploads\HandleSpladeFileUploads;
 use ProtoneMedia\Splade\FileUploads\HasSpladeFileUploads;
 use ProtoneMedia\Splade\FileUploads\SpladeFile;
 use ProtoneMedia\Splade\Http\BladeDirectives;
+use ProtoneMedia\Splade\Http\ConfirmPasswordController;
 use ProtoneMedia\Splade\Http\EventRedirectController;
 use ProtoneMedia\Splade\Http\FileUploadController;
 use ProtoneMedia\Splade\Http\PrepareTableCells;
@@ -100,6 +101,7 @@ class ServiceProvider extends BaseServiceProvider
         $this->registerResponseMacro();
         $this->registerRequestMacros();
         $this->registerRouteForEventRedirect();
+        $this->registerRouteForPasswordConfirmation();
         $this->registerMacroForFileUploads();
         $this->registerMacroForTableRoutes();
     }
@@ -377,6 +379,17 @@ class ServiceProvider extends BaseServiceProvider
         Route::get(config('splade.event_redirect_route'), EventRedirectController::class)
             ->name('splade.eventRedirect')
             ->middleware(ValidateSignature::class);
+    }
+
+    /**
+     * Registers a route that's used to confirm a user's password.
+     *
+     * @return void
+     */
+    private function registerRouteForPasswordConfirmation()
+    {
+        Route::post(config('splade.confirm_password_route'), ConfirmPasswordController::class)
+            ->name('splade.confirmPassword');
     }
 
     /**
