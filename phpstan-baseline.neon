@@ -291,6 +291,11 @@ parameters:
 			path: src/Head.php
 
 		-
+			message: "#^Class Laravel\\\\Fortify\\\\Actions\\\\ConfirmPassword not found\\.$#"
+			count: 1
+			path: src/Http/ConfirmPasswordController.php
+
+		-
 			message: "#^Unsafe usage of new static\\(\\)\\.$#"
 			count: 1
 			path: src/Http/ResolvableData.php
