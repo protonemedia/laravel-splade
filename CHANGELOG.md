@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 1.2.2 - 2023-01-23
+
+- Confirm modal now supports requiring the users' password
+- Support for image preview in the File component (without using Filepond)
+- Support for `poll` in the Rehydrate component
+
 ## 1.2.1 - 2023-01-20
 
 - Russian (ru) translation (thanks @twent)
