@@ -4,7 +4,7 @@
     default-password-text="{{ __('Please confirm your password before continuing') }}"
     default-confirm-button="{{ __('Confirm') }}"
     default-cancel-button="{{ __('Cancel') }}"
-    confirm-password-route="{{ route('splade.confirmPassword') }}"
+    confirm-password-route="{{ $confirmPasswordRoute ?? "" }}"
 >
     <template #default="confirm">
         <x-splade-component is="transition" show="confirm.isOpen">
