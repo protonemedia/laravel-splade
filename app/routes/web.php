@@ -211,6 +211,7 @@ Route::middleware('splade')->group(function () {
     Route::get('modal/validation', [ModalController::class, 'validation'])->name('modal.validation');
     Route::get('modal/size/{size}', [ModalController::class, 'size'])->name('modal.size');
 
+    Route::view('rehydrate/poll', 'rehydratePoll')->name('rehydratePoll');
     Route::view('script', 'script')->name('script');
 
     Route::post('state', function () {

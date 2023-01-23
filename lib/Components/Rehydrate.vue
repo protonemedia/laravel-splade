@@ -33,7 +33,13 @@ export default {
             default() {
                 return Splade.isSsr ? "" : window.location.href;
             },
-        }
+        },
+
+        poll: {
+            type: Number,
+            required: false,
+            default: null,
+        },
     },
 
     emits: ["loaded"],
@@ -49,6 +55,12 @@ export default {
         this.on.forEach((eventName) => {
             this.$splade.on(eventName, this.request);
         });
+
+        if (this.poll) {
+            setTimeout(() => {
+                this.request();
+            }, this.poll);
+        }
     },
 
     methods: {
@@ -59,6 +71,12 @@ export default {
                 this.html = response.data.html;
                 this.loading = false;
                 this.$emit("loaded");
+
+                if (this.poll) {
+                    setTimeout(() => {
+                        this.request();
+                    }, this.poll);
+                }
             });
         },
     }
