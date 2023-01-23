@@ -340,7 +340,7 @@ export default {
                         return;
                     }
 
-                    if(password) {
+                    if(this.method.toUpperCase() !== "GET" && password) {
                         this.$put(
                             isString(this.requirePassword) && this.requirePassword ? this.requirePassword : "password",
                             password
