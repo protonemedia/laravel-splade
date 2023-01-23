@@ -52,6 +52,22 @@ class SimpleTest extends DuskTestCase
     }
 
     /** @test */
+    public function it_can_read_an_image()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('/form/readImage')
+                ->waitForText('FormReadImage')
+                ->attach('@avatar', __DIR__ . '/../small.jpeg')
+                ->waitFor('img')
+                ->assertVisible('img');
+
+            $src = $browser->script('return document.querySelector("img").src');
+
+            $this->assertStringContainsString('data:image/jpeg;base64', $src[0]);
+        });
+    }
+
+    /** @test */
     public function it_can_submit_a_value_in_the_submit_button()
     {
         $this->browse(function (Browser $browser) {

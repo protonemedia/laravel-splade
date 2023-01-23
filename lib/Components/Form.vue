@@ -246,6 +246,29 @@ export default {
             this.fileponds[field].addFiles(files);
         },
 
+        $fileAsUrl(key) {
+            const file = this.values[key];
+
+            if(!file) {
+                return "";
+            }
+
+            var url = URL.createObjectURL(file);
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", url, false);
+            xhr.overrideMimeType("text/plain; charset=x-user-defined");
+            xhr.send();
+            URL.revokeObjectURL(url);
+
+            var returnText = "";
+
+            for (var i = 0; i < xhr.responseText.length; i++) {
+                returnText += String.fromCharCode(xhr.responseText.charCodeAt(i) & 0xff);
+            }
+
+            return "data:" + file.type + ";base64," + btoa(returnText);
+        },
+
         $errorAttributes(key) {
             return {
                 [this.escapeValidationMessages ? "textContent" : "innerHTML"]: this.errors[key]
@@ -281,7 +304,7 @@ export default {
                 const intersectionObserver = new IntersectionObserver((entries) => {
                     let [entry] = entries;
 
-                    if (entry.isIntersecting) {
+                    if(entry.isIntersecting) {
                         setTimeout(() => entry.target.focus(), 150);
                         intersectionObserver.disconnect();
                     }
@@ -316,7 +339,7 @@ export default {
                 }
             }
 
-            if (!this.confirm) {
+            if(!this.confirm) {
                 return this.request();
             }
 
@@ -373,11 +396,11 @@ export default {
                 .then((response) => {
                     this.$emit("success", response);
 
-                    if (this.restoreOnSuccess) {
+                    if(this.restoreOnSuccess) {
                         this.restore();
                     }
 
-                    if (this.resetOnSuccess) {
+                    if(this.resetOnSuccess) {
                         this.reset();
                     }
 
@@ -433,6 +456,7 @@ export default {
                             "$registerFilepond",
                             "$addFile",
                             "$addFiles",
+                            "$fileAsUrl",
                             "errors",
                             "restore",
                             "reset",
@@ -444,7 +468,7 @@ export default {
                             "recentlySuccessful",
                         ];
 
-                        if (preservedKeys.includes(name)) {
+                        if(preservedKeys.includes(name)) {
                             return self[name];
                         }
 
@@ -455,7 +479,7 @@ export default {
                         // If the data does not have the requested name, we add it to
                         // the missingAttributes array, and when the component is
                         // mounted, it'll try to find sensible defaults.
-                        if (!self.isMounted && !has(self.values, name)) {
+                        if(!self.isMounted && !has(self.values, name)) {
                             self.missingAttributes.push(name);
                             self.$put(name, "");
                         }
