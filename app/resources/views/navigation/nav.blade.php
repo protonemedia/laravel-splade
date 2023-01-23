@@ -23,6 +23,8 @@
             Custom Confirm to two
         </Link>
 
+        <Link confirm require-password dusk="confirm-password" href="/navigation/two">Confirm with password</Link>
+
         <Link dusk="form" href="/navigation/form">Form</Link>
 
         <button dusk="open-dialog" @click="toggle">Open Menu in Dialog</button>

@@ -2,6 +2,7 @@
 
 namespace Tests\Browser;
 
+use App\Models\User;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 
@@ -116,6 +117,30 @@ class FormTest extends DuskTestCase
                 ->assertSee('Custom text')
                 ->assertSeeIn('@splade-confirm-confirm', 'Yes')
                 ->assertSeeIn('@splade-confirm-cancel', 'No');
+        });
+    }
+
+    /** @test */
+    public function it_can_ask_to_confirm_the_submit_with_a_password()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->logout()
+                ->visit('/form/passwordConfirm')
+                ->waitForText('FormPasswordConfirm')
+                ->type('@name', 'Splade')
+                ->press('Submit')
+                ->waitForText('Please confirm your password before continuing')
+                ->press('@splade-confirm-confirm')
+                ->waitForText('No user is logged in');
+
+            $browser->loginAs(User::firstOrFail())
+                ->visit('/form/passwordConfirm')
+                ->waitForText('FormPasswordConfirm')
+                ->type('@name', 'Splade')
+                ->press('Submit')
+                ->type('password', 'password')
+                ->press('@splade-confirm-confirm')
+                ->waitForText('FormSimple', 30); // redirect
         });
     }
 

@@ -17,6 +17,9 @@ Route::middleware(['splade'])->group(function () {
     Route::get('/', fn () => view('home'))->name('home');
     Route::get('/docs', fn () => view('docs'))->name('docs');
 
+    // Registers routes to support password confirmation in Form and Link components...
+    Route::spladePasswordConfirmation();
+
     // Registers routes to support Table Bulk Actions and Exports...
     Route::spladeTable();
 

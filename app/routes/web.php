@@ -46,6 +46,7 @@ Route::get('event/simple', fn () => event(new SimpleEvent))->name('event.simple'
 Route::get('event/toast', fn () => event(new ToastEvent))->name('event.toast');
 
 Route::middleware('splade')->group(function () {
+    Route::spladePasswordConfirmation();
     Route::spladeTable();
     Route::spladeUploads();
 
@@ -98,6 +99,7 @@ Route::middleware('splade')->group(function () {
 
     Route::view('form/confirm', 'form.confirm')->name('form.confirm');
     Route::view('form/customConfirm', 'form.customConfirm')->name('form.customConfirm');
+    Route::view('form/passwordConfirm', 'form.passwordConfirm')->name('form.passwordConfirm');
     Route::view('form/file', 'form.file')->name('form.file');
     Route::post('form/file', FileFormController::class)->name('form.file.submit');
     Route::view('form/restore', 'form.restore')->name('form.restore');

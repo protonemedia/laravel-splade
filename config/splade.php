@@ -23,6 +23,21 @@ return [
     'table_export_route'       => '/_splade/table/export/{table}/{export}/{slug}',
 
     /**
+     * The URI to handle password confirmation.
+     *
+     * @see https://splade.dev/docs/x-confirm
+     */
+    'confirm_password_route'   => '/_splade/confirmPassword',
+
+    /**
+     * Name of the guard which is used for the password confirmation.
+     * Leave empty to use the default guard.
+     *
+     * @see https://splade.dev/docs/x-confirm
+     */
+    'confirm_password_guard'   => null,
+
+    /**
      * Share all flash data to the Vue front-end app.
      *
      * @see https://splade.dev/docs/x-flash

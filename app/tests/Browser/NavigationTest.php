@@ -2,6 +2,7 @@
 
 namespace Tests\Browser;
 
+use App\Models\User;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 
@@ -130,6 +131,32 @@ class NavigationTest extends DuskTestCase
                 ->assertRouteIs('navigation.one')
                 ->click('@confirm')
                 ->waitForText('Are you sure you want to continue?')
+                ->press('@splade-confirm-confirm')
+                ->waitForText('NavigationTwo')
+                ->assertRouteIs('navigation.two');
+        });
+    }
+
+    /** @test */
+    public function it_can_ask_to_confirm_with_a_password()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser
+                ->logout()
+                ->visit('/navigation/one')
+                ->waitForText('NavigationOne')
+                ->click('@confirm-password')
+                ->waitForText('Please confirm your password before continuing')
+                ->press('@splade-confirm-confirm')
+                ->waitForText('No user is logged in');
+
+            $browser
+                ->loginAs(User::firstOrFail())
+                ->visit('/navigation/one')
+                ->waitForText('NavigationOne')
+                ->click('@confirm-password')
+                ->waitForText('Please confirm your password before continuing')
+                ->type('password', 'password')
                 ->press('@splade-confirm-confirm')
                 ->waitForText('NavigationTwo')
                 ->assertRouteIs('navigation.two');

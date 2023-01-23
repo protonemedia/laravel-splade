@@ -6,6 +6,7 @@ import {
     TransitionChild,
 } from "@headlessui/vue";
 import { Splade } from "../Splade.js";
+import { default as Axios } from "axios";
 
 export default {
     props: {
@@ -15,6 +16,11 @@ export default {
             default: "",
         },
         defaultText: {
+            type: String,
+            required: false,
+            default: "",
+        },
+        defaultPasswordText: {
             type: String,
             required: false,
             default: "",
@@ -29,11 +35,19 @@ export default {
             required: false,
             default: "",
         },
+        confirmPasswordRoute: {
+            type: String,
+            required: false,
+            default: "",
+        }
     },
 
     data() {
         return {
             isOpen: false,
+            password: "",
+            passwordError: "",
+            submitting: false,
         };
     },
 
@@ -49,9 +63,11 @@ export default {
         },
 
         text: function () {
-            return Splade.confirmModal.value?.text
-                ? Splade.confirmModal.value.text
-                : this.defaultText;
+            if(Splade.confirmModal.value?.text){
+                return Splade.confirmModal.value.text;
+            }
+
+            return this.confirmPassword ? this.defaultPasswordText : this.defaultText;
         },
 
         confirmButton: function () {
@@ -65,12 +81,19 @@ export default {
                 ? Splade.confirmModal.value.cancelButton
                 : this.defaultCancelButton;
         },
+
+        confirmPassword: function () {
+            return Splade.confirmModal.value?.confirmPasswordPromise
+                ? Splade.confirmModal.value.confirmPasswordPromise
+                : false;
+        },
     },
 
     watch: {
         hasConfirmModal(value) {
             if (value) {
                 this.isOpen = true;
+                this.resetPassword();
             }
         },
     },
@@ -79,11 +102,46 @@ export default {
         cancel() {
             Splade.confirmModal.value.rejectPromise();
             this.setIsOpen(false);
+            this.resetPassword();
+        },
+
+        resetPassword() {
+            this.password = "";
+            this.passwordError = "";
         },
 
         confirm() {
+            if(!this.confirmPassword) {
+                return this.handleSuccess();
+            }
+
+            this.submitting = true;
+            let password = this.password;
+            this.passwordError = "";
+
+            Axios.post(this.confirmPasswordRoute, { password }, { headers: {
+                "Accept": "application/json",
+                "X-Requested-With": "XMLHttpRequest",
+            } }).then(() => {
+                Splade.confirmModal.value.resolvePromise(password);
+                this.setIsOpen(false);
+                this.resetPassword();
+            }).catch((e) => {
+                if(e.response.status === 422) {
+                    this.passwordError = e.response.data.errors.password[0];
+                } else {
+                    this.passwordError = "An error occurred. Please try again.";
+                }
+            }).finally(() => {
+                this.submitting = false;
+            });
+
+        },
+
+        handleSuccess() {
             Splade.confirmModal.value.resolvePromise();
             this.setIsOpen(false);
+            this.resetPassword();
         },
 
         setIsOpen(value) {
@@ -91,7 +149,12 @@ export default {
         },
 
         emitClose() {
+            this.resetPassword();
             Splade.clearConfirmModal();
+        },
+
+        setPassword(value) {
+            this.password = value;
         },
     },
 
@@ -101,12 +164,16 @@ export default {
             text: this.text,
             confirmButton: this.confirmButton,
             cancelButton: this.cancelButton,
+            confirmPassword: this.confirmPassword,
 
             isOpen: this.isOpen,
             setIsOpen: this.setIsOpen,
             cancel: this.cancel,
             confirm: this.confirm,
             emitClose: this.emitClose,
+            setPassword: this.setPassword,
+            passwordError: this.passwordError,
+            submitting: this.submitting,
 
             // These HeadlessUI exports will be removed in v1.0
             Dialog,
