@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 1.2.3 - 2023-01-24
+
+- Fix for wrong order of Lazy and Rehydrate components.
+
 ## 1.2.2 - 2023-01-23
 
 - Confirm modal now supports requiring the users' password
