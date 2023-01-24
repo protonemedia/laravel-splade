@@ -35,7 +35,7 @@ class PrepareViewWithRehydrateComponents
 
                 $placeholder = $placeholderMatches[0][0] ?? '';
 
-                if (! $placeholder) {
+                if (!$placeholder) {
                     return;
                 }
 

@@ -32,12 +32,12 @@ class Rehydrate extends Component
 
         return $this->splade->isRehydrateRequest()
             ? implode([
-                '<!--START-SPLADE-REHYDRATE-'.$key.'-->',
+                '<!--START-SPLADE-REHYDRATE-' . $key . '-->',
                 '{{ $slot }}',
-                '<!--END-SPLADE-REHYDRATE-'.$key.'-->',
+                '<!--END-SPLADE-REHYDRATE-' . $key . '-->',
             ]) : view('splade::functional.rehydrate', [
                 'name' => $key,
-                'on' => $this->on,
+                'on'   => $this->on,
             ]);
     }
 }

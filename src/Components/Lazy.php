@@ -29,9 +29,9 @@ class Lazy extends Component
 
         return $this->splade->isLazyRequest()
             ? implode([
-                '<!--START-SPLADE-LAZY-'.$key.'-->',
+                '<!--START-SPLADE-LAZY-' . $key . '-->',
                 '{{ $slot }}',
-                '<!--END-SPLADE-LAZY-'.$key.'-->',
+                '<!--END-SPLADE-LAZY-' . $key . '-->',
             ]) : view('splade::functional.lazy', [
                 'name' => $key,
             ]);
