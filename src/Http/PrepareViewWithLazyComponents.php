@@ -58,14 +58,14 @@ class PrepareViewWithLazyComponents
         preg_match_all('/START-SPLADE-LAZY-(\w+)-->/', $content, $matches);
 
         return (string) collect($matches[1] ?? [])
-            ->mapWithKeys(function (string $name, $key) use ($content) {
+            ->mapWithKeys(function (string $name) use ($content) {
                 $rehydrate = Str::between(
                     $content,
                     "<!--START-SPLADE-LAZY-{$name}-->",
                     "<!--END-SPLADE-LAZY-{$name}-->"
                 );
 
-                return [$key => trim($rehydrate)];
+                return [$name => trim($rehydrate)];
             })
             ->get($componentKey);
     }

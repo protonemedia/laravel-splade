@@ -35,7 +35,7 @@ class PrepareViewWithRehydrateComponents
 
                 $placeholder = $placeholderMatches[0][0] ?? '';
 
-                if (!$placeholder) {
+                if (! $placeholder) {
                     return;
                 }
 
@@ -63,14 +63,14 @@ class PrepareViewWithRehydrateComponents
         preg_match_all('/START-SPLADE-REHYDRATE-(\w+)-->/', $content, $matches);
 
         return (string) collect($matches[1] ?? [])
-            ->mapWithKeys(function (string $name, $key) use ($content) {
+            ->mapWithKeys(function (string $name) use ($content) {
                 $rehydrate = Str::between(
                     $content,
                     "<!--START-SPLADE-REHYDRATE-{$name}-->",
                     "<!--END-SPLADE-REHYDRATE-{$name}-->"
                 );
 
-                return [$key => trim($rehydrate)];
+                return [$name => trim($rehydrate)];
             })
             ->get($componentKey);
     }
