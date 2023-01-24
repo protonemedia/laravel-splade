@@ -296,6 +296,16 @@ parameters:
 			path: src/Http/ConfirmPasswordController.php
 
 		-
+			message: "#^Parameter \\#1 \\$key of method Illuminate\\\\Support\\\\Collection\\<string,string\\>\\:\\:get\\(\\) expects string, int given\\.$#"
+			count: 1
+			path: src/Http/PrepareViewWithLazyComponents.php
+
+		-
+			message: "#^Parameter \\#1 \\$key of method Illuminate\\\\Support\\\\Collection\\<string,string\\>\\:\\:get\\(\\) expects string, int given\\.$#"
+			count: 1
+			path: src/Http/PrepareViewWithRehydrateComponents.php
+
+		-
 			message: "#^Unsafe usage of new static\\(\\)\\.$#"
 			count: 1
 			path: src/Http/ResolvableData.php
