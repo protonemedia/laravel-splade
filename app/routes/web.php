@@ -40,6 +40,12 @@ Route::post('defer/poll', function () {
     return Cache::increment('deferPoll');
 })->name('defer.pollIncrement');
 
+Route::get('defer/input/{input}', function ($input) {
+    return [
+        'input' => $input,
+    ];
+})->name('defer.input');
+
 Route::get('event/redirect', fn () => event(new RedirectEvent))->name('event.redirect');
 Route::get('event/refresh', fn () => event(new RefreshEvent))->name('event.refresh');
 Route::get('event/simple', fn () => event(new SimpleEvent))->name('event.simple');
@@ -69,6 +75,7 @@ Route::middleware('splade')->group(function () {
     Route::view('defer', 'defer')->name('defer');
     Route::view('defer/poll', 'deferPoll')->name('deferPoll');
     Route::view('defer/watch', 'deferWatch')->name('deferWatch');
+    Route::view('defer/url', 'deferUrl')->name('deferUrl');
     Route::view('defer/requestAttribute', 'deferRequestAttribute')->name('defer.requestAttribute');
 
     Route::view('errors', 'errors')->name('errors');

@@ -2,6 +2,8 @@
 
 namespace ProtoneMedia\Splade\Components;
 
+use Illuminate\Support\Js;
+use Illuminate\Support\Str;
 use Illuminate\View\Component;
 
 class Defer extends Component
@@ -28,7 +30,8 @@ class Defer extends Component
         public ?string $watchValue = null,
         public int $watchDebounce = 0,
         public bool $manual = false,
-        public string $scope = '{ processing, response, reload }'
+        public string $scope = '{ processing, response, reload }',
+        public string $url = '',
     ) {
         $parsed = $this->parseJsonData($default);
 
@@ -46,6 +49,10 @@ class Defer extends Component
             $this->requestData = $parsed;
         } else {
             $this->requestJson = $request ?: '{}';
+        }
+
+        if (!Str::startsWith($url, '`') && !Str::endsWith($url, '`')) {
+            $this->url = Js::from($url);
         }
     }
 
