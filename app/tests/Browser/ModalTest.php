@@ -82,6 +82,29 @@ class ModalTest extends DuskTestCase
     }
 
     /** @test */
+    public function it_can_show_a_slideover_on_the_left_side()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('/modal/base')
+                ->resize(1024, 768)
+                ->waitForText('ModalComponent')
+                ->click('@slideover-left')
+                ->waitForText('ModalComponentSlideover')
+                ->pause(500)
+                ->screenshot('ModalComponentSlideover')
+                ->click('@close-slideover')
+                ->waitUntilMissingText('ModalComponentSlideover')
+                ->pause(500)
+                ->screenshot('ModalComponentSlideoverClosed');
+
+            $this->assertScreenshotSnapshot([
+                'ModalComponentSlideover',
+                'ModalComponentSlideoverClosed',
+            ]);
+        });
+    }
+
+    /** @test */
     public function it_can_do_nested_slideover()
     {
         $this->browse(function (Browser $browser) {

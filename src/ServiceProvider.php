@@ -513,6 +513,15 @@ class ServiceProvider extends BaseServiceProvider
                 leaveTo: 'opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95',
             )
             ->new(
+                name: 'slide-left',
+                enter: 'transform transform ease-in-out duration-300',
+                enterFrom: 'opacity-0 -translate-x-full',
+                enterTo: 'opacity-100 translate-x-0',
+                leave: 'transform transform ease-in-out duration-300',
+                leaveFrom: 'opacity-100 translate-x-0',
+                leaveTo: 'opacity-0 -translate-x-full',
+            )
+            ->new(
                 name: 'slide-right',
                 enter: 'transform transform ease-in-out duration-300',
                 enterFrom: 'opacity-0 translate-x-full',

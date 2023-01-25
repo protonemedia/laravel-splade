@@ -2,7 +2,7 @@
 
 @section('content')
 
-<x-splade-modal>
+<x-splade-modal position="{{ request()->query('left') ? 'left' : 'right' }}">
     ModalComponentSlideover
 
     <Link modal dusk="one-from-slideover" href="{{ route('modal.one') }}">Open Modal One</Link>

@@ -47,7 +47,9 @@ export default {
         position: {
             type: String,
             required: false,
-            default: "center"
+            default: (props) => {
+                return props.type === "modal" ? "center" : "right";
+            },
         },
 
         name: {
