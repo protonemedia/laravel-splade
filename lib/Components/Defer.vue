@@ -118,7 +118,7 @@ export default {
                 .then((response) => {
                     this.response = response.data;
                     this.processing = false;
-                    this.$emit("success");
+                    this.$emit("success", response.data);
                 })
                 .catch(() => {
                     this.processing = false;
