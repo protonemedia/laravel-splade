@@ -4531,7 +4531,7 @@ const kf = /* @__PURE__ */ ke(Cf, [["render", Lf]]), Df = ["href", "onClick"], R
     position: {
       type: String,
       required: !1,
-      default: "center"
+      default: (e) => e.type === "modal" ? "center" : "right"
     },
     name: {
       type: String,
