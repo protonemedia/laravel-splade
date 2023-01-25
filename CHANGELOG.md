@@ -2,6 +2,11 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 1.2.4 - 2023-01-25
+
+- Support for dynamic URL in Defer component
+- Support for left-positioned Slideover
+
 ## 1.2.3 - 2023-01-24
 
 - Fix for wrong order of Lazy and Rehydrate components.
