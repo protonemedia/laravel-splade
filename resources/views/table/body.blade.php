@@ -1,5 +1,5 @@
 <tbody class="divide-y divide-gray-200 bg-white">
-    @foreach($table->resource as $itemKey => $item)
+    @forelse($table->resource as $itemKey => $item)
         @php $itemPrimaryKey = $table->findPrimaryKey($item) @endphp
 
         <tr
@@ -40,5 +40,11 @@
                 </td>
             @endforeach
         </tr>
-    @endforeach
+    @empty
+        <tr>
+            <td colspan="{{ $table->columns()->count() }}" class="whitespace-nowrap text-sm text-center px-6 py-4 text-gray-500">
+                {{ __('There are no items to show.') }}
+            </td>
+        </tr>
+    @endforelse
 </tbody>
