@@ -65,6 +65,8 @@ class ServiceProvider extends BaseServiceProvider
 
         $this->commands([
             CleanupTemporaryFileUploads::class,
+            FormMakeCommand::class,
+            FormRequestMakeCommand::class,
             PublishFormStylesheetsCommand::class,
             ShowSpladeVersions::class,
             SpladeInstallCommand::class,
@@ -222,6 +224,7 @@ class ServiceProvider extends BaseServiceProvider
             Components\Event::class,
             Components\Flash::class,
             Components\Form::class,
+            Components\Formbuilder::class,
             Components\Lazy::class,
             Components\Link::class,
             Components\Modal::class,
