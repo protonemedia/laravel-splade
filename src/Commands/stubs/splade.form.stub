@@ -1,0 +1,35 @@
+<?php
+
+namespace {{ namespace }};
+
+use ProtoneMedia\Splade\AbstractForm;
+use ProtoneMedia\Splade\Components\FormBuilder\Submit;
+use ProtoneMedia\Splade\Components\FormBuilder\Text;
+use App\Forms\SpladeForm;
+
+class {{ class }} extends AbstractForm
+{
+    public function configure(SpladeForm $form)
+    {
+        $form
+            ->action(route('...'))
+            ->method('POST')
+            ->class('space-y-4')
+            ->data([
+                //
+            ]);
+    }
+
+    public function fields(): array
+    {
+        return [
+            Text::make('...')
+                ->label(__('...')),
+
+            //
+
+            Submit::make('submit')
+                ->label(__('Save')),
+        ];
+    }
+}

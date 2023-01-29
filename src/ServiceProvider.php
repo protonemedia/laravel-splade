@@ -16,6 +16,8 @@ use Illuminate\View\ComponentAttributeBag;
 use Illuminate\View\Factory;
 use Laravel\Dusk\Browser;
 use ProtoneMedia\Splade\Commands\CleanupTemporaryFileUploads;
+use ProtoneMedia\Splade\Commands\FormMakeCommand;
+use ProtoneMedia\Splade\Commands\FormRequestMakeCommand;
 use ProtoneMedia\Splade\Commands\PublishFormStylesheetsCommand;
 use ProtoneMedia\Splade\Commands\ShowSpladeVersions;
 use ProtoneMedia\Splade\Commands\SpladeInstallCommand;
