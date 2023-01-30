@@ -234,6 +234,10 @@ export default {
                 return;
             }
 
+            this.filepondInstance.sort(() => {
+                return 0;
+            });
+
             const files = this.filepondInstance.getFiles();
 
             // New files don't have an identifier.
@@ -269,8 +273,8 @@ export default {
             const plugins = [];
 
             if(this.preview) {
-                plugins.push(import("filepond-plugin-image-preview"));
                 plugins.push(import("filepond-plugin-image-exif-orientation"));
+                plugins.push(import("filepond-plugin-image-preview"));
             }
 
             if(this.accept.length > 0) {
@@ -335,7 +339,7 @@ export default {
                             }
 
                             if(file.origin === filepond.FileOrigin.LOCAL) {
-                            // This is an existing file, so we don't need to add or upload it.
+                                // This is an existing file, so we don't need to add or upload it.
                                 return;
                             }
 
