@@ -298,7 +298,7 @@ export default {
                     const options = Object.assign({}, vm.filepond, vm.jsFilepondOptions, {
                         oninit() {
                             const statusCheck = setInterval(() => {
-                                if(vm.filepondInstance.status < 2) {
+                                if(vm.filepondInstance.status <= 2) {
                                     clearInterval(statusCheck);
                                 } else {
                                     return;
@@ -315,6 +315,8 @@ export default {
                                 if(vm.dusk) {
                                     vm.filepondInstance.element.setAttribute("dusk", vm.dusk);
                                 }
+
+                                fileInput.setAttribute("data-server", vm.server ? true : false);
 
                                 if(vm.multiple) {
                                     vm.filepondInstance.element.addEventListener("moveFile", function (event) {

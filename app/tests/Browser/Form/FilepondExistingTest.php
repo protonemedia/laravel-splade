@@ -57,7 +57,6 @@ class FilepondExistingTest extends DuskTestCase
                         ->pause(500)
                         ->waitForText('Drag and drop your files')
                         ->attachToFilepond(__DIR__ . '/../small.jpeg')
-                        ->waitForText('Upload complete', 10)
                         ->press('Submit');
                 })
                 ->waitForText('The photos have been saved');
@@ -131,7 +130,6 @@ class FilepondExistingTest extends DuskTestCase
                         ->waitForText('Drag and drop your files')
                         ->pause(500)
                         ->attachToFilepond(__DIR__ . '/../small.jpeg')
-                        ->waitForText('Upload complete', 10)
                         ->press('Submit');
                 })
                 ->waitForText('The photos have been saved');
@@ -216,8 +214,7 @@ class FilepondExistingTest extends DuskTestCase
                         ->press('.filepond--action-remove-item')
                         ->waitUntilMissingText('1.jpeg')
                         ->pause(500)
-                        ->attachToFilepond(__DIR__ . '/../small.jpeg')
-                        ->waitForText('Upload complete', 10);
+                        ->attachToFilepond(__DIR__ . '/../small.jpeg');
 
                     $browser->script("return document.querySelector('{$formattedFilepondSelector}').dispatchEvent(new CustomEvent('moveFile', { detail: [0, 2] }));");
 
@@ -253,7 +250,6 @@ class FilepondExistingTest extends DuskTestCase
                         ->pause(500)
                         ->screenshot('Filepond-2-BeforeAddingThirdDummy')
                         ->attachToFilepond(__DIR__ . '/../dummy3.txt')
-                        ->waitForText('dummy3.txt')
                         ->pause(500)
                         ->screenshot('Filepond-3-BeforeOrderingDummies');
 

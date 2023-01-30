@@ -48,12 +48,22 @@ class Browser extends BaseBrowser
 
         $element->setFileDetector(new LocalFileDetector)->sendKeys($path);
 
-        $text = ['Uploading'];
+        $filename = pathinfo($path, PATHINFO_BASENAME);
 
-        $message = $this->formatTimeOutMessage('Waited %s seconds for removal of text', implode("', '", $text));
+        if ($element->getAttribute('data-server') === 'false') {
+            return $this->waitForText($filename)->pause(500);
+        }
 
-        return $this->waitUsing(5, 100, function () use ($text) {
-            return !Str::contains($this->resolver->findOrFail('.filepond--file-status-main')->getText(), $text);
-        }, $message)->pause(500);
+        $assistants = $this->resolver->all('.filepond--assistant');
+
+        return $this->waitUsing(10, 50, function () use ($assistants, $filename) {
+            foreach ($assistants as $assistant) {
+                if (Str::contains($assistant->getText(), ["{$filename} Upload complete"])) {
+                    return true;
+                }
+            }
+
+            return false;
+        })->pause(500);
     }
 }
