@@ -9,6 +9,8 @@ use ProtoneMedia\Splade\Http\TableBulkActionController;
 
 class BulkAction
 {
+    public bool|string $requirePassword = false;
+
     /**
      * This class represents a bulk action within a Splade Table.
      *
@@ -22,6 +24,7 @@ class BulkAction
      * @param  string  $confirmText = '',
      * @param  string  $confirmButton = '',
      * @param  string  $cancelButton = '',
+     * @param  bool  $requirePassword = '',
      */
     public function __construct(
         public string $key,
@@ -34,7 +37,11 @@ class BulkAction
         public string $confirmText = '',
         public string $confirmButton = '',
         public string $cancelButton = '',
+        bool $requirePassword = false,
     ) {
+        if ($requirePassword === true) {
+            $this->requirePassword = 'password';
+        }
     }
 
     /**
@@ -54,13 +61,16 @@ class BulkAction
      */
     public function getUrl(): string
     {
-        /** @var Route $route */
+        /** @var Route */
         $route = app('router')->getRoutes()->getByAction(TableBulkActionController::class);
 
-        return URL::signedRoute($route->getName(), [
+        /** @var array */
+        $currentQuery = app()->bound('request') ? request()->query() : [];
+
+        return URL::signedRoute($route->getName(), array_merge($currentQuery, [
             'table'  => base64_encode($this->tableClass),
             'action' => base64_encode($this->key),
             'slug'   => $this->getSlug(),
-        ]);
+        ]));
     }
 }

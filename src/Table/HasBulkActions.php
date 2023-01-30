@@ -44,6 +44,7 @@ trait HasBulkActions
         string $confirmText = '',
         string $confirmButton = '',
         string $cancelButton = '',
+        bool|string $requirePassword = false,
     ): self {
         $key = count($this->bulkActions);
 
@@ -60,6 +61,7 @@ trait HasBulkActions
             confirmText: $confirmText,
             confirmButton: $confirmButton,
             cancelButton: $cancelButton,
+            requirePassword: $requirePassword,
         );
 
         return $this;

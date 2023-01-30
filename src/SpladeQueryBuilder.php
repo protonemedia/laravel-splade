@@ -364,12 +364,19 @@ class SpladeQueryBuilder extends SpladeTable
 
     public function performBulkAction(callable $action, array $ids)
     {
+        $shouldApplyFiltersAndSearchInputs = false;
+
         if (!$this->builder instanceof SpatieQueryBuilder) {
+            $shouldApplyFiltersAndSearchInputs = true;
+
             $this->applySortingAndEagerLoading();
         }
 
         if (count($ids) === 1 && Arr::first($ids) === '*') {
-            // all
+            if ($shouldApplyFiltersAndSearchInputs) {
+                $this->applyFilters();
+                $this->applySearchInputs();
+            }
         } else {
             $this->builder->whereKey($ids);
         }
