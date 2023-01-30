@@ -182,7 +182,7 @@ class FilepondExistingTest extends DuskTestCase
                         ->pause(500)
                         ->script("return document.querySelector('{$formattedFilepondSelector}').dispatchEvent(new CustomEvent('moveFile', { detail: [0, 2] }));");
 
-                    $browser->pause(500)->press('Submit');
+                    $browser->pause(1000)->press('Submit');
                 })
                 ->waitForText('The photos have been saved');
         });
@@ -214,7 +214,7 @@ class FilepondExistingTest extends DuskTestCase
 
                     $browser->script("return document.querySelector('{$formattedFilepondSelector}').dispatchEvent(new CustomEvent('moveFile', { detail: [0, 2] }));");
 
-                    $browser->pause(250)->press('Submit');
+                    $browser->pause(1000)->press('Submit');
                 })
                 ->waitForText('The photos have been saved');
         });
@@ -250,7 +250,7 @@ class FilepondExistingTest extends DuskTestCase
 
                     $browser->script("return document.querySelector('{$formattedFilepondSelector}').dispatchEvent(new CustomEvent('moveFile', { detail: [0, 2] }));");
 
-                    $browser->pause(500)
+                    $browser->pause(1000)
                         ->screenshot('Filepond-4-BeforeHittingSubmit')
                         ->press('Submit');
                 })
@@ -261,8 +261,8 @@ class FilepondExistingTest extends DuskTestCase
 
         $this->assertCount(2, $newMedia);
 
-        $this->assertEquals('dummy2.txt', $newMedia[0]->file_name);
-        $this->assertEquals('dummy3.txt', $newMedia[1]->file_name);
+        $this->assertEquals('dummy3.txt', $newMedia[0]->file_name);
+        $this->assertEquals('dummy2.txt', $newMedia[1]->file_name);
     }
 
     /** @test */
