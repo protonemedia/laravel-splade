@@ -3,6 +3,7 @@
 namespace Tests;
 
 use Facebook\WebDriver\Remote\LocalFileDetector;
+use Illuminate\Support\Str;
 use Laravel\Dusk\Browser as BaseBrowser;
 use PHPUnit\Framework\Assert as PHPUnit;
 
@@ -47,6 +48,12 @@ class Browser extends BaseBrowser
 
         $element->setFileDetector(new LocalFileDetector)->sendKeys($path);
 
-        return $this;
+        $text = ['Uploading'];
+
+        $message = $this->formatTimeOutMessage('Waited %s seconds for removal of text', implode("', '", $text));
+
+        return $this->waitUsing(5, 100, function () use ($text) {
+            return !Str::contains($this->resolver->findOrFail('.filepond--file-status-main')->getText(), $text);
+        }, $message)->pause(500);
     }
 }

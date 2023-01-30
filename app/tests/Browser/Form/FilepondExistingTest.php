@@ -53,6 +53,8 @@ class FilepondExistingTest extends DuskTestCase
                     $browser->waitForText('1.jpeg')
                         ->pause(500)
                         ->press('.filepond--action-remove-item')
+                        ->waitUntilMissingText('1.jpeg')
+                        ->pause(500)
                         ->waitForText('Drag and drop your files')
                         ->attachToFilepond(__DIR__ . '/../small.jpeg')
                         ->waitForText('Upload complete', 10)
@@ -79,6 +81,8 @@ class FilepondExistingTest extends DuskTestCase
                     $browser->waitForText('1.jpeg')
                         ->pause(500)
                         ->press('.filepond--action-remove-item')
+                        ->waitUntilMissingText('1.jpeg')
+                        ->pause(500)
                         ->waitForText('Drag and drop your files')
                         ->press('Submit');
                 })
@@ -155,6 +159,7 @@ class FilepondExistingTest extends DuskTestCase
                     $browser->waitForText('1.jpeg')
                         ->pause(500)
                         ->press('.filepond--action-remove-item')
+                        ->waitUntilMissingText('1.jpeg')
                         ->pause(500)
                         ->press('Submit');
                 })
@@ -209,6 +214,8 @@ class FilepondExistingTest extends DuskTestCase
                         ->waitForText('Drag and drop your files')
                         ->pause(500)
                         ->press('.filepond--action-remove-item')
+                        ->waitUntilMissingText('1.jpeg')
+                        ->pause(500)
                         ->attachToFilepond(__DIR__ . '/../small.jpeg')
                         ->waitForText('Upload complete', 10);
 
@@ -223,8 +230,8 @@ class FilepondExistingTest extends DuskTestCase
 
         $this->assertCount(2, $newMedia);
 
-        $this->assertEquals('2.jpeg', $newMedia[0]->file_name);
-        $this->assertEquals('small.jpeg', $newMedia[1]->file_name);
+        $this->assertEquals('small.jpeg', $newMedia[0]->file_name);
+        $this->assertEquals('2.jpeg', $newMedia[1]->file_name);
     }
 
     /** @test */
@@ -242,6 +249,8 @@ class FilepondExistingTest extends DuskTestCase
                         ->pause(500)
                         ->screenshot('Filepond-1-BeforeRemovingFirstDummy')
                         ->press('.filepond--action-remove-item')
+                        ->waitUntilMissingText('dummy1.txt')
+                        ->pause(500)
                         ->screenshot('Filepond-2-BeforeAddingThirdDummy')
                         ->attachToFilepond(__DIR__ . '/../dummy3.txt')
                         ->waitForText('dummy3.txt')
