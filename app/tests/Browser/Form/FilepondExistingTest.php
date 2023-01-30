@@ -29,7 +29,7 @@ class FilepondExistingTest extends DuskTestCase
             $browser->visit('form/components/filepondExisting')
                 ->within('@avatar', function (Browser $browser) {
                     $browser->waitForText('1.jpeg')
-                        ->pause(500)
+                        ->pause(250)
                         ->press('Submit');
                 })
                 ->waitForText('The photos have been saved');
@@ -51,10 +51,10 @@ class FilepondExistingTest extends DuskTestCase
             $browser->visit('form/components/filepondExisting')
                 ->within('@avatar', function (Browser $browser) {
                     $browser->waitForText('1.jpeg')
-                        ->pause(500)
+                        ->pause(250)
                         ->press('.filepond--action-remove-item')
                         ->waitUntilMissingText('1.jpeg')
-                        ->pause(500)
+                        ->pause(250)
                         ->waitForText('Drag and drop your files')
                         ->attachToFilepond(__DIR__ . '/../small.jpeg')
                         ->press('Submit');
@@ -78,10 +78,10 @@ class FilepondExistingTest extends DuskTestCase
             $browser->visit('form/components/filepondExisting')
                 ->within('@avatar', function (Browser $browser) {
                     $browser->waitForText('1.jpeg')
-                        ->pause(500)
+                        ->pause(250)
                         ->press('.filepond--action-remove-item')
                         ->waitUntilMissingText('1.jpeg')
-                        ->pause(500)
+                        ->pause(250)
                         ->waitForText('Drag and drop your files')
                         ->press('Submit');
                 })
@@ -102,7 +102,7 @@ class FilepondExistingTest extends DuskTestCase
             $browser->visit('form/components/filepondExisting')
                 ->within('@photos', function (Browser $browser) {
                     $browser->waitForText('1.jpeg')
-                        ->pause(500)
+                        ->pause(250)
                         ->press('Submit');
                 })
                 ->waitForText('The photos have been saved');
@@ -128,7 +128,7 @@ class FilepondExistingTest extends DuskTestCase
                 ->within('@photos', function (Browser $browser) {
                     $browser->waitForText('1.jpeg')
                         ->waitForText('Drag and drop your files')
-                        ->pause(500)
+                        ->pause(250)
                         ->attachToFilepond(__DIR__ . '/../small.jpeg')
                         ->press('Submit');
                 })
@@ -155,10 +155,10 @@ class FilepondExistingTest extends DuskTestCase
             $browser->visit('form/components/filepondExisting')
                 ->within('@photos', function (Browser $browser) {
                     $browser->waitForText('1.jpeg')
-                        ->pause(500)
+                        ->pause(250)
                         ->press('.filepond--action-remove-item')
                         ->waitUntilMissingText('1.jpeg')
-                        ->pause(500)
+                        ->pause(250)
                         ->press('Submit');
                 })
                 ->waitForText('The photos have been saved');
@@ -182,10 +182,10 @@ class FilepondExistingTest extends DuskTestCase
                     $formattedFilepondSelector = $browser->resolver->format('@photos-file-input');
 
                     $browser->waitForText('1.jpeg')
-                        ->pause(500)
+                        ->pause(250)
                         ->script("return document.querySelector('{$formattedFilepondSelector}').dispatchEvent(new CustomEvent('moveFile', { detail: [0, 2] }));");
 
-                    $browser->pause(1000)->press('Submit');
+                    $browser->pause(500)->press('Submit');
                 })
                 ->waitForText('The photos have been saved');
         });
@@ -210,11 +210,11 @@ class FilepondExistingTest extends DuskTestCase
 
                     $browser->waitForText('1.jpeg')
                         ->waitForText('Drag and drop your files')
-                        ->pause(500)
+                        ->pause(250)
                         ->screenshot('Filpond-1-AddAndReorderMedia-BeforeRemoving')
                         ->press('.filepond--action-remove-item')
                         ->waitUntilMissingText('1.jpeg')
-                        ->pause(500)
+                        ->pause(250)
                         ->screenshot('Filpond-2-AddAndReorderMedia-BeforeAttaching')
                         ->attachToFilepond(__DIR__ . '/../small.jpeg');
 
@@ -223,7 +223,7 @@ class FilepondExistingTest extends DuskTestCase
                         ->script("return document.querySelector('{$formattedFilepondSelector}').dispatchEvent(new CustomEvent('moveFile', { detail: [0, 2] }));");
 
                     $browser
-                        ->pause(1000)
+                        ->pause(500)
                         ->screenshot('Filpond-4-AddAndReorderMedia-BeforeSubmitting')
                         ->press('Submit');
                 })
@@ -250,19 +250,19 @@ class FilepondExistingTest extends DuskTestCase
 
                     $browser->waitForText('dummy1.txt')
                         ->waitForText('Drag and drop your files')
-                        ->pause(500)
+                        ->pause(250)
                         ->screenshot('Filepond-1-BeforeRemovingFirstDummy')
                         ->press('.filepond--action-remove-item')
                         ->waitUntilMissingText('dummy1.txt')
-                        ->pause(500)
+                        ->pause(250)
                         ->screenshot('Filepond-2-BeforeAddingThirdDummy')
                         ->attachToFilepond(__DIR__ . '/../dummy3.txt')
-                        ->pause(500)
+                        ->pause(250)
                         ->screenshot('Filepond-3-BeforeOrderingDummies');
 
                     $browser->script("return document.querySelector('{$formattedFilepondSelector}').dispatchEvent(new CustomEvent('moveFile', { detail: [0, 2] }));");
 
-                    $browser->pause(1000)
+                    $browser->pause(500)
                         ->screenshot('Filepond-4-BeforeHittingSubmit')
                         ->press('Submit');
                 })

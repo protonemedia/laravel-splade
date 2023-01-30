@@ -234,10 +234,6 @@ export default {
                 return;
             }
 
-            this.filepondInstance.sort(() => {
-                return 0;
-            });
-
             const files = this.filepondInstance.getFiles();
 
             // New files don't have an identifier.
@@ -502,6 +498,10 @@ export default {
                                 error(thrown.response?.statusText);
                             });
                         };
+                    }
+
+                    if(options.itemInsertLocation === "before" || options.itemInsertLocation === "after") {
+                        options.itemInsertLocationFreedom = false;
                     }
 
                     this.loadFilepondPlugins(filepond).then((plugins) => {

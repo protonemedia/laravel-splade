@@ -42,16 +42,14 @@ class Browser extends BaseBrowser
 
     public function attachToFilepond($path)
     {
-        $element = $this->resolver->firstOrFail([
-            'input[type=file].filepond--browser',
-        ]);
+        $element = $this->resolver->firstOrFail(['input[type=file].filepond--browser']);
 
         $element->setFileDetector(new LocalFileDetector)->sendKeys($path);
 
         $filename = pathinfo($path, PATHINFO_BASENAME);
 
         if ($element->getAttribute('data-server') === 'false') {
-            return $this->waitForText($filename)->pause(500);
+            return $this->waitForText($filename)->pause(250);
         }
 
         $assistants = $this->resolver->all('.filepond--assistant');
@@ -64,6 +62,6 @@ class Browser extends BaseBrowser
             }
 
             return false;
-        })->pause(500);
+        })->pause(250);
     }
 }

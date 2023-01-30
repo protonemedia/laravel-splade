@@ -114,10 +114,14 @@ class BulkActionTest extends DuskTestCase
 
             $projects = Project::orderBy('name')->get();
 
+            /** @var Project */
+            $firstProject = $projects->first();
+            $firstProject->forceFill(['name' => 'aaaaaa'])->save();
+
             $browser->visit('table/relationsAndExports')
-                ->type('searchInput-global', $projects->get(0)->name)
+                ->type('searchInput-global', $firstProject->name)
                 ->waitUntilMissingText($projects->get(1)->name)
-                ->assertSee($projects->get(0)->name)
+                ->assertSee($firstProject->name)
                 ->press('@select-rows-dropdown')
                 ->press('@select-all-results')
                 ->press('@bulk-actions-exports-dropdown')
