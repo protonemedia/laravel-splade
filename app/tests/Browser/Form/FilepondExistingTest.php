@@ -211,14 +211,21 @@ class FilepondExistingTest extends DuskTestCase
                     $browser->waitForText('1.jpeg')
                         ->waitForText('Drag and drop your files')
                         ->pause(500)
+                        ->screenshot('Filpond-1-AddAndReorderMedia-BeforeRemoving')
                         ->press('.filepond--action-remove-item')
                         ->waitUntilMissingText('1.jpeg')
                         ->pause(500)
+                        ->screenshot('Filpond-2-AddAndReorderMedia-BeforeAttaching')
                         ->attachToFilepond(__DIR__ . '/../small.jpeg');
 
-                    $browser->script("return document.querySelector('{$formattedFilepondSelector}').dispatchEvent(new CustomEvent('moveFile', { detail: [0, 2] }));");
+                    $browser
+                        ->screenshot('Filpond-3-AddAndReorderMedia-BeforeReordering')
+                        ->script("return document.querySelector('{$formattedFilepondSelector}').dispatchEvent(new CustomEvent('moveFile', { detail: [0, 2] }));");
 
-                    $browser->pause(1000)->press('Submit');
+                    $browser
+                        ->pause(1000)
+                        ->screenshot('Filpond-4-AddAndReorderMedia-BeforeSubmitting')
+                        ->press('Submit');
                 })
                 ->waitForText('The photos have been saved');
         });
