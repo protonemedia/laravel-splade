@@ -76,6 +76,6 @@ abstract class AbstractForm
     {
         $form = self::build();
 
-        return Arr::pluck($form->fields, 'rules', 'basename');
+        return Arr::pluck($form->getFields(), 'rules', 'basename');
     }
 }

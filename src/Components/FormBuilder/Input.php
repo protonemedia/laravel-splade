@@ -121,6 +121,13 @@ class Input extends Component
         return $this;
     }
 
+    /**
+     * Changes the input into a datepicker
+     * Provide an array like `['showMonths' => 2]` to set Flatpickr-options
+     *
+     * @param array|bool $options
+     * @return $this
+     */
     public function date(array|bool $options = true): self
     {
         $this->date = $options;
@@ -128,6 +135,14 @@ class Input extends Component
         return $this;
     }
 
+
+    /**
+     * Changes the input into a timepicker
+     * Provide an array like `['time_24hr' => false]` to set Flatpickr-options
+     *
+     * @param array|bool $options
+     * @return $this
+     */
     public function time(array|bool $options = true): self
     {
         $this->time = $options;
@@ -135,6 +150,13 @@ class Input extends Component
         return $this;
     }
 
+    /**
+     * Enables selecting a range of dates
+     *
+     * Only available together with a Date-type field
+     *
+     * @return $this
+     */
     public function range(): self
     {
         $this->range = true;
@@ -142,6 +164,11 @@ class Input extends Component
         return $this;
     }
 
+    /**
+     * Changes the input into a hidden field
+     *
+     * @return $this
+     */
     public function hidden(): self
     {
         $this->type = 'hidden';
@@ -149,6 +176,11 @@ class Input extends Component
         return $this;
     }
 
+    /**
+     * Changes the input into an email field
+     *
+     * @return $this
+     */
     public function email(): self
     {
         $this->type = 'email';
@@ -156,6 +188,11 @@ class Input extends Component
         return $this;
     }
 
+    /**
+     * Changes the input into a password field
+     *
+     * @return $this
+     */
     public function password(): self
     {
         $this->type = 'password';
@@ -163,6 +200,11 @@ class Input extends Component
         return $this;
     }
 
+    /**
+     * Changes the input into a number field
+     *
+     * @return $this
+     */
     public function integer(): self
     {
         $this->type = 'number';
@@ -170,6 +212,11 @@ class Input extends Component
         return $this;
     }
 
+    /**
+     * Changes the input into a number field
+     *
+     * @return $this
+     */
     public function number(): self
     {
         $this->type = 'number';
@@ -177,6 +224,11 @@ class Input extends Component
         return $this;
     }
 
+    /**
+     * Changes the input into a number field
+     *
+     * @return $this
+     */
     public function numeric(): self
     {
         $this->type = 'number';
@@ -184,6 +236,11 @@ class Input extends Component
         return $this;
     }
 
+    /**
+     * Changes the input into a colorpicker field
+     *
+     * @return $this
+     */
     public function color(): self
     {
         $this->type = 'color';
@@ -191,6 +248,11 @@ class Input extends Component
         return $this;
     }
 
+    /**
+     * Adds a readonly placeholder with the given text before the input field
+     *
+     * @return $this
+     */
     public function append(string $text): self
     {
         $this->append = $text;
@@ -198,6 +260,11 @@ class Input extends Component
         return $this;
     }
 
+    /**
+     * Adds a readonly placeholder with the given text after the input field
+     *
+     * @return $this
+     */
     public function prepend(string $text): self
     {
         $this->prepend = $text;

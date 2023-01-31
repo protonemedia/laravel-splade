@@ -9,11 +9,11 @@ class SpladeForm
 {
     protected ?AbstractForm $configurator = null;
     protected Request $request;
-    public array $data = [];
-    public array $fields;
-    public array|string $class = [];
-    public string $action = '';
-    public string $method = 'POST';
+    protected array $data = [];
+    protected array $fields;
+    protected array|string $class = [];
+    protected string $action = '';
+    protected string $method = 'POST';
 
     public function __construct(array $fields, Request $request = null)
     {
@@ -112,6 +112,46 @@ class SpladeForm
         $this->method = $method;
 
         return $this;
+    }
+
+    /**
+     * Returns the action for the form
+     *
+     * @return string
+     */
+    public function getAction(): string
+    {
+        return $this->action;
+    }
+
+    /**
+     * Returns the data for the form
+     *
+     * @return array|string
+     */
+    public function getClass(): array|string
+    {
+        return $this->class;
+    }
+
+    /**
+     * Returns the data for the form
+     *
+     * @return array
+     */
+    public function getData(): array
+    {
+        return $this->data;
+    }
+
+    /**
+     * Returns the method for the form
+     *
+     * @return string
+     */
+    public function getMethod(): string
+    {
+        return $this->method;
     }
 
     /**

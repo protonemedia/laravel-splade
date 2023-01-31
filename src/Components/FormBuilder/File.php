@@ -63,7 +63,12 @@ class File extends Component
     }
 
     /**
+     * Enables asynchronous uploads of files
+     *
      * Only available together with ->filepond()
+     *
+     * `Route::spladeUploads();` is required in /routes/web.php is set to `true`.
+     * Provide a string to set your own route.
      *
      * @param bool|string $server
      * @return $this
@@ -76,6 +81,8 @@ class File extends Component
     }
 
     /**
+     * Enables showing a preview of uploaded images
+     *
      * Only available together with ->filepond()
      *
      * @param bool $preview
@@ -104,7 +111,7 @@ class File extends Component
     }
 
     /**
-     * Only available together with ->filepond()
+     * Sets the min-size to validate the file size
      *
      * @param bool|int|string $minSize
      * @return $this
@@ -118,7 +125,7 @@ class File extends Component
     }
 
     /**
-     * Only available together with ->filepond()
+     * Sets the max-size to validate the file size
      *
      * @param bool|int|string $maxSize
      * @return $this

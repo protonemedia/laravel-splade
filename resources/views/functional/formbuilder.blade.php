@@ -1,8 +1,8 @@
 <x-splade-form
-    method="{{ $form->method }}"
-    action="{{ $form->action }}"
-    :default="$form->data"
-    @class($form->class ?? [])
+    method="{{ $form->getMethod() }}"
+    action="{{ $form->getAction() }}"
+    :default="$form->getData()"
+    @class($form->getClass())
 >
 
     @foreach($form->getFields() as $field)
