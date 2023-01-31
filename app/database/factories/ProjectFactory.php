@@ -17,7 +17,7 @@ class ProjectFactory extends Factory
     public function definition()
     {
         return [
-            'name'            => $this->faker->company(),
+            'name'            => str_replace(['-', ',', ' and '], [' ', '', ' '], $this->faker->company),
 
             'organization_id' => OrganizationFactory::new()->has(AddressFactory::new()),
         ];

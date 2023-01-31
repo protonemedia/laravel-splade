@@ -291,11 +291,6 @@ parameters:
 			path: src/Head.php
 
 		-
-			message: "#^Class Laravel\\\\Fortify\\\\Actions\\\\ConfirmPassword not found\\.$#"
-			count: 1
-			path: src/Http/ConfirmPasswordController.php
-
-		-
 			message: "#^Parameter \\#1 \\$key of method Illuminate\\\\Support\\\\Collection\\<string,string\\>\\:\\:get\\(\\) expects string, int given\\.$#"
 			count: 1
 			path: src/Http/PrepareViewWithLazyComponents.php
@@ -364,6 +359,11 @@ parameters:
 			message: "#^Parameter \\#1 \\$key of method ProtoneMedia\\\\Splade\\\\AbstractTable\\:\\:makeExporter\\(\\) expects int, string given\\.$#"
 			count: 1
 			path: src/Http/TableExportController.php
+
+		-
+			message: "#^Class Laravel\\\\Fortify\\\\Actions\\\\ConfirmPassword not found\\.$#"
+			count: 1
+			path: src/PasswordValidator.php
 
 		-
 			message: "#^Access to an undefined property ProtoneMedia\\\\Splade\\\\ServiceProvider\\:\\:\\$headers\\.$#"

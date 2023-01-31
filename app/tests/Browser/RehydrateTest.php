@@ -18,13 +18,15 @@ class RehydrateTest extends DuskTestCase
             $dynamicContent = $browser->getTextIn('@dynamic');
 
             $browser->pause(1500)
-                ->assertSeeIn('@static', $staticContent);
+                ->assertSeeIn('@static', $staticContent)
+                ->pause(250);
 
             $newDynamicContent = $browser->getTextIn('@dynamic');
             $this->assertNotEquals($dynamicContent, $newDynamicContent);
 
             $browser->pause(1500)
-                ->assertSeeIn('@static', $staticContent);
+                ->assertSeeIn('@static', $staticContent)
+                ->pause(250);
 
             $newerDynamicContent = $browser->getTextIn('@dynamic');
             $this->assertNotEquals($dynamicContent, $newerDynamicContent);
