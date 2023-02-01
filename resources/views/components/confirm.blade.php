@@ -5,6 +5,7 @@
     default-confirm-button="{{ __('Confirm') }}"
     default-cancel-button="{{ __('Cancel') }}"
     confirm-password-route="{{ $confirmPasswordRoute ?? "" }}"
+    confirmed-password-status-route="{{ $confirmedPasswordStatusRoute ?? "" }}"
 >
     <template #default="confirm">
         <x-splade-component is="transition" show="confirm.isOpen">

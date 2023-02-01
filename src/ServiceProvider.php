@@ -389,7 +389,8 @@ class ServiceProvider extends BaseServiceProvider
     private function registerMacroForPasswordConfirmation()
     {
         Route::macro('spladePasswordConfirmation', function () {
-            Route::post(config('splade.confirm_password_route'), ConfirmPasswordController::class)->name('splade.confirmPassword');
+            Route::get(config('splade.confirm_password_route'), [ConfirmPasswordController::class, 'show'])->name('splade.confirmedPasswordStatus');
+            Route::post(config('splade.confirm_password_route'), [ConfirmPasswordController::class, 'store'])->name('splade.confirmPassword');
         });
     }
 

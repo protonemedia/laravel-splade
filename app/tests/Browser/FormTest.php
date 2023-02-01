@@ -140,7 +140,39 @@ class FormTest extends DuskTestCase
                 ->press('Submit')
                 ->type('password', 'password')
                 ->press('@splade-confirm-confirm')
-                ->waitForText('FormSimple', 30); // redirect
+                ->waitForText('FormSimple')
+
+                // go back to check that we need to reconfirm
+                ->visit('/form/passwordConfirm')
+                ->waitForText('FormPasswordConfirm')
+                ->type('@name', 'Splade')
+                ->press('Submit')
+                ->type('password', 'password')
+                ->press('@splade-confirm-confirm')
+                ->waitForText('FormSimple');
+        });
+    }
+
+    /** @test */
+    public function it_can_check_the_password_confirmation_status()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->loginAs(User::firstOrFail())
+                ->visit('/form/passwordConfirmOnce')
+                ->waitForText('FormPasswordConfirmOnce')
+                ->type('@name', 'Splade')
+                ->press('Submit')
+                ->waitForInput('password')
+                ->type('password', 'password')
+                ->press('@splade-confirm-confirm')
+                ->waitForText('FormSimple')
+
+                // go back to check that we don't need to reconfirm
+                ->visit('/form/passwordConfirmOnce')
+                ->waitForText('FormPasswordConfirmOnce')
+                ->type('@name', 'Splade')
+                ->press('Submit')
+                ->waitForText('FormSimple');
         });
     }
 

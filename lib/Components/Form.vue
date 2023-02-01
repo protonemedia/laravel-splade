@@ -72,10 +72,18 @@ export default {
             default: "",
         },
 
+        requirePasswordOnce: {
+            type: Boolean,
+            required: false,
+            default: false,
+        },
+
         requirePassword: {
             type: [Boolean, String],
             required: false,
-            default: false,
+            default: (props) => {
+                return props.requirePasswordOnce;
+            },
         },
 
         background: {
@@ -387,7 +395,8 @@ export default {
                 this.confirmText,
                 this.confirmButton,
                 this.cancelButton,
-                this.requirePassword ? true : false
+                this.requirePassword ? true : false,
+                this.requirePasswordOnce
             )
                 .then((password) => {
                     if(!this.requirePassword) {

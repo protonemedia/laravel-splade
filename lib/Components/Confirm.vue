@@ -39,6 +39,11 @@ export default {
             type: String,
             required: false,
             default: "",
+        },
+        confirmedPasswordStatusRoute: {
+            type: String,
+            required: false,
+            default: "",
         }
     },
 
@@ -83,8 +88,14 @@ export default {
         },
 
         confirmPassword: function () {
-            return Splade.confirmModal.value?.confirmPasswordPromise
-                ? Splade.confirmModal.value.confirmPasswordPromise
+            return Splade.confirmModal.value?.confirmPassword
+                ? Splade.confirmModal.value.confirmPassword
+                : false;
+        },
+
+        confirmPasswordOnce: function () {
+            return Splade.confirmModal.value?.confirmPasswordOnce
+                ? Splade.confirmModal.value.confirmPasswordOnce
                 : false;
         },
     },
@@ -92,7 +103,7 @@ export default {
     watch: {
         hasConfirmModal(value) {
             if (value) {
-                this.isOpen = true;
+                this.setIsOpen(true);
                 this.resetPassword();
             }
         },
@@ -112,7 +123,7 @@ export default {
 
         confirm() {
             if(!this.confirmPassword) {
-                return this.handleSuccess();
+                return this.handleSuccess(null);
             }
 
             this.submitting = true;
@@ -123,9 +134,7 @@ export default {
                 "Accept": "application/json",
                 "X-Requested-With": "XMLHttpRequest",
             } }).then(() => {
-                Splade.confirmModal.value.resolvePromise(password);
-                this.setIsOpen(false);
-                this.resetPassword();
+                this.handleSuccess(password);
             }).catch((e) => {
                 if(e.response.status === 422) {
                     this.passwordError = e.response.data.errors.password[0];
@@ -138,13 +147,26 @@ export default {
 
         },
 
-        handleSuccess() {
-            Splade.confirmModal.value.resolvePromise();
+        handleSuccess(password) {
+            Splade.confirmModal.value.resolvePromise(password);
             this.setIsOpen(false);
             this.resetPassword();
         },
 
-        setIsOpen(value) {
+        async setIsOpen(value) {
+            if(value && this.confirmPassword && this.confirmPasswordOnce) {
+                // Check if the password has already been confirmed
+                try {
+                    const response = await Axios.get(this.confirmedPasswordStatusRoute);
+
+                    if(response.status === 200) {
+                        this.handleSuccess(null);
+                        Splade.clearConfirmModal();
+                        return;
+                    }
+                } catch { /* empty */ }
+            }
+
             this.isOpen = value;
         },
 
