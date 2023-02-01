@@ -2,6 +2,11 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 1.2.7 - 2023-02-01
+
+- Added `require-password-once` attribute to Form and Link components
+- Fixed consistency of button styling (file input and form submit)
+
 ## 1.2.6 - 2023-02-01
 
 - The Data Component now restores the saved data *before* it mounts, allowing the remembered data to be passed to a child component.
