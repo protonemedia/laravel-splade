@@ -32,7 +32,7 @@ export default {
         };
     },
 
-    mounted() {
+    beforeMount() {
         if (this.remember) {
             // Retrieve the stored data from the Splade instance.
             let restoredData = Splade.restore(this.remember, this.localStorage);
