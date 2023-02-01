@@ -11,7 +11,7 @@ class Submit extends Component
     /**
      * It's a primary button by default.
      *
-     * @var string
+     * @var bool
      */
     public bool $primary = true;
 
