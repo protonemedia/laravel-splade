@@ -6,28 +6,28 @@ return [
      *
      * @see https://splade.dev/docs/x-event
      */
-    'event_redirect_route'     => '/_splade/eventRedirect/{uuid}',
+    'event_redirect_route' => '/_splade/eventRedirect/{uuid}',
 
     /**
      * URI to handle Table Bulk Actions.
      *
      * @see https://splade.dev/docs/table-bulk-actions
      */
-    'table_bulk_action_route'  => '/_splade/table/action/{table}/{action}/{slug}',
+    'table_bulk_action_route' => '/_splade/table/action/{table}/{action}/{slug}',
 
     /**
      * The URI to handle Table Export Actions.
      *
      * @see https://splade.dev/docs/table-exports
      */
-    'table_export_route'       => '/_splade/table/export/{table}/{export}/{slug}',
+    'table_export_route' => '/_splade/table/export/{table}/{export}/{slug}',
 
     /**
      * The URI to handle password confirmation.
      *
      * @see https://splade.dev/docs/x-confirm
      */
-    'confirm_password_route'   => '/_splade/confirmPassword',
+    'confirm_password_route' => '/_splade/confirmPassword',
 
     /**
      * Name of the guard which is used for the password confirmation.
@@ -35,7 +35,7 @@ return [
      *
      * @see https://splade.dev/docs/x-confirm
      */
-    'confirm_password_guard'   => null,
+    'confirm_password_guard' => null,
 
     /**
      * Share all flash data to the Vue front-end app.
@@ -49,7 +49,7 @@ return [
      *
      * @see https://splade.dev/docs/form-file
      */
-    'file_uploads'             => [
+    'file_uploads' => [
         'disk'                    => '',
         'temporary_file_lifetime' => 60 * 60, // 1 hour
         'route'                   => '/_splade/fileUpload',
@@ -60,7 +60,7 @@ return [
      *
      * @see https://splade.dev/docs/form-overview
      */
-    'blade'                    => [
+    'blade' => [
         'component_prefix'           => 'splade',
         'table_cell_directive'       => 'cell',
         'escape_validation_messages' => true,
@@ -71,7 +71,7 @@ return [
      *
      * @see https://splade.dev/docs/ssr
      */
-    'ssr'                      => [
+    'ssr' => [
         'enabled'        => env('SPLADE_SSR_ENABLED', false),
         'server'         => 'http://127.0.0.1:9000/',
         'blade_fallback' => true,
@@ -82,7 +82,7 @@ return [
      *
      * @see https://splade.dev/docs/form-select
      */
-    'dusk'                     => [
+    'dusk' => [
         'choices_select_macro'      => 'choicesSelect',
         'choices_remove_item_macro' => 'choicesRemoveItem',
     ],
