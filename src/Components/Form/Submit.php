@@ -2,10 +2,19 @@
 
 namespace ProtoneMedia\Splade\Components\Form;
 
+use Illuminate\Support\Str;
 use Illuminate\View\Component;
+use Illuminate\View\ComponentAttributeBag;
 
 class Submit extends Component
 {
+    /**
+     * It's a primary button by default.
+     *
+     * @var string
+     */
+    public bool $primary = true;
+
     /**
      * Create a new component instance.
      *
@@ -18,8 +27,9 @@ class Submit extends Component
         public string $name = '',
         public $value = null,
         public $danger = false,
-        public $secondary = false
+        public $secondary = false,
     ) {
+        $this->primary = !$this->danger && !$this->secondary;
     }
 
     /**
@@ -30,5 +40,20 @@ class Submit extends Component
     public function render()
     {
         return view('splade::form.submit');
+    }
+
+    /**
+     * Returns a boolean whether there are background or text classes.
+     *
+     * @param  \Illuminate\View\ComponentAttributeBag  $attributes
+     * @return bool
+     */
+    public function hasCustomStyling(ComponentAttributeBag $attributes): bool
+    {
+        $backgroundOrTextClasses = array_filter(explode(' ', $attributes->get('class')), function ($class) {
+            return Str::contains($class, ['bg-', 'text-']);
+        });
+
+        return !empty($backgroundOrTextClasses);
     }
 }
