@@ -252,18 +252,18 @@ class ExistingFile implements Arrayable, JsonSerializable, Stringable
         ];
 
         return [
-            'source'  => $this->previewUrl ? array_merge($file, [
+            'source' => $this->previewUrl ? array_merge($file, [
                 'preview_url' => $this->previewUrl,
             ]) : null,
             'options' => [
-                'type'     => 'local',
+                'type' => 'local',
 
                 'metadata' => [
                     'identifier' => $this->identifier,
                     'metadata'   => $this->encryptAttributes(),
                 ],
 
-                'file'     => $this->previewUrl ? null : $file,
+                'file' => $this->previewUrl ? null : $file,
             ],
         ];
     }
@@ -315,13 +315,13 @@ class ExistingFile implements Arrayable, JsonSerializable, Stringable
         return encrypt([
             'splade_existing_file_upload' => true,
 
-            'filename'                    => $this->filename,
-            'metadata'                    => $metadata,
-            'name'                        => $this->name,
-            'preview_url'                 => $this->previewUrl,
-            'mime_type'                   => $this->mimeType,
-            'size_in_bytes'               => $this->sizeInBytes,
-            'identifier'                  => $this->identifier,
+            'filename'      => $this->filename,
+            'metadata'      => $metadata,
+            'name'          => $this->name,
+            'preview_url'   => $this->previewUrl,
+            'mime_type'     => $this->mimeType,
+            'size_in_bytes' => $this->sizeInBytes,
+            'identifier'    => $this->identifier,
         ]);
     }
 
