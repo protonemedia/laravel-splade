@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 1.2.6 - 2023-02-01
+
+- The Data Component now restores the saved data *before* it mounts, allowing the remembered data to be passed to a child component.
+- Added `background` and `debounce` props to the Form Component to accompany the `submit-on-change` feature.
+- The Form Component now prevents submitting the request when the `action` is set to `#`.
+
 ## 1.2.5 - 2023-01-30
 
 - Support for password confirmation in Table Bulk Actions (#255)
