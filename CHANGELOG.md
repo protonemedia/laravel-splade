@@ -2,6 +2,13 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 1.2.5 - 2023-01-30
+
+- Support for password confirmation in Table Bulk Actions (#255)
+- The `success` event of the Defer component now emits the response data
+- Bugfix for selecting all *filtered* results (#266)
+- Improved Filepond testing with Dusk
+
 ## 1.2.4 - 2023-01-25
 
 - Support for dynamic URL in Defer component

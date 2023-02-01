@@ -32,7 +32,8 @@ class FilepondController extends Controller
 
     public function showExisting()
     {
-        $user = User::first();
+        /** @var User */
+        $user = User::firstOrFail();
 
         return view('form.components.filepondExisting', [
             'avatar'    => ExistingFile::fromMediaLibrary($user->getFirstMedia('avatar')),
@@ -43,7 +44,7 @@ class FilepondController extends Controller
 
     public function storeExisting(Request $request)
     {
-        $user = User::first();
+        $user = User::firstOrFail();
 
         if ($request->query('form') === 'avatar') {
             HandleSpladeFileUploads::syncMediaLibrary($request, $user, 'avatar', 'avatar');

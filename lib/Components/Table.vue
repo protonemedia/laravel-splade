@@ -8,6 +8,7 @@ import filter from "lodash-es/filter";
 import forOwn from "lodash-es/forOwn";
 import isArray from "lodash-es/isArray";
 import isEqual from "lodash-es/isEqual";
+import isString from "lodash-es/isString";
 import map from "lodash-es/map";
 import startsWith from "lodash-es/startsWith";
 
@@ -420,10 +421,16 @@ export default {
             });
         },
 
-        async performBulkAction(url, confirm, confirmText, confirmButton, cancelButton) {
+        async performBulkAction(url, confirm, confirmText, confirmButton, cancelButton, requirePassword) {
+            if(typeof requirePassword === "undefined") {
+                requirePassword = false;
+            }
+
+            let filledPassword = null;
+
             if(confirm) {
                 try {
-                    await Splade.confirm(confirm === true ? "" : confirm, confirmText, confirmButton, cancelButton);
+                    filledPassword = await Splade.confirm(confirm === true ? "" : confirm, confirmText, confirmButton, cancelButton, requirePassword ? true : false);
                 } catch {
                     return false;
                 }
@@ -431,7 +438,14 @@ export default {
 
             this.isLoading = true;
 
-            Splade.request(url, "POST", { ids: this.selectedItems }, {}, false)
+            const data = { ids: this.selectedItems };
+
+            if(requirePassword) {
+                const passwordField = isString(requirePassword) && requirePassword ? requirePassword : "password";
+                data[passwordField] = filledPassword;
+            }
+
+            Splade.request(url, "POST", data, {}, false)
                 .then((response) => {
                     response.data;
                 })

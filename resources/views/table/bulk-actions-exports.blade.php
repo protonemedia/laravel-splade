@@ -26,7 +26,8 @@
                         @js($bulkAction->confirm),
                         @js($bulkAction->confirmText),
                         @js($bulkAction->confirmButton),
-                        @js($bulkAction->cancelButton)
+                        @js($bulkAction->cancelButton),
+                        @js($bulkAction->requirePassword)
                     )"
                     dusk="action.{{ $bulkAction->getSlug() }}">
                     {{ $bulkAction->label }}

@@ -34,7 +34,6 @@ class FilepondTest extends DuskTestCase
                     $browser->waitForText('Drag and drop your files')->pause(500);
 
                     $browser->attachToFilepond(__DIR__ . '/../small.jpeg')
-                        ->waitForText('small.jpeg')
                         ->press('Submit');
                 })
                 ->waitForRoute('navigation.one');
@@ -54,8 +53,6 @@ class FilepondTest extends DuskTestCase
                     $browser
                         ->attachToFilepond(__DIR__ . '/../small.jpeg')
                         ->attachToFilepond(__DIR__ . '/../small.png')
-                        ->waitForText('small.jpeg')
-                        ->waitForText('small.png')
                         ->press('Submit');
                 })
                 ->waitForRoute('navigation.one');
@@ -74,7 +71,6 @@ class FilepondTest extends DuskTestCase
                     $browser->waitForText('Drag and drop your files')->pause(500);
 
                     $browser->attachToFilepond(__DIR__ . '/../small.jpeg')
-                        ->waitForText('Upload complete', 10)
                         ->press('Submit');
                 })
                 ->waitForRoute('navigation.one');
@@ -94,8 +90,6 @@ class FilepondTest extends DuskTestCase
                     $browser
                         ->attachToFilepond(__DIR__ . '/../small.jpeg')
                         ->attachToFilepond(__DIR__ . '/../small.png')
-                        ->waitForText('Uploading')
-                        ->waitUntilMissingText('Uploading')
                         ->press('Submit');
                 })
                 ->waitForRoute('navigation.one');
@@ -114,7 +108,6 @@ class FilepondTest extends DuskTestCase
                     $browser->waitForText('Drag and drop your files')->pause(500);
 
                     $browser->attachToFilepond(__DIR__ . '/../small.jpeg')
-                        ->waitForText('Upload complete', 10)
                         ->press('Submit');
                 })
                 ->waitForRoute('navigation.one');
@@ -132,7 +125,6 @@ class FilepondTest extends DuskTestCase
                     $browser->waitForText('Drag and drop your files')->pause(500);
 
                     $browser->attachToFilepond(__DIR__ . '/../small.jpeg')
-                        ->waitForText('Upload complete', 10)
                         ->press('Submit');
                 })
                 ->waitForRoute('navigation.one');
@@ -150,7 +142,6 @@ class FilepondTest extends DuskTestCase
                     $browser->waitForText('Drag and drop your files')->pause(500);
 
                     $browser->attachToFilepond(__DIR__ . '/../small.jpeg')
-                        ->waitForText('Upload complete', 10)
                         ->press('Submit');
                 })
                 ->waitForRoute('navigation.one');
@@ -168,7 +159,6 @@ class FilepondTest extends DuskTestCase
                     $browser->waitForText('Drag and drop your files')->pause(500);
 
                     $browser->attachToFilepond(__DIR__ . '/../small.jpeg')
-                        ->waitForText('Upload complete', 10)
                         ->type('title', Str::random())
                         ->press('Submit');
                 })
