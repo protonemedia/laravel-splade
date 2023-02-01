@@ -96,7 +96,7 @@ class SpladeForm
      */
     public function fields(array $fields): self
     {
-        $this->fields = $fields;
+        $this->fields = !empty($this->fields) ? array_merge($this->fields, $fields) : $this->fields;
 
         return $this;
     }
