@@ -51,6 +51,8 @@ class Form extends Component
         public bool $scrollOnError = true,
         public array|bool|string $submitOnChange = false,
         public bool $preserveScroll = false,
+        public bool $background = false,
+        public int $debounce = 0,
     ) {
         // We'll use this instance in the static 'selected()' method,
         // which is a workaround for a Vue bug. Later, when the
@@ -70,6 +72,11 @@ class Form extends Component
 
         if (is_string($submitOnChange)) {
             $this->submitOnChange = static::splitByComma($submitOnChange);
+        }
+
+        if ($background) {
+            $this->scrollOnError  = false;
+            $this->preserveScroll = true;
         }
     }
 

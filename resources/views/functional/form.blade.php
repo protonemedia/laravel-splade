@@ -7,6 +7,8 @@
     :submit-on-change="@js($submitOnChange)"
     :escape-validation-messages="@js($escapeValidationMessages)"
     :preserve-scroll="@js($preserveScroll)"
+    :background="@js($background)"
+    :debounce="@js($debounce)"
 >
     <template #default="{!! $scope !!}">
         <form data-splade-id="{{ $spladeId }}" v-bind="form.$attrs" @submit.prevent="form.submit" {{ $attributes->only(['action', 'method'])->merge(['method' => 'POST']) }}>

@@ -103,6 +103,7 @@ Route::middleware('splade')->group(function () {
     Route::post('form/twoFields', TwoFieldsFormController::class)->name('form.twoFields.submit');
 
     Route::view('form/submitOnChange', 'form.submitOnChange')->name('form.submitOnChange');
+    Route::view('form/background', 'form.background')->name('form.background');
 
     Route::view('form/confirm', 'form.confirm')->name('form.confirm');
     Route::view('form/customConfirm', 'form.customConfirm')->name('form.customConfirm');
