@@ -17,6 +17,8 @@ class Submit extends Component
         public bool $spinner = true,
         public string $name = '',
         public $value = null,
+        public $danger = false,
+        public $secondary = false
     ) {
     }
 
