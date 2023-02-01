@@ -412,23 +412,29 @@ export default {
                 method = "POST";
             }
 
+            const successCallback = (response) => {
+                this.$emit("success", response);
+
+                if(this.restoreOnSuccess) {
+                    this.restore();
+                }
+
+                if(this.resetOnSuccess) {
+                    this.reset();
+                }
+
+                this.processing = false;
+                this.wasSuccessful = true;
+                this.recentlySuccessful = true;
+                this.recentlySuccessfulTimeoutId = setTimeout(() => this.recentlySuccessful = false, 2000);
+            };
+
+            if(this.action === "#") {
+                return successCallback(Object.fromEntries(data));
+            }
+
             Splade.request(this.action, method, data, headers)
-                .then((response) => {
-                    this.$emit("success", response);
-
-                    if(this.restoreOnSuccess) {
-                        this.restore();
-                    }
-
-                    if(this.resetOnSuccess) {
-                        this.reset();
-                    }
-
-                    this.processing = false;
-                    this.wasSuccessful = true;
-                    this.recentlySuccessful = true;
-                    this.recentlySuccessfulTimeoutId = setTimeout(() => this.recentlySuccessful = false, 2000);
-                })
+                .then(successCallback)
                 .catch(async (error) => {
                     this.processing = false;
                     this.$emit("error", error);

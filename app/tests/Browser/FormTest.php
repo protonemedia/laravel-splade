@@ -145,6 +145,21 @@ class FormTest extends DuskTestCase
     }
 
     /** @test */
+    public function it_can_confirm_and_execute_a_callback_without_submitting()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->loginAs(User::firstOrFail())
+                ->visit('/form/dummyRequest')
+                ->waitForText('FormDummyRequest')
+                ->type('@name', 'Splade')
+                ->press('Submit')
+                ->type('password', 'password')
+                ->press('@splade-confirm-confirm')
+                ->waitForTextIn('@data-name', 'Splade');
+        });
+    }
+
+    /** @test */
     public function it_can_have_a_default_js_object_value()
     {
         $this->browse(function (Browser $browser) {
