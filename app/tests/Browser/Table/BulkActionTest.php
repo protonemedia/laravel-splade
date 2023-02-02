@@ -115,7 +115,7 @@ class BulkActionTest extends DuskTestCase
             $projects = Project::orderBy('name')->get();
 
             /** @var Project */
-            $firstProject = $projects->first();
+            $firstProject = Project::whereName('aaaaaa')->first() ?: $projects->first();
             $firstProject->forceFill(['name' => 'aaaaaa'])->save();
 
             $browser->visit('table/relationsAndExports')

@@ -209,7 +209,7 @@ class TableController
 
         $project = Project::findOrFail($data['id']);
 
-        $project->name = "{$project->name} 2";
+        $project->name = "updated-{$project->name}";
         $project->save();
 
         Toast::info('Project updated!');
