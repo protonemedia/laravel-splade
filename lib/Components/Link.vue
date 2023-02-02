@@ -42,7 +42,7 @@ const props = defineProps({
         type: Object,
         required: false,
         default: () => {
-            return { Accept: "application/json" };
+            return {};
         },
     },
 
