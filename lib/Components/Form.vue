@@ -509,7 +509,7 @@ export default {
                 return successCallback(Object.fromEntries(data));
             }
 
-            Splade.request(this.action, method, data, { headers, ...this.headers })
+            Splade.request(this.action, method, data, { ...headers, ...this.headers })
                 .then(successCallback)
                 .catch(async (error) => {
                     this.processing = false;
