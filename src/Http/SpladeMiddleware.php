@@ -51,7 +51,7 @@ class SpladeMiddleware
         $this->splade->resetRehydrateComponentCounter();
         $this->splade->resetPersistentLayoutKey();
 
-        $session = $request->session();
+        $session = session()->driver();
         $session->forget('errors');
 
         /** @var Response $response */
