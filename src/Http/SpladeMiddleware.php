@@ -10,6 +10,7 @@ use Illuminate\Http\Response as LaravelResponse;
 use Illuminate\Routing\UrlGenerator;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Str;
+use Illuminate\Support\ViewErrorBag;
 use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 use ProtoneMedia\Splade\Facades\Splade;
@@ -111,10 +112,12 @@ class SpladeMiddleware
      */
     private function handleSpladeRequest(Request $request, Response $response, object $spladeData): Response|JsonResponse
     {
+        $errors = (array) $spladeData->errors;
+
         // If the response is not a JsonResponse, but the session contains errors,
         // we need to convert it to one so Splade can handle the errors.
-        if (!$response instanceof JsonResponse && $spladeData->hasErrors) {
-            $exception = ValidationException::withMessages($request->session()->get('errors')->toArray());
+        if (!$response instanceof JsonResponse && !empty($errors)) {
+            $exception = ValidationException::withMessages($errors);
 
             /** @see \Illuminate\Foundation\Exceptions\Handler@invalidJson */
             $response = response()->json([
@@ -304,6 +307,22 @@ class SpladeMiddleware
     }
 
     /**
+     * Returns all error messages from the session.
+     *
+     * @param  \Illuminate\Contracts\Session\Session  $session
+     * @return array
+     */
+    private function allErrorMessages(Session $session): array
+    {
+        /** @var ViewErrorBag */
+        $viewErrorBag = $session->get('errors', new ViewErrorBag);
+
+        return collect($viewErrorBag->getBags())
+            ->flatMap->getMessages()
+            ->toArray();
+    }
+
+    /**
      * This methods returns all relevant data for a Splade page view.
      *
      * @param  \Illuminate\Contracts\Session\Session  $session
@@ -321,15 +340,12 @@ class SpladeMiddleware
 
         $excludeHead = $this->splade->isLazyRequest() || $this->splade->isRehydrateRequest();
 
-        $errors = $session->get('errors')?->toArray();
-
         return (object) [
             'head'        => $excludeHead ? [] : $this->splade->head()->toArray(),
             'modal'       => $this->splade->isModalRequest() ? $this->splade->getModalType() : null,
             'modalTarget' => $this->splade->getModalTarget() ?: null,
             'flash'       => (object) $flash,
-            'errors'      => (object) $errors,
-            'hasErrors'   => !empty($errors),
+            'errors'      => (object) $this->allErrorMessages($session),
             'shared'      => (object) $this->splade->getShared(),
             'toasts'      => array_merge(
                 $session->pull(static::FLASH_TOASTS, []),
