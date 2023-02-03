@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 1.2.8 - 2023-02-03
+
+- Improved support for custom headers in the Form Component
+- Improved Dusk table tests
+- Improved handling of validation errors on requests other than `Accept: application/json`
+- The Form and Link component now default to `Accept: text/html, application/xhtml+xml` for improved handling of redirects
+- The Splade Middleware now prevents an additional front-end request when the `X-Splade-Prevent-Refresh` header is used
+
 ## 1.2.7 - 2023-02-01
 
 - Added `require-password-once` attribute to Form and Link components
