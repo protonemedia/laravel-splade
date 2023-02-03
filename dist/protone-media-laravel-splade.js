@@ -4120,6 +4120,16 @@ const Pf = {
       type: Number,
       required: !1,
       default: 0
+    },
+    acceptHeader: {
+      type: String,
+      required: !1,
+      default: "application/json"
+    },
+    headers: {
+      type: Object,
+      required: !1,
+      default: () => ({})
     }
   },
   emits: ["success", "error", "reset", "restored"],
@@ -4274,18 +4284,18 @@ const Pf = {
     async request(e) {
       if (typeof e > "u" && (e = !1), this.$uploading)
         return;
-      await this.$nextTick(), this.background ? this.processingInBackground = !0 : this.processing = !0, this.wasSuccessful = !1, this.recentlySuccessful = !1, clearTimeout(this.recentlySuccessfulTimeoutId), clearTimeout(this.recentlyUnsuccessfulTimeoutId);
-      const t = this.values instanceof FormData ? this.values : dn(this.values), r = { Accept: "application/json" };
-      (this.stay || e) && (r["X-Splade-Prevent-Refresh"] = !0), this.preserveScroll && (r["X-Splade-Preserve-Scroll"] = !0);
+      await this.$nextTick(), this.background ? this.processingInBackground = !0 : this.processing = !0, this.wasSuccessful = !1, this.recentlySuccessful = !1, clearTimeout(this.recentlySuccessfulTimeoutId), this.wasUnsuccessful = !1, this.recentlyUnsuccessful = !1, clearTimeout(this.recentlyUnsuccessfulTimeoutId);
+      const t = this.values instanceof FormData ? this.values : dn(this.values), r = {};
+      this.acceptHeader && (r.Accept = this.acceptHeader), (this.stay || e) && (r["X-Splade-Prevent-Refresh"] = !0), this.preserveScroll && (r["X-Splade-Preserve-Scroll"] = !0);
       let n = this.method.toUpperCase();
       n !== "GET" && n !== "POST" && (t.append("_method", n), n = "POST");
       const i = (s) => {
-        this.$emit("success", s), this.restoreOnSuccess && this.restore(), this.resetOnSuccess && this.reset(), this.processing = !1, this.processingInBackground = !1, this.wasUnsuccessful = !1, this.recentlyUnsuccessful = !1, this.wasSuccessful = !0, this.recentlySuccessful = !0, this.recentlySuccessfulTimeoutId = setTimeout(() => this.recentlySuccessful = !1, 2e3);
+        this.$emit("success", s), this.restoreOnSuccess && this.restore(), this.resetOnSuccess && this.reset(), this.processing = !1, this.processingInBackground = !1, this.wasSuccessful = !0, this.recentlySuccessful = !0, this.recentlySuccessfulTimeoutId = setTimeout(() => this.recentlySuccessful = !1, 2e3);
       };
       if (this.action === "#")
         return i(Object.fromEntries(t));
-      v.request(this.action, n, t, r).then(i).catch(async (s) => {
-        if (this.processing = !1, this.processingInBackground = !1, this.wasSuccessful = !1, this.recentlySuccessful = !1, this.wasUnsuccessful = !0, this.recentlyUnsuccessful = !0, this.recentlyUnsuccessfulTimeoutId = setTimeout(() => this.recentlyUnsuccessful = !1, 2e3), this.$emit("error", s), !this.scrollOnError)
+      v.request(this.action, n, t, { ...r, ...this.headers }).then(i).catch(async (s) => {
+        if (this.processing = !1, this.processingInBackground = !1, this.wasUnsuccessful = !0, this.recentlyUnsuccessful = !0, this.recentlyUnsuccessfulTimeoutId = setTimeout(() => this.recentlyUnsuccessful = !1, 2e3), this.$emit("error", s), !this.scrollOnError)
           return;
         await this.$nextTick();
         const a = cn(Object.keys(this.errors), (o) => this.formElement.querySelector(`[data-validation-key="${o}"]`));
@@ -4471,7 +4481,7 @@ const Bf = /* @__PURE__ */ Le(Lf, [["render", Df]]), Rf = ["href", "onClick"], j
     headers: {
       type: Object,
       required: !1,
-      default: () => ({ Accept: "application/json" })
+      default: () => ({})
     },
     replace: {
       type: Boolean,
