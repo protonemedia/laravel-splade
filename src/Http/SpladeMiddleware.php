@@ -112,20 +112,6 @@ class SpladeMiddleware
      */
     private function handleSpladeRequest(Request $request, Response $response, object $spladeData): Response|JsonResponse
     {
-        $errors = (array) $spladeData->errors;
-
-        // If the response is not a JsonResponse, but the session contains errors,
-        // we need to convert it to one so Splade can handle the errors.
-        if (!$response instanceof JsonResponse && !empty($errors)) {
-            $exception = ValidationException::withMessages($errors);
-
-            /** @see \Illuminate\Foundation\Exceptions\Handler@invalidJson */
-            $response = response()->json([
-                'message' => $exception->getMessage(),
-                'errors'  => $exception->errors(),
-            ], $exception->status)->withException($exception);
-        }
-
         // We don't mess with JsonResponses, except we add the Splade data to it.
         if ($response instanceof JsonResponse) {
             $decodedData = $response->getData(true);

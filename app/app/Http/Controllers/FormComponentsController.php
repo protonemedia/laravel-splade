@@ -217,7 +217,8 @@ class FormComponentsController
 
     public function submit(Request $request)
     {
-        $request->validate([
+        // Validate with another bag to make sure this also works.
+        $request->validateWithBag('dummy', [
             'name'      => ['required', 'string'],
             'password'  => ['required', 'string'],
             'secret'    => ['required', 'string'],

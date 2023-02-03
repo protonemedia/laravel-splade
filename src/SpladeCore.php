@@ -321,8 +321,13 @@ class SpladeCore
                 }
             }
 
-            if ($request->header(SpladeCore::HEADER_SPLADE) && !$e instanceof ValidationException) {
+            if ($request->header(SpladeCore::HEADER_SPLADE)) {
                 /** @var Handler $this */
+                if ($e instanceof ValidationException) {
+                    // Always return a JSON response for validation exceptions.
+                    return $this->invalidJson($request, $e);
+                }
+
                 return $this->prepareResponse($request, $e);
             }
         }, $exceptionHandler, get_class($exceptionHandler));
