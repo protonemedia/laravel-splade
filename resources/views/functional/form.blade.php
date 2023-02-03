@@ -9,6 +9,7 @@
     :preserve-scroll="@js($preserveScroll)"
     :background="@js($background)"
     :debounce="@js($debounce)"
+    :accept-header="@js($acceptHeader)"
 >
     <template #default="{!! $scope !!}">
         <form data-splade-id="{{ $spladeId }}" v-bind="form.$attrs" @submit.prevent="form.submit" {{ $attributes->only(['action', 'method'])->merge(['method' => 'POST']) }}>

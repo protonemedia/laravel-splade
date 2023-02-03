@@ -140,6 +140,12 @@ export default {
             default: 0
         },
 
+        acceptHeader: {
+            type: String,
+            required: false,
+            default: "application/json",
+        },
+
         headers: {
             type: Object,
             required: false,
@@ -457,7 +463,13 @@ export default {
                 ? this.values
                 : objectToFormData(this.values);
 
-            const headers = { ...this.headers };
+
+
+            const headers = {};
+
+            if(this.acceptHeader) {
+                headers.Accept = this.acceptHeader;
+            }
 
             if(this.stay || forceStay) {
                 headers["X-Splade-Prevent-Refresh"] = true;
@@ -497,7 +509,7 @@ export default {
                 return successCallback(Object.fromEntries(data));
             }
 
-            Splade.request(this.action, method, data, headers)
+            Splade.request(this.action, method, data, { headers, ...this.headers })
                 .then(successCallback)
                 .catch(async (error) => {
                     this.processing = false;

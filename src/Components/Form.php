@@ -53,6 +53,7 @@ class Form extends Component
         public bool $preserveScroll = false,
         public bool $background = false,
         public int $debounce = 0,
+        public string $acceptHeader = 'text/html, application/xhtml+xml',
     ) {
         // We'll use this instance in the static 'selected()' method,
         // which is a workaround for a Vue bug. Later, when the
