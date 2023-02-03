@@ -139,6 +139,14 @@ export default {
             required: false,
             default: 0
         },
+
+        headers: {
+            type: Object,
+            required: false,
+            default: () => {
+                return {};
+            },
+        },
     },
 
     emits: ["success", "error", "reset", "restored"],
@@ -440,13 +448,16 @@ export default {
             this.wasSuccessful = false;
             this.recentlySuccessful = false;
             clearTimeout(this.recentlySuccessfulTimeoutId);
+
+            this.wasUnsuccessful = false;
+            this.recentlyUnsuccessful = false;
             clearTimeout(this.recentlyUnsuccessfulTimeoutId);
 
             const data = (this.values instanceof FormData)
                 ? this.values
                 : objectToFormData(this.values);
 
-            const headers = { Accept: "application/json" };
+            const headers = { ...this.headers };
 
             if(this.stay || forceStay) {
                 headers["X-Splade-Prevent-Refresh"] = true;
@@ -477,9 +488,6 @@ export default {
                 this.processing = false;
                 this.processingInBackground = false;
 
-                this.wasUnsuccessful = false;
-                this.recentlyUnsuccessful = false;
-
                 this.wasSuccessful = true;
                 this.recentlySuccessful = true;
                 this.recentlySuccessfulTimeoutId = setTimeout(() => this.recentlySuccessful = false, 2000);
@@ -494,9 +502,6 @@ export default {
                 .catch(async (error) => {
                     this.processing = false;
                     this.processingInBackground = false;
-
-                    this.wasSuccessful = false;
-                    this.recentlySuccessful = false;
 
                     this.wasUnsuccessful = true;
                     this.recentlyUnsuccessful = true;

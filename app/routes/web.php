@@ -83,9 +83,7 @@ Route::middleware('splade')->group(function () {
     Route::view('event', 'event')->name('event');
 
     Route::get('flash/put', function () {
-        session()->flash('message', 'This is a message');
-
-        return redirect()->route('flash');
+        return redirect()->route('flash')->with('message', 'This is a message');
     });
 
     Route::view('flash', 'flash')->name('flash');

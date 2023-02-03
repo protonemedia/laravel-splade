@@ -51,6 +51,9 @@ class SpladeMiddleware
         $this->splade->resetRehydrateComponentCounter();
         $this->splade->resetPersistentLayoutKey();
 
+        $session = $request->session();
+        $session->forget('errors');
+
         /** @var Response $response */
         $response = $next($request);
         $response->headers->add(['Vary' => 'X-Splade']);
@@ -68,7 +71,7 @@ class SpladeMiddleware
         }
 
         // Gather the required meta data for the app.
-        $spladeData = $this->spladeData($request->session());
+        $spladeData = $this->spladeData($session);
 
         // The response should redirect away from the Splade app.
         if ($redirect = $this->shouldRedirectsAway($response)) {
@@ -78,7 +81,7 @@ class SpladeMiddleware
         // If the response is a redirect, put the toasts into the session
         // so they won't be lost in the next request.
         if (in_array($response->getStatusCode(), [302, 303])) {
-            $request->session()->put(static::FLASH_TOASTS, $this->splade->getToasts());
+            $session->put(static::FLASH_TOASTS, $this->splade->getToasts());
         }
 
         // A Splade request is a request made by the Vue app, so not the initial first request.
@@ -104,10 +107,22 @@ class SpladeMiddleware
      * @param  \Illuminate\Http\Request  $request
      * @param  \Illuminate\Http\Response  $response
      * @param  object  $spladeData
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Response|\Illuminate\Http\JsonResponse
      */
-    private function handleSpladeRequest(Request $request, Response $response, object $spladeData): Response
+    private function handleSpladeRequest(Request $request, Response $response, object $spladeData): Response|JsonResponse
     {
+        // If the response is not a JsonResponse, but the session contains errors,
+        // we need to convert it to one so Splade can handle the errors.
+        if (!$response instanceof JsonResponse && $spladeData->hasErrors) {
+            $exception = ValidationException::withMessages($request->session()->get('errors')->toArray());
+
+            /** @see \Illuminate\Foundation\Exceptions\Handler@invalidJson */
+            $response = response()->json([
+                'message' => $exception->getMessage(),
+                'errors'  => $exception->errors(),
+            ], $exception->status)->withException($exception);
+        }
+
         // We don't mess with JsonResponses, except we add the Splade data to it.
         if ($response instanceof JsonResponse) {
             $decodedData = $response->getData(true);
@@ -123,10 +138,14 @@ class SpladeMiddleware
 
             // Get the Validation Errors from the exception and put them in the Splade data.
             if ($response->exception instanceof ValidationException) {
-                $newData['splade']->errors = $response->exception->errors();
+                $newData['splade']->errors = (object) $response->exception->errors();
             }
 
             return $response->setData($newData);
+        }
+
+        if ($response->isRedirect() && $this->splade->dontRefreshPage()) {
+            $response = response()->noContent(200);
         }
 
         if (!$response->isSuccessful()) {
@@ -302,12 +321,15 @@ class SpladeMiddleware
 
         $excludeHead = $this->splade->isLazyRequest() || $this->splade->isRehydrateRequest();
 
+        $errors = $session->get('errors')?->toArray();
+
         return (object) [
             'head'        => $excludeHead ? [] : $this->splade->head()->toArray(),
             'modal'       => $this->splade->isModalRequest() ? $this->splade->getModalType() : null,
             'modalTarget' => $this->splade->getModalTarget() ?: null,
             'flash'       => (object) $flash,
-            'errors'      => (object) session('errors')?->toArray(),
+            'errors'      => (object) $errors,
+            'hasErrors'   => !empty($errors),
             'shared'      => (object) $this->splade->getShared(),
             'toasts'      => array_merge(
                 $session->pull(static::FLASH_TOASTS, []),

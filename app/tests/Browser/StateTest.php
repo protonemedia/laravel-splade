@@ -14,6 +14,7 @@ class StateTest extends DuskTestCase
             $browser->visit('/state')
                 ->waitForText('StateComponent')
                 ->assertSee('This is shared')
+                ->assertDontSee('This is a message')
                 ->press('Submit')
                 ->waitUntilMissing('This is shared')
                 ->assertSee('Whoops!')
