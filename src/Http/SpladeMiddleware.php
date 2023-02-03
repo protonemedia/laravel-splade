@@ -120,7 +120,7 @@ class SpladeMiddleware
             $response = response()->json([
                 'message' => $exception->getMessage(),
                 'errors'  => $exception->errors(),
-            ], $exception->status);
+            ], $exception->status)->withException($exception);
         }
 
         // We don't mess with JsonResponses, except we add the Splade data to it.

@@ -144,9 +144,7 @@ export default {
             type: Object,
             required: false,
             default: () => {
-                return {
-                    // "Accept": "application/json",
-                };
+                return {};
             },
         },
     },
