@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 1.2.8.1 - 2023-02-03
+
+- Minor bugfix
+
 ## 1.2.8 - 2023-02-03
 
 - Improved support for custom headers in the Form Component
