@@ -107,9 +107,9 @@ class SpladeMiddleware
      * @param  \Illuminate\Http\Request  $request
      * @param  \Illuminate\Http\Response  $response
      * @param  object  $spladeData
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Response|\Illuminate\Http\JsonResponse
      */
-    private function handleSpladeRequest(Request $request, Response $response, object $spladeData): Response
+    private function handleSpladeRequest(Request $request, Response $response, object $spladeData): Response|JsonResponse
     {
         // If the response is not a JsonResponse, but the session contains errors,
         // we need to convert it to one so Splade can handle the errors.
