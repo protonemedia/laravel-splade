@@ -64,7 +64,7 @@ class PreserveScrollTest extends DuskTestCase
                 ->press('tr:nth-child(30) td:nth-child(2) a')
                 ->waitForText('Project updated!');
 
-            $this->assertEquals("{$company} 2", $latestProject->fresh()->name);
+            $this->assertEquals("updated-{$company}", $latestProject->fresh()->name);
             $this->assertEquals($scrollY, $browser->script('return window.scrollY'));
         });
     }
