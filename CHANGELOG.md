@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 1.2.10 - 2023-02-03
+
+- Refactor of the changes in 1.2.8 + 1.2.9
+
 ## 1.2.9 - 2023-02-03
 
 - Fixed handling of non-default valdation bags
