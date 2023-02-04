@@ -2,6 +2,13 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 1.2.11 - 2023-02-04
+
+- Added `@seoTitle`, `@seoDescription`, and `@seoKeywords` Blade Directives
+- The Form and Link components now have a `confirm-danger` attribute in addition to the existing `confirm` attribute
+- Improved style handling for the Form Group component
+- Rehydrating multiple sections at once sometimes messed with the progress bar, this is now fixed
+
 ## 1.2.10 - 2023-02-03
 
 - Refactor of the changes in 1.2.8 + 1.2.9
