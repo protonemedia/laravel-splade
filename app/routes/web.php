@@ -233,6 +233,7 @@ Route::middleware('splade')->group(function () {
     })->name('rehydrateTwice');
 
     Route::view('script', 'script')->name('script');
+    Route::view('seoDirectives', 'seoDirectives')->name('seoDirectives');
 
     Route::post('state', function () {
         Splade::share('info', 'This is invalid');

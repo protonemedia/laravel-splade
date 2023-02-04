@@ -19,6 +19,7 @@ class BladeDirectives
         Blade::directive('spladeHead', [$this, 'spladeHead']);
         Blade::directive('preserveScroll', [$this, 'preserveScroll']);
 
+        $this->registerSEODirectives();
         $this->registerTableCellDirective();
     }
 
@@ -88,6 +89,26 @@ class BladeDirectives
         $function .= " use ({$slotUses})";
 
         return [$name, $function];
+    }
+
+    /**
+     * Registers the Blade SEO directives.
+     *
+     * @return void
+     */
+    public function registerSEODirectives()
+    {
+        Blade::directive(config('splade.blade.seo_title_directive'), function ($expression) {
+            return "<?php \ProtoneMedia\Splade\Facades\SEO::title($expression); ?>";
+        });
+
+        Blade::directive(config('splade.blade.seo_description_directive'), function ($expression) {
+            return "<?php \ProtoneMedia\Splade\Facades\SEO::description($expression); ?>";
+        });
+
+        Blade::directive(config('splade.blade.seo_keywords_directive'), function ($expression) {
+            return "<?php \ProtoneMedia\Splade\Facades\SEO::keywords($expression); ?>";
+        });
     }
 
     /**
