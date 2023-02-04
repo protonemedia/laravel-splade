@@ -48,10 +48,18 @@ export default {
             },
         },
 
-        confirm: {
+        confirmDanger: {
             type: [Boolean, String],
             required: false,
             default: false,
+        },
+
+        confirm: {
+            type: [Boolean, String],
+            required: false,
+            default: (props) => {
+                return props.confirmDanger;
+            },
         },
 
         confirmText: {
@@ -410,7 +418,8 @@ export default {
                 this.confirmButton,
                 this.cancelButton,
                 this.requirePassword ? true : false,
-                this.requirePasswordOnce
+                this.requirePasswordOnce,
+                this.confirmDanger ? true : false
             )
                 .then((password) => {
                     if(!this.requirePassword) {

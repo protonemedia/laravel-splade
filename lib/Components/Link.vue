@@ -52,10 +52,18 @@ const props = defineProps({
         default: false,
     },
 
-    confirm: {
+    confirmDanger: {
         type: [Boolean, String],
         required: false,
         default: false,
+    },
+
+    confirm: {
+        type: [Boolean, String],
+        required: false,
+        default: (props) => {
+            return props.confirmDanger;
+        },
     },
 
     confirmText: {
@@ -139,7 +147,8 @@ function navigate() {
         props.confirmButton,
         props.cancelButton,
         props.requirePassword ? true : false,
-        props.requirePasswordOnce
+        props.requirePasswordOnce,
+        props.confirmDanger ? true : false
     )
         .then((filledPassword) => {
             if(!props.requirePassword) {

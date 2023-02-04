@@ -106,6 +106,7 @@ Route::middleware('splade')->group(function () {
     Route::view('form/background', 'form.background')->name('form.background');
 
     Route::view('form/confirm', 'form.confirm')->name('form.confirm');
+    Route::view('form/confirmDanger', 'form.confirmDanger')->name('form.confirmDanger');
     Route::view('form/customConfirm', 'form.customConfirm')->name('form.customConfirm');
     Route::view('form/passwordConfirm', 'form.passwordConfirm')->name('form.passwordConfirm');
     Route::view('form/passwordConfirmOnce', 'form.passwordConfirmOnce')->name('form.passwordConfirmOnce');

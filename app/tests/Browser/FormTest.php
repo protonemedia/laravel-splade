@@ -107,6 +107,25 @@ class FormTest extends DuskTestCase
     }
 
     /** @test */
+    public function it_can_ask_to_confirm_the_submit_with_a_danger_button()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('/form/confirmDanger')
+                ->waitForText('FormConfirmDanger')
+                ->type('@name', 'Splade')
+                ->press('Submit')
+                ->waitForText('Are you sure you want to continue?')
+                ->press('@splade-confirm-cancel')
+                ->waitUntilMissingText('Are you sure you want to continue?')
+                ->assertInputValue('@name', 'Splade')
+                ->press('Submit')
+                ->waitForText('Are you sure you want to continue?')
+                ->press('@splade-confirm-confirm')
+                ->waitForText('FormSimple'); // redirect
+        });
+    }
+
+    /** @test */
     public function it_can_ask_to_confirm_the_submit_with_custom_texts()
     {
         $this->browse(function (Browser $browser) {

@@ -98,6 +98,12 @@ export default {
                 ? Splade.confirmModal.value.confirmPasswordOnce
                 : false;
         },
+
+        confirmDanger: function () {
+            return Splade.confirmModal.value?.confirmDanger
+                ? Splade.confirmModal.value.confirmDanger
+                : false;
+        },
     },
 
     watch: {
@@ -187,6 +193,7 @@ export default {
             confirmButton: this.confirmButton,
             cancelButton: this.cancelButton,
             confirmPassword: this.confirmPassword,
+            confirmDanger: this.confirmDanger,
 
             isOpen: this.isOpen,
             setIsOpen: this.setIsOpen,
