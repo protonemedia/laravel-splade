@@ -54,4 +54,27 @@ class RehydrateTest extends DuskTestCase
             $this->assertNotEquals($dynamicContent, $newDynamicContent);
         });
     }
+
+    /** @test */
+    public function it_can_rehydrate_two_sections_and_not_screw_up_the_progress_bar()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('/rehydrate/twice')
+                ->waitForText('RehydrateTwice');
+
+            $staticContent   = $browser->getTextIn('@static');
+            $dynamicContent1 = $browser->getTextIn('@dynamic-1');
+            $dynamicContent2 = $browser->getTextIn('@dynamic-2');
+
+            $browser
+                ->assertSeeIn('@static', $staticContent)
+                ->press('@reload')
+                ->pause(1000)
+                ->assertPresent('#nprogress')
+                ->waitUntilMissing('#nprogress', 10);
+
+            $this->assertNotEquals($dynamicContent1, $browser->getTextIn('@dynamic-1'));
+            $this->assertNotEquals($dynamicContent2, $browser->getTextIn('@dynamic-2'));
+        });
+    }
 }

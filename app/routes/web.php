@@ -27,6 +27,7 @@ use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use ProtoneMedia\Splade\Facades\Splade;
 use ProtoneMedia\Splade\FileUploads\HandleSpladeFileUploads;
+use ProtoneMedia\Splade\SpladeCore;
 
 Route::post('defer/api', function () {
     sleep(1);
@@ -220,6 +221,15 @@ Route::middleware('splade')->group(function () {
     Route::get('modal/size/{size}', [ModalController::class, 'size'])->name('modal.size');
 
     Route::view('rehydrate/poll', 'rehydratePoll')->name('rehydratePoll');
+
+    Route::get('rehydrate/twice', function (SpladeCore $splade) {
+        if ($splade->isRehydrateRequest()) {
+            sleep(2);
+        }
+
+        return view('rehydrateTwice');
+    })->name('rehydrateTwice');
+
     Route::view('script', 'script')->name('script');
 
     Route::post('state', function () {
