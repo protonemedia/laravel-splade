@@ -1,4 +1,4 @@
-<x-splade-component is="group" :name="$name" :label="$label" :inline="$inline" :help="$help">
+<x-splade-component is="group" :name="$name" :label="$label" :inline="$inline" :help="$help" {{ $attributes }}>
     @foreach($options as $value => $label)
         <x-splade-component
             is="checkbox"
