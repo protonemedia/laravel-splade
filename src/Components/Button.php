@@ -1,12 +1,12 @@
 <?php
 
-namespace ProtoneMedia\Splade\Components\Form;
+namespace ProtoneMedia\Splade\Components;
 
+use Illuminate\Support\Str;
 use Illuminate\View\Component;
 use Illuminate\View\ComponentAttributeBag;
-use ProtoneMedia\Splade\Components\Button;
 
-class Submit extends Component
+class Button extends Component
 {
     /**
      * It's a primary button by default.
@@ -23,7 +23,6 @@ class Submit extends Component
     public function __construct(
         public string $label = 'Submit',
         public string $type = 'submit',
-        public bool $spinner = true,
         public string $name = '',
         public $value = null,
         public $danger = false,
@@ -39,7 +38,7 @@ class Submit extends Component
      */
     public function render()
     {
-        return view('splade::form.submit');
+        return view('splade::components.button');
     }
 
     /**
@@ -48,8 +47,12 @@ class Submit extends Component
      * @param  \Illuminate\View\ComponentAttributeBag  $attributes
      * @return bool
      */
-    public function hasCustomStyling(ComponentAttributeBag $attributes): bool
+    public static function hasCustomStyling(ComponentAttributeBag $attributes): bool
     {
-        return Button::hasCustomStyling($attributes);
+        $backgroundOrTextClasses = array_filter(explode(' ', $attributes->get('class')), function ($class) {
+            return Str::contains($class, ['bg-', 'text-']);
+        });
+
+        return !empty($backgroundOrTextClasses);
     }
 }

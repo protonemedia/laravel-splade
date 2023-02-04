@@ -65,6 +65,7 @@ Route::middleware('splade')->group(function () {
         'html' => file_get_contents(resource_path('rendered_markdown.html')),
     ])->name('content');
 
+    Route::view('buttons', 'buttons')->name('buttons');
     Route::view('custom', 'custom')->name('custom');
     Route::view('data/binding', 'data.binding')->name('data.binding');
     Route::view('data/default', 'data.default')->name('data.default');

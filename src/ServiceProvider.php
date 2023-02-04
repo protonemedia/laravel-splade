@@ -209,6 +209,7 @@ class ServiceProvider extends BaseServiceProvider
         );
 
         Blade::components([
+            Components\Button::class,
             Components\ButtonWithDropdown::class,
             Components\Cell::class,
             Components\Confirm::class,
