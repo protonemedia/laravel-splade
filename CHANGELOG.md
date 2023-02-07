@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 1.2.11.1 - 2023-02-07
+
+- Bugfix for missing config for new Blade directives
+
 ## 1.2.11 - 2023-02-04
 
 - Added `@seoTitle`, `@seoDescription`, and `@seoKeywords` Blade Directives
