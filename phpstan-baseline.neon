@@ -26,7 +26,7 @@ parameters:
 			path: src/Components/Event.php
 
 		-
-			message: "#^Access to an undefined property ProtoneMedia\\\\Splade\\\\Components\\\\Form\\:\\:\\$name\\.$#"
+			message: "#^Access to an undefined property \\$this\\(ProtoneMedia\\\\Splade\\\\Components\\\\Form\\)\\|\\$this\\(ProtoneMedia\\\\Splade\\\\Components\\\\Form\\)\\:\\:\\$name\\.$#"
 			count: 2
 			path: src/Components/Form.php
 
