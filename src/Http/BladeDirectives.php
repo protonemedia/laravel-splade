@@ -98,17 +98,27 @@ class BladeDirectives
      */
     public function registerSEODirectives()
     {
-        Blade::directive(config('splade.blade.seo_title_directive'), function ($expression) {
-            return "<?php \ProtoneMedia\Splade\Facades\SEO::title($expression); ?>";
-        });
+        $title       = config('splade.blade.seo_title_directive', 'seoTitle');
+        $description = config('splade.blade.seo_description_directive', 'seoDescription');
+        $keywords    = config('splade.blade.seo_keywords_directive', 'seoKeywords');
 
-        Blade::directive(config('splade.blade.seo_description_directive'), function ($expression) {
-            return "<?php \ProtoneMedia\Splade\Facades\SEO::description($expression); ?>";
-        });
+        if ($title !== false) {
+            Blade::directive($title, function ($expression) {
+                return "<?php \ProtoneMedia\Splade\Facades\SEO::title($expression); ?>";
+            });
+        }
 
-        Blade::directive(config('splade.blade.seo_keywords_directive'), function ($expression) {
-            return "<?php \ProtoneMedia\Splade\Facades\SEO::keywords($expression); ?>";
-        });
+        if ($description !== false) {
+            Blade::directive($description, function ($expression) {
+                return "<?php \ProtoneMedia\Splade\Facades\SEO::description($expression); ?>";
+            });
+        }
+
+        if ($keywords !== false) {
+            Blade::directive($keywords, function ($expression) {
+                return "<?php \ProtoneMedia\Splade\Facades\SEO::keywords($expression); ?>";
+            });
+        }
     }
 
     /**
