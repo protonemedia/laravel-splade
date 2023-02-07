@@ -10,7 +10,7 @@ class SpladeForm
     protected ?AbstractForm $configurator = null;
     protected Request $request;
     protected array $data = [];
-    protected array $fields;
+    protected array $fields = [];
     protected array|string $class = [];
     protected string $action = '';
     protected string $method = 'POST';
@@ -94,9 +94,9 @@ class SpladeForm
      * @param array $fields
      * @return $this
      */
-    public function fields(array $fields): self
+    public function fields(array $fields = []): self
     {
-        $this->fields = !empty($this->fields) ? array_merge($this->fields, $fields) : $this->fields;
+        $this->fields = array_merge($this->fields, $fields);
 
         return $this;
     }
