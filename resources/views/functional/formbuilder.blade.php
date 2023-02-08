@@ -9,4 +9,6 @@
         {!! $field->render() !!}
     @endforeach
 
+    {{ $slot ?? '' }}
+
 </x-splade-form>

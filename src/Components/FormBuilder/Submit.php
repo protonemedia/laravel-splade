@@ -6,6 +6,20 @@ use ProtoneMedia\Splade\Components\Form\Submit as SpladeSubmit;
 
 class Submit extends Component
 {
+    private bool $spinner = true;
+
+    /**
+     * Enables or disables the spinner
+     *
+     * @param bool $spinner
+     * @return $this
+     */
+    public function spinner(bool $enabled = true): self
+    {
+        $this->spinner = $enabled;
+
+        return $this;
+    }
 
     /**
      * Renders the SpladeSubmit
@@ -14,7 +28,11 @@ class Submit extends Component
      */
     public function render()
     {
-        $object = new SpladeSubmit(label: $this->label, name: $this->name);
+        $object = new SpladeSubmit(
+            label:   $this->label,
+            spinner: $this->spinner,
+            name:    $this->name
+        );
 
         $object->withAttributes($this->attributes);
 
