@@ -26,7 +26,7 @@ parameters:
 			path: src/Components/Event.php
 
 		-
-			message: "#^Access to an undefined property \\$this\\(ProtoneMedia\\\\Splade\\\\Components\\\\Form\\)\\|\\$this\\(ProtoneMedia\\\\Splade\\\\Components\\\\Form\\)\\:\\:\\$name\\.$#"
+			message: "#^Access to an undefined property ProtoneMedia\\\\Splade\\\\Components\\\\Form\\:\\:\\$name\\.$#"
 			count: 2
 			path: src/Components/Form.php
 
@@ -201,7 +201,7 @@ parameters:
 			path: src/FileUploads/ExistingFile.php
 
 		-
-			message: "#^Parameter \\#1 \\$value of static method Illuminate\\\\Support\\\\Collection\\<\\(int\\|string\\),mixed\\>\\:\\:wrap\\(\\) expects iterable\\<\\(int\\|string\\), mixed\\>, Spatie\\\\MediaLibrary\\\\MediaCollections\\\\Models\\\\Media given\\.$#"
+			message: "#^Parameter \\#1 \\$callback of method Illuminate\\\\Support\\\\Collection\\<\\(int\\|string\\),Spatie\\\\MediaLibrary\\\\MediaCollections\\\\Models\\\\Media\\>\\:\\:map\\(\\) expects callable\\(Spatie\\\\MediaLibrary\\\\MediaCollections\\\\Models\\\\Media, \\(int\\|string\\)\\)\\: array\\|ProtoneMedia\\\\Splade\\\\FileUploads\\\\ExistingFile\\|null, Closure\\(Illuminate\\\\Database\\\\Eloquent\\\\Model\\)\\: array\\|ProtoneMedia\\\\Splade\\\\FileUploads\\\\ExistingFile\\|null given\\.$#"
 			count: 1
 			path: src/FileUploads/ExistingFile.php
 
@@ -416,11 +416,6 @@ parameters:
 			path: src/ServiceProvider.php
 
 		-
-			message: "#^Parameter \\#1 \\$key of method Illuminate\\\\Support\\\\Collection\\<int,Illuminate\\\\Http\\\\UploadedFile\\>\\:\\:get\\(\\) expects int, string given\\.$#"
-			count: 1
-			path: src/ServiceProvider.php
-
-		-
 			message: "#^Parameter \\$browser of anonymous function has invalid type Laravel\\\\Dusk\\\\Browser\\.$#"
 			count: 2
 			path: src/ServiceProvider.php
@@ -512,11 +507,6 @@ parameters:
 
 		-
 			message: "#^Method ProtoneMedia\\\\Splade\\\\SpladeQueryBuilder\\:\\:loadResults\\(\\) with return type void returns Illuminate\\\\Support\\\\Collection but should not return anything\\.$#"
-			count: 1
-			path: src/SpladeQueryBuilder.php
-
-		-
-			message: "#^Parameter \\#1 \\$value of static method Illuminate\\\\Support\\\\Collection\\<\\(int\\|string\\),mixed\\>\\:\\:wrap\\(\\) expects iterable\\<\\(int\\|string\\), mixed\\>, string given\\.$#"
 			count: 1
 			path: src/SpladeQueryBuilder.php
 
