@@ -8,6 +8,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response as LaravelResponse;
 use Illuminate\Routing\UrlGenerator;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Str;
 use Illuminate\Support\ViewErrorBag;
@@ -332,7 +333,7 @@ class SpladeMiddleware
             'modalTarget' => $this->splade->getModalTarget() ?: null,
             'flash'       => (object) $flash,
             'errors'      => (object) $this->allErrorMessages($session),
-            'shared'      => (object) $this->splade->getShared(),
+            'shared'      => (object) Arr::map($this->splade->getShared(), fn ($value) => value($value)),
             'toasts'      => array_merge(
                 $session->pull(static::FLASH_TOASTS, []),
                 $this->splade->getToasts(),

@@ -236,7 +236,7 @@ Route::middleware('splade')->group(function () {
     Route::view('seoDirectives', 'seoDirectives')->name('seoDirectives');
 
     Route::post('state', function () {
-        Splade::share('info', 'This is invalid');
+        Splade::share('info', fn () => 'This is invalid');
 
         throw ValidationException::withMessages(['name' => 'Whoops!']);
     });

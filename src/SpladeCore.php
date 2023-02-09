@@ -374,7 +374,7 @@ class SpladeCore
      */
     public function share(string $key, $value): self
     {
-        Arr::set($this->shared, $key, value($value));
+        Arr::set($this->shared, $key, $value);
 
         return $this;
     }
