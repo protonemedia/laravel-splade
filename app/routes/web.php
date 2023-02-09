@@ -261,6 +261,7 @@ Route::middleware('splade')->group(function () {
     Route::get('toast/dangerLeftBottom', [ToastController::class, 'dangerLeftBottom'])->name('toast.dangerLeftBottom');
     Route::get('toast/infoCenterBottom', [ToastController::class, 'infoCenterBottom'])->name('toast.infoCenterBottom');
     Route::get('toast/infoRightBottom', [ToastController::class, 'infoRightBottom'])->name('toast.infoRightBottom');
+    Route::get('toast/twoLines', [ToastController::class, 'twoLines'])->name('toast.twoLines');
 
     Route::view('toggle/default', 'toggle.default')->name('toggle.default');
     Route::view('toggle/multipleDefaults', 'toggle.multipleDefaults')->name('toggle.multipleDefaults');
