@@ -218,6 +218,7 @@ Route::middleware('splade')->group(function () {
     Route::get('modal/base', [ModalController::class, 'base'])->name('modal.base');
     Route::get('modal/one', [ModalController::class, 'one'])->name('modal.one');
     Route::get('modal/two', [ModalController::class, 'two'])->name('modal.two');
+    Route::get('modal/opened', [ModalController::class, 'opened'])->name('modal.opened');
     Route::get('modal/slideover', [ModalController::class, 'slideover'])->name('modal.slideover');
     Route::get('modal/validation', [ModalController::class, 'validation'])->name('modal.validation');
     Route::get('modal/size/{size}', [ModalController::class, 'size'])->name('modal.size');
