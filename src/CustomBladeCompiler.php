@@ -9,6 +9,12 @@ use ProtoneMedia\Splade\Http\PrepareTableCells;
 
 class CustomBladeCompiler extends BladeCompiler
 {
+    /**
+     * This method is overridden to prepare some Splade components before they are compiled.
+     *
+     * @param  string  $view
+     * @return string
+     */
     protected function compileComponentTags($view)
     {
         $this->prepareLazyComponents($view);
@@ -18,11 +24,20 @@ class CustomBladeCompiler extends BladeCompiler
         return parent::compileComponentTags($view);
     }
 
+    /**
+     * Returns a regex pattern to match an HTML tag and its contents.
+     *
+     * @param  string  $tag
+     * @return string
+     */
     public static function regexForTag(string $tag): string
     {
         return '/(<\s*' . $tag . '[^>]*>)(.|\n)*?(<\/' . $tag . '>)/';
     }
 
+    /**
+     * Replaces the <x-splace-cell> component with the @cell directive.
+     */
     protected function replaceCellComponentWithCellDirective(&$view)
     {
         $view = preg_replace_callback(static::regexForTag(SpladeComponent::tag('table')), function ($table) {
@@ -58,6 +73,10 @@ class CustomBladeCompiler extends BladeCompiler
         }, $view);
     }
 
+    /**
+     * It adds an additional unless-statement around the placeholder, so it's only rendered
+     * when the component is not rehydrated.
+     */
     protected function prepareRehydrateComponents(&$view)
     {
         // Find the rehydrate components within the view
@@ -86,6 +105,10 @@ class CustomBladeCompiler extends BladeCompiler
         });
     }
 
+    /**
+     * It adds an additional if-statement around the slot, so it's only rendered
+     * when the component is lazy-loaded.
+     */
     protected function prepareLazyComponents(&$view)
     {
         // Find the lazy components within the view
