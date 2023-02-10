@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use Illuminate\Support\Str;
+use Illuminate\View\Compilers\BladeCompiler;
 use Illuminate\View\ComponentAttributeBag;
 use Illuminate\View\Factory;
 use Laravel\Dusk\Browser;
@@ -30,9 +31,6 @@ use ProtoneMedia\Splade\Http\BladeDirectives;
 use ProtoneMedia\Splade\Http\ConfirmPasswordController;
 use ProtoneMedia\Splade\Http\EventRedirectController;
 use ProtoneMedia\Splade\Http\FileUploadController;
-use ProtoneMedia\Splade\Http\PrepareTableCells;
-use ProtoneMedia\Splade\Http\PrepareViewWithLazyComponents;
-use ProtoneMedia\Splade\Http\PrepareViewWithRehydrateComponents;
 use ProtoneMedia\Splade\Http\TableBulkActionController;
 use ProtoneMedia\Splade\Http\TableExportController;
 
@@ -77,23 +75,12 @@ class ServiceProvider extends BaseServiceProvider
 
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'splade');
 
+        $this->registerCustomBladeCompiler();
         $this->registerBindingsInContainer();
 
         static::registerTransitionAnimations(
             $this->app->make(TransitionRepository::class)
         );
-
-        (new PrepareViewWithLazyComponents)
-            ->registerMacro()
-            ->registerEventListener();
-
-        (new PrepareViewWithRehydrateComponents)
-            ->registerMacro()
-            ->registerEventListener();
-
-        (new PrepareTableCells)
-            ->registerMacro()
-            ->registerEventListener();
 
         $this->registerBladeComponentsAndDirectives();
         $this->registerDuskMacros();
@@ -135,6 +122,33 @@ class ServiceProvider extends BaseServiceProvider
         $this->publishes([
             __DIR__ . '/../resources/lang' => base_path('resources/lang/vendor/splade'),
         ], 'translations');
+    }
+
+    /**
+     * Extends the Blade compiler with a custom implementation that handles the
+     * Lazy component.
+     *
+     * @return void
+     */
+    protected function registerCustomBladeCompiler()
+    {
+        $this->app->extend('blade.compiler', function (BladeCompiler $service, $app) {
+            return tap(new CustomBladeCompiler(
+                $app['files'],
+                $app['config']['view.compiled'],
+                $app['config']->get('view.relative_hash', false) ? $app->basePath() : '',
+                $app['config']->get('view.cache', true),
+                $app['config']->get('view.compiled_extension', 'php'),
+            ), function ($blade) use ($service) {
+                foreach ($service->getClassComponentAliases() as $alias => $component) {
+                    $blade->component($component, $alias);
+                }
+
+                foreach ($service->getCustomDirectives() as $name => $directive) {
+                    $blade->directive($name, $directive);
+                }
+            });
+        });
     }
 
     /**
