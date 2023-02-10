@@ -5,8 +5,8 @@
 DataGlobal1
 
 <x-splade-data store="company" default="{ name: 'Apple' }" />
-<x-splade-data store="framework" remember default="{ name: 'Laravel' }" />
-<x-splade-data store="project" remember local-storage :default="['name' => 'Splade']" />
+<x-splade-data store="framework" remember :default="['name' => 'Laravel']" />
+<x-splade-data store="project" remember local-storage default="{ name: 'Splade'}" />
 
 <form class="space-y-4">
     <fieldset dusk="company">
@@ -28,6 +28,6 @@ DataGlobal1
     </fieldset>
 </form>
 
-<Link href="/data/global-2">Go to global-2</Link>
+<Link dusk="global-2" href="/data/global-2">Go to global-2</Link>
 
 @endsection
