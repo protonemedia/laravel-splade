@@ -70,6 +70,8 @@ Route::middleware('splade')->group(function () {
     Route::view('data/binding', 'data.binding')->name('data.binding');
     Route::view('data/default', 'data.default')->name('data.default');
     Route::view('data/eloquent', 'data.eloquent')->name('data.eloquent');
+    Route::view('data/global-1', 'data.global-1')->name('data.global-1');
+    Route::view('data/global-2', 'data.global-2')->name('data.global-2');
     Route::view('data/remember', 'data.remember')->name('data.remember');
     Route::view('data/localStorage', 'data.localStorage')->name('data.localStorage');
     Route::view('data/rememberWithDefault', 'data.rememberWithDefault')->name('data.rememberWithDefault');
