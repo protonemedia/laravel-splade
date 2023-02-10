@@ -125,8 +125,8 @@ class ServiceProvider extends BaseServiceProvider
     }
 
     /**
-     * Extends the Blade compiler with a custom implementation that handles the
-     * Lazy component.
+     * Extends the Blade Compiler with a custom implementation that handles the
+     * Lazy, Rehydrae, and Table Cell components.
      *
      * @return void
      */
