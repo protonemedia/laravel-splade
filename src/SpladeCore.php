@@ -55,6 +55,8 @@ class SpladeCore
 
     private $customToastFactory;
 
+    private $dataStores = [];
+
     /**
      * Creates an instance.
      *
@@ -100,6 +102,7 @@ class SpladeCore
         $this->toasts   = [];
 
         return $this->resetLazyComponentCounter()
+            ->resetDataStores()
             ->resetPersistentLayoutKey()
             ->resetRehydrateComponentCounter();
     }
@@ -363,6 +366,41 @@ class SpladeCore
     public function getShared(): array
     {
         return $this->shared;
+    }
+
+    /**
+     * Returns all registered Data Stores.
+     *
+     * @return array
+     */
+    public function getDataStores(): array
+    {
+        return $this->dataStores;
+    }
+
+    /**
+     * Adds a new Data Store.
+     *
+     * @param  \ProtoneMedia\Splade\DataStore  $store
+     * @return self
+     */
+    public function addDataStore(DataStore $store): self
+    {
+        $this->dataStores[$store->name] = $store;
+
+        return $this;
+    }
+
+    /**
+     * Resets the Data Stores.
+     *
+     * @return $this
+     */
+    public function resetDataStores(): self
+    {
+        $this->dataStores = [];
+
+        return $this;
     }
 
     /**

@@ -14,6 +14,7 @@ use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use Illuminate\Support\Str;
 use Illuminate\View\ComponentAttributeBag;
 use Illuminate\View\Factory;
+use Illuminate\View\View;
 use Laravel\Dusk\Browser;
 use ProtoneMedia\Splade\Commands\CleanupTemporaryFileUploads;
 use ProtoneMedia\Splade\Commands\PublishFormStylesheetsCommand;
@@ -215,6 +216,7 @@ class ServiceProvider extends BaseServiceProvider
             Components\Confirm::class,
             Components\Content::class,
             Components\Data::class,
+            Components\DataStores::class,
             Components\Defer::class,
             Components\Dialog::class,
             Components\Dropdown::class,

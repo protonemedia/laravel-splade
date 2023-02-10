@@ -49,6 +49,7 @@ class SpladeMiddleware
     {
         // Set and restore some defaults before handling the request.
         $this->splade->setModalKey(Str::uuid());
+        $this->splade->resetDataStores();
         $this->splade->resetLazyComponentCounter();
         $this->splade->resetRehydrateComponentCounter();
         $this->splade->resetPersistentLayoutKey();
@@ -145,6 +146,9 @@ class SpladeMiddleware
         // Get the rendered content...
         $content = $response->getContent() ?: '';
 
+        // When there are Data Stores registered, wrap the content...
+        $content = $this->wrapContentInDataStores($content);
+
         // Extract the Dynamic Content, we'll return that separately so Vue can handle it.
         [$content, $dynamics] = static::extractDynamicsFromContent($content);
 
@@ -192,8 +196,11 @@ class SpladeMiddleware
             $originalViewData = $response->getOriginalContent()->getData();
         }
 
+        // When there are Data Stores registered, wrap the content...
+        $content = $this->wrapContentInDataStores($originalContent);
+
         // Extract the Dynamic Content, we'll return that separately so Vue can handle it.
-        [$content, $dynamics] = static::extractDynamicsFromContent($originalContent);
+        [$content, $dynamics] = static::extractDynamicsFromContent($content);
 
         $viewData = [
             'components' => static::renderedComponents(),
@@ -241,6 +248,30 @@ class SpladeMiddleware
         $wrappedView->with($originalViewData);
 
         return $response;
+    }
+
+    /**
+     * When there are Data Stores registered, wrap the content in a Data Store component.
+     *
+     * @param  string  $content
+     * @return string
+     */
+    private function wrapContentInDataStores(string $content): string
+    {
+        if (empty($this->splade->getDataStores())) {
+            return $content;
+        }
+
+        return Blade::render(implode('', [
+            '<div>',    // We have to start with a div, otherwise the applied backdrop styling in SpladeApp.vue won't work.
+            '<x-splade-component is="data-stores" :stores="$stores">',
+            '{!! $originalContent !!}',
+            '</x-splade-component>',
+            '</div>',
+        ]), [
+            'stores'          => $this->splade->getDataStores(),
+            'originalContent' => $content,
+        ]);
     }
 
     /**

@@ -5,6 +5,7 @@ namespace ProtoneMedia\Splade\Facades;
 use Closure;
 use Illuminate\Foundation\Exceptions\Handler;
 use Illuminate\Support\Facades\Facade;
+use ProtoneMedia\Splade\DataStore;
 use ProtoneMedia\Splade\EventRedirectFactory;
 use ProtoneMedia\Splade\EventRefresh;
 use ProtoneMedia\Splade\SpladeToast;
@@ -36,6 +37,9 @@ use Symfony\Component\HttpFoundation\Response;
  * @method static string getModalKey()
  * @method static string modalType()
  * @method static Response redirectAway(string $targetUrl)
+ * @method static array getDataStores()
+ * @method static self addDataStore(DataStore $store)
+ * @method static self resetDataStores()
  *
  * @see \ProtoneMedia\Splade\SpladeCore
  */

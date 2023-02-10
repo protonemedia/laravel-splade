@@ -3,6 +3,8 @@
 namespace ProtoneMedia\Splade\Components;
 
 use Illuminate\View\Component;
+use ProtoneMedia\Splade\DataStore;
+use ProtoneMedia\Splade\Facades\Splade;
 
 class Data extends Component
 {
@@ -12,21 +14,28 @@ class Data extends Component
 
     public $json;
 
-    public $remember;
-
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct($default = null, public string $scope = 'data')
-    {
+    public function __construct(
+        public $default = null,
+        public string $scope = 'data',
+        public string $store = '',
+        public bool|string $remember = false,
+        public bool $localStorage = false,
+    ) {
         $parsed = $this->parseJsonData($default);
 
         if ($parsed) {
             $this->data = $parsed;
         } else {
             $this->json = $default ?: '{}';
+        }
+
+        if ($remember === true && $store) {
+            $this->remember = $store;
         }
     }
 
@@ -37,6 +46,18 @@ class Data extends Component
      */
     public function render()
     {
+        if ($this->store) {
+            Splade::addDataStore(new DataStore(
+                name: $this->store,
+                remember: $this->remember,
+                localStorage: $this->localStorage,
+                data: $this->data,
+                json: $this->json,
+            ));
+
+            return '';
+        }
+
         return view('splade::functional.data', [
             'data' => $this->data,
             'json' => $this->json,
