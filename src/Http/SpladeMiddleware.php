@@ -153,9 +153,9 @@ class SpladeMiddleware
         [$content, $dynamics] = static::extractDynamicsFromContent($content);
 
         if ($this->splade->isLazyRequest()) {
-            $content = PrepareViewWithLazyComponents::extractComponent($content, $this->splade->getLazyComponentKey()) ?: $content;
+            $content = static::extractComponent($content, 'lazy', $this->splade->getLazyComponentKey()) ?: $content;
         } elseif ($this->splade->isRehydrateRequest()) {
-            $content = PrepareViewWithRehydrateComponents::extractComponent($content, $this->splade->getRehydrateComponentKey());
+            $content = static::extractComponent($content, 'rehydrate', $this->splade->getRehydrateComponentKey());
         }
 
         return $response->setContent(json_encode([
@@ -164,6 +164,32 @@ class SpladeMiddleware
             'dynamics' => $dynamics,
             'splade'   => $spladeData,
         ]));
+    }
+
+    /**
+     * Grabs the component from the rendered content and returns it.
+     *
+     * @param  string  $content
+     * @param  int  $componentKey
+     * @return string
+     */
+    public static function extractComponent(string $content, string $component, int $componentKey): string
+    {
+        $component = strtoupper($component);
+
+        preg_match_all('/START-SPLADE-' . $component . '-(\w+)-->/', $content, $matches);
+
+        return (string) collect($matches[1] ?? [])
+            ->mapWithKeys(function (string $name) use ($content, $component) {
+                $rehydrate = Str::between(
+                    $content,
+                    "<!--START-SPLADE-{$component}-{$name}-->",
+                    "<!--END-SPLADE-{$component}-{$name}-->"
+                );
+
+                return [$name => trim($rehydrate)];
+            })
+            ->get($componentKey);
     }
 
     /**
