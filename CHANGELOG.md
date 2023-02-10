@@ -2,6 +2,17 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 1.2.12 - 2023-02-10
+
+- Support for Global Data Store
+- Support for custom headers in the Defer Component
+- Modals can now be opened by default on page load
+- Sharing data with a callback will now be resolved on response instead of immediately
+- Fix for Toasts containing multiple lines
+- Fix for custom label slot in Checkboxes and Radios components
+- Massive refactor of some internal Blade magic
+- Increased the default *wait time* in the Dusk test suite, which significantly improves the CI results
+
 ## 1.2.11.1 - 2023-02-07
 
 - Bugfix for missing config for new Blade directives
