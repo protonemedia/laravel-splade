@@ -53,6 +53,8 @@ class ServiceProvider extends BaseServiceProvider
             // The Splade file has not been published, merge the default SEO into the config.
             $this->mergeConfigFrom($defaultSeoPath, 'splade.seo');
         }
+
+        $this->registerCustomBladeCompiler();
     }
 
     /**
@@ -76,7 +78,6 @@ class ServiceProvider extends BaseServiceProvider
 
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'splade');
 
-        $this->registerCustomBladeCompiler();
         $this->registerBindingsInContainer();
 
         static::registerTransitionAnimations(
