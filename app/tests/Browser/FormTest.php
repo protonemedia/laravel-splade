@@ -21,6 +21,18 @@ class FormTest extends DuskTestCase
     }
 
     /** @test */
+    public function it_can_show_the_errors_from_a_redirect()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('/form/redirect')
+                ->waitForText('FormRedirect')
+                ->press('Submit')
+                ->waitForText('Custom validation message from redirect')
+                ->assertSee('Custom validation message from redirect');
+        });
+    }
+
+    /** @test */
     public function it_can_submit_data_to_a_get_endpoint()
     {
         $this->browse(function (Browser $browser) {
