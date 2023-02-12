@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
+use Illuminate\Support\Traits\Conditionable;
 use InvalidArgumentException;
 use ProtoneMedia\Splade\Table\HasBulkActions;
 use ProtoneMedia\Splade\Table\HasColumns;
@@ -25,6 +26,7 @@ class SpladeTable
     use HasFilters;
     use HasResource;
     use HasSearchInputs;
+    use Conditionable;
 
     const DEFAULT_NAME = 'default';
 
