@@ -369,7 +369,7 @@ class SpladeMiddleware
     /**
      * Merges all bags from all view errors bags into one.
      *
-     * @param [\Illuminate\Support\ViewErrorBag] ...$viewErrorsBags
+     * @param  \Illuminate\Support\ViewErrorBag[]  ...$viewErrorsBags
      * @return \Illuminate\Support\ViewErrorBag
      */
     private function mergeViewErrorBags(...$viewErrorsBags): ViewErrorBag
