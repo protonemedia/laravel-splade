@@ -10,6 +10,7 @@ about: "Report an issue or request a new feature"
 - PHP Version: #.#.#
 - Splade JS Version (npm): #.#.#
 - Splade PHP Version (composer): #.#.#
+- Dev environment (OS, Sail/Valet/etc): ...
 
 You may use the [built-in Artisan Command](https://splade.dev/docs/upgrading) to show the installed versions of the packages:
 
