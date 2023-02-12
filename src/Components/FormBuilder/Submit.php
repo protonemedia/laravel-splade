@@ -22,6 +22,17 @@ class Submit extends Component
     }
 
     /**
+     * Create a new form field
+     *
+     * @param string $name
+     * @return static
+     */
+    static function make(string $name = 'submit'): static
+    {
+        return new static($name);
+    }
+
+    /**
      * Renders the SpladeSubmit
      *
      * @return \Closure|\Illuminate\Contracts\View\View|string
