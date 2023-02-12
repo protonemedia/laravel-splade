@@ -9,6 +9,7 @@ use App\Http\Controllers\CountriesController;
 use App\Http\Controllers\FileFormController;
 use App\Http\Controllers\FilepondController;
 use App\Http\Controllers\FormComponentsController;
+use App\Http\Controllers\FormRedirectController;
 use App\Http\Controllers\FormRelationsController;
 use App\Http\Controllers\FormViewController;
 use App\Http\Controllers\LazyController;
@@ -91,6 +92,9 @@ Route::middleware('splade')->group(function () {
     });
 
     Route::view('flash', 'flash')->name('flash');
+
+    Route::get('form/redirect', [FormRedirectController::class, 'show'])->name('form.redirect.show');
+    Route::post('form/redirect', [FormRedirectController::class, 'submit'])->name('form.redirect.submit');
 
     Route::view('form/simple', 'form.simple')->name('form.simple');
     Route::post('form/simple', SimpleFormController::class)->name('form.simple.submit');

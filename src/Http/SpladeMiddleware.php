@@ -10,6 +10,7 @@ use Illuminate\Http\Response as LaravelResponse;
 use Illuminate\Routing\UrlGenerator;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\MessageBag;
 use Illuminate\Support\Str;
 use Illuminate\Support\ViewErrorBag;
 use Illuminate\Validation\ValidationException;
@@ -54,8 +55,10 @@ class SpladeMiddleware
         $this->splade->resetRehydrateComponentCounter();
         $this->splade->resetPersistentLayoutKey();
 
+        /** @var Session */
         $session = session()->driver();
-        $session->forget('errors');
+
+        $errorsFromRedirect = $session->pull('errors', new ViewErrorBag);
 
         /** @var Response $response */
         $response = $next($request);
@@ -74,7 +77,7 @@ class SpladeMiddleware
         }
 
         // Gather the required meta data for the app.
-        $spladeData = $this->spladeData($session);
+        $spladeData = $this->spladeData($session, $errorsFromRedirect);
 
         // The response should redirect away from the Splade app.
         if ($redirect = $this->shouldRedirectsAway($response)) {
@@ -353,26 +356,47 @@ class SpladeMiddleware
     /**
      * Returns all error messages from the session.
      *
-     * @param  \Illuminate\Contracts\Session\Session  $session
+     * @param  \Illuminate\Support\ViewErrorBag  $viewErrorBag
      * @return array
      */
-    private function allErrorMessages(Session $session): array
+    private function allErrorMessages(ViewErrorBag $viewErrorBag): array
     {
-        /** @var ViewErrorBag */
-        $viewErrorBag = $session->get('errors', new ViewErrorBag);
-
         return collect($viewErrorBag->getBags())
             ->flatMap->getMessages()
             ->toArray();
     }
 
     /**
+     * Merges all bags from all view errors bags into one.
+     *
+     * @param  \Illuminate\Support\ViewErrorBag[]  ...$viewErrorsBags
+     * @return \Illuminate\Support\ViewErrorBag
+     */
+    private function mergeViewErrorBags(...$viewErrorsBags): ViewErrorBag
+    {
+        $mergedViewBag = new ViewErrorBag;
+
+        collect($viewErrorsBags)->each(function (ViewErrorBag $viewErrorBag) use ($mergedViewBag) {
+            collect($viewErrorBag->getBags())->each(function (MessageBag $bag, string $key) use ($mergedViewBag) {
+                $mergedBag = $mergedViewBag->hasBag($key)
+                    ? $mergedViewBag->getBag($key)
+                    : tap(new MessageBag, fn ($bag) => $mergedViewBag->put($key, $bag));
+
+                $mergedBag->merge($bag);
+            });
+        });
+
+        return $mergedViewBag;
+    }
+
+    /**
      * This methods returns all relevant data for a Splade page view.
      *
      * @param  \Illuminate\Contracts\Session\Session  $session
+     * @param  \Illuminate\Support\ViewErrorBag  $errorsFromRedirect
      * @return object
      */
-    private function spladeData(Session $session): object
+    private function spladeData(Session $session, ViewErrorBag $errorsFromRedirect): object
     {
         $flashData = config('splade.share_session_flash_data')
             ? collect($session->get('_flash.old', []))
@@ -384,12 +408,17 @@ class SpladeMiddleware
 
         $excludeHead = $this->splade->isLazyRequest() || $this->splade->isRehydrateRequest();
 
+        $mergedViewErrorBag = $this->mergeViewErrorBags(
+            $session->get('errors', new ViewErrorBag),
+            $errorsFromRedirect
+        );
+
         return (object) [
             'head'        => $excludeHead ? [] : $this->splade->head()->toArray(),
             'modal'       => $this->splade->isModalRequest() ? $this->splade->getModalType() : null,
             'modalTarget' => $this->splade->getModalTarget() ?: null,
             'flash'       => (object) $flash,
-            'errors'      => (object) $this->allErrorMessages($session),
+            'errors'      => (object) $this->allErrorMessages($mergedViewErrorBag),
             'shared'      => (object) Arr::map($this->splade->getShared(), fn ($value) => value($value)),
             'toasts'      => array_merge(
                 $session->pull(static::FLASH_TOASTS, []),

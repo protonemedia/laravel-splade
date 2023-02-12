@@ -331,6 +331,11 @@ parameters:
 			path: src/Http/SpladeMiddleware.php
 
 		-
+			message: "#^Parameter \\#1 \\$callback of method Illuminate\\\\Support\\\\Collection\\<int\\|string,array\\<Illuminate\\\\Support\\\\ViewErrorBag\\>\\>\\:\\:each\\(\\) expects callable\\(array\\<Illuminate\\\\Support\\\\ViewErrorBag\\>, int\\|string\\)\\: mixed, Closure\\(Illuminate\\\\Support\\\\ViewErrorBag\\)\\: void given\\.$#"
+			count: 1
+			path: src/Http/SpladeMiddleware.php
+
+		-
 			message: "#^Parameter \\#1 \\$key of method Illuminate\\\\Contracts\\\\Session\\\\Session\\:\\:get\\(\\) expects string, array\\<TKey of \\(int\\|string\\), TValue\\>\\|bool given\\.$#"
 			count: 1
 			path: src/Http/SpladeMiddleware.php
