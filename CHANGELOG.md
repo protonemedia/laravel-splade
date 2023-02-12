@@ -2,6 +2,11 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 1.2.13 - 2023-02-12
+
+- Errors from the session will now be passed to the frontend
+- Bugfix for resolving the Blade compiler out of the container
+
 ## 1.2.12 - 2023-02-10
 
 - Support for Global Data Store
