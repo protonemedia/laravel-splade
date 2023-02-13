@@ -28,7 +28,7 @@ class SpladeMiddleware
     /**
      * @var callable|null
      */
-    private static $afterResponseCallback = [];
+    private static $afterOriginalResponseCallback = [];
 
     const FLASH_TOASTS = 'splade.flashToasts';
 
@@ -68,8 +68,8 @@ class SpladeMiddleware
         /** @var Response $response */
         $response = $next($request);
 
-        if (static::$afterResponseCallback) {
-            $callback = static::$afterResponseCallback;
+        if (static::$afterOriginalResponseCallback) {
+            $callback = static::$afterOriginalResponseCallback;
             $callback($request, $response);
         }
 
@@ -125,9 +125,9 @@ class SpladeMiddleware
      * @param Closure|null $callback
      * @return void
      */
-    public static function afterResponseCallback(Closure $callback = null)
+    public static function afterOriginalResponse(Closure $callback = null)
     {
-        static::$afterResponseCallback = $callback;
+        static::$afterOriginalResponseCallback = $callback;
     }
 
     /**
