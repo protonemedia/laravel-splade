@@ -2,6 +2,11 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 1.2.14 - 2023-02-13
+
+- `SpladeTable` now uses the `Conditionable` trait.
+- Splade Middleware now has a static `afterOriginalResponse()` method to interact with the original, pre-Splade response.
+
 ## 1.2.13 - 2023-02-12
 
 - Errors from the session will now be passed to the frontend
