@@ -9,12 +9,15 @@ module.exports = {
         "./resources/js/**/*.vue",
     ],
 
+    darkMode: "class",
+
     theme: {
         extend: {},
     },
 
     plugins: [
         require("@tailwindcss/forms"),
-        require("@tailwindcss/typography")
+        require("@tailwindcss/typography"),
+        require("tailwindcss-rtl")
     ],
 };
