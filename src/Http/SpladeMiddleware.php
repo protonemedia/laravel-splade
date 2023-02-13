@@ -122,7 +122,7 @@ class SpladeMiddleware
      * A callback that sits between the 'regular' response, and
      * the handling of the Splade response.
      *
-     * @param Closure|null $callback
+     * @param  Closure|null  $callback
      * @return void
      */
     public static function afterOriginalResponse(Closure $callback = null)
@@ -437,13 +437,13 @@ class SpladeMiddleware
         );
 
         return (object) [
-            'head'             => $excludeHead ? [] : $this->splade->head()->toArray(),
-            'modal'            => $this->splade->isModalRequest() ? $this->splade->getModalType() : null,
-            'modalTarget'      => $this->splade->getModalTarget() ?: null,
-            'flash'            => (object) $flash,
-            'errors'           => (object) $this->allErrorMessages($mergedViewErrorBag),
-            'shared'           => (object) Arr::map($this->splade->getShared(), fn ($value) => value($value)),
-            'toasts'           => array_merge(
+            'head'        => $excludeHead ? [] : $this->splade->head()->toArray(),
+            'modal'       => $this->splade->isModalRequest() ? $this->splade->getModalType() : null,
+            'modalTarget' => $this->splade->getModalTarget() ?: null,
+            'flash'       => (object) $flash,
+            'errors'      => (object) $this->allErrorMessages($mergedViewErrorBag),
+            'shared'      => (object) Arr::map($this->splade->getShared(), fn ($value) => value($value)),
+            'toasts'      => array_merge(
                 $session->pull(static::FLASH_TOASTS, []),
                 $this->splade->getToasts(),
             ),
