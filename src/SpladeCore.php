@@ -55,6 +55,8 @@ class SpladeCore
 
     private $customToastFactory;
 
+    private $dataStores = [];
+
     /**
      * Creates an instance.
      *
@@ -100,6 +102,7 @@ class SpladeCore
         $this->toasts   = [];
 
         return $this->resetLazyComponentCounter()
+            ->resetDataStores()
             ->resetPersistentLayoutKey()
             ->resetRehydrateComponentCounter();
     }
@@ -321,8 +324,13 @@ class SpladeCore
                 }
             }
 
-            if ($request->header(SpladeCore::HEADER_SPLADE) && !$e instanceof ValidationException) {
+            if ($request->header(SpladeCore::HEADER_SPLADE)) {
                 /** @var Handler $this */
+                if ($e instanceof ValidationException) {
+                    // Always return a JSON response for validation exceptions.
+                    return $this->invalidJson($request, $e);
+                }
+
                 return $this->prepareResponse($request, $e);
             }
         }, $exceptionHandler, get_class($exceptionHandler));
@@ -361,6 +369,41 @@ class SpladeCore
     }
 
     /**
+     * Returns all registered Data Stores.
+     *
+     * @return array
+     */
+    public function getDataStores(): array
+    {
+        return $this->dataStores;
+    }
+
+    /**
+     * Adds a new Data Store.
+     *
+     * @param  \ProtoneMedia\Splade\DataStore  $store
+     * @return self
+     */
+    public function addDataStore(DataStore $store): self
+    {
+        $this->dataStores[$store->name] = $store;
+
+        return $this;
+    }
+
+    /**
+     * Resets the Data Stores.
+     *
+     * @return $this
+     */
+    public function resetDataStores(): self
+    {
+        $this->dataStores = [];
+
+        return $this;
+    }
+
+    /**
      * Sets data on the shared data array.
      *
      * @param  string  $key
@@ -369,7 +412,7 @@ class SpladeCore
      */
     public function share(string $key, $value): self
     {
-        Arr::set($this->shared, $key, value($value));
+        Arr::set($this->shared, $key, $value);
 
         return $this;
     }

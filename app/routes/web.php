@@ -10,6 +10,7 @@ use App\Http\Controllers\FileFormController;
 use App\Http\Controllers\FilepondController;
 use App\Http\Controllers\FormbuilderController;
 use App\Http\Controllers\FormComponentsController;
+use App\Http\Controllers\FormRedirectController;
 use App\Http\Controllers\FormRelationsController;
 use App\Http\Controllers\FormViewController;
 use App\Http\Controllers\LazyController;
@@ -28,6 +29,7 @@ use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use ProtoneMedia\Splade\Facades\Splade;
 use ProtoneMedia\Splade\FileUploads\HandleSpladeFileUploads;
+use ProtoneMedia\Splade\SpladeCore;
 
 Route::post('defer/api', function () {
     sleep(1);
@@ -65,10 +67,13 @@ Route::middleware('splade')->group(function () {
         'html' => file_get_contents(resource_path('rendered_markdown.html')),
     ])->name('content');
 
+    Route::view('buttons', 'buttons')->name('buttons');
     Route::view('custom', 'custom')->name('custom');
     Route::view('data/binding', 'data.binding')->name('data.binding');
     Route::view('data/default', 'data.default')->name('data.default');
     Route::view('data/eloquent', 'data.eloquent')->name('data.eloquent');
+    Route::view('data/global-1', 'data.global-1')->name('data.global-1');
+    Route::view('data/global-2', 'data.global-2')->name('data.global-2');
     Route::view('data/remember', 'data.remember')->name('data.remember');
     Route::view('data/localStorage', 'data.localStorage')->name('data.localStorage');
     Route::view('data/rememberWithDefault', 'data.rememberWithDefault')->name('data.rememberWithDefault');
@@ -84,12 +89,13 @@ Route::middleware('splade')->group(function () {
     Route::view('event', 'event')->name('event');
 
     Route::get('flash/put', function () {
-        session()->flash('message', 'This is a message');
-
-        return redirect()->route('flash');
+        return redirect()->route('flash')->with('message', 'This is a message');
     });
 
     Route::view('flash', 'flash')->name('flash');
+
+    Route::get('form/redirect', [FormRedirectController::class, 'show'])->name('form.redirect.show');
+    Route::post('form/redirect', [FormRedirectController::class, 'submit'])->name('form.redirect.submit');
 
     Route::view('form/simple', 'form.simple')->name('form.simple');
     Route::post('form/simple', SimpleFormController::class)->name('form.simple.submit');
@@ -104,10 +110,14 @@ Route::middleware('splade')->group(function () {
     Route::post('form/twoFields', TwoFieldsFormController::class)->name('form.twoFields.submit');
 
     Route::view('form/submitOnChange', 'form.submitOnChange')->name('form.submitOnChange');
+    Route::view('form/background', 'form.background')->name('form.background');
 
     Route::view('form/confirm', 'form.confirm')->name('form.confirm');
+    Route::view('form/confirmDanger', 'form.confirmDanger')->name('form.confirmDanger');
     Route::view('form/customConfirm', 'form.customConfirm')->name('form.customConfirm');
     Route::view('form/passwordConfirm', 'form.passwordConfirm')->name('form.passwordConfirm');
+    Route::view('form/passwordConfirmOnce', 'form.passwordConfirmOnce')->name('form.passwordConfirmOnce');
+    Route::view('form/dummyRequest', 'form.dummyRequest')->name('form.dummyRequest');
     Route::view('form/file', 'form.file')->name('form.file');
     Route::post('form/file', FileFormController::class)->name('form.file.submit');
     Route::view('form/restore', 'form.restore')->name('form.restore');
@@ -227,15 +237,26 @@ Route::middleware('splade')->group(function () {
     Route::get('modal/base', [ModalController::class, 'base'])->name('modal.base');
     Route::get('modal/one', [ModalController::class, 'one'])->name('modal.one');
     Route::get('modal/two', [ModalController::class, 'two'])->name('modal.two');
+    Route::get('modal/opened', [ModalController::class, 'opened'])->name('modal.opened');
     Route::get('modal/slideover', [ModalController::class, 'slideover'])->name('modal.slideover');
     Route::get('modal/validation', [ModalController::class, 'validation'])->name('modal.validation');
     Route::get('modal/size/{size}', [ModalController::class, 'size'])->name('modal.size');
 
     Route::view('rehydrate/poll', 'rehydratePoll')->name('rehydratePoll');
+
+    Route::get('rehydrate/twice', function (SpladeCore $splade) {
+        if ($splade->isRehydrateRequest()) {
+            sleep(2);
+        }
+
+        return view('rehydrateTwice');
+    })->name('rehydrateTwice');
+
     Route::view('script', 'script')->name('script');
+    Route::view('seoDirectives', 'seoDirectives')->name('seoDirectives');
 
     Route::post('state', function () {
-        Splade::share('info', 'This is invalid');
+        Splade::share('info', fn () => 'This is invalid');
 
         throw ValidationException::withMessages(['name' => 'Whoops!']);
     });
@@ -259,6 +280,7 @@ Route::middleware('splade')->group(function () {
     Route::get('toast/dangerLeftBottom', [ToastController::class, 'dangerLeftBottom'])->name('toast.dangerLeftBottom');
     Route::get('toast/infoCenterBottom', [ToastController::class, 'infoCenterBottom'])->name('toast.infoCenterBottom');
     Route::get('toast/infoRightBottom', [ToastController::class, 'infoRightBottom'])->name('toast.infoRightBottom');
+    Route::get('toast/twoLines', [ToastController::class, 'twoLines'])->name('toast.twoLines');
 
     Route::view('toggle/default', 'toggle.default')->name('toggle.default');
     Route::view('toggle/multipleDefaults', 'toggle.multipleDefaults')->name('toggle.multipleDefaults');

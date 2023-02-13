@@ -13,6 +13,10 @@ class TwoFieldsFormController
             'email' => ['required', 'email'],
         ]);
 
+        if ($request->query('redirect')) {
+            return redirect()->route('form.simple');
+        }
+
         return redirect()->back();
     }
 }

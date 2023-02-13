@@ -14,8 +14,8 @@ export default {
         },
 
         remember: {
-            type: String,
-            default: null,
+            type: [Boolean, String],
+            default: false,
             required: false,
         },
 
@@ -32,7 +32,7 @@ export default {
         };
     },
 
-    mounted() {
+    beforeMount() {
         if (this.remember) {
             // Retrieve the stored data from the Splade instance.
             let restoredData = Splade.restore(this.remember, this.localStorage);
@@ -58,7 +58,7 @@ export default {
     render() {
         const self = this;
 
-        return this.$slots.default(
+        return this.$slots.default ? this.$slots.default(
             new Proxy(this.values, {
                 ownKeys() {
                     return Object.keys(self.values);
@@ -70,7 +70,7 @@ export default {
                     set(self.values, name, value);
                 },
             })
-        );
+        ) : null;
     },
 };
 </script>

@@ -36,7 +36,7 @@
                             'text-red-800' => $isDanger,
                             'text-blue-800' => $isInfo,
                         ])>
-                           {{ $title ?: $message }}
+                           {!! nl2br(e($title ?: $message)) !!}
                         </h3>
 
                         @if($title && $message)
@@ -47,7 +47,7 @@
                                 'text-red-700' => $isDanger,
                                 'text-blue-700' => $isInfo,
                             ])>
-                                <p>{{ $message }}</p>
+                                <p>{!! nl2br(e($message)) !!}</p>
                             </div>
                         @endif
                     </div>

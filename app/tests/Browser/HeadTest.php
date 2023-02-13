@@ -61,4 +61,16 @@ class HeadTest extends DuskTestCase
                 ->assertTitle('Modal Base');
         });
     }
+
+    /** @test */
+    public function it_has_blade_directives_to_set_the_seo()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('/seoDirectives')
+                ->waitForText('SEODirectives')
+                ->assertTitle('Custom Title')
+                ->assertMetaByName('description', 'Custom Description')
+                ->assertMetaByName('keywords', 'Custom, Keywords');
+        });
+    }
 }

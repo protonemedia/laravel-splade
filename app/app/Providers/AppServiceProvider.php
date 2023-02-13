@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use Illuminate\Auth\Events\Login;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -24,6 +26,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Event::listen(Login::class, function () {
+            session()->remove('auth.password_confirmed_at');
+        });
+
         app()->singleton('countries', function () {
             return Collection::make(
                 json_decode(file_get_contents(resource_path('iso3166.json')))

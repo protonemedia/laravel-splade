@@ -2,6 +2,69 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 1.2.14 - 2023-02-13
+
+- `SpladeTable` now uses the `Conditionable` trait.
+- Splade Middleware now has a static `afterOriginalResponse()` method to interact with the original, pre-Splade response.
+
+## 1.2.13 - 2023-02-12
+
+- Errors from the session will now be passed to the frontend
+- Bugfix for resolving the Blade compiler out of the container
+
+## 1.2.12 - 2023-02-10
+
+- Support for Global Data Store
+- Support for custom headers in the Defer Component
+- Modals can now be opened by default on page load
+- Sharing data with a callback will now be resolved on response instead of immediately
+- Fix for Toasts containing multiple lines
+- Fix for custom label slot in Checkboxes and Radios components
+- Massive refactor of some internal Blade magic
+- Increased the default *wait time* in the Dusk test suite, which significantly improves the CI results
+
+## 1.2.11.1 - 2023-02-07
+
+- Bugfix for missing config for new Blade directives
+
+## 1.2.11 - 2023-02-04
+
+- Added `@seoTitle`, `@seoDescription`, and `@seoKeywords` Blade Directives
+- The Form and Link components now have a `confirm-danger` attribute in addition to the existing `confirm` attribute
+- Improved style handling for the Form Group component
+- Rehydrating multiple sections at once sometimes messed with the progress bar, this is now fixed
+
+## 1.2.10 - 2023-02-03
+
+- Refactor of the changes in 1.2.8 + 1.2.9
+
+## 1.2.9 - 2023-02-03
+
+- Fixed handling of non-default valdation bags
+
+## 1.2.8.1 - 2023-02-03
+
+- Minor bugfix
+
+## 1.2.8 - 2023-02-03
+
+- Improved support for custom headers in the Form Component
+- Improved Dusk table tests
+- Improved handling of validation errors on requests other than `Accept: application/json`
+- The Form and Link component now default to `Accept: text/html, application/xhtml+xml` for improved handling of redirects
+- The Splade Middleware now prevents an additional front-end request when the `X-Splade-Prevent-Refresh` header is used
+
+## 1.2.7 - 2023-02-01
+
+- Added `require-password-once` attribute to Form and Link components
+- Fixed consistency of button styling (file input and form submit)
+
+## 1.2.6 - 2023-02-01
+
+- The Data Component now restores the saved data *before* it mounts, allowing the remembered data to be passed to a child component.
+- Added `background` and `debounce` props to the Form Component to accompany the `submit-on-change` feature.
+- The Form Component now prevents submitting the request when the `action` is set to `#`.
+
 ## 1.2.5 - 2023-01-30
 
 - Support for password confirmation in Table Bulk Actions (#255)

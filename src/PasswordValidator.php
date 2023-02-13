@@ -22,6 +22,38 @@ class PasswordValidator
     }
 
     /**
+     * Resolves the user from the request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return mixed
+     */
+    private function user(Request $request)
+    {
+        return $this->usesFortify()
+               ? $request->user()
+               : Auth::guard(config('splade.confirm_password_guard'))->user();
+    }
+
+    /**
+     * Returns whether the user has recently confirmed their password.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return bool
+     */
+    public function recentlyConfirmed(Request $request): bool
+    {
+        if (!$this->user($request)) {
+            return false;
+        }
+
+        $secondsAgo = time() - $request->session()->get('auth.password_confirmed_at', 0);
+
+        $timeout = config('auth.password_timeout', 900);
+
+        return $secondsAgo < $timeout;
+    }
+
+    /**
      * Validate the given user's password using Laravel Fortify.
      *
      * @param  \Illuminate\Contracts\Auth\Authenticatable  $user
@@ -61,11 +93,7 @@ class PasswordValidator
      */
     public function validateRequest(Request $request, string $attribute): bool
     {
-        $user = $this->usesFortify()
-           ? $request->user()
-           : Auth::guard(config('splade.confirm_password_guard'))->user();
-
-        return $this->validate($user, $request->input($attribute) ?: '', $attribute);
+        return $this->validate($this->user($request), $request->input($attribute) ?: '', $attribute);
     }
 
     /**
