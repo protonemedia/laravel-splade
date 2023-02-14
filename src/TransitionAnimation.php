@@ -8,14 +8,6 @@ class TransitionAnimation implements Arrayable
 {
     /**
      * Creates a new instance.
-     *
-     * @param  string  $name
-     * @param  string  $enter
-     * @param  string  $enterFrom
-     * @param  string  $enterTo
-     * @param  string  $leave
-     * @param  string  $leaveFrom
-     * @param  string  $leaveTo
      */
     public function __construct(
         private string $name,
@@ -30,8 +22,6 @@ class TransitionAnimation implements Arrayable
 
     /**
      * Getter for the name.
-     *
-     * @return string
      */
     public function getName(): string
     {

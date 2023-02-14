@@ -12,14 +12,6 @@ class Column implements Arrayable
     /**
      * This class represents a column within a Splade Table.
      *
-     * @param  string  $key
-     * @param  string  $label
-     * @param  bool  $canBeHidden
-     * @param  bool  $hidden
-     * @param  bool  $sortable
-     * @param  bool|string  $sorted
-     * @param  bool  $highlight
-     * @param  bool|Closure  $exportAs
      * @param  Closure|string  $exportFormat
      * @param  Closure|array  $exportStyling
      */
@@ -39,8 +31,6 @@ class Column implements Arrayable
 
     /**
      * Returns a clone of the instance.
-     *
-     * @return static
      */
     public function clone(): static
     {
@@ -101,8 +91,6 @@ class Column implements Arrayable
 
     /**
      * Returns a boolean whether to columns refers to a relationship.
-     *
-     * @return bool
      */
     public function isNested(): bool
     {
@@ -111,8 +99,6 @@ class Column implements Arrayable
 
     /**
      * Returns the name of the relationship.
-     *
-     * @return string
      */
     public function relationshipName(): string
     {
@@ -121,8 +107,6 @@ class Column implements Arrayable
 
     /**
      * Returns the target column on the relationship.
-     *
-     * @return string
      */
     public function relationshipColumn(): string
     {

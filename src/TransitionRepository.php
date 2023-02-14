@@ -22,13 +22,6 @@ class TransitionRepository
     /**
      * Instantiates a new animations and adds it.
      *
-     * @param  string  $name
-     * @param  string  $enter
-     * @param  string  $enterFrom
-     * @param  string  $enterTo
-     * @param  string  $leave
-     * @param  string  $leaveFrom
-     * @param  string  $leaveTo
      * @return $this
      */
     public function new(
@@ -48,7 +41,6 @@ class TransitionRepository
     /**
      * Returns the animation with the given name.
      *
-     * @param  string  $name
      * @return \ProtoneMedia\Splade\TransitionAnimation
      */
     public function get(string $name): TransitionAnimation
@@ -58,8 +50,6 @@ class TransitionRepository
 
     /**
      * Gathers all used classes in all animations and returns them as an array.
-     *
-     * @return array
      */
     public function classes(): array
     {

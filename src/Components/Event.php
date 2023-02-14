@@ -21,7 +21,6 @@ class Event extends Component
     /**
      * Parses the given 'listen' attribute.
      *
-     * @param  mixed  $listen
      * @return void
      */
     private function parseListeners(mixed $listen)

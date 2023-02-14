@@ -13,8 +13,6 @@ class CleanupTemporaryFileUploads extends Command
 
     /**
      * Cleans the temporary file uploads.
-     *
-     * @return int
      */
     public function handle(Filesystem $filesystem): int
     {

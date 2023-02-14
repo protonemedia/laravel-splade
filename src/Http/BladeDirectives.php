@@ -27,7 +27,6 @@ class BladeDirectives
      * Returns a template with the main app element and all required Splade attributes.
      *
      * @param  string  $expression
-     * @return string
      */
     public function splade($expression = ''): string
     {
@@ -42,8 +41,6 @@ class BladeDirectives
 
     /**
      * Returns a template that eventually renders the Splade SEO Head.
-     *
-     * @return string
      */
     public function spladeHead(): string
     {
@@ -52,8 +49,6 @@ class BladeDirectives
 
     /**
      * Returns a Vue directive to preserve the scroll props of the element.
-     *
-     * @return string
      */
     public function preserveScroll($expression): string
     {
@@ -66,9 +61,6 @@ class BladeDirectives
      * Parses the expression given to the Table Cell directive. It returns
      * an array containing the name of the cell, and the callback
      * function that's used to render the contents of the cell.
-     *
-     * @param  string  $expression
-     * @return array
      */
     public static function parseTableCellDirectiveExpression(string $expression): array
     {

@@ -25,8 +25,6 @@ class SpladeQueryBuilder extends SpladeTable
 
     /**
      * Ignore case on searches.
-     *
-     * @var bool
      */
     private bool $ignoreCase = true;
 
@@ -38,9 +36,6 @@ class SpladeQueryBuilder extends SpladeTable
     /**
      * Initializes this instance with an empty resource. The results will be
      * loaded when the Table components calls the beforeRender() method.
-     *
-     * @param  \Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder|\Spatie\QueryBuilder\QueryBuilder  $builder
-     * @param  Request|null  $request
      */
     public function __construct(private BaseQueryBuilder|EloquentBuilder|SpatieQueryBuilder $builder, Request $request = null)
     {
@@ -50,7 +45,6 @@ class SpladeQueryBuilder extends SpladeTable
     /**
      * Setter whether terms should be parsed.
      *
-     * @param  bool  $state
      * @return $this
      */
     public function parseTerms(bool $state = true): self
@@ -63,7 +57,6 @@ class SpladeQueryBuilder extends SpladeTable
     /**
      * Setter for ignoring case.
      *
-     * @param  bool  $state
      * @return $this
      */
     public function ignoreCase(bool $state = true): self
@@ -81,8 +74,6 @@ class SpladeQueryBuilder extends SpladeTable
     /**
      * Helper method to set the pagination method and per page value.
      *
-     * @param  string  $method
-     * @param  int|null  $perPage
      * @return $this
      */
     private function setPagination(string $method, ?int $perPage = null): self
@@ -129,9 +120,6 @@ class SpladeQueryBuilder extends SpladeTable
 
     /**
      * Parse the terms and loop through them with the optional callable.
-     *
-     * @param  string  $terms
-     * @return \Illuminate\Support\Collection
      */
     public function parseTermsIntoCollection(string $terms): Collection
     {
@@ -144,11 +132,6 @@ class SpladeQueryBuilder extends SpladeTable
 
     /**
      * Formats the terms and returns the right where operator for the given search method.
-     *
-     * @param  \Illuminate\Database\Eloquent\Builder  $builder
-     * @param  string  $term
-     * @param  string|null  $searchMethod
-     * @return array
      */
     private function getTermAndWhereOperator(EloquentBuilder $builder, string $term, ?string $searchMethod = null): array
     {
@@ -207,7 +190,6 @@ class SpladeQueryBuilder extends SpladeTable
      * to be sorted by a (nested) relationship, it will
      * verify the PowerJoins package is installed.
      *
-     * @param  \ProtoneMedia\Splade\Table\Column  $column
      * @return void
      */
     private function applySorting(Column $column)
@@ -348,8 +330,6 @@ class SpladeQueryBuilder extends SpladeTable
 
     /**
      * Prepares the query for an export and returns the Builder.
-     *
-     * @return BaseQueryBuilder|EloquentBuilder|SpatieQueryBuilder
      */
     public function getBuilderForExport(): BaseQueryBuilder|EloquentBuilder|SpatieQueryBuilder
     {

@@ -14,8 +14,6 @@ class PublishFormStylesheetsCommand extends Command
     /**
      * Publishes the stylesheets for the Choices.js and
      * Flatpickr integrations into the app's resources/css folder.
-     *
-     * @return int
      */
     public function handle(): int
     {

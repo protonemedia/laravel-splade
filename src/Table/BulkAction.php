@@ -14,9 +14,6 @@ class BulkAction
     /**
      * This class represents a bulk action within a Splade Table.
      *
-     * @param  string  $key
-     * @param  string  $label
-     * @param  string  $tableClass
      * @param  callable  $beforeCallback
      * @param  callable  $eachCallback
      * @param  callable  $afterCallback
@@ -46,8 +43,6 @@ class BulkAction
 
     /**
      * Generates a slug based on the label.
-     *
-     * @return string
      */
     public function getSlug(): string
     {
@@ -56,8 +51,6 @@ class BulkAction
 
     /**
      * Generates a Signed URL to the bulk action URL.
-     *
-     * @return string
      */
     public function getUrl(): string
     {

@@ -19,9 +19,6 @@ class SpladeComponent extends DynamicComponent
 
     /**
      * Prepends the 'x-' Blade Component prefix to the given name.
-     *
-     * @param  string  $name
-     * @return string
      */
     public static function tag(string $name): string
     {
@@ -30,9 +27,6 @@ class SpladeComponent extends DynamicComponent
 
     /**
      * Prepends the configured prefix to the given component name.
-     *
-     * @param  string  $name
-     * @return string
      */
     public static function normalize(string $name): string
     {

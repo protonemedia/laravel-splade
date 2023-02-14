@@ -12,12 +12,6 @@ trait HasFilters
     /**
      * Add a select filter to the query builder.
      *
-     * @param  string  $key
-     * @param  array  $options
-     * @param  string|null  $label
-     * @param  string|null  $defaultValue
-     * @param  bool  $noFilterOption
-     * @param  string|null  $noFilterOptionLabel
      * @return $this
      */
     public function selectFilter(
@@ -46,8 +40,6 @@ trait HasFilters
     /**
      * Returns a collection with all filters, and applies
      * the data from the request query on each of them.
-     *
-     * @return \Illuminate\Support\Collection
      */
     public function filters(): Collection
     {
@@ -68,8 +60,6 @@ trait HasFilters
 
     /**
      * Returns a boolean whether this table has filters.
-     *
-     * @return bool
      */
     public function hasFilters(): bool
     {
@@ -78,8 +68,6 @@ trait HasFilters
 
     /**
      * Returns a boolean whether this table has filters enabled.
-     *
-     * @return bool
      */
     public function hasFiltersEnabled(): bool
     {

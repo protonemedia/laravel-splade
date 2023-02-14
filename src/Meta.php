@@ -10,8 +10,6 @@ class Meta implements Arrayable, JsonSerializable
 {
     /**
      * Creates a new instance.
-     *
-     * @param  array  $attributes
      */
     public function __construct(
         private array $attributes
@@ -20,8 +18,6 @@ class Meta implements Arrayable, JsonSerializable
 
     /**
      * Renders the meta tag with all attributes.
-     *
-     * @return string
      */
     public function render(): string
     {
@@ -36,9 +32,6 @@ class Meta implements Arrayable, JsonSerializable
 
     /**
      * Returns a boolean whether the given attributes match.
-     *
-     * @param  array  $attributes
-     * @return bool
      */
     public function hasAllAttributes(array $attributes): bool
     {
@@ -57,8 +50,6 @@ class Meta implements Arrayable, JsonSerializable
 
     /**
      * Returns an array with all attributes.
-     *
-     * @return array
      */
     public function toArray(): array
     {
@@ -82,7 +73,6 @@ class Meta implements Arrayable, JsonSerializable
     /**
      * Dynamic getter for the attributes.
      *
-     * @param  string  $key
      * @return mixed
      */
     public function __get(string $key)
