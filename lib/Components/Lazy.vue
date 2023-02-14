@@ -30,8 +30,17 @@ export default {
             type: Boolean,
             required: false,
             default: true
+        },
+
+        passthrough: {
+            type: Object,
+            required: false,
+            default() {
+                return {};
+            },
         }
     },
+
     emits: ["loaded"],
 
     data() {

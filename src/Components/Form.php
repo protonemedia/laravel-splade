@@ -84,12 +84,14 @@ class Form extends Component
     /**
      * Split the value by comma, trim each item, and filter empty items.
      *
-     * @param  string  $value
+     * @param  array|string  $value
      * @return array
      */
-    public static function splitByComma(string $value): array
+    public static function splitByComma(array|string $value): array
     {
-        return array_filter(array_map('trim', explode(',', $value)));
+        $array = is_array($value) ? $value : explode(',', $value);
+
+        return array_filter(array_map('trim', $array));
     }
 
     /**

@@ -11,13 +11,24 @@ const props = defineProps({
         required: false,
         default: "",
     },
+
+    passthrough: {
+        type: Object,
+        required: false,
+        default() {
+            return {};
+        },
+    },
 });
 
 const render = ref(null);
 
 function updateRender() {
     render.value = h({
-        template: props.html
+        template: props.html,
+        data() {
+            return { ...props.passthrough };
+        },
     });
 }
 

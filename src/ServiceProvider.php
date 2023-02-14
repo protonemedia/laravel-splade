@@ -236,6 +236,7 @@ class ServiceProvider extends BaseServiceProvider
             Components\Dialog::class,
             Components\Dropdown::class,
             Components\Dynamic::class,
+            Components\DynamicHtml::class,
             Components\Errors::class,
             Components\Event::class,
             Components\Flash::class,
