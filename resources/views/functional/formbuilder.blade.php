@@ -1,11 +1,11 @@
 <x-splade-form
-    method="{{ $for->getMethod() }}"
-    action="{{ $for->getAction() }}"
-    :default="$for->getData()"
-    @class($for->getClass())
+    method="{{ $form->getMethod() }}"
+    action="{{ $form->getAction() }}"
+    :default="$form->getData()"
+    @class($form->getClass())
 >
 
-    @foreach($for->getFields() as $field)
+    @foreach($form->getFields() as $field)
         {!! $field->render() !!}
     @endforeach
 

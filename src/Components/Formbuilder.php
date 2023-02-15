@@ -31,7 +31,7 @@ class Formbuilder extends Component
     public function render()
     {
         return view('splade::functional.formbuilder', [
-            'for' => $this->for,
+            'form' => $this->for,
         ]);
     }
 }
