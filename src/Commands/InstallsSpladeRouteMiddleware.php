@@ -15,7 +15,11 @@ trait InstallsSpladeRouteMiddleware
     {
         $httpKernel = file_get_contents(app_path('Http/Kernel.php'));
 
-        $search = 'protected $routeMiddleware = [' . SpladeInstallCommand::eol();
+        $eol = SpladeInstallCommand::eol();
+
+        $search = version_compare(app()->version(), '10.0', '>=')
+            ? 'protected $middlewareAliases = [' . $eol
+            : 'protected $routeMiddleware = [' . $eol;
 
         $routeMiddlewareAfter = Str::after($httpKernel, $search);
 
@@ -29,7 +33,7 @@ trait InstallsSpladeRouteMiddleware
             app_path('Http/Kernel.php'),
             str_replace(
                 $routeMiddlewareAfter,
-                '        ' . $routeMiddleware . ',' . SpladeInstallCommand::eol() . $routeMiddlewareAfter,
+                '        ' . $routeMiddleware . ',' . $eol . $routeMiddlewareAfter,
                 $httpKernel
             )
         );
