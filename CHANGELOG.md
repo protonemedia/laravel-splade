@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 1.2.14.1 - 2023-02-15
+
+- Patch release for Laravel 10
+
 ## 1.2.14 - 2023-02-13
 
 - `SpladeTable` now uses the `Conditionable` trait.
