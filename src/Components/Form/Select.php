@@ -66,7 +66,6 @@ class Select extends Component
     /**
      * Enable Choices.js globally for all selects elements, optionally with default options.
      *
-     * @param  array|bool  $options
      * @return void
      */
     public static function defaultChoices(bool|array $options = true)
@@ -76,8 +75,6 @@ class Select extends Component
 
     /**
      * Returns the JSON representation of the Choices.js options.
-     *
-     * @return string
      */
     public function jsChoicesOptions(): string
     {
@@ -87,8 +84,6 @@ class Select extends Component
     /**
      * Returns an array with Choices.js options. If Choices.js won't
      * be used, it returns a negative boolean.
-     *
-     * @return bool|array
      */
     public function choicesOptions(): bool|array
     {
@@ -113,7 +108,6 @@ class Select extends Component
      * This maps each option into a FormSelectOption instance.
      *
      * @param  mixed  $options
-     * @return array
      */
     private function mapOptions($options): array
     {
@@ -158,8 +152,6 @@ class Select extends Component
 
     /**
      * Maps the options and prepends a placeholder when necessary.
-     *
-     * @return array
      */
     public function options(): array
     {
@@ -210,7 +202,6 @@ class Select extends Component
      * workaround for a Vue bug. See also Form::selected().
      *
      * @param  mixed  $value
-     * @return bool
      */
     public function selected($value): bool
     {

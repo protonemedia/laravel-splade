@@ -34,9 +34,6 @@ class SpladeMiddleware
 
     /**
      * This Middleware is required to support Splade's SPA and other features.
-     *
-     * @param  \ProtoneMedia\Splade\SpladeCore  $splade
-     * @param  \ProtoneMedia\Splade\Ssr  $ssr
      */
     public function __construct(
         private SpladeCore $splade,
@@ -47,7 +44,6 @@ class SpladeMiddleware
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
@@ -122,7 +118,6 @@ class SpladeMiddleware
      * A callback that sits between the 'regular' response, and
      * the handling of the Splade response.
      *
-     * @param  Closure|null  $callback
      * @return void
      */
     public static function afterOriginalResponse(Closure $callback = null)
@@ -133,9 +128,7 @@ class SpladeMiddleware
     /**
      * Handle a Splade request, made from the Vue app.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  \Illuminate\Http\Response  $response
-     * @param  object  $spladeData
      * @return \Illuminate\Http\Response|\Illuminate\Http\JsonResponse
      */
     private function handleSpladeRequest(Request $request, Response $response, object $spladeData): Response|JsonResponse
@@ -194,10 +187,6 @@ class SpladeMiddleware
 
     /**
      * Grabs the component from the rendered content and returns it.
-     *
-     * @param  string  $content
-     * @param  int  $componentKey
-     * @return string
      */
     public static function extractComponent(string $content, string $component, int $componentKey): string
     {
@@ -221,9 +210,7 @@ class SpladeMiddleware
     /**
      * Handle a non-Splade request. This is probably the inital request.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  \Illuminate\Http\Response  $response
-     * @param  object  $spladeData
      * @return \Illuminate\Http\Response
      */
     private function handleRegularRequest(Request $request, Response $response, object $spladeData): Response
@@ -304,9 +291,6 @@ class SpladeMiddleware
 
     /**
      * When there are Data Stores registered, wrap the content in a Data Store component.
-     *
-     * @param  string  $content
-     * @return string
      */
     private function wrapContentInDataStores(string $content): string
     {
@@ -330,9 +314,6 @@ class SpladeMiddleware
      * Extracts all Dynamic Content, i.e. content that changes in a persistent
      * layout, and replaces it with a placeholder. It returns the
      * content, and the extracted Dynamic Content as an array.
-     *
-     * @param  string  $content
-     * @return array
      */
     public static function extractDynamicsFromContent(string $content): array
     {
@@ -361,9 +342,6 @@ class SpladeMiddleware
 
     /**
      * Finds a Splade Modal in the content and returns it.
-     *
-     * @param  string  $content
-     * @return string|null
      */
     private function parseModalContent(string $content): ?string
     {
@@ -378,9 +356,6 @@ class SpladeMiddleware
 
     /**
      * Returns all error messages from the session.
-     *
-     * @param  \Illuminate\Support\ViewErrorBag  $viewErrorBag
-     * @return array
      */
     private function allErrorMessages(ViewErrorBag $viewErrorBag): array
     {
@@ -393,7 +368,6 @@ class SpladeMiddleware
      * Merges all bags from all view errors bags into one.
      *
      * @param  \Illuminate\Support\ViewErrorBag[]  ...$viewErrorsBags
-     * @return \Illuminate\Support\ViewErrorBag
      */
     private function mergeViewErrorBags(...$viewErrorsBags): ViewErrorBag
     {
@@ -414,10 +388,6 @@ class SpladeMiddleware
 
     /**
      * This methods returns all relevant data for a Splade page view.
-     *
-     * @param  \Illuminate\Contracts\Session\Session  $session
-     * @param  \Illuminate\Support\ViewErrorBag  $errorsFromRedirect
-     * @return object
      */
     private function spladeData(Session $session, ViewErrorBag $errorsFromRedirect): object
     {
@@ -498,9 +468,6 @@ class SpladeMiddleware
 
     /**
      * Maps a full URL to a host:port formatted string.
-     *
-     * @param  string  $url
-     * @return string
      */
     public static function urlToHostAndPort(string $url): string
     {
@@ -522,8 +489,6 @@ class SpladeMiddleware
 
     /**
      * Renders the Confirm and ToastWrapper components.
-     *
-     * @return string
      */
     public static function renderedComponents(): string
     {

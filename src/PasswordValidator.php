@@ -13,8 +13,6 @@ class PasswordValidator
 {
     /**
      * Returns a boolean whether Laravel Fortify is installed or not.
-     *
-     * @return bool
      */
     public function usesFortify(): bool
     {
@@ -24,7 +22,6 @@ class PasswordValidator
     /**
      * Resolves the user from the request.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return mixed
      */
     private function user(Request $request)
@@ -36,9 +33,6 @@ class PasswordValidator
 
     /**
      * Returns whether the user has recently confirmed their password.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return bool
      */
     public function recentlyConfirmed(Request $request): bool
     {
@@ -57,8 +51,6 @@ class PasswordValidator
      * Validate the given user's password using Laravel Fortify.
      *
      * @param  \Illuminate\Contracts\Auth\Authenticatable  $user
-     * @param  string  $password
-     * @return bool
      */
     private function validateWithFortify(Authenticatable $user = null, string $password): bool
     {
@@ -71,8 +63,6 @@ class PasswordValidator
      * Validate the given user's password using regular Laravel Auth logic.
      *
      * @param  \Illuminate\Contracts\Auth\Authenticatable  $user
-     * @param  string  $password
-     * @return bool
      */
     private function validateWithoutForfify(Authenticatable $user = null, string $password): bool
     {
@@ -86,10 +76,6 @@ class PasswordValidator
 
     /**
      * Validates the given Request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  string  $attribute
-     * @return bool
      */
     public function validateRequest(Request $request, string $attribute): bool
     {
@@ -98,11 +84,6 @@ class PasswordValidator
 
     /**
      * Validates the given User and password.
-     *
-     * @param  \Illuminate\Contracts\Auth\Authenticatable|null  $user
-     * @param  string  $password
-     * @param  string  $attribute
-     * @return bool
      */
     public function validate(Authenticatable $user = null, string $password, string $attribute): bool
     {

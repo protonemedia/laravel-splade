@@ -35,8 +35,6 @@ class TableExporter implements FromQuery, Responsable, ShouldAutoSize, WithColum
 
     /**
      * Returns the Query Builder to fetch the records.
-     *
-     * @return BaseQueryBuilder|EloquentBuilder|SpatieQueryBuilder
      */
     public function query(): BaseQueryBuilder|EloquentBuilder|SpatieQueryBuilder
     {
@@ -45,8 +43,6 @@ class TableExporter implements FromQuery, Responsable, ShouldAutoSize, WithColum
 
     /**
      * Returns a collection with all columns used in the export.
-     *
-     * @return \Illuminate\Support\Collection
      */
     private function columns(): Collection
     {
@@ -57,8 +53,6 @@ class TableExporter implements FromQuery, Responsable, ShouldAutoSize, WithColum
 
     /**
      * Returns an array of all column labels.
-     *
-     * @return array
      */
     public function headings(): array
     {
@@ -67,8 +61,6 @@ class TableExporter implements FromQuery, Responsable, ShouldAutoSize, WithColum
 
     /**
      * Returns an array with optional formatting for the columns.
-     *
-     * @return array
      */
     public function columnFormats(): array
     {
@@ -93,7 +85,6 @@ class TableExporter implements FromQuery, Responsable, ShouldAutoSize, WithColum
      * Returns an array with optional styling for each column. The column
      * may also be styled with a callback.
      *
-     * @param  \PhpOffice\PhpSpreadsheet\Worksheet\Worksheet  $sheet
      * @return array
      */
     public function styles(Worksheet $sheet)
@@ -129,7 +120,6 @@ class TableExporter implements FromQuery, Responsable, ShouldAutoSize, WithColum
      * Maps an item into cells for a row.
      *
      * @param  mixed  $item
-     * @return array
      */
     public function map($item): array
     {
@@ -147,8 +137,6 @@ class TableExporter implements FromQuery, Responsable, ShouldAutoSize, WithColum
     /**
      * An array with Events that should be registered.
      * https://docs.laravel-excel.com/3.1/exports/extending.html#events
-     *
-     * @return array
      */
     public function registerEvents(): array
     {

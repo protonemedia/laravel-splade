@@ -10,8 +10,6 @@ class Button extends Component
 {
     /**
      * It's a primary button by default.
-     *
-     * @var bool
      */
     public bool $primary = true;
 
@@ -43,9 +41,6 @@ class Button extends Component
 
     /**
      * Returns a boolean whether there are background or text classes.
-     *
-     * @param  \Illuminate\View\ComponentAttributeBag  $attributes
-     * @return bool
      */
     public static function hasCustomStyling(ComponentAttributeBag $attributes): bool
     {

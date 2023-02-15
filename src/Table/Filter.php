@@ -9,14 +9,6 @@ class Filter implements Arrayable
 {
     /**
      * This class represents a filter in a Splade Table.
-     *
-     * @param  string  $key
-     * @param  string  $label
-     * @param  array  $options
-     * @param  string|null  $value
-     * @param  bool  $noFilterOption
-     * @param  string  $noFilterOptionLabel
-     * @param  string  $type
      */
     public function __construct(
         public string $key,
@@ -31,8 +23,6 @@ class Filter implements Arrayable
 
     /**
      * Returns a clone of the instance.
-     *
-     * @return static
      */
     public function clone(): static
     {
@@ -49,8 +39,6 @@ class Filter implements Arrayable
 
     /**
      * Returns a boolean whether the value is not null.
-     *
-     * @return bool
      */
     public function hasValue(): bool
     {
@@ -60,8 +48,6 @@ class Filter implements Arrayable
     /**
      * Returns the options array, and if set, prepends
      * a 'no filter' option to the options array.
-     *
-     * @return array
      */
     public function options(): array
     {

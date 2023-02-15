@@ -20,8 +20,6 @@ class SpladeInstallCommand extends Command
      * Installs the Splade Route Middleware, the Exception Handler, the
      * required NPM packages and copies all boilerplate files into
      * the application.
-     *
-     * @return int
      */
     public function handle(): int
     {
@@ -94,8 +92,6 @@ class SpladeInstallCommand extends Command
 
     /**
      * End of line symbol.
-     *
-     * @return string
      */
     public static function eol(): string
     {
@@ -124,7 +120,6 @@ class SpladeInstallCommand extends Command
     /**
      * Updates the "package.json" file.
      *
-     * @param  callable  $callback
      * @param  bool  $dev
      * @return void
      */

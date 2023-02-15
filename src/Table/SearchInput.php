@@ -15,10 +15,6 @@ class SearchInput
     /**
      * This class represents a Search Input within a Splade Table.
      *
-     * @param  string  $key
-     * @param  array  $columns
-     * @param  string  $label
-     * @param  string|null  $value
      * @param  string  $method
      */
     public function __construct(
@@ -31,8 +27,6 @@ class SearchInput
 
     /**
      * Returns a clone of the instance.
-     *
-     * @return static
      */
     public function clone(): static
     {

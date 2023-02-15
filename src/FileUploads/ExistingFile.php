@@ -29,9 +29,6 @@ class ExistingFile implements Arrayable, JsonSerializable, Stringable
 
     /**
      * Decrypts the string and returns a new instance, or null if the string is invalid.
-     *
-     * @param  string  $value
-     * @return static|null
      */
     public static function fromEncryptedString(string $value): ?static
     {
@@ -69,8 +66,6 @@ class ExistingFile implements Arrayable, JsonSerializable, Stringable
      * @param  mixed  $media
      * @param  string  $previewConversionName
      * @param  mixed  $previewUrlExpiration
-     * @param  array  $previewUrlOptions
-     * @return ExistingFile|array|null
      */
     public static function fromMediaLibrary(
         $media,
@@ -132,7 +127,6 @@ class ExistingFile implements Arrayable, JsonSerializable, Stringable
     /**
      * Returns an instance of ExistingFileFromDisk to load the file from a disk.
      *
-     * @param  string  $disk
      * @return \ProtoneMedia\Splade\FileUploads\ExistingFileFromDisk
      */
     public static function fromDisk(string $disk): ExistingFileFromDisk
@@ -144,7 +138,6 @@ class ExistingFile implements Arrayable, JsonSerializable, Stringable
      * Returns an instance of ExistingFileFromDisk to load the file from a disk,
      * but without a preview.
      *
-     * @param  string  $disk
      * @return \ProtoneMedia\Splade\FileUploads\ExistingFileFromDisk
      */
     public static function fromDiskWithoutPreview(string $disk): ExistingFileFromDisk
@@ -154,9 +147,6 @@ class ExistingFile implements Arrayable, JsonSerializable, Stringable
 
     /**
      * Helper method to create a new instance with the filename.
-     *
-     * @param  string  $filename
-     * @return static
      */
     public static function withFilename(string $filename): static
     {
@@ -165,9 +155,6 @@ class ExistingFile implements Arrayable, JsonSerializable, Stringable
 
     /**
      * Setter for the metadata.
-     *
-     * @param  array  $metadata
-     * @return self
      */
     public function metadata(array $metadata): self
     {
@@ -178,9 +165,6 @@ class ExistingFile implements Arrayable, JsonSerializable, Stringable
 
     /**
      * Setter for the name.
-     *
-     * @param  string  $name
-     * @return self
      */
     public function name(string $name): self
     {
@@ -191,9 +175,6 @@ class ExistingFile implements Arrayable, JsonSerializable, Stringable
 
     /**
      * Setter for the previewUrl.
-     *
-     * @param  string  $previewUrl
-     * @return self
      */
     public function previewUrl(string $previewUrl): self
     {
@@ -204,9 +185,6 @@ class ExistingFile implements Arrayable, JsonSerializable, Stringable
 
     /**
      * Setter for the MIME Type.
-     *
-     * @param  string  $mimeType
-     * @return self
      */
     public function mimeType(string $mimeType): self
     {
@@ -217,9 +195,6 @@ class ExistingFile implements Arrayable, JsonSerializable, Stringable
 
     /**
      * Setter for the size in bytes.
-     *
-     * @param  int  $sizeInBytes
-     * @return self
      */
     public function sizeInBytes(int $sizeInBytes): self
     {
@@ -240,8 +215,6 @@ class ExistingFile implements Arrayable, JsonSerializable, Stringable
 
     /**
      * Returns the data as an array.
-     *
-     * @return array
      */
     public function toArray(): array
     {
@@ -270,8 +243,6 @@ class ExistingFile implements Arrayable, JsonSerializable, Stringable
 
     /**
      * Getter for the identifier.
-     *
-     * @return string
      */
     public function getIdentifier(): string
     {
@@ -300,8 +271,6 @@ class ExistingFile implements Arrayable, JsonSerializable, Stringable
 
     /**
      * Returns the attributes as an encrypted string.
-     *
-     * @return string
      */
     public function encryptAttributes(): string
     {

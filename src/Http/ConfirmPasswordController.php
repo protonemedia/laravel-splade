@@ -11,10 +11,6 @@ class ConfirmPasswordController
 {
     /**
      * Indicates whether the user has recently confirmed their password.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \ProtoneMedia\Splade\PasswordValidator  $passwordValidator
-     * @return \Illuminate\Http\Response
      */
     public function show(Request $request, PasswordValidator $passwordValidator): Response
     {
@@ -29,10 +25,6 @@ class ConfirmPasswordController
 
     /**
      * Confirm the given user's password.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \ProtoneMedia\Splade\PasswordValidator  $passwordValidator
-     * @return \Illuminate\Http\Response
      */
     public function store(Request $request, PasswordValidator $passwordValidator): Response
     {
