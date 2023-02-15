@@ -17,7 +17,7 @@ trait InstallsSpladeExceptionHandler
 
         $exceptionHandler = file_get_contents(app_path('Exceptions/Handler.php'));
 
-        $search = version_compare(LARAVEL_VERSION, '10.0', '>=')
+        $search = version_compare(app()->version(), '10.0', '>=')
             ? 'public function register(): void' . $eol . '    {'
             : 'public function register()' . $eol . '    {';
 
