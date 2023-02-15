@@ -14,23 +14,6 @@ class Input extends Component
     protected string $type = 'text';
 
     /**
-     * Set the input type
-     *
-     * @param string $type
-     * @return $this
-     */
-    public function type(string $type = 'text'): self
-    {
-        $this->type = $type;
-
-        if (in_array($type, ['date', 'time'])) {
-            $this->{$type} = true;
-        }
-
-        return $this;
-    }
-
-    /**
      * Set the minlenght
      *
      * @param int $value
