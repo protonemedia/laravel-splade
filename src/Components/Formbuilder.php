@@ -14,13 +14,13 @@ class Formbuilder extends Component
      * @return void
      */
     public function __construct(
-        public SpladeForm|AbstractForm|string $form
+        public SpladeForm|AbstractForm|string $for
     ) {
-        $form = is_string($form) ? app($form) : $form;
+        $for = is_string($for) ? app($for) : $for;
 
-        $this->form = $form instanceof AbstractForm
-            ? $form->build()
-            : $form;
+        $this->for = $for instanceof AbstractForm
+            ? $for->build()
+            : $for;
     }
 
     /**
@@ -31,7 +31,7 @@ class Formbuilder extends Component
     public function render()
     {
         return view('splade::functional.formbuilder', [
-            'form' => $this->form,
+            'for' => $this->for,
         ]);
     }
 }

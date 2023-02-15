@@ -9,9 +9,9 @@ abstract class AbstractForm
     /**
      * The SpladeForm instance.
      *
-     * @var \ProtoneMedia\Splade\SpladeForm|null
+     * @var SpladeForm|null
      */
-    private ?SpladeForm $form = null;
+    private ?SpladeForm $for = null;
 
     /**
      * Adds fields to the form
@@ -26,7 +26,7 @@ abstract class AbstractForm
     /**
      * Helper method to create a new SpladeForm instance.
      *
-     * @return \ProtoneMedia\Splade\SpladeForm
+     * @return SpladeForm
      */
     public static function build(...$arguments): SpladeForm
     {
@@ -39,15 +39,15 @@ abstract class AbstractForm
      * Creates a new SpladeForm instance with the resource or
      * query builder from the 'build()' method of this class.
      *
-     * @return \ProtoneMedia\Splade\SpladeForm
+     * @return SpladeForm
      */
     public function make(): SpladeForm
     {
-        if ($this->form) {
-            return $this->form;
+        if ($this->for) {
+            return $this->for;
         }
 
-        return $this->form = tap(
+        return $this->for = tap(
             SpladeForm::build($this->fields()),
             function (SpladeForm $form) {
                 $form->setConfigurator($this);
@@ -59,7 +59,7 @@ abstract class AbstractForm
     /**
      * Configure the given SpladeForm.
      *
-     * @param  \ProtoneMedia\Splade\SpladeForm  $table
+     * @param SpladeForm $table
      * @return void
      */
     public function configure(SpladeForm $form)
