@@ -292,7 +292,7 @@ class SpladeMiddleware
     /**
      * When there are Data Stores registered, wrap the content in a Data Store component.
      */
-    private function wrapContentInDataStores(string $content): string
+    public function wrapContentInDataStores(string $content): string
     {
         $dataStores = $this->splade->getDataStores();
 
