@@ -72,4 +72,15 @@ class PersistentLayoutTest extends DuskTestCase
                 ->assertInputValue('persistent', 'persistent-1');
         });
     }
+
+    /** @test */
+    public function it_can_navigate_and_keep_the_global_data_store_binding()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('/navigation/video/one')
+                ->waitForText('Chapter one')
+                ->type('@name', 'Nike')
+                ->assertSeeIn('@company', 'Nike');
+        });
+    }
 }

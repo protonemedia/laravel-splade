@@ -6,6 +6,7 @@
     <Render
       :key="keepAliveKey"
       :html="$splade.htmlForDynamicComponent(name)"
+      :passthrough="passthrough"
     />
   </KeepAlive>
 
@@ -13,6 +14,7 @@
     v-else
     :key="keepAliveKey"
     :html="$splade.htmlForDynamicComponent(name)"
+    :passthrough="passthrough"
   />
 </template>
 
@@ -30,6 +32,14 @@ defineProps({
         type: String,
         required: true,
     },
+
+    passthrough: {
+        type: Object,
+        required: false,
+        default() {
+            return {};
+        },
+    }
 });
 
 const $splade = inject("$splade") || {};

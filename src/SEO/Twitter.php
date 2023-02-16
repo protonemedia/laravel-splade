@@ -41,9 +41,6 @@ trait Twitter
 
     /**
      * Setter for the 'twitter:card' Meta Name.
-     *
-     * @param  string  $value
-     * @return self
      */
     public function twitterCard(string $value): self
     {
@@ -54,9 +51,6 @@ trait Twitter
 
     /**
      * Setter for the 'twitter:site' Meta Name.
-     *
-     * @param  string  $value
-     * @return self
      */
     public function twitterSite(string $value): self
     {
@@ -67,9 +61,6 @@ trait Twitter
 
     /**
      * Setter for the 'twitter:title' Meta Name.
-     *
-     * @param  string  $value
-     * @return self
      */
     public function twitterTitle(string $value): self
     {
@@ -80,9 +71,6 @@ trait Twitter
 
     /**
      * Setter for the 'twitter:description' Meta Name.
-     *
-     * @param  string  $value
-     * @return self
      */
     public function twitterDescription(string $value): self
     {
@@ -93,9 +81,6 @@ trait Twitter
 
     /**
      * Setter for the 'twitter:image' Meta Name.
-     *
-     * @param  string  $value
-     * @return self
      */
     public function twitterImage(string $value): self
     {

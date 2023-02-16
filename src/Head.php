@@ -49,8 +49,6 @@ class Head implements Arrayable, JsonSerializable
 
     /**
      * Use the traits the fill the meta properties with the default data.
-     *
-     * @return self
      */
     private function autoFill(): self
     {
@@ -65,8 +63,6 @@ class Head implements Arrayable, JsonSerializable
     /**
      * Setter for the title.
      *
-     * @param  string  $title
-     * @param  bool  $withPrefixAndSuffix
      * @return $this
      */
     public function title(string $title, bool $withPrefixAndSuffix = true): self
@@ -93,7 +89,6 @@ class Head implements Arrayable, JsonSerializable
     /**
      * Setter for the canonical URL.
      *
-     * @param  string  $url
      * @return $this
      */
     public function canonical(string $url): self
@@ -106,7 +101,6 @@ class Head implements Arrayable, JsonSerializable
     /**
      * Setter for the description.
      *
-     * @param  string  $description
      * @return $this
      */
     public function description(string $description): self
@@ -119,7 +113,6 @@ class Head implements Arrayable, JsonSerializable
     /**
      * Setter for the keywords.
      *
-     * @param  mixed  $keywords
      * @return $this
      */
     public function keywords(mixed $keywords): self
@@ -141,9 +134,6 @@ class Head implements Arrayable, JsonSerializable
     /**
      * Sets a meta tag by its name attribute.
      *
-     * @param  string  $name
-     * @param  string  $content
-     * @param  bool  $replace
      * @return $this
      */
     public function metaByName(string $name, string $content, bool $replace = true): self
@@ -164,9 +154,6 @@ class Head implements Arrayable, JsonSerializable
     /**
      * Sets a meta tag by its property attribute.
      *
-     * @param  string  $property
-     * @param  string  $content
-     * @param  bool  $replace
      * @return $this
      */
     public function metaByProperty(string $property, string $content, bool $replace = true): self
@@ -187,7 +174,6 @@ class Head implements Arrayable, JsonSerializable
     /**
      * Adds a meta tag by the given attributes.
      *
-     * @param  array  $attributes
      * @return $this
      */
     public function meta(array $attributes): self
@@ -200,7 +186,6 @@ class Head implements Arrayable, JsonSerializable
     /**
      * Remove a meta tag that matches the given attributes
      *
-     * @param  array  $attributes
      * @return void
      */
     public function removeMeta(array $attributes)
@@ -214,9 +199,6 @@ class Head implements Arrayable, JsonSerializable
 
     /**
      * Get a Meta instance by name.
-     *
-     * @param  string  $name
-     * @return \Illuminate\Support\Collection
      */
     public function getMetaByName(string $name): Collection
     {
@@ -227,9 +209,6 @@ class Head implements Arrayable, JsonSerializable
 
     /**
      * Get a Meta instance by property.
-     *
-     * @param  string  $property
-     * @return \Illuminate\Support\Collection
      */
     public function getMetaByProperty(string $property): Collection
     {
@@ -240,8 +219,6 @@ class Head implements Arrayable, JsonSerializable
 
     /**
      * Getter for the title.
-     *
-     * @return string
      */
     public function getTitle(): string
     {
@@ -250,8 +227,6 @@ class Head implements Arrayable, JsonSerializable
 
     /**
      * Renders a Title tag with the title.
-     *
-     * @return string
      */
     private function renderTitle(): string
     {
@@ -262,8 +237,6 @@ class Head implements Arrayable, JsonSerializable
 
     /**
      * Renders all meta tags.
-     *
-     * @return string
      */
     private function renderMeta(): string
     {
@@ -279,8 +252,6 @@ class Head implements Arrayable, JsonSerializable
 
     /**
      * Returns a HtmlString with the title and the meta tags.
-     *
-     * @return \Illuminate\Contracts\Support\Htmlable
      */
     public function renderHead(): Htmlable
     {
@@ -289,8 +260,6 @@ class Head implements Arrayable, JsonSerializable
 
     /**
      * Returns an array with the title and meta tags.
-     *
-     * @return array
      */
     public function toArray(): array
     {
@@ -303,8 +272,6 @@ class Head implements Arrayable, JsonSerializable
 
     /**
      * Returns the array from the 'toArray' method.
-     *
-     * @return mixed
      */
     public function jsonSerialize(): mixed
     {

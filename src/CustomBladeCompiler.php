@@ -26,9 +26,6 @@ class CustomBladeCompiler extends BladeCompiler
 
     /**
      * Returns a regex pattern to match an HTML tag and its contents.
-     *
-     * @param  string  $tag
-     * @return string
      */
     public static function regexForTag(string $tag): string
     {

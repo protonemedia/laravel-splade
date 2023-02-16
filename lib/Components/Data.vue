@@ -28,7 +28,7 @@ export default {
 
     data() {
         return {
-            values: {},
+            values: Object.assign({}, { ...this.default })
         };
     },
 
@@ -43,8 +43,6 @@ export default {
 
             // Overwrite the default values with the restored data.
             this.values = Object.assign({}, { ...this.default, ...restoredData });
-        } else {
-            this.values = Object.assign({}, { ...this.default });
         }
     },
 

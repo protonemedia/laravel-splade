@@ -74,6 +74,7 @@ Route::middleware('splade')->group(function () {
     Route::view('data/eloquent', 'data.eloquent')->name('data.eloquent');
     Route::view('data/global-1', 'data.global-1')->name('data.global-1');
     Route::view('data/global-2', 'data.global-2')->name('data.global-2');
+    Route::view('data/nestedStore', 'data.nestedStore')->name('data.nestedStore');
     Route::view('data/remember', 'data.remember')->name('data.remember');
     Route::view('data/localStorage', 'data.localStorage')->name('data.localStorage');
     Route::view('data/rememberWithDefault', 'data.rememberWithDefault')->name('data.rememberWithDefault');
@@ -217,6 +218,7 @@ Route::middleware('splade')->group(function () {
     Route::post('/formbuilder/multifields2', [FormbuilderController::class, 'storeMultifields2'])->name('formbuilder.multifields2.store');
 
     Route::get('lazy', [LazyController::class, 'show'])->name('lazy');
+    Route::get('lazy/nested', [LazyController::class, 'showNested'])->name('lazy.nested');
     Route::get('lazy/notifications', [LazyController::class, 'notifications'])->name('lazy.notifications');
 
     Route::get('navigation/one/{id?}', [NavigationController::class, 'one'])->name('navigation.one');

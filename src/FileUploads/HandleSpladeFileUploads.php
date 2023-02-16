@@ -28,7 +28,6 @@ class HandleSpladeFileUploads extends TransformsRequest
      * Handle an incoming request.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
      * @return mixed
      */
     public function handle($request, Closure $next, $keys = null)
@@ -46,7 +45,6 @@ class HandleSpladeFileUploads extends TransformsRequest
      * Helper method to generate a Middleware string that can be used in the routes file.
      *
      * @param  mixed  $keys
-     * @return string
      */
     public static function for($keys): string
     {
@@ -58,9 +56,7 @@ class HandleSpladeFileUploads extends TransformsRequest
     /**
      * Helper method to clean the request.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  mixed  $keys
-     * @return \Illuminate\Http\Request
      */
     public static function forRequest(Request $request, $keys = null): Request
     {
@@ -70,9 +66,6 @@ class HandleSpladeFileUploads extends TransformsRequest
     /**
      * Helper method to handle a FormRequest. It extracts the keys from the
      * validation rules that have a file rule.
-     *
-     * @param  FormRequest  $formRequest
-     * @return FormRequest
      */
     public static function forFormRequest(FormRequest $formRequest): FormRequest
     {
@@ -97,14 +90,6 @@ class HandleSpladeFileUploads extends TransformsRequest
         return static::forRequest($formRequest, $keys->isEmpty() ? null : $keys->all());
     }
 
-    /**
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Spatie\MediaLibrary\HasMedia  $subject
-     * @param  string  $key
-     * @param  string  $collectionName
-     * @param  string  $diskName
-     * @return \Illuminate\Support\Collection
-     */
     public static function syncMediaLibrary(Request $request, HasMedia $subject, string $key, string $collectionName = '', string $diskName = ''): Collection
     {
         $collectionName = $collectionName ?: 'default';
@@ -148,9 +133,6 @@ class HandleSpladeFileUploads extends TransformsRequest
 
     /**
      * Sets the request on the class.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return self
      */
     public function setRequest(Request $request): self
     {
@@ -163,7 +145,6 @@ class HandleSpladeFileUploads extends TransformsRequest
      * Setter for the keys that should be cleaned.
      *
      * @param  mixed  $keys
-     * @return self
      */
     public function setKeys($keys = null): self
     {
@@ -196,9 +177,6 @@ class HandleSpladeFileUploads extends TransformsRequest
 
     /**
      * Returns a boolean whether the key should be cleaned.
-     *
-     * @param  string  $key
-     * @return bool
      */
     private function shouldHandleKey(string $key): bool
     {

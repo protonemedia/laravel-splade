@@ -95,8 +95,6 @@ class File extends Component
 
     /**
      * Returns the JSON representation of the Filepond options.
-     *
-     * @return string
      */
     public function jsFilepondOptions(): string
     {
@@ -106,8 +104,6 @@ class File extends Component
     /**
      * Returns an array with Filepond options. If Filepond won't
      * be used, it returns a negative boolean.
-     *
-     * @return bool|array
      */
     public function filepondOptions(): bool|array
     {

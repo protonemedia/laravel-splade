@@ -23,8 +23,6 @@ class EventRedirectFactory
 {
     /**
      * Creates an instance.
-     *
-     * @param  Redirector  $redirector
      */
     public function __construct(
         private Redirector $redirector
