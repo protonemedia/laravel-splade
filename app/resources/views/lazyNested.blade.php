@@ -17,14 +17,14 @@ LazyNested
 
             <fieldset dusk="company">
                 <label>Company</label>
-                <p v-html="company.name"></p>
-                <input v-model="company.name" />
+                <p v-html="company.name" dusk="company-label" />
+                <input v-model="company.name" dusk="company-input" />
             </fieldset>
 
             <fieldset dusk="user">
                 <label>User</label>
-                <p v-html="data.name"></p>
-                <input v-model="data.name" />
+                <p v-html="data.name" dusk="user-label" />
+                <input v-model="data.name" dusk="user-input" />
             </fieldset>
         </form>
     </x-splade-lazy>

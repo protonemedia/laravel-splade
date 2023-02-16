@@ -2,6 +2,7 @@
   <Render
     v-if="html"
     :html="html"
+    :passthrough="passthrough"
   />
   <slot v-else-if="show" />
 </template>

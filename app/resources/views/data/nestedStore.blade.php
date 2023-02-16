@@ -9,9 +9,9 @@ DataGlobal1
 <x-splade-rehydrate on="refresh">
     <form class="space-y-4">
         <fieldset dusk="company">
-            <label>Company</label>
+            <label dusk="time">Company {{ now() }}</label>
             <p v-html="company.name"></p>
-            <input v-model="company.name" />
+            <input v-model="company.name" dusk="name" />
         </fieldset>
     </form>
 </x-splade-rehydrate>

@@ -25,8 +25,8 @@
         <form class="space-y-4">
             <fieldset dusk="company">
                 <label>Company</label>
-                <p v-html="company.name"></p>
-                <input v-model="company.name" />
+                <p v-html="company.name" dusk="company" />
+                <input v-model="company.name" dusk="name" />
             </fieldset>
         </form>
 
