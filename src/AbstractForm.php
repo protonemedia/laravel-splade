@@ -2,7 +2,7 @@
 
 namespace ProtoneMedia\Splade;
 
-use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Cache;
 
 abstract class AbstractForm
 {
@@ -26,29 +26,32 @@ abstract class AbstractForm
     /**
      * Helper method to create a new SpladeForm instance.
      *
+     * @param mixed ...$arguments
      * @return SpladeForm
      */
     public static function build(...$arguments): SpladeForm
     {
         $form = new static(...$arguments);
 
-        return $form->make();
+        $name = is_string($arguments[0] ?? '') ? array_shift($arguments) : '';
+
+        return $form->make($name);
     }
 
     /**
-     * Creates a new SpladeForm instance with the resource or
-     * query builder from the 'build()' method of this class.
+     * Creates a new SpladeForm instance from the 'build()' method of this class
      *
+     * @param string|null $name
      * @return SpladeForm
      */
-    public function make(): SpladeForm
+    public function make(?string $name): SpladeForm
     {
         if ($this->for) {
             return $this->for;
         }
 
         return $this->for = tap(
-            SpladeForm::build($this->fields()),
+            SpladeForm::build($this->fields())->name($name ?? ''),
             function (SpladeForm $form) {
                 $form->setConfigurator($this);
                 $this->configure($form);
@@ -72,10 +75,8 @@ abstract class AbstractForm
      *
      * @return array
      */
-    public static function rules(): array
+    public static function rules(string $name = ''): array
     {
-        $form = self::build();
-
-        return Arr::pluck($form->getFields(), 'rules', 'basename');
+        return Cache::get('SpladeFormbuilderRules' . ($name ? '.' . $name : ''), self::build($name)->getRules());
     }
 }

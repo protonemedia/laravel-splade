@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use App\Forms\MultiForm;
 use Illuminate\Foundation\Http\FormRequest;
 
-class MultiFieldsFormRequest extends FormRequest
+class MultiFieldsFormRequest1 extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

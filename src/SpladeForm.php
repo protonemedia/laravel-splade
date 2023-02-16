@@ -4,6 +4,8 @@ namespace ProtoneMedia\Splade;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Cache;
 
 class SpladeForm
 {
@@ -11,21 +13,25 @@ class SpladeForm
     protected Request $request;
     protected array $data = [];
     protected array $fields = [];
+    protected array $rules = [];
     protected array|string $class = [];
     protected string $action = '';
     protected string $method = 'POST';
+    protected string $name = '';
 
     public function __construct(array $fields, Request $request = null)
     {
         $this->request = $request ?: request();
 
         $this->fields = $fields;
+
+        $this->setRules();
     }
 
     /**
      * Helper method to create a new SpladeForm instance.
      *
-     * @return \ProtoneMedia\Splade\SpladeForm
+     * @return SpladeForm
      */
     public static function build(array $fields = []): static
     {
@@ -89,6 +95,23 @@ class SpladeForm
     }
 
     /**
+     * Name for this form, used as a key to remember the validation rules
+     *
+     * @param  string  $name
+     * @return $this
+     */
+    public function name(string $name): self
+    {
+        // An AbstractForm-class may not overwrite the name that was set using ::build('name'),
+        // so only set the name if it was empty before.
+        if (empty($this->name)) {
+            $this->name = $name;
+        }
+
+        return $this;
+    }
+
+    /**
      * Adds fields to the form
      *
      * @param array $fields
@@ -97,6 +120,22 @@ class SpladeForm
     public function fields(array $fields = []): self
     {
         $this->fields = array_merge($this->fields, $fields);
+
+        $this->setRules();
+
+        return $this;
+    }
+
+    /**
+     * Extracts the rules from the fields
+     *
+     * @return void
+     */
+    public function setRules(): self
+    {
+        $this->rules = Arr::pluck($this->getFields(), 'rules', 'basename');
+
+        Cache::put('SpladeFormbuilderRules' . ($this->name ? '.' . $this->name : ''), $this->rules);
 
         return $this;
     }
@@ -107,7 +146,7 @@ class SpladeForm
      * @param string $method
      * @return $this
      */
-    public function method(string $method): self
+    public function method(string $method = 'POST'): self
     {
         $this->method = $method;
 
@@ -145,6 +184,16 @@ class SpladeForm
     }
 
     /**
+     * Returns all fields of the form
+     *
+     * @return array
+     */
+    public function getFields(): array
+    {
+        return $this->fields;
+    }
+
+    /**
      * Returns the method for the form
      *
      * @return string
@@ -155,12 +204,22 @@ class SpladeForm
     }
 
     /**
-     * Returns all fields of the form
+     * Returns the name of the form
+     *
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    /**
+     * Returns the forms rules
      *
      * @return array
      */
-    public function getFields(): array
+    public function getRules(): array
     {
-        return $this->fields;
+        return Cache::get('SpladeFormbuilderRules' . ($this->name ? '.' . $this->name : ''), $this->rules);
     }
 }

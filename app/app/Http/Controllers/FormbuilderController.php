@@ -6,7 +6,8 @@ use App\Forms\ExampleForm;
 use App\Forms\ModelbindingForm;
 use App\Forms\MultiForm;
 use App\Http\Requests\ExampleFormRequest;
-use App\Http\Requests\MultiFieldsFormRequest;
+use App\Http\Requests\MultiFieldsFormRequest1;
+use App\Http\Requests\MultiFieldsFormRequest2;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use ProtoneMedia\Splade\Components\FormBuilder\Input;
@@ -85,11 +86,23 @@ class FormbuilderController
         return view('form.formbuilder', [
             'forms' => [
                 MultiForm::class,
+                MultiForm::build('multiform2')
+                    ->action(route('formbuilder.multifields2.store'))
+                    ->fields([
+                        Text::make('id')->label('Extra "hidden" field for the edit-form'),
+                    ]),
             ],
         ]);
     }
 
-    public function storeMultifields(MultiFieldsFormRequest $request)
+    public function storeMultifields1(MultiFieldsFormRequest1 $request)
+    {
+        $validated = $request->validated();
+
+        dd($validated);
+    }
+
+    public function storeMultifields2(MultiFieldsFormRequest2 $request)
     {
         $validated = $request->validated();
 

@@ -43,14 +43,10 @@ class ExampleForm extends AbstractForm
     public function fields(): array
     {
         return [
-            Input::make('hiddenInput1')
-                ->label('This label is never shown')
-                ->type('hidden'),
-
-            Hidden::make('hiddenInput2')
+            Hidden::make('hiddenInput1')
                 ->label('Hidden field using Hidden::make()'),
 
-            Input::make('hiddenInput3')
+            Input::make('hiddenInput2')
                 ->label('Hidden Input using ->hidden()')
                 ->hidden(),
 
@@ -71,9 +67,8 @@ class ExampleForm extends AbstractForm
                 ->length(6)
                 ->prepend('Test prepend'),
 
-            Input::make('inputNumber')
+            Number::make('inputNumber')
                 ->label('Input number field (min 1, max 100)')
-                ->type('number')
                 ->numeric()
                 ->minValue(1)
                 ->maxValue(100)
@@ -96,21 +91,12 @@ class ExampleForm extends AbstractForm
                 ->label('Number field with ->step(10)')
                 ->step(10),
 
-            Input::make('inputEmail1')
-                ->label('Input email field')
-                ->type('email')
-                ->rules('nullable'),
-
             Email::make('inputEmail2')
                 ->label('Email field'),
 
             Input::make('inputEmail3')
                 ->label('Input ->email() field')
                 ->email(),
-
-            Input::make('inputPassword1')
-                ->label('Input password field')
-                ->type('password'),
 
             Password::make('inputPassword2')
                 ->label('Password field with validation: ->min(8) and ->symbols()')
@@ -119,21 +105,6 @@ class ExampleForm extends AbstractForm
             Input::make('inputPassword3')
                 ->label('Input ->password() field')
                 ->password(),
-
-            Input::make('inputDate1')
-                ->label('Input date field')
-                ->type('date')
-                ->rules('required', 'date'),
-
-            Input::make('inputDate2')
-                ->label('Input date time field')
-                ->type('date')
-                ->time(),
-
-            Input::make('inputDate3')
-                ->label('Input date range field')
-                ->type('date')
-                ->range(),
 
             Date::make('inputDate4')
                 ->label('Input type: date - with extra FlatPicker date-options: { showMonths: 2 }')
@@ -148,9 +119,8 @@ class ExampleForm extends AbstractForm
                 ->range()
                 ->help('Test help 2'),
 
-            Input::make('inputTime1')
+            Time::make('inputTime1')
                 ->label('Input time field - with extra FlatPicker time-options: { time_24hr: false }')
-                ->type('time')
                 ->time(['time_24hr' => false]),
 
             Time::make('inputTime2')
@@ -284,10 +254,6 @@ class ExampleForm extends AbstractForm
                 ->optionValue('id')
                 ->choices(false)
                 ->help('Test help 6'),
-
-            Input::make('colorInput1')
-                ->label('Color input 1: ->type(color)')
-                ->type('color'),
 
             Input::make('colorInput2')
                 ->label('Color input 2: ->color()')

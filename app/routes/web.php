@@ -213,7 +213,8 @@ Route::middleware('splade')->group(function () {
     Route::post('/formbuilder/modelBinding', [FormbuilderController::class, 'storeModel'])->name('formbuilder.model.store');
 
     Route::get('/formbuilder/multifields', [FormbuilderController::class, 'multifields'])->name('formbuilder.multifields.index');
-    Route::post('/formbuilder/multifields', [FormbuilderController::class, 'storeMultifields'])->name('formbuilder.multifields.store');
+    Route::post('/formbuilder/multifields1', [FormbuilderController::class, 'storeMultifields1'])->name('formbuilder.multifields1.store');
+    Route::post('/formbuilder/multifields2', [FormbuilderController::class, 'storeMultifields2'])->name('formbuilder.multifields2.store');
 
     Route::get('lazy', [LazyController::class, 'show'])->name('lazy');
     Route::get('lazy/notifications', [LazyController::class, 'notifications'])->name('lazy.notifications');

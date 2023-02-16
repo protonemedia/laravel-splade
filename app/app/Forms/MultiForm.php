@@ -13,7 +13,8 @@ class MultiForm extends AbstractForm
     public function configure(SpladeForm $form)
     {
         $form
-            ->action(route('formbuilder.multifields.store'))
+            ->name('multiform1')
+            ->action(route('formbuilder.multifields1.store'))
             ->data([
                 'testMultiCheckbox1' => [1],
                 'testMultiCheckbox2' => ['option-2', 'option-3'],
