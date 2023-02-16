@@ -165,11 +165,11 @@ class SpladeMiddleware
         // Get the rendered content...
         $content = $response->getContent() ?: '';
 
-        // When there are Data Stores registered, wrap the content...
-        $content = $this->wrapContentInDataStores($content);
-
         // Extract the Dynamic Content, we'll return that separately so Vue can handle it.
         [$content, $dynamics] = static::extractDynamicsFromContent($content);
+
+        // When there are Data Stores registered, wrap the content...
+        $content = $this->wrapContentInDataStores($content);
 
         if ($this->splade->isLazyRequest()) {
             $content = static::extractComponent($content, 'lazy', $this->splade->getLazyComponentKey()) ?: $content;
@@ -235,11 +235,11 @@ class SpladeMiddleware
             $originalViewData = $response->getOriginalContent()->getData();
         }
 
-        // When there are Data Stores registered, wrap the content...
-        $content = $this->wrapContentInDataStores($originalContent);
-
         // Extract the Dynamic Content, we'll return that separately so Vue can handle it.
-        [$content, $dynamics] = static::extractDynamicsFromContent($content);
+        [$content, $dynamics] = static::extractDynamicsFromContent($originalContent);
+
+        // When there are Data Stores registered, wrap the content...
+        $content = $this->wrapContentInDataStores($content);
 
         $viewData = [
             'components' => static::renderedComponents(),
@@ -292,9 +292,16 @@ class SpladeMiddleware
     /**
      * When there are Data Stores registered, wrap the content in a Data Store component.
      */
-    private function wrapContentInDataStores(string $content): string
+    public function wrapContentInDataStores(string $content): string
     {
-        if (empty($this->splade->getDataStores())) {
+        $dataStores = $this->splade->getDataStores();
+
+        $keys = implode(',', array_keys($dataStores));
+
+        $content = str_replace('##SPLADE-PASSTHROUGH-NEW##', $keys, $content);
+        $content = str_replace('##SPLADE-PASSTHROUGH-APPEND##', $keys ? ",{$keys}" : '', $content);
+
+        if (empty($dataStores)) {
             return $content;
         }
 
@@ -305,7 +312,7 @@ class SpladeMiddleware
             '</x-splade-component>',
             '</div>',
         ]), [
-            'stores'          => $this->splade->getDataStores(),
+            'stores'          => $dataStores,
             'originalContent' => $content,
         ]);
     }
@@ -330,9 +337,14 @@ class SpladeMiddleware
                 return [$name => trim($dynamic)];
             })
             ->each(function (string $dynamicContent, string $name) use (&$content) {
+                $rendered = Blade::render(
+                    '<x-splade-component is="dynamic-html" :name="$name" />',
+                    ['name' => $name]
+                );
+
                 $content = str_replace(
                     "<!--START-SPLADE-DYNAMIC-{$name}-->" . $dynamicContent . "<!--END-SPLADE-DYNAMIC-{$name}-->",
-                    '<SpladeDynamicHtml :keep-alive-key="`dynamicVisit.${$splade.pageVisitId.value}.${$splade.dynamicVisitId.value}`" :name="\'' . $name . '\'" />',
+                    $rendered,
                     $content
                 );
             });

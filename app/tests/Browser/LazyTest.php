@@ -49,4 +49,17 @@ class LazyTest extends DuskTestCase
                 ->assertInputValue('date', now()->format('Y-m-d'));
         });
     }
+
+    /** @test */
+    public function it_binds_the_lazy_loaded_content_to_the_global_data_store()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('/lazy/nested')
+                ->waitForText('LazyNested')
+                ->type('@company-input', 'Nike')
+                ->assertSeeIn('@company-label', 'Nike')
+                ->type('@user-input', 'Pascal')
+                ->assertSeeIn('@user-label', 'Pascal');
+        });
+    }
 }

@@ -18,6 +18,11 @@ class LazyController
         ]);
     }
 
+    public function showNested()
+    {
+        return view('lazyNested');
+    }
+
     public function notifications()
     {
         return view('notifications', [
