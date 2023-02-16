@@ -26,7 +26,6 @@ const render = ref(null);
 function updateRender() {
     render.value = h({
         template: props.html,
-        inheritAttrs: false,
         data() {
             return { ...props.passthrough };
         },
