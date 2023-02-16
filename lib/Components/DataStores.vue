@@ -28,13 +28,11 @@ export default {
 
     data() {
         return {
-            stores: {},
+            stores: Object.assign({}, { ...this.parsed, ...this.raw }),
         };
     },
 
     beforeMount() {
-        this.stores = Object.assign({}, { ...this.parsed, ...this.raw });
-
         this.remember.forEach((store) => {
             let restoredData = Splade.restore(store, this.localStorage.includes(store));
 
