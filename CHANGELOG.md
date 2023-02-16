@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 1.2.15 - 2023-02-16
+
+- Global Data store now keeps working with async data from the DynamicHtml, Lazy, and Rehydrate components
+- Textarea markup fix (#300 - thanks @evici!)
+- Fix for Data component when rendered server-side
+
 ## 1.2.14.1 - 2023-02-15
 
 - Patch release for Laravel 10
