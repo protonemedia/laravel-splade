@@ -24,6 +24,6 @@ class ExampleFormRequest extends FormRequest
      */
     public function rules()
     {
-        return ExampleForm::rules();
+        return ExampleForm::rules('exampleform');
     }
 }

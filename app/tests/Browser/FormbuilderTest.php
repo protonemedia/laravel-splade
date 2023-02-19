@@ -18,8 +18,20 @@ class FormbuilderTest extends DuskTestCase
                 ->assertInputPresent('inputTextarea')
                 ->assertInputValue('inputText', 'Test value in input text field')
                 ->assertSee('Test help 1')
+                ->type('inputPassword', 'passw0rd')
+                ->type('inputTextarea', 'Splade Formbuilder test')
                 ->press('Submit')
-                ->assertRouteIs('formbuilder.simple.store');
+                ->waitForText('Results:');
+
+            $expected_results = [
+                'inputText' => 'Test value in input text field',
+                'inputPassword' => 'passw0rd',
+                'inputTextarea' => 'Splade Formbuilder test',
+            ];
+
+            foreach ($expected_results as $field => $result) {
+                $browser->assertSee('"' . $field . '": "' . $result . '",');
+            }
         });
     }
 
@@ -34,9 +46,29 @@ class FormbuilderTest extends DuskTestCase
                 ->assertInputValue('hiddenInput1', 'Test value hidden input 1')
                 ->assertSee('Test help 1')
                 ->press('Send')
-                ->assertRouteIs('formbuilder.fromClass.store')
                 ->waitForText('The input text2 field is required.')
-                ->assertSee('The input text2 field is required.');
+                ->assertDontSee('Results:')
+                ->assertSee('The input password2 field is required.')
+                ->type('inputText2', 'Lorem Ipsum')
+                ->type('inputPassword2', 'Lorem-Ipsum')
+                ->press('Send')
+                ->waitForText('Results:');
+
+            $expected_results = [
+                'hiddenInput1' => 'Test value hidden input 1',
+                'hiddenInput2' => 'Test value hidden input 2',
+                'inputText1' => 'Test value input text field 1',
+                'disabledTextField' => 'This field is disabled',
+                'readonlyTextField' => 'This field is readonly',
+                'disabledAndReadonlyTextField' => 'This field is disabled and readonly',
+                'colorInput' => '#cccccc',
+                'inputText2' => 'Lorem Ipsum',
+                'inputPassword2' => 'Lorem-Ipsum',
+            ];
+
+            foreach ($expected_results as $field => $result) {
+                $browser->assertSee('"' . $field . '": "' . $result . '",');
+            }
         });
     }
 
@@ -58,7 +90,35 @@ class FormbuilderTest extends DuskTestCase
                 ->assertSelected('tags', 'laravel')
                 ->assertSelected('tags', 'splade')
                 ->press('Save')
-                ->assertRouteIs('formbuilder.model.store');
+                ->waitForText('Results:');
+
+            $expected_results = [
+                'title' => 'Test post 1',
+                'slug' => 'test-post-1',
+                'body' => '<p>This is the posts body</b>',
+            ];
+
+            foreach ($expected_results as $field => $result) {
+                $browser->assertSee('"' . $field . '": "' . $result . '",');
+            }
+        });
+    }
+
+    /** @test */
+    public function it_can_generate_multiple_forms_on_one_page()
+    {
+        $this->browse(function (Browser $browser) {
+
+            $browser->visit('/formbuilder/multifields')
+                ->waitForText('FormBuilder')
+                ->assertInputPresent('additional_field')
+                ->type('additional_field', 'Test value in additional field')
+                ->press('#multiform1 .submit-btn')
+                ->waitForText('Results:')
+                ->assertDontSee('additional_field')
+                ->press('#multiform2 .submit-btn')
+                ->waitForText('Results:')
+                ->assertSee('"additional_field": "Test value in additional field"');
         });
     }
 }

@@ -15,9 +15,8 @@ class ModelbindingForm extends AbstractForm
     public function configure(SpladeForm $form)
     {
         $form
-            ->action(route('formbuilder.model.store'))
-            ->method('POST')
-            ->class('space-y-4');
+            ->name('databinding')
+            ->action(route('formbuilder.model.store'));
     }
 
     public function fields(): array
@@ -27,10 +26,12 @@ class ModelbindingForm extends AbstractForm
                 ->label(__('Publish from')),
 
             Text::make('title')
-                ->label(__('Title')),
+                ->label(__('Title'))
+                ->required(),
 
             Text::make('slug')
-                ->label(__('Slug')),
+                ->label(__('Slug'))
+                ->required(),
 
             Textarea::make('body')
                 ->label(__('Body'))

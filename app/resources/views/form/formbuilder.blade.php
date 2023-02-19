@@ -6,7 +6,10 @@
 
     @foreach($forms as $form)
         <x-splade-formbuilder :for="$form">
-            <pre v-if="form.wasSuccessful" v-text="form.$all" />
+            <div v-if="form.wasSuccessful">
+                Results:
+                <pre v-text="form.$all" />
+            </div>
         </x-splade-formbuilder>
     @endforeach
 

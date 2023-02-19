@@ -25,11 +25,12 @@ class FormbuilderController
             'forms' => [
                 SpladeForm::build()
                     ->action(route('formbuilder.simple.store'))
+                    ->name('simple-form')
                     ->method('POST')
                     ->class('space-y-4')
                     ->fields([
                         Input::make('inputText')->label('Standard input text field')->help('Test help 1'),
-                        Password::make('inputPassword')->label('Password field'),
+                        Password::make('inputPassword')->label('Password field')->required(),
                         Textarea::make('inputTextarea')->label('Textarea (with autosize)')->autosize(),
                         Submit::make()->label('Submit'),
                     ])
@@ -40,7 +41,11 @@ class FormbuilderController
 
     public function storeSimple(Request $request)
     {
-        return response()->json(['result' => $request->all()]);
+        $rules = SpladeForm::build()->name('simple-form')->getRules();
+
+        $result = $request->validate($rules);
+
+        return response()->json(['result' => $result]);
     }
 
     public function fromClass()
@@ -54,9 +59,7 @@ class FormbuilderController
 
     public function storeFromClass(ExampleFormRequest $request)
     {
-        $validated = $request->validated();
-
-        dd($validated);
+        return response()->json(['result' => $request->validated()]);
     }
 
     public function model()
@@ -78,7 +81,11 @@ class FormbuilderController
 
     public function storeModel(Request $request)
     {
-        dd($request->all());
+        $rules = ModelbindingForm::build()->name('databinding')->getRules();
+
+        $result = $request->validate($rules);
+
+        return response()->json(['result' => $result]);
     }
 
     public function multifields()
@@ -89,7 +96,7 @@ class FormbuilderController
                 MultiForm::build('multiform2')
                     ->action(route('formbuilder.multifields2.store'))
                     ->fields([
-                        Text::make('id')->label('Extra "hidden" field for the edit-form'),
+                        Text::make('additional_field')->label('Additional field'),
                     ]),
             ],
         ]);
@@ -97,15 +104,11 @@ class FormbuilderController
 
     public function storeMultifields1(MultiFieldsFormRequest1 $request)
     {
-        $validated = $request->validated();
-
-        dd($validated);
+        return response()->json(['result' => $request->validated()]);
     }
 
     public function storeMultifields2(MultiFieldsFormRequest2 $request)
     {
-        $validated = $request->validated();
-
-        dd($validated);
+        return response()->json(['result' => $request->validated()]);
     }
 }
