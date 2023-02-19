@@ -57,9 +57,10 @@ class MultiForm extends AbstractForm
                     'option-2' => 'Option 2',
                     'option-3' => 'Option 3',
                 ])
+                ->class('testclass')
                 ->inline(),
 
-            Submit::make()->label('Send'),
+            Submit::make()->label('Send')->class('submit-btn'),
         ];
     }
 }

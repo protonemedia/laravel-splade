@@ -47,9 +47,24 @@ abstract class Component
     }
 
     /**
+     * Add one or more classes to the field
+     *
+     * @param array|string $classes
+     * @return $this
+     */
+    public function class(...$classes): self
+    {
+        $classes = Arr::flatten($classes);
+
+        $this->attributes['class'] = Arr::toCssClasses($classes);
+
+        return $this;
+    }
+
+    /**
      * Add a help text to the field
      *
-     * @param bool $required
+     * @param string $text
      * @return $this
      */
     public function help(string $text): self
@@ -62,7 +77,7 @@ abstract class Component
     /**
      * Add a placeholder to the field
      *
-     * @param bool $required
+     * @param string $placeholder
      * @return $this
      */
     public function placeholder(string $placeholder = ''): self
@@ -75,7 +90,7 @@ abstract class Component
     /**
      * Make the field disabled
      *
-     * @param bool $required
+     * @param bool $disabled
      * @return $this
      */
     public function disabled(bool $disabled = true): self
@@ -90,7 +105,7 @@ abstract class Component
     /**
      * Make the field readonly
      *
-     * @param bool $required
+     * @param bool $readonly
      * @return $this
      */
     public function readonly(bool $readonly = true): self
