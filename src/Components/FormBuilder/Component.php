@@ -62,6 +62,19 @@ abstract class Component
     }
 
     /**
+     * Add an id to the field
+     *
+     * @param string $id
+     * @return $this
+     */
+    public function id(string $id): self
+    {
+        $this->attributes['id'] = $id;
+
+        return $this;
+    }
+
+    /**
      * Add a help text to the field
      *
      * @param string $text
