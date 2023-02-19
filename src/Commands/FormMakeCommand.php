@@ -91,6 +91,26 @@ class FormMakeCommand extends GeneratorCommand
     }
 
     /**
+     * Build the class with the given name.
+     *
+     * @param  string  $name
+     * @return string
+     */
+    protected function buildClass($name)
+    {
+        $formName = strtolower(class_basename($name));
+
+        $replace = [
+            '{{ name }}' => $formName,
+            '{{name}}' => $formName,
+        ];
+
+        return str_replace(
+            array_keys($replace), array_values($replace), parent::buildClass($name)
+        );
+    }
+
+    /**
      * Get the default namespace for the class.
      *
      * @param  string  $rootNamespace

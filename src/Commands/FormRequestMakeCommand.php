@@ -72,11 +72,15 @@ class FormRequestMakeCommand extends GeneratorCommand
 
         $form = class_basename($namespaceForm);
 
+        $formName = strtolower($form);
+
         $replace = [
             '{{ namespacedForm }}' => $namespaceForm,
             '{{namespacedForm}}' => $namespaceForm,
             '{{ form }}' => $form,
             '{{form}}' => $form,
+            '{{ name }}' => $formName,
+            '{{name}}' => $formName,
         ];
 
         return str_replace(
