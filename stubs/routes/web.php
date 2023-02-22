@@ -17,6 +17,9 @@ Route::middleware(['splade'])->group(function () {
     Route::get('/', fn () => view('home'))->name('home');
     Route::get('/docs', fn () => view('docs'))->name('docs');
 
+    // Registers routes to support the interactive components...
+    Route::spladeWithVueBridge();
+
     // Registers routes to support password confirmation in Form and Link components...
     Route::spladePasswordConfirmation();
 
