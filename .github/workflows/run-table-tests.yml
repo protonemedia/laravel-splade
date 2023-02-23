@@ -25,7 +25,6 @@ jobs:
             ssr: true
           - db: postgres
             ssr: true
-            
 
     name: Test P${{ matrix.php }} - L${{ matrix.laravel }} - DB ${{ matrix.db }} - SSR ${{ matrix.ssr }} - ${{ matrix.dependency-version }}
 
@@ -90,6 +89,13 @@ jobs:
           php-version: ${{ matrix.php }}
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick, mysql, mysqli, pdo_mysql
           coverage: none
+
+      - name: Downgrade to Laravel 9
+        if: "matrix.laravel == '9.*'"
+        run: |
+          cd app
+          rm composer.json
+          mv composer-l9.json composer.json
 
       - name: Prepare environment file (MySQL)
         if: ${{ matrix.db == 'mysql' }}
