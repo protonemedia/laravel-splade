@@ -29,13 +29,13 @@
         "laravel/dusk": "^7.0",
         "laravel/sail": "^1.0.1",
         "mockery/mockery": "^1.4.4",
-        "nunomaduro/collision": "^7.0",
-        "phpunit/phpunit": "^10.0",
+        "nunomaduro/collision": "^6.4",
+        "phpunit/phpunit": "^9.5.10",
         "protonemedia/laravel-splade": "*",
         "spatie/ignition": "^1.4.1",
         "spatie/laravel-ignition": "^2.0",
         "spatie/laravel-ray": "^1.31",
-        "spatie/phpunit-snapshot-assertions": "^5.0",
+        "spatie/phpunit-snapshot-assertions": "^4.2",
         "thiagocordeiro/laravel-translator": "^1.2"
     },
     "autoload": {
