@@ -11,7 +11,7 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest]
         php: [8.2, 8.1, 8.0]
-        laravel: [10.0, 9.0]
+        laravel: [10.0, 9.3]
         dependency-version: [prefer-lowest, prefer-stable]
         include:
           - laravel: 9.3
