@@ -53,58 +53,6 @@ class Input extends Component
     }
 
     /**
-     * Set the min-value (for input type: number)
-     *
-     * @param int $value
-     * @return $this
-     */
-    public function minValue(int $value): self
-    {
-        $this->attributes['min'] = $value;
-
-        return $this;
-    }
-
-    /**
-     * Set the max-value (for input type: number)
-     *
-     * @param int $value
-     * @return $this
-     */
-    public function maxValue(int $value): self
-    {
-        $this->attributes['max'] = $value;
-
-        return $this;
-    }
-
-    /**
-     * Set the min-value to 0 (for input type: number)
-     *
-     * @param int $value
-     * @return $this
-     */
-    public function unsigned(): self
-    {
-        $this->minValue(0);
-
-        return $this;
-    }
-
-    /**
-     * Set the step-size (for input type: number)
-     *
-     * @param int $value
-     * @return $this
-     */
-    public function step($step = 1): self
-    {
-        $this->attributes['step'] = $step;
-
-        return $this;
-    }
-
-    /**
      * Changes the input into a datepicker
      * Provide an array like `['showMonths' => 2]` to set Flatpickr-options
      *
