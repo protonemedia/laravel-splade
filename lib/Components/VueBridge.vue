@@ -57,7 +57,7 @@ export default {
 
         const slotProps = {
             props: new Proxy(this.values, {
-                ownKeys: function(target) {
+                ownKeys: function() {
                     return Object.keys(self.values);
                 },
                 get: (target, prop) => {
