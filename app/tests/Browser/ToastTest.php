@@ -165,4 +165,19 @@ class ToastTest extends DuskTestCase
             $this->assertScreenshotSnapshot('ToastInfoRightBottom');
         });
     }
+
+    /** @test */
+    public function it_can_show_a_toast_with_two_lines()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('/toast/twoLines')
+                ->resize(1024, 768)
+                ->waitForText('Line 1')
+                ->within('h3', function ($toast) {
+                    $toast->assertSee('Line 1')
+                        ->assertSee('Line 2')
+                        ->assertPresent('br');
+                });
+        });
+    }
 }

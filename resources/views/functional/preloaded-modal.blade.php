@@ -1,1 +1,1 @@
-<SpladePreloadedModal :name="@js($name)" :html="@js($html)" :type="@js($type)" />
+<SpladePreloadedModal :name="@js($name)" :html="@js($html)" :type="@js($type)" :opened="@js($opened)" />

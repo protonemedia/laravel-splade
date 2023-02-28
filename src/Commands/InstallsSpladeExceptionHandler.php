@@ -17,7 +17,9 @@ trait InstallsSpladeExceptionHandler
 
         $exceptionHandler = file_get_contents(app_path('Exceptions/Handler.php'));
 
-        $search = 'public function register()' . $eol . '    {';
+        $search = version_compare(app()->version(), '10.0', '>=')
+            ? 'public function register(): void' . $eol . '    {'
+            : 'public function register()' . $eol . '    {';
 
         $registerMethodAfter = Str::after($exceptionHandler, $search);
 

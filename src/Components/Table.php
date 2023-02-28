@@ -37,8 +37,6 @@ class Table extends Component
 
     /**
      * Returns a boolean whether the paginator component should be visible.
-     *
-     * @return bool
      */
     public function showPaginator(): bool
     {
@@ -52,8 +50,6 @@ class Table extends Component
 
     /**
      * Returns a boolean whether the resource is 'LengthAware'.
-     *
-     * @return bool
      */
     public function isLengthAware(): bool
     {
@@ -62,8 +58,6 @@ class Table extends Component
 
     /**
      * Returns a boolean whether the per-page selector has more than one option.
-     *
-     * @return bool
      */
     public function hasPerPageOptions(): bool
     {
@@ -73,8 +67,6 @@ class Table extends Component
     /**
      * Returns a boolean whether this table has 'controls', which are
      * the buttons and input elements above the table header.
-     *
-     * @return bool
      */
     public function hasControls(): bool
     {
@@ -90,8 +82,6 @@ class Table extends Component
 
     /**
      * Returns a boolean whether the 'reset' button should be visible.
-     *
-     * @return bool
      */
     public function canResetTable(): bool
     {
@@ -104,9 +94,6 @@ class Table extends Component
 
     /**
      * Transforms the current URL to sort by the given column and reset the current page.
-     *
-     * @param  \ProtoneMedia\Splade\Table\Column  $column
-     * @return string
      */
     public function sortBy(Column $column): string
     {
@@ -122,7 +109,6 @@ class Table extends Component
      * Supports returning multiple items as well.
      *
      * @param  mixed  $item
-     * @param  \ProtoneMedia\Splade\Table\Column  $column
      * @return mixed
      */
     public function getColumnDataFromItem($item, Column $column)

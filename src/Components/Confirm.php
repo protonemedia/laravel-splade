@@ -15,6 +15,8 @@ class Confirm extends Component
     public function render()
     {
         return view('splade::components.confirm', [
+            'confirmedPasswordStatusRoute' => Route::has('splade.confirmedPasswordStatus') ? route('splade.confirmedPasswordStatus') : '',
+
             'confirmPasswordRoute' => Route::has('splade.confirmPassword') ? route('splade.confirmPassword') : '',
         ]);
     }

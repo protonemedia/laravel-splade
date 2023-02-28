@@ -15,9 +15,19 @@ const props = defineProps({
         required: false,
         default: "modal"
     },
+
+    opened: {
+        type: Boolean,
+        required: false,
+        default: false,
+    },
 });
 
 import { Splade } from "./../Splade.js";
 
 Splade.registerPreloadedModal(props.name, props.html, props.type);
+
+if(props.opened) {
+    Splade.openPreloadedModal(props.name);
+}
 </script>

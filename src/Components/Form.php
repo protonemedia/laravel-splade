@@ -51,6 +51,9 @@ class Form extends Component
         public bool $scrollOnError = true,
         public array|bool|string $submitOnChange = false,
         public bool $preserveScroll = false,
+        public bool $background = false,
+        public int $debounce = 0,
+        public string $acceptHeader = 'text/html, application/xhtml+xml',
     ) {
         // We'll use this instance in the static 'selected()' method,
         // which is a workaround for a Vue bug. Later, when the
@@ -71,17 +74,21 @@ class Form extends Component
         if (is_string($submitOnChange)) {
             $this->submitOnChange = static::splitByComma($submitOnChange);
         }
+
+        if ($background) {
+            $this->scrollOnError  = false;
+            $this->preserveScroll = true;
+        }
     }
 
     /**
      * Split the value by comma, trim each item, and filter empty items.
-     *
-     * @param  string  $value
-     * @return array
      */
-    public static function splitByComma(string $value): array
+    public static function splitByComma(array|string $value): array
     {
-        return array_filter(array_map('trim', explode(',', $value)));
+        $array = is_array($value) ? $value : explode(',', $value);
+
+        return array_filter(array_map('trim', $array));
     }
 
     /**
@@ -151,9 +158,7 @@ class Form extends Component
      * Is returns a boolean whether the given value is selected
      * in the select element with the given name.
      *
-     * @param  string  $name
      * @param  mixed  $value
-     * @return bool
      */
     public static function selected(string $name, $value): bool
     {
@@ -176,7 +181,6 @@ class Form extends Component
     /**
      * Setter to unguard everything by default.
      *
-     * @param  bool  $state
      * @return void
      */
     public static function defaultUnguarded(bool $state = true)
@@ -188,7 +192,6 @@ class Form extends Component
      * Sets a Closure that takes the bound resource as an argument
      * and returns whether it should be guarded.
      *
-     * @param  Closure  $callback
      * @return void
      */
     public static function guardWhen(Closure $callback)
@@ -199,7 +202,6 @@ class Form extends Component
     /**
      * Adds the given attribute to the allowed attributes array.
      *
-     * @param  string  $name
      * @return void
      */
     public static function allowAttribute(string $name)
@@ -212,7 +214,6 @@ class Form extends Component
     /**
      * Adds the given relation to the list of Eloquent relations that should be parsed.
      *
-     * @param  string  $name
      * @return void
      */
     public static function parseEloquentRelation(string $name)
@@ -226,7 +227,6 @@ class Form extends Component
      * Determines whether a resource should be fully guarded.
      *
      * @param  mixed  $resource
-     * @return bool
      */
     private static function resourceShouldBeGuarded($resource): bool
     {
@@ -239,8 +239,6 @@ class Form extends Component
 
     /**
      * Returns an array with all allowed attributes, sorted by their length.
-     *
-     * @return \Illuminate\Support\Collection
      */
     private static function allowedAttributesSorted(): Collection
     {
@@ -255,8 +253,6 @@ class Form extends Component
 
     /**
      * Returns the guarded data.
-     *
-     * @return object|null
      */
     private function guardedData(): ?object
     {
@@ -322,9 +318,6 @@ class Form extends Component
 
     /**
      * Returns the attached keys from the given relationship.
-     *
-     * @param  string  $relationName
-     * @return array|null
      */
     private function getAttachedKeysFromRelation(string $relationName): ?array
     {
@@ -353,8 +346,6 @@ class Form extends Component
 
     /**
      * Returns the default data object, when set.
-     *
-     * @return object|null
      */
     private function defaultData(): ?object
     {
@@ -369,8 +360,6 @@ class Form extends Component
      * This is data that will be passed to the Vue component. We include
      * both the parsed data, as well as the raw json data, in case
      * there's no parsed data. Then we reset the static arrays.
-     *
-     * @return array
      */
     public function formData(): array
     {

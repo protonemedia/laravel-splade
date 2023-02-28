@@ -269,8 +269,8 @@ export default {
             const plugins = [];
 
             if(this.preview) {
-                plugins.push(import("filepond-plugin-image-preview"));
                 plugins.push(import("filepond-plugin-image-exif-orientation"));
+                plugins.push(import("filepond-plugin-image-preview"));
             }
 
             if(this.accept.length > 0) {
@@ -298,7 +298,7 @@ export default {
                     const options = Object.assign({}, vm.filepond, vm.jsFilepondOptions, {
                         oninit() {
                             const statusCheck = setInterval(() => {
-                                if(vm.filepondInstance.status < 2) {
+                                if(vm.filepondInstance.status <= 2) {
                                     clearInterval(statusCheck);
                                 } else {
                                     return;
@@ -315,6 +315,8 @@ export default {
                                 if(vm.dusk) {
                                     vm.filepondInstance.element.setAttribute("dusk", vm.dusk);
                                 }
+
+                                fileInput.setAttribute("data-server", vm.server ? true : false);
 
                                 if(vm.multiple) {
                                     vm.filepondInstance.element.addEventListener("moveFile", function (event) {
@@ -333,7 +335,7 @@ export default {
                             }
 
                             if(file.origin === filepond.FileOrigin.LOCAL) {
-                            // This is an existing file, so we don't need to add or upload it.
+                                // This is an existing file, so we don't need to add or upload it.
                                 return;
                             }
 
@@ -496,6 +498,10 @@ export default {
                                 error(thrown.response?.statusText);
                             });
                         };
+                    }
+
+                    if(options.itemInsertLocation === "before" || options.itemInsertLocation === "after") {
+                        options.itemInsertLocationFreedom = false;
                     }
 
                     this.loadFilepondPlugins(filepond).then((plugins) => {

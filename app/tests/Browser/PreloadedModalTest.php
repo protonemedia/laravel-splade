@@ -30,6 +30,21 @@ class PreloadedModalTest extends DuskTestCase
     }
 
     /** @test */
+    public function it_can_show_a_preloaded_modal_without_a_trigger()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('/modal/opened')
+                ->resize(1680, 900)
+                ->waitForText('ModalComponentOpened')
+                ->waitForText('Check out my modal!')
+                ->pause(500)
+                ->click('@close-modal-button')
+                ->pause(500)
+                ->waitUntilMissingText('Check out my modal!');
+        });
+    }
+
+    /** @test */
     public function it_can_show_a_preloaded_slideover()
     {
         $this->browse(function (Browser $browser) {

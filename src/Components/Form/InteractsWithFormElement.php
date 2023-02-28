@@ -9,9 +9,6 @@ trait InteractsWithFormElement
     /**
      * Transforms a bracket notation to a dotted notation.
      * Example: form[name] to form.name
-     *
-     * @param  string  $name
-     * @return string
      */
     protected static function transformBracketsToDots(string $name): string
     {
@@ -21,9 +18,6 @@ trait InteractsWithFormElement
     /**
      * Transforms a name to a dotted notation and removes the
      * last '[]' from the name.
-     *
-     * @param  string  $name
-     * @return string
      */
     public static function dottedName(string $name): string
     {
@@ -32,8 +26,6 @@ trait InteractsWithFormElement
 
     /**
      * Returns the key from the validator that represents the form key.
-     *
-     * @return string
      */
     public function validationKey(): string
     {
@@ -46,8 +38,6 @@ trait InteractsWithFormElement
 
     /**
      * Returns the key of this element in the data object.
-     *
-     * @return string
      */
     public function formKey(): string
     {
@@ -72,8 +62,6 @@ trait InteractsWithFormElement
 
     /**
      * Returns the v-model (if set), or computes it based on the form key.
-     *
-     * @return string
      */
     public function vueModel(): string
     {

@@ -11,13 +11,6 @@ class Export
 {
     /**
      * This class represents a export within a Splade Table.
-     *
-     * @param  string  $key
-     * @param  string  $label
-     * @param  string  $filename
-     * @param  string  $type
-     * @param  string  $tableClass
-     * @param  array  $events
      */
     public function __construct(
         public string $key,
@@ -31,8 +24,6 @@ class Export
 
     /**
      * Generates a slug based on the label.
-     *
-     * @return string
      */
     public function getSlug(): string
     {
@@ -41,8 +32,6 @@ class Export
 
     /**
      * Generates a Signed URL to the export URL.
-     *
-     * @return string
      */
     public function getUrl(): string
     {

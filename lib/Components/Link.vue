@@ -42,7 +42,7 @@ const props = defineProps({
         type: Object,
         required: false,
         default: () => {
-            return { Accept: "application/json" };
+            return {};
         },
     },
 
@@ -52,10 +52,18 @@ const props = defineProps({
         default: false,
     },
 
-    confirm: {
+    confirmDanger: {
         type: [Boolean, String],
         required: false,
         default: false,
+    },
+
+    confirm: {
+        type: [Boolean, String],
+        required: false,
+        default: (props) => {
+            return props.confirmDanger;
+        },
     },
 
     confirmText: {
@@ -76,10 +84,18 @@ const props = defineProps({
         default: "",
     },
 
+    requirePasswordOnce: {
+        type: Boolean,
+        required: false,
+        default: false,
+    },
+
     requirePassword: {
         type: [Boolean, String],
         required: false,
-        default: false,
+        default: (props) => {
+            return props.requirePasswordOnce;
+        },
     },
 
     modal: {
@@ -130,7 +146,9 @@ function navigate() {
         props.confirmText,
         props.confirmButton,
         props.cancelButton,
-        props.requirePassword ? true : false
+        props.requirePassword ? true : false,
+        props.requirePasswordOnce,
+        props.confirmDanger ? true : false
     )
         .then((filledPassword) => {
             if(!props.requirePassword) {

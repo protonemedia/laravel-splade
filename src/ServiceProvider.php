@@ -12,8 +12,10 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use Illuminate\Support\Str;
+use Illuminate\View\Compilers\BladeCompiler;
 use Illuminate\View\ComponentAttributeBag;
 use Illuminate\View\Factory;
+use Illuminate\View\View;
 use Laravel\Dusk\Browser;
 use ProtoneMedia\Splade\Commands\CleanupTemporaryFileUploads;
 use ProtoneMedia\Splade\Commands\PublishFormStylesheetsCommand;
@@ -30,9 +32,6 @@ use ProtoneMedia\Splade\Http\BladeDirectives;
 use ProtoneMedia\Splade\Http\ConfirmPasswordController;
 use ProtoneMedia\Splade\Http\EventRedirectController;
 use ProtoneMedia\Splade\Http\FileUploadController;
-use ProtoneMedia\Splade\Http\PrepareTableCells;
-use ProtoneMedia\Splade\Http\PrepareViewWithLazyComponents;
-use ProtoneMedia\Splade\Http\PrepareViewWithRehydrateComponents;
 use ProtoneMedia\Splade\Http\TableBulkActionController;
 use ProtoneMedia\Splade\Http\TableExportController;
 
@@ -54,6 +53,8 @@ class ServiceProvider extends BaseServiceProvider
             // The Splade file has not been published, merge the default SEO into the config.
             $this->mergeConfigFrom($defaultSeoPath, 'splade.seo');
         }
+
+        $this->registerCustomBladeCompiler();
     }
 
     /**
@@ -82,18 +83,6 @@ class ServiceProvider extends BaseServiceProvider
         static::registerTransitionAnimations(
             $this->app->make(TransitionRepository::class)
         );
-
-        (new PrepareViewWithLazyComponents)
-            ->registerMacro()
-            ->registerEventListener();
-
-        (new PrepareViewWithRehydrateComponents)
-            ->registerMacro()
-            ->registerEventListener();
-
-        (new PrepareTableCells)
-            ->registerMacro()
-            ->registerEventListener();
 
         $this->registerBladeComponentsAndDirectives();
         $this->registerDuskMacros();
@@ -135,6 +124,33 @@ class ServiceProvider extends BaseServiceProvider
         $this->publishes([
             __DIR__ . '/../resources/lang' => base_path('resources/lang/vendor/splade'),
         ], 'translations');
+    }
+
+    /**
+     * Extends the Blade Compiler with a custom implementation that handles the
+     * Lazy, Rehydrae, and Table Cell components.
+     *
+     * @return void
+     */
+    protected function registerCustomBladeCompiler()
+    {
+        $this->app->extend('blade.compiler', function (BladeCompiler $service, $app) {
+            return tap(new CustomBladeCompiler(
+                $app['files'],
+                $app['config']['view.compiled'],
+                $app['config']->get('view.relative_hash', false) ? $app->basePath() : '',
+                $app['config']->get('view.cache', true),
+                $app['config']->get('view.compiled_extension', 'php'),
+            ), function ($blade) use ($service) {
+                foreach ($service->getClassComponentAliases() as $alias => $component) {
+                    $blade->component($component, $alias);
+                }
+
+                foreach ($service->getCustomDirectives() as $name => $directive) {
+                    $blade->directive($name, $directive);
+                }
+            });
+        });
     }
 
     /**
@@ -209,15 +225,18 @@ class ServiceProvider extends BaseServiceProvider
         );
 
         Blade::components([
+            Components\Button::class,
             Components\ButtonWithDropdown::class,
             Components\Cell::class,
             Components\Confirm::class,
             Components\Content::class,
             Components\Data::class,
+            Components\DataStores::class,
             Components\Defer::class,
             Components\Dialog::class,
             Components\Dropdown::class,
             Components\Dynamic::class,
+            Components\DynamicHtml::class,
             Components\Errors::class,
             Components\Event::class,
             Components\Flash::class,
@@ -389,7 +408,8 @@ class ServiceProvider extends BaseServiceProvider
     private function registerMacroForPasswordConfirmation()
     {
         Route::macro('spladePasswordConfirmation', function () {
-            Route::post(config('splade.confirm_password_route'), ConfirmPasswordController::class)->name('splade.confirmPassword');
+            Route::get(config('splade.confirm_password_route'), [ConfirmPasswordController::class, 'show'])->name('splade.confirmedPasswordStatus');
+            Route::post(config('splade.confirm_password_route'), [ConfirmPasswordController::class, 'store'])->name('splade.confirmPassword');
         });
     }
 

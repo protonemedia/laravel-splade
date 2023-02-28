@@ -33,10 +33,6 @@ abstract class PersistentComponent extends Component
 
     /**
      * Wraps the given HTML in Splade Dynamic comments.
-     *
-     * @param  string  $name
-     * @param  \Illuminate\Contracts\Support\Htmlable  $html
-     * @return \Illuminate\Contracts\Support\Htmlable
      */
     private function wrapSlotContents(string $name, Htmlable $html): Htmlable
     {
@@ -53,11 +49,6 @@ abstract class PersistentComponent extends Component
      * It wraps the default slot and all other slots from the factory
      * into Splade Dynamic comments, and merges them it the
      * default data from the original view.
-     *
-     * @param  array  $originalData
-     * @param  \Illuminate\Support\HtmlString  $slot
-     * @param  \Illuminate\View\Factory  $env
-     * @return array
      */
     public function viewData(array $originalData, HtmlString $slot, Factory $env): array
     {

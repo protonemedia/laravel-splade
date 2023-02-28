@@ -45,6 +45,13 @@ class Projects extends AbstractTable
                 confirmButton: 'Sure!',
                 cancelButton: 'Nope!'
             )
+            ->bulkAction(
+                label: 'Touch timestamp confirm password',
+                each: fn (Project $project) => $project->touch(),
+                after: fn () => Toast::info('Timestamps updated!'),
+                confirm: true,
+                requirePassword: true
+            )
             ->export()
             ->export('CSV export', 'projects.csv', Excel::CSV)
             ->defaultSort('name')

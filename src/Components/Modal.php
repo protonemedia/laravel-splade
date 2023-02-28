@@ -3,6 +3,7 @@
 namespace ProtoneMedia\Splade\Components;
 
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Str;
 use Illuminate\View\Component;
 use Illuminate\View\View;
 use ProtoneMedia\Splade\SpladeCore;
@@ -20,9 +21,14 @@ class Modal extends Component
         public string $name = '',
         public bool $modal = false,
         public bool $slideover = false,
+        public bool $opened = false,
     ) {
         if (!$modal && !$slideover) {
             $this->modal = true;
+        }
+
+        if (!$name && $opened) {
+            $this->name = Str::random();
         }
     }
 
@@ -42,9 +48,10 @@ class Modal extends Component
                 );
 
                 return view('splade::functional.preloaded-modal', [
-                    'name' => $this->name,
-                    'html' => $content,
-                    'type' => $this->modal ? 'modal' : 'slideover',
+                    'name'   => $this->name,
+                    'html'   => $content,
+                    'type'   => $this->modal ? 'modal' : 'slideover',
+                    'opened' => $this->opened,
                 ]);
             };
         }

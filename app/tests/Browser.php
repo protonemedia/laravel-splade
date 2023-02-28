@@ -3,11 +3,19 @@
 namespace Tests;
 
 use Facebook\WebDriver\Remote\LocalFileDetector;
+use Illuminate\Support\Str;
 use Laravel\Dusk\Browser as BaseBrowser;
 use PHPUnit\Framework\Assert as PHPUnit;
 
 class Browser extends BaseBrowser
 {
+    /**
+     * The default wait time in seconds.
+     *
+     * @var int
+     */
+    public static $waitSeconds = 10;
+
     public function getTextIn($selector): string
     {
         return $this->resolver->findOrFail($selector)->getText();
@@ -41,12 +49,26 @@ class Browser extends BaseBrowser
 
     public function attachToFilepond($path)
     {
-        $element = $this->resolver->firstOrFail([
-            'input[type=file].filepond--browser',
-        ]);
+        $element = $this->resolver->firstOrFail(['input[type=file].filepond--browser']);
 
         $element->setFileDetector(new LocalFileDetector)->sendKeys($path);
 
-        return $this;
+        $filename = pathinfo($path, PATHINFO_BASENAME);
+
+        if ($element->getAttribute('data-server') === 'false') {
+            return $this->waitForText($filename)->pause(250);
+        }
+
+        $assistants = $this->resolver->all('.filepond--assistant');
+
+        return $this->waitUsing(10, 50, function () use ($assistants, $filename) {
+            foreach ($assistants as $assistant) {
+                if (Str::contains($assistant->getText(), ["{$filename} Upload complete"])) {
+                    return true;
+                }
+            }
+
+            return false;
+        })->pause(250);
     }
 }

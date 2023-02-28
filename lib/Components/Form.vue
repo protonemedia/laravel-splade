@@ -1,6 +1,7 @@
 <script>
 import { objectToFormData } from "./FormHelpers.js";
 import { Splade } from "../Splade.js";
+import debounce from "lodash-es/debounce";
 import find from "lodash-es/find";
 import get from "lodash-es/get";
 import has from "lodash-es/has";
@@ -47,10 +48,18 @@ export default {
             },
         },
 
-        confirm: {
+        confirmDanger: {
             type: [Boolean, String],
             required: false,
             default: false,
+        },
+
+        confirm: {
+            type: [Boolean, String],
+            required: false,
+            default: (props) => {
+                return props.confirmDanger;
+            },
         },
 
         confirmText: {
@@ -71,16 +80,30 @@ export default {
             default: "",
         },
 
+        requirePasswordOnce: {
+            type: Boolean,
+            required: false,
+            default: false,
+        },
+
         requirePassword: {
             type: [Boolean, String],
             required: false,
-            default: false,
+            default: (props) => {
+                return props.requirePasswordOnce;
+            },
+        },
+
+        background: {
+            type: Boolean,
+            required: false,
+            default: false
         },
 
         stay: {
             type: Boolean,
             require: false,
-            default: false
+            default: false,
         },
 
         restoreOnSuccess: {
@@ -117,7 +140,27 @@ export default {
             type: Boolean,
             required: false,
             default: false
-        }
+        },
+
+        debounce: {
+            type: Number,
+            required: false,
+            default: 0
+        },
+
+        acceptHeader: {
+            type: String,
+            required: false,
+            default: "application/json",
+        },
+
+        headers: {
+            type: Object,
+            required: false,
+            default: () => {
+                return {};
+            },
+        },
     },
 
     emits: ["success", "error", "reset", "restored"],
@@ -128,12 +171,17 @@ export default {
             missingAttributes: [],
             values: Object.assign({}, { ...this.default }),
             processing: false,
+            processingInBackground: false,
             wasSuccessful: false,
             recentlySuccessful: false,
             recentlySuccessfulTimeoutId: null,
+            wasUnsuccessful: false,
+            recentlyUnsuccessful: false,
+            recentlyUnsuccessfulTimeoutId: null,
             formElement: null,
             elementsUploading: [],
             fileponds: {},
+            debounceFunction: null,
         };
     },
 
@@ -162,6 +210,12 @@ export default {
                 return errors.join("\n");
             });
         },
+    },
+
+    created() {
+        this.debounceFunction = debounce(() => {
+            this.request(this.background);
+        }, this.debounce);
     },
 
     /*
@@ -198,12 +252,20 @@ export default {
         // Create watchers
         if(this.submitOnChange === true) {
             this.$watch("values", () => {
-                this.$nextTick(() => this.request());
+                if(this.background) {
+                    this.processingInBackground = true;
+                }
+
+                this.$nextTick(() => this.debounce ? this.debounceFunction() : this.request(this.background));
             }, { deep: true });
         }else if(isArray(this.submitOnChange)) {
             this.submitOnChange.forEach((key) => {
                 this.$watch(`values.${key}`, () => {
-                    this.$nextTick(() => this.request());
+                    if(this.background) {
+                        this.processingInBackground = true;
+                    }
+
+                    this.$nextTick(() => this.debounce ? this.debounceFunction() : this.request(this.background));
                 }, { deep: true });
             });
         }
@@ -355,7 +417,9 @@ export default {
                 this.confirmText,
                 this.confirmButton,
                 this.cancelButton,
-                this.requirePassword ? true : false
+                this.requirePassword ? true : false,
+                this.requirePasswordOnce,
+                this.confirmDanger ? true : false
             )
                 .then((password) => {
                     if(!this.requirePassword) {
@@ -379,25 +443,44 @@ export default {
          * Maps the values into a FormData instance and then
          * performs an async request.
          */
-        async request() {
+        async request(forceStay) {
+            if(typeof forceStay === "undefined") {
+                forceStay = false;
+            }
+
             if(this.$uploading) {
                 return;
             }
 
             await this.$nextTick();
 
-            this.processing = true;
+            if(this.background) {
+                this.processingInBackground = true;
+            } else {
+                this.processing = true;
+            }
+
             this.wasSuccessful = false;
             this.recentlySuccessful = false;
             clearTimeout(this.recentlySuccessfulTimeoutId);
+
+            this.wasUnsuccessful = false;
+            this.recentlyUnsuccessful = false;
+            clearTimeout(this.recentlyUnsuccessfulTimeoutId);
 
             const data = (this.values instanceof FormData)
                 ? this.values
                 : objectToFormData(this.values);
 
-            const headers = { Accept: "application/json" };
 
-            if(this.stay) {
+
+            const headers = {};
+
+            if(this.acceptHeader) {
+                headers.Accept = this.acceptHeader;
+            }
+
+            if(this.stay || forceStay) {
                 headers["X-Splade-Prevent-Refresh"] = true;
             }
 
@@ -412,25 +495,39 @@ export default {
                 method = "POST";
             }
 
-            Splade.request(this.action, method, data, headers)
-                .then((response) => {
-                    this.$emit("success", response);
+            const successCallback = (response) => {
+                this.$emit("success", response);
 
-                    if(this.restoreOnSuccess) {
-                        this.restore();
-                    }
+                if(this.restoreOnSuccess) {
+                    this.restore();
+                }
 
-                    if(this.resetOnSuccess) {
-                        this.reset();
-                    }
+                if(this.resetOnSuccess) {
+                    this.reset();
+                }
 
-                    this.processing = false;
-                    this.wasSuccessful = true;
-                    this.recentlySuccessful = true;
-                    this.recentlySuccessfulTimeoutId = setTimeout(() => this.recentlySuccessful = false, 2000);
-                })
+                this.processing = false;
+                this.processingInBackground = false;
+
+                this.wasSuccessful = true;
+                this.recentlySuccessful = true;
+                this.recentlySuccessfulTimeoutId = setTimeout(() => this.recentlySuccessful = false, 2000);
+            };
+
+            if(this.action === "#") {
+                return successCallback(Object.fromEntries(data));
+            }
+
+            Splade.request(this.action, method, data, { ...headers, ...this.headers })
+                .then(successCallback)
                 .catch(async (error) => {
                     this.processing = false;
+                    this.processingInBackground = false;
+
+                    this.wasUnsuccessful = true;
+                    this.recentlyUnsuccessful = true;
+                    this.recentlyUnsuccessfulTimeoutId = setTimeout(() => this.recentlyUnsuccessful = false, 2000);
+
                     this.$emit("error", error);
 
                     if(!this.scrollOnError) {
@@ -470,7 +567,6 @@ export default {
                             "$put",
                             "$startUploading",
                             "$stopUploading",
-                            "$processing",
                             "$uploading",
                             "$errorAttributes",
                             "$registerFilepond",
@@ -482,10 +578,13 @@ export default {
                             "reset",
                             "hasError",
                             "processing",
+                            "processingInBackground",
                             "rawErrors",
                             "submit",
                             "wasSuccessful",
                             "recentlySuccessful",
+                            "wasUnsuccessful",
+                            "recentlyUnsuccessful",
                         ];
 
                         if(preservedKeys.includes(name)) {

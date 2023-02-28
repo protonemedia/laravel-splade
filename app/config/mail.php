@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'default'  => env('MAIL_MAILER', 'smtp'),
+    'default' => env('MAIL_MAILER', 'smtp'),
 
     /*
     |--------------------------------------------------------------------------
@@ -33,8 +33,8 @@ return [
     |
     */
 
-    'mailers'  => [
-        'smtp'     => [
+    'mailers' => [
+        'smtp' => [
             'transport'    => 'smtp',
             'host'         => env('MAIL_HOST', 'smtp.mailgun.org'),
             'port'         => env('MAIL_PORT', 587),
@@ -45,11 +45,11 @@ return [
             'local_domain' => env('MAIL_EHLO_DOMAIN'),
         ],
 
-        'ses'      => [
+        'ses' => [
             'transport' => 'ses',
         ],
 
-        'mailgun'  => [
+        'mailgun' => [
             'transport' => 'mailgun',
         ],
 
@@ -62,12 +62,12 @@ return [
             'path'      => env('MAIL_SENDMAIL_PATH', '/usr/sbin/sendmail -bs -i'),
         ],
 
-        'log'      => [
+        'log' => [
             'transport' => 'log',
             'channel'   => env('MAIL_LOG_CHANNEL'),
         ],
 
-        'array'    => [
+        'array' => [
             'transport' => 'array',
         ],
 
@@ -91,7 +91,7 @@ return [
     |
     */
 
-    'from'     => [
+    'from' => [
         'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
         'name'    => env('MAIL_FROM_NAME', 'Example'),
     ],
