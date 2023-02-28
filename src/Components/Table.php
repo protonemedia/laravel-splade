@@ -48,6 +48,10 @@ class Table extends Component
             return false;
         }
 
+        if ($resource->isEmpty()) {
+            return false;
+        }
+
         return SpladeTable::hidesPaginationWhenResourceContainsOnePage()
             ? $resource->hasPages()
             : true;
