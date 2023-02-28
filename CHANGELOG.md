@@ -2,6 +2,15 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 1.3.0 - 2023-02-28
+
+- (Beta/Experimental) Added a `WithVue` trait to bind Blade Component method/props to Vue templates.
+- Support for Transformers to safely pass data to the frontend (Bridge, Data, Defer, Form components)
+- Support for *empty state* in Table Component (by @lartisan)
+- Added zh_CN translation (by @myxiaoao)
+- Added additional debugging info in the Event component
+- Table Bugfix for using both Bulk Actions and the Row Link feature (by @zulfikar-ditya)
+
 ## 1.2.15 - 2023-02-16
 
 - Global Data store now keeps working with async data from the DynamicHtml, Lazy, and Rehydrate components
