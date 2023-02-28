@@ -21,7 +21,7 @@ trait ParsesJsonDataAttribute
             return;
         }
 
-        if (is_object($data)) {
+        if (is_array($data) || is_object($data)) {
             $data = app(Transformer::class)($data);
         }
 

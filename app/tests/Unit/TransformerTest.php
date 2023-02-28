@@ -32,7 +32,7 @@ class TransformerTest extends TestCase
         $transformer = $this->app->make(Transformer::class);
 
         try {
-            $this->assertTrue($transformer($user)->is($user));
+            $transformer($user);
         } catch(InvalidTransformerException $e) {
             return $this->assertTrue(true);
         }
@@ -50,12 +50,26 @@ class TransformerTest extends TestCase
         $transformer = $this->app->make(Transformer::class);
 
         try {
-            $this->assertTrue($transformer($user)->is($user));
+            $transformer($user);
         } catch(InvalidTransformerException $e) {
             return $this->assertTrue(true);
         }
 
         $this->fail('Should have thrown an exception');
+    }
+
+    /** @test */
+    public function it_doesnt_throw_an_exception_when_the_transformer_is_missing_when_the_instance_cant_be_transformed()
+    {
+        $user = User::firstOrFail()->toArray();
+
+        Splade::requireTransformer();
+
+        $transformer = $this->app->make(Transformer::class);
+
+        $this->assertEquals($user, $transformer($user));
+        $this->assertEquals([$user, $user], $transformer([$user, $user]));
+        $this->assertEquals([$user, $user], $transformer(collect([$user, $user]))->all());
     }
 
     /** @test */
