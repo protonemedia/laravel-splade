@@ -75,6 +75,7 @@ Route::middleware('splade')->group(function () {
     Route::view('bridge/inline', 'bridge.inline')->name('bridge.inline');
     Route::view('bridge/method', 'bridge.method')->name('bridge.method');
     Route::view('bridge/props', 'bridge.props')->name('bridge.props');
+    Route::view('bridge/render', 'bridge.render')->name('bridge.render');
 
     Route::view('buttons', 'buttons')->name('buttons');
     Route::view('custom', 'custom')->name('custom');

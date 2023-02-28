@@ -10,10 +10,20 @@
     :verb="@js($vueData['verb'])"
 >
     <template #default="{ {{ $vueData['scope'] }} }">
-        @if((string) $attributes)
-            <div {{ $attributes }}>{{ isset($component) ? $component : $slot }}</div>
+        @php($hasAttributes = (string) $attributes ? true : false)
+
+        @if ($hasAttributes)
+            <div {{ $attributes }}>
+        @endif
+
+        @isset($originalName)
+            @include($originalName, array_merge($originalData, ['slot' => $slot]))
         @else
             {{ isset($component) ? $component : $slot }}
+        @endisset
+
+        @if ($hasAttributes)
+            </div>
         @endif
     </template>
 </SpladeVueBridge>

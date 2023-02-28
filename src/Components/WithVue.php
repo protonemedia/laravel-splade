@@ -35,10 +35,15 @@ trait WithVue
         $original = parent::resolveView();
 
         if ($original instanceof View) {
-            return view('splade::functional.splade-vue-bridge');
+            $renderless = $original->name() === 'splade::functional.slot';
+
+            return view('splade::functional.vue-bridge', $renderless ? [] : [
+                'originalName' => $original->name(),
+                'originalData' => $original->getData(),
+            ]);
         }
 
-        return view('splade::functional.splade-vue-bridge', [
+        return view('splade::functional.vue-bridge', [
             'component' => new HtmlString($this->view($original, $this->data())->render()),
         ]);
     }
