@@ -14,6 +14,7 @@ use Illuminate\View\View;
 use JsonSerializable;
 use ProtoneMedia\Splade\Bridge\ComponentState;
 use ProtoneMedia\Splade\Bridge\MiddlewareException;
+use ProtoneMedia\Splade\Transformer;
 use ReflectionClass;
 use ReflectionMethod;
 
@@ -206,18 +207,23 @@ trait WithVue
 
         $properties = (new ReflectionClass($this))->getProperties();
 
+        /** @var Transformer */
+        $transformer = app(Transformer::class);
+
         foreach ($properties as $property) {
             if ($property->isStatic() || !$property->isPublic() || !$property->isInitialized($this)) {
                 continue;
             }
-
-            $value = $this->getPropertyValue($property);
 
             $name = $property->getName();
 
             if ($name === 'componentName' || $name === 'attributes') {
                 continue;
             }
+
+            $value = $this->getPropertyValue($property);
+
+            $value = is_object($value) ? $transformer($value) : $value;
 
             if ($value instanceof Model) {
                 $value = (object) $value->jsonSerialize();

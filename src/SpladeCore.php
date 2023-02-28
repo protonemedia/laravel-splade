@@ -55,7 +55,9 @@ class SpladeCore
 
     private $customToastFactory;
 
-    private $dataStores = [];
+    private array $dataStores = [];
+
+    private array $transformMap = [];
 
     /**
      * Creates an instance.
@@ -500,5 +502,41 @@ class SpladeCore
         return new JsonResponse(null, 409, [
             static::HEADER_REDIRECT_AWAY => $targetUrl,
         ]);
+    }
+
+    /**
+     * Indicates whether every resource needs a valid transformer.
+     */
+    public function requireTransformer($value = true): self
+    {
+        app(Transformer::class)->requireTransformer($value);
+
+        return $this;
+    }
+
+    /**
+     * Adds a transformer for the given class.
+     */
+    public function transformUsing($class, $transformer = null): self
+    {
+        if (is_array($class)) {
+            foreach ($class as $key => $value) {
+                $this->transformUsing($key, $value);
+            }
+
+            return $this;
+        }
+
+        $this->transformMap[$class] = $transformer;
+
+        return $this;
+    }
+
+    /**
+     * Finds the transformer for the given class.
+     */
+    public function findTransformerFor(string $class)
+    {
+        return $this->transformMap[$class] ?? null;
     }
 }

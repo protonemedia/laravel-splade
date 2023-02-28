@@ -188,6 +188,10 @@ class ServiceProvider extends BaseServiceProvider
 
         $this->app->alias(TransitionRepository::class, 'laravel-splade-transition-repository');
 
+        $this->app->singleton(Transformer::class, function ($app) {
+            return new Transformer($app->make(SpladeCore::class));
+        });
+
         // Splade File Uploads
         $this->app->singleton(Filesystem::class, function ($app) {
             $disk = config('splade.file_uploads.disk');
