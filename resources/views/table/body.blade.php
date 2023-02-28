@@ -3,10 +3,6 @@
         @php $itemPrimaryKey = $table->findPrimaryKey($item) @endphp
 
         <tr
-            @if($table->rowLinks->has($itemKey))
-                class="cursor-pointer"
-                @click="(event) => table.visit(@js($table->rowLinks->get($itemKey)), @js($table->rowLinkType), event)"
-            @endif
             :class="{
                 'bg-gray-50': table.striped && @js($itemKey) % 2,
                 'hover:bg-gray-100': table.striped,
@@ -29,8 +25,11 @@
 
             @foreach($table->columns() as $column)
                 <td
+                    @if($table->rowLinks->has($itemKey))
+                        @click="(event) => table.visit(@js($table->rowLinks->get($itemKey)), @js($table->rowLinkType), event)"
+                    @endif
                     v-show="table.columnIsVisible(@js($column->key))"
-                    class="whitespace-nowrap text-sm @if($loop->first && $hasBulkActions) pr-6 @else px-6 @endif py-4 @if($column->highlight) text-gray-900 font-medium @else text-gray-500 @endif"
+                    class="whitespace-nowrap text-sm @if($loop->first && $hasBulkActions) pr-6 @else px-6 @endif py-4 @if($column->highlight) text-gray-900 font-medium @else text-gray-500 @endif @if($table->rowLinks->has($itemKey)) cursor-pointer @endif"
                 >
                     @isset(${'spladeTableCell' . $column->keyHash()})
                         {{ ${'spladeTableCell' . $column->keyHash()}($item, $itemKey) }}
