@@ -79,6 +79,34 @@ class TransformerTest extends TestCase
     }
 
     /** @test */
+    public function it_can_transform_a_collection_using_a_closure()
+    {
+        $users = User::take(2)->get();
+
+        $this->assertCount(2, $users);
+
+        Splade::transformUsing(User::class, function ($user) {
+            return [
+                'name'  => $user->name,
+                'email' => $user->email,
+            ];
+        });
+
+        $transformer = $this->app->make(Transformer::class);
+
+        $this->assertEquals([
+            [
+                'name'  => $users->get(0)->name,
+                'email' => $users->get(0)->email,
+            ],
+            [
+                'name'  => $users->get(1)->name,
+                'email' => $users->get(1)->email,
+            ],
+        ], $transformer($users));
+    }
+
+    /** @test */
     public function it_can_transform_using_an_api_resource()
     {
         $user = User::firstOrFail();
@@ -94,6 +122,52 @@ class TransformerTest extends TestCase
     }
 
     /** @test */
+    public function it_can_transform_a_collection_using_an_api_resource()
+    {
+        $users = User::take(2)->get();
+
+        $this->assertCount(2, $users);
+
+        Splade::transformUsing(User::class, UserResource::class);
+
+        $transformer = $this->app->make(Transformer::class);
+
+        $this->assertEquals([
+            [
+                'name'  => $users->get(0)->name,
+                'email' => $users->get(0)->email,
+            ],
+            [
+                'name'  => $users->get(1)->name,
+                'email' => $users->get(1)->email,
+            ],
+        ], $transformer($users));
+    }
+
+    /** @test */
+    public function it_can_transform_an_array_using_an_api_resource()
+    {
+        $users = User::take(2)->get();
+
+        $this->assertCount(2, $users);
+
+        Splade::transformUsing(User::class, UserResource::class);
+
+        $transformer = $this->app->make(Transformer::class);
+
+        $this->assertEquals([
+            [
+                'name'  => $users->get(0)->name,
+                'email' => $users->get(0)->email,
+            ],
+            [
+                'name'  => $users->get(1)->name,
+                'email' => $users->get(1)->email,
+            ],
+        ], $transformer($users->all()));
+    }
+
+    /** @test */
     public function it_can_transform_using_a_fractal_transformer()
     {
         $user = User::firstOrFail();
@@ -106,6 +180,29 @@ class TransformerTest extends TestCase
             'name'  => $user->name,
             'email' => $user->email,
         ], $transformer($user));
+    }
+
+    /** @test */
+    public function it_can_transform_a_collection_using_a_fractal_transformer()
+    {
+        $users = User::take(2)->get();
+
+        $this->assertCount(2, $users);
+
+        Splade::transformUsing(User::class, UserTransformer::class);
+
+        $transformer = $this->app->make(Transformer::class);
+
+        $this->assertEquals([
+            [
+                'name'  => $users->get(0)->name,
+                'email' => $users->get(0)->email,
+            ],
+            [
+                'name'  => $users->get(1)->name,
+                'email' => $users->get(1)->email,
+            ],
+        ], $transformer($users->all()));
     }
 
     /** @test */

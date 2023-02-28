@@ -12,6 +12,7 @@ use Illuminate\Validation\ValidationException;
 use ProtoneMedia\Splade\Http\ResolvableData;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
+use Traversable;
 
 class SpladeCore
 {
@@ -535,8 +536,22 @@ class SpladeCore
     /**
      * Finds the transformer for the given class.
      */
-    public function findTransformerFor(string $class)
+    public function findTransformerFor(array|object $instance)
     {
-        return $this->transformMap[$class] ?? null;
+        if (is_object($instance)) {
+            $class = get_class($instance);
+
+            if (array_key_exists($class, $this->transformMap)) {
+                return $this->transformMap[$class];
+            }
+        }
+
+        if (is_array($instance) || $instance instanceof Traversable) {
+            $firstElement = Arr::first($instance);
+
+            return is_object($firstElement) ? $this->findTransformerFor($firstElement) : null;
+        }
+
+        return null;
     }
 }

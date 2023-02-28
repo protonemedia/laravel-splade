@@ -3,9 +3,11 @@
 namespace ProtoneMedia\Splade;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Collection;
 use League\Fractal\TransformerAbstract;
 use Spatie\Fractalistic\ArraySerializer;
 use Spatie\Fractalistic\Fractal;
+use Traversable;
 
 class Transformer
 {
@@ -22,23 +24,16 @@ class Transformer
     {
     }
 
-    public function __invoke(object $instance): mixed
+    public function __invoke(array|object $instance): mixed
     {
-        $instanceClass = get_class($instance);
+        $transformer = $this->splade->findTransformerFor($instance);
 
-        $transformer = $this->splade->findTransformerFor($instanceClass);
+        $instanceName = is_object($instance) ? get_class($instance) : 'array';
 
         if ($transformer === null) {
-            throw_if($this->requireTransformer, new InvalidTransformerException("No transformer found for {$instanceClass}"));
+            throw_if($this->requireTransformer, new InvalidTransformerException("No transformer found for {$instanceName}"));
 
             return $instance;
-        }
-
-        if (is_subclass_of($transformer, JsonResource::class)) {
-            /** @var JsonResource */
-            $resource = new $transformer($instance);
-
-            return $resource->resolve();
         }
 
         if (is_subclass_of($transformer, TransformerAbstract::class)) {
@@ -51,10 +46,25 @@ class Transformer
             return Fractal::create($instance, new $transformer, new ArraySerializer)->toArray();
         }
 
-        if (is_callable($transformer)) {
-            return $transformer($instance);
+        if (is_array($instance) || $instance instanceof Traversable) {
+            $instance = $instance instanceof Collection ? $instance : Collection::make($instance);
         }
 
-        throw new InvalidTransformerException("The transformer for {$instanceClass} is not a valid transformer.");
+        if (is_subclass_of($transformer, JsonResource::class)) {
+            /** @var JsonResource */
+            $resource = $instance instanceof Collection
+                ? $transformer::collection($instance)
+                : new $transformer($instance);
+
+            return $resource->resolve();
+        }
+
+        if (is_callable($transformer)) {
+            return $instance instanceof Collection
+                ? $instance->map($transformer)->all()
+                : $transformer($instance);
+        }
+
+        throw new InvalidTransformerException("The transformer for {$instanceName} is not a valid transformer.");
     }
 }

@@ -5,7 +5,7 @@ namespace ProtoneMedia\Splade\Bridge;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Validation\ValidationException;
-use ProtoneMedia\Splade\Components\Interactive;
+use ProtoneMedia\Splade\Components\WithVue;
 use ProtoneMedia\Splade\Http\SpladeMiddleware;
 use ProtoneMedia\Splade\SpladeCore;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -34,7 +34,7 @@ class ComponentController extends Controller
 
         abort_unless($componentState->requestHasValidSignature($request), 403, 'Malicious request');
 
-        /** @var Interactive */
+        /** @var WithVue */
         $instance = rescue(
             fn () => $componentState->resolveInstance($request),
             fn () => abort(403, 'Component not found'),
