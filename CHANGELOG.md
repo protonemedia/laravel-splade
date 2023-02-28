@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 1.3.1 - 2023-02-28
+
+- Table Component UI fixes
+
 ## 1.3.0 - 2023-02-28
 
 - (Beta/Experimental) Added a `WithVue` trait to bind Blade Component method/props to Vue templates.
