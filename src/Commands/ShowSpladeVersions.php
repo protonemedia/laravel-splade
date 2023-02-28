@@ -55,7 +55,6 @@ class ShowSpladeVersions extends Command
      * Get the contents of a file.
      *
      * @param  string  $path
-     * @return array
      */
     private function get($path): array
     {

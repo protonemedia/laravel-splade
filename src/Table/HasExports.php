@@ -11,8 +11,6 @@ trait HasExports
 
     /**
      * Returns the exports.
-     *
-     * @return array
      */
     public function getExports(): array
     {
@@ -21,8 +19,6 @@ trait HasExports
 
     /**
      * Returns a boolean whether this table has exports.
-     *
-     * @return bool
      */
     public function hasExports(): bool
     {
@@ -32,9 +28,6 @@ trait HasExports
     /**
      * Adds an export.
      *
-     * @param  string|null  $label
-     * @param  string|null  $filename
-     * @param  string|null  $type
      * @return $this
      */
     public function export(

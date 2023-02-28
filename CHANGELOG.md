@@ -2,6 +2,21 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 1.2.15 - 2023-02-16
+
+- Global Data store now keeps working with async data from the DynamicHtml, Lazy, and Rehydrate components
+- Textarea markup fix (#300 - thanks @evici!)
+- Fix for Data component when rendered server-side
+
+## 1.2.14.1 - 2023-02-15
+
+- Patch release for Laravel 10
+
+## 1.2.14 - 2023-02-13
+
+- `SpladeTable` now uses the `Conditionable` trait.
+- Splade Middleware now has a static `afterOriginalResponse()` method to interact with the original, pre-Splade response.
+
 ## 1.2.13 - 2023-02-12
 
 - Errors from the session will now be passed to the frontend

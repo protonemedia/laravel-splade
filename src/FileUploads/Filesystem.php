@@ -26,7 +26,6 @@ class Filesystem
     /**
      * Stores the uploaded file as a temporary file.
      *
-     * @param  \Illuminate\Http\UploadedFile  $file
      * @return \ProtoneMedia\Splade\FileUploads\TemporaryFileUpload
      */
     public function storeUploadedFileTemporarely(UploadedFile $file): TemporaryFileUpload
@@ -71,7 +70,6 @@ class Filesystem
      * Returns a boolean whether the file exists.
      *
      * @param  \ProtoneMedia\Splade\FileUploads\TemporaryFileUpload  $temporaryFileUpload
-     * @return bool
      */
     public function exists(TemporaryFileUpload $temporaryFileUpload): bool
     {
@@ -103,7 +101,6 @@ class Filesystem
      * Deletes the temporary file.
      *
      * @param  \ProtoneMedia\Splade\FileUploads\TemporaryFileUpload  $temporaryFileUpload
-     * @return bool
      */
     public function delete(TemporaryFileUpload $temporaryFileUpload): bool
     {

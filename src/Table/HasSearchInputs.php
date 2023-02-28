@@ -17,9 +17,6 @@ trait HasSearchInputs
      * Loops over the are and verifies that there's both a value
      * and a (string) key. Items without a key will be handled
      * in the QueryFilter::getTermAndWhereOperator() method.
-     *
-     * @param  array  $keys
-     * @return array
      */
     private static function normalizeSearchColumnsWithMethod(array $keys): array
     {
@@ -36,8 +33,6 @@ trait HasSearchInputs
      * Add a search input to the table.
      *
      * @param  string  $key
-     * @param  string|null  $label
-     * @param  string|null  $defaultValue
      * @return $this
      */
     public function searchInput(
@@ -71,7 +66,6 @@ trait HasSearchInputs
     /**
      * Returns all Search Inputs, or finds on when $key is not empty.
      *
-     * @param  string|null  $key
      * @return \Illuminate\Support\Collection|\ProtoneMedia\Splade\Table\SearchInput|null
      */
     public function searchInputs(string $key = null): Collection|SearchInput|null
@@ -94,8 +88,6 @@ trait HasSearchInputs
 
     /**
      * Returns a boolean whether this table has search filters.
-     *
-     * @return bool
      */
     public function hasSearchFiltersEnabled(): bool
     {
@@ -104,8 +96,6 @@ trait HasSearchInputs
 
     /**
      * Returns a boolean whether this table has toggleable search input.
-     *
-     * @return bool
      */
     public function hasToggleableSearchInputs(): bool
     {
@@ -117,7 +107,6 @@ trait HasSearchInputs
     /**
      * Set a default for global search.
      *
-     * @param  bool|string  $label
      * @return void
      */
     public static function defaultGlobalSearch(bool|string $label = 'Search')
@@ -130,8 +119,6 @@ trait HasSearchInputs
     /**
      * Helper method to add a global search input.
      *
-     * @param  string|null  $label
-     * @param  array  $columns
      * @return $this
      */
     public function withGlobalSearch(string $label = null, array $columns = []): self

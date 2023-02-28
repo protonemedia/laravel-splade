@@ -356,6 +356,16 @@ parameters:
 			path: src/Http/SpladeMiddleware.php
 
 		-
+			message: "#^Static property ProtoneMedia\\\\Splade\\\\Http\\\\SpladeMiddleware\\:\\:\\$afterOriginalResponseCallback \\(\\(callable\\(\\)\\: mixed\\)\\|null\\) does not accept default value of type array\\{\\}\\.$#"
+			count: 1
+			path: src/Http/SpladeMiddleware.php
+
+		-
+			message: "#^Unsafe access to private property ProtoneMedia\\\\Splade\\\\Http\\\\SpladeMiddleware\\:\\:\\$afterOriginalResponseCallback through static\\:\\:\\.$#"
+			count: 3
+			path: src/Http/SpladeMiddleware.php
+
+		-
 			message: "#^Parameter \\#1 \\$key of method ProtoneMedia\\\\Splade\\\\AbstractTable\\:\\:performBulkAction\\(\\) expects int, string given\\.$#"
 			count: 1
 			path: src/Http/TableBulkActionController.php

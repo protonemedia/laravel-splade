@@ -25,13 +25,15 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class SpladeMiddleware
 {
+    /**
+     * @var callable|null
+     */
+    private static $afterOriginalResponseCallback = [];
+
     const FLASH_TOASTS = 'splade.flashToasts';
 
     /**
      * This Middleware is required to support Splade's SPA and other features.
-     *
-     * @param  \ProtoneMedia\Splade\SpladeCore  $splade
-     * @param  \ProtoneMedia\Splade\Ssr  $ssr
      */
     public function __construct(
         private SpladeCore $splade,
@@ -42,7 +44,6 @@ class SpladeMiddleware
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
@@ -62,6 +63,12 @@ class SpladeMiddleware
 
         /** @var Response $response */
         $response = $next($request);
+
+        if (static::$afterOriginalResponseCallback) {
+            $callback = static::$afterOriginalResponseCallback;
+            $callback($request, $response);
+        }
+
         $response->headers->add(['Vary' => 'X-Splade']);
 
         // Don't mess with file and streamed responses.
@@ -108,11 +115,20 @@ class SpladeMiddleware
     }
 
     /**
+     * A callback that sits between the 'regular' response, and
+     * the handling of the Splade response.
+     *
+     * @return void
+     */
+    public static function afterOriginalResponse(Closure $callback = null)
+    {
+        static::$afterOriginalResponseCallback = $callback;
+    }
+
+    /**
      * Handle a Splade request, made from the Vue app.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  \Illuminate\Http\Response  $response
-     * @param  object  $spladeData
      * @return \Illuminate\Http\Response|\Illuminate\Http\JsonResponse
      */
     private function handleSpladeRequest(Request $request, Response $response, object $spladeData): Response|JsonResponse
@@ -149,11 +165,11 @@ class SpladeMiddleware
         // Get the rendered content...
         $content = $response->getContent() ?: '';
 
-        // When there are Data Stores registered, wrap the content...
-        $content = $this->wrapContentInDataStores($content);
-
         // Extract the Dynamic Content, we'll return that separately so Vue can handle it.
         [$content, $dynamics] = static::extractDynamicsFromContent($content);
+
+        // When there are Data Stores registered, wrap the content...
+        $content = $this->wrapContentInDataStores($content);
 
         if ($this->splade->isLazyRequest()) {
             $content = static::extractComponent($content, 'lazy', $this->splade->getLazyComponentKey()) ?: $content;
@@ -171,10 +187,6 @@ class SpladeMiddleware
 
     /**
      * Grabs the component from the rendered content and returns it.
-     *
-     * @param  string  $content
-     * @param  int  $componentKey
-     * @return string
      */
     public static function extractComponent(string $content, string $component, int $componentKey): string
     {
@@ -198,9 +210,7 @@ class SpladeMiddleware
     /**
      * Handle a non-Splade request. This is probably the inital request.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  \Illuminate\Http\Response  $response
-     * @param  object  $spladeData
      * @return \Illuminate\Http\Response
      */
     private function handleRegularRequest(Request $request, Response $response, object $spladeData): Response
@@ -225,11 +235,11 @@ class SpladeMiddleware
             $originalViewData = $response->getOriginalContent()->getData();
         }
 
-        // When there are Data Stores registered, wrap the content...
-        $content = $this->wrapContentInDataStores($originalContent);
-
         // Extract the Dynamic Content, we'll return that separately so Vue can handle it.
-        [$content, $dynamics] = static::extractDynamicsFromContent($content);
+        [$content, $dynamics] = static::extractDynamicsFromContent($originalContent);
+
+        // When there are Data Stores registered, wrap the content...
+        $content = $this->wrapContentInDataStores($content);
 
         $viewData = [
             'components' => static::renderedComponents(),
@@ -281,13 +291,17 @@ class SpladeMiddleware
 
     /**
      * When there are Data Stores registered, wrap the content in a Data Store component.
-     *
-     * @param  string  $content
-     * @return string
      */
-    private function wrapContentInDataStores(string $content): string
+    public function wrapContentInDataStores(string $content): string
     {
-        if (empty($this->splade->getDataStores())) {
+        $dataStores = $this->splade->getDataStores();
+
+        $keys = implode(',', array_keys($dataStores));
+
+        $content = str_replace('##SPLADE-PASSTHROUGH-NEW##', $keys, $content);
+        $content = str_replace('##SPLADE-PASSTHROUGH-APPEND##', $keys ? ",{$keys}" : '', $content);
+
+        if (empty($dataStores)) {
             return $content;
         }
 
@@ -298,7 +312,7 @@ class SpladeMiddleware
             '</x-splade-component>',
             '</div>',
         ]), [
-            'stores'          => $this->splade->getDataStores(),
+            'stores'          => $dataStores,
             'originalContent' => $content,
         ]);
     }
@@ -307,9 +321,6 @@ class SpladeMiddleware
      * Extracts all Dynamic Content, i.e. content that changes in a persistent
      * layout, and replaces it with a placeholder. It returns the
      * content, and the extracted Dynamic Content as an array.
-     *
-     * @param  string  $content
-     * @return array
      */
     public static function extractDynamicsFromContent(string $content): array
     {
@@ -326,9 +337,14 @@ class SpladeMiddleware
                 return [$name => trim($dynamic)];
             })
             ->each(function (string $dynamicContent, string $name) use (&$content) {
+                $rendered = Blade::render(
+                    '<x-splade-component is="dynamic-html" :name="$name" />',
+                    ['name' => $name]
+                );
+
                 $content = str_replace(
                     "<!--START-SPLADE-DYNAMIC-{$name}-->" . $dynamicContent . "<!--END-SPLADE-DYNAMIC-{$name}-->",
-                    '<SpladeDynamicHtml :keep-alive-key="`dynamicVisit.${$splade.pageVisitId.value}.${$splade.dynamicVisitId.value}`" :name="\'' . $name . '\'" />',
+                    $rendered,
                     $content
                 );
             });
@@ -338,9 +354,6 @@ class SpladeMiddleware
 
     /**
      * Finds a Splade Modal in the content and returns it.
-     *
-     * @param  string  $content
-     * @return string|null
      */
     private function parseModalContent(string $content): ?string
     {
@@ -355,9 +368,6 @@ class SpladeMiddleware
 
     /**
      * Returns all error messages from the session.
-     *
-     * @param  \Illuminate\Support\ViewErrorBag  $viewErrorBag
-     * @return array
      */
     private function allErrorMessages(ViewErrorBag $viewErrorBag): array
     {
@@ -370,7 +380,6 @@ class SpladeMiddleware
      * Merges all bags from all view errors bags into one.
      *
      * @param  \Illuminate\Support\ViewErrorBag[]  ...$viewErrorsBags
-     * @return \Illuminate\Support\ViewErrorBag
      */
     private function mergeViewErrorBags(...$viewErrorsBags): ViewErrorBag
     {
@@ -391,10 +400,6 @@ class SpladeMiddleware
 
     /**
      * This methods returns all relevant data for a Splade page view.
-     *
-     * @param  \Illuminate\Contracts\Session\Session  $session
-     * @param  \Illuminate\Support\ViewErrorBag  $errorsFromRedirect
-     * @return object
      */
     private function spladeData(Session $session, ViewErrorBag $errorsFromRedirect): object
     {
@@ -475,9 +480,6 @@ class SpladeMiddleware
 
     /**
      * Maps a full URL to a host:port formatted string.
-     *
-     * @param  string  $url
-     * @return string
      */
     public static function urlToHostAndPort(string $url): string
     {
@@ -499,8 +501,6 @@ class SpladeMiddleware
 
     /**
      * Renders the Confirm and ToastWrapper components.
-     *
-     * @return string
      */
     public static function renderedComponents(): string
     {

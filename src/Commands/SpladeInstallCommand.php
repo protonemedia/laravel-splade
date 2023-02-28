@@ -20,8 +20,6 @@ class SpladeInstallCommand extends Command
      * Installs the Splade Route Middleware, the Exception Handler, the
      * required NPM packages and copies all boilerplate files into
      * the application.
-     *
-     * @return int
      */
     public function handle(): int
     {
@@ -32,7 +30,7 @@ class SpladeInstallCommand extends Command
         // Install NPM packages...
         $this->updateNodePackages(function ($packages) {
             return [
-                '@protonemedia/laravel-splade' => '^1.2.13',
+                '@protonemedia/laravel-splade' => '^1.2.15',
                 '@tailwindcss/forms'           => '^0.5.2',
                 '@tailwindcss/typography'      => '^0.5.2',
                 '@vitejs/plugin-vue'           => '^3.0.0',
@@ -94,8 +92,6 @@ class SpladeInstallCommand extends Command
 
     /**
      * End of line symbol.
-     *
-     * @return string
      */
     public static function eol(): string
     {
@@ -124,7 +120,6 @@ class SpladeInstallCommand extends Command
     /**
      * Updates the "package.json" file.
      *
-     * @param  callable  $callback
      * @param  bool  $dev
      * @return void
      */

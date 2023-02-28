@@ -17,8 +17,6 @@ class EventRedirect implements Arrayable, JsonSerializable
 
     /**
      * Creates a new instance with a fresh UUID.
-     *
-     * @param  string  $target
      */
     public function __construct(private string $target)
     {
@@ -50,7 +48,6 @@ class EventRedirect implements Arrayable, JsonSerializable
     /**
      * Setter for additional data.
      *
-     * @param  string  $key
      * @param  mixed  $value
      * @return $this
      */
@@ -76,8 +73,6 @@ class EventRedirect implements Arrayable, JsonSerializable
     /**
      * Generates a Signed URL to the 'splade.eventRedirect' route
      * that will eventually redirect to the actual target.
-     *
-     * @return string
      */
     public function signedUrl(): string
     {
@@ -86,8 +81,6 @@ class EventRedirect implements Arrayable, JsonSerializable
 
     /**
      * Returns an array with all data.
-     *
-     * @return array
      */
     public function data(): array
     {

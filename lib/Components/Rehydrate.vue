@@ -2,6 +2,7 @@
   <Render
     v-if="html"
     :html="html"
+    :passthrough="passthrough"
   />
   <slot
     v-else-if="loading"
@@ -40,6 +41,14 @@ export default {
             required: false,
             default: null,
         },
+
+        passthrough: {
+            type: Object,
+            required: false,
+            default() {
+                return {};
+            },
+        }
     },
 
     emits: ["loaded"],
