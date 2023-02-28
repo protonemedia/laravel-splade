@@ -17,6 +17,7 @@ use Illuminate\View\ComponentAttributeBag;
 use Illuminate\View\Factory;
 use Illuminate\View\View;
 use Laravel\Dusk\Browser;
+use ProtoneMedia\Splade\Bridge\ComponentController;
 use ProtoneMedia\Splade\Commands\CleanupTemporaryFileUploads;
 use ProtoneMedia\Splade\Commands\PublishFormStylesheetsCommand;
 use ProtoneMedia\Splade\Commands\ShowSpladeVersions;
@@ -90,6 +91,7 @@ class ServiceProvider extends BaseServiceProvider
         $this->registerResponseMacro();
         $this->registerRequestMacros();
         $this->registerRouteForEventRedirect();
+        $this->registerMacroForBridgeComponent();
         $this->registerMacroForPasswordConfirmation();
         $this->registerMacroForFileUploads();
         $this->registerMacroForTableRoutes();
@@ -185,6 +187,10 @@ class ServiceProvider extends BaseServiceProvider
         });
 
         $this->app->alias(TransitionRepository::class, 'laravel-splade-transition-repository');
+
+        $this->app->singleton(Transformer::class, function ($app) {
+            return new Transformer($app->make(SpladeCore::class));
+        });
 
         // Splade File Uploads
         $this->app->singleton(Filesystem::class, function ($app) {
@@ -384,6 +390,19 @@ class ServiceProvider extends BaseServiceProvider
                 /** @var ComponentAttributeBag $this */
                 return $this->merge([$fullBindAttribute => $value], $escape);
             });
+        });
+    }
+
+    /**
+     * Registers a route that's used to handle public methods
+     * from interactive components from the frontend.
+     *
+     * @return void
+     */
+    private function registerMacroForBridgeComponent()
+    {
+        Route::macro('spladeWithVueBridge', function () {
+            Route::post(config('splade.with_vue_bridge_route'), ComponentController::class)->name('splade.withVueBridge');
         });
     }
 

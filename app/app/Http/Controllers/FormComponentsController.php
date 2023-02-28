@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Address;
 use App\Models\Dummy;
 use App\Models\Project;
 use Illuminate\Http\Request;
@@ -11,6 +12,7 @@ use Illuminate\Validation\Rule;
 use ProtoneMedia\Splade\Components\Form;
 use ProtoneMedia\Splade\Components\Form\Input;
 use ProtoneMedia\Splade\Components\Form\Select;
+use ProtoneMedia\Splade\Facades\Splade;
 
 class FormComponentsController
 {
@@ -203,6 +205,22 @@ class FormComponentsController
 
     public function relation()
     {
+        $project = Project::first();
+
+        return view('form.components.relation', [
+            'project' => $project,
+        ]);
+    }
+
+    public function transform()
+    {
+        Splade::requireTransformer();
+
+        Splade::transformUsing([
+            Project::class => fn ($project) => ['name' => 'transformed_' . $project->name],
+            Address::class => fn ($address) => ['city' => 'transformed_' . $address->city],
+        ]);
+
         $project = Project::first();
 
         return view('form.components.relation', [

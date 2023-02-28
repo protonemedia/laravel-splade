@@ -11,6 +11,8 @@ class Project extends Model
     use HasFactory;
     use PowerJoins;
 
+    protected $guarded = [];
+
     public function organization()
     {
         return $this->belongsTo(Organization::class);

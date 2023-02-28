@@ -12,6 +12,7 @@ use Illuminate\Validation\ValidationException;
 use ProtoneMedia\Splade\Http\ResolvableData;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
+use Traversable;
 
 class SpladeCore
 {
@@ -55,7 +56,9 @@ class SpladeCore
 
     private $customToastFactory;
 
-    private $dataStores = [];
+    private array $dataStores = [];
+
+    private array $transformMap = [];
 
     /**
      * Creates an instance.
@@ -500,5 +503,55 @@ class SpladeCore
         return new JsonResponse(null, 409, [
             static::HEADER_REDIRECT_AWAY => $targetUrl,
         ]);
+    }
+
+    /**
+     * Indicates whether every resource needs a valid transformer.
+     */
+    public function requireTransformer($value = true): self
+    {
+        app(Transformer::class)->requireTransformer($value);
+
+        return $this;
+    }
+
+    /**
+     * Adds a transformer for the given class.
+     */
+    public function transformUsing($class, $transformer = null): self
+    {
+        if (is_array($class)) {
+            foreach ($class as $key => $value) {
+                $this->transformUsing($key, $value);
+            }
+
+            return $this;
+        }
+
+        $this->transformMap[$class] = $transformer;
+
+        return $this;
+    }
+
+    /**
+     * Finds the transformer for the given class.
+     */
+    public function findTransformerFor(array|object $instance)
+    {
+        if (is_object($instance)) {
+            $class = get_class($instance);
+
+            if (array_key_exists($class, $this->transformMap)) {
+                return $this->transformMap[$class];
+            }
+        }
+
+        if (is_array($instance) || $instance instanceof Traversable) {
+            $firstElement = Arr::first($instance);
+
+            return is_object($firstElement) ? $this->findTransformerFor($firstElement) : null;
+        }
+
+        return null;
     }
 }

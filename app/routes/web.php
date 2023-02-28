@@ -48,6 +48,10 @@ Route::get('defer/input/{input}', function ($input) {
     ];
 })->name('defer.input');
 
+Route::get('login/redirect', function () {
+    return redirect()->route('navigation.one');
+})->name('login');
+
 Route::get('event/redirect', fn () => event(new RedirectEvent))->name('event.redirect');
 Route::get('event/refresh', fn () => event(new RefreshEvent))->name('event.refresh');
 Route::get('event/simple', fn () => event(new SimpleEvent))->name('event.simple');
@@ -57,6 +61,7 @@ Route::middleware('splade')->group(function () {
     Route::spladePasswordConfirmation();
     Route::spladeTable();
     Route::spladeUploads();
+    Route::spladeWithVueBridge();
 
     Route::get('/api/countries/keyValue', [CountriesController::class, 'keyValue'])->name('api.countries.keyValue');
     Route::get('/api/countries/objects', [CountriesController::class, 'objects'])->name('api.countries.objects');
@@ -65,6 +70,12 @@ Route::middleware('splade')->group(function () {
     Route::view('content', 'content', [
         'html' => file_get_contents(resource_path('rendered_markdown.html')),
     ])->name('content');
+
+    Route::view('bridge/arguments', 'bridge.arguments')->name('bridge.arguments');
+    Route::view('bridge/inline', 'bridge.inline')->name('bridge.inline');
+    Route::view('bridge/method', 'bridge.method')->name('bridge.method');
+    Route::view('bridge/props', 'bridge.props')->name('bridge.props');
+    Route::view('bridge/render', 'bridge.render')->name('bridge.render');
 
     Route::view('buttons', 'buttons')->name('buttons');
     Route::view('custom', 'custom')->name('custom');
@@ -163,6 +174,7 @@ Route::middleware('splade')->group(function () {
     Route::get('form/components/submitValue/{approved?}', [FormComponentsController::class, 'submitValue'])->name('form.components.submitValue');
     Route::post('form/components/submitValue/{approved?}', [FormComponentsController::class, 'submitValueSubmit'])->name('form.components.submitValueSubmit');
     Route::get('form/components/relation', [FormComponentsController::class, 'relation'])->name('form.components.relation');
+    Route::get('form/components/transform', [FormComponentsController::class, 'transform'])->name('form.components.transform');
     Route::get('form/components/customSelectOptions', [FormComponentsController::class, 'customSelectOptions'])->name('form.components.customSelectOptions');
 
     Route::get('form/components/filepond', [FilepondController::class, 'show'])->name('form.components.filepond');
@@ -208,6 +220,7 @@ Route::middleware('splade')->group(function () {
     Route::get('lazy/notifications', [LazyController::class, 'notifications'])->name('lazy.notifications');
 
     Route::get('navigation/one/{id?}', [NavigationController::class, 'one'])->name('navigation.one');
+    Route::get('navigation/auth/one/{id?}', [NavigationController::class, 'one'])->name('navigation.one.auth')->middleware('auth');
     Route::get('navigation/two', [NavigationController::class, 'two'])->name('navigation.two');
     Route::get('navigation/three', [NavigationController::class, 'three'])->name('navigation.three');
     Route::get('navigation/form', [NavigationController::class, 'form'])->name('navigation.form');
