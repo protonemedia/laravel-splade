@@ -42,8 +42,14 @@
         </tr>
     @empty
         <tr>
-            <td colspan="{{ $table->columns()->count() }}" class="whitespace-nowrap text-sm text-center px-6 py-4 text-gray-500">
-                {{ __('There are no items to show.') }}
+            <td colspan="{{ $table->columns()->count() }}" class="whitespace-nowrap">
+                @if(isset($emptyState) && !!$emptyState)
+                    {{ $emptyState }}
+                @else
+                    <p class="text-gray-700 px-6 py-12 font-medium text-sm text-center">
+                        {{ __('There are no items to show.') }}
+                    </p>
+                @endif
             </td>
         </tr>
     @endforelse

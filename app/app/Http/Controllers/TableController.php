@@ -81,6 +81,19 @@ class TableController
         ]);
     }
 
+    public function empty()
+    {
+        SpladeTable::hidePaginationWhenResourceContainsOnePage();
+
+        return view('table.users', [
+            'users' => SpladeTable::for(User::query()->where('id', '<', 1))
+                ->withGlobalSearch(columns: ['name'])
+                ->column('name')
+                ->ignoreCase(true)
+                ->paginate(10),
+        ]);
+    }
+
     public function overflow(bool $spladeQueryBuilder = false)
     {
         $query = User::query()->orderBy('name');
