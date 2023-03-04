@@ -146,6 +146,19 @@ abstract class Component
     }
 
     /**
+     * Set the v-if="..."
+     *
+     * @param string $value
+     * @return $this
+     */
+    public function if(string $value): self
+    {
+        $this->attributes['v-if'] = $value;
+
+        return $this;
+    }
+
+    /**
      * Adds one or more validation rules to an input field
      *
      * @param mixed ...$rules One or more rules, may be an array of strings or multiple strings
