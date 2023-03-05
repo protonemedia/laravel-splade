@@ -148,12 +148,12 @@ abstract class Component
     /**
      * Set the v-if="..."
      *
-     * @param string $value
+     * @param string $condition
      * @return $this
      */
-    public function if(string $value): self
+    public function if(string $condition): self
     {
-        $this->attributes['v-if'] = $value;
+        $this->attributes['v-if'] = $condition;
 
         return $this;
     }
