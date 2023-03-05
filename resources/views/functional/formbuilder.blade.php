@@ -18,6 +18,9 @@
     :debounce="$form->getOption('debounce')"
 
     :stay="$form->getOption('stay')"
+    :reset-on-success="$form->getOption('reset_on_success')"
+    :restore-on-success="$form->getOption('restore_on_success')"
+
     :preserve-scroll="$form->getOption('preserve_scroll')"
 >
 

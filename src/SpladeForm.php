@@ -193,11 +193,15 @@ class SpladeForm
      * Prevent navigation on submit
      *
      * @param bool $stay
+     * @param string $action_on_success reset|restore
      * @return $this
      */
-    public function stay(bool $stay = true): self
+    public function stay(bool $stay = true, string $action_on_success = ''): self
     {
         $this->options['stay'] = $stay;
+
+        $this->options['reset_on_success'] = $action_on_success === 'reset';
+        $this->options['restore_on_success'] = $action_on_success === 'restore';
 
         return $this;
     }
