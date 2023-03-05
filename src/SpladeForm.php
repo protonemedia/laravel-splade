@@ -177,6 +177,19 @@ class SpladeForm
     }
 
     /**
+     * Prevent the page from scrolling to the top after submit
+     *
+     * @param bool $stay
+     * @return $this
+     */
+    public function preserveScroll(bool $preserve_scroll = true): self
+    {
+        $this->options['preserve_scroll'] = $preserve_scroll;
+
+        return $this;
+    }
+
+    /**
      * Prevent navigation on submit
      *
      * @param bool $stay

@@ -18,6 +18,7 @@
     :debounce="$form->getOption('debounce')"
 
     :stay="$form->getOption('stay')"
+    :preserve-scroll="$form->getOption('preserve_scroll')"
 >
 
     @foreach($form->getFields() as $field)
