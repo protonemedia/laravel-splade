@@ -190,6 +190,39 @@ class SpladeForm
     }
 
     /**
+     * Require the user to confirm their password within the confirmation dialog
+     *
+     * Add `Route::spladePasswordConfirmation();` to your routes to make this work
+     *
+     * @param bool $require_password_once
+     * @param string|null $heading
+     * @param string|null $text
+     * @param string|null $confirm_button
+     * @param string|null $cancel_button
+     * @param bool $danger
+     * @return $this
+     */
+    public function requirePassword(
+        bool $require_password_once = false,
+        ?string $heading = null,
+        ?string $text = null,
+        ?string $confirm_button = null,
+        ?string $cancel_button = null,
+        bool $danger = false
+    ): self
+    {
+        return $this->confirm(
+            confirm: $heading ?? true,
+            text: $text,
+            confirm_button: $confirm_button,
+            cancel_button: $cancel_button,
+            danger: $danger,
+            require_password: true,
+            require_password_once: $require_password_once
+        );
+    }
+
+    /**
      * Prevent navigation on submit
      *
      * @param bool $stay
