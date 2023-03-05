@@ -28,6 +28,19 @@ class Button extends Component
     }
 
     /**
+     * Set the @click.prevent="..."
+     *
+     * @param string $value
+     * @return $this
+     */
+    public function clickPrevent(string $value): self
+    {
+        $this->attributes['@click.prevent'] = $value;
+
+        return $this;
+    }
+
+    /**
      * Applies danger-styling to the button
      *
      * @param bool $danger
