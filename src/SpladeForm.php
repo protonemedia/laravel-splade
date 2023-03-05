@@ -177,6 +177,19 @@ class SpladeForm
     }
 
     /**
+     * Prevent navigation on submit
+     *
+     * @param bool $stay
+     * @return $this
+     */
+    public function stay(bool $stay = true): self
+    {
+        $this->options['stay'] = $stay;
+
+        return $this;
+    }
+
+    /**
      * Submit the form whenever a value changes.
      *
      * If one or morge fieldnames are provided in $watch_fields,

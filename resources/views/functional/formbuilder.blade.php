@@ -16,6 +16,8 @@
     :submit-on-change="$form->getOption('submit_on_change')"
     :background="$form->getOption('background')"
     :debounce="$form->getOption('debounce')"
+
+    :stay="$form->getOption('stay')"
 >
 
     @foreach($form->getFields() as $field)
