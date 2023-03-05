@@ -13,6 +13,7 @@ class SpladeForm
     protected Request $request;
     protected array $data = [];
     protected array $fields = [];
+    protected array $options = [];
     protected array $rules = [];
     protected array|string $class = [];
     protected string $action = '';
@@ -73,6 +74,41 @@ class SpladeForm
     public function class(array|string $class): self
     {
         $this->class = $class;
+
+        return $this;
+    }
+
+    /**
+     * Enables the confirmation dialog on submit.
+     *
+     * Add `Route::spladePasswordConfirmation();` to your routes if use $require_password-options
+     *
+     * @param string|bool $confirm
+     * @param string|null $text
+     * @param string|null $confirm_button
+     * @param string|null $cancel_button
+     * @param bool $danger
+     * @param string|bool $require_password true|false|fieldname
+     * @param bool $require_password_once
+     * @return $this
+     */
+    public function confirm(
+        string|bool $confirm = true,
+        ?string $text = null,
+        ?string $confirm_button = null,
+        ?string $cancel_button = null,
+        bool $danger = false,
+        string|bool $require_password = false,
+        bool $require_password_once = false
+    ): self
+    {
+        $this->options['confirm'] = !$danger ? $confirm : false;
+        $this->options['confirm_danger'] = $danger ? $confirm : false;
+        $this->options['text'] = $text;
+        $this->options['confirm_button'] = $confirm_button;
+        $this->options['cancel_button'] = $cancel_button;
+        $this->options['require_password'] = $require_password;
+        $this->options['require_password_once'] = $require_password_once;
 
         return $this;
     }
@@ -211,6 +247,17 @@ class SpladeForm
     public function getName(): string
     {
         return $this->name;
+    }
+
+    /**
+     * Return an option for the form arguments
+     *
+     * @param string $option
+     * @return array|bool|string|null
+     */
+    public function getOption(string $option): array|bool|string|null
+    {
+        return $this->options[$option] ?? false;
     }
 
     /**
