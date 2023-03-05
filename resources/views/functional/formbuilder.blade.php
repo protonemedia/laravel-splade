@@ -12,6 +12,10 @@
     :cancel-button="$form->getOption('cancel_button')"
     :require-password="$form->getOption('require_password')"
     :require-password-once="$form->getOption('require_password_once')"
+
+    :submit-on-change="$form->getOption('submit_on_change')"
+    :background="$form->getOption('background')"
+    :debounce="$form->getOption('debounce')"
 >
 
     @foreach($form->getFields() as $field)

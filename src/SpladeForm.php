@@ -177,6 +177,32 @@ class SpladeForm
     }
 
     /**
+     * Submit the form whenever a value changes.
+     *
+     * If one or morge fieldnames are provided in $watch_fields,
+     * the form will only be submitted on changes on these fields
+     *
+     * @param bool $enabled
+     * @param array|string|null $watch_fields
+     * @param bool $background
+     * @param int $debounce
+     * @return $this
+     */
+    public function submitOnChange(
+        bool $enabled = true,
+        array|string|null $watch_fields = null,
+        bool $background = true,
+        int $debounce = 500
+    ): self
+    {
+        $this->options['submit_on_change'] = $enabled ? ($watch_fields ?? true) : false;
+        $this->options['background'] = $enabled ? $background : null;
+        $this->options['debounce'] = $enabled ? $debounce : null;
+
+        return $this;
+    }
+
+    /**
      * Set the method of the form
      *
      * @param string $method
