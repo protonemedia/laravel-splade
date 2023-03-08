@@ -35,9 +35,9 @@ Splade gives you a massive head start when building applications. Navigate the d
 * Support for existing Blade and Vue libraries.
 * Support for SSR (server-side rendering).
 
-## Documentation and Website
+## Discord, Documentation and Website
 
-📖 You can find the documentation at [Splade.dev](https://splade.dev/) (and [here](https://github.com/protonemedia/laravel-splade-docs) its source code).
+📖 You can find the documentation at [Splade.dev](https://splade.dev/) (and [here](https://github.com/protonemedia/laravel-splade-docs) its source code). You may also join the [Splade Discord server](https://discord.gg/qGJ4MkMQWm).
 
 🌎 The website is also [open source](https://github.com/protonemedia/splade.dev), and built with Splade!
 
