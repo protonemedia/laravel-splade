@@ -47,61 +47,79 @@ export default {
             ? window.Echo.private(this.channel)
             : window.Echo.channel(this.channel);
 
-        this.subscription.on("pusher:subscription_succeeded", () => {
-            this.subscribed = true;
-            this.$emit("subscribed");
-        });
+        if(this.subscription) {
+            this.bindListeners();
+        } else {
+            console.error("[Splade Event component] Unable to subscribe to channel: " + this.channel);
+        }
+    },
 
-        this.listeners.forEach((name) => {
-            const listener = this.subscription.listen(name, (e) => {
-                this.$emit("event", { name, data: e });
-
-                const redirectKey = "splade.redirect";
-                const refreshKey = "splade.refresh";
-                const toastKey = "splade.toast";
-
-                let spladeRedirect = null;
-                let spladeRefresh = false;
-                let spladeToasts = [];
-
-                forOwn(e, (value) => {
-                    if (!isObject(value)) {
-                        return;
-                    }
-
-                    // Check whether the data contains a redirect, refresh, or toast.
-                    if (redirectKey in value) {
-                        spladeRedirect = value[redirectKey];
-                    }
-
-                    if (refreshKey in value) {
-                        spladeRefresh = value[refreshKey];
-                    }
-
-                    if (toastKey in value) {
-                        spladeToasts.push(value);
-                    }
-                });
-
-                if (spladeRedirect) {
-                    Splade.visit(spladeRedirect);
-                } else if (spladeRefresh) {
-                    Splade.refresh();
-                } else {
-                    this.events.push({ name, data: e });
-                }
-
-                if (spladeToasts.length > 0) {
-                    spladeToasts.forEach((spladeToast) => {
-                        Splade.pushToast(spladeToast);
-                    });
-                }
-
-                this.$root.$emit(`event.${name}`, e);
+    methods: {
+        bindListeners() {
+            this.subscription.on("pusher:subscription_succeeded", () => {
+                this.subscribed = true;
+                this.$emit("subscribed");
             });
 
-            this.subscriptions.push(listener);
-        });
+            this.listeners.forEach((name) => {
+                const listener = this.subscription.listen(name, (e) => {
+                    this.$emit("event", { name, data: e });
+
+                    const redirectKey = "splade.redirect";
+                    const refreshKey = "splade.refresh";
+                    const toastKey = "splade.toast";
+
+                    let spladeRedirect = null;
+                    let spladeRefresh = false;
+                    let spladeToasts = [];
+
+                    forOwn(e, (value) => {
+                        if (!isObject(value)) {
+                            return;
+                        }
+
+                        // Check whether the data contains a redirect, refresh, or toast.
+                        if (redirectKey in value) {
+                            spladeRedirect = value[redirectKey];
+                        }
+
+                        if (refreshKey in value) {
+                            spladeRefresh = value[refreshKey];
+                        }
+
+                        if (toastKey in value) {
+                            spladeToasts.push(value);
+                        }
+                    });
+
+                    if (spladeRedirect) {
+                        Splade.visit(spladeRedirect);
+                    } else if (spladeRefresh) {
+                        Splade.refresh();
+                    } else {
+                        this.events.push({ name, data: e });
+                    }
+
+                    if (spladeToasts.length > 0) {
+                        spladeToasts.forEach((spladeToast) => {
+                            Splade.pushToast(spladeToast);
+                        });
+                    }
+
+                    this.$root.$emit(`event.${name}`, e);
+                });
+
+                this.subscriptions.push(listener);
+            });
+        },
+
+        unsubscribe() {
+            if (this.subscription) {
+                window.Echo.leave(this.subscription.subscription.name);
+                this.subscription = null;
+                this.subscriptions = [];
+            }
+        },
     },
 
     render() {

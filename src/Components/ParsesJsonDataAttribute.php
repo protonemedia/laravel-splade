@@ -5,6 +5,7 @@ namespace ProtoneMedia\Splade\Components;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
 use JsonSerializable;
+use ProtoneMedia\Splade\Transformer;
 
 trait ParsesJsonDataAttribute
 {
@@ -16,8 +17,12 @@ trait ParsesJsonDataAttribute
      */
     public function parseJsonData($data = null)
     {
-        if (!$data) {
+        if ($data === null) {
             return;
+        }
+
+        if (is_array($data) || is_object($data)) {
+            $data = app(Transformer::class)($data);
         }
 
         if ($data instanceof Jsonable) {

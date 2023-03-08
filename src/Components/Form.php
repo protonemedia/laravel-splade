@@ -13,6 +13,7 @@ use Illuminate\Support\Str;
 use Illuminate\View\Component;
 use ProtoneMedia\Splade\Components\Form\InteractsWithFormElement;
 use ProtoneMedia\Splade\SpladeCore;
+use ProtoneMedia\Splade\Transformer;
 
 class Form extends Component
 {
@@ -260,9 +261,17 @@ class Form extends Component
             return null;
         }
 
-        $rawData = $this->model
-            ? $this->model->attributesToArray()
-            : $this->data;
+        $transformer = app(Transformer::class);
+
+        $rawData = $this->data;
+
+        if ($this->model) {
+            $rawData = $transformer($this->model);
+
+            if ($rawData instanceof Model) {
+                $rawData = $rawData->attributesToArray();
+            }
+        }
 
         if ($rawData === null) {
             return null;
@@ -271,7 +280,7 @@ class Form extends Component
         $guardedData = [];
 
         // Loop through all attributes, and add the data to the $guardedData when it exists.
-        static::allowedAttributesSorted()->each(function ($attribute) use ($rawData, &$guardedData) {
+        static::allowedAttributesSorted()->each(function ($attribute) use ($rawData, &$guardedData, $transformer) {
             if (Arr::has($rawData, $attribute)) {
                 return data_set($guardedData, $attribute, data_get($rawData, $attribute));
             }
@@ -290,7 +299,9 @@ class Form extends Component
 
             $relation = data_get($this->model, implode('.', $parts));
 
-            $relationAttributes = $relation->attributesToArray();
+            $relation = $transformer($relation);
+
+            $relationAttributes = $relation instanceof Model ? $relation->attributesToArray() : $relation;
 
             if (Arr::has($relationAttributes, $column)) {
                 data_set($guardedData, $attribute, data_get($relationAttributes, $column));

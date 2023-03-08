@@ -17,7 +17,7 @@
     ],
     "require": {
         "php": "^8.0 || ^8.1 || ^8.2",
-        "illuminate/contracts": "^9.28|^10.0"
+        "illuminate/contracts": "^9.41|^10.0"
     },
     "require-dev": {
         "laravel/pint": "^1.0",
@@ -31,7 +31,8 @@
     },
     "suggest": {
         "kirschbaum-development/eloquent-power-joins": "Required to enable support sorting by (nested) relationships in Splade Tables (^2.6)",
-        "maatwebsite/excel": "Required to enable support exports in Splade Tables (^3.1)"
+        "maatwebsite/excel": "Required to enable support exports in Splade Tables (^3.1)",
+        "spatie/fractalistic": "Required to enable support for Fractal transformers (^2.9)"
     },
     "autoload": {
         "psr-4": {

@@ -40,6 +40,9 @@ use Symfony\Component\HttpFoundation\Response;
  * @method static array getDataStores()
  * @method static self addDataStore(DataStore $store)
  * @method static self resetDataStores()
+ * @method static self requireTransformer($value = true)
+ * @method static self transformUsing($class, $transformer = null)
+ * @method static mixed findTransformerFor(array|object $instance)
  *
  * @see \ProtoneMedia\Splade\SpladeCore
  */

@@ -40,12 +40,21 @@ class Table extends Component
      */
     public function showPaginator(): bool
     {
-        if (SpladeTable::hidesPaginationWhenResourceContainsOnePage()) {
+        $resource = $this->for->resource;
+
+        $paginator = $resource instanceof Paginator || $resource instanceof CursorPaginator;
+
+        if (!$paginator) {
             return false;
         }
 
-        return $this->for->resource instanceof Paginator
-            || $this->for->resource instanceof CursorPaginator;
+        if ($resource->isEmpty()) {
+            return false;
+        }
+
+        return SpladeTable::hidesPaginationWhenResourceContainsOnePage()
+            ? $resource->hasPages()
+            : true;
     }
 
     /**
