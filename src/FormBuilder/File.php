@@ -6,37 +6,37 @@ use ProtoneMedia\Splade\Components\Form\File as SpladeFile;
 
 class File extends Component
 {
-    private bool|string $placeholder = true;
+    protected bool|string $placeholder = true;
 
-    private bool $multiple = false;
+    protected bool $multiple = false;
 
-    private array|bool $filepond = false;
+    protected array|bool $filepond = false;
 
-    private bool|string $server = false;
+    protected bool|string $server = false;
 
-    private bool $preview = false;
+    protected bool $preview = false;
 
-    private array|string $accept = '';
+    protected array|string $accept = '';
 
-    private bool|int|string $minSize = false;
+    protected bool|int|string $minSize = false;
 
-    private bool|int|string $maxSize = false;
+    protected bool|int|string $maxSize = false;
 
-    private bool|int $width = false;
+    protected bool|int $width = false;
 
-    private bool|int $height = false;
+    protected bool|int $height = false;
 
-    private bool|int $minWidth = false;
+    protected bool|int $minWidth = false;
 
-    private bool|int $maxWidth = false;
+    protected bool|int $maxWidth = false;
 
-    private bool|int $minHeight = false;
+    protected bool|int $minHeight = false;
 
-    private bool|int $maxHeight = false;
+    protected bool|int $maxHeight = false;
 
-    private bool|int $minResolution = false;
+    protected bool|int $minResolution = false;
 
-    private bool|int $maxResolution = false;
+    protected bool|int $maxResolution = false;
 
     /**
      * Add a placeholder to the field

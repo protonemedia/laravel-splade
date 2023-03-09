@@ -6,21 +6,21 @@ use ProtoneMedia\Splade\Components\Form\Select as SpladeSelect;
 
 class Select extends Component
 {
-    private array $options = [];
+    protected array $options = [];
 
-    private string $placeholder = '';
+    protected string $placeholder = '';
 
-    private bool $multiple = false;
+    protected bool $multiple = false;
 
-    private array|bool $choices = true;
+    protected array|bool $choices = true;
 
-    private string $remoteUrl = '';
+    protected string $remoteUrl = '';
 
-    private string $remoteRoute = '';
+    protected string $remoteRoute = '';
 
-    private string $optionLabel = '';
+    protected string $optionLabel = '';
 
-    private string $optionValue = '';
+    protected string $optionValue = '';
 
     public function options(array $options = []): self
     {

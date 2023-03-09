@@ -1,6 +1,8 @@
+@php $flatpickrOptions = $flatpickrOptions() @endphp
+
 <SpladeInput
     {{ $attributes->only(['v-if', 'v-show', 'v-for', 'class'])->class(['hidden' => $isHidden()]) }}
-    :flatpickr="@js($flatpickrOptions())"
+    :flatpickr="@js($flatpickrOptions)"
     :js-flatpickr-options="{!! $jsFlatpickrOptions !!}"
     v-model="{{ $vueModel() }}"
     #default="inputScope"
@@ -24,9 +26,10 @@
             ])->merge([
                 'name' => $name,
                 'type' => $type,
-                'v-model' => $flatpickrOptions() ? null : $vueModel(),
                 'data-validation-key' => $validationKey(),
-            ]) }}
+            ])->when(!$flatpickrOptions, fn($attributes) => $attributes->merge([
+                'v-model' => $vueModel(),
+            ])) }}
             />
 
             @if($append)

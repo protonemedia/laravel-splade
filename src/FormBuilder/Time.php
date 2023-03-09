@@ -4,5 +4,5 @@ namespace ProtoneMedia\Splade\FormBuilder;
 
 class Time extends Input
 {
-    protected string $type = 'time';
+    protected array|bool $time = true;
 }

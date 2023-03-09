@@ -6,15 +6,15 @@ use ProtoneMedia\Splade\Components\Form\Input as SpladeInput;
 
 class Input extends Component
 {
-    private array|bool $date = false;
+    protected array|bool $date = false;
 
-    private array|bool $time = false;
+    protected array|bool $time = false;
 
-    private bool $range = false;
+    protected bool $range = false;
 
-    private string $append = '';
+    protected string $append = '';
 
-    private string $prepend = '';
+    protected string $prepend = '';
 
     protected string $type = 'text';
 
@@ -209,7 +209,7 @@ class Input extends Component
      */
     public function toSpladeComponent()
     {
-        $component = new SpladeInput(
+        return new SpladeInput(
             name:    $this->name,
             type:    $this->type,
             label:   $this->label,
@@ -220,11 +220,5 @@ class Input extends Component
             append:  $this->append,
             help:    $this->help
         );
-
-        if ($this->date || $this->time) {
-            $component->defaultFlatpickr($this->{$this->type});
-        }
-
-        return $component;
     }
 }

@@ -2,6 +2,7 @@
 
 namespace ProtoneMedia\Splade;
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 
 class SpladeForm
@@ -30,7 +31,7 @@ class SpladeForm
     /**
      * Helper method to create a new SpladeForm instance.
      *
-     * @return SpladeForm
+     * @return \ProtoneMedia\Splade\SpladeForm
      */
     public static function make(array $fields = []): static
     {
@@ -288,5 +289,17 @@ class SpladeForm
     public function getRules(): array
     {
         return Arr::pluck($this->getFields(), 'rules', 'dottedName');
+    }
+
+    /**
+     * Validate the request with the rules of the form.
+     *
+     * @param [type] ...$params
+     */
+    public function validate(?Request $request = null, ...$params): array
+    {
+        $request = $request ?? request();
+
+        return $request->validate($this->getRules(), ...$params);
     }
 }

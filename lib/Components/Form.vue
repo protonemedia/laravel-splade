@@ -182,6 +182,7 @@ export default {
             elementsUploading: [],
             fileponds: {},
             debounceFunction: null,
+            response: null,
         };
     },
 
@@ -462,6 +463,8 @@ export default {
                 this.processing = true;
             }
 
+            this.response = null;
+
             this.wasSuccessful = false;
             this.recentlySuccessful = false;
             clearTimeout(this.recentlySuccessfulTimeoutId);
@@ -512,6 +515,8 @@ export default {
                 this.wasSuccessful = true;
                 this.recentlySuccessful = true;
                 this.recentlySuccessfulTimeoutId = setTimeout(() => this.recentlySuccessful = false, 2000);
+
+                this.response = response.data;
             };
 
             if(this.action === "#") {
@@ -573,6 +578,7 @@ export default {
                             "$addFile",
                             "$addFiles",
                             "$fileAsUrl",
+                            "$response",
                             "errors",
                             "restore",
                             "reset",
@@ -586,6 +592,10 @@ export default {
                             "wasUnsuccessful",
                             "recentlyUnsuccessful",
                         ];
+
+                        if(name === "$response") {
+                            return self.response;
+                        }
 
                         if(preservedKeys.includes(name)) {
                             return self[name];

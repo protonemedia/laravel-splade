@@ -2,12 +2,9 @@
 
 namespace ProtoneMedia\Splade\FormBuilder;
 
-class Datetime extends Date
+class Datetime extends Input
 {
-    public function __construct($name)
-    {
-        parent::__construct($name);
+    protected array|bool $date = true;
 
-        $this->time();
-    }
+    protected array|bool $time = true;
 }

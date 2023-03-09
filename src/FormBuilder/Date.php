@@ -4,5 +4,5 @@ namespace ProtoneMedia\Splade\FormBuilder;
 
 class Date extends Input
 {
-    protected string $type = 'date';
+    protected array|bool $date = true;
 }

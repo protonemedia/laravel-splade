@@ -67,7 +67,7 @@ class FormBuilderTest extends DuskTestCase
             ];
 
             foreach ($expected_results as $field => $result) {
-                $browser->assertSee('"' . $field . '": "' . $result . '",');
+                $browser->assertSee('"' . $field . '": "' . $result . '"');
             }
         });
     }
@@ -86,7 +86,7 @@ class FormBuilderTest extends DuskTestCase
                 ->assertInputValue('publish_from', now()->format('Y-m-d H:i'))
                 ->assertInputValue('title', 'Test post 1')
                 ->assertInputValue('slug', 'test-post-1')
-                ->assertInputValue('body', '<p>This is the posts body</b>')
+                ->assertInputValue('body', '<p>This is the posts body</p>')
                 ->assertSelected('tags', 'laravel')
                 ->assertSelected('tags', 'splade')
                 ->press('Save')
@@ -95,11 +95,11 @@ class FormBuilderTest extends DuskTestCase
             $expected_results = [
                 'title' => 'Test post 1',
                 'slug'  => 'test-post-1',
-                'body'  => '<p>This is the posts body</b>',
+                'body'  => '<p>This is the posts body</p>',
             ];
 
             foreach ($expected_results as $field => $result) {
-                $browser->assertSee('"' . $field . '": "' . $result . '",');
+                $browser->assertSee('"' . $field . '": "' . $result . '"');
             }
         });
     }

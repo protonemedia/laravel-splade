@@ -19,31 +19,32 @@ use ProtoneMedia\Splade\SpladeForm;
 
 class FormBuilderController
 {
+    private function simpleForm()
+    {
+        return SpladeForm::make()
+            ->action(route('formbuilder.simple.store'))
+            ->id('simple-form')
+            ->method('POST')
+            ->class('space-y-4')
+            ->fields([
+                Input::make('inputText')->label('Standard input text field')->help('Test help 1'),
+                Password::make('inputPassword')->label('Password field')->required(),
+                Textarea::make('inputTextarea')->label('Textarea (with autosize)')->autosize(),
+                Submit::make()->label('Submit'),
+            ])
+            ->data(['inputText' => 'Test value in input text field']);
+    }
+
     public function simple()
     {
         return view('form.formbuilder', [
-            'forms' => [
-                SpladeForm::make()
-                    ->action(route('formbuilder.simple.store'))
-                    ->id('simple-form')
-                    ->method('POST')
-                    ->class('space-y-4')
-                    ->fields([
-                        Input::make('inputText')->label('Standard input text field')->help('Test help 1'),
-                        Password::make('inputPassword')->label('Password field')->required(),
-                        Textarea::make('inputTextarea')->label('Textarea (with autosize)')->autosize(),
-                        Submit::make()->label('Submit'),
-                    ])
-                    ->data(['inputText' => 'Test value in input text field']),
-            ],
+            'forms' => [$this->simpleForm()],
         ]);
     }
 
     public function storeSimple(Request $request)
     {
-        $rules = SpladeForm::make()->id('simple-form')->getRules();
-
-        $result = $request->validate($rules);
+        $result = $this->simpleForm()->validate($request);
 
         return response()->json(['result' => $result]);
     }
@@ -67,7 +68,7 @@ class FormBuilderController
         $post = new Post([
             'title'        => 'Test post 1',
             'slug'         => 'test-post-1',
-            'body'         => '<p>This is the posts body</b>',
+            'body'         => '<p>This is the posts body</p>',
             'publish_from' => now(),
             'tags'         => ['laravel', 'splade'],
         ]);
@@ -81,7 +82,7 @@ class FormBuilderController
 
     public function storeModel(Request $request)
     {
-        $rules = ModelbindingForm::make()->id('databinding')->getRules();
+        $rules = ModelbindingForm::make()->getRules();
 
         $result = $request->validate($rules);
 

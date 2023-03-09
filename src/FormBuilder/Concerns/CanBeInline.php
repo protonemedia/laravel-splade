@@ -4,7 +4,7 @@ namespace ProtoneMedia\Splade\FormBuilder\Concerns;
 
 trait CanBeInline
 {
-    private bool $inline = false;
+    protected bool $inline = false;
 
     /**
      * Should the radios be displayed inline?
