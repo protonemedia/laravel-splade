@@ -2,13 +2,13 @@
 
 namespace ProtoneMedia\Splade\Commands;
 
-use Illuminate\Console\GeneratorCommand;
+use Illuminate\Foundation\Console\RequestMakeCommand;
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputOption;
 
 #[AsCommand(name: 'make:form-request')]
-class FormRequestMakeCommand extends GeneratorCommand
+class FormRequestMakeCommand extends RequestMakeCommand
 {
     /**
      * The console command name.
@@ -16,6 +16,13 @@ class FormRequestMakeCommand extends GeneratorCommand
      * @var string
      */
     protected $name = 'make:form-request';
+
+    /**
+     * The type of class being generated.
+     *
+     * @var string
+     */
+    protected $type = 'Form Request';
 
     /**
      * The name of the console command.
@@ -33,7 +40,7 @@ class FormRequestMakeCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $description = 'Create a new Splade form request class';
+    protected $description = 'Create a new form request class for a Splade Form';
 
     /**
      * Get the stub file for the generator.
@@ -140,26 +147,14 @@ class FormRequestMakeCommand extends GeneratorCommand
     }
 
     /**
-     * Get the default namespace for the class.
-     *
-     * @param  string  $rootNamespace
-     * @return string
-     */
-    protected function getDefaultNamespace($rootNamespace)
-    {
-        return $rootNamespace . '\Http\Requests';
-    }
-
-    /**
      * Get the console command options.
      *
      * @return array
      */
     protected function getOptions()
     {
-        return [
-            ['force', 'f', InputOption::VALUE_NONE, 'Create the class even if the class already exists'],
+        return array_merge(parent::getOptions(), [
             ['form', 'F', InputOption::VALUE_OPTIONAL, 'The name of the form'],
-        ];
+        ]);
     }
 }

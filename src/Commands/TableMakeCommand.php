@@ -18,6 +18,13 @@ class TableMakeCommand extends GeneratorCommand
     protected $name = 'make:table';
 
     /**
+     * The type of class being generated.
+     *
+     * @var string
+     */
+    protected $type = 'Table';
+
+    /**
      * The name of the console command.
      *
      * This name is used to identify the command during lazy loading.

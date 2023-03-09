@@ -18,6 +18,13 @@ class FormMakeCommand extends GeneratorCommand
     protected $name = 'make:form';
 
     /**
+     * The type of class being generated.
+     *
+     * @var string
+     */
+    protected $type = 'Form';
+
+    /**
      * The name of the console command.
      *
      * This name is used to identify the command during lazy loading.
@@ -33,7 +40,7 @@ class FormMakeCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $description = 'Create a new Splade form class';
+    protected $description = 'Create a new Splade Form class';
 
     /**
      * Execute the console command.
