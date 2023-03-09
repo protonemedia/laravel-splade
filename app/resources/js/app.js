@@ -4,14 +4,14 @@ import "../css/app.css";
 import { createApp } from "vue/dist/vue.esm-bundler.js";
 
 // for dev
-import "../../../lib/Components/choices.scss";
-import "../../../lib/Components/filepond.scss";
-import "../../../lib/Components/flatpickr.styl";
-import { renderSpladeApp, SpladePlugin } from "../../../dist/protone-media-laravel-splade";
+// import "../../../lib/Components/choices.scss";
+// import "../../../lib/Components/filepond.scss";
+// import "../../../lib/Components/flatpickr.styl";
+// import { renderSpladeApp, SpladePlugin } from "../../../dist/protone-media-laravel-splade";
 
 // for build
-// import "@protonemedia/laravel-splade/dist/style.css";
-// import { renderSpladeApp, SpladePlugin } from "@protonemedia/laravel-splade";
+import "@protonemedia/laravel-splade/dist/style.css";
+import { renderSpladeApp, SpladePlugin } from "@protonemedia/laravel-splade";
 
 const el = document.getElementById("app");
 
