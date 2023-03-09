@@ -1,11 +1,13 @@
 <script>
 import { objectToFormData } from "./FormHelpers.js";
 import { Splade } from "../Splade.js";
+import debounce from "lodash-es/debounce";
 import find from "lodash-es/find";
 import get from "lodash-es/get";
 import has from "lodash-es/has";
 import isArray from "lodash-es/isArray";
 import isBoolean from "lodash-es/isBoolean";
+import isString from "lodash-es/isString";
 import mapValues from "lodash-es/mapValues";
 import set from "lodash-es/set";
 import startsWith from "lodash-es/startsWith";
@@ -46,10 +48,18 @@ export default {
             },
         },
 
-        confirm: {
+        confirmDanger: {
             type: [Boolean, String],
             required: false,
             default: false,
+        },
+
+        confirm: {
+            type: [Boolean, String],
+            required: false,
+            default: (props) => {
+                return props.confirmDanger;
+            },
         },
 
         confirmText: {
@@ -70,16 +80,36 @@ export default {
             default: "",
         },
 
+        requirePasswordOnce: {
+            type: Boolean,
+            required: false,
+            default: false,
+        },
+
+        requirePassword: {
+            type: [Boolean, String],
+            required: false,
+            default: (props) => {
+                return props.requirePasswordOnce;
+            },
+        },
+
+        background: {
+            type: Boolean,
+            required: false,
+            default: false
+        },
+
         stay: {
             type: Boolean,
             require: false,
-            default: false
+            default: false,
         },
 
         restoreOnSuccess: {
             type: Boolean,
             required: false,
-            default: true,
+            default: false,
         },
 
         resetOnSuccess: {
@@ -110,10 +140,30 @@ export default {
             type: Boolean,
             required: false,
             default: false
-        }
+        },
+
+        debounce: {
+            type: Number,
+            required: false,
+            default: 0
+        },
+
+        acceptHeader: {
+            type: String,
+            required: false,
+            default: "application/json",
+        },
+
+        headers: {
+            type: Object,
+            required: false,
+            default: () => {
+                return {};
+            },
+        },
     },
 
-    emits: ["success", "error"],
+    emits: ["success", "error", "reset", "restored"],
 
     data() {
         return {
@@ -121,12 +171,17 @@ export default {
             missingAttributes: [],
             values: Object.assign({}, { ...this.default }),
             processing: false,
+            processingInBackground: false,
             wasSuccessful: false,
             recentlySuccessful: false,
             recentlySuccessfulTimeoutId: null,
+            wasUnsuccessful: false,
+            recentlyUnsuccessful: false,
+            recentlyUnsuccessfulTimeoutId: null,
             formElement: null,
             elementsUploading: [],
             fileponds: {},
+            debounceFunction: null,
         };
     },
 
@@ -155,6 +210,12 @@ export default {
                 return errors.join("\n");
             });
         },
+    },
+
+    created() {
+        this.debounceFunction = debounce(() => {
+            this.request(this.background);
+        }, this.debounce);
     },
 
     /*
@@ -191,12 +252,20 @@ export default {
         // Create watchers
         if(this.submitOnChange === true) {
             this.$watch("values", () => {
-                this.$nextTick(() => this.request());
+                if(this.background) {
+                    this.processingInBackground = true;
+                }
+
+                this.$nextTick(() => this.debounce ? this.debounceFunction() : this.request(this.background));
             }, { deep: true });
         }else if(isArray(this.submitOnChange)) {
             this.submitOnChange.forEach((key) => {
                 this.$watch(`values.${key}`, () => {
-                    this.$nextTick(() => this.request());
+                    if(this.background) {
+                        this.processingInBackground = true;
+                    }
+
+                    this.$nextTick(() => this.debounce ? this.debounceFunction() : this.request(this.background));
                 }, { deep: true });
             });
         }
@@ -246,6 +315,29 @@ export default {
             this.fileponds[field].addFiles(files);
         },
 
+        $fileAsUrl(key) {
+            const file = this.values[key];
+
+            if(!file) {
+                return "";
+            }
+
+            var url = URL.createObjectURL(file);
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", url, false);
+            xhr.overrideMimeType("text/plain; charset=x-user-defined");
+            xhr.send();
+            URL.revokeObjectURL(url);
+
+            var returnText = "";
+
+            for (var i = 0; i < xhr.responseText.length; i++) {
+                returnText += String.fromCharCode(xhr.responseText.charCodeAt(i) & 0xff);
+            }
+
+            return "data:" + file.type + ";base64," + btoa(returnText);
+        },
+
         $errorAttributes(key) {
             return {
                 [this.escapeValidationMessages ? "textContent" : "innerHTML"]: this.errors[key]
@@ -254,10 +346,12 @@ export default {
 
         reset() {
             this.values = {};
+            this.$emit("reset");
         },
 
         restore() {
             this.values = Object.assign({}, { ...this.default });
+            this.$emit("restored");
         },
 
         $put(key, value) {
@@ -279,7 +373,7 @@ export default {
                 const intersectionObserver = new IntersectionObserver((entries) => {
                     let [entry] = entries;
 
-                    if (entry.isIntersecting) {
+                    if(entry.isIntersecting) {
                         setTimeout(() => entry.target.focus(), 150);
                         intersectionObserver.disconnect();
                     }
@@ -314,7 +408,7 @@ export default {
                 }
             }
 
-            if (!this.confirm) {
+            if(!this.confirm) {
                 return this.request();
             }
 
@@ -322,9 +416,24 @@ export default {
                 isBoolean(this.confirm) ? "" : this.confirm,
                 this.confirmText,
                 this.confirmButton,
-                this.cancelButton
+                this.cancelButton,
+                this.requirePassword ? true : false,
+                this.requirePasswordOnce,
+                this.confirmDanger ? true : false
             )
-                .then(() => {
+                .then((password) => {
+                    if(!this.requirePassword) {
+                        this.request();
+                        return;
+                    }
+
+                    if(this.method.toUpperCase() !== "GET" && password) {
+                        this.$put(
+                            isString(this.requirePassword) && this.requirePassword ? this.requirePassword : "password",
+                            password
+                        );
+                    }
+
                     this.request();
                 })
                 .catch(() => {});
@@ -334,25 +443,44 @@ export default {
          * Maps the values into a FormData instance and then
          * performs an async request.
          */
-        async request() {
+        async request(forceStay) {
+            if(typeof forceStay === "undefined") {
+                forceStay = false;
+            }
+
             if(this.$uploading) {
                 return;
             }
 
             await this.$nextTick();
 
-            this.processing = true;
+            if(this.background) {
+                this.processingInBackground = true;
+            } else {
+                this.processing = true;
+            }
+
             this.wasSuccessful = false;
             this.recentlySuccessful = false;
             clearTimeout(this.recentlySuccessfulTimeoutId);
+
+            this.wasUnsuccessful = false;
+            this.recentlyUnsuccessful = false;
+            clearTimeout(this.recentlyUnsuccessfulTimeoutId);
 
             const data = (this.values instanceof FormData)
                 ? this.values
                 : objectToFormData(this.values);
 
-            const headers = { Accept: "application/json" };
 
-            if(this.stay) {
+
+            const headers = {};
+
+            if(this.acceptHeader) {
+                headers.Accept = this.acceptHeader;
+            }
+
+            if(this.stay || forceStay) {
                 headers["X-Splade-Prevent-Refresh"] = true;
             }
 
@@ -367,25 +495,39 @@ export default {
                 method = "POST";
             }
 
-            Splade.request(this.action, method, data, headers)
-                .then((response) => {
-                    this.$emit("success", response);
+            const successCallback = (response) => {
+                this.$emit("success", response);
 
-                    if (this.restoreOnSuccess) {
-                        this.restore();
-                    }
+                if(this.restoreOnSuccess) {
+                    this.restore();
+                }
 
-                    if (this.resetOnSuccess) {
-                        this.reset();
-                    }
+                if(this.resetOnSuccess) {
+                    this.reset();
+                }
 
-                    this.processing = false;
-                    this.wasSuccessful = true;
-                    this.recentlySuccessful = true;
-                    this.recentlySuccessfulTimeoutId = setTimeout(() => this.recentlySuccessful = false, 2000);
-                })
+                this.processing = false;
+                this.processingInBackground = false;
+
+                this.wasSuccessful = true;
+                this.recentlySuccessful = true;
+                this.recentlySuccessfulTimeoutId = setTimeout(() => this.recentlySuccessful = false, 2000);
+            };
+
+            if(this.action === "#") {
+                return successCallback(Object.fromEntries(data));
+            }
+
+            Splade.request(this.action, method, data, { ...headers, ...this.headers })
+                .then(successCallback)
                 .catch(async (error) => {
                     this.processing = false;
+                    this.processingInBackground = false;
+
+                    this.wasUnsuccessful = true;
+                    this.recentlyUnsuccessful = true;
+                    this.recentlyUnsuccessfulTimeoutId = setTimeout(() => this.recentlyUnsuccessful = false, 2000);
+
                     this.$emit("error", error);
 
                     if(!this.scrollOnError) {
@@ -425,24 +567,27 @@ export default {
                             "$put",
                             "$startUploading",
                             "$stopUploading",
-                            "$processing",
                             "$uploading",
                             "$errorAttributes",
                             "$registerFilepond",
                             "$addFile",
                             "$addFiles",
+                            "$fileAsUrl",
                             "errors",
                             "restore",
                             "reset",
                             "hasError",
                             "processing",
+                            "processingInBackground",
                             "rawErrors",
                             "submit",
                             "wasSuccessful",
                             "recentlySuccessful",
+                            "wasUnsuccessful",
+                            "recentlyUnsuccessful",
                         ];
 
-                        if (preservedKeys.includes(name)) {
+                        if(preservedKeys.includes(name)) {
                             return self[name];
                         }
 
@@ -453,7 +598,7 @@ export default {
                         // If the data does not have the requested name, we add it to
                         // the missingAttributes array, and when the component is
                         // mounted, it'll try to find sensible defaults.
-                        if (!self.isMounted && !has(self.values, name)) {
+                        if(!self.isMounted && !has(self.values, name)) {
                             self.missingAttributes.push(name);
                             self.$put(name, "");
                         }

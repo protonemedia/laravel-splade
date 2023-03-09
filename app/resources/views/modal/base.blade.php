@@ -7,6 +7,7 @@ ModalComponent
 <div class="flex space-x-3">
     <Link modal dusk="one" href="{{ route('modal.one') }}">Open Modal One</Link>
     <Link slideover dusk="slideover" href="{{ route('modal.slideover') }}">Open Modal Slideover</Link>
+    <Link slideover dusk="slideover-left" href="{{ route('modal.slideover', ['left' => 1]) }}">Open Modal Slideover Left</Link>
     <Link modal dusk="validation" href="{{ route('modal.validation') }}">Open Modal Validation</Link>
     <Link modal dusk="libraries" href="{{ route('form.components.libraries') }}">Open Form Libraries</Link>
     <Link modal dusk="form-select" href="{{ route('form.components.customSelectOptions') }}">Open Custom Select Options</Link>

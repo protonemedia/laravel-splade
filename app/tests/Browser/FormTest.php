@@ -2,6 +2,7 @@
 
 namespace Tests\Browser;
 
+use App\Models\User;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 
@@ -16,6 +17,18 @@ class FormTest extends DuskTestCase
                 ->press('Submit')
                 ->waitForText('The name field is required.')
                 ->assertSee('The name field is required.');
+        });
+    }
+
+    /** @test */
+    public function it_can_show_the_errors_from_a_redirect()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('/form/redirect')
+                ->waitForText('FormRedirect')
+                ->press('Submit')
+                ->waitForText('Custom validation message from redirect')
+                ->assertSee('Custom validation message from redirect');
         });
     }
 
@@ -106,6 +119,25 @@ class FormTest extends DuskTestCase
     }
 
     /** @test */
+    public function it_can_ask_to_confirm_the_submit_with_a_danger_button()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('/form/confirmDanger')
+                ->waitForText('FormConfirmDanger')
+                ->type('@name', 'Splade')
+                ->press('Submit')
+                ->waitForText('Are you sure you want to continue?')
+                ->press('@splade-confirm-cancel')
+                ->waitUntilMissingText('Are you sure you want to continue?')
+                ->assertInputValue('@name', 'Splade')
+                ->press('Submit')
+                ->waitForText('Are you sure you want to continue?')
+                ->press('@splade-confirm-confirm')
+                ->waitForText('FormSimple'); // redirect
+        });
+    }
+
+    /** @test */
     public function it_can_ask_to_confirm_the_submit_with_custom_texts()
     {
         $this->browse(function (Browser $browser) {
@@ -116,6 +148,77 @@ class FormTest extends DuskTestCase
                 ->assertSee('Custom text')
                 ->assertSeeIn('@splade-confirm-confirm', 'Yes')
                 ->assertSeeIn('@splade-confirm-cancel', 'No');
+        });
+    }
+
+    /** @test */
+    public function it_can_ask_to_confirm_the_submit_with_a_password()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->logout()
+                ->visit('/form/passwordConfirm')
+                ->waitForText('FormPasswordConfirm')
+                ->type('@name', 'Splade')
+                ->press('Submit')
+                ->waitForText('Please confirm your password before continuing')
+                ->press('@splade-confirm-confirm')
+                ->waitForText('No user is logged in');
+
+            $browser->loginAs(User::firstOrFail())
+                ->visit('/form/passwordConfirm')
+                ->waitForText('FormPasswordConfirm')
+                ->type('@name', 'Splade')
+                ->press('Submit')
+                ->type('password', 'password')
+                ->press('@splade-confirm-confirm')
+                ->waitForText('FormSimple')
+
+                // go back to check that we need to reconfirm
+                ->visit('/form/passwordConfirm')
+                ->waitForText('FormPasswordConfirm')
+                ->type('@name', 'Splade')
+                ->press('Submit')
+                ->type('password', 'password')
+                ->press('@splade-confirm-confirm')
+                ->waitForText('FormSimple');
+        });
+    }
+
+    /** @test */
+    public function it_can_check_the_password_confirmation_status()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->loginAs(User::firstOrFail())
+                ->visit('/form/passwordConfirmOnce')
+                ->waitForText('FormPasswordConfirmOnce')
+                ->type('@name', 'Splade')
+                ->press('Submit')
+                ->waitForInput('password')
+                ->type('password', 'password')
+                ->press('@splade-confirm-confirm')
+                ->waitForText('FormSimple')
+
+                // go back to check that we don't need to reconfirm
+                ->visit('/form/passwordConfirmOnce')
+                ->waitForText('FormPasswordConfirmOnce')
+                ->type('@name', 'Splade')
+                ->press('Submit')
+                ->waitForText('FormSimple');
+        });
+    }
+
+    /** @test */
+    public function it_can_confirm_and_execute_a_callback_without_submitting()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->loginAs(User::firstOrFail())
+                ->visit('/form/dummyRequest')
+                ->waitForText('FormDummyRequest')
+                ->type('@name', 'Splade')
+                ->press('Submit')
+                ->type('password', 'password')
+                ->press('@splade-confirm-confirm')
+                ->waitForTextIn('@data-name', 'Splade');
         });
     }
 

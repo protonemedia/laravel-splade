@@ -31,10 +31,12 @@ class PreserveScrollTest extends DuskTestCase
 
             $browser
                 ->assertSeeIn('tr:nth-child(30) td:nth-child(1)', $latestProject->name)
+                ->pause(250)
                 ->press('tr:nth-child(30) td:nth-child(2) button')
-                ->waitForText('Project updated!');
+                ->waitForText('Project updated!')
+                ->pause(250);
 
-            $this->assertEquals("{$company} 2", $latestProject->fresh()->name);
+            $this->assertEquals("updated-{$company}", $latestProject->fresh()->name);
             $this->assertEquals($scrollY, $browser->script('return window.scrollY'));
         });
     }
@@ -62,7 +64,7 @@ class PreserveScrollTest extends DuskTestCase
                 ->press('tr:nth-child(30) td:nth-child(2) a')
                 ->waitForText('Project updated!');
 
-            $this->assertEquals("{$company} 2", $latestProject->fresh()->name);
+            $this->assertEquals("updated-{$company}", $latestProject->fresh()->name);
             $this->assertEquals($scrollY, $browser->script('return window.scrollY'));
         });
     }

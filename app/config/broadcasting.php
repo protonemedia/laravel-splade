@@ -15,7 +15,7 @@ return [
     |
     */
 
-    'default'     => env('BROADCAST_DRIVER', 'null'),
+    'default' => env('BROADCAST_DRIVER', 'null'),
 
     /*
     |--------------------------------------------------------------------------
@@ -31,11 +31,11 @@ return [
     'connections' => [
 
         'pusher' => [
-            'driver'         => 'pusher',
-            'key'            => env('PUSHER_APP_KEY'),
-            'secret'         => env('PUSHER_APP_SECRET'),
-            'app_id'         => env('PUSHER_APP_ID'),
-            'options'        => [
+            'driver'  => 'pusher',
+            'key'     => env('PUSHER_APP_KEY'),
+            'secret'  => env('PUSHER_APP_SECRET'),
+            'app_id'  => env('PUSHER_APP_ID'),
+            'options' => [
                 'host'      => env('PUSHER_HOST', 'api-' . env('PUSHER_APP_CLUSTER', 'mt1') . '.pusher.com') ?: 'api-' . env('PUSHER_APP_CLUSTER', 'mt1') . '.pusher.com',
                 'port'      => env('PUSHER_PORT', 443),
                 'scheme'    => env('PUSHER_SCHEME', 'https'),
@@ -47,21 +47,21 @@ return [
             ],
         ],
 
-        'ably'   => [
+        'ably' => [
             'driver' => 'ably',
             'key'    => env('ABLY_KEY'),
         ],
 
-        'redis'  => [
+        'redis' => [
             'driver'     => 'redis',
             'connection' => 'default',
         ],
 
-        'log'    => [
+        'log' => [
             'driver' => 'log',
         ],
 
-        'null'   => [
+        'null' => [
             'driver' => 'null',
         ],
 

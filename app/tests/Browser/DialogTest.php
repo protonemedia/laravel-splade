@@ -13,11 +13,14 @@ class DialogTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $browser->visit('/navigation/one')
                 ->waitForText('NavigationOne')
+                ->pause(250)
                 ->click('@open-dialog')
+                ->pause(250)
                 ->click('@dialog-two')
                 ->waitForText('NavigationTwo')
                 ->assertMissing('@dialog-two')
                 ->back()
+                ->pause(250)
                 ->assertPresent('@dialog-two');
         });
     }

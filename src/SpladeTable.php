@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
+use Illuminate\Support\Traits\Conditionable;
 use InvalidArgumentException;
 use ProtoneMedia\Splade\Table\HasBulkActions;
 use ProtoneMedia\Splade\Table\HasColumns;
@@ -25,6 +26,7 @@ class SpladeTable
     use HasFilters;
     use HasResource;
     use HasSearchInputs;
+    use Conditionable;
 
     const DEFAULT_NAME = 'default';
 
@@ -50,7 +52,6 @@ class SpladeTable
      * Creates a new instance.
      *
      * @param  mixed  $resource
-     * @param  \Illuminate\Http\Request|null  $request
      */
     public function __construct($resource, Request $request = null)
     {
@@ -76,7 +77,6 @@ class SpladeTable
      * Helper method to create a new instance.
      *
      * @param  mixed  $resource
-     * @return SpladeQueryBuilder|static
      */
     public static function for($resource): SpladeQueryBuilder|static
     {
@@ -98,7 +98,6 @@ class SpladeTable
     /**
      * Sets the class that configurates this table.
      *
-     * @param  AbstractTable  $configurator
      * @return $this
      */
     public function setConfigurator(AbstractTable $configurator): self
@@ -111,7 +110,6 @@ class SpladeTable
     /**
      * Retrieve a query string item from the request.
      *
-     * @param  string  $key
      * @param  mixed|null  $default
      * @return mixed
      */
@@ -126,7 +124,6 @@ class SpladeTable
     /**
      * Name for this table.
      *
-     * @param  string  $name
      * @return $this
      */
     public function name(string $name): self
@@ -139,7 +136,6 @@ class SpladeTable
     /**
      * Per Page options for this table.
      *
-     * @param  array  $perPageOptions
      * @return $this
      */
     public function perPageOptions(array $perPageOptions): self
@@ -152,7 +148,6 @@ class SpladeTable
     /**
      * Set a default for the per page options.
      *
-     * @param  array  $perPageOptions
      * @return void
      */
     public static function defaultPerPageOptions(array $perPageOptions)
@@ -162,8 +157,6 @@ class SpladeTable
 
     /**
      * Get the default debounce value.
-     *
-     * @return int
      */
     public static function getDefaultSearchDebounce(): int
     {
@@ -173,7 +166,6 @@ class SpladeTable
     /**
      * Set a default debounce value.
      *
-     * @param  int  $milliseconds
      * @return void
      */
     public static function defaultSearchDebounce(int $milliseconds)
@@ -183,8 +175,6 @@ class SpladeTable
 
     /**
      * Getter for the 'hidePaginationWhenResourceContainsOnePage' setting.
-     *
-     * @return bool
      */
     public static function hidesPaginationWhenResourceContainsOnePage(): bool
     {
@@ -194,7 +184,6 @@ class SpladeTable
     /**
      * Hides the pagination component when the resource contains one page.
      *
-     * @param  bool  $value
      * @return void
      */
     public static function hidePaginationWhenResourceContainsOnePage(bool $value = true)
@@ -204,8 +193,6 @@ class SpladeTable
 
     /**
      * Returns a boolean whether the data set should be sorted.
-     *
-     * @return bool
      */
     public function isSorted(): bool
     {
@@ -214,8 +201,6 @@ class SpladeTable
 
     /**
      * Resolves the current page from the request.
-     *
-     * @return int
      */
     public function page(): int
     {
@@ -224,8 +209,6 @@ class SpladeTable
 
     /**
      * Returns an array with all 'per page' amount options.
-     *
-     * @return array
      */
     public function allPerPageOptions(): array
     {
@@ -239,8 +222,6 @@ class SpladeTable
     /**
      * Setter for the default sort key.
      *
-     * @param  string  $sort
-     * @param  string  $direction
      * @return $this
      */
     public function defaultSort(string $sort, string $direction = ''): self
@@ -262,7 +243,6 @@ class SpladeTable
     /**
      * Sets a descending default sort key
      *
-     * @param  string  $sort
      * @return $this
      */
     public function defaultSortDesc(string $sort): self
@@ -272,8 +252,6 @@ class SpladeTable
 
     /**
      * Returns the default sort key.
-     *
-     * @return string
      */
     public function getDefaultSort(): string
     {
@@ -282,8 +260,6 @@ class SpladeTable
 
     /**
      * Returns a boolean whether the request query has a 'perPage' item.
-     *
-     * @return bool
      */
     public function hasPerPageQuery(): bool
     {

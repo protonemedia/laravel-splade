@@ -20,6 +20,17 @@ class DeferTest extends DuskTestCase
     }
 
     /** @test */
+    public function it_loads_the_data_from_a_dynamic_url()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('/defer/url')
+                ->waitForText('ComponentDeferUrl')
+                ->type('@name', 'splade')
+                ->waitForTextIn('@response', '{ "input": "splade" }');
+        });
+    }
+
+    /** @test */
     public function it_can_use_the_poll_attribute_to_poll_for_new_data()
     {
         $this->browse(function (Browser $browser) {

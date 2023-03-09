@@ -40,21 +40,37 @@ class HeadTest extends DuskTestCase
             $browser->visit('/modal/base')
                 ->waitForText('ModalComponent')
                 ->assertTitle('Modal Base')
+                ->pause(250)
                 ->click('@one')
                 ->waitForText('ModalComponentOne')
                 ->pause(500)
                 ->assertTitle('Modal One')
+                ->pause(250)
                 ->click('@two')
                 ->waitForText('ModalComponentTwo')
                 ->pause(500)
                 ->assertTitle('Modal Two')
+                ->pause(250)
                 ->click('@close-two')
                 ->waitForText('ModalComponentOne')
                 ->pause(500)
                 ->assertTitle('Modal One')
+                ->pause(250)
                 ->click('@close-one')
                 ->pause(500)
                 ->assertTitle('Modal Base');
+        });
+    }
+
+    /** @test */
+    public function it_has_blade_directives_to_set_the_seo()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('/seoDirectives')
+                ->waitForText('SEODirectives')
+                ->assertTitle('Custom Title')
+                ->assertMetaByName('description', 'Custom Description')
+                ->assertMetaByName('keywords', 'Custom, Keywords');
         });
     }
 }

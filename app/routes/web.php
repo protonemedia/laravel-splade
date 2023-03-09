@@ -9,6 +9,7 @@ use App\Http\Controllers\CountriesController;
 use App\Http\Controllers\FileFormController;
 use App\Http\Controllers\FilepondController;
 use App\Http\Controllers\FormComponentsController;
+use App\Http\Controllers\FormRedirectController;
 use App\Http\Controllers\FormRelationsController;
 use App\Http\Controllers\FormViewController;
 use App\Http\Controllers\LazyController;
@@ -27,6 +28,7 @@ use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use ProtoneMedia\Splade\Facades\Splade;
 use ProtoneMedia\Splade\FileUploads\HandleSpladeFileUploads;
+use ProtoneMedia\Splade\SpladeCore;
 
 Route::post('defer/api', function () {
     sleep(1);
@@ -40,14 +42,26 @@ Route::post('defer/poll', function () {
     return Cache::increment('deferPoll');
 })->name('defer.pollIncrement');
 
+Route::get('defer/input/{input}', function ($input) {
+    return [
+        'input' => $input,
+    ];
+})->name('defer.input');
+
+Route::get('login/redirect', function () {
+    return redirect()->route('navigation.one');
+})->name('login');
+
 Route::get('event/redirect', fn () => event(new RedirectEvent))->name('event.redirect');
 Route::get('event/refresh', fn () => event(new RefreshEvent))->name('event.refresh');
 Route::get('event/simple', fn () => event(new SimpleEvent))->name('event.simple');
 Route::get('event/toast', fn () => event(new ToastEvent))->name('event.toast');
 
 Route::middleware('splade')->group(function () {
+    Route::spladePasswordConfirmation();
     Route::spladeTable();
     Route::spladeUploads();
+    Route::spladeWithVueBridge();
 
     Route::get('/api/countries/keyValue', [CountriesController::class, 'keyValue'])->name('api.countries.keyValue');
     Route::get('/api/countries/objects', [CountriesController::class, 'objects'])->name('api.countries.objects');
@@ -57,10 +71,20 @@ Route::middleware('splade')->group(function () {
         'html' => file_get_contents(resource_path('rendered_markdown.html')),
     ])->name('content');
 
+    Route::view('bridge/arguments', 'bridge.arguments')->name('bridge.arguments');
+    Route::view('bridge/inline', 'bridge.inline')->name('bridge.inline');
+    Route::view('bridge/method', 'bridge.method')->name('bridge.method');
+    Route::view('bridge/props', 'bridge.props')->name('bridge.props');
+    Route::view('bridge/render', 'bridge.render')->name('bridge.render');
+
+    Route::view('buttons', 'buttons')->name('buttons');
     Route::view('custom', 'custom')->name('custom');
     Route::view('data/binding', 'data.binding')->name('data.binding');
     Route::view('data/default', 'data.default')->name('data.default');
     Route::view('data/eloquent', 'data.eloquent')->name('data.eloquent');
+    Route::view('data/global-1', 'data.global-1')->name('data.global-1');
+    Route::view('data/global-2', 'data.global-2')->name('data.global-2');
+    Route::view('data/nestedStore', 'data.nestedStore')->name('data.nestedStore');
     Route::view('data/remember', 'data.remember')->name('data.remember');
     Route::view('data/localStorage', 'data.localStorage')->name('data.localStorage');
     Route::view('data/rememberWithDefault', 'data.rememberWithDefault')->name('data.rememberWithDefault');
@@ -68,6 +92,7 @@ Route::middleware('splade')->group(function () {
     Route::view('defer', 'defer')->name('defer');
     Route::view('defer/poll', 'deferPoll')->name('deferPoll');
     Route::view('defer/watch', 'deferWatch')->name('deferWatch');
+    Route::view('defer/url', 'deferUrl')->name('deferUrl');
     Route::view('defer/requestAttribute', 'deferRequestAttribute')->name('defer.requestAttribute');
 
     Route::view('errors', 'errors')->name('errors');
@@ -75,15 +100,18 @@ Route::middleware('splade')->group(function () {
     Route::view('event', 'event')->name('event');
 
     Route::get('flash/put', function () {
-        session()->flash('message', 'This is a message');
-
-        return redirect()->route('flash');
+        return redirect()->route('flash')->with('message', 'This is a message');
     });
 
     Route::view('flash', 'flash')->name('flash');
 
+    Route::get('form/redirect', [FormRedirectController::class, 'show'])->name('form.redirect.show');
+    Route::post('form/redirect', [FormRedirectController::class, 'submit'])->name('form.redirect.submit');
+
     Route::view('form/simple', 'form.simple')->name('form.simple');
     Route::post('form/simple', SimpleFormController::class)->name('form.simple.submit');
+    Route::view('form/emit', 'form.emit')->name('form.emit');
+    Route::view('form/readImage', 'form.readImage')->name('form.readImage');
     Route::view('form/get', 'form.get')->name('form.get');
     Route::get('form/getData', SimpleFormController::class)->name('form.get.submit');
     Route::view('form/put', 'form.put')->name('form.put');
@@ -93,9 +121,14 @@ Route::middleware('splade')->group(function () {
     Route::post('form/twoFields', TwoFieldsFormController::class)->name('form.twoFields.submit');
 
     Route::view('form/submitOnChange', 'form.submitOnChange')->name('form.submitOnChange');
+    Route::view('form/background', 'form.background')->name('form.background');
 
     Route::view('form/confirm', 'form.confirm')->name('form.confirm');
+    Route::view('form/confirmDanger', 'form.confirmDanger')->name('form.confirmDanger');
     Route::view('form/customConfirm', 'form.customConfirm')->name('form.customConfirm');
+    Route::view('form/passwordConfirm', 'form.passwordConfirm')->name('form.passwordConfirm');
+    Route::view('form/passwordConfirmOnce', 'form.passwordConfirmOnce')->name('form.passwordConfirmOnce');
+    Route::view('form/dummyRequest', 'form.dummyRequest')->name('form.dummyRequest');
     Route::view('form/file', 'form.file')->name('form.file');
     Route::post('form/file', FileFormController::class)->name('form.file.submit');
     Route::view('form/restore', 'form.restore')->name('form.restore');
@@ -141,6 +174,7 @@ Route::middleware('splade')->group(function () {
     Route::get('form/components/submitValue/{approved?}', [FormComponentsController::class, 'submitValue'])->name('form.components.submitValue');
     Route::post('form/components/submitValue/{approved?}', [FormComponentsController::class, 'submitValueSubmit'])->name('form.components.submitValueSubmit');
     Route::get('form/components/relation', [FormComponentsController::class, 'relation'])->name('form.components.relation');
+    Route::get('form/components/transform', [FormComponentsController::class, 'transform'])->name('form.components.transform');
     Route::get('form/components/customSelectOptions', [FormComponentsController::class, 'customSelectOptions'])->name('form.components.customSelectOptions');
 
     Route::get('form/components/filepond', [FilepondController::class, 'show'])->name('form.components.filepond');
@@ -182,9 +216,11 @@ Route::middleware('splade')->group(function () {
     Route::get('form/relations/twoForms', [FormRelationsController::class, 'twoForms'])->name('form.relations.twoForms');
 
     Route::get('lazy', [LazyController::class, 'show'])->name('lazy');
+    Route::get('lazy/nested', [LazyController::class, 'showNested'])->name('lazy.nested');
     Route::get('lazy/notifications', [LazyController::class, 'notifications'])->name('lazy.notifications');
 
     Route::get('navigation/one/{id?}', [NavigationController::class, 'one'])->name('navigation.one');
+    Route::get('navigation/auth/one/{id?}', [NavigationController::class, 'one'])->name('navigation.one.auth')->middleware('auth');
     Route::get('navigation/two', [NavigationController::class, 'two'])->name('navigation.two');
     Route::get('navigation/three', [NavigationController::class, 'three'])->name('navigation.three');
     Route::get('navigation/form', [NavigationController::class, 'form'])->name('navigation.form');
@@ -203,12 +239,26 @@ Route::middleware('splade')->group(function () {
     Route::get('modal/base', [ModalController::class, 'base'])->name('modal.base');
     Route::get('modal/one', [ModalController::class, 'one'])->name('modal.one');
     Route::get('modal/two', [ModalController::class, 'two'])->name('modal.two');
+    Route::get('modal/opened', [ModalController::class, 'opened'])->name('modal.opened');
     Route::get('modal/slideover', [ModalController::class, 'slideover'])->name('modal.slideover');
     Route::get('modal/validation', [ModalController::class, 'validation'])->name('modal.validation');
     Route::get('modal/size/{size}', [ModalController::class, 'size'])->name('modal.size');
 
+    Route::view('rehydrate/poll', 'rehydratePoll')->name('rehydratePoll');
+
+    Route::get('rehydrate/twice', function (SpladeCore $splade) {
+        if ($splade->isRehydrateRequest()) {
+            sleep(2);
+        }
+
+        return view('rehydrateTwice');
+    })->name('rehydrateTwice');
+
+    Route::view('script', 'script')->name('script');
+    Route::view('seoDirectives', 'seoDirectives')->name('seoDirectives');
+
     Route::post('state', function () {
-        Splade::share('info', 'This is invalid');
+        Splade::share('info', fn () => 'This is invalid');
 
         throw ValidationException::withMessages(['name' => 'Whoops!']);
     });
@@ -232,6 +282,7 @@ Route::middleware('splade')->group(function () {
     Route::get('toast/dangerLeftBottom', [ToastController::class, 'dangerLeftBottom'])->name('toast.dangerLeftBottom');
     Route::get('toast/infoCenterBottom', [ToastController::class, 'infoCenterBottom'])->name('toast.infoCenterBottom');
     Route::get('toast/infoRightBottom', [ToastController::class, 'infoRightBottom'])->name('toast.infoRightBottom');
+    Route::get('toast/twoLines', [ToastController::class, 'twoLines'])->name('toast.twoLines');
 
     Route::view('toggle/default', 'toggle.default')->name('toggle.default');
     Route::view('toggle/multipleDefaults', 'toggle.multipleDefaults')->name('toggle.multipleDefaults');
@@ -257,6 +308,8 @@ Route::middleware('splade')->group(function () {
         Route::get('/rowSlideover/{spladeQueryBuilder?}', [TableController::class, 'rowSlideover'])->name('table.rowSlideover');
         Route::get('/caseSensitive/{spladeQueryBuilder?}', [TableController::class, 'caseSensitive'])->name('table.caseSensitive');
         Route::get('/caseInsensitive/{spladeQueryBuilder?}', [TableController::class, 'caseInsensitive'])->name('table.caseInsensitive');
+
+        Route::get('/empty', [TableController::class, 'empty'])->name('table.empty');
 
         Route::get('/preserveScrollForm', [TableController::class, 'preserveScrollForm'])->name('table.preserveScrollForm');
         Route::post('/preserveScrollForm', [TableController::class, 'preserveScrollFormSubmit'])->name('table.preserveScrollFormSubmit');

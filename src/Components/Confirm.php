@@ -2,6 +2,7 @@
 
 namespace ProtoneMedia\Splade\Components;
 
+use Illuminate\Support\Facades\Route;
 use Illuminate\View\Component;
 
 class Confirm extends Component
@@ -13,6 +14,10 @@ class Confirm extends Component
      */
     public function render()
     {
-        return view('splade::components.confirm');
+        return view('splade::components.confirm', [
+            'confirmedPasswordStatusRoute' => Route::has('splade.confirmedPasswordStatus') ? route('splade.confirmedPasswordStatus') : '',
+
+            'confirmPasswordRoute' => Route::has('splade.confirmPassword') ? route('splade.confirmPassword') : '',
+        ]);
     }
 }

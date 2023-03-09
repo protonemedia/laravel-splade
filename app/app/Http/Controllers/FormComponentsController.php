@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Address;
 use App\Models\Dummy;
 use App\Models\Project;
 use Illuminate\Http\Request;
@@ -11,6 +12,7 @@ use Illuminate\Validation\Rule;
 use ProtoneMedia\Splade\Components\Form;
 use ProtoneMedia\Splade\Components\Form\Input;
 use ProtoneMedia\Splade\Components\Form\Select;
+use ProtoneMedia\Splade\Facades\Splade;
 
 class FormComponentsController
 {
@@ -116,7 +118,7 @@ class FormComponentsController
     public function libraryDefaults()
     {
         return view('form.components.libraryDefaults', [
-            'defaults'  => [
+            'defaults' => [
                 'biography' => 'Voluptate ea culpa proident proident qui nostrud non ea irure ullamco in non reprehenderit.',
                 'country'   => 'NL',
                 'countries' => ['BE', 'NL'],
@@ -147,7 +149,7 @@ class FormComponentsController
     public function libraryChange()
     {
         return view('form.components.libraryChange', [
-            'defaults'  => [
+            'defaults' => [
                 'biography' => 'Voluptate ea culpa proident proident qui nostrud non ea irure ullamco in non reprehenderit.',
                 'country'   => 'NL',
                 'countries' => ['BE', 'NL'],
@@ -210,6 +212,22 @@ class FormComponentsController
         ]);
     }
 
+    public function transform()
+    {
+        Splade::requireTransformer();
+
+        Splade::transformUsing([
+            Project::class => fn ($project) => ['name' => 'transformed_' . $project->name],
+            Address::class => fn ($address) => ['city' => 'transformed_' . $address->city],
+        ]);
+
+        $project = Project::first();
+
+        return view('form.components.relation', [
+            'project' => $project,
+        ]);
+    }
+
     public function customSelectOptions()
     {
         return view('form.components.customSelectOptions');
@@ -217,7 +235,8 @@ class FormComponentsController
 
     public function submit(Request $request)
     {
-        $request->validate([
+        // Validate with another bag to make sure this also works.
+        $request->validateWithBag('dummy', [
             'name'      => ['required', 'string'],
             'password'  => ['required', 'string'],
             'secret'    => ['required', 'string'],
@@ -241,15 +260,15 @@ class FormComponentsController
         $countries = array_keys($this->countries());
 
         $request->validate([
-            'country_a'     => ['required', 'string', Rule::in($countries)],
-            'country_b'     => ['required', 'string', Rule::in($countries)],
-            'country_c'     => ['required', 'string', Rule::in($countries)],
-            'country_d'     => ['required', 'string', Rule::in($countries)],
+            'country_a' => ['required', 'string', Rule::in($countries)],
+            'country_b' => ['required', 'string', Rule::in($countries)],
+            'country_c' => ['required', 'string', Rule::in($countries)],
+            'country_d' => ['required', 'string', Rule::in($countries)],
 
-            'countries_a'   => ['required', 'array', 'min:1'],
-            'countries_b'   => ['required', 'array', 'min:1'],
-            'countries_c'   => ['required', 'array', 'min:1'],
-            'countries_d'   => ['required', 'array', 'min:1'],
+            'countries_a' => ['required', 'array', 'min:1'],
+            'countries_b' => ['required', 'array', 'min:1'],
+            'countries_c' => ['required', 'array', 'min:1'],
+            'countries_d' => ['required', 'array', 'min:1'],
 
             'countries_a.*' => ['required', 'string', Rule::in($countries)],
             'countries_b.*' => ['required', 'string', Rule::in($countries)],

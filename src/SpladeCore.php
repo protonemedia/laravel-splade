@@ -12,6 +12,7 @@ use Illuminate\Validation\ValidationException;
 use ProtoneMedia\Splade\Http\ResolvableData;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
+use Traversable;
 
 class SpladeCore
 {
@@ -26,6 +27,8 @@ class SpladeCore
     const HEADER_PRESERVE_SCROLL = 'X-Splade-Preserve-Scroll';
 
     const HEADER_LAZY = 'X-Splade-Lazy';
+
+    const HEADER_REHYDRATE = 'X-Splade-Rehydrate';
 
     const HEADER_REDIRECT_AWAY = 'X-Splade-Redirect-Away';
 
@@ -47,9 +50,15 @@ class SpladeCore
 
     private int $lazyComponents = 0;
 
+    private int $rehydrateComponents = 0;
+
     private Head $head;
 
     private $customToastFactory;
+
+    private array $dataStores = [];
+
+    private array $transformMap = [];
 
     /**
      * Creates an instance.
@@ -63,8 +72,6 @@ class SpladeCore
 
     /**
      * Returns the root view that's used on the initial request to wrap the content.
-     *
-     * @return string
      */
     public function getRootView(): string
     {
@@ -74,7 +81,6 @@ class SpladeCore
     /**
      * Setter for the root view.
      *
-     * @param  string  $view
      * @return $this
      */
     public function setRootView(string $view): self
@@ -95,7 +101,10 @@ class SpladeCore
         $this->shared   = [];
         $this->toasts   = [];
 
-        return $this->resetLazyComponentCounter()->resetPersistentLayoutKey();
+        return $this->resetLazyComponentCounter()
+            ->resetDataStores()
+            ->resetPersistentLayoutKey()
+            ->resetRehydrateComponentCounter();
     }
 
     /**
@@ -110,8 +119,6 @@ class SpladeCore
 
     /**
      * Resolves the Request instance from the callable.
-     *
-     * @return \Illuminate\Http\Request
      */
     private function request(): Request
     {
@@ -120,8 +127,6 @@ class SpladeCore
 
     /**
      * Returns the Modal Key.
-     *
-     * @return string
      */
     public function getModalKey(): string
     {
@@ -131,7 +136,6 @@ class SpladeCore
     /**
      * Setter for the Modal Key.
      *
-     * @param  string  $key
      * @return $this
      */
     public function setModalKey(string $key): self
@@ -143,8 +147,6 @@ class SpladeCore
 
     /**
      * Returns the Persistent Layout Key.
-     *
-     * @return null|string
      */
     public function getPersistentLayoutKey(): ?string
     {
@@ -154,7 +156,6 @@ class SpladeCore
     /**
      * Setter for the Persistent Layout Key.
      *
-     * @param  string  $key
      * @return $this
      */
     public function setPersistentLayoutKey(string $key): self
@@ -166,8 +167,6 @@ class SpladeCore
 
     /**
      * Increases the amount of Lazy Components and returns the latest key.
-     *
-     * @return string
      */
     public function newLazyComponentKey(): string
     {
@@ -187,6 +186,26 @@ class SpladeCore
     }
 
     /**
+     * Increases the amount of Rehydrate Components and returns the latest key.
+     */
+    public function newRehydrateComponentKey(): string
+    {
+        return (string) $this->rehydrateComponents++;
+    }
+
+    /**
+     * Resets the Rehydrate Components counter.
+     *
+     * @return $this
+     */
+    public function resetRehydrateComponentCounter(): self
+    {
+        $this->rehydrateComponents = 0;
+
+        return $this;
+    }
+
+    /**
      * Resets the Persistent Layout key.
      *
      * @return $this
@@ -201,7 +220,6 @@ class SpladeCore
     /**
      * Sets a callable that defines how a default Toast.
      *
-     * @param  callable  $toastFactory
      * @return $this
      */
     public function defaultToast(callable $toastFactory): self
@@ -266,7 +284,6 @@ class SpladeCore
     /**
      * Returns a new SpladeToast instance
      *
-     * @param  string  $message
      * @return \ProtoneMedia\Splade\SpladeToast
      */
     public static function toastOnEvent(string $message = ''): SpladeToast
@@ -278,9 +295,7 @@ class SpladeCore
      * Returns a Closure that prevents generating a response from
      * a ValidationException when this is a Splade request.
      *
-     * @param  \Illuminate\Foundation\Exceptions\Handler  $exceptionHandler
      * @param  callable  $renderUsing
-     * @return Closure
      */
     public static function exceptionHandler(Handler $exceptionHandler, callable $renderUsing = null): Closure
     {
@@ -293,8 +308,13 @@ class SpladeCore
                 }
             }
 
-            if ($request->header(SpladeCore::HEADER_SPLADE) && !$e instanceof ValidationException) {
+            if ($request->header(SpladeCore::HEADER_SPLADE)) {
                 /** @var Handler $this */
+                if ($e instanceof ValidationException) {
+                    // Always return a JSON response for validation exceptions.
+                    return $this->invalidJson($request, $e);
+                }
+
                 return $this->prepareResponse($request, $e);
             }
         }, $exceptionHandler, get_class($exceptionHandler));
@@ -304,7 +324,6 @@ class SpladeCore
      * Returns a new SpladeToast instance, optionally with the given message
      * if it isn't empty, and it uses the custom toast factory if set.
      *
-     * @param  string  $message
      * @return \ProtoneMedia\Splade\SpladeToast
      */
     public function toast(string $message = ''): SpladeToast
@@ -324,8 +343,6 @@ class SpladeCore
 
     /**
      * Getter for the Shared Data.
-     *
-     * @return array
      */
     public function getShared(): array
     {
@@ -333,23 +350,52 @@ class SpladeCore
     }
 
     /**
+     * Returns all registered Data Stores.
+     */
+    public function getDataStores(): array
+    {
+        return $this->dataStores;
+    }
+
+    /**
+     * Adds a new Data Store.
+     *
+     * @param  \ProtoneMedia\Splade\DataStore  $store
+     */
+    public function addDataStore(DataStore $store): self
+    {
+        $this->dataStores[$store->name] = $store;
+
+        return $this;
+    }
+
+    /**
+     * Resets the Data Stores.
+     *
+     * @return $this
+     */
+    public function resetDataStores(): self
+    {
+        $this->dataStores = [];
+
+        return $this;
+    }
+
+    /**
      * Sets data on the shared data array.
      *
-     * @param  string  $key
      * @param  mixed  $value
      * @return $this
      */
     public function share(string $key, $value): self
     {
-        Arr::set($this->shared, $key, value($value));
+        Arr::set($this->shared, $key, $value);
 
         return $this;
     }
 
     /**
      * Getter for the toasts.
-     *
-     * @return array
      */
     public function getToasts(): array
     {
@@ -358,8 +404,6 @@ class SpladeCore
 
     /**
      * Returns a boolean whether this is a Splade request.
-     *
-     * @return bool
      */
     public function isSpladeRequest(): bool
     {
@@ -368,8 +412,6 @@ class SpladeCore
 
     /**
      * Returns a boolean whether this is a Modal request.
-     *
-     * @return bool
      */
     public function isModalRequest(): bool
     {
@@ -379,8 +421,6 @@ class SpladeCore
     /**
      * Returns a boolean whether the response should prevent a
      * page request on the front end.
-     *
-     * @return bool
      */
     public function dontRefreshPage(): bool
     {
@@ -389,8 +429,6 @@ class SpladeCore
 
     /**
      * Returns a boolean whether the next page should preserve the scroll position.
-     *
-     * @return bool
      */
     public function preserveScroll(): bool
     {
@@ -399,8 +437,6 @@ class SpladeCore
 
     /**
      * Returns a boolean whether this is a Lazy request.
-     *
-     * @return bool
      */
     public function isLazyRequest(): bool
     {
@@ -408,9 +444,15 @@ class SpladeCore
     }
 
     /**
+     * Returns a boolean whether this is a Rehydrate request.
+     */
+    public function isRehydrateRequest(): bool
+    {
+        return $this->request()->hasHeader(static::HEADER_REHYDRATE);
+    }
+
+    /**
      * Retrieves the Lazy Component key from the request header.
-     *
-     * @return int
      */
     public function getLazyComponentKey(): int
     {
@@ -418,9 +460,15 @@ class SpladeCore
     }
 
     /**
+     * Retrieves the Rehydrate Component key from the request header.
+     */
+    public function getRehydrateComponentKey(): int
+    {
+        return (int) $this->request()->header(static::HEADER_REHYDRATE);
+    }
+
+    /**
      * Returns the Modal type from the request header.
-     *
-     * @return string
      */
     public function getModalType(): string
     {
@@ -445,9 +493,6 @@ class SpladeCore
     /**
      * Returns a JSON response that indicates that the Splade frontend
      * should redirect to an external URL.
-     *
-     * @param  string  $targetUrl
-     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function redirectAway(string $targetUrl): Response
     {
@@ -458,5 +503,55 @@ class SpladeCore
         return new JsonResponse(null, 409, [
             static::HEADER_REDIRECT_AWAY => $targetUrl,
         ]);
+    }
+
+    /**
+     * Indicates whether every resource needs a valid transformer.
+     */
+    public function requireTransformer($value = true): self
+    {
+        app(Transformer::class)->requireTransformer($value);
+
+        return $this;
+    }
+
+    /**
+     * Adds a transformer for the given class.
+     */
+    public function transformUsing($class, $transformer = null): self
+    {
+        if (is_array($class)) {
+            foreach ($class as $key => $value) {
+                $this->transformUsing($key, $value);
+            }
+
+            return $this;
+        }
+
+        $this->transformMap[$class] = $transformer;
+
+        return $this;
+    }
+
+    /**
+     * Finds the transformer for the given class.
+     */
+    public function findTransformerFor(array|object $instance)
+    {
+        if (is_object($instance)) {
+            $class = get_class($instance);
+
+            if (array_key_exists($class, $this->transformMap)) {
+                return $this->transformMap[$class];
+            }
+        }
+
+        if (is_array($instance) || $instance instanceof Traversable) {
+            $firstElement = Arr::first($instance);
+
+            return is_object($firstElement) ? $this->findTransformerFor($firstElement) : null;
+        }
+
+        return null;
     }
 }

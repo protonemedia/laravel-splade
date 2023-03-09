@@ -19,6 +19,7 @@ class BladeDirectives
         Blade::directive('spladeHead', [$this, 'spladeHead']);
         Blade::directive('preserveScroll', [$this, 'preserveScroll']);
 
+        $this->registerSEODirectives();
         $this->registerTableCellDirective();
     }
 
@@ -26,7 +27,6 @@ class BladeDirectives
      * Returns a template with the main app element and all required Splade attributes.
      *
      * @param  string  $expression
-     * @return string
      */
     public function splade($expression = ''): string
     {
@@ -41,8 +41,6 @@ class BladeDirectives
 
     /**
      * Returns a template that eventually renders the Splade SEO Head.
-     *
-     * @return string
      */
     public function spladeHead(): string
     {
@@ -51,8 +49,6 @@ class BladeDirectives
 
     /**
      * Returns a Vue directive to preserve the scroll props of the element.
-     *
-     * @return string
      */
     public function preserveScroll($expression): string
     {
@@ -65,9 +61,6 @@ class BladeDirectives
      * Parses the expression given to the Table Cell directive. It returns
      * an array containing the name of the cell, and the callback
      * function that's used to render the contents of the cell.
-     *
-     * @param  string  $expression
-     * @return array
      */
     public static function parseTableCellDirectiveExpression(string $expression): array
     {
@@ -88,6 +81,36 @@ class BladeDirectives
         $function .= " use ({$slotUses})";
 
         return [$name, $function];
+    }
+
+    /**
+     * Registers the Blade SEO directives.
+     *
+     * @return void
+     */
+    public function registerSEODirectives()
+    {
+        $title       = config('splade.blade.seo_title_directive', 'seoTitle');
+        $description = config('splade.blade.seo_description_directive', 'seoDescription');
+        $keywords    = config('splade.blade.seo_keywords_directive', 'seoKeywords');
+
+        if ($title !== false) {
+            Blade::directive($title, function ($expression) {
+                return "<?php \ProtoneMedia\Splade\Facades\SEO::title($expression); ?>";
+            });
+        }
+
+        if ($description !== false) {
+            Blade::directive($description, function ($expression) {
+                return "<?php \ProtoneMedia\Splade\Facades\SEO::description($expression); ?>";
+            });
+        }
+
+        if ($keywords !== false) {
+            Blade::directive($keywords, function ($expression) {
+                return "<?php \ProtoneMedia\Splade\Facades\SEO::keywords($expression); ?>";
+            });
+        }
     }
 
     /**

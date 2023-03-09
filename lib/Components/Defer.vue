@@ -21,6 +21,14 @@ export default {
             default: "application/json",
         },
 
+        headers: {
+            type: Object,
+            required: false,
+            default: () => {
+                return {};
+            },
+        },
+
         poll: {
             type: Number,
             required: false,
@@ -64,6 +72,8 @@ export default {
         }
     },
 
+    emits: ["success", "error"],
+
     data() {
         return {
             response: Object.assign({}, { ...this.default }),
@@ -100,12 +110,16 @@ export default {
         performRequest() {
             this.processing = true;
 
+            const headers = {};
+
+            if(this.acceptHeader) {
+                headers.Accept = this.acceptHeader;
+            }
+
             const config = {
                 url: this.url,
                 method: this.method,
-                headers: {
-                    Accept: this.acceptHeader,
-                },
+                headers: { ...headers, ...this.headers }
             };
 
             if(Object.keys(this.request).length > 0) {
@@ -116,9 +130,11 @@ export default {
                 .then((response) => {
                     this.response = response.data;
                     this.processing = false;
+                    this.$emit("success", response.data);
                 })
                 .catch(() => {
                     this.processing = false;
+                    this.$emit("error");
                 });
 
             if (this.poll) {

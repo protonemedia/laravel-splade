@@ -2,6 +2,7 @@
   <Render
     v-if="html"
     :html="html"
+    :passthrough="passthrough"
   />
   <slot v-else-if="show" />
 </template>
@@ -30,8 +31,19 @@ export default {
             type: Boolean,
             required: false,
             default: true
+        },
+
+        passthrough: {
+            type: Object,
+            required: false,
+            default() {
+                return {};
+            },
         }
     },
+
+    emits: ["loaded"],
+
     data() {
         return {
             html: null
@@ -62,6 +74,7 @@ export default {
 
             Splade.lazy(this.url, this.name).then((response) => {
                 this.html = response.data.html;
+                this.$emit("loaded");
             });
         },
     }

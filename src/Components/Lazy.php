@@ -7,6 +7,8 @@ use ProtoneMedia\Splade\SpladeCore;
 
 class Lazy extends Component
 {
+    use PassesVueVariablesThrough;
+
     /**
      * Create a new component instance.
      *
@@ -14,8 +16,10 @@ class Lazy extends Component
      */
     public function __construct(
         public SpladeCore $splade,
-        public string $show = ''
+        public string $show = '',
+        public array|string $passthrough = ''
     ) {
+        $this->passthrough = implode(',', Form::splitByComma($passthrough));
     }
 
     /**
@@ -25,10 +29,15 @@ class Lazy extends Component
      */
     public function render()
     {
+        $key = $this->splade->newLazyComponentKey();
+
         return $this->splade->isLazyRequest()
-            ? '{{ $slot }}'
-            : view('splade::functional.lazy', [
-                'name' => $this->splade->newLazyComponentKey(),
+            ? implode([
+                '<!--START-SPLADE-LAZY-' . $key . '-->',
+                '{{ $slot }}',
+                '<!--END-SPLADE-LAZY-' . $key . '-->',
+            ]) : view('splade::functional.lazy', [
+                'name' => $key,
             ]);
     }
 }

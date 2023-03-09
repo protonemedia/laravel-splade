@@ -17,7 +17,7 @@ class OrganizationFactory extends Factory
     public function definition()
     {
         return [
-            'name' => str_replace(['-', ','], [' ', ''], $this->faker->company),
+            'name' => str_replace(['-', ',', ' and '], [' ', '', ' '], $this->faker->company),
         ];
     }
 }

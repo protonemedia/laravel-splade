@@ -2,6 +2,139 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 1.3.1 - 2023-02-28
+
+- Table Component UI fixes
+
+## 1.3.0 - 2023-02-28
+
+- (Beta/Experimental) Added a `WithVue` trait to bind Blade Component method/props to Vue templates.
+- Support for Transformers to safely pass data to the frontend (Bridge, Data, Defer, Form components)
+- Support for *empty state* in Table Component (by @lartisan)
+- Added zh_CN translation (by @myxiaoao)
+- Added additional debugging info in the Event component
+- Table Bugfix for using both Bulk Actions and the Row Link feature (by @zulfikar-ditya)
+
+## 1.2.15 - 2023-02-16
+
+- Global Data store now keeps working with async data from the DynamicHtml, Lazy, and Rehydrate components
+- Textarea markup fix (#300 - thanks @evici!)
+- Fix for Data component when rendered server-side
+
+## 1.2.14.1 - 2023-02-15
+
+- Patch release for Laravel 10
+
+## 1.2.14 - 2023-02-13
+
+- `SpladeTable` now uses the `Conditionable` trait.
+- Splade Middleware now has a static `afterOriginalResponse()` method to interact with the original, pre-Splade response.
+
+## 1.2.13 - 2023-02-12
+
+- Errors from the session will now be passed to the frontend
+- Bugfix for resolving the Blade compiler out of the container
+
+## 1.2.12 - 2023-02-10
+
+- Support for Global Data Store
+- Support for custom headers in the Defer Component
+- Modals can now be opened by default on page load
+- Sharing data with a callback will now be resolved on response instead of immediately
+- Fix for Toasts containing multiple lines
+- Fix for custom label slot in Checkboxes and Radios components
+- Massive refactor of some internal Blade magic
+- Increased the default *wait time* in the Dusk test suite, which significantly improves the CI results
+
+## 1.2.11.1 - 2023-02-07
+
+- Bugfix for missing config for new Blade directives
+
+## 1.2.11 - 2023-02-04
+
+- Added `@seoTitle`, `@seoDescription`, and `@seoKeywords` Blade Directives
+- The Form and Link components now have a `confirm-danger` attribute in addition to the existing `confirm` attribute
+- Improved style handling for the Form Group component
+- Rehydrating multiple sections at once sometimes messed with the progress bar, this is now fixed
+
+## 1.2.10 - 2023-02-03
+
+- Refactor of the changes in 1.2.8 + 1.2.9
+
+## 1.2.9 - 2023-02-03
+
+- Fixed handling of non-default valdation bags
+
+## 1.2.8.1 - 2023-02-03
+
+- Minor bugfix
+
+## 1.2.8 - 2023-02-03
+
+- Improved support for custom headers in the Form Component
+- Improved Dusk table tests
+- Improved handling of validation errors on requests other than `Accept: application/json`
+- The Form and Link component now default to `Accept: text/html, application/xhtml+xml` for improved handling of redirects
+- The Splade Middleware now prevents an additional front-end request when the `X-Splade-Prevent-Refresh` header is used
+
+## 1.2.7 - 2023-02-01
+
+- Added `require-password-once` attribute to Form and Link components
+- Fixed consistency of button styling (file input and form submit)
+
+## 1.2.6 - 2023-02-01
+
+- The Data Component now restores the saved data *before* it mounts, allowing the remembered data to be passed to a child component.
+- Added `background` and `debounce` props to the Form Component to accompany the `submit-on-change` feature.
+- The Form Component now prevents submitting the request when the `action` is set to `#`.
+
+## 1.2.5 - 2023-01-30
+
+- Support for password confirmation in Table Bulk Actions (#255)
+- The `success` event of the Defer component now emits the response data
+- Bugfix for selecting all *filtered* results (#266)
+- Improved Filepond testing with Dusk
+
+## 1.2.4 - 2023-01-25
+
+- Support for dynamic URL in Defer component
+- Support for left-positioned Slideover
+
+## 1.2.3 - 2023-01-24
+
+- Fix for wrong order of Lazy and Rehydrate components.
+
+## 1.2.2 - 2023-01-23
+
+- Confirm modal now supports requiring the users' password
+- Support for image preview in the File component (without using Filepond)
+- Support for `poll` in the Rehydrate component
+
+## 1.2.1 - 2023-01-20
+
+- Russian (ru) translation (thanks @twent)
+- Bugfixes
+
+## 1.2.0 - 2023-01-20
+
+- Added Filipino (`fil`) translation (thanks @whoami15)
+- Event Bus added (`$splade.on()`, `$splade.emit()`)
+- Rehydrate feature
+- Custom Script component
+
+## 1.1.7 - 2023-01-19
+
+- Fix default `restoreOnSuccess` property value in `Form` component
+- Added Indonesia translation (thanks @zulfikar-ditya)
+- Added missing `primaryKey` method (fixes #240)
+
+## 1.1.6 - 2023-01-15
+
+- Support for Laravel 10 (thanks @askdkc)
+- Added `ja`, `ar`, `fa`, `fr`, `it`, `ne`, `ur`, `bn`, `de`, and `ms` translation files (thanks @askdkc, @aeq-dev, @mszabeh, @KinArnaud, @ousid, @AndreaBellini23, @surajkhanal, @AamirSohailKmAs, @istiak-tridip, @Udaberrico, and @rusdyahmad)
+- Fix for (external) JSON responses without properly encoded JSON content
+- Improved Dusk tests
+
 ## 1.1.5 - 2023-01-09
 
 - Fix for searching through nested relationships using Spatie's Query Builder (#178)

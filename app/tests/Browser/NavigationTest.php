@@ -2,6 +2,7 @@
 
 namespace Tests\Browser;
 
+use App\Models\User;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 
@@ -137,6 +138,32 @@ class NavigationTest extends DuskTestCase
     }
 
     /** @test */
+    public function it_can_ask_to_confirm_with_a_password()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser
+                ->logout()
+                ->visit('/navigation/one')
+                ->waitForText('NavigationOne')
+                ->click('@confirm-password')
+                ->waitForText('Please confirm your password before continuing')
+                ->press('@splade-confirm-confirm')
+                ->waitForText('No user is logged in');
+
+            $browser
+                ->loginAs(User::firstOrFail())
+                ->visit('/navigation/one')
+                ->waitForText('NavigationOne')
+                ->click('@confirm-password')
+                ->waitForText('Please confirm your password before continuing')
+                ->type('password', 'password')
+                ->press('@splade-confirm-confirm')
+                ->waitForText('NavigationTwo')
+                ->assertRouteIs('navigation.two');
+        });
+    }
+
+    /** @test */
     public function it_can_ask_to_confirm_with_custom_texts()
     {
         $this->browse(function (Browser $browser) {
@@ -157,6 +184,7 @@ class NavigationTest extends DuskTestCase
             $browser->visit('/navigation/one')
                 ->resize(1024, 768)
                 ->waitForText('NavigationOne')
+                ->pause(250)
                 ->click('@notFound')
                 ->waitFor('iframe')
                 ->withinFrame('iframe', function (Browser $browser) {

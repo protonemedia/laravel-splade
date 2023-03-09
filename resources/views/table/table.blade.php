@@ -22,7 +22,7 @@
                     @unless($headless)
                         @isset($head)
                             {{ $head }}
-                        @else
+                        @elseif(count($table->resource))
                             @include('splade::table.head')
                         @endisset
                     @endunless

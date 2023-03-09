@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use ProtoneMedia\Splade\Facades\Splade;
 use ProtoneMedia\Splade\Facades\Toast;
 
 class ToastController
@@ -80,6 +81,13 @@ class ToastController
         Toast::title('Info Right Bottom')
             ->rightBottom()
             ->info();
+
+        return view('toast');
+    }
+
+    public function twoLines()
+    {
+        Splade::toast("Line 1\nLine 2");
 
         return view('toast');
     }

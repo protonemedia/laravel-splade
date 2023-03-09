@@ -9,15 +9,23 @@ jobs:
       fail-fast: true
       matrix:
         php: [8.2, 8.1, 8.0]
-        laravel: [9.*]
+        laravel: [10.*, 9.*]
         db: [mysql, postgres, sqlite]
         ssr: [true, false]
         dependency-version: [prefer-lowest, prefer-stable]
+        include:
+          - laravel: 9.*
+            testbench: 7.*
+          - laravel: 10.*
+            testbench: 8.*
         exclude:
+          - laravel: 10.*
+            php: 8.0
           - db: mysql
             ssr: true
           - db: postgres
             ssr: true
+            
 
     name: Test P${{ matrix.php }} - L${{ matrix.laravel }} - DB ${{ matrix.db }} - SSR ${{ matrix.ssr }} - ${{ matrix.dependency-version }}
 

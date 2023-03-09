@@ -67,4 +67,28 @@ class SubmitOnChangeTest extends DuskTestCase
                 });
         });
     }
+
+    /** @test */
+    public function it_can_submit_the_form_by_in_the_background()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('/form/background')
+                ->waitForText('FormBackground')
+                ->within('@form-background', function (Browser $browser) {
+                    $browser->type('@name', 'Name')
+                        ->waitForText('Form is processing')
+                        ->waitForText('The email field is required.')
+                        ->waitForText('Form was unsuccessful')
+                        ->assertDontSee('Form is processing')
+                        ->type('@email', 'e')
+                        ->waitForText('The email must be a valid email address.')
+                        ->type('@email', 'pascal@protone.media')
+                        ->waitForText('Form was successful')
+                        ->assertDontSee('Form was unsuccessful')
+                        ->assertDontSee('Form recently unsuccessful')
+                        ->press('Submit')
+                        ->waitForRoute('form.simple');
+                });
+        });
+    }
 }

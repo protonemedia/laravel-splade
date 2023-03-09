@@ -37,12 +37,15 @@ class ModalTest extends DuskTestCase
             $browser->visit('/modal/base')
                 ->resize(1024, 768)
                 ->waitForText('ModalComponent')
+                ->pause(250)
                 ->click('@one')
                 ->waitForText('ModalComponentOne')
+                ->pause(250)
                 ->click('@two')
                 ->waitForText('ModalComponentTwo')
                 ->pause(500)
                 ->screenshot('ModalComponentTwo')
+                ->pause(250)
                 ->click('@close-two')
                 ->waitUntilMissingText('ModalComponentTwo')
                 ->pause(500)
@@ -62,7 +65,32 @@ class ModalTest extends DuskTestCase
             $browser->visit('/modal/base')
                 ->resize(1024, 768)
                 ->waitForText('ModalComponent')
+                ->pause(250)
                 ->click('@slideover')
+                ->waitForText('ModalComponentSlideover')
+                ->pause(500)
+                ->screenshot('ModalComponentSlideover')
+                ->click('@close-slideover')
+                ->waitUntilMissingText('ModalComponentSlideover')
+                ->pause(500)
+                ->screenshot('ModalComponentSlideoverClosed');
+
+            $this->assertScreenshotSnapshot([
+                'ModalComponentSlideover',
+                'ModalComponentSlideoverClosed',
+            ]);
+        });
+    }
+
+    /** @test */
+    public function it_can_show_a_slideover_on_the_left_side()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('/modal/base')
+                ->resize(1024, 768)
+                ->waitForText('ModalComponent')
+                ->pause(250)
+                ->click('@slideover-left')
                 ->waitForText('ModalComponentSlideover')
                 ->pause(500)
                 ->screenshot('ModalComponentSlideover')
@@ -126,6 +154,7 @@ class ModalTest extends DuskTestCase
             $browser->visit('/modal/base')
                 ->resize(1024, 768)
                 ->waitForText('ModalComponent')
+                ->pause(250)
                 ->click('@validation')
                 ->waitForText('ModalComponentValidation')
                 ->pause(500)
@@ -170,6 +199,7 @@ class ModalTest extends DuskTestCase
             $browser->visit('/modal/base')
                 ->resize(1680, 900)
                 ->waitForText('ModalComponent')
+                ->pause(250)
                 ->click('@modal-size-' . $size)
                 ->waitForText('ModalSize ' . $size);
 

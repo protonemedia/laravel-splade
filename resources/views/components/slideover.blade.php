@@ -2,9 +2,12 @@
     <!-- Full-screen scrollable container -->
     <div class="fixed inset-0 z-40 overflow-y-auto">
         <!-- Container to center the panel -->
-        <div class="flex min-h-full items-center justify-end">
+        <div class="flex min-h-full items-center" v-bind:class="{
+            'justify-start': modal.position === 'left',
+            'justify-end': modal.position === 'right'
+        }">
             <!-- The actual dialog panel -->
-            <x-splade-component is="transition" child animation="slide-right" after-leave="modal.emitClose" v-bind:class="{
+            <x-splade-component is="transition" child after-leave="modal.emitClose" v-bind:class="{
                 'transition w-full': true,
                 'blur-sm': !modal.onTopOfStack,
                 'sm:max-w-sm': modal.maxWidth == 'sm',
@@ -17,7 +20,7 @@
                 'sm:max-w-md md:max-w-xl lg:max-w-3xl xl:max-w-5xl': modal.maxWidth == '5xl',
                 'sm:max-w-md md:max-w-xl lg:max-w-3xl xl:max-w-5xl 2xl:max-w-6xl': modal.maxWidth == '6xl',
                 'sm:max-w-md md:max-w-xl lg:max-w-3xl xl:max-w-5xl 2xl:max-w-7xl': modal.maxWidth == '7xl'
-            }">
+            }" animation="{{ $attributes->get('position') === 'left' ? 'slide-left' : 'slide-right' }}">
                 <x-splade-component is="dialog" panel dusk="slideover-dialog">
                     <div {{ $attributes->class('bg-white p-6 min-h-screen relative') }}>
                         <div v-if="modal.closeButton" class="absolute top-0 right-0 pt-3 pr-3">
