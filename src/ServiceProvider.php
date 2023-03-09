@@ -26,6 +26,7 @@ use ProtoneMedia\Splade\Commands\ShowSpladeVersions;
 use ProtoneMedia\Splade\Commands\SpladeInstallCommand;
 use ProtoneMedia\Splade\Commands\SsrTestCommand;
 use ProtoneMedia\Splade\Commands\TableMakeCommand;
+use ProtoneMedia\Splade\Components\Form;
 use ProtoneMedia\Splade\Components\Form\File;
 use ProtoneMedia\Splade\FileUploads\Filesystem;
 use ProtoneMedia\Splade\FileUploads\HandleSpladeFileUploads;
@@ -251,7 +252,6 @@ class ServiceProvider extends BaseServiceProvider
             Components\Event::class,
             Components\Flash::class,
             Components\Form::class,
-            Components\Formbuilder::class,
             Components\Lazy::class,
             Components\Link::class,
             Components\Modal::class,
@@ -368,6 +368,19 @@ class ServiceProvider extends BaseServiceProvider
         Factory::macro('getFirstSlot', function () {
             /** @var Factory $this */
             return $this->slots[0] ?? [];
+        });
+
+        ComponentAttributeBag::macro('rejectWhenBlank', function ($attributes) {
+            /** @var ComponentAttributeBag $this */
+            $attributes = Form::splitByComma($attributes);
+
+            return $this->filter(function ($value, $key) use ($attributes) {
+                if (in_array($key, $attributes) && blank($value)) {
+                    return false;
+                }
+
+                return true;
+            });
         });
 
         ComponentAttributeBag::macro('mergeVueBinding', function ($attribute, $value, bool $omitBlankValue = true, bool $escape = true) {

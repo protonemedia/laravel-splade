@@ -1,33 +1,29 @@
 <?php
 
-namespace ProtoneMedia\Splade\Components\FormBuilder;
+namespace ProtoneMedia\Splade\FormBuilder;
 
 use ProtoneMedia\Splade\Components\Form\Checkboxes as SpladeCheckboxes;
-use ProtoneMedia\Splade\Components\FormBuilder\Concerns\HasOptions;
-use ProtoneMedia\Splade\Components\FormBuilder\Concerns\IsInline;
+use ProtoneMedia\Splade\FormBuilder\Concerns\CanBeInline;
+use ProtoneMedia\Splade\FormBuilder\Concerns\HasOptions;
 
 class Checkboxes extends Component
 {
     use HasOptions;
-    use IsInline;
+    use CanBeInline;
 
     /**
      * Renders the SpladeCheckboxex
      *
      * @return \Closure|\Illuminate\Contracts\View\View|string
      */
-    public function render()
+    public function toSpladeComponent()
     {
-        $object = new SpladeCheckboxes(
+        return new SpladeCheckboxes(
             name:    $this->name,
             options: $this->options,
             label:   $this->label,
             inline:  $this->inline,
             help:    $this->help
         );
-
-        $object->withAttributes($this->attributes);
-
-        return $object->render()->with($object->data())->with(['slot' => '']);
     }
 }

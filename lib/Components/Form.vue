@@ -396,6 +396,7 @@ export default {
          */
         submit($event) {
             if(this.$uploading) {
+                console.log("Not submitting because there are still files uploading");
                 return;
             }
 
@@ -449,6 +450,7 @@ export default {
             }
 
             if(this.$uploading) {
+                console.log("Not submitting because there are still files uploading");
                 return;
             }
 
@@ -471,8 +473,6 @@ export default {
             const data = (this.values instanceof FormData)
                 ? this.values
                 : objectToFormData(this.values);
-
-
 
             const headers = {};
 

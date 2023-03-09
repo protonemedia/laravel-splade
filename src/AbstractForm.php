@@ -2,21 +2,15 @@
 
 namespace ProtoneMedia\Splade;
 
-use Illuminate\Support\Facades\Cache;
-
 abstract class AbstractForm
 {
     /**
      * The SpladeForm instance.
-     *
-     * @var SpladeForm|null
      */
     private ?SpladeForm $for = null;
 
     /**
      * Adds fields to the form
-     *
-     * @return array
      */
     public function fields(): array
     {
@@ -26,32 +20,26 @@ abstract class AbstractForm
     /**
      * Helper method to create a new SpladeForm instance.
      *
-     * @param mixed ...$arguments
-     * @return SpladeForm
+     * @param  mixed  ...$arguments
      */
-    public static function build(...$arguments): SpladeForm
+    public static function make(...$arguments): SpladeForm
     {
         $form = new static(...$arguments);
 
-        $name = is_string($arguments[0] ?? '') ? array_shift($arguments) : '';
-
-        return $form->make($name);
+        return $form->build();
     }
 
     /**
      * Creates a new SpladeForm instance from the 'build()' method of this class
-     *
-     * @param string|null $name
-     * @return SpladeForm
      */
-    public function make(?string $name): SpladeForm
+    public function build(): SpladeForm
     {
         if ($this->for) {
             return $this->for;
         }
 
         return $this->for = tap(
-            SpladeForm::build($this->fields())->name($name ?? ''),
+            SpladeForm::make($this->fields()),
             function (SpladeForm $form) {
                 $form->setConfigurator($this);
                 $this->configure($form);
@@ -62,7 +50,7 @@ abstract class AbstractForm
     /**
      * Configure the given SpladeForm.
      *
-     * @param SpladeForm $table
+     * @param  SpladeForm  $table
      * @return void
      */
     public function configure(SpladeForm $form)
@@ -73,10 +61,10 @@ abstract class AbstractForm
     /**
      * Get the rules that are configured for the form
      *
-     * @return array
+     * @param  mixed  ...$arguments
      */
-    public static function rules(string $name = ''): array
+    public static function rules(...$arguments): array
     {
-        return Cache::get('SpladeFormbuilderRules' . ($name ? '.' . $name : ''), self::build($name)->getRules());
+        return self::make(...$arguments)->getRules();
     }
 }

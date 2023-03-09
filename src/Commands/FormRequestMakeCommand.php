@@ -76,11 +76,11 @@ class FormRequestMakeCommand extends GeneratorCommand
 
         $replace = [
             '{{ namespacedForm }}' => $namespaceForm,
-            '{{namespacedForm}}' => $namespaceForm,
-            '{{ form }}' => $form,
-            '{{form}}' => $form,
-            '{{ name }}' => $formName,
-            '{{name}}' => $formName,
+            '{{namespacedForm}}'   => $namespaceForm,
+            '{{ form }}'           => $form,
+            '{{form}}'             => $form,
+            '{{ name }}'           => $formName,
+            '{{name}}'             => $formName,
         ];
 
         return str_replace(
@@ -91,7 +91,6 @@ class FormRequestMakeCommand extends GeneratorCommand
     /**
      * Qualify the given form class base name.
      *
-     * @param  string  $form
      * @return string
      */
     protected function qualifyForm(string $form)
@@ -107,8 +106,8 @@ class FormRequestMakeCommand extends GeneratorCommand
         }
 
         return is_dir(app_path('Forms'))
-            ? $rootNamespace.'Forms\\'.$form
-            : $rootNamespace.$form;
+            ? $rootNamespace . 'Forms\\' . $form
+            : $rootNamespace . $form;
     }
 
     /**
@@ -129,15 +128,15 @@ class FormRequestMakeCommand extends GeneratorCommand
             return $formName;
         }
 
-        if (class_exists($formName.'Form')) {
-            return $formName.'Form';
+        if (class_exists($formName . 'Form')) {
+            return $formName . 'Form';
         }
 
         if (is_dir(app_path('Forms/'))) {
-            return $this->rootNamespace().'Forms\Form';
+            return $this->rootNamespace() . 'Forms\Form';
         }
 
-        return $this->rootNamespace().'Form';
+        return $this->rootNamespace() . 'Form';
     }
 
     /**
@@ -148,7 +147,7 @@ class FormRequestMakeCommand extends GeneratorCommand
      */
     protected function getDefaultNamespace($rootNamespace)
     {
-        return $rootNamespace.'\Http\Requests';
+        return $rootNamespace . '\Http\Requests';
     }
 
     /**

@@ -3,9 +3,9 @@
 namespace App\Forms;
 
 use ProtoneMedia\Splade\AbstractForm;
-use ProtoneMedia\Splade\Components\FormBuilder\Checkboxes;
-use ProtoneMedia\Splade\Components\FormBuilder\Radios;
-use ProtoneMedia\Splade\Components\FormBuilder\Submit;
+use ProtoneMedia\Splade\FormBuilder\Checkboxes;
+use ProtoneMedia\Splade\FormBuilder\Radios;
+use ProtoneMedia\Splade\FormBuilder\Submit;
 use ProtoneMedia\Splade\SpladeForm;
 
 class MultiForm extends AbstractForm
@@ -13,12 +13,12 @@ class MultiForm extends AbstractForm
     public function configure(SpladeForm $form)
     {
         $form
-            ->name('multiform1')
+            ->id('multiform1')
             ->action(route('formbuilder.multifields1.store'))
             ->data([
                 'testMultiCheckbox1' => [1],
                 'testMultiCheckbox2' => ['option-2', 'option-3'],
-                'testMultiRadio1' => 'light',
+                'testMultiRadio1'    => 'light',
             ]);
     }
 
@@ -45,8 +45,8 @@ class MultiForm extends AbstractForm
             Radios::make('testMultiRadio1')
                 ->label('Choose a theme')
                 ->options([
-                    'dark' => 'Dark theme',
-                    'light' => 'Light theme',
+                    'dark'   => 'Dark theme',
+                    'light'  => 'Light theme',
                     'system' => 'System theme',
                 ]),
 

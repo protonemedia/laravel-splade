@@ -1,9 +1,8 @@
 <?php
 
-namespace ProtoneMedia\Splade\Components\FormBuilder;
+namespace ProtoneMedia\Splade\FormBuilder;
 
 class Text extends Input
 {
     protected string $type = 'text';
-
 }

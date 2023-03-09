@@ -5,12 +5,12 @@
     FormBuilder
 
     @foreach($forms as $form)
-        <x-splade-formbuilder :for="$form">
+        <x-splade-form :for="$form">
             <div v-if="form.wasSuccessful">
                 Results:
                 <pre v-text="form.$all" />
             </div>
-        </x-splade-formbuilder>
+        </x-splade-form>
     @endforeach
 
 @endsection

@@ -3,20 +3,20 @@
 namespace App\Forms;
 
 use ProtoneMedia\Splade\AbstractForm;
-use ProtoneMedia\Splade\Components\FormBuilder\Checkbox;
-use ProtoneMedia\Splade\Components\FormBuilder\Color;
-use ProtoneMedia\Splade\Components\FormBuilder\Date;
-use ProtoneMedia\Splade\Components\FormBuilder\Email;
-use ProtoneMedia\Splade\Components\FormBuilder\Hidden;
-use ProtoneMedia\Splade\Components\FormBuilder\Input;
-use ProtoneMedia\Splade\Components\FormBuilder\Number;
-use ProtoneMedia\Splade\Components\FormBuilder\Password;
-use ProtoneMedia\Splade\Components\FormBuilder\Radio;
-use ProtoneMedia\Splade\Components\FormBuilder\Select;
-use ProtoneMedia\Splade\Components\FormBuilder\Submit;
-use ProtoneMedia\Splade\Components\FormBuilder\Text;
-use ProtoneMedia\Splade\Components\FormBuilder\Textarea;
-use ProtoneMedia\Splade\Components\FormBuilder\Time;
+use ProtoneMedia\Splade\FormBuilder\Checkbox;
+use ProtoneMedia\Splade\FormBuilder\Color;
+use ProtoneMedia\Splade\FormBuilder\Date;
+use ProtoneMedia\Splade\FormBuilder\Email;
+use ProtoneMedia\Splade\FormBuilder\Hidden;
+use ProtoneMedia\Splade\FormBuilder\Input;
+use ProtoneMedia\Splade\FormBuilder\Number;
+use ProtoneMedia\Splade\FormBuilder\Password;
+use ProtoneMedia\Splade\FormBuilder\Radio;
+use ProtoneMedia\Splade\FormBuilder\Select;
+use ProtoneMedia\Splade\FormBuilder\Submit;
+use ProtoneMedia\Splade\FormBuilder\Text;
+use ProtoneMedia\Splade\FormBuilder\Textarea;
+use ProtoneMedia\Splade\FormBuilder\Time;
 use ProtoneMedia\Splade\SpladeForm;
 
 class ExampleForm extends AbstractForm
@@ -25,15 +25,15 @@ class ExampleForm extends AbstractForm
     {
         $form
             ->action(route('formbuilder.fromClass.store'))
-            ->name('exampleform')
+            ->id('exampleform')
             ->data([
-                'hiddenInput1' => 'Test value hidden input 1',
-                'hiddenInput2' => 'Test value hidden input 2',
-                'inputText1' => 'Test value input text field 1',
-                'disabledTextField' => 'This field is disabled',
-                'readonlyTextField' => 'This field is readonly',
+                'hiddenInput1'                 => 'Test value hidden input 1',
+                'hiddenInput2'                 => 'Test value hidden input 2',
+                'inputText1'                   => 'Test value input text field 1',
+                'disabledTextField'            => 'This field is disabled',
+                'readonlyTextField'            => 'This field is readonly',
                 'disabledAndReadonlyTextField' => 'This field is disabled and readonly',
-                'colorInput' => '#cccccc',
+                'colorInput'                   => '#cccccc',
             ]);
     }
 
@@ -188,14 +188,14 @@ class ExampleForm extends AbstractForm
                 ->label('Choose multiple countries - with extra Choices.js-options: { searchEnabled: false }')
                 ->placeholder('Placeholder...')
                 ->options([
-                        'be' => 'Belgium',
-                        'de' => 'Germany',
-                        'fr' => 'France',
-                        'lu' => 'Luxembourg',
-                        'nl' => 'The Netherlands',
-                    ])
+                    'be' => 'Belgium',
+                    'de' => 'Germany',
+                    'fr' => 'France',
+                    'lu' => 'Luxembourg',
+                    'nl' => 'The Netherlands',
+                ])
                 ->multiple()
-                ->choices(['searchEnabled' => false ]),
+                ->choices(['searchEnabled' => false]),
 
             Select::make('testSelectMultipleWithoutChoices[]')
                 ->label('Choose multiple countries - choices(false)')

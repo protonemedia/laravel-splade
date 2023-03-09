@@ -1,18 +1,25 @@
 <?php
 
-namespace ProtoneMedia\Splade\Components\FormBuilder;
+namespace ProtoneMedia\Splade\FormBuilder;
 
 use ProtoneMedia\Splade\Components\Form\Select as SpladeSelect;
 
 class Select extends Component
 {
     private array $options = [];
+
     private string $placeholder = '';
+
     private bool $multiple = false;
+
     private array|bool $choices = true;
+
     private string $remoteUrl = '';
+
     private string $remoteRoute = '';
+
     private string $optionLabel = '';
+
     private string $optionValue = '';
 
     public function options(array $options = []): self
@@ -25,7 +32,7 @@ class Select extends Component
     /**
      * Add a placeholder to the field
      *
-     * @param bool $required
+     * @param  bool  $required
      * @return $this
      */
     public function placeholder(string $placeholder = ''): self
@@ -82,9 +89,9 @@ class Select extends Component
      *
      * @return \Closure|\Illuminate\Contracts\View\View|string
      */
-    public function render()
+    public function toSpladeComponent()
     {
-        $object = new SpladeSelect(
+        return new SpladeSelect(
             name:        $this->name,
             options:     $this->options,
             label:       $this->label,
@@ -97,9 +104,5 @@ class Select extends Component
             optionValue: $this->optionValue,
             optionLabel: $this->optionLabel
         );
-
-        $object->withAttributes($this->attributes);
-
-        return $object->render()->with($object->data())->with(['slot' => '']);
     }
 }

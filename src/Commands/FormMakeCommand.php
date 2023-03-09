@@ -35,7 +35,6 @@ class FormMakeCommand extends GeneratorCommand
      */
     protected $description = 'Create a new Splade form class';
 
-
     /**
      * Execute the console command.
      *
@@ -43,7 +42,7 @@ class FormMakeCommand extends GeneratorCommand
      */
     public function handle()
     {
-        if (parent::handle() === false && ! $this->option('force')) {
+        if (parent::handle() === false && !$this->option('force')) {
             return false;
         }
 
@@ -62,7 +61,7 @@ class FormMakeCommand extends GeneratorCommand
         $form = Str::studly($this->argument('name'));
 
         $this->call('make:form-request', [
-            'name' => "{$form}Request",
+            'name'   => "{$form}Request",
             '--form' => $this->qualifyClass($this->getNameInput()),
         ]);
     }
@@ -102,7 +101,7 @@ class FormMakeCommand extends GeneratorCommand
 
         $replace = [
             '{{ name }}' => $formName,
-            '{{name}}' => $formName,
+            '{{name}}'   => $formName,
         ];
 
         return str_replace(

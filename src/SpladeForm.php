@@ -2,31 +2,29 @@
 
 namespace ProtoneMedia\Splade;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Cache;
 
 class SpladeForm
 {
     protected ?AbstractForm $configurator = null;
-    protected Request $request;
-    protected array $data = [];
+
+    protected $data = [];
+
     protected array $fields = [];
+
     protected array $options = [];
-    protected array $rules = [];
+
     protected array|string $class = [];
+
+    protected string $id = '';
+
     protected string $action = '';
+
     protected string $method = 'POST';
-    protected string $name = '';
 
-    public function __construct(array $fields, Request $request = null)
+    public function __construct(array $fields = [])
     {
-        $this->request = $request ?: request();
-
-        $this->fields = $fields;
-
-        $this->setRules();
+        $this->fields($fields);
     }
 
     /**
@@ -34,7 +32,7 @@ class SpladeForm
      *
      * @return SpladeForm
      */
-    public static function build(array $fields = []): static
+    public static function make(array $fields = []): static
     {
         return new static($fields);
     }
@@ -42,7 +40,6 @@ class SpladeForm
     /**
      * Sets the class that configurates the form.
      *
-     * @param  AbstractForm  $configurator
      * @return $this
      */
     public function setConfigurator(AbstractForm $configurator): self
@@ -53,9 +50,20 @@ class SpladeForm
     }
 
     /**
+     * Sets the id for the form
+     *
+     * @return $this
+     */
+    public function id(string $id = ''): self
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
+    /**
      * Sets the action for the form
      *
-     * @param string $action
      * @return $this
      */
     public function action(string $action = 'POST'): self
@@ -68,7 +76,6 @@ class SpladeForm
     /**
      * Add css-class(es) to the form
      *
-     * @param array|string $class
      * @return $this
      */
     public function class(array|string $class): self
@@ -83,32 +90,25 @@ class SpladeForm
      *
      * Add `Route::spladePasswordConfirmation();` to your routes if use $require_password-options
      *
-     * @param string|bool $confirm
-     * @param string|null $text
-     * @param string|null $confirm_button
-     * @param string|null $cancel_button
-     * @param bool $danger
-     * @param string|bool $require_password true|false|fieldname
-     * @param bool $require_password_once
+     * @param  string|bool  $require_password true|false|fieldname
      * @return $this
      */
     public function confirm(
         string|bool $confirm = true,
         ?string $text = null,
-        ?string $confirm_button = null,
-        ?string $cancel_button = null,
+        ?string $confirmButton = null,
+        ?string $cancelButton = null,
         bool $danger = false,
-        string|bool $require_password = false,
-        bool $require_password_once = false
-    ): self
-    {
-        $this->options['confirm'] = !$danger ? $confirm : false;
-        $this->options['confirm_danger'] = $danger ? $confirm : false;
-        $this->options['text'] = $text;
-        $this->options['confirm_button'] = $confirm_button;
-        $this->options['cancel_button'] = $cancel_button;
-        $this->options['require_password'] = $require_password;
-        $this->options['require_password_once'] = $require_password_once;
+        string|bool $requirePassword = false,
+        bool $requirePasswordOnce = false
+    ): self {
+        $this->options['confirm']               = !$danger ? $confirm : false;
+        $this->options['confirm_danger']        = $danger ? $confirm : false;
+        $this->options['text']                  = $text;
+        $this->options['confirm_button']        = $confirmButton;
+        $this->options['cancel_button']         = $cancelButton;
+        $this->options['require_password']      = $requirePassword;
+        $this->options['require_password_once'] = $requirePasswordOnce;
 
         return $this;
     }
@@ -116,33 +116,11 @@ class SpladeForm
     /**
      * Sets the values for the form fields
      *
-     * @param Model|array $data
      * @return $this
      */
-    public function data(Model|array $data): self
+    public function data($data): self
     {
-        if ($data instanceof Model) {
-            $data = $data->toArray();
-        }
-
         $this->data = $data;
-
-        return $this;
-    }
-
-    /**
-     * Name for this form, used as a key to remember the validation rules
-     *
-     * @param  string  $name
-     * @return $this
-     */
-    public function name(string $name): self
-    {
-        // An AbstractForm-class may not overwrite the name that was set using ::build('name'),
-        // so only set the name if it was empty before.
-        if (empty($this->name)) {
-            $this->name = $name;
-        }
 
         return $this;
     }
@@ -150,28 +128,11 @@ class SpladeForm
     /**
      * Adds fields to the form
      *
-     * @param array $fields
      * @return $this
      */
     public function fields(array $fields = []): self
     {
         $this->fields = array_merge($this->fields, $fields);
-
-        $this->setRules();
-
-        return $this;
-    }
-
-    /**
-     * Extracts the rules from the fields
-     *
-     * @return void
-     */
-    public function setRules(): self
-    {
-        $this->rules = Arr::pluck($this->getFields(), 'rules', 'basename');
-
-        Cache::put('SpladeFormbuilderRules' . ($this->name ? '.' . $this->name : ''), $this->rules);
 
         return $this;
     }
@@ -179,7 +140,7 @@ class SpladeForm
     /**
      * Prevent the page from scrolling to the top after submit
      *
-     * @param bool $stay
+     * @param  bool  $stay
      * @return $this
      */
     public function preserveScroll(bool $preserve_scroll = true): self
@@ -194,47 +155,39 @@ class SpladeForm
      *
      * Add `Route::spladePasswordConfirmation();` to your routes to make this work
      *
-     * @param bool $require_password_once
-     * @param string|null $heading
-     * @param string|null $text
-     * @param string|null $confirm_button
-     * @param string|null $cancel_button
-     * @param bool $danger
      * @return $this
      */
     public function requirePassword(
-        bool $require_password_once = false,
+        bool $requirePasswordOnce = false,
         ?string $heading = null,
         ?string $text = null,
-        ?string $confirm_button = null,
-        ?string $cancel_button = null,
+        ?string $confirmButton = null,
+        ?string $cancelButton = null,
         bool $danger = false
-    ): self
-    {
+    ): self {
         return $this->confirm(
             confirm: $heading ?? true,
             text: $text,
-            confirm_button: $confirm_button,
-            cancel_button: $cancel_button,
+            confirmButton: $confirmButton,
+            cancelButton: $cancelButton,
             danger: $danger,
-            require_password: true,
-            require_password_once: $require_password_once
+            requirePassword: true,
+            requirePasswordOnce: $requirePasswordOnce
         );
     }
 
     /**
      * Prevent navigation on submit
      *
-     * @param bool $stay
-     * @param string $action_on_success reset|restore
+     * @param  string  $action_on_success reset|restore
      * @return $this
      */
-    public function stay(bool $stay = true, string $action_on_success = ''): self
+    public function stay(bool $stay = true, string $actionOnSuccess = ''): self
     {
         $this->options['stay'] = $stay;
 
-        $this->options['reset_on_success'] = $action_on_success === 'reset';
-        $this->options['restore_on_success'] = $action_on_success === 'restore';
+        $this->options['reset_on_success']   = $actionOnSuccess === 'reset';
+        $this->options['restore_on_success'] = $actionOnSuccess === 'restore';
 
         return $this;
     }
@@ -245,22 +198,18 @@ class SpladeForm
      * If one or morge fieldnames are provided in $watch_fields,
      * the form will only be submitted on changes on these fields
      *
-     * @param bool $enabled
-     * @param array|string|null $watch_fields
-     * @param bool $background
-     * @param int $debounce
+     * @param  array|string|null  $watch_fields
      * @return $this
      */
     public function submitOnChange(
         bool $enabled = true,
-        array|string|null $watch_fields = null,
+        array|string|null $watchFields = null,
         bool $background = true,
         int $debounce = 500
-    ): self
-    {
-        $this->options['submit_on_change'] = $enabled ? ($watch_fields ?? true) : false;
-        $this->options['background'] = $enabled ? $background : null;
-        $this->options['debounce'] = $enabled ? $debounce : null;
+    ): self {
+        $this->options['submit_on_change'] = $enabled ? ($watchFields ?? true) : false;
+        $this->options['background']       = $enabled ? $background : null;
+        $this->options['debounce']         = $enabled ? $debounce : null;
 
         return $this;
     }
@@ -268,7 +217,6 @@ class SpladeForm
     /**
      * Set the method of the form
      *
-     * @param string $method
      * @return $this
      */
     public function method(string $method = 'POST'): self
@@ -279,9 +227,15 @@ class SpladeForm
     }
 
     /**
+     * Returns the id for the form
+     */
+    public function getId(): string
+    {
+        return $this->id;
+    }
+
+    /**
      * Returns the action for the form
-     *
-     * @return string
      */
     public function getAction(): string
     {
@@ -290,8 +244,6 @@ class SpladeForm
 
     /**
      * Returns the data for the form
-     *
-     * @return array|string
      */
     public function getClass(): array|string
     {
@@ -300,18 +252,14 @@ class SpladeForm
 
     /**
      * Returns the data for the form
-     *
-     * @return array
      */
-    public function getData(): array
+    public function getData()
     {
         return $this->data;
     }
 
     /**
      * Returns all fields of the form
-     *
-     * @return array
      */
     public function getFields(): array
     {
@@ -320,8 +268,6 @@ class SpladeForm
 
     /**
      * Returns the method for the form
-     *
-     * @return string
      */
     public function getMethod(): string
     {
@@ -329,20 +275,7 @@ class SpladeForm
     }
 
     /**
-     * Returns the name of the form
-     *
-     * @return string
-     */
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    /**
      * Return an option for the form arguments
-     *
-     * @param string $option
-     * @return array|bool|string|null
      */
     public function getOption(string $option): array|bool|string|null
     {
@@ -351,11 +284,9 @@ class SpladeForm
 
     /**
      * Returns the forms rules
-     *
-     * @return array
      */
     public function getRules(): array
     {
-        return Cache::get('SpladeFormbuilderRules' . ($this->name ? '.' . $this->name : ''), $this->rules);
+        return Arr::pluck($this->getFields(), 'rules', 'dottedName');
     }
 }

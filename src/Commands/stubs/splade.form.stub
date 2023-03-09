@@ -3,8 +3,8 @@
 namespace {{ namespace }};
 
 use ProtoneMedia\Splade\AbstractForm;
-use ProtoneMedia\Splade\Components\FormBuilder\Submit;
-use ProtoneMedia\Splade\Components\FormBuilder\Text;
+use ProtoneMedia\Splade\FormBuilder\Submit;
+use ProtoneMedia\Splade\FormBuilder\Text;
 use ProtoneMedia\Splade\SpladeForm;
 
 class {{ class }} extends AbstractForm
@@ -14,7 +14,6 @@ class {{ class }} extends AbstractForm
         $form
             ->action(route('...'))
             ->method('POST')
-            ->name('{{ name }}')
             ->class('space-y-4')
             ->data([
                 //

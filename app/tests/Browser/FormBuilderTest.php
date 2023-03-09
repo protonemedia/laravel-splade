@@ -5,7 +5,7 @@ namespace Tests\Browser;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 
-class FormbuilderTest extends DuskTestCase
+class FormBuilderTest extends DuskTestCase
 {
     /** @test */
     public function it_can_generate_and_submit_a_simple_form_with_formbuilder()
@@ -24,13 +24,13 @@ class FormbuilderTest extends DuskTestCase
                 ->waitForText('Results:');
 
             $expected_results = [
-                'inputText' => 'Test value in input text field',
+                'inputText'     => 'Test value in input text field',
                 'inputPassword' => 'passw0rd',
                 'inputTextarea' => 'Splade Formbuilder test',
             ];
 
             foreach ($expected_results as $field => $result) {
-                $browser->assertSee('"' . $field . '": "' . $result . '",');
+                $browser->assertSee('"' . $field . '": "' . $result . '"');
             }
         });
     }
@@ -55,15 +55,15 @@ class FormbuilderTest extends DuskTestCase
                 ->waitForText('Results:');
 
             $expected_results = [
-                'hiddenInput1' => 'Test value hidden input 1',
-                'hiddenInput2' => 'Test value hidden input 2',
-                'inputText1' => 'Test value input text field 1',
-                'disabledTextField' => 'This field is disabled',
-                'readonlyTextField' => 'This field is readonly',
+                'hiddenInput1'                 => 'Test value hidden input 1',
+                'hiddenInput2'                 => 'Test value hidden input 2',
+                'inputText1'                   => 'Test value input text field 1',
+                'disabledTextField'            => 'This field is disabled',
+                'readonlyTextField'            => 'This field is readonly',
                 'disabledAndReadonlyTextField' => 'This field is disabled and readonly',
-                'colorInput' => '#cccccc',
-                'inputText2' => 'Lorem Ipsum',
-                'inputPassword2' => 'Lorem-Ipsum',
+                'colorInput'                   => '#cccccc',
+                'inputText2'                   => 'Lorem Ipsum',
+                'inputPassword2'               => 'Lorem-Ipsum',
             ];
 
             foreach ($expected_results as $field => $result) {
@@ -83,7 +83,7 @@ class FormbuilderTest extends DuskTestCase
                 ->assertInputPresent('slug')
                 ->assertInputPresent('body')
                 ->assertInputPresent('tags')
-                ->assertInputValue('publish_from', now()->format('Y-m-d') . ' 13:30')
+                ->assertInputValue('publish_from', now()->format('Y-m-d H:i'))
                 ->assertInputValue('title', 'Test post 1')
                 ->assertInputValue('slug', 'test-post-1')
                 ->assertInputValue('body', '<p>This is the posts body</b>')
@@ -94,8 +94,8 @@ class FormbuilderTest extends DuskTestCase
 
             $expected_results = [
                 'title' => 'Test post 1',
-                'slug' => 'test-post-1',
-                'body' => '<p>This is the posts body</b>',
+                'slug'  => 'test-post-1',
+                'body'  => '<p>This is the posts body</b>',
             ];
 
             foreach ($expected_results as $field => $result) {
@@ -108,7 +108,6 @@ class FormbuilderTest extends DuskTestCase
     public function it_can_generate_multiple_forms_on_one_page()
     {
         $this->browse(function (Browser $browser) {
-
             $browser->visit('/formbuilder/multifields')
                 ->waitForText('FormBuilder')
                 ->assertInputPresent('additional_field')

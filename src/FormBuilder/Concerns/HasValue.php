@@ -1,6 +1,6 @@
 <?php
 
-namespace ProtoneMedia\Splade\Components\FormBuilder\Concerns;
+namespace ProtoneMedia\Splade\FormBuilder\Concerns;
 
 trait HasValue
 {
@@ -9,7 +9,6 @@ trait HasValue
     /**
      * Sets the value of the inputfield-option
      *
-     * @param string $value
      * @return $this
      */
     public function value(string $value = ''): self

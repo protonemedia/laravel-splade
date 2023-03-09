@@ -1,23 +1,25 @@
 <?php
 
-namespace ProtoneMedia\Splade\Components\FormBuilder;
+namespace ProtoneMedia\Splade\FormBuilder;
 
 use ProtoneMedia\Splade\Components\Form\Submit as SpladeSubmit;
-use ProtoneMedia\Splade\Components\FormBuilder\Concerns\HasValue;
+use ProtoneMedia\Splade\FormBuilder\Concerns\HasValue;
 
 class Button extends Component
 {
     use HasValue;
 
     protected bool $danger = false;
+
     protected bool $secondary = false;
+
     protected bool $spinner = true;
+
     protected string $type = 'button';
 
     /**
      * Set the @click="..."
      *
-     * @param string $value
      * @return $this
      */
     public function click(string $value): self
@@ -30,7 +32,6 @@ class Button extends Component
     /**
      * Set the @click.prevent="..."
      *
-     * @param string $value
      * @return $this
      */
     public function clickPrevent(string $value): self
@@ -43,7 +44,6 @@ class Button extends Component
     /**
      * Applies danger-styling to the button
      *
-     * @param bool $danger
      * @return $this
      */
     public function danger(bool $danger = true): self
@@ -56,7 +56,7 @@ class Button extends Component
     /**
      * Applies secondary-styling to the button
      *
-     * @param bool $danger
+     * @param  bool  $danger
      * @return $this
      */
     public function secondary(bool $secondary = true): self
@@ -71,9 +71,9 @@ class Button extends Component
      *
      * @return \Closure|\Illuminate\Contracts\View\View|string
      */
-    public function render()
+    public function toSpladeComponent()
     {
-        $object = new SpladeSubmit(
+        return new SpladeSubmit(
             label:     $this->label,
             type:      $this->type,
             spinner:   $this->spinner,
@@ -82,9 +82,5 @@ class Button extends Component
             danger:    $this->danger,
             secondary: $this->secondary
         );
-
-        $object->withAttributes($this->attributes);
-
-        return $object->render()->with($object->data())->with(['slot' => '']);
     }
 }

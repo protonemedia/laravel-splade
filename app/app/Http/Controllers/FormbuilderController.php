@@ -10,22 +10,22 @@ use App\Http\Requests\MultiFieldsFormRequest1;
 use App\Http\Requests\MultiFieldsFormRequest2;
 use App\Models\Post;
 use Illuminate\Http\Request;
-use ProtoneMedia\Splade\Components\FormBuilder\Input;
-use ProtoneMedia\Splade\Components\FormBuilder\Password;
-use ProtoneMedia\Splade\Components\FormBuilder\Submit;
-use ProtoneMedia\Splade\Components\FormBuilder\Text;
-use ProtoneMedia\Splade\Components\FormBuilder\Textarea;
+use ProtoneMedia\Splade\FormBuilder\Input;
+use ProtoneMedia\Splade\FormBuilder\Password;
+use ProtoneMedia\Splade\FormBuilder\Submit;
+use ProtoneMedia\Splade\FormBuilder\Text;
+use ProtoneMedia\Splade\FormBuilder\Textarea;
 use ProtoneMedia\Splade\SpladeForm;
 
-class FormbuilderController
+class FormBuilderController
 {
     public function simple()
     {
         return view('form.formbuilder', [
             'forms' => [
-                SpladeForm::build()
+                SpladeForm::make()
                     ->action(route('formbuilder.simple.store'))
-                    ->name('simple-form')
+                    ->id('simple-form')
                     ->method('POST')
                     ->class('space-y-4')
                     ->fields([
@@ -41,7 +41,7 @@ class FormbuilderController
 
     public function storeSimple(Request $request)
     {
-        $rules = SpladeForm::build()->name('simple-form')->getRules();
+        $rules = SpladeForm::make()->id('simple-form')->getRules();
 
         $result = $request->validate($rules);
 
@@ -52,7 +52,7 @@ class FormbuilderController
     {
         return view('form.formbuilder', [
             'forms' => [
-                ExampleForm::class
+                ExampleForm::class,
             ],
         ]);
     }
@@ -65,23 +65,23 @@ class FormbuilderController
     public function model()
     {
         $post = new Post([
-            'title' => 'Test post 1',
-            'slug' => 'test-post-1',
-            'body' => '<p>This is the posts body</b>',
-            'publish_from' => now()->hour(12)->minute(30),
-            'tags' => ['laravel', 'splade'],
+            'title'        => 'Test post 1',
+            'slug'         => 'test-post-1',
+            'body'         => '<p>This is the posts body</b>',
+            'publish_from' => now(),
+            'tags'         => ['laravel', 'splade'],
         ]);
 
         return view('form.formbuilder', [
             'forms' => [
-                ModelbindingForm::build()->data($post),
+                ModelbindingForm::make()->data($post),
             ],
         ]);
     }
 
     public function storeModel(Request $request)
     {
-        $rules = ModelbindingForm::build()->name('databinding')->getRules();
+        $rules = ModelbindingForm::make()->id('databinding')->getRules();
 
         $result = $request->validate($rules);
 
@@ -93,7 +93,7 @@ class FormbuilderController
         return view('form.formbuilder', [
             'forms' => [
                 MultiForm::class,
-                MultiForm::build('multiform2')
+                MultiForm::make()->id('multiform2')
                     ->action(route('formbuilder.multifields2.store'))
                     ->fields([
                         Text::make('additional_field')->label('Additional field'),

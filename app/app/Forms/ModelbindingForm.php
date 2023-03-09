@@ -3,11 +3,11 @@
 namespace App\Forms;
 
 use ProtoneMedia\Splade\AbstractForm;
-use ProtoneMedia\Splade\Components\FormBuilder\Datetime;
-use ProtoneMedia\Splade\Components\FormBuilder\Select;
-use ProtoneMedia\Splade\Components\FormBuilder\Submit;
-use ProtoneMedia\Splade\Components\FormBuilder\Text;
-use ProtoneMedia\Splade\Components\FormBuilder\Textarea;
+use ProtoneMedia\Splade\FormBuilder\Datetime;
+use ProtoneMedia\Splade\FormBuilder\Select;
+use ProtoneMedia\Splade\FormBuilder\Submit;
+use ProtoneMedia\Splade\FormBuilder\Text;
+use ProtoneMedia\Splade\FormBuilder\Textarea;
 use ProtoneMedia\Splade\SpladeForm;
 
 class ModelbindingForm extends AbstractForm
@@ -15,7 +15,7 @@ class ModelbindingForm extends AbstractForm
     public function configure(SpladeForm $form)
     {
         $form
-            ->name('databinding')
+            ->class('space-y-4')
             ->action(route('formbuilder.model.store'));
     }
 
@@ -42,11 +42,11 @@ class ModelbindingForm extends AbstractForm
                 ->multiple()
                 ->choices()
                 ->options([
-                    'laravel' => 'laravel',
-                    'splade' => 'splade',
-                    'test' => 'test',
+                    'laravel'     => 'laravel',
+                    'splade'      => 'splade',
+                    'test'        => 'test',
                     'formbuilder' => 'formbuilder',
-                    'options' => 'options',
+                    'options'     => 'options',
                 ]),
 
             Submit::make()->label(__('Save')),

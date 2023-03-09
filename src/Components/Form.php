@@ -11,8 +11,10 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Fluent;
 use Illuminate\Support\Str;
 use Illuminate\View\Component;
+use ProtoneMedia\Splade\AbstractForm;
 use ProtoneMedia\Splade\Components\Form\InteractsWithFormElement;
 use ProtoneMedia\Splade\SpladeCore;
+use ProtoneMedia\Splade\SpladeForm;
 use ProtoneMedia\Splade\Transformer;
 
 class Form extends Component
@@ -55,7 +57,21 @@ class Form extends Component
         public bool $background = false,
         public int $debounce = 0,
         public string $acceptHeader = 'text/html, application/xhtml+xml',
+        public SpladeForm|AbstractForm|string $for = '',
     ) {
+        if ($for) {
+            $for = is_string($for) ? app($for) : $for;
+
+            $this->for = $for instanceof AbstractForm
+                ? $for->make()
+                : $for;
+
+            $this->guarded  = false;
+            $this->spladeId = '';
+
+            return;
+        }
+
         // We'll use this instance in the static 'selected()' method,
         // which is a workaround for a Vue bug. Later, when the
         // Form Data is resolved, we remove it from the array.
@@ -394,6 +410,12 @@ class Form extends Component
      */
     public function render()
     {
+        if ($this->for) {
+            return view('splade::functional.form-builder', [
+                'form' => $this->for,
+            ]);
+        }
+
         return view('splade::functional.form', [
             'escapeValidationMessages' => config('splade.blade.escape_validation_messages', true),
         ]);

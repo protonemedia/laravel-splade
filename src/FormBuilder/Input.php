@@ -1,22 +1,26 @@
 <?php
 
-namespace ProtoneMedia\Splade\Components\FormBuilder;
+namespace ProtoneMedia\Splade\FormBuilder;
 
 use ProtoneMedia\Splade\Components\Form\Input as SpladeInput;
 
 class Input extends Component
 {
     private array|bool $date = false;
+
     private array|bool $time = false;
+
     private bool $range = false;
+
     private string $append = '';
+
     private string $prepend = '';
+
     protected string $type = 'text';
 
     /**
      * Set the minlenght
      *
-     * @param int $value
      * @return $this
      */
     public function minLength(int $value): self
@@ -29,7 +33,6 @@ class Input extends Component
     /**
      * Set the maxlenght
      *
-     * @param int $value
      * @return $this
      */
     public function maxLength(int $value): self
@@ -42,7 +45,6 @@ class Input extends Component
     /**
      * Set both minlenght and maxlength to the same value
      *
-     * @param int $value
      * @return $this
      */
     public function length(int $value): self
@@ -56,7 +58,6 @@ class Input extends Component
      * Changes the input into a datepicker
      * Provide an array like `['showMonths' => 2]` to set Flatpickr-options
      *
-     * @param array|bool $options
      * @return $this
      */
     public function date(array|bool $options = true): self
@@ -66,12 +67,10 @@ class Input extends Component
         return $this;
     }
 
-
     /**
      * Changes the input into a timepicker
      * Provide an array like `['time_24hr' => false]` to set Flatpickr-options
      *
-     * @param array|bool $options
      * @return $this
      */
     public function time(array|bool $options = true): self
@@ -208,9 +207,9 @@ class Input extends Component
      *
      * @return \Closure|\Illuminate\Contracts\View\View|string
      */
-    public function render()
+    public function toSpladeComponent()
     {
-        $object = new SpladeInput(
+        $component = new SpladeInput(
             name:    $this->name,
             type:    $this->type,
             label:   $this->label,
@@ -223,11 +222,9 @@ class Input extends Component
         );
 
         if ($this->date || $this->time) {
-            $object->defaultFlatpickr($this->{$this->type});
+            $component->defaultFlatpickr($this->{$this->type});
         }
 
-        $object->withAttributes($this->attributes);
-
-        return $object->render()->with($object->data());
+        return $component;
     }
 }

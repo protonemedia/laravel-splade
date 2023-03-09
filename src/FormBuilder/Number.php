@@ -1,6 +1,6 @@
 <?php
 
-namespace ProtoneMedia\Splade\Components\FormBuilder;
+namespace ProtoneMedia\Splade\FormBuilder;
 
 class Number extends Input
 {
@@ -9,7 +9,6 @@ class Number extends Input
     /**
      * Set the min-value
      *
-     * @param int $value
      * @return $this
      */
     public function minValue(int $value): self
@@ -22,7 +21,6 @@ class Number extends Input
     /**
      * Set the max-value
      *
-     * @param int $value
      * @return $this
      */
     public function maxValue(int $value): self
@@ -47,7 +45,7 @@ class Number extends Input
     /**
      * Set the step-size
      *
-     * @param float|int $value
+     * @param  float|int  $value
      * @return $this
      */
     public function step($step = 1): self

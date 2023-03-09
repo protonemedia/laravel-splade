@@ -24,6 +24,6 @@ class {{ class }} extends FormRequest
      */
     public function rules()
     {
-        return {{ form }}::rules('{{ name }}');
+        return {{ form }}::rules();
     }
 }

@@ -1,15 +1,14 @@
 <?php
 
-namespace ProtoneMedia\Splade\Components\FormBuilder\Concerns;
+namespace ProtoneMedia\Splade\FormBuilder\Concerns;
 
-trait IsInline
+trait CanBeInline
 {
     private bool $inline = false;
 
     /**
      * Should the radios be displayed inline?
      *
-     * @param bool $inline
      * @return $this
      */
     public function inline(bool $inline = true): self

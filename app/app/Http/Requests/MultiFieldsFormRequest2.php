@@ -24,6 +24,6 @@ class MultiFieldsFormRequest2 extends FormRequest
      */
     public function rules()
     {
-        return MultiForm::rules('multiform2');
+        return MultiForm::rules();
     }
 }

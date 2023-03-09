@@ -1,32 +1,47 @@
 <?php
 
-namespace ProtoneMedia\Splade\Components\FormBuilder;
+namespace ProtoneMedia\Splade\FormBuilder;
 
 use ProtoneMedia\Splade\Components\Form\File as SpladeFile;
 
 class File extends Component
 {
     private bool|string $placeholder = true;
+
     private bool $multiple = false;
+
     private array|bool $filepond = false;
+
     private bool|string $server = false;
+
     private bool $preview = false;
+
     private array|string $accept = '';
+
     private bool|int|string $minSize = false;
+
     private bool|int|string $maxSize = false;
+
     private bool|int $width = false;
+
     private bool|int $height = false;
+
     private bool|int $minWidth = false;
+
     private bool|int $maxWidth = false;
+
     private bool|int $minHeight = false;
+
     private bool|int $maxHeight = false;
+
     private bool|int $minResolution = false;
+
     private bool|int $maxResolution = false;
 
     /**
      * Add a placeholder to the field
      *
-     * @param bool $required
+     * @param  bool  $required
      * @return $this
      */
     public function placeholder(string $placeholder = ''): self
@@ -39,7 +54,6 @@ class File extends Component
     /**
      * Allow uploading multiple files
      *
-     * @param bool $multiple
      * @return $this
      */
     public function multiple(bool $multiple = true): self
@@ -52,7 +66,6 @@ class File extends Component
     /**
      * Enable Filepond, sets Filepond-options if an array is provided
      *
-     * @param array|bool $filepond
      * @return $this
      */
     public function filepond(array|bool $filepond = true): self
@@ -70,7 +83,6 @@ class File extends Component
      * `Route::spladeUploads();` is required in /routes/web.php is set to `true`.
      * Provide a string to set your own route.
      *
-     * @param bool|string $server
      * @return $this
      */
     public function server(bool|string $server = true): self
@@ -85,7 +97,6 @@ class File extends Component
      *
      * Only available together with ->filepond()
      *
-     * @param bool $preview
      * @return $this
      */
     public function preview(bool $preview = true): self
@@ -98,7 +109,6 @@ class File extends Component
     /**
      * Set the accepted mimetype(s), automatically adds validation rules
      *
-     * @param array|string $mimetypes
      * @return $this
      */
     public function accept(array|string $mimetypes = ''): self
@@ -113,12 +123,11 @@ class File extends Component
     /**
      * Sets the min-size to validate the file size
      *
-     * @param bool|int|string $minSize
      * @return $this
      */
     public function minSize(bool|int|string $minSize = ''): self
     {
-        $this->minSize = $minSize;
+        $this->minSize                = $minSize;
         $this->attributes['min-size'] = $minSize;
 
         return $this;
@@ -127,12 +136,11 @@ class File extends Component
     /**
      * Sets the max-size to validate the file size
      *
-     * @param bool|int|string $maxSize
      * @return $this
      */
     public function maxSize(bool|int|string $maxSize = ''): self
     {
-        $this->maxSize = $maxSize;
+        $this->maxSize                = $maxSize;
         $this->attributes['max-size'] = $maxSize;
 
         return $this;
@@ -143,7 +151,6 @@ class File extends Component
      *
      * Only available together with ->filepond()
      *
-     * @param int $width
      * @return $this
      */
     public function width(int $width): self
@@ -158,7 +165,6 @@ class File extends Component
      *
      * Only available together with ->filepond()
      *
-     * @param int $height
      * @return $this
      */
     public function height(int $height): self
@@ -173,7 +179,6 @@ class File extends Component
      *
      * Only available together with ->filepond()
      *
-     * @param int $minWidth
      * @return $this
      */
     public function minWidth(int $minWidth): self
@@ -188,7 +193,6 @@ class File extends Component
      *
      * Only available together with ->filepond()
      *
-     * @param int $maxWidth
      * @return $this
      */
     public function maxWidth(int $maxWidth): self
@@ -203,7 +207,6 @@ class File extends Component
      *
      * Only available together with ->filepond()
      *
-     * @param int $minHeight
      * @return $this
      */
     public function minHeight(int $minHeight): self
@@ -218,7 +221,6 @@ class File extends Component
      *
      * Only available together with ->filepond()
      *
-     * @param int $maxHeight
      * @return $this
      */
     public function maxHeight(int $maxHeight): self
@@ -233,7 +235,6 @@ class File extends Component
      *
      * Only available together with ->filepond()
      *
-     * @param int $minResolution
      * @return $this
      */
     public function minResolution(int $minResolution): self
@@ -248,7 +249,6 @@ class File extends Component
      *
      * Only available together with ->filepond()
      *
-     * @param int $maxResolution
      * @return $this
      */
     public function maxResolution(int $maxResolution): self
@@ -263,9 +263,9 @@ class File extends Component
      *
      * @return \Closure|\Illuminate\Contracts\View\View|string
      */
-    public function render()
+    public function toSpladeComponent()
     {
-        $object = new SpladeFile(
+        return new SpladeFile(
             name:  $this->name,
             label: $this->label,
             placeholder: $this->placeholder,
@@ -286,9 +286,5 @@ class File extends Component
             minResolution: $this->minResolution,
             maxResolution: $this->maxResolution
         );
-
-        $object->withAttributes($this->attributes);
-
-        return $object->render()->with($object->data())->with(['slot' => '']);
     }
 }

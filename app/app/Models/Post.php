@@ -19,6 +19,6 @@ class Post extends Model
 
     protected $casts = [
         'publish_from' => 'datetime',
-        'tags' => 'array',
+        'tags'         => 'array',
     ];
 }
