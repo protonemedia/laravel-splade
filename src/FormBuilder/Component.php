@@ -19,7 +19,7 @@ abstract class Component
 
     protected string $help = '';
 
-    public array|string $rules = ['nullable'];
+    public array|string $rules = [];
 
     public function __construct(string $name)
     {
@@ -148,6 +148,16 @@ abstract class Component
     public function if(string $condition): self
     {
         $this->attributes['v-if'] = $condition;
+
+        return $this;
+    }
+
+    /**
+     * Helper method to add additional attributes to the field.
+     */
+    public function attributes(array $attributes): self
+    {
+        $this->attributes = array_merge($this->attributes, $attributes);
 
         return $this;
     }

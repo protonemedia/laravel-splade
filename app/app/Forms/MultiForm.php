@@ -15,7 +15,7 @@ class MultiForm extends AbstractForm
         $form
             ->id('multiform1')
             ->action(route('formbuilder.multifields1.store'))
-            ->data([
+            ->fill([
                 'testMultiCheckbox1' => [1],
                 'testMultiCheckbox2' => ['option-2', 'option-3'],
                 'testMultiRadio1'    => 'light',

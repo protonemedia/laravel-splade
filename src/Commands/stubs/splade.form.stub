@@ -15,7 +15,7 @@ class {{ class }} extends AbstractForm
             ->action(route('...'))
             ->method('POST')
             ->class('space-y-4')
-            ->data([
+            ->fill([
                 //
             ]);
     }

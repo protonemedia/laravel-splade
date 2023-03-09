@@ -119,7 +119,7 @@ class SpladeForm
      *
      * @return $this
      */
-    public function data($data): self
+    public function fill($data): self
     {
         $this->data = $data;
 

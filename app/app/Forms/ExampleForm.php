@@ -26,7 +26,7 @@ class ExampleForm extends AbstractForm
         $form
             ->action(route('formbuilder.fromClass.store'))
             ->id('exampleform')
-            ->data([
+            ->fill([
                 'hiddenInput1'                 => 'Test value hidden input 1',
                 'hiddenInput2'                 => 'Test value hidden input 2',
                 'inputText1'                   => 'Test value input text field 1',
@@ -57,6 +57,7 @@ class ExampleForm extends AbstractForm
                 ->placeholder('Placeholder...')
                 ->minLength(2)
                 ->maxLength(255)
+                ->attributes(['data-custom' => 123])
                 ->rules('required|max:255'),
 
             Input::make('inputText3')

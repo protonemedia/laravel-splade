@@ -32,7 +32,7 @@ class FormBuilderController
                 Textarea::make('inputTextarea')->label('Textarea (with autosize)')->autosize(),
                 Submit::make()->label('Submit'),
             ])
-            ->data(['inputText' => 'Test value in input text field']);
+            ->fill(['inputText' => 'Test value in input text field']);
     }
 
     public function simple()
@@ -75,7 +75,7 @@ class FormBuilderController
 
         return view('form.formbuilder', [
             'forms' => [
-                ModelbindingForm::make()->data($post),
+                ModelbindingForm::make()->fill($post),
             ],
         ]);
     }
