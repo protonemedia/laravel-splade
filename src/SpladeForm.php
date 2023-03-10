@@ -89,9 +89,6 @@ class SpladeForm
     /**
      * Enables the confirmation dialog on submit.
      *
-     * Add `Route::spladePasswordConfirmation();` to your routes if use $require_password-options
-     *
-     * @param  string|bool  $require_password true|false|fieldname
      * @return $this
      */
     public function confirm(
@@ -180,7 +177,7 @@ class SpladeForm
     /**
      * Prevent navigation on submit
      *
-     * @param  string  $action_on_success reset|restore
+     * @param  string  $actionOnSuccess reset|restore
      * @return $this
      */
     public function stay(bool $stay = true, string $actionOnSuccess = ''): self
@@ -199,7 +196,7 @@ class SpladeForm
      * If one or morge fieldnames are provided in $watch_fields,
      * the form will only be submitted on changes on these fields
      *
-     * @param  array|string|null  $watch_fields
+     * @param  array|string|null  $watchFields
      * @return $this
      */
     public function submitOnChange(

@@ -141,18 +141,6 @@ abstract class Component
     }
 
     /**
-     * Set the v-if="..."
-     *
-     * @return $this
-     */
-    public function if(string $condition): self
-    {
-        $this->attributes['v-if'] = $condition;
-
-        return $this;
-    }
-
-    /**
      * Helper method to add additional attributes to the field.
      */
     public function attributes(array $attributes): self
