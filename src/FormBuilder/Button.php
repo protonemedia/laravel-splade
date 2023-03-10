@@ -18,30 +18,6 @@ class Button extends Component
     protected string $type = 'button';
 
     /**
-     * Set the @click="..."
-     *
-     * @return $this
-     */
-    public function click(string $value): self
-    {
-        $this->attributes['@click'] = $value;
-
-        return $this;
-    }
-
-    /**
-     * Set the @click.prevent="..."
-     *
-     * @return $this
-     */
-    public function clickPrevent(string $value): self
-    {
-        $this->attributes['@click.prevent'] = $value;
-
-        return $this;
-    }
-
-    /**
      * Applies danger-styling to the button
      *
      * @return $this
