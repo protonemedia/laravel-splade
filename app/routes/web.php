@@ -8,6 +8,7 @@ use App\Http\Controllers\BackFormController;
 use App\Http\Controllers\CountriesController;
 use App\Http\Controllers\FileFormController;
 use App\Http\Controllers\FilepondController;
+use App\Http\Controllers\FormBuilderController;
 use App\Http\Controllers\FormComponentsController;
 use App\Http\Controllers\FormRedirectController;
 use App\Http\Controllers\FormRelationsController;
@@ -214,6 +215,19 @@ Route::middleware('splade')->group(function () {
     Route::post('form/relations/checkboxRelation', [FormRelationsController::class, 'storeCheckboxRelation'])->name('form.relations.storeCheckboxRelation');
 
     Route::get('form/relations/twoForms', [FormRelationsController::class, 'twoForms'])->name('form.relations.twoForms');
+
+    Route::get('formbuilder/simple', [FormBuilderController::class, 'simple'])->name('formbuilder.simple.index');
+    Route::post('formbuilder/simple', [FormBuilderController::class, 'storeSimple'])->name('formbuilder.simple.store');
+
+    Route::get('formbuilder/fromClass', [FormBuilderController::class, 'fromClass'])->name('formbuilder.fromClass.index');
+    Route::post('formbuilder/fromClass', [FormBuilderController::class, 'storeFromClass'])->name('formbuilder.fromClass.store');
+
+    Route::get('/formbuilder/modelBinding', [FormBuilderController::class, 'model'])->name('formbuilder.model.index');
+    Route::post('/formbuilder/modelBinding', [FormBuilderController::class, 'storeModel'])->name('formbuilder.model.store');
+
+    Route::get('/formbuilder/multifields', [FormBuilderController::class, 'multifields'])->name('formbuilder.multifields.index');
+    Route::post('/formbuilder/multifields1', [FormBuilderController::class, 'storeMultifields1'])->name('formbuilder.multifields1.store');
+    Route::post('/formbuilder/multifields2', [FormBuilderController::class, 'storeMultifields2'])->name('formbuilder.multifields2.store');
 
     Route::get('lazy', [LazyController::class, 'show'])->name('lazy');
     Route::get('lazy/nested', [LazyController::class, 'showNested'])->name('lazy.nested');

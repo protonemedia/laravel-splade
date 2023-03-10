@@ -19,11 +19,14 @@ use Illuminate\View\View;
 use Laravel\Dusk\Browser;
 use ProtoneMedia\Splade\Bridge\ComponentController;
 use ProtoneMedia\Splade\Commands\CleanupTemporaryFileUploads;
+use ProtoneMedia\Splade\Commands\FormMakeCommand;
+use ProtoneMedia\Splade\Commands\FormRequestMakeCommand;
 use ProtoneMedia\Splade\Commands\PublishFormStylesheetsCommand;
 use ProtoneMedia\Splade\Commands\ShowSpladeVersions;
 use ProtoneMedia\Splade\Commands\SpladeInstallCommand;
 use ProtoneMedia\Splade\Commands\SsrTestCommand;
 use ProtoneMedia\Splade\Commands\TableMakeCommand;
+use ProtoneMedia\Splade\Components\Form;
 use ProtoneMedia\Splade\Components\Form\File;
 use ProtoneMedia\Splade\FileUploads\Filesystem;
 use ProtoneMedia\Splade\FileUploads\HandleSpladeFileUploads;
@@ -67,6 +70,8 @@ class ServiceProvider extends BaseServiceProvider
 
         $this->commands([
             CleanupTemporaryFileUploads::class,
+            FormMakeCommand::class,
+            FormRequestMakeCommand::class,
             PublishFormStylesheetsCommand::class,
             ShowSpladeVersions::class,
             SpladeInstallCommand::class,
@@ -363,6 +368,19 @@ class ServiceProvider extends BaseServiceProvider
         Factory::macro('getFirstSlot', function () {
             /** @var Factory $this */
             return $this->slots[0] ?? [];
+        });
+
+        ComponentAttributeBag::macro('rejectWhenBlank', function ($attributes) {
+            /** @var ComponentAttributeBag $this */
+            $attributes = Form::splitByComma($attributes);
+
+            return $this->filter(function ($value, $key) use ($attributes) {
+                if (in_array($key, $attributes) && blank($value)) {
+                    return false;
+                }
+
+                return true;
+            });
         });
 
         ComponentAttributeBag::macro('mergeVueBinding', function ($attribute, $value, bool $omitBlankValue = true, bool $escape = true) {
