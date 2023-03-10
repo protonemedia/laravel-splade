@@ -3,11 +3,13 @@
 namespace ProtoneMedia\Splade\FormBuilder;
 
 use Illuminate\Support\Arr;
+use Illuminate\Support\Traits\Macroable;
 use ProtoneMedia\Splade\Components\Form\InteractsWithFormElement;
 
 abstract class Component
 {
     use InteractsWithFormElement;
+    use Macroable;
 
     public string $dottedName = '';
 
