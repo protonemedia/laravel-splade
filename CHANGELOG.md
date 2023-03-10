@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 1.4.0 - 2023-03-10
+
+- Form Builder by @J87NL
+
 ## 1.3.1 - 2023-02-28
 
 - Table Component UI fixes
