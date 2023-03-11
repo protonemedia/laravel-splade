@@ -15,7 +15,7 @@
         @includeWhen($label, 'splade::form.label', ['label' => $label])
 
         <div class="flex rounded-md border border-gray-300 shadow-sm">
-            @if($prepend || $prependIcon)
+            @if($hasPrepend)
                 <span :class="{ 'opacity-50': inputScope.disabled && @json(!$alwaysEnablePrepend) }" class="inline-flex items-center space-x-1 rounded-l-md border border-t-0 border-b-0 border-l-0 border-gray-300 bg-gray-50 px-3 text-gray-500">
                     @if($prependIcon)<x-icon :name="$prependIcon" class="w-5 h-5" />@endif
                     @if($prepend)<span>{!! $prepend !!}</span>@endif
@@ -37,7 +37,7 @@
             ])) }}
             />
 
-            @if($append || $appendIcon)
+            @if($hasAppend)
                 <span :class="{ 'opacity-50': inputScope.disabled && @json(!$alwaysEnableAppend) }" class="inline-flex items-center space-x-1 rounded-r-md border border-t-0 border-b-0 border-r-0 border-gray-300 bg-gray-50 px-3 text-gray-500">
                     @if($appendIcon)<x-icon :name="$appendIcon" class="w-5 h-5" />@endif
                     @if($append)<span>{!! $append !!}</span>@endif
