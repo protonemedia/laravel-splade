@@ -14,7 +14,7 @@
             @if($prepend || $prependIcon)
                 <span :class="{ 'opacity-50': inputScope.disabled && @json(!$alwaysEnablePrepend) }" class="inline-flex items-center space-x-1 rounded-l-md border border-t-0 border-b-0 border-l-0 border-gray-300 bg-gray-50 px-3 text-gray-500">
                     @if($prependIcon)<x-icon :name="$prependIcon" class="w-5 h-5" />@endif
-                    <span>{!! $prepend !!}</span>
+                    @if($prepend)<span>{!! $prepend !!}</span>@endif
                 </span>
             @endif
 
@@ -36,7 +36,7 @@
             @if($append || $appendIcon)
                 <span :class="{ 'opacity-50': inputScope.disabled && @json(!$alwaysEnableAppend) }" class="inline-flex items-center space-x-1 rounded-r-md border border-t-0 border-b-0 border-r-0 border-gray-300 bg-gray-50 px-3 text-gray-500">
                     @if($appendIcon)<x-icon :name="$appendIcon" class="w-5 h-5" />@endif
-                    <span>{!! $append !!}</span>
+                    @if($append)<span>{!! $append !!}</span>@endif
                 </span>
             @endif
         </div>
