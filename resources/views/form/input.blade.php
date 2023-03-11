@@ -1,4 +1,8 @@
-@php $flatpickrOptions = $flatpickrOptions() @endphp
+@php
+    $flatpickrOptions = $flatpickrOptions();
+    $hasPrepend = $prepend || $prependIcon;
+    $hasAppend = $append || $appendIcon;
+@endphp
 
 <SpladeInput
     {{ $attributes->only(['v-if', 'v-show', 'v-for', 'class'])->class(['hidden' => $isHidden()]) }}
@@ -20,10 +24,10 @@
 
             <input {{ $attributes->except(['v-if', 'v-show', 'v-for', 'class'])->class([
                 'block w-full border-0 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 disabled:opacity-50 disabled:bg-gray-50 disabled:cursor-not-allowed',
-                'rounded-md' => !$append && !$prepend,
-                'min-w-0 flex-1 rounded-none' => $append || $prepend,
-                'rounded-l-md' => $append && !$prepend,
-                'rounded-r-md' => !$append && $prepend,
+                'rounded-md' => !$hasAppend && !$hasPrepend,
+                'min-w-0 flex-1 rounded-none' => $hasAppend || $hasPrepend,
+                'rounded-l-md' => $hasAppend && !$hasPrepend,
+                'rounded-r-md' => !$hasAppend && $hasPrepend,
             ])->merge([
                 'name' => $name,
                 'type' => $type,
