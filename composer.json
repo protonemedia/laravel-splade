@@ -30,6 +30,7 @@
         "laravel/framework": "9.36.0|9.36.1|9.36.2"
     },
     "suggest": {
+        "blade-ui-kit/blade-heroicons": "Required to enable support for Heroicons as Blade components in Splade (^1.4)",
         "kirschbaum-development/eloquent-power-joins": "Required to enable support sorting by (nested) relationships in Splade Tables (^2.6)",
         "maatwebsite/excel": "Required to enable support exports in Splade Tables (^3.1)",
         "spatie/fractalistic": "Required to enable support for Fractal transformers (^2.9)"
