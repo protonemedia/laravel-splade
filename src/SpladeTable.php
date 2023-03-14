@@ -4,6 +4,7 @@ namespace ProtoneMedia\Splade;
 
 use Illuminate\Contracts\Database\Query\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Collection;
@@ -86,6 +87,10 @@ class SpladeTable
 
         if ($resource instanceof Model) {
             $resource = $resource->newQuery();
+        }
+
+        if ($resource instanceof Relation) {
+            $resource = $resource->getQuery();
         }
 
         if ($resource instanceof Builder || $resource instanceof SpatieQueryBuilder) {

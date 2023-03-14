@@ -313,6 +313,16 @@ class Form extends Component
 
             $column = array_pop($parts);
 
+            $target = $this->model;
+
+            foreach ($parts as $relationName) {
+                if (!$target->isRelation($relationName)) {
+                    return;
+                }
+
+                $target = data_get($target, $relationName);
+            }
+
             $relation = data_get($this->model, implode('.', $parts));
 
             $relation = $transformer($relation);
