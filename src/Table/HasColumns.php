@@ -2,6 +2,7 @@
 
 namespace ProtoneMedia\Splade\Table;
 
+use Closure;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
@@ -48,7 +49,7 @@ trait HasColumns
         string $label = null,
         bool|null $canBeHidden = null,
         bool $hidden = false,
-        bool $sortable = false,
+        bool|Closure $sortable = false,
         bool|string $searchable = false,
         bool|null $highlight = null,
         bool|callable $exportAs = true,

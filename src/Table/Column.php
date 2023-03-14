@@ -20,7 +20,7 @@ class Column implements Arrayable
         public string $label,
         public bool $canBeHidden,
         public bool $hidden,
-        public bool $sortable,
+        public bool|Closure $sortable,
         public bool|string $sorted,
         public bool $highlight,
         public bool|Closure $exportAs,
