@@ -53,7 +53,8 @@ trait HasColumns
         bool|null $highlight = null,
         bool|callable $exportAs = true,
         callable|string|null $exportFormat = null,
-        callable|array|null $exportStyling = null
+        callable|array|null $exportStyling = null,
+        array|string|null $classes = null,
     ): self {
         $key   = $key   !== null ? $key : Str::kebab($label);
         $label = $label !== null ? $label : Str::headline(str_replace('.', ' ', $key));
@@ -79,6 +80,7 @@ trait HasColumns
             exportAs: $exportAs,
             exportFormat: $exportFormat,
             exportStyling: $exportStyling,
+            classes: $classes,
         ))->values();
 
         if (!$searchable) {
