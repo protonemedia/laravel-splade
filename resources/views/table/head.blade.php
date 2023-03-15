@@ -16,7 +16,7 @@
                 @endif
 
                 <span class="flex flex-row items-center">
-                    <span class="uppercase">{{ $column->label }}</span>
+                    <span class="uppercase w-full">{{ $column->label }}</span>
 
                     @if($column->sortable)
                         <svg aria-hidden="true" class="w-3 h-3 ml-2 @if($column->sorted) text-green-500 @else text-gray-400 @endif" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
