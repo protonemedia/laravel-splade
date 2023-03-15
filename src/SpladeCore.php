@@ -60,6 +60,8 @@ class SpladeCore
 
     private array $transformMap = [];
 
+    private bool $defaultModalCloseExplicitly = false;
+
     /**
      * Creates an instance.
      *
@@ -553,5 +555,23 @@ class SpladeCore
         }
 
         return null;
+    }
+
+    /**
+     * Setter for the 'defaultModalCloseExplicitly' property.
+     */
+    public function defaultModalCloseExplicitly(bool $value = true): self
+    {
+        $this->defaultModalCloseExplicitly = $value;
+
+        return $this;
+    }
+
+    /**
+     * Getter for the 'defaultModalCloseExplicitly' property.
+     */
+    public function getDefaultModalCloseExplicitly(): bool
+    {
+        return $this->defaultModalCloseExplicitly;
     }
 }

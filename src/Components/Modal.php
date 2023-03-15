@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Str;
 use Illuminate\View\Component;
 use Illuminate\View\View;
+use ProtoneMedia\Splade\Facades\Splade;
 use ProtoneMedia\Splade\SpladeCore;
 
 class Modal extends Component
@@ -22,6 +23,7 @@ class Modal extends Component
         public bool $modal = false,
         public bool $slideover = false,
         public bool $opened = false,
+        public bool|null $closeExplicitly = null,
     ) {
         if (!$modal && !$slideover) {
             $this->modal = true;
@@ -29,6 +31,10 @@ class Modal extends Component
 
         if (!$name && $opened) {
             $this->name = Str::random();
+        }
+
+        if ($closeExplicitly === null) {
+            $this->closeExplicitly = Splade::getDefaultModalCloseExplicitly();
         }
     }
 
@@ -70,10 +76,11 @@ class Modal extends Component
         return view(
             $this->splade->getModalType() === SpladeCore::MODAL_TYPE_MODAL ? 'splade::components.modal' : 'splade::components.slideover',
             [
-                'closeButton' => $this->closeButton,
-                'modalKey'    => $this->splade->getModalKey(),
-                'wrapperName' => SpladeComponent::normalize('modal-wrapper'),
-                'name'        => $this->name,
+                'closeButton'     => $this->closeButton,
+                'closeExplicitly' => $this->closeExplicitly,
+                'modalKey'        => $this->splade->getModalKey(),
+                'wrapperName'     => SpladeComponent::normalize('modal-wrapper'),
+                'name'            => $this->name,
             ]
         );
     }

@@ -60,7 +60,7 @@ class PreloadedModalTest extends DuskTestCase
 
             $browser
                 ->pause(500)
-                ->click('@close-modal-button')
+                ->keys('', ['{escape}'])
                 ->pause(500)
                 ->waitUntilMissingText('Check out my slideover!');
         });
@@ -82,6 +82,25 @@ class PreloadedModalTest extends DuskTestCase
 
             $browser
                 ->pause(500)
+                ->click('@close-modal-button')
+                ->pause(500)
+                ->waitUntilMissingText('Check out my modal!');
+        });
+    }
+
+    /** @test */
+    public function it_can_disable_closing_the_model_implicitly()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('/modal/base')
+                ->resize(1680, 900)
+                ->waitForText('ModalComponent')
+                ->click('@menu-modal-large')
+                ->waitForText('Check out my modal!')
+                ->pause(500)
+                ->keys('', ['{escape}'])
+                ->pause(500)
+                ->assertSee('Check out my modal!')
                 ->click('@close-modal-button')
                 ->pause(500)
                 ->waitUntilMissingText('Check out my modal!');
