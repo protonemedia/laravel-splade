@@ -40,6 +40,8 @@ trait HasResource
             return;
         }
 
+        $this->loadResource();
+
         $collection = $this->resource instanceof LengthAwarePaginator
             ? $this->resource->items()
             : $this->resource;
@@ -72,6 +74,8 @@ trait HasResource
      */
     public function perPage(): int
     {
+        $this->loadResource();
+
         if ($this->resource instanceof LengthAwarePaginator) {
             return $this->resource->perPage();
         }
@@ -86,6 +90,8 @@ trait HasResource
      */
     public function totalOnThisPage()
     {
+        $this->loadResource();
+
         if ($this->resource instanceof LengthAwarePaginator) {
             return count($this->resource->items());
         }
@@ -100,6 +106,8 @@ trait HasResource
      */
     public function totalOnAllPages()
     {
+        $this->loadResource();
+
         if ($this->resource instanceof LengthAwarePaginator) {
             return $this->resource->total();
         }
@@ -112,6 +120,8 @@ trait HasResource
      */
     public function isEmpty(): bool
     {
+        $this->loadResource();
+
         return count($this->resource) === 0;
     }
 
@@ -157,6 +167,8 @@ trait HasResource
      */
     public function getPrimaryKeys(): array
     {
+        $this->loadResource();
+
         $ids = [];
 
         foreach ($this->resource as $item) {

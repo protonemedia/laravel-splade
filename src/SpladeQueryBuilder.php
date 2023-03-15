@@ -313,10 +313,14 @@ class SpladeQueryBuilder extends SpladeTable
     /**
      * Prepares the query and loads the results.
      *
-     * @return void
+     * @return $this
      */
-    public function beforeRender()
+    public function loadResource(): self
     {
+        if ($this->resourceLoaded) {
+            return $this;
+        }
+
         if (!$this->builder instanceof SpatieQueryBuilder) {
             $this->applyFilters();
             $this->applySearchInputs();
@@ -325,7 +329,8 @@ class SpladeQueryBuilder extends SpladeTable
         }
 
         $this->loadResults();
-        $this->resolveRowLinks();
+
+        return parent::loadResource();
     }
 
     /**
