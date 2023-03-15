@@ -2,6 +2,15 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 1.4.1 - 2023-03-15
+
+- Support for closing modals explicitly (don't close on escape keypress or click outside)
+- Support for Table column classes
+- Allow `x-splade-button` component to be a Link element (with `type="link"`)
+- Allow Eloquent Relationship instances in Splade Table
+- Transformer fix for nested data
+- Only test Windows stubs on latest version
+
 ## 1.4.0 - 2023-03-10
 
 - Form Builder by @J87NL
