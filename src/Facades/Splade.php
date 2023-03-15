@@ -43,6 +43,8 @@ use Symfony\Component\HttpFoundation\Response;
  * @method static self requireTransformer($value = true)
  * @method static self transformUsing($class, $transformer = null)
  * @method static mixed findTransformerFor(array|object $instance)
+ * @method static self defaultModalCloseExplicitly(bool $value = true)
+ * @method static bool getDefaultModalCloseExplicitly()
  *
  * @see \ProtoneMedia\Splade\SpladeCore
  */

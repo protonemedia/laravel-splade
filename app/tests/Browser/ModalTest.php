@@ -31,6 +31,24 @@ class ModalTest extends DuskTestCase
     }
 
     /** @test */
+    public function it_can_require_the_modal_to_be_explicitly_closed()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('/modal/base')
+                ->resize(1024, 768)
+                ->waitForText('ModalComponent')
+                ->click('@one-close-explicitly')
+                ->waitForText('ModalComponentOne')
+                ->pause(500)
+                ->keys('', ['{escape}'])
+                ->pause(500)
+                ->assertSee('ModalComponentOne')
+                ->click('@close-one')
+                ->waitUntilMissingText('ModalComponentOne');
+        });
+    }
+
+    /** @test */
     public function it_can_do_nested_modals()
     {
         $this->browse(function (Browser $browser) {
