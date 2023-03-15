@@ -61,7 +61,7 @@ trait HasColumns
 
         $highlight = is_bool($highlight)
             ? $highlight
-            : static::$defaultHighlightFirstColumn;
+            : ($this->columns->isEmpty() ? static::$defaultHighlightFirstColumn : false);
 
         $canBeHidden = is_bool($canBeHidden)
             ? $canBeHidden
