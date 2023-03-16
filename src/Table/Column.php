@@ -28,6 +28,7 @@ class Column implements Arrayable
         public Closure|string|null $exportFormat = null,
         public Closure|array|null $exportStyling = null,
         public array|string|null $classes = null,
+        public Closure|null $as = null,
     ) {
         if (is_array($classes)) {
             $classes = Arr::flatten($classes);
@@ -53,6 +54,7 @@ class Column implements Arrayable
             $this->exportFormat,
             $this->exportStyling,
             $this->classes,
+            $this->as,
         );
     }
 

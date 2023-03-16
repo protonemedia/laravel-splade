@@ -313,6 +313,7 @@ Route::middleware('splade')->group(function () {
 
         Route::get('/modal', [TableController::class, 'modal'])->name('table.modal');
 
+        Route::get('/as/{spladeQueryBuilder?}', [TableController::class, 'as'])->name('table.as');
         Route::get('/boolean/{spladeQueryBuilder?}', [TableController::class, 'boolean'])->name('table.boolean');
         Route::get('/custom/{spladeQueryBuilder?}', [TableController::class, 'custom'])->name('table.custom');
         Route::get('/noPerPage/{spladeQueryBuilder?}', [TableController::class, 'noPerPage'])->name('table.noPerPage');
