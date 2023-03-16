@@ -53,14 +53,16 @@ trait HasColumns
         bool|null $highlight = null,
         bool|callable $exportAs = true,
         callable|string|null $exportFormat = null,
-        callable|array|null $exportStyling = null
+        callable|array|null $exportStyling = null,
+        array|string|null $classes = null,
+        callable|null $as = null,
     ): self {
         $key   = $key   !== null ? $key : Str::kebab($label);
         $label = $label !== null ? $label : Str::headline(str_replace('.', ' ', $key));
 
         $highlight = is_bool($highlight)
             ? $highlight
-            : static::$defaultHighlightFirstColumn;
+            : ($this->columns->isEmpty() ? static::$defaultHighlightFirstColumn : false);
 
         $canBeHidden = is_bool($canBeHidden)
             ? $canBeHidden
@@ -79,6 +81,8 @@ trait HasColumns
             exportAs: $exportAs,
             exportFormat: $exportFormat,
             exportStyling: $exportStyling,
+            classes: $classes,
+            as: $as,
         ))->values();
 
         if (!$searchable) {

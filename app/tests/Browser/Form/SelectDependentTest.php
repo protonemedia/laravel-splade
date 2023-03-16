@@ -112,4 +112,49 @@ class SelectDependentTest extends DuskTestCase
                 });
         });
     }
+
+    /**
+     * @dataProvider dependentUrls
+     *
+     * @test
+     */
+    public function it_can_select_the_first_remote_option($url)
+    {
+        $this->browse(function (Browser $browser) use ($url) {
+            $browser->visit($url)
+                ->waitForText('FormComponents')
+                ->waitUntilMissing('svg')
+                ->within('@select-first', function (Browser $browser) {
+                    $browser
+                       ->waitUntilMissing('svg')
+                       ->assertSeeIn('@all', '{ "country": "BE", "province": "BE-VAN" }')
+                       ->select('@country', 'NL')
+                       ->waitUntilMissing('svg')
+                       ->assertSeeIn('@all', '{ "country": "NL", "province": "NL-AW" }');
+                });
+        });
+    }
+
+    /**
+     * @dataProvider dependentUrls
+     *
+     * @test
+     */
+    public function it_can_reset_the_select_option_on_a_remote_url_change($url)
+    {
+        $this->browse(function (Browser $browser) use ($url) {
+            $browser->visit($url)
+                ->waitForText('FormComponents')
+                ->waitUntilMissing('svg')
+                ->within('@select-reset', function (Browser $browser) {
+                    $browser
+                       ->waitUntilMissing('svg')
+                       ->select('@province', 'BE-VAN')
+                       ->assertSeeIn('@all', '{ "country": "BE", "province": "BE-VAN" }')
+                       ->select('@country', 'NL')
+                       ->waitUntilMissing('svg')
+                       ->assertSeeIn('@all', '{ "country": "NL", "province": "" }');
+                });
+        });
+    }
 }

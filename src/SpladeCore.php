@@ -3,12 +3,14 @@
 namespace ProtoneMedia\Splade;
 
 use Closure;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
+use ProtoneMedia\Splade\Facades\Splade;
 use ProtoneMedia\Splade\Http\ResolvableData;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
@@ -59,6 +61,8 @@ class SpladeCore
     private array $dataStores = [];
 
     private array $transformMap = [];
+
+    private bool $defaultModalCloseExplicitly = false;
 
     /**
      * Creates an instance.
@@ -315,6 +319,13 @@ class SpladeCore
                     return $this->invalidJson($request, $e);
                 }
 
+                if ($e instanceof AuthenticationException) {
+                    // Still use request()->guest() so the "indented" URL is preserved.
+                    return Splade::redirectAway(
+                        redirect()->guest($e->redirectTo() ?? route('login'))->getTargetUrl()
+                    );
+                }
+
                 return $this->prepareResponse($request, $e);
             }
         }, $exceptionHandler, get_class($exceptionHandler));
@@ -553,5 +564,23 @@ class SpladeCore
         }
 
         return null;
+    }
+
+    /**
+     * Setter for the 'defaultModalCloseExplicitly' property.
+     */
+    public function defaultModalCloseExplicitly(bool $value = true): self
+    {
+        $this->defaultModalCloseExplicitly = $value;
+
+        return $this;
+    }
+
+    /**
+     * Getter for the 'defaultModalCloseExplicitly' property.
+     */
+    public function getDefaultModalCloseExplicitly(): bool
+    {
+        return $this->defaultModalCloseExplicitly;
     }
 }

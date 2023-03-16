@@ -16,6 +16,7 @@ class ModalWrapper extends Component
         public $baseAttributes,
         public bool $closeButton,
         public string $name = '',
+        public bool $closeExplicitly = false,
     ) {
     }
 

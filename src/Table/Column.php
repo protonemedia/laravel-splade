@@ -4,6 +4,7 @@ namespace ProtoneMedia\Splade\Table;
 
 use Closure;
 use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
@@ -26,7 +27,14 @@ class Column implements Arrayable
         public bool|Closure $exportAs,
         public Closure|string|null $exportFormat = null,
         public Closure|array|null $exportStyling = null,
+        public array|string|null $classes = null,
+        public Closure|null $as = null,
     ) {
+        if (is_array($classes)) {
+            $classes = Arr::flatten($classes);
+        }
+
+        $this->classes = Arr::toCssClasses($classes);
     }
 
     /**
@@ -45,6 +53,8 @@ class Column implements Arrayable
             $this->exportAs,
             $this->exportFormat,
             $this->exportStyling,
+            $this->classes,
+            $this->as,
         );
     }
 

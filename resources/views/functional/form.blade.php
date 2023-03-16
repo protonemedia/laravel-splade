@@ -1,6 +1,6 @@
 @php $data = $formData() @endphp
 
-<SpladeForm {{ $attributes->except('class') }}
+<SpladeForm {{ $attributes->rejectWhenBlank('id')->except('class') }}
     @if($data['data']) :default="@js($data['data'])" @else :default="{!! $data['json'] !!}" @endif
     :scroll-on-error="@js($scrollOnError)"
     :splade-id="@js($spladeId)"

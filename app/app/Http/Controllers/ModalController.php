@@ -17,7 +17,9 @@ class ModalController
     {
         SEO::title('Modal One');
 
-        return view('modal.one');
+        return view('modal.one', [
+            'closeExplicitly' => (bool) request()->query('closeExplicitly'),
+        ]);
     }
 
     public function two()

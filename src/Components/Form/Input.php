@@ -130,13 +130,14 @@ class Input extends Component
 
         return array_merge(
             [
-                'dateFormat' => $this->date && $this->time ? static::$defaultDatetimeFormat : ($this->date ? static::$defaultDateFormat : static::$defaultTimeFormat),
-                'enableTime' => $this->time ? true : false,
-                'mode'       => $this->range ? 'range' : 'single',
-                'noCalendar' => $this->date ? false : true,
-                'position'   => 'left',
-                'static'     => true,
-                'time_24hr'  => true,
+                'dateFormat'      => $this->date && $this->time ? static::$defaultDatetimeFormat : ($this->date ? static::$defaultDateFormat : static::$defaultTimeFormat),
+                'enableTime'      => $this->time ? true : false,
+                'mode'            => $this->range ? 'range' : 'single',
+                'noCalendar'      => $this->date ? false : true,
+                'position'        => 'left',
+                'static'          => true,
+                'time_24hr'       => true,
+                'minuteIncrement' => 1,
             ],
             is_array(static::$defaultFlatpickrOptions) ? static::$defaultFlatpickrOptions : [],
             is_array($this->date) ? $this->date : [],

@@ -124,13 +124,17 @@ class TableExporter implements FromQuery, Responsable, ShouldAutoSize, WithColum
     public function map($item): array
     {
         return $this->columns()->map(function (Column $column) use ($item) {
-            $exportAs = $column->exportAs;
-
             $value = $column->getDataFromItem($item);
 
-            return is_callable($exportAs)
-                ? call_user_func($exportAs, $value, $item, $this->writerType)
-                : $value;
+            if (is_callable($exportAs = $column->exportAs)) {
+                return call_user_func($exportAs, $value, $item, $this->writerType);
+            }
+
+            if (is_callable($as = $column->as)) {
+                return call_user_func($as, $value, $item);
+            }
+
+            return $value;
         })->all();
     }
 
