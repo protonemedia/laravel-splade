@@ -49,6 +49,8 @@ class SpladeTable
 
     protected ?AbstractTable $configurator = null;
 
+    protected bool $resourceLoaded = false;
+
     /**
      * Creates a new instance.
      *
@@ -273,12 +275,22 @@ class SpladeTable
 
     /**
      * Any action that should be performed before rendering the Table component.
-     *
-     * @return void
      */
-    public function beforeRender()
+    public function beforeRender(): void
     {
-        $this->resolveRowLinks();
+        $this->loadResource()->resolveRowLinks();
+    }
+
+    /**
+     * Any action that should be performed interacting with the resource.
+     */
+    public function loadResource(): self
+    {
+        if (!$this->resourceLoaded) {
+            $this->resourceLoaded = true;
+        }
+
+        return $this;
     }
 
     public function performBulkAction(callable $action, array $ids)

@@ -3,12 +3,14 @@
 namespace ProtoneMedia\Splade;
 
 use Closure;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
+use ProtoneMedia\Splade\Facades\Splade;
 use ProtoneMedia\Splade\Http\ResolvableData;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
@@ -315,6 +317,13 @@ class SpladeCore
                 if ($e instanceof ValidationException) {
                     // Always return a JSON response for validation exceptions.
                     return $this->invalidJson($request, $e);
+                }
+
+                if ($e instanceof AuthenticationException) {
+                    // Still use request()->guest() so the "indented" URL is preserved.
+                    return Splade::redirectAway(
+                        redirect()->guest($e->redirectTo() ?? route('login'))->getTargetUrl()
+                    );
                 }
 
                 return $this->prepareResponse($request, $e);

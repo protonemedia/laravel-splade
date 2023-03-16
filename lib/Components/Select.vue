@@ -80,6 +80,18 @@ export default {
             required: false,
             default: null,
         },
+
+        selectFirstRemoteOption: {
+            type: Boolean,
+            required: false,
+            default: false,
+        },
+
+        resetOnNewRemoteUrl: {
+            type: Boolean,
+            required: false,
+            default: false,
+        },
     },
 
     emits: ["update:modelValue"],
@@ -167,6 +179,94 @@ export default {
     },
 
     methods: {
+        async setOptionsFromRemote(data) {
+            // Cleanup previous choices instance.
+            this.destroyChoicesInstance();
+
+            if(this.resetOnNewRemoteUrl) {
+                this.$emit("update:modelValue", this.multiple ? [] : "");
+            }
+
+            let options = [];
+
+            // Start with the the placeholder.
+            if(this.placeholder) {
+                options.push(this.placeholder);
+            }
+
+            // Normalize the response.
+            options = this.normalizeOptions(data, options);
+
+            var index;
+            var currentOptionsCount = this.element.options.length - 1;
+
+            for(index = currentOptionsCount; index >= 0; index--) {
+                // Remove all current options.
+                this.element.remove(index);
+            }
+
+            let hasSelectedOption = false;
+
+            forOwn(options, (option) => {
+                // Add the new options.
+                var optionElement = document.createElement("option");
+
+                optionElement.value = option.value;
+                optionElement.text = option.label;
+
+                if(option.value === `${this.modelValue}` && option.value !== "") {
+                    // The current value is in the new options, we use this later on
+                    // to set the value on the select element and Choices instance.
+                    hasSelectedOption = true;
+                }
+
+                if(option.disabled) {
+                    optionElement.disabled = option.disabled;
+                }
+
+                if(option.placeholder) {
+                    optionElement.placeholder = option.placeholder;
+                }
+
+                // Add the option to the select element.
+                this.element.appendChild(optionElement);
+            });
+
+
+            if(!hasSelectedOption && this.selectFirstRemoteOption) {
+                const firstOption = this.placeholder ? options[1] : options[0];
+
+                if(firstOption){
+                    this.$emit("update:modelValue", this.multiple ? [firstOption.value] : firstOption.value);
+                    await this.$nextTick();
+                }
+
+                hasSelectedOption = true;
+            }
+
+            if(!hasSelectedOption) {
+                // The current value is not in the new options, we set the value to null.
+                this.$emit("update:modelValue", this.multiple ? [] : "");
+            }
+
+            if(this.choices) {
+                // Re-initialize the Choices instance.
+                return this.initChoices(this.element).then(() => {
+                    this.loading = false;
+                });
+            }
+
+            if(hasSelectedOption) {
+                // The current value is in the new options, we set the value on the select element.
+                this.element.value = this.modelValue;
+            } else {
+                // The current value is not in the new options, we set the value to null.
+                this.$nextTick(() => {
+                    this.element.selectedIndex = 0;
+                });
+            }
+        },
+
         /*
          * Loads the options from a remote URL. It removes all current options from the select
          * element, and then adds the new options. If the components uses Choices.js,
@@ -179,6 +279,7 @@ export default {
 
             this.loading = true;
 
+
             Axios({
                 url: this.remoteUrl,
                 method: "GET",
@@ -187,80 +288,12 @@ export default {
                 },
             })
                 .then((response) => {
-                    // Cleanup previous choices instance.
-                    this.destroyChoicesInstance();
-
-                    let options = [];
-
-                    // Start with the the placeholder.
-                    if(this.placeholder) {
-                        options.push(this.placeholder);
-                    }
-
-                    // Normalize the response.
-                    options = this.normalizeOptions(this.remoteRoot ? get(response.data, this.remoteRoot) : response.data, options);
-
-                    var index;
-                    var currentOptionsCount = this.element.options.length - 1;
-
-                    for(index = currentOptionsCount; index >= 0; index--) {
-                        // Remove all current options.
-                        this.element.remove(index);
-                    }
-
-                    let hasSelectedOption = false;
-
-                    forOwn(options, (option) => {
-                        // Add the new options.
-                        var optionElement = document.createElement("option");
-
-                        optionElement.value = option.value;
-                        optionElement.text = option.label;
-
-                        if(option.value === `${this.modelValue}`) {
-                            // The current value is in the new options, we use this later on
-                            // to set the value on the select element and Choices instance.
-                            hasSelectedOption = true;
-                        }
-
-                        if(option.disabled) {
-                            optionElement.disabled = option.disabled;
-                        }
-
-                        if(option.placeholder) {
-                            optionElement.placeholder = option.placeholder;
-                        }
-
-                        // Add the option to the select element.
-                        this.element.appendChild(optionElement);
-                    });
-
-                    if(!hasSelectedOption) {
-                        // The current value is not in the new options, we set the value to null.
-                        this.$emit("update:modelValue", this.multiple ? [] : "");
-                    }
-
-                    if(this.choices) {
-                        // Re-initialize the Choices instance.
-                        return this.initChoices(this.element).then(() => {
-                            this.loading = false;
-                        });
-                    }
-
-                    if(hasSelectedOption) {
-                        // The current value is in the new options, we set the value on the select element.
-                        this.element.value = this.modelValue;
-                    } else {
-                        // The current value is not in the new options, we set the value to null.
-                        this.$nextTick(() => {
-                            this.element.selectedIndex = 0;
-                        });
-                    }
-
-                    this.loading = false;
-
+                    this.setOptionsFromRemote(this.remoteRoot ? get(response.data, this.remoteRoot) : response.data);
                 })
                 .catch(() => {
+                    this.setOptionsFromRemote([]);
+                })
+                .finally(() => {
                     this.loading = false;
                 });
         },
@@ -407,6 +440,10 @@ export default {
                                 // The Headless UI Dialog blocks the events on the Choices.js
                                 // instance, so we put an event listener on the portal root.
                                 vm.headlessListener = function(e) {
+                                    if(!vm.choicesInstance) {
+                                        return;
+                                    }
+
                                     const isActive = vm.choicesInstance.dropdown.isActive;
 
                                     if(!isActive && e.target === selectElement) {

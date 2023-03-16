@@ -10,6 +10,8 @@
     :remote-root="@js($remoteRoot ?: null)"
     :option-value="@js($optionValue)"
     :option-label="@js($optionLabel)"
+    :select-first-remote-option="@js($selectFirstRemoteOption)"
+    :reset-on-new-remote-url="@js($resetOnNewRemoteUrl)"
 >
     <template #default="{!! $scope !!}">
         <label class="block" v-bind:class="{ 'pointer-events-none': select.loading }">

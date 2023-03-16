@@ -16,6 +16,10 @@ class Select extends Component
 
     private static bool|array $defaultChoicesOptions = false;
 
+    private static bool $defaultResetOnNewRemoteUrl = false;
+
+    private static bool $defaultSelectFirstRemoteOption = false;
+
     /**
      * Create a new component instance.
      *
@@ -38,6 +42,8 @@ class Select extends Component
         public string $optionValue = '',
         public string $optionLabel = '',
         public string $scope = 'select',
+        public bool|null $resetOnNewRemoteUrl = null,
+        public bool|null $selectFirstRemoteOption = null,
     ) {
         if ($placeholder === true) {
             $this->placeholder = __('Search') . '...';
@@ -61,6 +67,14 @@ class Select extends Component
         if (!Str::startsWith($remoteUrl, '`') && !Str::endsWith($remoteUrl, '`')) {
             $this->remoteUrl = Js::from($remoteUrl);
         }
+
+        $this->resetOnNewRemoteUrl = is_bool($resetOnNewRemoteUrl)
+            ? $resetOnNewRemoteUrl
+            : static::$defaultResetOnNewRemoteUrl;
+
+        $this->selectFirstRemoteOption = is_bool($selectFirstRemoteOption)
+            ? $selectFirstRemoteOption
+            : static::$defaultSelectFirstRemoteOption;
     }
 
     /**
@@ -71,6 +85,22 @@ class Select extends Component
     public static function defaultChoices(bool|array $options = true)
     {
         static::$defaultChoicesOptions = $options;
+    }
+
+    /**
+     * Set the default value for the resetOnNewRemoteUrl property.
+     */
+    public static function defaultResetOnNewRemoteUrl(bool $value = true)
+    {
+        static::$defaultResetOnNewRemoteUrl = $value;
+    }
+
+    /**
+     * Set the default value for the selectFirstRemoteOption property.
+     */
+    public static function defaultSelectFirstRemoteOption(bool $value = true)
+    {
+        static::$defaultSelectFirstRemoteOption = $value;
     }
 
     /**
