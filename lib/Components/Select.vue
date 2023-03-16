@@ -280,9 +280,9 @@ export default {
             if(!this.remoteUrl) {
                 return;
             }
-
+            
             this.loading = true;
-
+            
             Axios({
                 url: this.remoteUrl,
                 method: "GET",
