@@ -166,6 +166,10 @@ export default {
             return this.initChoices(this.element).then(() => {
                 this.loadRemoteOptions();
             });
+        } else if(this.stack > 0) {
+            this.element.addEventListener("change", () => {
+                this.element.blur();
+            });
         }
 
         this.loadRemoteOptions();
@@ -276,10 +280,9 @@ export default {
             if(!this.remoteUrl) {
                 return;
             }
-
+            
             this.loading = true;
-
-
+            
             Axios({
                 url: this.remoteUrl,
                 method: "GET",
@@ -304,7 +307,8 @@ export default {
         destroyChoicesInstance() {
             if(this.choices && this.choicesInstance) {
                 if(this.headlessListener) {
-                    document.querySelector("#headlessui-portal-root")?.removeEventListener("click", this.headlessListener);
+                    document.querySelector("#headlessui-portal-root")?.removeEventListener("click", this.headlessListener, { capture: true });
+                    this.headlessListener = null;
                 }
 
                 if(this.selectChangeListener) {
@@ -445,10 +449,11 @@ export default {
                                     }
 
                                     const isActive = vm.choicesInstance.dropdown.isActive;
+                                    const isTargeted = vm.choicesInstance.containerOuter.element.contains(e.target);
 
-                                    if(!isActive && e.target === selectElement) {
+                                    if(!isActive && isTargeted) {
                                         vm.choicesInstance.showDropdown();
-                                    } else if(isActive && e.target !== selectElement) {
+                                    } else if(isActive && !isTargeted) {
                                         vm.choicesInstance.hideDropdown();
                                     }
                                 };
