@@ -11,6 +11,7 @@
         <Link dusk="awayViaFacade" href="/navigation/awayViaFacade">AwayViaFacade</Link>
         <Link away dusk="awayViaLink" href="https://splade.dev">AwayViaLink</Link>
         <Link dusk="lazy" href="/lazy">Lazy</Link>
+        <Link dusk="auth" href="{{ route('navigation.one.auth') }}">Auth</Link>
 
         <Link confirm dusk="confirm" href="/navigation/two">Confirm to two</Link>
         <Link
