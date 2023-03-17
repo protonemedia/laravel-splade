@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 1.4.3 - 2023-03-17
+
+- Fixed duplicate select event
+
 ## 1.4.2 - 2023-03-17
 
 - Added `select-first-remote-option` and `reset-on-new-remote-url` attributes to Select component
