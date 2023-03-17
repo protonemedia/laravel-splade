@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 1.4.2 - 2023-03-17
+
+- Added `select-first-remote-option` and `reset-on-new-remote-url` attributes to Select component
+- Support for transformed values in Table component
+- Improved handling of resource loading in Table component
+- Improved handling of `AuthenticationException`
+- Bugfix for Choices.js instance in Modal component
+
 ## 1.4.1 - 2023-03-15
 
 - Support for closing modals explicitly (don't close on escape keypress or click outside)
