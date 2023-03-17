@@ -187,10 +187,6 @@ export default {
             // Cleanup previous choices instance.
             this.destroyChoicesInstance();
 
-            if(this.resetOnNewRemoteUrl) {
-                this.$emit("update:modelValue", this.multiple ? [] : "");
-            }
-
             let options = [];
 
             // Start with the the placeholder.
@@ -236,6 +232,9 @@ export default {
                 this.element.appendChild(optionElement);
             });
 
+            if(this.resetOnNewRemoteUrl) {
+                hasSelectedOption = false;
+            }
 
             if(!hasSelectedOption && this.selectFirstRemoteOption) {
                 const firstOption = this.placeholder ? options[1] : options[0];
@@ -243,9 +242,8 @@ export default {
                 if(firstOption){
                     this.$emit("update:modelValue", this.multiple ? [firstOption.value] : firstOption.value);
                     await this.$nextTick();
+                    hasSelectedOption = true;
                 }
-
-                hasSelectedOption = true;
             }
 
             if(!hasSelectedOption) {
@@ -280,9 +278,9 @@ export default {
             if(!this.remoteUrl) {
                 return;
             }
-            
+
             this.loading = true;
-            
+
             Axios({
                 url: this.remoteUrl,
                 method: "GET",

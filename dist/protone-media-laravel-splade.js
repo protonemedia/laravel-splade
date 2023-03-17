@@ -5148,7 +5148,7 @@ const ap = {
   },
   methods: {
     async setOptionsFromRemote(e) {
-      this.destroyChoicesInstance(), this.resetOnNewRemoteUrl && this.$emit("update:modelValue", this.multiple ? [] : "");
+      this.destroyChoicesInstance();
       let t = [];
       this.placeholder && t.push(this.placeholder), t = this.normalizeOptions(e, t);
       var r, n = this.element.options.length - 1;
@@ -5158,9 +5158,9 @@ const ap = {
       if (Z(t, (s) => {
         var a = document.createElement("option");
         a.value = s.value, a.text = s.label, s.value === `${this.modelValue}` && s.value !== "" && (i = !0), s.disabled && (a.disabled = s.disabled), s.placeholder && (a.placeholder = s.placeholder), this.element.appendChild(a);
-      }), !i && this.selectFirstRemoteOption) {
+      }), this.resetOnNewRemoteUrl && (i = !1), !i && this.selectFirstRemoteOption) {
         const s = this.placeholder ? t[1] : t[0];
-        s && (this.$emit("update:modelValue", this.multiple ? [s.value] : s.value), await this.$nextTick()), i = !0;
+        s && (this.$emit("update:modelValue", this.multiple ? [s.value] : s.value), await this.$nextTick(), i = !0);
       }
       if (i || this.$emit("update:modelValue", this.multiple ? [] : ""), this.choices)
         return this.initChoices(this.element).then(() => {
