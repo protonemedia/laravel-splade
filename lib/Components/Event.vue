@@ -4,6 +4,8 @@ import forOwn from "lodash-es/forOwn";
 import isObject from "lodash-es/isObject";
 
 export default {
+    inject: ["stack"],
+
     props: {
         private: {
             type: Boolean,
@@ -30,7 +32,30 @@ export default {
             subscription: null,
             subscriptions: [],
             events: [],
+            pendingVisit: null,
+            pendingRefresh: false,
         };
+    },
+
+    computed: {
+        currentStack() {
+            return Splade.currentStack.value;
+        },
+    },
+
+    watch: {
+        currentStack() {
+            this.handlePendingVisit();
+            this.handlePendingRefresh();
+        },
+
+        pendingVisit() {
+            this.handlePendingVisit();
+        },
+
+        pendingRefresh() {
+            this.handlePendingRefresh();
+        },
     },
 
     beforeUnmount() {
@@ -55,6 +80,28 @@ export default {
     },
 
     methods: {
+        handlePendingVisit() {
+            if(!this.pendingVisit) {
+                return;
+            }
+
+            if(Splade.currentStack.value === this.stack) {
+                Splade.visit(this.pendingVisit);
+                this.pendingVisit = null;
+            }
+        },
+
+        handlePendingRefresh() {
+            if(!this.pendingRefresh) {
+                return;
+            }
+
+            if(Splade.currentStack.value === this.stack) {
+                Splade.refresh();
+                this.pendingRefresh = false;
+            }
+        },
+
         bindListeners() {
             this.subscription.on("pusher:subscription_succeeded", () => {
                 this.subscribed = true;
@@ -93,9 +140,9 @@ export default {
                     });
 
                     if (spladeRedirect) {
-                        Splade.visit(spladeRedirect);
+                        this.pendingVisit = spladeRedirect;
                     } else if (spladeRefresh) {
-                        Splade.refresh();
+                        this.pendingRefresh = true;
                     } else {
                         this.events.push({ name, data: e });
                     }

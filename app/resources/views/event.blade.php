@@ -20,4 +20,8 @@ EventComponent
     </div>
 </x-splade-event>
 
+<br>
+
+<Link modal dusk="open-modal" href="{{ route('modal.one') }}">Open Modal One</Link>
+
 @endsection
