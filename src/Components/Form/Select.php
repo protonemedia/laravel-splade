@@ -152,7 +152,7 @@ class Select extends Component
         // Check for a "list" array, so something like [1, 2, 3].
         // We'll transform this into [1 => 1, 2 => 2, 3 => 3].
         if (Arr::isList($options) && $collection->filter(fn ($option) => is_string($option))->count() === count($options)) {
-            $options = array_combine($options, $options);
+            $collection = Collection::make(array_combine($options, $options));
         }
 
         return $collection->map(function ($label, $value) {
