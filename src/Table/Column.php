@@ -96,6 +96,32 @@ class Column implements Arrayable
             }
         }
 
+        if ($this->isJson()) {
+            $key = Str::replace('->', '.', $this->key);
+            $topKey = explode('.', $key)[0];
+            $columnCast = isset($item->getCasts()[$topKey]) ? $item->getCasts()[$topKey] : null;
+
+            if (!is_null($columnCast)) {
+                switch ($columnCast) {
+                    case 'array':
+                        return data_get($item->toArray(), $key);
+                        break;
+                    case 'json':
+                    case 'object':
+                        return data_get($item, $key);
+                        break;
+                }
+            } else {
+                if ($item->hasCast($topKey) && $item->getConnection()->getSchemaBuilder()->getColumnType($item->getTable(), $topKey) == "json") {
+                    // However for some reason for me I get error on that one:
+                    // `Class "Doctrine\DBAL\Driver\AbstractMySQLDriver" not found in 
+                    // vendor/laravel/framework/src/Illuminate/Database/PDO/MySqlDriver.php on line 8.`
+                    $item->$topKey = json_decode($item->$topKey);
+                    return data_get($item, $key);
+                }
+            }
+        }
+
         return data_get($item, $this->key);
     }
 
@@ -105,6 +131,16 @@ class Column implements Arrayable
     public function isNested(): bool
     {
         return Str::contains($this->key, '.');
+    }
+
+    /**
+     * Returns a boolean whether to columns is json 
+     *
+     * @return bool
+     */
+    public function isJson(): bool
+    {
+        return Str::contains($this->key, '->');
     }
 
     /**
