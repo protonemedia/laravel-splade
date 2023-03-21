@@ -100,7 +100,10 @@ Route::middleware('splade')->group(function () {
 
     Route::view('errors', 'errors')->name('errors');
 
+    auth()->loginUsingId(1);
+
     Route::view('event', 'event')->name('event');
+    Route::view('eventPreserveScroll', 'eventPreserveScroll')->name('eventPreserveScroll');
 
     Route::get('flash/put', function () {
         return redirect()->route('flash')->with('message', 'This is a message');

@@ -1,4 +1,4 @@
-<SpladeEvent :listeners='@json($listeners)' {{ $attributes }}>
+<SpladeEvent :listeners='@json($listeners)' :preserve-scroll='@js($preserveScroll)' {{ $attributes }}>
     <template #default="{!! $scope !!}">
         {{ $slot }}
     </template>

@@ -22,6 +22,12 @@ export default {
             type: Array,
             required: true,
         },
+
+        preserveScroll: {
+            type: Boolean,
+            required: false,
+            default: false,
+        },
     },
 
     emits: ["subscribed", "event"],
@@ -97,7 +103,7 @@ export default {
             }
 
             if(Splade.currentStack.value === this.stack) {
-                Splade.refresh(this.pendingRefresh.preserveScroll);
+                Splade.refresh(this.pendingRefresh.preserveScroll || this.preserveScroll);
                 this.pendingRefresh = false;
             }
         },

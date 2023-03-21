@@ -60,7 +60,7 @@ class EventTest extends DuskTestCase
     }
 
     /** @test */
-    public function it_can_refresh_on_an_event_while_preserving_the_scroll_position()
+    public function it_can_refresh_on_an_event_while_preserving_the_scroll_position_from_the_event()
     {
         $this->browse(function (Browser $browser) {
             $user = User::firstOrFail();
@@ -80,6 +80,41 @@ class EventTest extends DuskTestCase
             $this->assertTrue($scrollHeight > 0);
 
             $response = Http::asJson()->get(route('event.refreshPreserveScroll'));
+
+            $this->assertTrue(
+                $response->successful(),
+                $response->body()
+            );
+
+            $browser->waitForTextIn('@counter', 1);
+
+            $scrollHeight = $browser->script('return window.scrollY');
+
+            $this->assertTrue($scrollHeight > 0);
+        });
+    }
+
+    /** @test */
+    public function it_can_refresh_on_an_event_while_preserving_the_scroll_position_from_the_template()
+    {
+        $this->browse(function (Browser $browser) {
+            $user = User::firstOrFail();
+
+            $browser->loginAs($user)
+                ->visit('/eventPreserveScroll')
+                ->waitForText('EventComponent')
+                ->waitForText($user->name)
+                ->waitForText('Subscribed!')
+                ->click('@increase')
+                ->assertSeeIn('@counter', 2)
+                ->keys('', '{PAGE_DOWN}')
+                ->pause(250);
+
+            $scrollHeight = $browser->script('return window.scrollY');
+
+            $this->assertTrue($scrollHeight > 0);
+
+            $response = Http::asJson()->get(route('event.refresh'));
 
             $this->assertTrue(
                 $response->successful(),
