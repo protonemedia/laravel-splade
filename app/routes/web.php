@@ -100,8 +100,6 @@ Route::middleware('splade')->group(function () {
 
     Route::view('errors', 'errors')->name('errors');
 
-    auth()->loginUsingId(1);
-
     Route::view('event', 'event')->name('event');
     Route::view('eventPreserveScroll', 'eventPreserveScroll')->name('eventPreserveScroll');
 
