@@ -1,7 +1,5 @@
 <tbody class="divide-y divide-gray-200 bg-white">
     @forelse($table->resource as $itemKey => $item)
-        @php $itemPrimaryKey = $table->findPrimaryKey($item) @endphp
-
         <tr
             :class="{
                 'bg-gray-50': table.striped && @js($itemKey) % 2,
@@ -11,6 +9,8 @@
         >
             @if($hasBulkActions = $table->hasBulkActions())
                 <td width="64" class="text-xs px-6 py-4">
+                    @php $itemPrimaryKey = $table->findPrimaryKey($item) @endphp
+
                     <input
                         @change="(e) => table.setSelectedItem(@js($itemPrimaryKey), e.target.checked)"
                         :checked="table.itemIsSelected(@js($itemPrimaryKey))"
