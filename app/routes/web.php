@@ -2,6 +2,7 @@
 
 use App\Events\RedirectEvent;
 use App\Events\RefreshEvent;
+use App\Events\RefreshPreserveScrollEvent;
 use App\Events\SimpleEvent;
 use App\Events\ToastEvent;
 use App\Http\Controllers\BackFormController;
@@ -55,6 +56,7 @@ Route::get('login/redirect', function () {
 
 Route::get('event/redirect', fn () => event(new RedirectEvent))->name('event.redirect');
 Route::get('event/refresh', fn () => event(new RefreshEvent))->name('event.refresh');
+Route::get('event/refreshPreserveScroll', fn () => event(new RefreshPreserveScrollEvent))->name('event.refreshPreserveScroll');
 Route::get('event/simple', fn () => event(new SimpleEvent))->name('event.simple');
 Route::get('event/toast', fn () => event(new ToastEvent))->name('event.toast');
 

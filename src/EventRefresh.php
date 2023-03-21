@@ -7,6 +7,8 @@ use JsonSerializable;
 
 class EventRefresh implements Arrayable, JsonSerializable
 {
+    private $preserveScroll = false;
+
     /**
      * Returns an array with the 'splade.refresh' key.
      *
@@ -14,7 +16,22 @@ class EventRefresh implements Arrayable, JsonSerializable
      */
     public function toArray()
     {
-        return ['splade.refresh' => true];
+        return [
+            'splade.refresh'        => true,
+            'splade.preserveScroll' => $this->preserveScroll,
+        ];
+    }
+
+    /**
+     * Preserve the scroll value on refresh.
+     *
+     * @return $this
+     */
+    public function preserveScroll(bool $value = true): self
+    {
+        $this->preserveScroll = $value;
+
+        return $this;
     }
 
     /**

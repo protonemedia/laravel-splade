@@ -97,7 +97,7 @@ export default {
             }
 
             if(Splade.currentStack.value === this.stack) {
-                Splade.refresh();
+                Splade.refresh(this.pendingRefresh.preserveScroll);
                 this.pendingRefresh = false;
             }
         },
@@ -112,11 +112,13 @@ export default {
                 const listener = this.subscription.listen(name, (e) => {
                     this.$emit("event", { name, data: e });
 
+                    const preserveScrollKey = "splade.preserveScroll";
                     const redirectKey = "splade.redirect";
                     const refreshKey = "splade.refresh";
                     const toastKey = "splade.toast";
 
                     let spladeRedirect = null;
+                    let preserveScroll = false;
                     let spladeRefresh = false;
                     let spladeToasts = [];
 
@@ -125,9 +127,13 @@ export default {
                             return;
                         }
 
-                        // Check whether the data contains a redirect, refresh, or toast.
+                        // Check whether the data contains a redirect, refresh (+ preserve scroll), or toast.
                         if (redirectKey in value) {
                             spladeRedirect = value[redirectKey];
+                        }
+
+                        if(preserveScrollKey in value) {
+                            preserveScroll = value[preserveScrollKey];
                         }
 
                         if (refreshKey in value) {
@@ -142,7 +148,7 @@ export default {
                     if (spladeRedirect) {
                         this.pendingVisit = spladeRedirect;
                     } else if (spladeRefresh) {
-                        this.pendingRefresh = true;
+                        this.pendingRefresh = { preserveScroll };
                     } else {
                         this.events.push({ name, data: e });
                     }

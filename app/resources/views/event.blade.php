@@ -6,7 +6,7 @@ EventComponent
 
 <p>{{ auth()->user()->name }}</p>
 
-<x-splade-event private channel="Splade" listen="RedirectEvent, RefreshEvent, SimpleEvent, ToastEvent">
+<x-splade-event private channel="Splade" listen="RedirectEvent, RefreshEvent, RefreshPreserveScrollEvent, SimpleEvent, ToastEvent">
     <p v-if="subscribed">Subscribed!</p>
 
     <x-splade-data default="{ number: 1 }">
@@ -23,5 +23,7 @@ EventComponent
 <br>
 
 <Link modal dusk="open-modal" href="{{ route('modal.one') }}">Open Modal One</Link>
+
+<div class="h-screen w-80 bg-red-100" />
 
 @endsection

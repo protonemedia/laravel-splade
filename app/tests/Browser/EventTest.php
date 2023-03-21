@@ -60,6 +60,41 @@ class EventTest extends DuskTestCase
     }
 
     /** @test */
+    public function it_can_refresh_on_an_event_while_preserving_the_scroll_position()
+    {
+        $this->browse(function (Browser $browser) {
+            $user = User::firstOrFail();
+
+            $browser->loginAs($user)
+                ->visit('/event')
+                ->waitForText('EventComponent')
+                ->waitForText($user->name)
+                ->waitForText('Subscribed!')
+                ->click('@increase')
+                ->assertSeeIn('@counter', 2)
+                ->keys('', '{PAGE_DOWN}')
+                ->pause(250);
+
+            $scrollHeight = $browser->script('return window.scrollY');
+
+            $this->assertTrue($scrollHeight > 0);
+
+            $response = Http::asJson()->get(route('event.refreshPreserveScroll'));
+
+            $this->assertTrue(
+                $response->successful(),
+                $response->body()
+            );
+
+            $browser->waitForTextIn('@counter', 1);
+
+            $scrollHeight = $browser->script('return window.scrollY');
+
+            $this->assertTrue($scrollHeight > 0);
+        });
+    }
+
+    /** @test */
     public function it_waits_for_a_redirect_until_the_modal_is_closed()
     {
         $this->browse(function (Browser $browser) {
