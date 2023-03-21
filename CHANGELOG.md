@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 1.4.4 - 2023-03-21
+
+- Event + Select bugfixes
+
 ## 1.4.3 - 2023-03-17
 
 - Fixed duplicate select event
