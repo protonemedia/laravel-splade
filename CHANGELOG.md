@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 1.4.5 - 2023-03-21
+
+- Option to preserve scroll position when using `Splade::refreshOnEvent()`
+
 ## 1.4.4 - 2023-03-21
 
 - Event + Select bugfixes
