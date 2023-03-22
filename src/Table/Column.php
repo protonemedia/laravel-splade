@@ -96,7 +96,13 @@ class Column implements Arrayable
             }
         }
 
-        return data_get($item, $this->key);
+        return data_get($item, $this->key, function () use ($item) {
+            if (!is_object($item)) {
+                return null;
+            }
+
+            return rescue(fn () => $item->{$this->key}, report: false);
+        });
     }
 
     /**
