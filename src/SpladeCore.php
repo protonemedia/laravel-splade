@@ -292,7 +292,17 @@ class SpladeCore
      */
     public static function toastOnEvent(string $message = ''): SpladeToast
     {
-        return new SpladeToast($message);
+        $newToast = new SpladeToast($message);
+
+        if ($this->customToastFactory) {
+            call_user_func($this->customToastFactory, $newToast);
+        }
+
+        if (trim($message) !== '') {
+            $newToast->message($message);
+        }
+
+        return $newToast;
     }
 
     /**
