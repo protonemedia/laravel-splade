@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Str;
 use ProtoneMedia\Splade\Components\SpladeComponent;
+use ProtoneMedia\Splade\Http\SpladeResponseData;
 use ProtoneMedia\Splade\Ssr;
 
 class SsrTestCommand extends Command
@@ -27,7 +28,7 @@ class SsrTestCommand extends Command
             components: '',
             html: Blade::render("<{$dataTag}><p>Test</p></{$dataTag}>"),
             dynamics: [],
-            splade: (object) []
+            splade: SpladeResponseData::make()
         );
 
         if (Str::contains($result['body'] ?? '', '<p>Test</p>')) {

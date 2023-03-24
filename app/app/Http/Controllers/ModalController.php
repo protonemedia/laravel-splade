@@ -39,6 +39,11 @@ class ModalController
         return view('modal.validation');
     }
 
+    public function keep()
+    {
+        return view('modal.keep');
+    }
+
     public function opened()
     {
         return view('modal.opened');

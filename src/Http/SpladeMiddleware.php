@@ -131,27 +131,21 @@ class SpladeMiddleware
      * @param  \Illuminate\Http\Response  $response
      * @return \Illuminate\Http\Response|\Illuminate\Http\JsonResponse
      */
-    private function handleSpladeRequest(Request $request, Response $response, object $spladeData): Response|JsonResponse
+    private function handleSpladeRequest(Request $request, Response $response, SpladeResponseData $spladeData): Response|JsonResponse
     {
         // We don't mess with JsonResponses, except we add the Splade data to it.
         if ($response instanceof JsonResponse) {
-            $decodedData = $response->getData(true);
-
-            if (!is_array($decodedData)) {
-                $decodedData = [];
-            }
-
-            $newData = array_merge(
-                $decodedData,
-                ['splade' => $spladeData]
-            );
-
             // Get the Validation Errors from the exception and put them in the Splade data.
             if ($response->exception instanceof ValidationException) {
-                $newData['splade']->errors = (object) $response->exception->errors();
+                $spladeData->errors = (object) $response->exception->errors();
             }
 
-            return $response->setData($newData);
+            $responseData = $response->getData(true);
+
+            return $response->setData(array_merge(
+                is_array($responseData) ? $responseData : [],
+                ['splade' => $spladeData->toArray()]
+            ));
         }
 
         if ($response->isRedirect() && $this->splade->dontRefreshPage()) {
@@ -177,11 +171,21 @@ class SpladeMiddleware
             $content = static::extractComponent($content, 'rehydrate', $this->splade->getRehydrateComponentKey());
         }
 
+        $modelContent = $this->splade->isModalRequest()
+            ? $this->parseModalContent($content)
+            : null;
+
+        if ($modelContent) {
+            $content = $modelContent;
+        } else {
+            $spladeData->modal = null;
+        }
+
         return $response->setContent(json_encode([
             // If this is Modal request, extract the content...
-            'html'     => $this->splade->isModalRequest() ? $this->parseModalContent($content) : $content,
+            'html'     => $content,
             'dynamics' => $dynamics,
-            'splade'   => $spladeData,
+            'splade'   => $spladeData->toArray(),
         ]));
     }
 
@@ -213,7 +217,7 @@ class SpladeMiddleware
      * @param  \Illuminate\Http\Response  $response
      * @return \Illuminate\Http\Response
      */
-    private function handleRegularRequest(Request $request, Response $response, object $spladeData): Response
+    private function handleRegularRequest(Request $request, Response $response, SpladeResponseData $spladeData): Response
     {
         // No Splade request, but a regular JsonResponse that was
         // requested, for example, from the Defer component...
@@ -245,7 +249,7 @@ class SpladeMiddleware
             'components' => static::renderedComponents(),
             'html'       => $content,
             'dynamics'   => $dynamics,
-            'splade'     => $spladeData,
+            'splade'     => $spladeData->toArray(),
             'ssrHead'    => null,
             'ssrBody'    => null,
         ];
@@ -256,7 +260,7 @@ class SpladeMiddleware
                 $viewData['components'],
                 $viewData['html'],
                 $viewData['dynamics'],
-                $viewData['splade'],
+                $spladeData,
             );
 
             $viewData['ssrBody'] = $data['body'] ?? null;
@@ -359,6 +363,10 @@ class SpladeMiddleware
     {
         $key = $this->splade->getModalKey();
 
+        if (!Str::contains($content, "<!--START-SPLADE-MODAL-{$key}-->")) {
+            return null;
+        }
+
         return Str::between(
             $content,
             "<!--START-SPLADE-MODAL-{$key}-->",
@@ -401,7 +409,7 @@ class SpladeMiddleware
     /**
      * This methods returns all relevant data for a Splade page view.
      */
-    private function spladeData(Session $session, ViewErrorBag $errorsFromRedirect): object
+    private function spladeData(Session $session, ViewErrorBag $errorsFromRedirect): SpladeResponseData
     {
         $flashData = config('splade.share_session_flash_data')
             ? collect($session->get('_flash.old', []))
@@ -418,23 +426,23 @@ class SpladeMiddleware
             $errorsFromRedirect
         );
 
-        return (object) [
-            'head'        => $excludeHead ? [] : $this->splade->head()->toArray(),
-            'modal'       => $this->splade->isModalRequest() ? $this->splade->getModalType() : null,
-            'modalTarget' => $this->splade->getModalTarget() ?: null,
-            'flash'       => (object) $flash,
-            'errors'      => (object) $this->allErrorMessages($mergedViewErrorBag),
-            'shared'      => (object) Arr::map($this->splade->getShared(), fn ($value) => value($value)),
-            'toasts'      => array_merge(
+        return new SpladeResponseData(
+            head: $excludeHead ? [] : $this->splade->head()->toArray(),
+            modal: $this->splade->isModalRequest() ? $this->splade->getModalType() : null,
+            modalTarget: $this->splade->getModalTarget() ?: null,
+            flash: (object) $flash,
+            errors: (object) $this->allErrorMessages($mergedViewErrorBag),
+            shared: (object) Arr::map($this->splade->getShared(), fn ($value) => value($value)),
+            toasts: array_merge(
                 $session->pull(static::FLASH_TOASTS, []),
                 $this->splade->getToasts(),
             ),
-            'preventRefresh'   => $this->splade->dontRefreshPage(),
-            'preserveScroll'   => $this->splade->preserveScroll(),
-            'lazy'             => $this->splade->isLazyRequest(),
-            'rehydrate'        => $this->splade->isRehydrateRequest(),
-            'persistentLayout' => $this->splade->getPersistentLayoutKey(),
-        ];
+            preventRefresh: $this->splade->dontRefreshPage(),
+            preserveScroll: $this->splade->preserveScroll(),
+            lazy: $this->splade->isLazyRequest(),
+            rehydrate: $this->splade->isRehydrateRequest(),
+            persistentLayout:  $this->splade->getPersistentLayoutKey(),
+        );
     }
 
     /**

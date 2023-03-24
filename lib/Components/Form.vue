@@ -136,6 +136,12 @@ export default {
             default: true
         },
 
+        keepModal: {
+            type: Boolean,
+            required: false,
+            default: false,
+        },
+
         preserveScroll: {
             type: Boolean,
             required: false,
@@ -489,6 +495,11 @@ export default {
 
             if(this.preserveScroll) {
                 headers["X-Splade-Preserve-Scroll"] = true;
+            }
+
+            if(this.stack > 0 && this.keepModal) {
+                headers["X-Splade-Modal"] = Splade.stackType(this.stack);
+                headers["X-Splade-Modal-Target"] = this.stack;
             }
 
             let method = this.method.toUpperCase();
