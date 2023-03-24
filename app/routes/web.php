@@ -259,6 +259,7 @@ Route::middleware('splade')->group(function () {
     Route::get('modal/opened', [ModalController::class, 'opened'])->name('modal.opened');
     Route::get('modal/slideover', [ModalController::class, 'slideover'])->name('modal.slideover');
     Route::get('modal/validation', [ModalController::class, 'validation'])->name('modal.validation');
+    Route::get('modal/keep', [ModalController::class, 'keep'])->name('modal.keep');
     Route::get('modal/size/{size}', [ModalController::class, 'size'])->name('modal.size');
 
     Route::view('rehydrate/poll', 'rehydratePoll')->name('rehydratePoll');
