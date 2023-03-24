@@ -10,13 +10,13 @@ class TransitionAnimation implements Arrayable
      * Creates a new instance.
      */
     public function __construct(
-        private string $name,
-        private string $enter,
-        private string $enterFrom,
-        private string $enterTo,
-        private string $leave,
-        private string $leaveFrom,
-        private string $leaveTo
+        public string $name,
+        public string $enter,
+        public string $enterFrom,
+        public string $enterTo,
+        public string $leave,
+        public string $leaveFrom,
+        public string $leaveTo
     ) {
     }
 

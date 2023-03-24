@@ -7,7 +7,7 @@
             'justify-end': modal.position === 'right'
         }">
             <!-- The actual dialog panel -->
-            <x-splade-component is="transition" child after-leave="modal.emitClose" v-bind:class="{
+            <x-splade-component is="transition" child after-leave="modal.emitClose" animate="modal.animate" v-bind:class="{
                 'transition w-full': true,
                 'blur-sm': !modal.onTopOfStack,
                 'sm:max-w-sm': modal.maxWidth == 'sm',
