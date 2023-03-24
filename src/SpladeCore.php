@@ -234,6 +234,14 @@ class SpladeCore
     }
 
     /**
+     * Returns the custom toast factory.
+     */
+    public function getCustomToastFactory(): ?callable
+    {
+        return $this->customToastFactory;
+    }
+
+    /**
      * Resolves the given value if this is the initial request.
      *
      * @param  mixed  $value
@@ -294,8 +302,8 @@ class SpladeCore
     {
         $newToast = new SpladeToast($message);
 
-        if ($this->customToastFactory) {
-            call_user_func($this->customToastFactory, $newToast);
+        if ($factory = Splade::getCustomToastFactory()) {
+            call_user_func($factory, $newToast);
         }
 
         if (trim($message) !== '') {
