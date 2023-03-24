@@ -22,6 +22,24 @@ class SpladeResponseData implements Arrayable
     ) {
     }
 
+    public static function make(): static
+    {
+        return new static(
+            head: [],
+            modal: null,
+            modalTarget: null,
+            flash: (object) [],
+            errors: (object) [],
+            shared: (object) [],
+            toasts: [],
+            preventRefresh: false,
+            preserveScroll: false,
+            lazy: false,
+            rehydrate: false,
+            persistentLayout: null,
+        );
+    }
+
     public function toArray()
     {
         return [

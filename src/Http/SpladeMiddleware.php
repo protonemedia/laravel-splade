@@ -266,7 +266,7 @@ class SpladeMiddleware
                 $viewData['components'],
                 $viewData['html'],
                 $viewData['dynamics'],
-                $viewData['splade'],
+                $spladeData,
             );
 
             $viewData['ssrBody'] = $data['body'] ?? null;
