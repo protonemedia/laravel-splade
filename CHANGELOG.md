@@ -2,6 +2,16 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 1.4.6 - 2023-03-24
+
+- The `keep-modal` attribute from the Link component now also works on the Form component
+- Bridge components now work from URLs that use route bindings
+- The Lazy Component now retrieves the original URL from the backend instead of from the browser
+- Better handling of opening URLs in a Modal that only respond with a Toast
+- The Default Toast settings now also apply to Toasts sent from Broadcasted events
+- The Table component now resolves values from objects that use a magic getter
+- Partial refactor of the `SpladeMiddleware`
+
 ## 1.4.5 - 2023-03-21
 
 - Option to preserve scroll position when using `Splade::refreshOnEvent()`
