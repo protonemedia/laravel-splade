@@ -135,23 +135,17 @@ class SpladeMiddleware
     {
         // We don't mess with JsonResponses, except we add the Splade data to it.
         if ($response instanceof JsonResponse) {
-            $decodedData = $response->getData(true);
-
-            if (!is_array($decodedData)) {
-                $decodedData = [];
-            }
-
-            $newData = array_merge(
-                $decodedData,
-                ['splade' => $spladeData->toArray()]
-            );
-
             // Get the Validation Errors from the exception and put them in the Splade data.
             if ($response->exception instanceof ValidationException) {
-                $newData['splade']->errors = (object) $response->exception->errors();
+                $spladeData->errors = (object) $response->exception->errors();
             }
 
-            return $response->setData($newData);
+            $responseData = $response->getData(true);
+
+            return $response->setData(array_merge(
+                is_array($responseData) ? $responseData : [],
+                ['splade' => $spladeData->toArray()]
+            ));
         }
 
         if ($response->isRedirect() && $this->splade->dontRefreshPage()) {
