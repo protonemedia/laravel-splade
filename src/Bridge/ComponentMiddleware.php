@@ -3,6 +3,7 @@
 namespace ProtoneMedia\Splade\Bridge;
 
 use Illuminate\Http\Request;
+use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
@@ -11,21 +12,55 @@ use ProtoneMedia\Splade\Http\SpladeMiddleware;
 class ComponentMiddleware
 {
     /**
-     * Gathers the Middleware of the given URL and method, and filters out the
-     * Middleware that is already applied to the 'withVueBridge' route.
+     * Substitute the route bindings onto the route.
      */
-    public function resolveApplicableMiddleware(string $url, string $method): array
+    public function applyOriginalRouteParameters(string $url, string $method, Request $request): void
+    {
+        $middleware = $this->gatherMiddleware($url, $method);
+
+        /** @var Router */
+        $router = app(Router::class);
+
+        if (!in_array(SubstituteBindings::class, $router->resolveMiddleware($middleware))) {
+            return;
+        }
+
+        $originalRequest = $this->makeRequestFromUrlAndMethod($url, $method);
+
+        (new SubstituteBindings($router))->handle($originalRequest, fn () => null);
+
+        foreach ($originalRequest->route()->parameters() as $key => $value) {
+            $request->route()->setParameter($key, $value);
+        }
+    }
+
+    /**
+     * Gathers the Middleware of the given URL and method.
+     */
+    private function gatherMiddleware(string $url, string $method): array
     {
         $originalRequest = $this->makeRequestFromUrlAndMethod($url, $method);
 
         /** @var Router */
         $router = app('router');
 
-        $originalRoute = $originalRequest->route();
-        $handlerRoute  = $router->getRoutes()->getByName('splade.withVueBridge');
+        return $router->gatherRouteMiddleware($originalRequest->route());
+    }
 
-        $originalMiddleware = $router->gatherRouteMiddleware($originalRoute);
-        $handlerMiddleware  = array_map(function ($middleware) {
+    /**
+     * Gathers the Middleware of the given URL and method, and filters out the
+     * Middleware that is already applied to the 'withVueBridge' route.
+     */
+    public function resolveApplicableMiddleware(string $url, string $method): array
+    {
+        $originalMiddleware = $this->gatherMiddleware($url, $method);
+
+        /** @var Router */
+        $router = app('router');
+
+        $handlerRoute = $router->getRoutes()->getByName('splade.withVueBridge');
+
+        $handlerMiddleware = array_map(function ($middleware) {
             return Str::before($middleware, ':');
         }, $router->gatherRouteMiddleware($handlerRoute));
 
@@ -40,7 +75,7 @@ class ComponentMiddleware
      * Returns a new request that matches the route of the given URL and method.
      * Completely stolen from Livewire's HttpConnectionHandler class.
      */
-    protected function makeRequestFromUrlAndMethod(string $url, string $method): Request
+    public function makeRequestFromUrlAndMethod(string $url, string $method): Request
     {
         $currentRequest = request();
 
