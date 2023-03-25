@@ -19,7 +19,11 @@ class Transition extends Component
         private bool $unmount = true,
         private bool $child = false,
         private string $afterLeave = '',
+        private bool|string $animate = true,
     ) {
+        if (is_bool($animate)) {
+            $this->animate = $animate ? 'true' : 'false';
+        }
     }
 
     /**
@@ -38,6 +42,7 @@ class Transition extends Component
             'appear'     => $this->appear,
             'unmount'    => $this->unmount,
             'afterLeave' => $this->afterLeave,
+            'animate'    => $this->animate,
         ]);
     }
 }
