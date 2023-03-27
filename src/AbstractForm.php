@@ -2,6 +2,8 @@
 
 namespace ProtoneMedia\Splade;
 
+use Illuminate\Http\Request;
+
 abstract class AbstractForm
 {
     /**
@@ -66,5 +68,17 @@ abstract class AbstractForm
     public static function rules(...$arguments): array
     {
         return self::make(...$arguments)->getRules();
+    }
+
+    /**
+     * Validate the request with the rules of the form.
+     *
+     * @param mixed ...$params
+     */
+    public function validate(?Request $request = null, ...$params): array
+    {
+        $request = $request ?? request();
+
+        return $request->validate($this->rules(), ...$params);
     }
 }

@@ -80,11 +80,9 @@ class FormBuilderController
         ]);
     }
 
-    public function storeModel(Request $request)
+    public function storeModel(Request $request, ModelbindingForm $form)
     {
-        $rules = ModelbindingForm::make()->getRules();
-
-        $result = $request->validate($rules);
+        $result = $form->validate($request);
 
         return response()->json(['result' => $result]);
     }
