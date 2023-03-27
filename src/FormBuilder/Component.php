@@ -137,6 +137,7 @@ abstract class Component
     {
         if ($required) {
             $this->rules[] = 'required';
+            $this->attributes['required'] = 'required';
         }
 
         return $this;
@@ -169,6 +170,10 @@ abstract class Component
 
             return explode('|', $item);
         })->flatten()->toArray();
+
+        if (in_array('required', $this->rules)) {
+            $this->attributes['required'] = 'required';
+        }
 
         return $this;
     }
