@@ -2,13 +2,14 @@
 
 namespace ProtoneMedia\Splade;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 
 class SpladeForm
 {
     protected ?AbstractForm $configurator = null;
 
-    protected $data = [];
+    protected array|Model $data = [];
 
     protected array $fields = [];
 
@@ -50,7 +51,7 @@ class SpladeForm
     }
 
     /**
-     * Sets the id for the form
+     * Sets the id for the form.
      *
      * @return $this
      */
@@ -62,7 +63,7 @@ class SpladeForm
     }
 
     /**
-     * Sets the action for the form
+     * Sets the action for the form.
      *
      * @return $this
      */
@@ -74,7 +75,7 @@ class SpladeForm
     }
 
     /**
-     * Add css-class(es) to the form
+     * Add css-class(es) to the form.
      *
      * @return $this
      */
@@ -111,7 +112,7 @@ class SpladeForm
     }
 
     /**
-     * Sets the values for the form fields
+     * Sets the values for the form fields.
      *
      * @return $this
      */
@@ -123,7 +124,7 @@ class SpladeForm
     }
 
     /**
-     * Adds fields to the form
+     * Adds fields to the form.
      *
      * @return $this
      */
@@ -135,7 +136,7 @@ class SpladeForm
     }
 
     /**
-     * Prevent the page from scrolling to the top after submit
+     * Prevent the page from scrolling to the top after submit.
      *
      * @param  bool  $stay
      * @return $this
@@ -148,9 +149,9 @@ class SpladeForm
     }
 
     /**
-     * Require the user to confirm their password within the confirmation dialog
+     * Require the user to confirm their password within the confirmation dialog.
      *
-     * Add `Route::spladePasswordConfirmation();` to your routes to make this work
+     * Add `Route::spladePasswordConfirmation();` to your routes to make this work.
      *
      * @return $this
      */
@@ -174,7 +175,7 @@ class SpladeForm
     }
 
     /**
-     * Prevent navigation on submit
+     * Prevent navigation on submit.
      *
      * @param  string  $actionOnSuccess reset|restore
      * @return $this
@@ -193,7 +194,7 @@ class SpladeForm
      * Submit the form whenever a value changes.
      *
      * If one or morge fieldnames are provided in $watch_fields,
-     * the form will only be submitted on changes on these fields
+     * the form will only be submitted on changes on these fields.
      *
      * @param  array|string|null  $watchFields
      * @return $this
@@ -212,7 +213,7 @@ class SpladeForm
     }
 
     /**
-     * Set the method of the form
+     * Set the method of the form.
      *
      * @return $this
      */
@@ -224,7 +225,7 @@ class SpladeForm
     }
 
     /**
-     * Returns the id for the form
+     * Returns the id for the form.
      */
     public function getId(): string
     {
@@ -232,7 +233,7 @@ class SpladeForm
     }
 
     /**
-     * Returns the action for the form
+     * Returns the action for the form.
      */
     public function getAction(): string
     {
@@ -240,7 +241,7 @@ class SpladeForm
     }
 
     /**
-     * Returns the data for the form
+     * Returns the data for the form.
      */
     public function getClass(): array|string
     {
@@ -248,7 +249,7 @@ class SpladeForm
     }
 
     /**
-     * Returns the data for the form
+     * Returns the data for the form.
      */
     public function getData()
     {
@@ -256,7 +257,7 @@ class SpladeForm
     }
 
     /**
-     * Returns all fields of the form
+     * Returns all fields of the form.
      */
     public function getFields(): array
     {
@@ -264,7 +265,7 @@ class SpladeForm
     }
 
     /**
-     * Returns the method for the form
+     * Returns the method for the form.
      */
     public function getMethod(): string
     {
@@ -272,7 +273,7 @@ class SpladeForm
     }
 
     /**
-     * Return an option for the form arguments
+     * Return an option for the form arguments.
      */
     public function getOption(string $option): array|bool|string|null
     {
@@ -280,7 +281,7 @@ class SpladeForm
     }
 
     /**
-     * Returns the forms rules
+     * Returns the forms rules.
      */
     public function getRules(): array
     {
