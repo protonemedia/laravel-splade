@@ -2,7 +2,7 @@
 
 <SpladeButton {{ $attributes->only(['v-bind:spinner', ':spinner']) }}>
     <template #default="button">
-        <button :disabled="button.spinner" {{ $attributes->class([
+        <{{ $type === 'link' ? 'Link' : 'button' }} :disabled="button.spinner" {{ $attributes->class([
             'border rounded-md shadow-sm font-bold py-2 px-4 focus:outline-none focus:ring focus:ring-opacity-50',
             'bg-indigo-500 hover:bg-indigo-700 text-white border-transparent focus:border-indigo-300 focus:ring-indigo-200' => !$customStyling && $primary,
             'bg-red-500 hover:bg-red-700 text-white border-transparent focus:border-red-700 focus:ring-red-200' => !$customStyling && $danger,
@@ -29,6 +29,6 @@
                     </span>
                 </div>
             @endif
-        </button>
+        </{{ $type === 'link' ? 'Link' : 'button' }}>
     </template>
 </SpladeButton>

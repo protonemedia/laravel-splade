@@ -4,6 +4,7 @@ namespace ProtoneMedia\Splade;
 
 use Illuminate\Contracts\Database\Query\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Collection;
@@ -48,6 +49,8 @@ class SpladeTable
 
     protected ?AbstractTable $configurator = null;
 
+    protected bool $resourceLoaded = false;
+
     /**
      * Creates a new instance.
      *
@@ -86,6 +89,10 @@ class SpladeTable
 
         if ($resource instanceof Model) {
             $resource = $resource->newQuery();
+        }
+
+        if ($resource instanceof Relation) {
+            $resource = $resource->getQuery();
         }
 
         if ($resource instanceof Builder || $resource instanceof SpatieQueryBuilder) {
@@ -268,12 +275,22 @@ class SpladeTable
 
     /**
      * Any action that should be performed before rendering the Table component.
-     *
-     * @return void
      */
-    public function beforeRender()
+    public function beforeRender(): void
     {
-        $this->resolveRowLinks();
+        $this->loadResource()->resolveRowLinks();
+    }
+
+    /**
+     * Any action that should be performed interacting with the resource.
+     */
+    public function loadResource(): self
+    {
+        if (!$this->resourceLoaded) {
+            $this->resourceLoaded = true;
+        }
+
+        return $this;
     }
 
     public function performBulkAction(callable $action, array $ids)

@@ -21,6 +21,14 @@ jobs:
         exclude:
           - laravel: 10.*
             php: 8.0
+          - laravel: 9.*
+            os: windows-latest
+          - php: 8.1
+            os: windows-latest
+          - php: 8.0
+            os: windows-latest
+          - dependency-version: prefer-lowest
+            os: windows-latest
 
     name: Test Stubs ${{ matrix.os }} - P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.dependency-version }}
 

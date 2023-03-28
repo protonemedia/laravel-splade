@@ -2,6 +2,45 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 1.4.6 - 2023-03-24
+
+- The `keep-modal` attribute from the Link component now also works on the Form component
+- Bridge components now work from URLs that use route bindings
+- The Lazy Component now retrieves the original URL from the backend instead of from the browser
+- Better handling of opening URLs in a Modal that only respond with a Toast
+- The Default Toast settings now also apply to Toasts sent from Broadcasted events
+- The Table component now resolves values from objects that use a magic getter
+- Partial refactor of the `SpladeMiddleware`
+
+## 1.4.5 - 2023-03-21
+
+- Option to preserve scroll position when using `Splade::refreshOnEvent()`
+
+## 1.4.4 - 2023-03-21
+
+- Event + Select bugfixes
+
+## 1.4.3 - 2023-03-17
+
+- Fixed duplicate select event
+
+## 1.4.2 - 2023-03-17
+
+- Added `select-first-remote-option` and `reset-on-new-remote-url` attributes to Select component
+- Support for transformed values in Table component
+- Improved handling of resource loading in Table component
+- Improved handling of `AuthenticationException`
+- Bugfix for Choices.js instance in Modal component
+
+## 1.4.1 - 2023-03-15
+
+- Support for closing modals explicitly (don't close on escape keypress or click outside)
+- Support for Table column classes
+- Allow `x-splade-button` component to be a Link element (with `type="link"`)
+- Allow Eloquent Relationship instances in Splade Table
+- Transformer fix for nested data
+- Only test Windows stubs on latest version
+
 ## 1.4.0 - 2023-03-10
 
 - Form Builder by @J87NL

@@ -9,8 +9,10 @@ ModalComponent
     <Link slideover dusk="slideover" href="{{ route('modal.slideover') }}">Open Modal Slideover</Link>
     <Link slideover dusk="slideover-left" href="{{ route('modal.slideover', ['left' => 1]) }}">Open Modal Slideover Left</Link>
     <Link modal dusk="validation" href="{{ route('modal.validation') }}">Open Modal Validation</Link>
+    <Link modal dusk="keep" href="{{ route('modal.keep') }}">Open Modal and Keep</Link>
     <Link modal dusk="libraries" href="{{ route('form.components.libraries') }}">Open Form Libraries</Link>
     <Link modal dusk="form-select" href="{{ route('form.components.customSelectOptions') }}">Open Custom Select Options</Link>
+    <Link modal dusk="one-close-explicitly" href="{{ route('modal.one', ['closeExplicitly' => 1]) }}">Open Modal One (Close Explicitly)</Link>
 </div>
 
 <div class="flex space-x-3">
@@ -42,7 +44,7 @@ ModalComponent
 <div class="flex space-x-3">
     <Link dusk="menu-modal" href="#menu-modal">Preloaded modal</Link>
     <Link dusk="menu-slideover" href="#menu-slideover">Preloaded slideover</Link>
-    <Link dusk="menu-modal-large" href="#menu-modal-large">Preloaded modal (large)</Link>
+    <Link dusk="menu-modal-large" href="#menu-modal-large">Preloaded modal (large, close explicitly)</Link>
     <Link dusk="menu-slideover-large" href="#menu-slideover-large">Preloaded slideover (large)</Link>
 </div>
 
@@ -54,7 +56,7 @@ ModalComponent
     <h1>Check out my slideover!</h1>
 </x-splade-modal>
 
-<x-splade-modal name="menu-modal-large" modal max-width="7xl">
+<x-splade-modal name="menu-modal-large" modal max-width="7xl" close-explicitly>
     <h1>Check out my modal!</h1>
 </x-splade-modal>
 

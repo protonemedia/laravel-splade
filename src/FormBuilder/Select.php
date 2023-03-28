@@ -22,6 +22,10 @@ class Select extends Component
 
     protected string $optionValue = '';
 
+    protected bool|null $resetOnNewRemoteUrl = null;
+
+    protected bool|null $selectFirstRemoteOption = null;
+
     public function options(array $options = []): self
     {
         $this->options = $options;
@@ -84,6 +88,20 @@ class Select extends Component
         return $this;
     }
 
+    public function resetOnNewRemoteUrl(bool $value = true)
+    {
+        $this->resetOnNewRemoteUrl = $value;
+
+        return $this;
+    }
+
+    public function selectFirstRemoteOption(bool $value = true)
+    {
+        $this->selectFirstRemoteOption = $value;
+
+        return $this;
+    }
+
     /**
      * Renders the SpladeSelect
      *
@@ -102,7 +120,9 @@ class Select extends Component
             remoteUrl:   $this->remoteUrl,
             remoteRoot:  $this->remoteRoute,
             optionValue: $this->optionValue,
-            optionLabel: $this->optionLabel
+            optionLabel: $this->optionLabel,
+            resetOnNewRemoteUrl: $this->resetOnNewRemoteUrl,
+            selectFirstRemoteOption: $this->selectFirstRemoteOption
         );
     }
 }

@@ -122,7 +122,13 @@ class Table extends Component
      */
     public function getColumnDataFromItem($item, Column $column)
     {
-        return $column->getDataFromItem($item);
+        $value = $column->getDataFromItem($item);
+
+        if (is_callable($as = $column->as)) {
+            return call_user_func($as, $value, $item);
+        }
+
+        return $value;
     }
 
     /**

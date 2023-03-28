@@ -2,7 +2,7 @@
 <SpladeModal {{ $baseAttributes->mergeVueBinding(':close-button', $closeButton) }} :name="@js($name)">
     <template #default="modal">
         <x-splade-component is="transition" show="modal.isOpen">
-            <x-splade-component is="dialog" v-bind:dusk="`modal.${modal.stack}`" close="modal.setIsOpen" class="relative z-20">
+            <x-splade-component is="dialog" v-bind:dusk="`modal.${modal.stack}`" close="{{ $closeExplicitly ? '' : 'modal.setIsOpen' }}" class="relative z-20">
                 <!-- The backdrop, rendered as a fixed sibling to the panel container -->
                 <x-splade-component
                     is="transition" child

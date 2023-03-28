@@ -1,7 +1,5 @@
 <tbody class="divide-y divide-gray-200 bg-white">
     @forelse($table->resource as $itemKey => $item)
-        @php $itemPrimaryKey = $table->findPrimaryKey($item) @endphp
-
         <tr
             :class="{
                 'bg-gray-50': table.striped && @js($itemKey) % 2,
@@ -11,6 +9,8 @@
         >
             @if($hasBulkActions = $table->hasBulkActions())
                 <td width="64" class="text-xs px-6 py-4">
+                    @php $itemPrimaryKey = $table->findPrimaryKey($item) @endphp
+
                     <input
                         @change="(e) => table.setSelectedItem(@js($itemPrimaryKey), e.target.checked)"
                         :checked="table.itemIsSelected(@js($itemPrimaryKey))"
@@ -29,7 +29,7 @@
                         @click="(event) => table.visit(@js($table->rowLinks->get($itemKey)), @js($table->rowLinkType), event)"
                     @endif
                     v-show="table.columnIsVisible(@js($column->key))"
-                    class="whitespace-nowrap text-sm @if($loop->first && $hasBulkActions) pr-6 @else px-6 @endif py-4 @if($column->highlight) text-gray-900 font-medium @else text-gray-500 @endif @if($table->rowLinks->has($itemKey)) cursor-pointer @endif"
+                    class="whitespace-nowrap text-sm @if($loop->first && $hasBulkActions) pr-6 @else px-6 @endif py-4 @if($column->highlight) text-gray-900 font-medium @else text-gray-500 @endif @if($table->rowLinks->has($itemKey)) cursor-pointer @endif {{ $column->classes }}"
                 >
                     @isset(${'spladeTableCell' . $column->keyHash()})
                         {{ ${'spladeTableCell' . $column->keyHash()}($item, $itemKey) }}

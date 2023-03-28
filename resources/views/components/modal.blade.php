@@ -1,4 +1,4 @@
-<x-splade-component is="modal-wrapper" :base-attributes="$attributes->except('class')" :key="$modalKey" :close-button="$closeButton" :name="$name">
+<x-splade-component is="modal-wrapper" :base-attributes="$attributes->except('class')" :key="$modalKey" :close-button="$closeButton" :close-explicitly="$closeExplicitly" :name="$name">
     <!-- Full-screen scrollable container -->
     <div class="fixed inset-0 z-40 overflow-y-auto p-4">
         <!-- Container to center the panel -->
@@ -8,7 +8,7 @@
             'items-end': modal.position === 'bottom'
         }">
             <!-- The actual dialog panel -->
-            <x-splade-component is="transition" child animation="fade" after-leave="modal.emitClose" v-bind:class="{
+            <x-splade-component is="transition" child animation="fade" after-leave="modal.emitClose" animate="modal.animate" v-bind:class="{
                 'transition w-full': true,
                 'blur-sm': !modal.onTopOfStack,
                 'sm:max-w-sm': modal.maxWidth == 'sm',

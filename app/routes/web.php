@@ -2,6 +2,7 @@
 
 use App\Events\RedirectEvent;
 use App\Events\RefreshEvent;
+use App\Events\RefreshPreserveScrollEvent;
 use App\Events\SimpleEvent;
 use App\Events\ToastEvent;
 use App\Http\Controllers\BackFormController;
@@ -55,6 +56,7 @@ Route::get('login/redirect', function () {
 
 Route::get('event/redirect', fn () => event(new RedirectEvent))->name('event.redirect');
 Route::get('event/refresh', fn () => event(new RefreshEvent))->name('event.refresh');
+Route::get('event/refreshPreserveScroll', fn () => event(new RefreshPreserveScrollEvent))->name('event.refreshPreserveScroll');
 Route::get('event/simple', fn () => event(new SimpleEvent))->name('event.simple');
 Route::get('event/toast', fn () => event(new ToastEvent))->name('event.toast');
 
@@ -99,6 +101,7 @@ Route::middleware('splade')->group(function () {
     Route::view('errors', 'errors')->name('errors');
 
     Route::view('event', 'event')->name('event');
+    Route::view('eventPreserveScroll', 'eventPreserveScroll')->name('eventPreserveScroll');
 
     Route::get('flash/put', function () {
         return redirect()->route('flash')->with('message', 'This is a message');
@@ -256,6 +259,7 @@ Route::middleware('splade')->group(function () {
     Route::get('modal/opened', [ModalController::class, 'opened'])->name('modal.opened');
     Route::get('modal/slideover', [ModalController::class, 'slideover'])->name('modal.slideover');
     Route::get('modal/validation', [ModalController::class, 'validation'])->name('modal.validation');
+    Route::get('modal/keep', [ModalController::class, 'keep'])->name('modal.keep');
     Route::get('modal/size/{size}', [ModalController::class, 'size'])->name('modal.size');
 
     Route::view('rehydrate/poll', 'rehydratePoll')->name('rehydratePoll');
@@ -313,6 +317,7 @@ Route::middleware('splade')->group(function () {
 
         Route::get('/modal', [TableController::class, 'modal'])->name('table.modal');
 
+        Route::get('/as/{spladeQueryBuilder?}', [TableController::class, 'as'])->name('table.as');
         Route::get('/boolean/{spladeQueryBuilder?}', [TableController::class, 'boolean'])->name('table.boolean');
         Route::get('/custom/{spladeQueryBuilder?}', [TableController::class, 'custom'])->name('table.custom');
         Route::get('/noPerPage/{spladeQueryBuilder?}', [TableController::class, 'noPerPage'])->name('table.noPerPage');
