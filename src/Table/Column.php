@@ -60,7 +60,7 @@ class Column implements Arrayable
             'label'         => $this->label,
             'can_be_hidden' => $this->canBeHidden,
             'hidden'        => $this->hidden,
-            'sortable'      => $this->sortable,
+            'sortable'      => $this->sortable !== false,
             'sorted'        => $this->sorted,
             'highlight'     => $this->highlight,
         ];
