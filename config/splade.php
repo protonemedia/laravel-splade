@@ -30,6 +30,11 @@ return [
     'confirm_password_route' => '/_splade/confirmPassword',
 
     /**
+     * The URI to handle the interactive component.
+     */
+    'with_vue_bridge_route' => '/_splade/withVueBridge',
+
+    /**
      * Name of the guard which is used for the password confirmation.
      * Leave empty to use the default guard.
      *

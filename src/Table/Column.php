@@ -4,6 +4,7 @@ namespace ProtoneMedia\Splade\Table;
 
 use Closure;
 use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
@@ -12,14 +13,6 @@ class Column implements Arrayable
     /**
      * This class represents a column within a Splade Table.
      *
-     * @param  string  $key
-     * @param  string  $label
-     * @param  bool  $canBeHidden
-     * @param  bool  $hidden
-     * @param  bool  $sortable
-     * @param  bool|string  $sorted
-     * @param  bool  $highlight
-     * @param  bool|Closure  $exportAs
      * @param  Closure|string  $exportFormat
      * @param  Closure|array  $exportStyling
      */
@@ -34,13 +27,18 @@ class Column implements Arrayable
         public bool|Closure $exportAs,
         public Closure|string|null $exportFormat = null,
         public Closure|array|null $exportStyling = null,
+        public array|string|null $classes = null,
+        public Closure|null $as = null,
     ) {
+        if (is_array($classes)) {
+            $classes = Arr::flatten($classes);
+        }
+
+        $this->classes = Arr::toCssClasses($classes);
     }
 
     /**
      * Returns a clone of the instance.
-     *
-     * @return static
      */
     public function clone(): static
     {
@@ -55,6 +53,8 @@ class Column implements Arrayable
             $this->exportAs,
             $this->exportFormat,
             $this->exportStyling,
+            $this->classes,
+            $this->as,
         );
     }
 
@@ -96,13 +96,17 @@ class Column implements Arrayable
             }
         }
 
-        return data_get($item, $this->key);
+        return data_get($item, $this->key, function () use ($item) {
+            if (!is_object($item)) {
+                return null;
+            }
+
+            return rescue(fn () => $item->{$this->key}, report: false);
+        });
     }
 
     /**
      * Returns a boolean whether to columns refers to a relationship.
-     *
-     * @return bool
      */
     public function isNested(): bool
     {
@@ -111,8 +115,6 @@ class Column implements Arrayable
 
     /**
      * Returns the name of the relationship.
-     *
-     * @return string
      */
     public function relationshipName(): string
     {
@@ -121,8 +123,6 @@ class Column implements Arrayable
 
     /**
      * Returns the target column on the relationship.
-     *
-     * @return string
      */
     public function relationshipColumn(): string
     {

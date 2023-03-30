@@ -20,7 +20,6 @@ class ResolvableData
      * Helper method the wrap non-callable values into a callable.
      *
      * @param  mixed  $value
-     * @return static
      */
     public static function from($value): static
     {
@@ -32,7 +31,6 @@ class ResolvableData
     /**
      * Resolves the callable based on the given boolean.
      *
-     * @param  bool  $shouldResolve
      * @return mixed
      */
     public function resolveIf(bool $shouldResolve)

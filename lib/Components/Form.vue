@@ -136,6 +136,12 @@ export default {
             default: true
         },
 
+        keepModal: {
+            type: Boolean,
+            required: false,
+            default: false,
+        },
+
         preserveScroll: {
             type: Boolean,
             required: false,
@@ -182,6 +188,7 @@ export default {
             elementsUploading: [],
             fileponds: {},
             debounceFunction: null,
+            response: null,
         };
     },
 
@@ -396,6 +403,7 @@ export default {
          */
         submit($event) {
             if(this.$uploading) {
+                console.log("Not submitting because there are still files uploading");
                 return;
             }
 
@@ -449,6 +457,7 @@ export default {
             }
 
             if(this.$uploading) {
+                console.log("Not submitting because there are still files uploading");
                 return;
             }
 
@@ -459,6 +468,8 @@ export default {
             } else {
                 this.processing = true;
             }
+
+            this.response = null;
 
             this.wasSuccessful = false;
             this.recentlySuccessful = false;
@@ -472,8 +483,6 @@ export default {
                 ? this.values
                 : objectToFormData(this.values);
 
-
-
             const headers = {};
 
             if(this.acceptHeader) {
@@ -486,6 +495,11 @@ export default {
 
             if(this.preserveScroll) {
                 headers["X-Splade-Preserve-Scroll"] = true;
+            }
+
+            if(this.stack > 0 && this.keepModal) {
+                headers["X-Splade-Modal"] = Splade.stackType(this.stack);
+                headers["X-Splade-Modal-Target"] = this.stack;
             }
 
             let method = this.method.toUpperCase();
@@ -512,6 +526,8 @@ export default {
                 this.wasSuccessful = true;
                 this.recentlySuccessful = true;
                 this.recentlySuccessfulTimeoutId = setTimeout(() => this.recentlySuccessful = false, 2000);
+
+                this.response = response.data;
             };
 
             if(this.action === "#") {
@@ -573,6 +589,7 @@ export default {
                             "$addFile",
                             "$addFiles",
                             "$fileAsUrl",
+                            "$response",
                             "errors",
                             "restore",
                             "reset",
@@ -586,6 +603,10 @@ export default {
                             "wasUnsuccessful",
                             "recentlyUnsuccessful",
                         ];
+
+                        if(name === "$response") {
+                            return self.response;
+                        }
 
                         if(preservedKeys.includes(name)) {
                             return self[name];

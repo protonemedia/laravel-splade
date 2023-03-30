@@ -43,6 +43,26 @@ class FilterTest extends DuskTestCase
      *
      * @dataProvider booleanDataset
      */
+    public function it_can_provide_a_callback_to_transform_the_value($spladeQueryBuilder)
+    {
+        $this->browse(function (Browser $browser) use ($spladeQueryBuilder) {
+            User::orderBy('name')->first()->forceFill([
+                'is_admin' => '1',
+            ])->save();
+
+            $firstUser = User::query()->orderBy('name')->first();
+
+            $browser->visit('/table/as/' . (int) $spladeQueryBuilder)
+                ->assertSeeIn('tr:nth-child(1) td:nth-child(1)', $firstUser->name)
+                ->assertSeeIn('tr:nth-child(1) td:nth-child(2)', strrev($firstUser->email));
+        });
+    }
+
+    /**
+     * @test
+     *
+     * @dataProvider booleanDataset
+     */
     public function it_can_use_boolean_keys_for_the_filter_options($spladeQueryBuilder)
     {
         $this->browse(function (Browser $browser) use ($spladeQueryBuilder) {

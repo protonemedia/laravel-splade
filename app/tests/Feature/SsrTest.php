@@ -3,6 +3,8 @@
 namespace Tests\Feature;
 
 use ProtoneMedia\Splade\Http\SpladeMiddleware;
+use ProtoneMedia\Splade\Http\SpladeResponseData;
+use ProtoneMedia\Splade\SpladeCore;
 use ProtoneMedia\Splade\Ssr;
 use Tests\TestCase;
 
@@ -16,10 +18,10 @@ class SsrTest extends TestCase
         }
 
         $data = (new Ssr)->render(
-            components:  SpladeMiddleware::renderedComponents(),
-            html:        view('form.default')->render(),
-            dynamics:    [],
-            splade:      (object) [],
+            components: SpladeMiddleware::renderedComponents(),
+            html: view('form.default')->render(),
+            dynamics: [],
+            splade: SpladeResponseData::make(),
         );
 
         $this->assertArrayHasKey('body', $data);
@@ -42,14 +44,19 @@ class SsrTest extends TestCase
             view('navigation.videoOne')->render()
         );
 
-        $data = (new Ssr)->render(
+        $ssr = new Ssr;
+
+        $content = (new SpladeMiddleware(app(SpladeCore::class), $ssr))->wrapContentInDataStores($content);
+
+        $data = $ssr->render(
             components: SpladeMiddleware::renderedComponents(),
             html: $content,
             dynamics: $dynamics,
-            splade: (object) [],
+            splade: SpladeResponseData::make(),
         );
 
         $this->assertArrayHasKey('body', $data);
+        $this->assertIsString($data['body']);
 
         $body = $data['body'];
 

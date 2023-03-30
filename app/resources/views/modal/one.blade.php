@@ -2,7 +2,7 @@
 
 @section('content')
 
-<x-splade-modal>
+<x-splade-modal :close-explicitly="$closeExplicitly">
     ModalComponentOne
 
     <Link modal dusk="two" href="{{ route('modal.two') }}">Open Modal Two</Link>

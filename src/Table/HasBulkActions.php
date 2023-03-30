@@ -8,8 +8,6 @@ trait HasBulkActions
 
     /**
      * Retuns all bul actions.
-     *
-     * @return array
      */
     public function getBulkActions(): array
     {
@@ -18,8 +16,6 @@ trait HasBulkActions
 
     /**
      * Returns a boolean whether this table has bulk actions.
-     *
-     * @return bool
      */
     public function hasBulkActions(): bool
     {
@@ -29,10 +25,6 @@ trait HasBulkActions
     /**
      * Adds a new bulk action.
      *
-     * @param  string  $label
-     * @param  callable|null  $each
-     * @param  callable|null  $before
-     * @param  callable|null  $after
      * @return $this
      */
     public function bulkAction(

@@ -2,6 +2,93 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 1.4.6 - 2023-03-24
+
+- The `keep-modal` attribute from the Link component now also works on the Form component
+- Bridge components now work from URLs that use route bindings
+- The Lazy Component now retrieves the original URL from the backend instead of from the browser
+- Better handling of opening URLs in a Modal that only respond with a Toast
+- The Default Toast settings now also apply to Toasts sent from Broadcasted events
+- The Table component now resolves values from objects that use a magic getter
+- Partial refactor of the `SpladeMiddleware`
+
+## 1.4.5 - 2023-03-21
+
+- Option to preserve scroll position when using `Splade::refreshOnEvent()`
+
+## 1.4.4 - 2023-03-21
+
+- Event + Select bugfixes
+
+## 1.4.3 - 2023-03-17
+
+- Fixed duplicate select event
+
+## 1.4.2 - 2023-03-17
+
+- Added `select-first-remote-option` and `reset-on-new-remote-url` attributes to Select component
+- Support for transformed values in Table component
+- Improved handling of resource loading in Table component
+- Improved handling of `AuthenticationException`
+- Bugfix for Choices.js instance in Modal component
+
+## 1.4.1 - 2023-03-15
+
+- Support for closing modals explicitly (don't close on escape keypress or click outside)
+- Support for Table column classes
+- Allow `x-splade-button` component to be a Link element (with `type="link"`)
+- Allow Eloquent Relationship instances in Splade Table
+- Transformer fix for nested data
+- Only test Windows stubs on latest version
+
+## 1.4.0 - 2023-03-10
+
+- Form Builder by @J87NL
+
+## 1.3.1 - 2023-02-28
+
+- Table Component UI fixes
+
+## 1.3.0 - 2023-02-28
+
+- (Beta/Experimental) Added a `WithVue` trait to bind Blade Component method/props to Vue templates.
+- Support for Transformers to safely pass data to the frontend (Bridge, Data, Defer, Form components)
+- Support for *empty state* in Table Component (by @lartisan)
+- Added zh_CN translation (by @myxiaoao)
+- Added additional debugging info in the Event component
+- Table Bugfix for using both Bulk Actions and the Row Link feature (by @zulfikar-ditya)
+
+## 1.2.15 - 2023-02-16
+
+- Global Data store now keeps working with async data from the DynamicHtml, Lazy, and Rehydrate components
+- Textarea markup fix (#300 - thanks @evici!)
+- Fix for Data component when rendered server-side
+
+## 1.2.14.1 - 2023-02-15
+
+- Patch release for Laravel 10
+
+## 1.2.14 - 2023-02-13
+
+- `SpladeTable` now uses the `Conditionable` trait.
+- Splade Middleware now has a static `afterOriginalResponse()` method to interact with the original, pre-Splade response.
+
+## 1.2.13 - 2023-02-12
+
+- Errors from the session will now be passed to the frontend
+- Bugfix for resolving the Blade compiler out of the container
+
+## 1.2.12 - 2023-02-10
+
+- Support for Global Data Store
+- Support for custom headers in the Defer Component
+- Modals can now be opened by default on page load
+- Sharing data with a callback will now be resolved on response instead of immediately
+- Fix for Toasts containing multiple lines
+- Fix for custom label slot in Checkboxes and Radios components
+- Massive refactor of some internal Blade magic
+- Increased the default *wait time* in the Dusk test suite, which significantly improves the CI results
+
 ## 1.2.11.1 - 2023-02-07
 
 - Bugfix for missing config for new Blade directives

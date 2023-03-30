@@ -11,6 +11,29 @@ use ProtoneMedia\Splade\SpladeTable;
 
 class TableController
 {
+    public function as(bool $spladeQueryBuilder = false)
+    {
+        $query = User::query()->orderBy('name');
+
+        $resource = $spladeQueryBuilder ? $query : $query->paginate(10);
+
+        $table = SpladeTable::for($resource)
+            ->column('name')
+            ->column('email', as: function ($email, $user) {
+                if ($email === $user->email) {
+                    return strrev($email);
+                }
+            });
+
+        if ($spladeQueryBuilder) {
+            $table->paginate(10);
+        }
+
+        return view('table.users', [
+            'users' => $table,
+        ]);
+    }
+
     public function custom(bool $spladeQueryBuilder = false)
     {
         $query = User::query()->orderBy('name');
@@ -74,6 +97,19 @@ class TableController
     {
         return view('table.users', [
             'users' => SpladeTable::for(User::query()->orderBy('name'))
+                ->withGlobalSearch(columns: ['name'])
+                ->column('name')
+                ->ignoreCase(true)
+                ->paginate(10),
+        ]);
+    }
+
+    public function empty()
+    {
+        SpladeTable::hidePaginationWhenResourceContainsOnePage();
+
+        return view('table.users', [
+            'users' => SpladeTable::for(User::query()->where('id', '<', 1))
                 ->withGlobalSearch(columns: ['name'])
                 ->column('name')
                 ->ignoreCase(true)

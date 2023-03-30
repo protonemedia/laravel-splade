@@ -10,8 +10,6 @@ class Submit extends Component
 {
     /**
      * It's a primary button by default.
-     *
-     * @var bool
      */
     public bool $primary = true;
 
@@ -44,9 +42,6 @@ class Submit extends Component
 
     /**
      * Returns a boolean whether there are background or text classes.
-     *
-     * @param  \Illuminate\View\ComponentAttributeBag  $attributes
-     * @return bool
      */
     public function hasCustomStyling(ComponentAttributeBag $attributes): bool
     {

@@ -77,4 +77,22 @@ class RehydrateTest extends DuskTestCase
             $this->assertNotEquals($dynamicContent2, $browser->getTextIn('@dynamic-2'));
         });
     }
+
+    /** @test */
+    public function it_can_rehydrate_and_keep_the_global_data_store_binding()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('/data/nestedStore')
+                ->waitForText('DataGlobal1')
+                ->type('@name', 'Nike');
+
+            $time = $browser->getTextIn('@time');
+
+            $browser->pause(1250)
+                ->press('Refresh')
+                ->waitUntilMissingText($time)
+                ->assertDontSee('@time', $time)
+                ->assertValue('@name', 'Nike');
+        });
+    }
 }

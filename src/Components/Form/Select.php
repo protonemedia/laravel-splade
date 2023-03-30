@@ -16,6 +16,10 @@ class Select extends Component
 
     private static bool|array $defaultChoicesOptions = false;
 
+    private static bool $defaultResetOnNewRemoteUrl = false;
+
+    private static bool $defaultSelectFirstRemoteOption = false;
+
     /**
      * Create a new component instance.
      *
@@ -38,6 +42,8 @@ class Select extends Component
         public string $optionValue = '',
         public string $optionLabel = '',
         public string $scope = 'select',
+        public bool|null $resetOnNewRemoteUrl = null,
+        public bool|null $selectFirstRemoteOption = null,
     ) {
         if ($placeholder === true) {
             $this->placeholder = __('Search') . '...';
@@ -61,12 +67,19 @@ class Select extends Component
         if (!Str::startsWith($remoteUrl, '`') && !Str::endsWith($remoteUrl, '`')) {
             $this->remoteUrl = Js::from($remoteUrl);
         }
+
+        $this->resetOnNewRemoteUrl = is_bool($resetOnNewRemoteUrl)
+            ? $resetOnNewRemoteUrl
+            : static::$defaultResetOnNewRemoteUrl;
+
+        $this->selectFirstRemoteOption = is_bool($selectFirstRemoteOption)
+            ? $selectFirstRemoteOption
+            : static::$defaultSelectFirstRemoteOption;
     }
 
     /**
      * Enable Choices.js globally for all selects elements, optionally with default options.
      *
-     * @param  array|bool  $options
      * @return void
      */
     public static function defaultChoices(bool|array $options = true)
@@ -75,9 +88,23 @@ class Select extends Component
     }
 
     /**
+     * Set the default value for the resetOnNewRemoteUrl property.
+     */
+    public static function defaultResetOnNewRemoteUrl(bool $value = true)
+    {
+        static::$defaultResetOnNewRemoteUrl = $value;
+    }
+
+    /**
+     * Set the default value for the selectFirstRemoteOption property.
+     */
+    public static function defaultSelectFirstRemoteOption(bool $value = true)
+    {
+        static::$defaultSelectFirstRemoteOption = $value;
+    }
+
+    /**
      * Returns the JSON representation of the Choices.js options.
-     *
-     * @return string
      */
     public function jsChoicesOptions(): string
     {
@@ -87,8 +114,6 @@ class Select extends Component
     /**
      * Returns an array with Choices.js options. If Choices.js won't
      * be used, it returns a negative boolean.
-     *
-     * @return bool|array
      */
     public function choicesOptions(): bool|array
     {
@@ -113,7 +138,6 @@ class Select extends Component
      * This maps each option into a FormSelectOption instance.
      *
      * @param  mixed  $options
-     * @return array
      */
     private function mapOptions($options): array
     {
@@ -128,7 +152,7 @@ class Select extends Component
         // Check for a "list" array, so something like [1, 2, 3].
         // We'll transform this into [1 => 1, 2 => 2, 3 => 3].
         if (Arr::isList($options) && $collection->filter(fn ($option) => is_string($option))->count() === count($options)) {
-            $options = array_combine($options, $options);
+            $collection = Collection::make(array_combine($options, $options));
         }
 
         return $collection->map(function ($label, $value) {
@@ -158,8 +182,6 @@ class Select extends Component
 
     /**
      * Maps the options and prepends a placeholder when necessary.
-     *
-     * @return array
      */
     public function options(): array
     {
@@ -210,7 +232,6 @@ class Select extends Component
      * workaround for a Vue bug. See also Form::selected().
      *
      * @param  mixed  $value
-     * @return bool
      */
     public function selected($value): bool
     {

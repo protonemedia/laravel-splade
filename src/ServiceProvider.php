@@ -12,15 +12,21 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use Illuminate\Support\Str;
+use Illuminate\View\Compilers\BladeCompiler;
 use Illuminate\View\ComponentAttributeBag;
 use Illuminate\View\Factory;
+use Illuminate\View\View;
 use Laravel\Dusk\Browser;
+use ProtoneMedia\Splade\Bridge\ComponentController;
 use ProtoneMedia\Splade\Commands\CleanupTemporaryFileUploads;
+use ProtoneMedia\Splade\Commands\FormMakeCommand;
+use ProtoneMedia\Splade\Commands\FormRequestMakeCommand;
 use ProtoneMedia\Splade\Commands\PublishFormStylesheetsCommand;
 use ProtoneMedia\Splade\Commands\ShowSpladeVersions;
 use ProtoneMedia\Splade\Commands\SpladeInstallCommand;
 use ProtoneMedia\Splade\Commands\SsrTestCommand;
 use ProtoneMedia\Splade\Commands\TableMakeCommand;
+use ProtoneMedia\Splade\Components\Form;
 use ProtoneMedia\Splade\Components\Form\File;
 use ProtoneMedia\Splade\FileUploads\Filesystem;
 use ProtoneMedia\Splade\FileUploads\HandleSpladeFileUploads;
@@ -30,9 +36,6 @@ use ProtoneMedia\Splade\Http\BladeDirectives;
 use ProtoneMedia\Splade\Http\ConfirmPasswordController;
 use ProtoneMedia\Splade\Http\EventRedirectController;
 use ProtoneMedia\Splade\Http\FileUploadController;
-use ProtoneMedia\Splade\Http\PrepareTableCells;
-use ProtoneMedia\Splade\Http\PrepareViewWithLazyComponents;
-use ProtoneMedia\Splade\Http\PrepareViewWithRehydrateComponents;
 use ProtoneMedia\Splade\Http\TableBulkActionController;
 use ProtoneMedia\Splade\Http\TableExportController;
 
@@ -54,6 +57,8 @@ class ServiceProvider extends BaseServiceProvider
             // The Splade file has not been published, merge the default SEO into the config.
             $this->mergeConfigFrom($defaultSeoPath, 'splade.seo');
         }
+
+        $this->registerCustomBladeCompiler();
     }
 
     /**
@@ -65,6 +70,8 @@ class ServiceProvider extends BaseServiceProvider
 
         $this->commands([
             CleanupTemporaryFileUploads::class,
+            FormMakeCommand::class,
+            FormRequestMakeCommand::class,
             PublishFormStylesheetsCommand::class,
             ShowSpladeVersions::class,
             SpladeInstallCommand::class,
@@ -83,24 +90,13 @@ class ServiceProvider extends BaseServiceProvider
             $this->app->make(TransitionRepository::class)
         );
 
-        (new PrepareViewWithLazyComponents)
-            ->registerMacro()
-            ->registerEventListener();
-
-        (new PrepareViewWithRehydrateComponents)
-            ->registerMacro()
-            ->registerEventListener();
-
-        (new PrepareTableCells)
-            ->registerMacro()
-            ->registerEventListener();
-
         $this->registerBladeComponentsAndDirectives();
         $this->registerDuskMacros();
         $this->registerViewMacros();
         $this->registerResponseMacro();
         $this->registerRequestMacros();
         $this->registerRouteForEventRedirect();
+        $this->registerMacroForBridgeComponent();
         $this->registerMacroForPasswordConfirmation();
         $this->registerMacroForFileUploads();
         $this->registerMacroForTableRoutes();
@@ -138,6 +134,33 @@ class ServiceProvider extends BaseServiceProvider
     }
 
     /**
+     * Extends the Blade Compiler with a custom implementation that handles the
+     * Lazy, Rehydrae, and Table Cell components.
+     *
+     * @return void
+     */
+    protected function registerCustomBladeCompiler()
+    {
+        $this->app->extend('blade.compiler', function (BladeCompiler $service, $app) {
+            return tap(new CustomBladeCompiler(
+                $app['files'],
+                $app['config']['view.compiled'],
+                $app['config']->get('view.relative_hash', false) ? $app->basePath() : '',
+                $app['config']->get('view.cache', true),
+                $app['config']->get('view.compiled_extension', 'php'),
+            ), function ($blade) use ($service) {
+                foreach ($service->getClassComponentAliases() as $alias => $component) {
+                    $blade->component($component, $alias);
+                }
+
+                foreach ($service->getCustomDirectives() as $name => $directive) {
+                    $blade->directive($name, $directive);
+                }
+            });
+        });
+    }
+
+    /**
      * Registers bindings in the container.
      *
      * @return void
@@ -169,6 +192,10 @@ class ServiceProvider extends BaseServiceProvider
         });
 
         $this->app->alias(TransitionRepository::class, 'laravel-splade-transition-repository');
+
+        $this->app->singleton(Transformer::class, function ($app) {
+            return new Transformer($app->make(SpladeCore::class));
+        });
 
         // Splade File Uploads
         $this->app->singleton(Filesystem::class, function ($app) {
@@ -215,10 +242,12 @@ class ServiceProvider extends BaseServiceProvider
             Components\Confirm::class,
             Components\Content::class,
             Components\Data::class,
+            Components\DataStores::class,
             Components\Defer::class,
             Components\Dialog::class,
             Components\Dropdown::class,
             Components\Dynamic::class,
+            Components\DynamicHtml::class,
             Components\Errors::class,
             Components\Event::class,
             Components\Flash::class,
@@ -341,6 +370,19 @@ class ServiceProvider extends BaseServiceProvider
             return $this->slots[0] ?? [];
         });
 
+        ComponentAttributeBag::macro('rejectWhenBlank', function ($attributes) {
+            /** @var ComponentAttributeBag $this */
+            $attributes = Form::splitByComma($attributes);
+
+            return $this->filter(function ($value, $key) use ($attributes) {
+                if (in_array($key, $attributes) && blank($value)) {
+                    return false;
+                }
+
+                return true;
+            });
+        });
+
         ComponentAttributeBag::macro('mergeVueBinding', function ($attribute, $value, bool $omitBlankValue = true, bool $escape = true) {
             /** @var ComponentAttributeBag $this */
             if ($omitBlankValue && blank($value)) {
@@ -366,6 +408,19 @@ class ServiceProvider extends BaseServiceProvider
                 /** @var ComponentAttributeBag $this */
                 return $this->merge([$fullBindAttribute => $value], $escape);
             });
+        });
+    }
+
+    /**
+     * Registers a route that's used to handle public methods
+     * from interactive components from the frontend.
+     *
+     * @return void
+     */
+    private function registerMacroForBridgeComponent()
+    {
+        Route::macro('spladeWithVueBridge', function () {
+            Route::post(config('splade.with_vue_bridge_route'), ComponentController::class)->name('splade.withVueBridge');
         });
     }
 

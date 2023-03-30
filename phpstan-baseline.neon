@@ -126,6 +126,11 @@ parameters:
 			path: src/Components/Table.php
 
 		-
+			message: "#^Parameter \\#2 \\$array of function implode expects array\\<string\\>, array\\<int, array\\<int, string\\>\\|string\\> given\\.$#"
+			count: 1
+			path: src/CustomBladeCompiler.php
+
+		-
 			message: "#^Method ProtoneMedia\\\\Splade\\\\EventRedirect\\:\\:jsonSerialize\\(\\) should return array but returns void\\.$#"
 			count: 1
 			path: src/EventRedirect.php
@@ -291,16 +296,6 @@ parameters:
 			path: src/Head.php
 
 		-
-			message: "#^Parameter \\#1 \\$key of method Illuminate\\\\Support\\\\Collection\\<string,string\\>\\:\\:get\\(\\) expects string, int given\\.$#"
-			count: 1
-			path: src/Http/PrepareViewWithLazyComponents.php
-
-		-
-			message: "#^Parameter \\#1 \\$key of method Illuminate\\\\Support\\\\Collection\\<string,string\\>\\:\\:get\\(\\) expects string, int given\\.$#"
-			count: 1
-			path: src/Http/PrepareViewWithRehydrateComponents.php
-
-		-
 			message: "#^Unsafe usage of new static\\(\\)\\.$#"
 			count: 1
 			path: src/Http/ResolvableData.php
@@ -336,7 +331,17 @@ parameters:
 			path: src/Http/SpladeMiddleware.php
 
 		-
+			message: "#^Parameter \\#1 \\$callback of method Illuminate\\\\Support\\\\Collection\\<int\\|string,array\\<Illuminate\\\\Support\\\\ViewErrorBag\\>\\>\\:\\:each\\(\\) expects callable\\(array\\<Illuminate\\\\Support\\\\ViewErrorBag\\>, int\\|string\\)\\: mixed, Closure\\(Illuminate\\\\Support\\\\ViewErrorBag\\)\\: void given\\.$#"
+			count: 1
+			path: src/Http/SpladeMiddleware.php
+
+		-
 			message: "#^Parameter \\#1 \\$key of method Illuminate\\\\Contracts\\\\Session\\\\Session\\:\\:get\\(\\) expects string, array\\<TKey of \\(int\\|string\\), TValue\\>\\|bool given\\.$#"
+			count: 1
+			path: src/Http/SpladeMiddleware.php
+
+		-
+			message: "#^Parameter \\#1 \\$key of method Illuminate\\\\Support\\\\Collection\\<string,string\\>\\:\\:get\\(\\) expects string, int given\\.$#"
 			count: 1
 			path: src/Http/SpladeMiddleware.php
 
@@ -348,6 +353,16 @@ parameters:
 		-
 			message: "#^Parameter \\#2 \\$response of method ProtoneMedia\\\\Splade\\\\Http\\\\SpladeMiddleware\\:\\:handleSpladeRequest\\(\\) expects Illuminate\\\\Http\\\\Response, Symfony\\\\Component\\\\HttpFoundation\\\\Response given\\.$#"
 			count: 1
+			path: src/Http/SpladeMiddleware.php
+
+		-
+			message: "#^Static property ProtoneMedia\\\\Splade\\\\Http\\\\SpladeMiddleware\\:\\:\\$afterOriginalResponseCallback \\(\\(callable\\(\\)\\: mixed\\)\\|null\\) does not accept default value of type array\\{\\}\\.$#"
+			count: 1
+			path: src/Http/SpladeMiddleware.php
+
+		-
+			message: "#^Unsafe access to private property ProtoneMedia\\\\Splade\\\\Http\\\\SpladeMiddleware\\:\\:\\$afterOriginalResponseCallback through static\\:\\:\\.$#"
+			count: 3
 			path: src/Http/SpladeMiddleware.php
 
 		-

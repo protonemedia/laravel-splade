@@ -27,7 +27,6 @@ trait HasColumns
     /**
      * Set a default highlight setting for the first column.
      *
-     * @param  bool  $state
      * @return void
      */
     public static function defaultHighlightFirstColumn(bool $state = true)
@@ -38,13 +37,8 @@ trait HasColumns
     /**
      * Adds a new column to the table.
      *
-     * @param  string|null  $key
-     * @param  string|null  $label
      * @param  bool|null  $canBeHidden
-     * @param  bool  $hidden
-     * @param  bool  $sortable
      * @param  bool  $searchable
-     * @param  bool|callable  $exportAs
      * @param  callable|null  $exportFormat
      * @param  callable|null  $exportStyling
      * @return $this
@@ -59,14 +53,16 @@ trait HasColumns
         bool|null $highlight = null,
         bool|callable $exportAs = true,
         callable|string|null $exportFormat = null,
-        callable|array|null $exportStyling = null
+        callable|array|null $exportStyling = null,
+        array|string|null $classes = null,
+        callable|null $as = null,
     ): self {
         $key   = $key   !== null ? $key : Str::kebab($label);
         $label = $label !== null ? $label : Str::headline(str_replace('.', ' ', $key));
 
         $highlight = is_bool($highlight)
             ? $highlight
-            : static::$defaultHighlightFirstColumn;
+            : ($this->columns->isEmpty() ? static::$defaultHighlightFirstColumn : false);
 
         $canBeHidden = is_bool($canBeHidden)
             ? $canBeHidden
@@ -85,6 +81,8 @@ trait HasColumns
             exportAs: $exportAs,
             exportFormat: $exportFormat,
             exportStyling: $exportStyling,
+            classes: $classes,
+            as: $as,
         ))->values();
 
         if (!$searchable) {
@@ -100,8 +98,6 @@ trait HasColumns
     /**
      * Returns a coolean with all columns, and applies the
      * data from the request query to each column.
-     *
-     * @return \Illuminate\Support\Collection
      */
     public function columns(): Collection
     {
@@ -134,8 +130,6 @@ trait HasColumns
 
     /**
      * Returns an array with all columns that are visible by default.
-     *
-     * @return array
      */
     public function defaultVisibleToggleableColumns(): array
     {
@@ -149,8 +143,6 @@ trait HasColumns
 
     /**
      * Return a boolean whether this table has toggleable columns.
-     *
-     * @return bool
      */
     public function hasToggleableColumns(): bool
     {

@@ -9,6 +9,13 @@ use PHPUnit\Framework\Assert as PHPUnit;
 
 class Browser extends BaseBrowser
 {
+    /**
+     * The default wait time in seconds.
+     *
+     * @var int
+     */
+    public static $waitSeconds = 10;
+
     public function getTextIn($selector): string
     {
         return $this->resolver->findOrFail($selector)->getText();

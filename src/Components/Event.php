@@ -13,15 +13,17 @@ class Event extends Component
     /**
      * Create a new component instance.
      */
-    public function __construct(public mixed $listen, public string $scope = '{ subscribed, events }')
-    {
+    public function __construct(
+        public mixed $listen,
+        public string $scope = '{ subscribed, events }',
+        public bool $preserveScroll = false,
+  ) {
         $this->listeners = $this->parseListeners($listen);
     }
 
     /**
      * Parses the given 'listen' attribute.
      *
-     * @param  mixed  $listen
      * @return void
      */
     private function parseListeners(mixed $listen)

@@ -17,7 +17,9 @@ class ModalController
     {
         SEO::title('Modal One');
 
-        return view('modal.one');
+        return view('modal.one', [
+            'closeExplicitly' => (bool) request()->query('closeExplicitly'),
+        ]);
     }
 
     public function two()
@@ -35,6 +37,11 @@ class ModalController
     public function validation()
     {
         return view('modal.validation');
+    }
+
+    public function keep()
+    {
+        return view('modal.keep');
     }
 
     public function opened()

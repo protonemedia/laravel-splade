@@ -82,7 +82,6 @@ abstract class AbstractTable
     /**
      * Returns a TableExporter instance.
      *
-     * @param  int  $key
      * @return \ProtoneMedia\Splade\TableExporter|null
      */
     public function makeExporter(int $key): ?TableExporter
@@ -107,8 +106,6 @@ abstract class AbstractTable
     /**
      * Performs the bulk action on the given ids.
      *
-     * @param  int  $key
-     * @param  array  $ids
      * @return void
      */
     public function performBulkAction(int $key, array $ids)

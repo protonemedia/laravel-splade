@@ -23,7 +23,6 @@ trait HasResource
      * Setter for the row-link callable that will be called for
      * every row in the data set to determine the target URL.
      *
-     * @param  callable  $callback
      * @return $this
      */
     public function rowLink(callable $callback): self
@@ -41,6 +40,8 @@ trait HasResource
             return;
         }
 
+        $this->loadResource();
+
         $collection = $this->resource instanceof LengthAwarePaginator
             ? $this->resource->items()
             : $this->resource;
@@ -50,9 +51,6 @@ trait HasResource
 
     /**
      * Same as rowLink() but it opens in a Modal.
-     *
-     * @param  callable  $callback
-     * @return self
      */
     public function rowModal(callable $callback): self
     {
@@ -63,9 +61,6 @@ trait HasResource
 
     /**
      * Same as rowLink() but it open in a Slideover.
-     *
-     * @param  callable  $callback
-     * @return self
      */
     public function rowSlideover(callable $callback): self
     {
@@ -76,11 +71,11 @@ trait HasResource
 
     /**
      * Determine how many items are being shown per page.
-     *
-     * @return int
      */
     public function perPage(): int
     {
+        $this->loadResource();
+
         if ($this->resource instanceof LengthAwarePaginator) {
             return $this->resource->perPage();
         }
@@ -95,6 +90,8 @@ trait HasResource
      */
     public function totalOnThisPage()
     {
+        $this->loadResource();
+
         if ($this->resource instanceof LengthAwarePaginator) {
             return count($this->resource->items());
         }
@@ -109,6 +106,8 @@ trait HasResource
      */
     public function totalOnAllPages()
     {
+        $this->loadResource();
+
         if ($this->resource instanceof LengthAwarePaginator) {
             return $this->resource->total();
         }
@@ -118,18 +117,16 @@ trait HasResource
 
     /**
      * Determine if the resource is empty or not.
-     *
-     * @return bool
      */
     public function isEmpty(): bool
     {
+        $this->loadResource();
+
         return count($this->resource) === 0;
     }
 
     /**
      * Determine if the resource is not empty.
-     *
-     * @return bool
      */
     public function isNotEmpty(): bool
     {
@@ -138,9 +135,6 @@ trait HasResource
 
     /**
      * Setter for the primary key of the resource.
-     *
-     * @param  string  $key
-     * @return self
      */
     public function primaryKey(string $key): self
     {
@@ -170,11 +164,11 @@ trait HasResource
 
     /**
      * Returns array with all primary keys.
-     *
-     * @return array
      */
     public function getPrimaryKeys(): array
     {
+        $this->loadResource();
+
         $ids = [];
 
         foreach ($this->resource as $item) {

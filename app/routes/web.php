@@ -2,13 +2,16 @@
 
 use App\Events\RedirectEvent;
 use App\Events\RefreshEvent;
+use App\Events\RefreshPreserveScrollEvent;
 use App\Events\SimpleEvent;
 use App\Events\ToastEvent;
 use App\Http\Controllers\BackFormController;
 use App\Http\Controllers\CountriesController;
 use App\Http\Controllers\FileFormController;
 use App\Http\Controllers\FilepondController;
+use App\Http\Controllers\FormBuilderController;
 use App\Http\Controllers\FormComponentsController;
+use App\Http\Controllers\FormRedirectController;
 use App\Http\Controllers\FormRelationsController;
 use App\Http\Controllers\FormViewController;
 use App\Http\Controllers\LazyController;
@@ -47,8 +50,13 @@ Route::get('defer/input/{input}', function ($input) {
     ];
 })->name('defer.input');
 
+Route::get('login/redirect', function () {
+    return redirect()->route('navigation.one');
+})->name('login');
+
 Route::get('event/redirect', fn () => event(new RedirectEvent))->name('event.redirect');
 Route::get('event/refresh', fn () => event(new RefreshEvent))->name('event.refresh');
+Route::get('event/refreshPreserveScroll', fn () => event(new RefreshPreserveScrollEvent))->name('event.refreshPreserveScroll');
 Route::get('event/simple', fn () => event(new SimpleEvent))->name('event.simple');
 Route::get('event/toast', fn () => event(new ToastEvent))->name('event.toast');
 
@@ -56,6 +64,7 @@ Route::middleware('splade')->group(function () {
     Route::spladePasswordConfirmation();
     Route::spladeTable();
     Route::spladeUploads();
+    Route::spladeWithVueBridge();
 
     Route::get('/api/countries/keyValue', [CountriesController::class, 'keyValue'])->name('api.countries.keyValue');
     Route::get('/api/countries/objects', [CountriesController::class, 'objects'])->name('api.countries.objects');
@@ -65,11 +74,20 @@ Route::middleware('splade')->group(function () {
         'html' => file_get_contents(resource_path('rendered_markdown.html')),
     ])->name('content');
 
+    Route::view('bridge/arguments', 'bridge.arguments')->name('bridge.arguments');
+    Route::view('bridge/inline', 'bridge.inline')->name('bridge.inline');
+    Route::view('bridge/method', 'bridge.method')->name('bridge.method');
+    Route::view('bridge/props', 'bridge.props')->name('bridge.props');
+    Route::view('bridge/render', 'bridge.render')->name('bridge.render');
+
     Route::view('buttons', 'buttons')->name('buttons');
     Route::view('custom', 'custom')->name('custom');
     Route::view('data/binding', 'data.binding')->name('data.binding');
     Route::view('data/default', 'data.default')->name('data.default');
     Route::view('data/eloquent', 'data.eloquent')->name('data.eloquent');
+    Route::view('data/global-1', 'data.global-1')->name('data.global-1');
+    Route::view('data/global-2', 'data.global-2')->name('data.global-2');
+    Route::view('data/nestedStore', 'data.nestedStore')->name('data.nestedStore');
     Route::view('data/remember', 'data.remember')->name('data.remember');
     Route::view('data/localStorage', 'data.localStorage')->name('data.localStorage');
     Route::view('data/rememberWithDefault', 'data.rememberWithDefault')->name('data.rememberWithDefault');
@@ -83,12 +101,16 @@ Route::middleware('splade')->group(function () {
     Route::view('errors', 'errors')->name('errors');
 
     Route::view('event', 'event')->name('event');
+    Route::view('eventPreserveScroll', 'eventPreserveScroll')->name('eventPreserveScroll');
 
     Route::get('flash/put', function () {
         return redirect()->route('flash')->with('message', 'This is a message');
     });
 
     Route::view('flash', 'flash')->name('flash');
+
+    Route::get('form/redirect', [FormRedirectController::class, 'show'])->name('form.redirect.show');
+    Route::post('form/redirect', [FormRedirectController::class, 'submit'])->name('form.redirect.submit');
 
     Route::view('form/simple', 'form.simple')->name('form.simple');
     Route::post('form/simple', SimpleFormController::class)->name('form.simple.submit');
@@ -156,6 +178,7 @@ Route::middleware('splade')->group(function () {
     Route::get('form/components/submitValue/{approved?}', [FormComponentsController::class, 'submitValue'])->name('form.components.submitValue');
     Route::post('form/components/submitValue/{approved?}', [FormComponentsController::class, 'submitValueSubmit'])->name('form.components.submitValueSubmit');
     Route::get('form/components/relation', [FormComponentsController::class, 'relation'])->name('form.components.relation');
+    Route::get('form/components/transform', [FormComponentsController::class, 'transform'])->name('form.components.transform');
     Route::get('form/components/customSelectOptions', [FormComponentsController::class, 'customSelectOptions'])->name('form.components.customSelectOptions');
 
     Route::get('form/components/filepond', [FilepondController::class, 'show'])->name('form.components.filepond');
@@ -196,10 +219,25 @@ Route::middleware('splade')->group(function () {
 
     Route::get('form/relations/twoForms', [FormRelationsController::class, 'twoForms'])->name('form.relations.twoForms');
 
+    Route::get('formbuilder/simple', [FormBuilderController::class, 'simple'])->name('formbuilder.simple.index');
+    Route::post('formbuilder/simple', [FormBuilderController::class, 'storeSimple'])->name('formbuilder.simple.store');
+
+    Route::get('formbuilder/fromClass', [FormBuilderController::class, 'fromClass'])->name('formbuilder.fromClass.index');
+    Route::post('formbuilder/fromClass', [FormBuilderController::class, 'storeFromClass'])->name('formbuilder.fromClass.store');
+
+    Route::get('/formbuilder/modelBinding', [FormBuilderController::class, 'model'])->name('formbuilder.model.index');
+    Route::post('/formbuilder/modelBinding', [FormBuilderController::class, 'storeModel'])->name('formbuilder.model.store');
+
+    Route::get('/formbuilder/multifields', [FormBuilderController::class, 'multifields'])->name('formbuilder.multifields.index');
+    Route::post('/formbuilder/multifields1', [FormBuilderController::class, 'storeMultifields1'])->name('formbuilder.multifields1.store');
+    Route::post('/formbuilder/multifields2', [FormBuilderController::class, 'storeMultifields2'])->name('formbuilder.multifields2.store');
+
     Route::get('lazy', [LazyController::class, 'show'])->name('lazy');
+    Route::get('lazy/nested', [LazyController::class, 'showNested'])->name('lazy.nested');
     Route::get('lazy/notifications', [LazyController::class, 'notifications'])->name('lazy.notifications');
 
     Route::get('navigation/one/{id?}', [NavigationController::class, 'one'])->name('navigation.one');
+    Route::get('navigation/auth/one/{id?}', [NavigationController::class, 'one'])->name('navigation.one.auth')->middleware('auth');
     Route::get('navigation/two', [NavigationController::class, 'two'])->name('navigation.two');
     Route::get('navigation/three', [NavigationController::class, 'three'])->name('navigation.three');
     Route::get('navigation/form', [NavigationController::class, 'form'])->name('navigation.form');
@@ -221,6 +259,7 @@ Route::middleware('splade')->group(function () {
     Route::get('modal/opened', [ModalController::class, 'opened'])->name('modal.opened');
     Route::get('modal/slideover', [ModalController::class, 'slideover'])->name('modal.slideover');
     Route::get('modal/validation', [ModalController::class, 'validation'])->name('modal.validation');
+    Route::get('modal/keep', [ModalController::class, 'keep'])->name('modal.keep');
     Route::get('modal/size/{size}', [ModalController::class, 'size'])->name('modal.size');
 
     Route::view('rehydrate/poll', 'rehydratePoll')->name('rehydratePoll');
@@ -278,6 +317,7 @@ Route::middleware('splade')->group(function () {
 
         Route::get('/modal', [TableController::class, 'modal'])->name('table.modal');
 
+        Route::get('/as/{spladeQueryBuilder?}', [TableController::class, 'as'])->name('table.as');
         Route::get('/boolean/{spladeQueryBuilder?}', [TableController::class, 'boolean'])->name('table.boolean');
         Route::get('/custom/{spladeQueryBuilder?}', [TableController::class, 'custom'])->name('table.custom');
         Route::get('/noPerPage/{spladeQueryBuilder?}', [TableController::class, 'noPerPage'])->name('table.noPerPage');
@@ -287,6 +327,8 @@ Route::middleware('splade')->group(function () {
         Route::get('/rowSlideover/{spladeQueryBuilder?}', [TableController::class, 'rowSlideover'])->name('table.rowSlideover');
         Route::get('/caseSensitive/{spladeQueryBuilder?}', [TableController::class, 'caseSensitive'])->name('table.caseSensitive');
         Route::get('/caseInsensitive/{spladeQueryBuilder?}', [TableController::class, 'caseInsensitive'])->name('table.caseInsensitive');
+
+        Route::get('/empty', [TableController::class, 'empty'])->name('table.empty');
 
         Route::get('/preserveScrollForm', [TableController::class, 'preserveScrollForm'])->name('table.preserveScrollForm');
         Route::post('/preserveScrollForm', [TableController::class, 'preserveScrollFormSubmit'])->name('table.preserveScrollFormSubmit');
