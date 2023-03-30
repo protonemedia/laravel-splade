@@ -3,6 +3,7 @@
 namespace ProtoneMedia\Splade;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 
 class SpladeForm
@@ -286,5 +287,18 @@ class SpladeForm
     public function getRules(): array
     {
         return Arr::pluck($this->getFields(), 'rules', 'dottedName');
+    }
+
+    /**
+     * Validate the request with the rules of the form.
+     *
+     * @param [type] ...$params
+     */
+    public function validate(?Request $request = null, ...$params): array
+    {
+        /** @var Request */
+        $request = $request ?? request();
+
+        return $request->validate($this->getRules(), ...$params);
     }
 }

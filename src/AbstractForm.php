@@ -73,12 +73,13 @@ abstract class AbstractForm
     /**
      * Validate the request with the rules of the form.
      *
-     * @param mixed ...$params
+     * @param  mixed  ...$params
      */
     public function validate(?Request $request = null, ...$params): array
     {
+        /** @var Request */
         $request = $request ?? request();
 
-        return $request->validate($this->rules(), ...$params);
+        return $this->build()->validate($request, ...$params);
     }
 }
