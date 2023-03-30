@@ -3,7 +3,8 @@
 </template>
 
 <script setup>
-import { h, ref, watch } from "vue";
+import { h, ref, watch, nextTick } from "vue";
+import { Splade } from "../Splade.js";
 
 const props = defineProps({
     html: {
@@ -29,6 +30,10 @@ function updateRender() {
         data() {
             return { ...props.passthrough };
         },
+    });
+
+    nextTick(() => {
+        Splade.emit("rendered");
     });
 }
 
