@@ -44,6 +44,11 @@
         <a dusk="non-spa-three" href="/navigation/three">Non-SPA Three</a>
     </div>
 
+    <div class="flex space-x-3">
+        <a dusk="download-attachment" href="/download/attachment">Download Attachent</a>
+        <a dusk="download-inline" href="/download/inline">Download Inline</a>
+    </div>
+
     <div v-show="toggled" class="absolute inset-0 bg-black/75 z-10"></div>
 
     <x-splade-dialog open="toggled">

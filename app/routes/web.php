@@ -24,6 +24,7 @@ use App\Http\Controllers\TableController;
 use App\Http\Controllers\ToastController;
 use App\Http\Controllers\TwoFieldsFormController;
 use App\Http\UserTableView;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
@@ -65,6 +66,21 @@ Route::middleware('splade')->group(function () {
     Route::spladeTable();
     Route::spladeUploads();
     Route::spladeWithVueBridge();
+
+    Route::get('download/attachment', function () {
+        return new Response('test', 200, [
+            'Content-Type'        => 'application/text',
+            'Content-Disposition' => 'attachment; filename="test.txt"',
+            'Content-Length'      => 4,
+        ]);
+    })->name('download.attachment');
+
+    Route::get('download/inline', function () {
+        return new Response('test', 200, [
+            'Content-Type'        => 'application/text',
+            'Content-Disposition' => 'inline; filename="test.txt"',
+        ]);
+    })->name('download.inline');
 
     Route::get('/api/countries/keyValue', [CountriesController::class, 'keyValue'])->name('api.countries.keyValue');
     Route::get('/api/countries/objects', [CountriesController::class, 'objects'])->name('api.countries.objects');
