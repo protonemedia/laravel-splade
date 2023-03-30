@@ -2,6 +2,21 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 1.4.7 - 2023-03-30
+
+- Use Vite 4 + updated npm dependencies (by @evici)
+- Allow a Closure as sortable parameter for Table columns (by @Jampire)
+- Table columns can now be aligned (`left`, `center`, and `right`)
+- Allow `HtmlString` for label/help attributes
+- `htmlLabel` and `htmlHelp` Form builder methods to allow texts that won't be escaped
+- Fixes for Form Builder validation (by @J87NL)
+- Fix for resolving the JS package version using the latest npm (by @Jampire)
+- Prevent horizontal scrollbar while opening slideovers (#350)
+- Improved animation when reloading the same modal
+- The `Render` component now emits an event after rendering the content
+- The `SpladeMiddleware` now ignores responses with a `Content-Disposition` header (#368)
+- Table classes now have a static `build()` method to improve support for custom tables (#334)
+
 ## 1.4.6 - 2023-03-24
 
 - The `keep-modal` attribute from the Link component now also works on the Form component
