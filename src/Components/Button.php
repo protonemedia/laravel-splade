@@ -2,6 +2,7 @@
 
 namespace ProtoneMedia\Splade\Components;
 
+use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
 use Illuminate\View\Component;
 use Illuminate\View\ComponentAttributeBag;
@@ -19,7 +20,7 @@ class Button extends Component
      * @return void
      */
     public function __construct(
-        public string $label = 'Submit',
+        public HtmlString|string $label = 'Submit',
         public string $type = 'submit',
         public string $name = '',
         public $value = null,
