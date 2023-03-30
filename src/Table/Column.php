@@ -29,6 +29,7 @@ class Column implements Arrayable
         public Closure|array|null $exportStyling = null,
         public array|string|null $classes = null,
         public Closure|null $as = null,
+        public string $alignment = 'left',
     ) {
         if (is_array($classes)) {
             $classes = Arr::flatten($classes);
@@ -55,6 +56,7 @@ class Column implements Arrayable
             $this->exportStyling,
             $this->classes,
             $this->as,
+            $this->alignment,
         );
     }
 
@@ -73,6 +75,7 @@ class Column implements Arrayable
             'sortable'      => $this->sortable !== false,
             'sorted'        => $this->sorted,
             'highlight'     => $this->highlight,
+            'alignment'     => $this->alignment,
         ];
     }
 
