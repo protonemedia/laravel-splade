@@ -45,7 +45,7 @@ class Button extends Component
      */
     public static function hasCustomStyling(ComponentAttributeBag $attributes): bool
     {
-        $backgroundOrTextClasses = array_filter(explode(' ', $attributes->get('class')), function ($class) {
+        $backgroundOrTextClasses = array_filter(explode(' ', $attributes->get(key: 'class', default: '')), function ($class) {
             return Str::contains($class, ['bg-', 'text-']);
         });
 
