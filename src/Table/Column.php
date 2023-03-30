@@ -21,7 +21,7 @@ class Column implements Arrayable
         public string $label,
         public bool $canBeHidden,
         public bool $hidden,
-        public bool $sortable,
+        public bool|Closure $sortable,
         public bool|string $sorted,
         public bool $highlight,
         public bool|Closure $exportAs,
@@ -70,7 +70,7 @@ class Column implements Arrayable
             'label'         => $this->label,
             'can_be_hidden' => $this->canBeHidden,
             'hidden'        => $this->hidden,
-            'sortable'      => $this->sortable,
+            'sortable'      => $this->sortable !== false,
             'sorted'        => $this->sorted,
             'highlight'     => $this->highlight,
         ];
