@@ -44,7 +44,7 @@ abstract class AbstractTable
     {
         $table = new static(...$arguments);
 
-        return $table->make();
+        return $table->make()->beforeRender();
     }
 
     /**

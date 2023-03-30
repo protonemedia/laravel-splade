@@ -276,9 +276,9 @@ class SpladeTable
     /**
      * Any action that should be performed before rendering the Table component.
      */
-    public function beforeRender(): void
+    public function beforeRender(): self
     {
-        $this->loadResource()->resolveRowLinks();
+        return $this->loadResource()->resolveRowLinks();
     }
 
     /**
