@@ -31,11 +31,13 @@
                     v-show="table.columnIsVisible(@js($column->key))"
                     class="whitespace-nowrap text-sm @if($loop->first && $hasBulkActions) pr-6 @else px-6 @endif py-4 @if($column->highlight) text-gray-900 font-medium @else text-gray-500 @endif @if($table->rowLinks->has($itemKey)) cursor-pointer @endif {{ $column->classes }}"
                 >
-                    @isset(${'spladeTableCell' . $column->keyHash()})
-                        {{ ${'spladeTableCell' . $column->keyHash()}($item, $itemKey) }}
-                    @else
-                        {!! nl2br(e($getColumnDataFromItem($item, $column))) !!}
-                    @endisset
+                    <div class="flex flex-row items-center @if($column->alignment == 'right') justify-end @elseif($column->alignment == 'center') justify-center @else justify-start @endif">
+                        @isset(${'spladeTableCell' . $column->keyHash()})
+                            {{ ${'spladeTableCell' . $column->keyHash()}($item, $itemKey) }}
+                        @else
+                            {!! nl2br(e($getColumnDataFromItem($item, $column))) !!}
+                        @endisset
+                    </div>
                 </td>
             @endforeach
         </tr>
