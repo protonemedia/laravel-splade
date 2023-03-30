@@ -2,6 +2,7 @@
 
 namespace ProtoneMedia\Splade\Components\Form;
 
+use Illuminate\Support\HtmlString;
 use Illuminate\View\Component;
 use ProtoneMedia\Splade\Components\Form;
 use ProtoneMedia\Splade\Components\SpladeComponent;
@@ -18,9 +19,9 @@ class Radios extends Component
     public function __construct(
         public string $name = '',
         public $options = [],
-        public string $label = '',
+        public HtmlString|string $label = '',
         public bool $inline = false,
-        public string $help = ''
+        public HtmlString|string $help = ''
     ) {
         Form::allowAttribute($name);
     }

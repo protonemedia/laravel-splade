@@ -61,7 +61,7 @@ class ExampleForm extends AbstractForm
                 ->rules('required|max:255'),
 
             Input::make('inputText3')
-                ->label('Input text field with fixed length(6)')
+                ->htmlLabel('Input text field with fixed <b>length(6)</b>')
                 ->length(6)
                 ->prepend('Test prepend'),
 
@@ -115,7 +115,7 @@ class ExampleForm extends AbstractForm
             Date::make('inputDate6')
                 ->label('Input type: date with range')
                 ->range()
-                ->help('Test help 2'),
+                ->htmlHelp('Test help 2 <b>with HTML</b>'),
 
             Time::make('inputTime1')
                 ->label('Input time field - with extra FlatPicker time-options: { time_24hr: false }')
