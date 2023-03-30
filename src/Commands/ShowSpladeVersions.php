@@ -38,7 +38,7 @@ class ShowSpladeVersions extends Command
         $npmPackage = collect($npmLockFile['packages'] ?? [])
             ->merge($npmLockFile['dependencies'] ?? [])
             ->first(function (array $value, string $name) {
-                return Str::contains($name, '@protonemedia/laravel-splade');
+                return Str::endsWith($name, '@protonemedia/laravel-splade');
             })['version'] ?? null;
 
         $composerPackage
