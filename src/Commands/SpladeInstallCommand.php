@@ -33,7 +33,7 @@ class SpladeInstallCommand extends Command
                 '@protonemedia/laravel-splade' => '^1.4.7',
                 '@tailwindcss/forms'           => '^0.5.2',
                 '@tailwindcss/typography'      => '^0.5.2',
-                '@vitejs/plugin-vue'           => '^3.0.0',
+                '@vitejs/plugin-vue'           => '^4.1.0',
                 'autoprefixer'                 => '^10.4.7',
                 'laravel-vite-plugin'          => '^0.7.2',
                 'postcss'                      => '^8.4.14',
