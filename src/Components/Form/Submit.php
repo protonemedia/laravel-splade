@@ -27,6 +27,7 @@ class Submit extends Component
         public $value = null,
         public $danger = false,
         public $secondary = false,
+        public string $parentClasses = '',
     ) {
         $this->primary = !$this->danger && !$this->secondary;
     }
