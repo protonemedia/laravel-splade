@@ -9,6 +9,7 @@ module.exports = {
         "./storage/framework/views/*.php",
         "./resources/views/**/*.blade.php",
         "./resources/js/**/*.vue",
+        "./app/Forms/*.php",
     ],
 
     plugins: [require("@tailwindcss/forms"), require("@tailwindcss/typography")],
