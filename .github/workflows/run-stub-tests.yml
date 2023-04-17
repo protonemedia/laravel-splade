@@ -55,7 +55,7 @@ jobs:
         if: matrix.os == 'windows-latest'
 
       - name: Checkout code
-        uses: actions/checkout@v3.5.0
+        uses: actions/checkout@v3.5.2
         with:
           path: "vendor/protonemedia/laravel-splade"
 
