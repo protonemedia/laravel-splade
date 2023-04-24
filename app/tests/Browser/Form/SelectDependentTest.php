@@ -126,11 +126,11 @@ class SelectDependentTest extends DuskTestCase
                 ->waitUntilMissing('svg')
                 ->within('@select-first', function (Browser $browser) {
                     $browser
-                       ->waitUntilMissing('svg')
-                       ->assertSeeIn('@all', '{ "country": "BE", "province": "BE-VAN" }')
-                       ->select('@country', 'NL')
-                       ->waitUntilMissing('svg')
-                       ->assertSeeIn('@all', '{ "country": "NL", "province": "NL-AW" }');
+                        ->waitUntilMissing('svg')
+                        ->assertSeeIn('@all', '{ "country": "BE", "province": "BE-VAN" }')
+                        ->select('@country', 'NL')
+                        ->waitUntilMissing('svg')
+                        ->assertSeeIn('@all', '{ "country": "NL", "province": "NL-AW" }');
                 });
         });
     }
@@ -148,12 +148,12 @@ class SelectDependentTest extends DuskTestCase
                 ->waitUntilMissing('svg')
                 ->within('@select-reset', function (Browser $browser) {
                     $browser
-                       ->waitUntilMissing('svg')
-                       ->select('@province', 'BE-VAN')
-                       ->assertSeeIn('@all', '{ "country": "BE", "province": "BE-VAN" }')
-                       ->select('@country', 'NL')
-                       ->waitUntilMissing('svg')
-                       ->assertSeeIn('@all', '{ "country": "NL", "province": "" }');
+                        ->waitUntilMissing('svg')
+                        ->select('@province', 'BE-VAN')
+                        ->assertSeeIn('@all', '{ "country": "BE", "province": "BE-VAN" }')
+                        ->select('@country', 'NL')
+                        ->waitUntilMissing('svg')
+                        ->assertSeeIn('@all', '{ "country": "NL", "province": "" }');
                 });
         });
     }

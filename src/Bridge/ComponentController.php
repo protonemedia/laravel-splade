@@ -28,7 +28,7 @@ class ComponentController extends Controller
                 'url'       => ['required', 'string'],
                 'verb'      => ['required', 'string'],
             ]);
-        } catch(ValidationException $e) {
+        } catch (ValidationException $e) {
             abort(403, 'Invalid request');
         }
 

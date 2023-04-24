@@ -50,12 +50,12 @@ class Button extends Component
     public function toSpladeComponent()
     {
         return new SpladeSubmit(
-            label:     $this->label,
-            type:      $this->type,
-            spinner:   $this->spinner,
-            name:      $this->name,
-            value:     $this->value ?? null,
-            danger:    $this->danger,
+            label: $this->label,
+            type: $this->type,
+            spinner: $this->spinner,
+            name: $this->name,
+            value: $this->value ?? null,
+            danger: $this->danger,
             secondary: $this->secondary
         );
     }
