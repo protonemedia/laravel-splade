@@ -14,9 +14,9 @@ class BulkAction
     /**
      * This class represents a bulk action within a Splade Table.
      *
-     * @param  callable  $beforeCallback
-     * @param  callable  $eachCallback
-     * @param  callable  $afterCallback
+     * @param  callable|null  $beforeCallback
+     * @param  callable|null  $eachCallback
+     * @param  callable|null  $afterCallback
      * @param  bool|string  $confirm = '',
      * @param  string  $confirmText = '',
      * @param  string  $confirmButton = '',
@@ -27,9 +27,9 @@ class BulkAction
         public string $key,
         public string $label,
         public string $tableClass,
-        public $beforeCallback,
-        public $eachCallback,
-        public $afterCallback,
+        public callable|null $beforeCallback = null,
+        public callable|null $eachCallback = null,
+        public callable|null $afterCallback = null,
         public bool|string $confirm = '',
         public string $confirmText = '',
         public string $confirmButton = '',
