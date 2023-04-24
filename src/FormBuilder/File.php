@@ -266,7 +266,7 @@ class File extends Component
     public function toSpladeComponent()
     {
         return new SpladeFile(
-            name:  $this->name,
+            name: $this->name,
             label: $this->label,
             placeholder: $this->placeholder,
             multiple: $this->multiple,

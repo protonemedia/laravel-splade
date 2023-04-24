@@ -210,15 +210,15 @@ class Input extends Component
     public function toSpladeComponent()
     {
         return new SpladeInput(
-            name:    $this->name,
-            type:    $this->type,
-            label:   $this->label,
-            date:    $this->date || $this->type === 'date',
-            time:    $this->time || $this->type === 'time',
-            range:   $this->range,
+            name: $this->name,
+            type: $this->type,
+            label: $this->label,
+            date: $this->date || $this->type === 'date',
+            time: $this->time || $this->type === 'time',
+            range: $this->range,
             prepend: $this->prepend,
-            append:  $this->append,
-            help:    $this->help
+            append: $this->append,
+            help: $this->help
         );
     }
 }
