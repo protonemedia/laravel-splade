@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 1.4.8 - 2023-04-29
+
+- Improved handling of Table Bulk Actions
+
 ## 1.4.7 - 2023-03-30
 
 - Use Vite 4 + updated npm dependencies (by @evici)
