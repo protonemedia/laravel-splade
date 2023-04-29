@@ -29,7 +29,11 @@ class Modal extends Component
             $this->modal = true;
         }
 
-        if (!$name && $opened) {
+        if (Splade::isRefreshRequest()) {
+            $this->opened = false;
+        }
+
+        if (!$name && $this->opened) {
             $this->name = Str::random();
         }
 
