@@ -11,7 +11,7 @@ trait HasValue
      *
      * @return $this
      */
-    public function value(string $value = ''): self
+    public function value(string|bool|int $value = ''): self
     {
         $this->value = $value;
 
