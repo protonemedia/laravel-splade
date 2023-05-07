@@ -72,6 +72,7 @@ return [
         'seo_title_directive'        => 'seoTitle',
         'seo_description_directive'  => 'seoDescription',
         'seo_keywords_directive'     => 'seoKeywords',
+        'asterisk_when_required'     => true,
     ],
 
     /**
