@@ -7,6 +7,7 @@ import { createApp } from "vue/dist/vue.esm-bundler.js";
 // import "../../../lib/Components/choices.scss";
 // import "../../../lib/Components/filepond.scss";
 // import "../../../lib/Components/flatpickr.styl";
+// import "../../../lib/Components/JoditEditor.scss";
 // import { renderSpladeApp, SpladePlugin } from "../../../dist/protone-media-laravel-splade";
 
 // for build
