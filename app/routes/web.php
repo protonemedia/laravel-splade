@@ -11,6 +11,7 @@ use App\Http\Controllers\FileFormController;
 use App\Http\Controllers\FilepondController;
 use App\Http\Controllers\FormBuilderController;
 use App\Http\Controllers\FormComponentsController;
+use App\Http\Controllers\FormDownloadController;
 use App\Http\Controllers\FormRedirectController;
 use App\Http\Controllers\FormRelationsController;
 use App\Http\Controllers\FormViewController;
@@ -124,6 +125,9 @@ Route::middleware('splade')->group(function () {
     });
 
     Route::view('flash', 'flash')->name('flash');
+
+    Route::get('form/download', [FormDownloadController::class, 'show'])->name('form.download.show');
+    Route::post('form/download', [FormDownloadController::class, 'submit'])->name('form.download.submit');
 
     Route::get('form/redirect', [FormRedirectController::class, 'show'])->name('form.redirect.show');
     Route::post('form/redirect', [FormRedirectController::class, 'submit'])->name('form.redirect.submit');
