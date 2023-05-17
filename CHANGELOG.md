@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 1.4.8.1 - 2023-05-17
+
+Minor update that bumps the JS dependencies, especially `laravel-vite-plugin`. As of Laravel 10.2 (skeleton, not the framework), the `package.json` type default to `module`, which caused issues with earlier versions of the Vite plugin.
+
 ## 1.4.8 - 2023-04-29
 
 - Improved handling of Table Bulk Actions
