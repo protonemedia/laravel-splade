@@ -3,6 +3,7 @@
         <Link dusk="one" href="/navigation/one">One</Link>
         <Link dusk="two" href="/navigation/two">Two</Link>
         <Link dusk="three" href="/navigation/three">Three</Link>
+        <Link dusk="three-hash" href="/navigation/three#section">Three Hash</Link>
         <Link dusk="notFound" href="/navigation/notFound">notFound</Link>
         <Link dusk="serverError" href="/navigation/serverError">serverError</Link>
         <Link dusk="video" href="/navigation/video/one">Video</Link>
