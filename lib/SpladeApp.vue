@@ -235,7 +235,20 @@ Splade.setOnHtml((newHtml, scrollY) => {
 
     nextTick(() => {
         if (!Splade.isSsr) {
-            window.scrollTo(0, scrollY);
+            const hash = window.location.hash;
+
+            if (hash) {
+                const element = document.getElementById(hash.substring(1));
+
+                if (element) {
+                    // Set it explicitly so the browser scrolls to the element.
+                    window.location.hash = hash;
+                } else {
+                    window.scrollTo(0, scrollY);
+                }
+            } else {
+                window.scrollTo(0, scrollY);
+            }
         }
 
         if ($spladeOptions.transform_anchors) {
