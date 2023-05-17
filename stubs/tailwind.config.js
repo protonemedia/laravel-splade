@@ -1,8 +1,5 @@
-import forms from "@tailwindcss/forms";
-import typography from "@tailwindcss/typography";
-
 /** @type {import('tailwindcss').Config} */
-export default {
+module.exports = {
     content: [
         "./vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php",
         "./vendor/protonemedia/laravel-splade/lib/**/*.vue",
@@ -16,5 +13,8 @@ export default {
         extend: {},
     },
 
-    plugins: [forms, typography],
+    plugins: [
+        require("@tailwindcss/forms"),
+        require("@tailwindcss/typography")
+    ],
 };
