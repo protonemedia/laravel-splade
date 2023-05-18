@@ -4,7 +4,7 @@
 
 FormDownload
 
-<x-splade-form class="form-simple">
+<x-splade-form class="form-simple" blob>
     <button type="submit">Download</button>
 </x-splade-form>
 
