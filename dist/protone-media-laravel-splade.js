@@ -4826,8 +4826,8 @@ const Jf = /* @__PURE__ */ Ie(Gf, [["render", Kf]]), Yf = {
   mounted() {
     const e = this.$refs.jodit.querySelector("textarea");
     import("jodit").then((t) => {
-      const r = Object.assign({ defaultMode: t.Jodit.MODE_WYSIWYG }, this.options, this.jsOptions);
-      this.instance = t.Jodit.make(e, r), this.instance.value = this.modelValue, this.instance.events.on("change", (n) => this.$emit("update:modelValue", n)), this.dusk && this.instance.editor.setAttribute("dusk", this.dusk);
+      const r = Object.assign({ defaultMode: t.default.Jodit.MODE_WYSIWYG }, this.options, this.jsOptions);
+      this.instance = t.default.Jodit.make(e, r), this.instance.value = this.modelValue, this.instance.events.on("change", (n) => this.$emit("update:modelValue", n)), this.dusk && this.instance.editor.setAttribute("dusk", this.dusk);
     });
   },
   beforeUnmount() {

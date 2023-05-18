@@ -46,11 +46,10 @@ export default {
     mounted() {
         const textareaElement = this.$refs.jodit.querySelector("textarea");
 
-
         import("jodit").then((Jodit) => {
-            const options = Object.assign({ defaultMode: Jodit.Jodit.MODE_WYSIWYG }, this.options, this.jsOptions);
+            const options = Object.assign({ defaultMode: Jodit.default.Jodit.MODE_WYSIWYG }, this.options, this.jsOptions);
 
-            this.instance = Jodit.Jodit.make(textareaElement, options);
+            this.instance = Jodit.default.Jodit.make(textareaElement, options);
             this.instance.value = this.modelValue;
             this.instance.events.on("change", newValue => this.$emit("update:modelValue", newValue));
 
