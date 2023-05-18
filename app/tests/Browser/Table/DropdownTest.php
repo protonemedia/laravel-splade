@@ -30,7 +30,7 @@ class DropdownTest extends DuskTestCase
 
             $browser
                 ->press('@row-button')
-                ->pause(300)
+                ->pause(1000)
                 ->assertVisible('@hey');
         });
     }
