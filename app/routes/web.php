@@ -196,6 +196,7 @@ Route::middleware('splade')->group(function () {
     Route::get('form/components/relation', [FormComponentsController::class, 'relation'])->name('form.components.relation');
     Route::get('form/components/transform', [FormComponentsController::class, 'transform'])->name('form.components.transform');
     Route::get('form/components/customSelectOptions', [FormComponentsController::class, 'customSelectOptions'])->name('form.components.customSelectOptions');
+    Route::get('form/components/wysiwyg', [FormComponentsController::class, 'wysiwyg'])->name('form.components.wysiwyg');
 
     Route::get('form/components/filepond', [FilepondController::class, 'show'])->name('form.components.filepond');
     Route::get('form/components/filepondValidation', [FilepondController::class, 'showValidation'])->name('form.components.filepondValidation');
@@ -237,6 +238,7 @@ Route::middleware('splade')->group(function () {
 
     Route::get('formbuilder/simple', [FormBuilderController::class, 'simple'])->name('formbuilder.simple.index');
     Route::post('formbuilder/simple', [FormBuilderController::class, 'storeSimple'])->name('formbuilder.simple.store');
+    Route::post('formbuilder/simple', [FormBuilderController::class, 'storeSimple'])->name('formbuilder.simple.store');
 
     Route::get('formbuilder/fromClass', [FormBuilderController::class, 'fromClass'])->name('formbuilder.fromClass.index');
     Route::post('formbuilder/fromClass', [FormBuilderController::class, 'storeFromClass'])->name('formbuilder.fromClass.store');
@@ -247,6 +249,9 @@ Route::middleware('splade')->group(function () {
     Route::get('/formbuilder/multifields', [FormBuilderController::class, 'multifields'])->name('formbuilder.multifields.index');
     Route::post('/formbuilder/multifields1', [FormBuilderController::class, 'storeMultifields1'])->name('formbuilder.multifields1.store');
     Route::post('/formbuilder/multifields2', [FormBuilderController::class, 'storeMultifields2'])->name('formbuilder.multifields2.store');
+
+    Route::get('formbuilder/wysiwyg', [FormBuilderController::class, 'wysiwyg'])->name('formbuilder.wysiwyg.index');
+    Route::post('formbuilder/wysiwyg', [FormBuilderController::class, 'storeWysiwyg'])->name('formbuilder.wysiwyg.store');
 
     Route::get('lazy', [LazyController::class, 'show'])->name('lazy');
     Route::get('lazy/nested', [LazyController::class, 'showNested'])->name('lazy.nested');
