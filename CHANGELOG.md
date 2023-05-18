@@ -2,6 +2,11 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 1.4.10 - 2023-05-18
+
+- Support for Jodit editor (thanks @J87NL!)
+- Support for the `blob` attribute in the Form component
+
 ## 1.4.9.1 - 2023-05-18
 
 Patch release for newer Laravel versions
