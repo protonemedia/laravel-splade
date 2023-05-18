@@ -22,7 +22,7 @@ class PublishFormStylesheetsCommand extends Command
         copy(__DIR__ . '/../../lib/Components/choices.scss', resource_path('css/choices.scss'));
         copy(__DIR__ . '/../../lib/Components/filepond.scss', resource_path('css/filepond.scss'));
         copy(__DIR__ . '/../../lib/Components/flatpickr.styl', resource_path('css/flatpickr.styl'));
-        copy(__DIR__ . '/../../lib/Components/JoditEditor.scss', resource_path('css/JoditEditor.scss'));
+        copy(__DIR__ . '/../../lib/Components/jodit.scss', resource_path('css/jodit.scss'));
 
         $this->comment('All done');
 

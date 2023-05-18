@@ -128,7 +128,7 @@ class FormBuilderController
                     ])
                     ->fill([
                         'body' => 'This is a <u>test</u> with the <b>Splade</b> <em>Jodit WYSIWYG editor</em>.',
-                    ])
+                    ]),
             ],
         ]);
     }

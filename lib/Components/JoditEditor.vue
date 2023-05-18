@@ -9,30 +9,19 @@ import { Jodit } from "jodit";
 
 export default {
     props: {
-        editorOptions: {
+        options: {
             type: Object,
             required: false,
             default() {
-                return {
-                    textIcons: false,
-                    uploader: {
-                        insertImageAsBase64URI: true
-                    },
-                    toolbarButtonSize: "medium",
-                    toolbarSticky: false,
-                    iframe: false,
-                    height: "auto",
-                    minHeight: 400,
-                    maxHeight: 600,
-                    defaultMode: Jodit.MODE_WYSIWYG,
-                    imageDefaultWidth: "100%",
-                    observer: {
-                        timeout: 100,
-                    },
-                    commandToHotkeys: {
-                        //
-                    },
-                };
+                return {};
+            },
+        },
+
+        jsOptions: {
+            type: Object,
+            required: false,
+            default: () => {
+                return {};
             }
         },
 
@@ -50,20 +39,17 @@ export default {
         };
     },
 
-    computed: {
-        editorConfig () {
-            return { ...this.editorOptions };
-        }
-
-    },
 
     mounted() {
         this.element = this.$refs.editor.querySelector("textarea");
 
-        this.editor = new Jodit(this.element, this.editorConfig);
+        const options = Object.assign({ defaultMode: Jodit.MODE_WYSIWYG }, this.options, this.jsOptions);
+
+        this.editor = Jodit.make(this.element, options);
         this.editor.value = this.modelValue;
         this.editor.events.on("change", newValue => this.$emit("update:modelValue", newValue));
     },
+
     beforeUnmount () {
         this.editor.destruct();
     }

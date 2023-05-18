@@ -1,6 +1,9 @@
 <SpladeJoditEditor
     {{ $attributes->only(['v-if', 'v-show', 'class']) }}
+    :options="@js($joditOptions())"
+    :js-options="{!! $jsJoditOptions() !!}"
     v-model="{{ $vueModel() }}"
+    :dusk="@js($attributes->get('dusk'))"
 >
     <label class="block">
         @includeWhen($label, 'splade::form.label', ['label' => $label])
