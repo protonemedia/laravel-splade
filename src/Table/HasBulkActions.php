@@ -40,15 +40,13 @@ trait HasBulkActions
     ): self {
         $key = count($this->bulkActions);
 
-        $defaultCallback = fn () => 0;
-
         $this->bulkActions[$key] = new BulkAction(
             key: $key,
             label: $label,
             tableClass: get_class($this->configurator),
-            eachCallback: $each ?: $defaultCallback,
-            beforeCallback: $before ?: $defaultCallback,
-            afterCallback: $after ?: $defaultCallback,
+            eachCallback: $each,
+            beforeCallback: $before,
+            afterCallback: $after,
             confirm: $confirm,
             confirmText: $confirmText,
             confirmButton: $confirmButton,
