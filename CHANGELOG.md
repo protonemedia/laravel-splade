@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 1.4.9.1 - 2023-05-18
+
+Patch release for newer Laravel versions
+
 ## 1.4.9 - 2023-05-18
 
 - Splade now respects URL fragments in the Link component
