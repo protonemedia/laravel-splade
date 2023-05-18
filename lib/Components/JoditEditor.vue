@@ -5,8 +5,6 @@
 </template>
 
 <script>
-import { Jodit } from "jodit";
-
 export default {
     props: {
         options: {
@@ -45,19 +43,21 @@ export default {
         };
     },
 
-
     mounted() {
         const textareaElement = this.$refs.jodit.querySelector("textarea");
 
-        const options = Object.assign({ defaultMode: Jodit.MODE_WYSIWYG }, this.options, this.jsOptions);
 
-        this.instance = Jodit.make(textareaElement, options);
-        this.instance.value = this.modelValue;
-        this.instance.events.on("change", newValue => this.$emit("update:modelValue", newValue));
+        import("jodit").then((Jodit) => {
+            const options = Object.assign({ defaultMode: Jodit.Jodit.MODE_WYSIWYG }, this.options, this.jsOptions);
 
-        if(this.dusk) {
-            this.instance.editor.setAttribute("dusk", this.dusk);
-        }
+            this.instance = Jodit.Jodit.make(textareaElement, options);
+            this.instance.value = this.modelValue;
+            this.instance.events.on("change", newValue => this.$emit("update:modelValue", newValue));
+
+            if(this.dusk) {
+                this.instance.editor.setAttribute("dusk", this.dusk);
+            }
+        });
     },
 
     beforeUnmount () {
