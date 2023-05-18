@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 1.4.11 - 2023-05-18
+
+Fixed wrong Jodit import in v1.4.10 🙃
+
 ## 1.4.10 - 2023-05-18
 
 - Support for Jodit editor (thanks @J87NL!)
