@@ -87,7 +87,7 @@ jobs:
       - name: Start SSR server (Unix)
         run: |
           echo "SPLADE_SSR_ENABLED=true" >> .env
-          node bootstrap/ssr/ssr.mjs &
+          node bootstrap/ssr/ssr.js &
         if: matrix.os == 'ubuntu-22.04'
 
       - name: Run Test command (Unix)
@@ -97,6 +97,6 @@ jobs:
       - name: Start SSR server (Windows) and Run Test command
         run: |
           echo "SPLADE_SSR_ENABLED=true" >> .env
-          node bootstrap/ssr/ssr.mjs &
+          node bootstrap/ssr/ssr.js &
           php artisan splade:ssr-test
         if: matrix.os == 'windows-latest'
