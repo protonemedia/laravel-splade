@@ -36,7 +36,7 @@ jobs:
 
       - name: Remove installed Splade (Unix)
         run: rm -rf vendor/protonemedia/laravel-splade
-        if: matrix.os == 'ubuntu-latest'
+        if: matrix.os == 'ubuntu-22.04'
 
       - name: Remove installed Splade (Windows)
         run: rd "vendor/protonemedia/laravel-splade" /s /q
@@ -62,7 +62,7 @@ jobs:
         run: |
           rm -rf node_modules/@protonemedia/laravel-splade/dist
           cp -R vendor/protonemedia/laravel-splade/dist node_modules/@protonemedia/laravel-splade/
-        if: matrix.os == 'ubuntu-latest'
+        if: matrix.os == 'ubuntu-22.04'
 
       - name: Remove installed Splade and copy front-end build from Checkout (Windows)
         run: |
@@ -77,11 +77,11 @@ jobs:
 
       - name: Run Laravel Server (Unix)
         run: php artisan serve &
-        if: matrix.os == 'ubuntu-latest'
+        if: matrix.os == 'ubuntu-22.04'
 
       - name: Run Test (Unix)
         run: php vendor/protonemedia/laravel-splade/TestStubs.php
-        if: matrix.os == 'ubuntu-latest'
+        if: matrix.os == 'ubuntu-22.04'
 
       - name: Run Laravel Server (Windows) and Run Test
         run: |
@@ -94,11 +94,11 @@ jobs:
         run: |
           echo "SPLADE_SSR_ENABLED=true" >> .env
           node bootstrap/ssr/ssr.mjs &
-        if: matrix.os == 'ubuntu-latest'
+        if: matrix.os == 'ubuntu-22.04'
 
       - name: Run Test command (Unix)
         run: php artisan splade:ssr-test
-        if: matrix.os == 'ubuntu-latest'
+        if: matrix.os == 'ubuntu-22.04'
 
       - name: Start SSR server (Windows) and Run Test command
         run: |
