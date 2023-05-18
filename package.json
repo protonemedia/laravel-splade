@@ -16,7 +16,8 @@
       "import": "./dist/protone-media-laravel-splade.js",
       "require": "./dist/protone-media-laravel-splade.umd.cjs"
     },
-    "./dist/style.css": "./dist/style.css"
+    "./dist/style.css": "./dist/style.css",
+    "./dist/jodit.css": "./dist/jodit.css"
   },
   "scripts": {
     "dev": "vite build --watch",

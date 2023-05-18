@@ -60,7 +60,7 @@ class Wysiwyg extends Component
             'uploader'             => ['insertImageAsBase64URI' => true],
         ];
 
-        return array_merge($defaults, $this->jodit ?? []);
+        return array_merge($defaults, is_array($this->jodit) ? $this->jodit : []);
     }
 
     /**
