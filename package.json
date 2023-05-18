@@ -1,6 +1,6 @@
 {
   "name": "@protonemedia/laravel-splade",
-  "version": "1.4.9",
+  "version": "1.4.10",
   "description": "Laravel Splade: the magic of Inertia.js with the simplicity of Blade.",
   "private": false,
   "author": "Pascal Baljet <pascal@protone.media>",
@@ -9,7 +9,10 @@
   "main": "./dist/protone-media-laravel-splade.umd.cjs",
   "module": "./dist/protone-media-laravel-splade.js",
   "files": [
-    "dist"
+    "dist/jodit.css",
+    "dist/protone-media-laravel-splade.cjs",
+    "dist/protone-media-laravel-splade.js",
+    "dist/style.css"
   ],
   "exports": {
     ".": {
