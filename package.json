@@ -16,7 +16,8 @@
       "import": "./dist/protone-media-laravel-splade.js",
       "require": "./dist/protone-media-laravel-splade.umd.cjs"
     },
-    "./dist/style.css": "./dist/style.css"
+    "./dist/style.css": "./dist/style.css",
+    "./dist/jodit.css": "./dist/jodit.css"
   },
   "scripts": {
     "dev": "vite build --watch",
@@ -49,6 +50,7 @@
     "filepond-plugin-image-preview": "^4.6.11",
     "filepond-plugin-image-validate-size": "^1.2.7",
     "flatpickr": "^4.6.13",
+    "jodit": "^3.24.9",
     "nprogress": "^0.2.0"
   }
 }

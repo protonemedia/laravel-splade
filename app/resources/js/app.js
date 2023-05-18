@@ -7,10 +7,12 @@ import { createApp } from "vue/dist/vue.esm-bundler.js";
 // import "../../../lib/Components/choices.scss";
 // import "../../../lib/Components/filepond.scss";
 // import "../../../lib/Components/flatpickr.styl";
+// import "../../../lib/Components/jodit.scss";
 // import { renderSpladeApp, SpladePlugin } from "../../../dist/protone-media-laravel-splade";
 
 // for build
 import "@protonemedia/laravel-splade/dist/style.css";
+import "@protonemedia/laravel-splade/dist/jodit.css";
 import { renderSpladeApp, SpladePlugin } from "@protonemedia/laravel-splade";
 
 const el = document.getElementById("app");
