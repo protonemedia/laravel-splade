@@ -1,5 +1,5 @@
 <template>
-  <div ref="editor">
+  <div ref="jodit">
     <slot />
   </div>
 </template>
@@ -28,30 +28,40 @@ export default {
         modelValue: {
             type: [String, Number],
             required: false
-        }
+        },
+
+        dusk: {
+            type: String,
+            required: false,
+            default: null,
+        },
     },
 
     emits: ["update:modelValue"],
 
     data() {
         return {
-            element: null,
+            instance: null,
         };
     },
 
 
     mounted() {
-        this.element = this.$refs.editor.querySelector("textarea");
+        const textareaElement = this.$refs.jodit.querySelector("textarea");
 
         const options = Object.assign({ defaultMode: Jodit.MODE_WYSIWYG }, this.options, this.jsOptions);
 
-        this.editor = Jodit.make(this.element, options);
-        this.editor.value = this.modelValue;
-        this.editor.events.on("change", newValue => this.$emit("update:modelValue", newValue));
+        this.instance = Jodit.make(textareaElement, options);
+        this.instance.value = this.modelValue;
+        this.instance.events.on("change", newValue => this.$emit("update:modelValue", newValue));
+
+        if(this.dusk) {
+            this.instance.editor.setAttribute("dusk", this.dusk);
+        }
     },
 
     beforeUnmount () {
-        this.editor.destruct();
+        this.instance.destruct();
     }
 };
 </script>

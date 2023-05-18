@@ -11,8 +11,7 @@ FormWYSIWYG
             'body' => 'This is a <u>test</u> with the <b>Splade</b> <em>Jodit WYSIWYG editor</em>.'
         ]"
     >
-        <x-splade-input name="body" placeholder="Body" />
-        <x-splade-wysiwyg name="body" placeholder="Body" />
+        <x-splade-wysiwyg name="body" dusk="jodit" placeholder="Body" />
 
         <div dusk="all">@{{ form.$all }}</div>
     </x-splade-form>
