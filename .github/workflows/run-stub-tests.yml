@@ -17,7 +17,7 @@ jobs:
             testbench: 8.*
         exclude:
           - php: 8.1
-            os: windows-latestx
+            os: windows-latest
 
     name: Test Stubs ${{ matrix.os }} - P${{ matrix.php }} - L${{ matrix.laravel }}
 
