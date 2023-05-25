@@ -1,6 +1,7 @@
 @php $vueData = $_vueData() @endphp
 
 <SpladeVueBridge
+    {{ $attributes->only(['@@success', '@@error']) }}
     :backend-route="@js(route('splade.withVueBridge'))"
     :default="@js($vueData['data'])"
     :initial-instance="@js($vueData['instance'])"
