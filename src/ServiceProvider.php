@@ -281,6 +281,7 @@ class ServiceProvider extends BaseServiceProvider
             Components\Form\Select::class,
             Components\Form\Submit::class,
             Components\Form\Wysiwyg::class,
+            Components\Form\IconPicker::class,
         ], config('splade.blade.component_prefix'));
     }
 
