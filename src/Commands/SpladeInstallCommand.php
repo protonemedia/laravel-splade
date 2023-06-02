@@ -23,6 +23,13 @@ class SpladeInstallCommand extends Command
      */
     public function handle(): int
     {
+        // Check Laravel version...
+        if (version_compare(app()->version(), '10.0', '<')) {
+            $this->error('While you can still use Splade with Laravel 9, new projects should use Laravel 10.');
+
+            return self::FAILURE;
+        }
+
         $this->installRouteMiddleware();
 
         $this->installExceptionHandler();
@@ -30,17 +37,17 @@ class SpladeInstallCommand extends Command
         // Install NPM packages...
         $this->updateNodePackages(function ($packages) {
             return [
-                '@protonemedia/laravel-splade' => '^1.4.7',
-                '@tailwindcss/forms'           => '^0.5.2',
-                '@tailwindcss/typography'      => '^0.5.2',
-                '@vitejs/plugin-vue'           => '^4.1.0',
-                'autoprefixer'                 => '^10.4.7',
-                'laravel-vite-plugin'          => '^0.7.2',
-                'postcss'                      => '^8.4.14',
-                'tailwindcss'                  => '^3.1.0',
-                'vite'                         => '^4.0.0',
-                'vue'                          => '^3.2.37',
-            ] + $packages;
+                    '@protonemedia/laravel-splade' => '^1.4.11',
+                    '@tailwindcss/forms'           => '^0.5.2',
+                    '@tailwindcss/typography'      => '^0.5.2',
+                    '@vitejs/plugin-vue'           => '^4.0.0',
+                    'autoprefixer'                 => '^10.4.7',
+                    'laravel-vite-plugin'          => '^0.7.5',
+                    'postcss'                      => '^8.4.14',
+                    'tailwindcss'                  => '^3.3.0',
+                    'vite'                         => '^4.0.0',
+                    'vue'                          => '^3.2.37',
+                ] + $packages;
         });
 
         // Add SSR build step...
