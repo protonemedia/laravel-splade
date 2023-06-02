@@ -219,7 +219,7 @@ class ExampleForm extends AbstractForm
             Select::make('fromRemoteUrlWithRemoteRoot')
                 ->label('Select with data from a remote URL with a remote root')
                 ->remoteUrl('/api/users2')
-                ->remoteRoute('data.users')
+                ->remoteRoot('data.users')
                 ->optionLabel('name')
                 ->optionValue('id')
                 ->choices(false),
