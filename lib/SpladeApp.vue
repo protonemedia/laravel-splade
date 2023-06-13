@@ -277,7 +277,7 @@ const onHtml = (newHtml, scrollY) => {
 
 Splade.setOnHtml((newHtml, scrollY) => {
     // Fallback for browsers that don't support this API:
-    if (!document.startViewTransition || !$spladeOptions.view_transitions) {
+    if (Splade.isSsr || !document.startViewTransition || !$spladeOptions.view_transitions) {
         onHtml(newHtml, scrollY);
         return;
     }
