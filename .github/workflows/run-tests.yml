@@ -18,6 +18,12 @@ jobs:
           - laravel: 10.*
             testbench: 8.*
         exclude:
+          - ssr: true
+            dependency-version: prefer-lowest
+          - ssr: true
+            php: 8.1
+          - ssr: true
+            php: 8.0
           - laravel: 10.*
             php: 8.0
 
