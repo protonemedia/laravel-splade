@@ -3,6 +3,7 @@
 namespace ProtoneMedia\Splade\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Str;
 
 class ShowSpladeVersions extends Command
 {
@@ -37,7 +38,7 @@ class ShowSpladeVersions extends Command
         $npmPackage = collect($npmLockFile['packages'] ?? [])
             ->merge($npmLockFile['dependencies'] ?? [])
             ->first(function (array $value, string $name) {
-                return $name === '@protonemedia/laravel-splade';
+                return Str::endsWith($name, '@protonemedia/laravel-splade');
             })['version'] ?? null;
 
         $composerPackage

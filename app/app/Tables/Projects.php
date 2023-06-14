@@ -59,10 +59,10 @@ class Projects extends AbstractTable
             ->column('updated_at', 'Project Updated', exportFormat: function () {
                 return NumberFormat::FORMAT_DATE_TIME2;
             })
-            ->column('organization.name', searchable: true, sortable: true, exportAs: false)
+            ->column('organization.name', searchable: true, sortable: true, exportAs: false, alignment: 'center')
             ->column('organization.address.city', 'Organization City', sortable: true, exportStyling: function (Style $style) {
                 $style->getFont()->setBold(true);
-            })
+            }, alignment: 'right')
             ->paginate(15);
     }
 }

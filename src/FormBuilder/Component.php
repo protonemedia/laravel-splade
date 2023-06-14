@@ -3,6 +3,7 @@
 namespace ProtoneMedia\Splade\FormBuilder;
 
 use Illuminate\Support\Arr;
+use Illuminate\Support\HtmlString;
 use Illuminate\Support\Traits\Macroable;
 use ProtoneMedia\Splade\Components\Form\InteractsWithFormElement;
 
@@ -15,11 +16,11 @@ abstract class Component
 
     protected string $name = '';
 
-    protected string $label = '';
+    protected HtmlString|string $label = '';
 
     protected array $attributes = [];
 
-    protected string $help = '';
+    protected HtmlString|string $help = '';
 
     public array|string $rules = [];
 
@@ -42,11 +43,21 @@ abstract class Component
      *
      * @return $this
      */
-    public function label(string $label): self
+    public function label(HtmlString|string $label): self
     {
         $this->label = $label;
 
         return $this;
+    }
+
+    /**
+     * Add a label to the field that won't be escaped
+     *
+     * @return $this
+     */
+    public function htmlLabel(HtmlString|string $label): self
+    {
+        return $this->label(is_string($label) ? new HtmlString($label) : $label);
     }
 
     /**
@@ -81,11 +92,21 @@ abstract class Component
      *
      * @return $this
      */
-    public function help(string $text): self
+    public function help(HtmlString|string $text): self
     {
         $this->help = $text;
 
         return $this;
+    }
+
+    /**
+     * Add a help text to the field that won't be escaped
+     *
+     * @return $this
+     */
+    public function htmlHelp(HtmlString|string $text): self
+    {
+        return $this->help(is_string($text) ? new HtmlString($text) : $text);
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace ProtoneMedia\Splade\Components\Form;
 
+use Illuminate\Support\HtmlString;
 use Illuminate\View\Component;
 use ProtoneMedia\Splade\Components\Form;
 
@@ -21,13 +22,13 @@ class File extends Component
     public function __construct(
         public string $name = '',
         public string $vModel = '',
-        public string $label = '',
+        public HtmlString|string $label = '',
         public bool|string $placeholder = true,
         public string $validationKey = '',
         public bool $showErrors = true,
         public bool $multiple = false,
         public string $scope = 'file',
-        public string $help = '',
+        public HtmlString|string $help = '',
         public bool|array|string|null $filepond = null,
         public bool|string $server = false,
         public bool $preview = false,

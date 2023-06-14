@@ -2,6 +2,7 @@
 
 namespace ProtoneMedia\Splade\Table;
 
+use Closure;
 use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
@@ -14,9 +15,6 @@ class BulkAction
     /**
      * This class represents a bulk action within a Splade Table.
      *
-     * @param  callable  $beforeCallback
-     * @param  callable  $eachCallback
-     * @param  callable  $afterCallback
      * @param  bool|string  $confirm = '',
      * @param  string  $confirmText = '',
      * @param  string  $confirmButton = '',
@@ -27,9 +25,9 @@ class BulkAction
         public string $key,
         public string $label,
         public string $tableClass,
-        public $beforeCallback,
-        public $eachCallback,
-        public $afterCallback,
+        public Closure|null $beforeCallback = null,
+        public Closure|null $eachCallback = null,
+        public Closure|null $afterCallback = null,
         public bool|string $confirm = '',
         public string $confirmText = '',
         public string $confirmButton = '',

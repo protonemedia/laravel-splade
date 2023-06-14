@@ -76,6 +76,11 @@ class SpladeMiddleware
             return $response;
         }
 
+        // Check if the response has a Content-Disposition header with a filename.
+        if ($response->headers->has('Content-Disposition') && Str::contains($response->headers->get('Content-Disposition'), 'filename=')) {
+            return $response;
+        }
+
         // This response should be ignored by Splade.
         if ($response->headers->has(SpladeCore::HEADER_SKIP_MIDDLEWARE)) {
             $response->headers->remove(SpladeCore::HEADER_SKIP_MIDDLEWARE);
@@ -441,7 +446,7 @@ class SpladeMiddleware
             preserveScroll: $this->splade->preserveScroll(),
             lazy: $this->splade->isLazyRequest(),
             rehydrate: $this->splade->isRehydrateRequest(),
-            persistentLayout:  $this->splade->getPersistentLayoutKey(),
+            persistentLayout: $this->splade->getPersistentLayoutKey(),
         );
     }
 

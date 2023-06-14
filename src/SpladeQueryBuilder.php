@@ -194,6 +194,10 @@ class SpladeQueryBuilder extends SpladeTable
      */
     private function applySorting(Column $column)
     {
+        if (is_callable($column->sortable)) {
+            return ($column->sortable)($this->builder, $column->sorted);
+        }
+
         if (!$column->isNested()) {
             // Not a relationship, just a column on the table.
             return $this->builder->orderBy($column->key, $column->sorted);
@@ -357,7 +361,7 @@ class SpladeQueryBuilder extends SpladeTable
             $this->applySortingAndEagerLoading();
         }
 
-        if (count($ids) === 1 && Arr::first($ids) === '*') {
+        if ($ids === ['*']) {
             if ($shouldApplyFiltersAndSearchInputs) {
                 $this->applyFilters();
                 $this->applySearchInputs();

@@ -2,6 +2,46 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 1.4.11 - 2023-05-18
+
+Fixed wrong Jodit import in v1.4.10 🙃
+
+## 1.4.10 - 2023-05-18
+
+- Support for Jodit editor (thanks @J87NL!)
+- Support for the `blob` attribute in the Form component
+
+## 1.4.9.1 - 2023-05-18
+
+Patch release for newer Laravel versions
+
+## 1.4.9 - 2023-05-18
+
+- Splade now respects URL fragments in the Link component
+
+## 1.4.8.1 - 2023-05-17
+
+Minor update that bumps the JS dependencies, especially `laravel-vite-plugin`. As of Laravel 10.2 (skeleton, not the framework), the `package.json` type default to `module`, which caused issues with earlier versions of the Vite plugin.
+
+## 1.4.8 - 2023-04-29
+
+- Improved handling of Table Bulk Actions
+
+## 1.4.7 - 2023-03-30
+
+- Use Vite 4 + updated npm dependencies (by @evici)
+- Allow a Closure as sortable parameter for Table columns (by @Jampire)
+- Table columns can now be aligned (`left`, `center`, and `right`)
+- Allow `HtmlString` for label/help attributes
+- `htmlLabel` and `htmlHelp` Form builder methods to allow texts that won't be escaped
+- Fixes for Form Builder validation (by @J87NL)
+- Fix for resolving the JS package version using the latest npm (by @Jampire)
+- Prevent horizontal scrollbar while opening slideovers (#350)
+- Improved animation when reloading the same modal
+- The `Render` component now emits an event after rendering the content
+- The `SpladeMiddleware` now ignores responses with a `Content-Disposition` header (#368)
+- Table classes now have a static `build()` method to improve support for custom tables (#334)
+
 ## 1.4.6 - 2023-03-24
 
 - The `keep-modal` attribute from the Link component now also works on the Form component

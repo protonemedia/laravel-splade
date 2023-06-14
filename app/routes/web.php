@@ -11,6 +11,7 @@ use App\Http\Controllers\FileFormController;
 use App\Http\Controllers\FilepondController;
 use App\Http\Controllers\FormBuilderController;
 use App\Http\Controllers\FormComponentsController;
+use App\Http\Controllers\FormDownloadController;
 use App\Http\Controllers\FormRedirectController;
 use App\Http\Controllers\FormRelationsController;
 use App\Http\Controllers\FormViewController;
@@ -24,6 +25,7 @@ use App\Http\Controllers\TableController;
 use App\Http\Controllers\ToastController;
 use App\Http\Controllers\TwoFieldsFormController;
 use App\Http\UserTableView;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
@@ -65,6 +67,21 @@ Route::middleware('splade')->group(function () {
     Route::spladeTable();
     Route::spladeUploads();
     Route::spladeWithVueBridge();
+
+    Route::get('download/attachment', function () {
+        return new Response('test', 200, [
+            'Content-Type'        => 'application/text',
+            'Content-Disposition' => 'attachment; filename="test.txt"',
+            'Content-Length'      => 4,
+        ]);
+    })->name('download.attachment');
+
+    Route::get('download/inline', function () {
+        return new Response('test', 200, [
+            'Content-Type'        => 'application/text',
+            'Content-Disposition' => 'inline; filename="test.txt"',
+        ]);
+    })->name('download.inline');
 
     Route::get('/api/countries/keyValue', [CountriesController::class, 'keyValue'])->name('api.countries.keyValue');
     Route::get('/api/countries/objects', [CountriesController::class, 'objects'])->name('api.countries.objects');
@@ -108,6 +125,9 @@ Route::middleware('splade')->group(function () {
     });
 
     Route::view('flash', 'flash')->name('flash');
+
+    Route::get('form/download', [FormDownloadController::class, 'show'])->name('form.download.show');
+    Route::post('form/download', [FormDownloadController::class, 'submit'])->name('form.download.submit');
 
     Route::get('form/redirect', [FormRedirectController::class, 'show'])->name('form.redirect.show');
     Route::post('form/redirect', [FormRedirectController::class, 'submit'])->name('form.redirect.submit');
@@ -180,6 +200,7 @@ Route::middleware('splade')->group(function () {
     Route::get('form/components/relation', [FormComponentsController::class, 'relation'])->name('form.components.relation');
     Route::get('form/components/transform', [FormComponentsController::class, 'transform'])->name('form.components.transform');
     Route::get('form/components/customSelectOptions', [FormComponentsController::class, 'customSelectOptions'])->name('form.components.customSelectOptions');
+    Route::get('form/components/wysiwyg', [FormComponentsController::class, 'wysiwyg'])->name('form.components.wysiwyg');
 
     Route::get('form/components/filepond', [FilepondController::class, 'show'])->name('form.components.filepond');
     Route::get('form/components/filepondValidation', [FilepondController::class, 'showValidation'])->name('form.components.filepondValidation');
@@ -221,6 +242,7 @@ Route::middleware('splade')->group(function () {
 
     Route::get('formbuilder/simple', [FormBuilderController::class, 'simple'])->name('formbuilder.simple.index');
     Route::post('formbuilder/simple', [FormBuilderController::class, 'storeSimple'])->name('formbuilder.simple.store');
+    Route::post('formbuilder/simple', [FormBuilderController::class, 'storeSimple'])->name('formbuilder.simple.store');
 
     Route::get('formbuilder/fromClass', [FormBuilderController::class, 'fromClass'])->name('formbuilder.fromClass.index');
     Route::post('formbuilder/fromClass', [FormBuilderController::class, 'storeFromClass'])->name('formbuilder.fromClass.store');
@@ -231,6 +253,9 @@ Route::middleware('splade')->group(function () {
     Route::get('/formbuilder/multifields', [FormBuilderController::class, 'multifields'])->name('formbuilder.multifields.index');
     Route::post('/formbuilder/multifields1', [FormBuilderController::class, 'storeMultifields1'])->name('formbuilder.multifields1.store');
     Route::post('/formbuilder/multifields2', [FormBuilderController::class, 'storeMultifields2'])->name('formbuilder.multifields2.store');
+
+    Route::get('formbuilder/wysiwyg', [FormBuilderController::class, 'wysiwyg'])->name('formbuilder.wysiwyg.index');
+    Route::post('formbuilder/wysiwyg', [FormBuilderController::class, 'storeWysiwyg'])->name('formbuilder.wysiwyg.store');
 
     Route::get('lazy', [LazyController::class, 'show'])->name('lazy');
     Route::get('lazy/nested', [LazyController::class, 'showNested'])->name('lazy.nested');

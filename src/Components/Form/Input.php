@@ -2,6 +2,7 @@
 
 namespace ProtoneMedia\Splade\Components\Form;
 
+use Illuminate\Support\HtmlString;
 use Illuminate\View\Component;
 use ProtoneMedia\Splade\Components\Form;
 
@@ -26,15 +27,15 @@ class Input extends Component
         public string $name = '',
         public string $vModel = '',
         public string $type = 'text',
-        public string $label = '',
+        public HtmlString|string $label = '',
         private bool|array|string|null $date = null,
         private bool|array|string|null $time = null,
         public string $validationKey = '',
         public bool $showErrors = true,
         private bool $range = false,
-        public string $prepend = '',
-        public string $append = '',
-        public string $help = '',
+        public HtmlString|string $prepend = '',
+        public HtmlString|string $append = '',
+        public HtmlString|string $help = '',
         public bool $alwaysEnablePrepend = false,
         public bool $alwaysEnableAppend = false,
     ) {

@@ -17,7 +17,7 @@ class Checkbox extends Component
     public function toSpladeComponent()
     {
         return new SpladeCheckbox(
-            name:  $this->name,
+            name: $this->name,
             value: $this->value ?? $this->label,
             label: $this->label,
             help: $this->help,

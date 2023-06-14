@@ -34,10 +34,10 @@ trait HasResource
         return $this;
     }
 
-    protected function resolveRowLinks()
+    protected function resolveRowLinks(): self
     {
         if (!$this->rowLinkCallable) {
-            return;
+            return $this;
         }
 
         $this->loadResource();
@@ -47,6 +47,8 @@ trait HasResource
             : $this->resource;
 
         $this->rowLinks = Collection::make($collection)->map($this->rowLinkCallable);
+
+        return $this;
     }
 
     /**
