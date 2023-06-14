@@ -79,7 +79,7 @@ export default {
 
                 let response = null;
 
-                try{
+                try {
                     response = await Axios.post(this.backendRoute, {
                         instance: this.instance,
                         signature: this.signature,
