@@ -2,6 +2,19 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 1.4.13 - 2023-06-14
+
+- Experimental support for the View Transitions API
+- Fix translations for Table pagination (#389)
+- Option to suppress Vue’s compile errors in production (prevents blank pages)
+- Support for Events on Bridge components (thanks @bdsumon4u)
+- Fixed typo in Form Builder Select element (thanks @J87NL)
+- Add Forms and Tables directories to Tailwind config as a suggestion (thanks @J87NL)
+- Support for custom classes on the wrapper of the Submit element (thanks @J87NL)
+- Fix for passing Flatpickr options with the Form Builder (thanks @YungLin-CHU)
+- Allow other values than strings for checkboxes/radios in the Form Builder (thanks @J87NL)
+- Option to automatically add an asterisk to the label of required form elements (thanks @J87NL)
+
 ## 1.4.11 - 2023-05-18
 
 Fixed wrong Jodit import in v1.4.10 🙃
