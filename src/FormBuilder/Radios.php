@@ -19,11 +19,11 @@ class Radios extends Component
     public function toSpladeComponent()
     {
         return new SpladeRadios(
-            name:    $this->name,
+            name: $this->name,
             options: $this->options,
-            label:   $this->label,
-            inline:  $this->inline,
-            help:    $this->help
+            label: $this->label,
+            inline: $this->inline,
+            help: $this->help
         );
     }
 }

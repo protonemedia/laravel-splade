@@ -167,6 +167,12 @@ export default {
                 return {};
             },
         },
+
+        blob: {
+            type: Boolean,
+            required: false,
+            default: false
+        },
     },
 
     emits: ["success", "error", "reset", "restored"],
@@ -534,7 +540,7 @@ export default {
                 return successCallback(Object.fromEntries(data));
             }
 
-            Splade.request(this.action, method, data, { ...headers, ...this.headers })
+            Splade.request(this.action, method, data, { ...headers, ...this.headers }, false, this.blob)
                 .then(successCallback)
                 .catch(async (error) => {
                     this.processing = false;

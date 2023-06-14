@@ -2,6 +2,31 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 1.4.11 - 2023-05-18
+
+Fixed wrong Jodit import in v1.4.10 🙃
+
+## 1.4.10 - 2023-05-18
+
+- Support for Jodit editor (thanks @J87NL!)
+- Support for the `blob` attribute in the Form component
+
+## 1.4.9.1 - 2023-05-18
+
+Patch release for newer Laravel versions
+
+## 1.4.9 - 2023-05-18
+
+- Splade now respects URL fragments in the Link component
+
+## 1.4.8.1 - 2023-05-17
+
+Minor update that bumps the JS dependencies, especially `laravel-vite-plugin`. As of Laravel 10.2 (skeleton, not the framework), the `package.json` type default to `module`, which caused issues with earlier versions of the Vite plugin.
+
+## 1.4.8 - 2023-04-29
+
+- Improved handling of Table Bulk Actions
+
 ## 1.4.7 - 2023-03-30
 
 - Use Vite 4 + updated npm dependencies (by @evici)

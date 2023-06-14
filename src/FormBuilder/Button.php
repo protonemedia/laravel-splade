@@ -50,7 +50,6 @@ class Button extends Component
     /**
      * Applies secondary-styling to the button.
      *
-     * @param  bool  $secondary
      * @return $this
      */
     public function secondary(bool $secondary = true): self
@@ -68,14 +67,14 @@ class Button extends Component
     public function toSpladeComponent()
     {
         return new SpladeSubmit(
-            label:          $this->label,
-            type:           $this->type,
-            spinner:        $this->spinner,
-            name:           $this->name,
-            value:          $this->value ?? null,
-            danger:         $this->danger,
-            secondary:      $this->secondary,
-            parentClasses:  $this->parentClasses
+            label: $this->label,
+            type: $this->type,
+            spinner: $this->spinner,
+            name: $this->name,
+            value: $this->value ?? null,
+            danger: $this->danger,
+            secondary: $this->secondary,
+            parentClasses: $this->parentClasses
         );
     }
 }

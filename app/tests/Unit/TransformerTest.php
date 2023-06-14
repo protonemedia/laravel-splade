@@ -33,7 +33,7 @@ class TransformerTest extends TestCase
 
         try {
             $transformer($user);
-        } catch(InvalidTransformerException $e) {
+        } catch (InvalidTransformerException $e) {
             return $this->assertTrue(true);
         }
 
@@ -51,7 +51,7 @@ class TransformerTest extends TestCase
 
         try {
             $transformer($user);
-        } catch(InvalidTransformerException $e) {
+        } catch (InvalidTransformerException $e) {
             return $this->assertTrue(true);
         }
 

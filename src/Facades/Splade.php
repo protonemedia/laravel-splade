@@ -17,6 +17,7 @@ use Symfony\Component\HttpFoundation\Response;
  * @method static bool dontRefreshPage()
  * @method static bool isLazyRequest()
  * @method static bool isRehydrateRequest()
+ * @method static bool isRefreshRequest()
  * @method static bool isModalRequest()
  * @method static bool isSpladeRequest()
  * @method static bool preserveScroll()

@@ -37,7 +37,7 @@ class WithVueTest extends TestCase
 
         try {
             $instance->middleware(DummyRedirectMiddleware::class);
-        } catch(MiddlewareException $e) {
+        } catch (MiddlewareException $e) {
             $this->assertTrue($e->report());
             $this->assertInstanceOf(RedirectResponse::class, $e->render());
 
