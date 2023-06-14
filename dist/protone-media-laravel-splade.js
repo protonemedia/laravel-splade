@@ -6071,7 +6071,6 @@ const Ip = /* @__PURE__ */ Ie(Tp, [["render", _p]]), Ap = {
       required: !0
     }
   },
-  emits: ["success", "error"],
   data() {
     return {
       instance: this.initialInstance,
@@ -6107,9 +6106,9 @@ const Ip = /* @__PURE__ */ Ie(Tp, [["render", _p]]), Ap = {
           }, { headers: {
             "X-Requested-With": "XMLHttpRequest",
             Accept: "text/html, application/xhtml+xml"
-          } }), this.$emit("success", i.data);
+          } });
         } catch (s) {
-          this.$emit("error", s.response.data), m.onServerError(s.response.data);
+          m.onServerError(s.response.data);
           return;
         }
         return this.instance = i.data.instance, this.signature = i.data.signature, te(i.data.data, (s, a) => {
