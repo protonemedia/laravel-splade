@@ -25,6 +25,7 @@ class DeferTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $browser->visit('/defer/url')
                 ->waitForText('ComponentDeferUrl')
+                ->waitFor('@name')
                 ->type('@name', 'splade')
                 ->waitForTextIn('@response', '{ "input": "splade" }');
         });

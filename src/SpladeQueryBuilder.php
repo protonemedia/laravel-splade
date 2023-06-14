@@ -361,7 +361,7 @@ class SpladeQueryBuilder extends SpladeTable
             $this->applySortingAndEagerLoading();
         }
 
-        if (count($ids) === 1 && Arr::first($ids) === '*') {
+        if ($ids === ['*']) {
             if ($shouldApplyFiltersAndSearchInputs) {
                 $this->applyFilters();
                 $this->applySearchInputs();

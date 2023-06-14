@@ -15,6 +15,7 @@ use ProtoneMedia\Splade\FormBuilder\Password;
 use ProtoneMedia\Splade\FormBuilder\Submit;
 use ProtoneMedia\Splade\FormBuilder\Text;
 use ProtoneMedia\Splade\FormBuilder\Textarea;
+use ProtoneMedia\Splade\FormBuilder\Wysiwyg;
 use ProtoneMedia\Splade\SpladeForm;
 
 class FormBuilderController
@@ -109,5 +110,31 @@ class FormBuilderController
     public function storeMultifields2(MultiFieldsFormRequest2 $request)
     {
         return response()->json(['result' => $request->validated()]);
+    }
+
+    public function wysiwyg()
+    {
+        return view('form.formbuilder', [
+            'forms' => [
+                SpladeForm::make()
+                    ->action(route('formbuilder.wysiwyg.store'))
+                    ->id('wysiwyg-form')
+                    ->class('space-y-4')
+                    ->fields([
+                        Wysiwyg::make('body')
+                            ->label('Jodit Wysiwyg editor'),
+
+                        Submit::make()->label('Submit'),
+                    ])
+                    ->fill([
+                        'body' => 'This is a <u>test</u> with the <b>Splade</b> <em>Jodit WYSIWYG editor</em>.',
+                    ]),
+            ],
+        ]);
+    }
+
+    public function storeWysiwyg(Request $request)
+    {
+        return response()->json(['result' => $request->all()]);
     }
 }

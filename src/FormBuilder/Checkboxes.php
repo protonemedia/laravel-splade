@@ -19,11 +19,11 @@ class Checkboxes extends Component
     public function toSpladeComponent()
     {
         return new SpladeCheckboxes(
-            name:    $this->name,
+            name: $this->name,
             options: $this->options,
-            label:   $this->label,
-            inline:  $this->inline,
-            help:    $this->help
+            label: $this->label,
+            inline: $this->inline,
+            help: $this->help
         );
     }
 }

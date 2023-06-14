@@ -12,3 +12,5 @@ node_modules
 protonemedia-laravel-splade-*.tgz
 app/bootstrap/ssr*
 app/storage/splade-temporary-file-uploads/*
+dist/protone-media-laravel-splade*.cjs
+dist/protone-media-laravel-splade*.js

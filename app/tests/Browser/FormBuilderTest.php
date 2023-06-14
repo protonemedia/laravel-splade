@@ -120,4 +120,19 @@ class FormBuilderTest extends DuskTestCase
                 ->assertSee('"additional_field": "Test value in additional field"');
         });
     }
+
+    /** @test */
+    public function it_can_show_a_jodit_wysiwyg_editor()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('/formbuilder/wysiwyg')
+                ->waitForText('Jodit Wysiwyg editor')
+                ->assertInputPresent('body')
+                ->assertSee('This is a test with the Splade Jodit WYSIWYG editor.')
+                ->assertDontSee('This is a <u>test</u> with the <b>Splade</b> <em>Jodit WYSIWYG editor</em>.')
+                ->press('Submit')
+                ->waitForText('Results:')
+                ->assertSee('"body": "This is a <u>test</u> with the <b>Splade</b> <em>Jodit WYSIWYG editor</em>.');
+        });
+    }
 }
