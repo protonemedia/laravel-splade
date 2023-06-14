@@ -12,7 +12,7 @@ class Button extends Component
 
     protected bool $danger = false;
 
-    protected string $parentClasses = '';
+    protected string $wrapperClass = '';
 
     protected bool $secondary = false;
 
@@ -38,11 +38,11 @@ class Button extends Component
      * @param  array|string  $classes
      * @return $this
      */
-    public function parentClass(...$classes): self
+    public function wrapperClass(...$classes): self
     {
         $classes = Arr::flatten($classes);
 
-        $this->parentClasses = Arr::toCssClasses($classes);
+        $this->wrapperClass = Arr::toCssClasses($classes);
 
         return $this;
     }
@@ -74,7 +74,7 @@ class Button extends Component
             value: $this->value ?? null,
             danger: $this->danger,
             secondary: $this->secondary,
-            parentClasses: $this->parentClasses
+            wrapperClass: $this->wrapperClass
         );
     }
 }
