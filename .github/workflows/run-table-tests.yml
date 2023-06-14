@@ -19,7 +19,11 @@ jobs:
           - laravel: 10.*
             testbench: 8.*
         exclude:
-          - ssr:  true
+          - ssr: true
+            db: postgres
+          - ssr: true
+            db: sqlite
+          - ssr: true
             dependency-version: prefer-lowest
           - ssr: true
             php: 8.1
