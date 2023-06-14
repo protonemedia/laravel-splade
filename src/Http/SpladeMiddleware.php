@@ -446,7 +446,7 @@ class SpladeMiddleware
             preserveScroll: $this->splade->preserveScroll(),
             lazy: $this->splade->isLazyRequest(),
             rehydrate: $this->splade->isRehydrateRequest(),
-            persistentLayout:  $this->splade->getPersistentLayoutKey(),
+            persistentLayout: $this->splade->getPersistentLayoutKey(),
         );
     }
 

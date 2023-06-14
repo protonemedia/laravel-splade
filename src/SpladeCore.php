@@ -34,6 +34,8 @@ class SpladeCore
 
     const HEADER_REDIRECT_AWAY = 'X-Splade-Redirect-Away';
 
+    const HEADER_REFRESH = 'X-Splade-Refresh';
+
     const HEADER_SKIP_MIDDLEWARE = 'X-Splade-Skip-Middleware';
 
     const MODAL_TYPE_MODAL = 'modal';
@@ -470,6 +472,14 @@ class SpladeCore
     public function isLazyRequest(): bool
     {
         return $this->request()->hasHeader(static::HEADER_LAZY);
+    }
+
+    /**
+     * Returns a boolean whether this is a Rehydrate request.
+     */
+    public function isRefreshRequest(): bool
+    {
+        return $this->request()->hasHeader(static::HEADER_REFRESH);
     }
 
     /**

@@ -228,4 +228,15 @@ class LibrariesTest extends DuskTestCase
                 ->assertRouteIs('navigation.one');
         });
     }
+
+    /** @test */
+    public function it_can_use_jodit_as_a_wysiwyg_editor()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('form/components/wysiwyg')
+                ->waitForText('FormWYSIWYG')
+                ->keys('@jodit', 'Some new content!')
+                ->waitForText('Some new content!</p>');
+        });
+    }
 }

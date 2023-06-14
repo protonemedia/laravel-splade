@@ -6,4 +6,8 @@
 
 NavigationThree
 
+<div id="section">
+    Section
+</div>
+
 @endsection

@@ -49,7 +49,7 @@ class ComponentStateTest extends TestCase
 
         try {
             $instance->resolveInstance($request);
-        } catch(CouldNotResolveComponentInstance $e) {
+        } catch (CouldNotResolveComponentInstance $e) {
             return $this->assertTrue(true);
         }
 
