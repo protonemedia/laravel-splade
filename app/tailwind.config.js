@@ -10,6 +10,7 @@ module.exports = {
         "./resources/views/**/*.blade.php",
         "./resources/js/**/*.vue",
         "./app/Forms/*.php",
+        "./app/Tables/*.php",
     ],
 
     plugins: [require("@tailwindcss/forms"), require("@tailwindcss/typography")],
