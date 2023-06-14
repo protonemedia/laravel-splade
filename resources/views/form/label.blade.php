@@ -1,6 +1,6 @@
 <span class="block mb-1 text-gray-700 font-sans">
-    {!! $label  !!}
+    {!! $label !!}
     @if($attributes->has('required') || $attributes->has('data-required'))
-        <span class="text-red-500" title="{{ __('This field is required') }}">*</span>
+        <span aria-hidden="true" class="text-red-600" title="{{ __('This field is required') }}">*</span>
     @endif
 </span>

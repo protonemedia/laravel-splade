@@ -66,13 +66,13 @@ return [
      * @see https://splade.dev/docs/form-overview
      */
     'blade' => [
-        'component_prefix'           => 'splade',
-        'table_cell_directive'       => 'cell',
-        'escape_validation_messages' => true,
-        'seo_title_directive'        => 'seoTitle',
-        'seo_description_directive'  => 'seoDescription',
-        'seo_keywords_directive'     => 'seoKeywords',
-        'asterisk_when_required'     => true,
+        'component_prefix'                   => 'splade',
+        'table_cell_directive'               => 'cell',
+        'asterisk_on_required_form_elements' => false,
+        'escape_validation_messages'         => true,
+        'seo_title_directive'                => 'seoTitle',
+        'seo_description_directive'          => 'seoDescription',
+        'seo_keywords_directive'             => 'seoKeywords',
     ],
 
     /**
