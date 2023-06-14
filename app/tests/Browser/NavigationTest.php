@@ -27,6 +27,22 @@ class NavigationTest extends DuskTestCase
     }
 
     /** @test */
+    public function it_can_navigate_with_a_hash()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('/navigation/one')
+                ->waitForText('NavigationOne')
+                ->click('@three-hash')
+                ->waitForText('NavigationThree')
+                ->assertRouteIs('navigation.three');
+
+            $hash = $browser->script('return window.location.hash;');
+
+            $this->assertEquals('#section', $hash[0]);
+        });
+    }
+
+    /** @test */
     public function it_can_redirect_without_reloading_the_whole_page()
     {
         $this->browse(function (Browser $browser) {
