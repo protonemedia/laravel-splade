@@ -4,7 +4,7 @@ namespace ProtoneMedia\Splade\FormBuilder;
 
 class Datetime extends Input
 {
-    protected array|bool $date = true;
+    protected bool|array|null $date = true;
 
-    protected array|bool $time = true;
+    protected bool|array|null $time = true;
 }
