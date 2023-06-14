@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 1.4.14 - 2023-06-14
+
+- Downgraded the HeadlessUI library because of a bug in the upstream package
+
 ## 1.4.13 - 2023-06-14
 
 - Experimental support for the View Transitions API
