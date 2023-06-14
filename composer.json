@@ -26,9 +26,6 @@
         "orchestra/testbench": "^7.7|^8.0",
         "phpunit/phpunit": "^9.5"
     },
-    "conflict": {
-        "laravel/framework": "9.36.0|9.36.1|9.36.2"
-    },
     "suggest": {
         "kirschbaum-development/eloquent-power-joins": "Required to enable support sorting by (nested) relationships in Splade Tables (^2.6)",
         "maatwebsite/excel": "Required to enable support exports in Splade Tables (^3.1)",
