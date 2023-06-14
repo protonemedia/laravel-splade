@@ -9,6 +9,7 @@
   "main": "./dist/protone-media-laravel-splade.umd.cjs",
   "module": "./dist/protone-media-laravel-splade.js",
   "files": [
+    "dist/CompilerErrorMessages*",
     "dist/jodit.css",
     "dist/protone-media-laravel-splade.cjs",
     "dist/protone-media-laravel-splade.js",

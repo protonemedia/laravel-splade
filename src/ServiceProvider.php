@@ -8,6 +8,7 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Middleware\ValidateSignature;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
@@ -81,6 +82,14 @@ class ServiceProvider extends BaseServiceProvider
 
         $this->loadJsonTranslationsFrom(__DIR__ . '/../resources/lang');
         $this->loadJsonTranslationsFrom(lang_path('vendor/splade'));
+
+        if (!Lang::has('pagination.previous')) {
+            Lang::addLines(['pagination.previous' => '&laquo; Previous'], Lang::getLocale());
+        }
+
+        if (!Lang::has('pagination.next')) {
+            Lang::addLines(['pagination.next' => 'Next &raquo;'], Lang::getLocale());
+        }
 
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'splade');
 

@@ -26,6 +26,8 @@ createApp({
         "max_keep_alive": 10,
         "transform_anchors": false,
         "progress_bar": true,
+        "view_transitions": false,
+        "surpress_compile_errors": false,
         "components": {
             Counter
         },
