@@ -1,6 +1,6 @@
 {
   "name": "@protonemedia/laravel-splade",
-  "version": "1.4.13",
+  "version": "1.4.14",
   "description": "Laravel Splade: the magic of Inertia.js with the simplicity of Blade.",
   "private": false,
   "author": "Pascal Baljet <pascal@protone.media>",
@@ -34,7 +34,7 @@
     "vue": "^3.2.47"
   },
   "devDependencies": {
-    "@headlessui/vue": "^1.6.7",
+    "@headlessui/vue": "1.7.13",
     "@popperjs/core": "^2.11.5",
     "@vitejs/plugin-vue": "^4.1.0",
     "eslint": "^8.20.0",
