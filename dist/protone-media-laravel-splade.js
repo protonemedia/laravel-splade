@@ -6201,7 +6201,7 @@ const $p = /* @__PURE__ */ Ie(wp, [["render", Op]]), Ep = {
    * options and the Splade core globally available.
    */
   install: (e, t) => {
-    t = t || {}, t.max_keep_alive = X(t, "max_keep_alive") ? t.max_keep_alive : 10, t.prefix = X(t, "prefix") ? t.prefix : "Splade", t.transform_anchors = X(t, "transform_anchors") ? t.transform_anchors : !1, t.link_component = X(t, "link_component") ? t.link_component : "Link", t.progress_bar = X(t, "progress_bar") ? t.progress_bar : !1, t.components = X(t, "components") ? t.components : {}, t.view_transitions = X(t, "view_transitions") ? t.view_transitions : !1, t.surpress_compile_errors = X(t, "surpress_compile_errors") ? t.surpress_compile_errors : !1;
+    t = t || {}, t.max_keep_alive = X(t, "max_keep_alive") ? t.max_keep_alive : 10, t.prefix = X(t, "prefix") ? t.prefix : "Splade", t.transform_anchors = X(t, "transform_anchors") ? t.transform_anchors : !1, t.link_component = X(t, "link_component") ? t.link_component : "Link", t.progress_bar = X(t, "progress_bar") ? t.progress_bar : !1, t.components = X(t, "components") ? t.components : {}, t.view_transitions = X(t, "view_transitions") ? t.view_transitions : !1, t.suppress_compile_errors = X(t, "suppress_compile_errors") ? t.suppress_compile_errors : !1;
     const r = t.prefix;
     if (e.component(`${r}Button`, Hl).component(`${r}Confirm`, ju).component(`${r}DataStores`, Wu).component(`${r}Data`, Hu).component(`${r}Defer`, ic).component(`${r}Dialog`, sc).component(`${r}Dropdown`, cd).component(`${r}DynamicHtml`, dd).component(`${r}Errors`, fd).component(`${r}Event`, pd).component(`${r}File`, jf).component(`${r}Flash`, Rf).component(`${r}Form`, Nf).component(`${r}Input`, Wf).component(`${r}JoditEditor`, Kf).component(`${r}VueBridge`, Ip).component(`${r}Lazy`, Yf).component(`${r}Modal`, tp).component(`${r}OnClickOutside`, ns).component(`${r}PreloadedModal`, rp).component(`${r}Rehydrate`, sp).component(`${r}Render`, he).component(`${r}Script`, ap).component(`${r}Select`, dp).component(`${r}State`, fp).component(`${r}Table`, vp).component(`${r}Teleport`, bp).component(`${r}Textarea`, $p).component(`${r}Toast`, Ep).component(`${r}Toasts`, xp).component(`${r}Toggle`, _p).component(`${r}Transition`, Ap).component(t.link_component, ep).directive(`${r}PreserveScroll`, Pp), Object.defineProperty(e.config.globalProperties, "$splade", { get: () => g }), Object.defineProperty(e.config.globalProperties, "$spladeOptions", { get: () => Object.assign({}, { ...t }) }), e.provide("$splade", e.config.globalProperties.$splade), e.provide("$spladeOptions", e.config.globalProperties.$spladeOptions), t.progress_bar) {
       const n = {
@@ -6214,7 +6214,7 @@ const $p = /* @__PURE__ */ Ie(wp, [["render", Op]]), Ep = {
         X(t.progress_bar, i) || (t.progress_bar[i] = n[i]);
       }), Cr.init(t.progress_bar);
     }
-    t.surpress_compile_errors && (e.config.compilerOptions.onError = (n) => {
+    t.suppress_compile_errors && (e.config.compilerOptions.onError = (n) => {
       import("./CompilerErrorMessages-4a55bbec.js").then((i) => {
         console.error({
           message: i.default[n.code] || "Unknown compiler error",

@@ -27,7 +27,7 @@ createApp({
         "transform_anchors": false,
         "progress_bar": true,
         "view_transitions": false,
-        "surpress_compile_errors": false,
+        "suppress_compile_errors": false,
         "components": {
             Counter
         },
