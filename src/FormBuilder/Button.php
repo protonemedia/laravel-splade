@@ -2,6 +2,7 @@
 
 namespace ProtoneMedia\Splade\FormBuilder;
 
+use Illuminate\Support\Arr;
 use ProtoneMedia\Splade\Components\Form\Submit as SpladeSubmit;
 use ProtoneMedia\Splade\FormBuilder\Concerns\HasValue;
 
@@ -11,6 +12,8 @@ class Button extends Component
 
     protected bool $danger = false;
 
+    protected string $wrapperClass = '';
+
     protected bool $secondary = false;
 
     protected bool $spinner = true;
@@ -18,7 +21,7 @@ class Button extends Component
     protected string $type = 'button';
 
     /**
-     * Applies danger-styling to the button
+     * Applies danger-styling to the button.
      *
      * @return $this
      */
@@ -30,9 +33,23 @@ class Button extends Component
     }
 
     /**
-     * Applies secondary-styling to the button
+     * Add one or more classes to the fields' wrapper.
      *
-     * @param  bool  $danger
+     * @param  array|string  $classes
+     * @return $this
+     */
+    public function wrapperClass(...$classes): self
+    {
+        $classes = Arr::flatten($classes);
+
+        $this->wrapperClass = Arr::toCssClasses($classes);
+
+        return $this;
+    }
+
+    /**
+     * Applies secondary-styling to the button.
+     *
      * @return $this
      */
     public function secondary(bool $secondary = true): self
@@ -56,7 +73,8 @@ class Button extends Component
             name: $this->name,
             value: $this->value ?? null,
             danger: $this->danger,
-            secondary: $this->secondary
+            secondary: $this->secondary,
+            wrapperClass: $this->wrapperClass
         );
     }
 }
