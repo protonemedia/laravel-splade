@@ -158,6 +158,10 @@ abstract class Component
     {
         if ($required) {
             $this->rules[] = 'required';
+
+            if (config('splade.blade.asterisk_on_required_form_elements', false)) {
+                $this->attributes['data-required'] = true;
+            }
         }
 
         return $this;
@@ -190,6 +194,10 @@ abstract class Component
 
             return explode('|', $item);
         })->flatten()->toArray();
+
+        if (config('splade.blade.asterisk_on_required_form_elements', false) && in_array('required', $this->rules)) {
+            $this->attributes['data-required'] = true;
+        }
 
         return $this;
     }

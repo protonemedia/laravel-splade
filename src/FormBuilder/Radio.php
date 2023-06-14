@@ -18,7 +18,7 @@ class Radio extends Component
     {
         return new SpladeRadio(
             name: $this->name,
-            value: $this->value ?? $this->label,
+            value: $this->value ?? 1,
             label: $this->label,
             help: $this->help
         );

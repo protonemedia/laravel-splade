@@ -4,14 +4,14 @@ namespace ProtoneMedia\Splade\FormBuilder\Concerns;
 
 trait HasValue
 {
-    protected string $value;
+    protected $value;
 
     /**
      * Sets the value of the inputfield-option
      *
      * @return $this
      */
-    public function value(string $value = ''): self
+    public function value($value): self
     {
         $this->value = $value;
 
