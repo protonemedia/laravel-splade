@@ -6,9 +6,9 @@ use ProtoneMedia\Splade\Components\Form\Input as SpladeInput;
 
 class Input extends Component
 {
-    protected array|bool $date = false;
+    protected bool|array|null $date = null;
 
-    protected array|bool $time = false;
+    protected bool|array|null $time = null;
 
     protected bool $range = false;
 
@@ -213,8 +213,8 @@ class Input extends Component
             name: $this->name,
             type: $this->type,
             label: $this->label,
-            date: $this->date || $this->type === 'date',
-            time: $this->time || $this->type === 'time',
+            date: $this->date,
+            time: $this->time,
             range: $this->range,
             prepend: $this->prepend,
             append: $this->append,
