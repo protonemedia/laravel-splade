@@ -1,0 +1,22 @@
+@import "jodit/build/jodit.css";
+
+.jodit-container:not(.jodit_inline) {
+    @apply shadow-sm rounded-md border-gray-300;
+}
+
+.jodit-toolbar__box:not(:empty) {
+    @apply rounded-t-md;
+}
+
+.jodit-status-bar,
+.jodit-container:not(.jodit_inline) .jodit-workplace {
+    @apply rounded-b-md;
+}
+
+.jodit-toolbar__box:not(:empty):not(:empty) {
+    @apply bg-gray-50;
+}
+
+.jodit-container:not(.jodit_inline) .jodit-wysiwyg {
+    @apply px-3 py-2;
+}

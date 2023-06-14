@@ -17,7 +17,7 @@ class Event extends Component
         public mixed $listen,
         public string $scope = '{ subscribed, events }',
         public bool $preserveScroll = false,
-  ) {
+    ) {
         $this->listeners = $this->parseListeners($listen);
     }
 

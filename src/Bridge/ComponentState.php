@@ -23,7 +23,7 @@ class ComponentState
     {
         try {
             return unserialize(gzdecode(decrypt($component)));
-        } catch(Throwable $e) {
+        } catch (Throwable $e) {
             report($e);
             throw new CouldNotResolveComponentInstance;
         }
