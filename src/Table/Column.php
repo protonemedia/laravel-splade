@@ -30,6 +30,7 @@ class Column implements Arrayable
         public array|string|null $classes = null,
         public Closure|null $as = null,
         public string $alignment = 'left',
+        public bool $clickable = true,
     ) {
         if (is_array($classes)) {
             $classes = Arr::flatten($classes);
@@ -57,6 +58,7 @@ class Column implements Arrayable
             $this->classes,
             $this->as,
             $this->alignment,
+            $this->clickable,
         );
     }
 
@@ -76,6 +78,7 @@ class Column implements Arrayable
             'sorted'        => $this->sorted,
             'highlight'     => $this->highlight,
             'alignment'     => $this->alignment,
+            'clickable'     => $this->clickable,
         ];
     }
 
