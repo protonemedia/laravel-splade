@@ -23,6 +23,7 @@ class Table extends Component
         public bool $headless = false,
         public string $scope = 'table',
         public ?int $searchDebounce = null,
+        public string $paginationScroll = 'top',
     ) {
         $for = is_string($for) ? app($for) : $for;
 

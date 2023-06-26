@@ -318,4 +318,9 @@ class SpladeTable
     {
         $this->preventPaginationCall();
     }
+
+    public function getSpladeId(): string
+    {
+        return md5("splade-table-{$this->name}");
+    }
 }
