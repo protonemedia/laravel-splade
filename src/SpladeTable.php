@@ -51,6 +51,10 @@ class SpladeTable
 
     protected bool $resourceLoaded = false;
 
+    public static string $defaultPaginationScroll = 'top';
+
+    protected static bool $defaultResetButton = true;
+
     /**
      * Creates a new instance.
      *
@@ -178,6 +182,38 @@ class SpladeTable
     public static function defaultSearchDebounce(int $milliseconds)
     {
         static::$defaultSearchDebounce = max(0, $milliseconds);
+    }
+
+    /**
+     * Getter for the default reset button.
+     */
+    public static function getDefaultResetButton(): bool
+    {
+        return static::$defaultResetButton;
+    }
+
+    /**
+     * Set a default reset button.
+     */
+    public static function defaultResetButton(bool $value = true)
+    {
+        static::$defaultResetButton = $value;
+    }
+
+    /**
+     * Getter for the default pagination scroll type.
+     */
+    public static function getDefaultPaginationScroll(): string
+    {
+        return static::$defaultPaginationScroll;
+    }
+
+    /**
+     * Set a default pagination scroll type.
+     */
+    public static function defaultPaginationScroll(string $value)
+    {
+        static::$defaultPaginationScroll = $value;
     }
 
     /**
@@ -317,5 +353,10 @@ class SpladeTable
     public function cursorPaginate($perPage = null)
     {
         $this->preventPaginationCall();
+    }
+
+    public function getSpladeId(): string
+    {
+        return md5("splade-table-{$this->name}");
     }
 }

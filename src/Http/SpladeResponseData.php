@@ -19,6 +19,7 @@ class SpladeResponseData implements Arrayable
         public bool $lazy,
         public bool $rehydrate,
         public ?string $persistentLayout,
+        public bool $preventViewTransition
     ) {
     }
 
@@ -34,6 +35,7 @@ class SpladeResponseData implements Arrayable
             toasts: [],
             preventRefresh: false,
             preserveScroll: false,
+            preventViewTransition: false,
             lazy: false,
             rehydrate: false,
             persistentLayout: null,
@@ -43,18 +45,19 @@ class SpladeResponseData implements Arrayable
     public function toArray()
     {
         return [
-            'head'             => $this->head,
-            'modal'            => $this->modal,
-            'modalTarget'      => $this->modalTarget,
-            'flash'            => $this->flash,
-            'errors'           => $this->errors,
-            'shared'           => $this->shared,
-            'toasts'           => $this->toasts,
-            'preventRefresh'   => $this->preventRefresh,
-            'preserveScroll'   => $this->preserveScroll,
-            'lazy'             => $this->lazy,
-            'rehydrate'        => $this->rehydrate,
-            'persistentLayout' => $this->persistentLayout,
+            'head'                  => $this->head,
+            'modal'                 => $this->modal,
+            'modalTarget'           => $this->modalTarget,
+            'flash'                 => $this->flash,
+            'errors'                => $this->errors,
+            'shared'                => $this->shared,
+            'toasts'                => $this->toasts,
+            'preventRefresh'        => $this->preventRefresh,
+            'preventViewTransition' => $this->preventViewTransition,
+            'preserveScroll'        => $this->preserveScroll,
+            'lazy'                  => $this->lazy,
+            'rehydrate'             => $this->rehydrate,
+            'persistentLayout'      => $this->persistentLayout,
         ];
     }
 }

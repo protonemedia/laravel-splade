@@ -42,6 +42,8 @@ class SpladeCore
 
     const MODAL_TYPE_SLIDEOVER = 'slideover';
 
+    const HEADER_PREVENT_VIEW_TRANSITION = 'X-Splade-Prevent-View-Transition';
+
     private string $modalKey;
 
     private ?string $persistentLayoutKey;
@@ -464,6 +466,14 @@ class SpladeCore
     public function preserveScroll(): bool
     {
         return $this->request()->hasHeader(static::HEADER_PRESERVE_SCROLL);
+    }
+
+    /**
+     * Returns a boolean whether the next page should not be animated.
+     */
+    public function preventViewTransition(): bool
+    {
+        return $this->request()->hasHeader(static::HEADER_PREVENT_VIEW_TRANSITION);
     }
 
     /**

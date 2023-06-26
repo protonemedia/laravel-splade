@@ -444,6 +444,7 @@ class SpladeMiddleware
             ),
             preventRefresh: $this->splade->dontRefreshPage(),
             preserveScroll: $this->splade->preserveScroll(),
+            preventViewTransition: $this->splade->preventViewTransition(),
             lazy: $this->splade->isLazyRequest(),
             rehydrate: $this->splade->isRehydrateRequest(),
             persistentLayout: $this->splade->getPersistentLayoutKey(),

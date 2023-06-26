@@ -71,4 +71,19 @@ class Browser extends BaseBrowser
             return false;
         })->pause(250);
     }
+
+    /**
+     * Scroll screen to element at the given selector.
+     *
+     * @param  string  $selector
+     * @return $this
+     */
+    public function scrollToOffset($top)
+    {
+        $this->ensurejQueryIsAvailable();
+
+        $this->driver->executeScript("jQuery(\"html, body\").animate({scrollTop: {$top}}, 0);");
+
+        return $this;
+    }
 }
