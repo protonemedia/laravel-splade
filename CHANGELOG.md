@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 1.4.15 - 2023-06-26
+
+- The Table component now preserves the scroll position when the sorting changes.
+- The Link component now respects system modifiers, for example, to open a new tab.
+- There's a new `pagination-scroll` attribute on the Table component to control the scroll behavior when using pagination. Valid values are `top` (default), `head`, and `preserve`.
+- You may now disable the *Reset-button* on the Table component with the `reset-button` attribute.
+- When using View Transitions, it will prevent a transition when the page just refreshes.
+
 ## 1.4.14 - 2023-06-14
 
 - Downgraded the HeadlessUI library because of a bug in the upstream package
