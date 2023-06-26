@@ -167,7 +167,6 @@ export default {
             this.visibleColumns = columns;
         }
 
-
         if(Splade.restore(this.scrollToHeadRememberKey)) {
             this.$nextTick(() => {
                 const tableElement = document.querySelector(`div[data-splade-id="${this.spladeId}"]`);
