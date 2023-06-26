@@ -91,11 +91,11 @@ class Table extends Component
     {
         return $this->for->hasBulkActions()
             || $this->for->hasFilters()
-            || $this->for->hasPerPageQuery()
+            || ($this->resetButton && $this->for->hasPerPageQuery())
             || $this->for->hasToggleableColumns()
             || $this->for->hasToggleableSearchInputs()
-            || $this->for->isSorted()
-            || $this->for->page() > 1
+            || ($this->resetButton && $this->for->isSorted())
+            || ($this->resetButton && $this->for->page() > 1)
             || $this->for->searchInputs('global');
     }
 
