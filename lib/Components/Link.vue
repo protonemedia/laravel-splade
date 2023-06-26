@@ -1,7 +1,7 @@
 <template>
   <a
     :href="href"
-    @click.prevent="navigate"
+    @click.exact.prevent="navigate"
   ><slot /></a>
 </template>
 
