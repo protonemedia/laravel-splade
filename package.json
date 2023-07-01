@@ -1,6 +1,6 @@
 {
   "name": "@protonemedia/laravel-splade",
-  "version": "1.4.3",
+  "version": "1.4.15",
   "description": "Laravel Splade: the magic of Inertia.js with the simplicity of Blade.",
   "private": false,
   "author": "Pascal Baljet <pascal@protone.media>",
@@ -9,14 +9,19 @@
   "main": "./dist/protone-media-laravel-splade.umd.cjs",
   "module": "./dist/protone-media-laravel-splade.js",
   "files": [
-    "dist"
+    "dist/CompilerErrorMessages*",
+    "dist/jodit.css",
+    "dist/protone-media-laravel-splade.cjs",
+    "dist/protone-media-laravel-splade.js",
+    "dist/style.css"
   ],
   "exports": {
     ".": {
       "import": "./dist/protone-media-laravel-splade.js",
       "require": "./dist/protone-media-laravel-splade.umd.cjs"
     },
-    "./dist/style.css": "./dist/style.css"
+    "./dist/style.css": "./dist/style.css",
+    "./dist/jodit.css": "./dist/jodit.css"
   },
   "scripts": {
     "dev": "vite build --watch",
@@ -26,18 +31,18 @@
   },
   "peerDependencies": {
     "axios": "^0.27 || ^1.1.2",
-    "vue": "^3.2.37"
+    "vue": "^3.2.47"
   },
   "devDependencies": {
-    "@headlessui/vue": "^1.6.7",
+    "@headlessui/vue": "1.7.13",
     "@popperjs/core": "^2.11.5",
-    "@vitejs/plugin-vue": "^3.0.0",
+    "@vitejs/plugin-vue": "^4.1.0",
     "eslint": "^8.20.0",
     "eslint-plugin-vue": "^9.2.0",
     "lodash-es": "^4.17.21",
     "sass": "^1.54.4",
     "stylus": "^0.59.0",
-    "vite": "^3.0.0"
+    "vite": "^4.2.0"
   },
   "dependencies": {
     "autosize": "^5.0.1",
@@ -49,6 +54,7 @@
     "filepond-plugin-image-preview": "^4.6.11",
     "filepond-plugin-image-validate-size": "^1.2.7",
     "flatpickr": "^4.6.13",
+    "jodit": "^3.24.9",
     "nprogress": "^0.2.0"
   }
 }

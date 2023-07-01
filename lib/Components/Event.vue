@@ -4,6 +4,8 @@ import forOwn from "lodash-es/forOwn";
 import isObject from "lodash-es/isObject";
 
 export default {
+    inject: ["stack"],
+
     props: {
         private: {
             type: Boolean,
@@ -20,6 +22,12 @@ export default {
             type: Array,
             required: true,
         },
+
+        preserveScroll: {
+            type: Boolean,
+            required: false,
+            default: false,
+        },
     },
 
     emits: ["subscribed", "event"],
@@ -30,7 +38,30 @@ export default {
             subscription: null,
             subscriptions: [],
             events: [],
+            pendingVisit: null,
+            pendingRefresh: false,
         };
+    },
+
+    computed: {
+        currentStack() {
+            return Splade.currentStack.value;
+        },
+    },
+
+    watch: {
+        currentStack() {
+            this.handlePendingVisit();
+            this.handlePendingRefresh();
+        },
+
+        pendingVisit() {
+            this.handlePendingVisit();
+        },
+
+        pendingRefresh() {
+            this.handlePendingRefresh();
+        },
     },
 
     beforeUnmount() {
@@ -55,6 +86,28 @@ export default {
     },
 
     methods: {
+        handlePendingVisit() {
+            if(!this.pendingVisit) {
+                return;
+            }
+
+            if(Splade.currentStack.value === this.stack) {
+                Splade.visit(this.pendingVisit);
+                this.pendingVisit = null;
+            }
+        },
+
+        handlePendingRefresh() {
+            if(!this.pendingRefresh) {
+                return;
+            }
+
+            if(Splade.currentStack.value === this.stack) {
+                Splade.refresh(this.pendingRefresh.preserveScroll || this.preserveScroll);
+                this.pendingRefresh = false;
+            }
+        },
+
         bindListeners() {
             this.subscription.on("pusher:subscription_succeeded", () => {
                 this.subscribed = true;
@@ -65,11 +118,13 @@ export default {
                 const listener = this.subscription.listen(name, (e) => {
                     this.$emit("event", { name, data: e });
 
+                    const preserveScrollKey = "splade.preserveScroll";
                     const redirectKey = "splade.redirect";
                     const refreshKey = "splade.refresh";
                     const toastKey = "splade.toast";
 
                     let spladeRedirect = null;
+                    let preserveScroll = false;
                     let spladeRefresh = false;
                     let spladeToasts = [];
 
@@ -78,9 +133,13 @@ export default {
                             return;
                         }
 
-                        // Check whether the data contains a redirect, refresh, or toast.
+                        // Check whether the data contains a redirect, refresh (+ preserve scroll), or toast.
                         if (redirectKey in value) {
                             spladeRedirect = value[redirectKey];
+                        }
+
+                        if(preserveScrollKey in value) {
+                            preserveScroll = value[preserveScrollKey];
                         }
 
                         if (refreshKey in value) {
@@ -93,9 +152,9 @@ export default {
                     });
 
                     if (spladeRedirect) {
-                        Splade.visit(spladeRedirect);
+                        this.pendingVisit = spladeRedirect;
                     } else if (spladeRefresh) {
-                        Splade.refresh();
+                        this.pendingRefresh = { preserveScroll };
                     } else {
                         this.events.push({ name, data: e });
                     }

@@ -9,6 +9,7 @@ Splade provides a **super easy** way to build ***Single Page Applications*** (SP
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/protonemedia/laravel-splade.svg)](https://packagist.org/packages/protonemedia/laravel-splade)
 [![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/protonemedia/laravel-splade/run-tests.yml?branch=main&label=tests)](https://github.com/protonemedia/laravel-splade/actions?query=workflow%3Arun-tests+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/protonemedia/laravel-splade.svg)](https://packagist.org/packages/protonemedia/laravel-splade)
+[![Splade Discord Server](https://dcbadge.vercel.app/api/server/qGJ4MkMQWm?style=flat&theme=default-inverted)](https://discord.gg/qGJ4MkMQWm)
 [![GitHub Sponsors](https://img.shields.io/github/sponsors/pascalbaljet)](https://github.com/sponsors/pascalbaljet)
 
 ## Sponsor Splade
@@ -34,6 +35,10 @@ Splade gives you a massive head start when building applications. Navigate the d
 * Support for custom Blade and Vue components.
 * Support for existing Blade and Vue libraries.
 * Support for SSR (server-side rendering).
+
+## Demo App: Eddy Server Management
+
+To show off Splade's amazing capabilities, we've built a demo application that we actually use in production. The app is called **Eddy Server Management**, and it does exactly what it says on the tin: It provisions and manages servers and allows you to deploy PHP applications with zero downtime. You may find the source code on [GitHub](https://github.com/protonemedia/eddy-server-management) and the live application on [eddy.management](https://eddy.management).
 
 ## Discord, Documentation and Website
 

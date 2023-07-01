@@ -2,6 +2,7 @@
 
 namespace ProtoneMedia\Splade\Components\Form;
 
+use Illuminate\Support\HtmlString;
 use Illuminate\View\Component;
 
 class Group extends Component
@@ -15,11 +16,11 @@ class Group extends Component
      */
     public function __construct(
         public string $name = '',
-        public string $label = '',
+        public HtmlString|string $label = '',
         public bool $inline = false,
         public string $validationKey = '',
         public bool $showErrors = true,
-        public string $help = '',
+        public HtmlString|string $help = '',
     ) {
     }
 

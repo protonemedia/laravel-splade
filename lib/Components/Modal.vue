@@ -90,6 +90,10 @@ export default {
         },
 
         setIsOpen(value) {
+            if(!value) {
+                this.staticAnimate = true;
+            }
+
             this.isOpen = value;
         },
     },

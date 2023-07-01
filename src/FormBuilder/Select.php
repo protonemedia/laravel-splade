@@ -16,7 +16,7 @@ class Select extends Component
 
     protected string $remoteUrl = '';
 
-    protected string $remoteRoute = '';
+    protected string $remoteRoot = '';
 
     protected string $optionLabel = '';
 
@@ -67,9 +67,9 @@ class Select extends Component
         return $this;
     }
 
-    public function remoteRoute(string $remoteRoute = ''): self
+    public function remoteRoot(string $remoteRoot = ''): self
     {
-        $this->remoteRoute = $remoteRoute;
+        $this->remoteRoot = $remoteRoot;
 
         return $this;
     }
@@ -110,15 +110,15 @@ class Select extends Component
     public function toSpladeComponent()
     {
         return new SpladeSelect(
-            name:        $this->name,
-            options:     $this->options,
-            label:       $this->label,
+            name: $this->name,
+            options: $this->options,
+            label: $this->label,
             placeholder: $this->placeholder,
-            multiple:    $this->multiple,
-            choices:     $this->choices,
-            help:        $this->help,
-            remoteUrl:   $this->remoteUrl,
-            remoteRoot:  $this->remoteRoute,
+            multiple: $this->multiple,
+            choices: $this->choices,
+            help: $this->help,
+            remoteUrl: $this->remoteUrl,
+            remoteRoot: $this->remoteRoot,
             optionValue: $this->optionValue,
             optionLabel: $this->optionLabel,
             resetOnNewRemoteUrl: $this->resetOnNewRemoteUrl,

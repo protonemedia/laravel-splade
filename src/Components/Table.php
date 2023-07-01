@@ -23,6 +23,8 @@ class Table extends Component
         public bool $headless = false,
         public string $scope = 'table',
         public ?int $searchDebounce = null,
+        public ?string $paginationScroll = null,
+        public ?bool $resetButton = null
     ) {
         $for = is_string($for) ? app($for) : $for;
 
@@ -33,6 +35,14 @@ class Table extends Component
         $this->searchDebounce = is_null($searchDebounce)
             ? SpladeTable::getDefaultSearchDebounce()
             : $searchDebounce;
+
+        $this->paginationScroll = is_null($paginationScroll)
+            ? SpladeTable::getDefaultPaginationScroll()
+            : $paginationScroll;
+
+        $this->resetButton = is_null($resetButton)
+            ? SpladeTable::getDefaultResetButton()
+            : $resetButton;
     }
 
     /**
@@ -81,11 +91,11 @@ class Table extends Component
     {
         return $this->for->hasBulkActions()
             || $this->for->hasFilters()
-            || $this->for->hasPerPageQuery()
+            || ($this->resetButton && $this->for->hasPerPageQuery())
             || $this->for->hasToggleableColumns()
             || $this->for->hasToggleableSearchInputs()
-            || $this->for->isSorted()
-            || $this->for->page() > 1
+            || ($this->resetButton && $this->for->isSorted())
+            || ($this->resetButton && $this->for->page() > 1)
             || $this->for->searchInputs('global');
     }
 
@@ -94,6 +104,10 @@ class Table extends Component
      */
     public function canResetTable(): bool
     {
+        if (!$this->resetButton) {
+            return false;
+        }
+
         return $this->for->hasFiltersEnabled()
             || $this->for->hasPerPageQuery()
             || $this->for->hasSearchFiltersEnabled()

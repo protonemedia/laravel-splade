@@ -2,6 +2,7 @@
 
 namespace ProtoneMedia\Splade\Components\Form;
 
+use Illuminate\Support\HtmlString;
 use Illuminate\View\Component;
 use Illuminate\View\ComponentAttributeBag;
 use ProtoneMedia\Splade\Components\Button;
@@ -19,13 +20,14 @@ class Submit extends Component
      * @return void
      */
     public function __construct(
-        public string $label = 'Submit',
+        public HtmlString|string $label = 'Submit',
         public string $type = 'submit',
         public bool $spinner = true,
         public string $name = '',
         public $value = null,
         public $danger = false,
         public $secondary = false,
+        public string $wrapperClass = '',
     ) {
         $this->primary = !$this->danger && !$this->secondary;
     }

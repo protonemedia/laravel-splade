@@ -183,6 +183,23 @@ class ModalTest extends DuskTestCase
     }
 
     /** @test */
+    public function it_can_keep_the_modal_opened_after_submit()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('/modal/base')
+                ->resize(1024, 768)
+                ->waitForText('ModalComponent')
+                ->pause(250)
+                ->click('@keep')
+                ->waitForText('ModalComponentKeep')
+                ->pause(500)
+                ->type('@name', 'Test')
+                ->press('Submit')
+                ->waitForText('From Query String: Test');
+        });
+    }
+
+    /** @test */
     public function it_can_optionally_hide_the_close_button()
     {
         $this->browse(function (Browser $browser) {

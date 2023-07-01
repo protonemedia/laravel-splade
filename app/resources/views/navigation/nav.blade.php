@@ -3,6 +3,7 @@
         <Link dusk="one" href="/navigation/one">One</Link>
         <Link dusk="two" href="/navigation/two">Two</Link>
         <Link dusk="three" href="/navigation/three">Three</Link>
+        <Link dusk="three-hash" href="/navigation/three#section">Three Hash</Link>
         <Link dusk="notFound" href="/navigation/notFound">notFound</Link>
         <Link dusk="serverError" href="/navigation/serverError">serverError</Link>
         <Link dusk="video" href="/navigation/video/one">Video</Link>
@@ -42,6 +43,11 @@
         <a dusk="non-spa-one" href="/navigation/one">Non-SPA One</a>
         <a dusk="non-spa-two" href="/navigation/two">Non-SPA Two</a>
         <a dusk="non-spa-three" href="/navigation/three">Non-SPA Three</a>
+    </div>
+
+    <div class="flex space-x-3">
+        <a dusk="download-attachment" href="/download/attachment">Download Attachent</a>
+        <a dusk="download-inline" href="/download/inline">Download Inline</a>
     </div>
 
     <div v-show="toggled" class="absolute inset-0 bg-black/75 z-10"></div>

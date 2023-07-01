@@ -136,6 +136,12 @@ export default {
             default: true
         },
 
+        keepModal: {
+            type: Boolean,
+            required: false,
+            default: false,
+        },
+
         preserveScroll: {
             type: Boolean,
             required: false,
@@ -160,6 +166,12 @@ export default {
             default: () => {
                 return {};
             },
+        },
+
+        blob: {
+            type: Boolean,
+            required: false,
+            default: false
         },
     },
 
@@ -491,6 +503,11 @@ export default {
                 headers["X-Splade-Preserve-Scroll"] = true;
             }
 
+            if(this.stack > 0 && this.keepModal) {
+                headers["X-Splade-Modal"] = Splade.stackType(this.stack);
+                headers["X-Splade-Modal-Target"] = this.stack;
+            }
+
             let method = this.method.toUpperCase();
 
             if(method !== "GET" && method !== "POST") {
@@ -523,7 +540,7 @@ export default {
                 return successCallback(Object.fromEntries(data));
             }
 
-            Splade.request(this.action, method, data, { ...headers, ...this.headers })
+            Splade.request(this.action, method, data, { ...headers, ...this.headers }, false, this.blob)
                 .then(successCallback)
                 .catch(async (error) => {
                     this.processing = false;

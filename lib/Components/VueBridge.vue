@@ -44,6 +44,8 @@ export default {
         },
     },
 
+    emits: ["success", "error"],
+
     data(){
         return {
             instance: this.initialInstance,
@@ -77,7 +79,7 @@ export default {
 
                 let response = null;
 
-                try{
+                try {
                     response = await Axios.post(this.backendRoute, {
                         instance: this.instance,
                         signature: this.signature,
@@ -90,7 +92,10 @@ export default {
                         "X-Requested-With": "XMLHttpRequest",
                         Accept: "text/html, application/xhtml+xml",
                     } });
-                } catch(e) {
+
+                    this.$emit("success", response.data);
+                } catch (e) {
+                    this.$emit("error", e.response.data);
                     Splade.onServerError(e.response.data);
                     return;
                 }

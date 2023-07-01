@@ -34,11 +34,15 @@ class SpladeCore
 
     const HEADER_REDIRECT_AWAY = 'X-Splade-Redirect-Away';
 
+    const HEADER_REFRESH = 'X-Splade-Refresh';
+
     const HEADER_SKIP_MIDDLEWARE = 'X-Splade-Skip-Middleware';
 
     const MODAL_TYPE_MODAL = 'modal';
 
     const MODAL_TYPE_SLIDEOVER = 'slideover';
+
+    const HEADER_PREVENT_VIEW_TRANSITION = 'X-Splade-Prevent-View-Transition';
 
     private string $modalKey;
 
@@ -234,6 +238,14 @@ class SpladeCore
     }
 
     /**
+     * Returns the custom toast factory.
+     */
+    public function getCustomToastFactory(): ?callable
+    {
+        return $this->customToastFactory;
+    }
+
+    /**
      * Resolves the given value if this is the initial request.
      *
      * @param  mixed  $value
@@ -292,7 +304,17 @@ class SpladeCore
      */
     public static function toastOnEvent(string $message = ''): SpladeToast
     {
-        return new SpladeToast($message);
+        $newToast = new SpladeToast($message);
+
+        if ($factory = Splade::getCustomToastFactory()) {
+            call_user_func($factory, $newToast);
+        }
+
+        if (trim($message) !== '') {
+            $newToast->message($message);
+        }
+
+        return $newToast;
     }
 
     /**
@@ -447,11 +469,27 @@ class SpladeCore
     }
 
     /**
+     * Returns a boolean whether the next page should not be animated.
+     */
+    public function preventViewTransition(): bool
+    {
+        return $this->request()->hasHeader(static::HEADER_PREVENT_VIEW_TRANSITION);
+    }
+
+    /**
      * Returns a boolean whether this is a Lazy request.
      */
     public function isLazyRequest(): bool
     {
         return $this->request()->hasHeader(static::HEADER_LAZY);
+    }
+
+    /**
+     * Returns a boolean whether this is a Rehydrate request.
+     */
+    public function isRefreshRequest(): bool
+    {
+        return $this->request()->hasHeader(static::HEADER_REFRESH);
     }
 
     /**

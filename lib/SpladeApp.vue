@@ -228,14 +228,28 @@ Splade.setOnHead((newHead) => {
  * scroll height and, if configured, attach an click handler to
  * all anchor elements to use Splade's SPA capabilities.
  */
-Splade.setOnHtml((newHtml, scrollY) => {
+
+const onHtml = (newHtml, scrollY) => {
     modals.value = [];
 
     html.value = newHtml;
 
     nextTick(() => {
         if (!Splade.isSsr) {
-            window.scrollTo(0, scrollY);
+            const hash = window.location.hash;
+
+            if (hash) {
+                const element = document.getElementById(hash.substring(1));
+
+                if (element) {
+                    // Set it explicitly so the browser scrolls to the element.
+                    window.location.hash = hash;
+                } else {
+                    window.scrollTo(0, scrollY);
+                }
+            } else {
+                window.scrollTo(0, scrollY);
+            }
         }
 
         if ($spladeOptions.transform_anchors) {
@@ -259,6 +273,16 @@ Splade.setOnHtml((newHtml, scrollY) => {
             });
         }
     });
+};
+
+Splade.setOnHtml((newHtml, scrollY, animate) => {
+    if (!Splade.isSsr && document.startViewTransition && $spladeOptions.view_transitions && animate) {
+        // With a transition:
+        return document.startViewTransition(() => onHtml(newHtml, scrollY));
+    }
+
+    // SSR, no animation configruation, and fallback for unsupported browsers:
+    onHtml(newHtml, scrollY, false);
 });
 
 /**

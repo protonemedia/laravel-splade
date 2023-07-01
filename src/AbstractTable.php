@@ -44,7 +44,7 @@ abstract class AbstractTable
     {
         $table = new static(...$arguments);
 
-        return $table->make();
+        return $table->make()->beforeRender();
     }
 
     /**
@@ -116,11 +116,17 @@ abstract class AbstractTable
             /** @var BulkAction $bulkAction */
             $bulkAction = $table->getBulkActions()[$key];
 
-            call_user_func($bulkAction->beforeCallback, $ids);
+            if ($bulkAction->beforeCallback) {
+                call_user_func($bulkAction->beforeCallback, $ids);
+            }
 
-            $table->performBulkAction($bulkAction->eachCallback, $ids);
+            if ($bulkAction->eachCallback) {
+                $table->performBulkAction($bulkAction->eachCallback, $ids);
+            }
 
-            call_user_func($bulkAction->afterCallback, $ids);
+            if ($bulkAction->afterCallback) {
+                call_user_func($bulkAction->afterCallback, $ids);
+            }
         }
     }
 }

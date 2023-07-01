@@ -296,4 +296,9 @@ class FormComponentsController
             'name.required' => 'Here is a <a href="#">Link</a>',
         ]);
     }
+
+    public function wysiwyg()
+    {
+        return view('form.components.wysiwyg');
+    }
 }

@@ -28,7 +28,7 @@ class ComponentController extends Controller
                 'url'       => ['required', 'string'],
                 'verb'      => ['required', 'string'],
             ]);
-        } catch(ValidationException $e) {
+        } catch (ValidationException $e) {
             abort(403, 'Invalid request');
         }
 
@@ -40,10 +40,13 @@ class ComponentController extends Controller
             fn () => abort(403, 'Component not found'),
         );
 
+        $componentMiddleware->applyOriginalRouteParameters(
+            $request->input('url'), $request->input('verb'), $request
+        );
+
         $instance->middleware(
             $componentMiddleware->resolveApplicableMiddleware(
-                $request->input('url'),
-                $request->input('verb')
+                $request->input('url'), $request->input('verb')
             )
         );
 

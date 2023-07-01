@@ -17,8 +17,8 @@ class Radio extends Component
     public function toSpladeComponent()
     {
         return new SpladeRadio(
-            name:  $this->name,
-            value: $this->value ?? $this->label,
+            name: $this->name,
+            value: $this->value ?? 1,
             label: $this->label,
             help: $this->help
         );

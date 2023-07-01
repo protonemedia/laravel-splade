@@ -2,6 +2,89 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 1.4.15 - 2023-06-26
+
+- The Table component now preserves the scroll position when the sorting changes.
+- The Link component now respects system modifiers, for example, to open a new tab.
+- There's a new `pagination-scroll` attribute on the Table component to control the scroll behavior when using pagination. Valid values are `top` (default), `head`, and `preserve`.
+- You may now disable the *Reset-button* on the Table component with the `reset-button` attribute.
+- When using View Transitions, it will prevent a transition when the page just refreshes.
+
+## 1.4.14 - 2023-06-14
+
+- Downgraded the HeadlessUI library because of a bug in the upstream package
+
+## 1.4.13 - 2023-06-14
+
+- Experimental support for the View Transitions API
+- Fix translations for Table pagination (#389)
+- Option to suppress Vue’s compile errors in production (prevents blank pages)
+- Support for Events on Bridge components (thanks @bdsumon4u)
+- Fixed typo in Form Builder Select element (thanks @J87NL)
+- Add Forms and Tables directories to Tailwind config as a suggestion (thanks @J87NL)
+- Support for custom classes on the wrapper of the Submit element (thanks @J87NL)
+- Fix for passing Flatpickr options with the Form Builder (thanks @YungLin-CHU)
+- Allow other values than strings for checkboxes/radios in the Form Builder (thanks @J87NL)
+- Option to automatically add an asterisk to the label of required form elements (thanks @J87NL)
+
+## 1.4.11 - 2023-05-18
+
+Fixed wrong Jodit import in v1.4.10 🙃
+
+## 1.4.10 - 2023-05-18
+
+- Support for Jodit editor (thanks @J87NL!)
+- Support for the `blob` attribute in the Form component
+
+## 1.4.9.1 - 2023-05-18
+
+Patch release for newer Laravel versions
+
+## 1.4.9 - 2023-05-18
+
+- Splade now respects URL fragments in the Link component
+
+## 1.4.8.1 - 2023-05-17
+
+Minor update that bumps the JS dependencies, especially `laravel-vite-plugin`. As of Laravel 10.2 (skeleton, not the framework), the `package.json` type default to `module`, which caused issues with earlier versions of the Vite plugin.
+
+## 1.4.8 - 2023-04-29
+
+- Improved handling of Table Bulk Actions
+
+## 1.4.7 - 2023-03-30
+
+- Use Vite 4 + updated npm dependencies (by @evici)
+- Allow a Closure as sortable parameter for Table columns (by @Jampire)
+- Table columns can now be aligned (`left`, `center`, and `right`)
+- Allow `HtmlString` for label/help attributes
+- `htmlLabel` and `htmlHelp` Form builder methods to allow texts that won't be escaped
+- Fixes for Form Builder validation (by @J87NL)
+- Fix for resolving the JS package version using the latest npm (by @Jampire)
+- Prevent horizontal scrollbar while opening slideovers (#350)
+- Improved animation when reloading the same modal
+- The `Render` component now emits an event after rendering the content
+- The `SpladeMiddleware` now ignores responses with a `Content-Disposition` header (#368)
+- Table classes now have a static `build()` method to improve support for custom tables (#334)
+
+## 1.4.6 - 2023-03-24
+
+- The `keep-modal` attribute from the Link component now also works on the Form component
+- Bridge components now work from URLs that use route bindings
+- The Lazy Component now retrieves the original URL from the backend instead of from the browser
+- Better handling of opening URLs in a Modal that only respond with a Toast
+- The Default Toast settings now also apply to Toasts sent from Broadcasted events
+- The Table component now resolves values from objects that use a magic getter
+- Partial refactor of the `SpladeMiddleware`
+
+## 1.4.5 - 2023-03-21
+
+- Option to preserve scroll position when using `Splade::refreshOnEvent()`
+
+## 1.4.4 - 2023-03-21
+
+- Event + Select bugfixes
+
 ## 1.4.3 - 2023-03-17
 
 - Fixed duplicate select event

@@ -4,6 +4,7 @@ namespace ProtoneMedia\Splade\Components\Form;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Illuminate\Support\HtmlString;
 use Illuminate\Support\Js;
 use Illuminate\Support\Str;
 use Illuminate\View\Component;
@@ -29,14 +30,14 @@ class Select extends Component
         public string $name = '',
         public string $vModel = '',
         public $options = [],
-        public string $label = '',
+        public HtmlString|string $label = '',
         public bool|string $placeholder = '',
         public bool $multiple = false,
         public bool|array|string|null $choices = null,
         public string $validationKey = '',
         public bool $showErrors = true,
         public bool $relation = false,
-        public string $help = '',
+        public HtmlString|string $help = '',
         public string $remoteUrl = '',
         public string $remoteRoot = '',
         public string $optionValue = '',
@@ -152,7 +153,7 @@ class Select extends Component
         // Check for a "list" array, so something like [1, 2, 3].
         // We'll transform this into [1 => 1, 2 => 2, 3 => 3].
         if (Arr::isList($options) && $collection->filter(fn ($option) => is_string($option))->count() === count($options)) {
-            $options = array_combine($options, $options);
+            $collection = Collection::make(array_combine($options, $options));
         }
 
         return $collection->map(function ($label, $value) {

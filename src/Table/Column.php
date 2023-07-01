@@ -21,7 +21,7 @@ class Column implements Arrayable
         public string $label,
         public bool $canBeHidden,
         public bool $hidden,
-        public bool $sortable,
+        public bool|Closure $sortable,
         public bool|string $sorted,
         public bool $highlight,
         public bool|Closure $exportAs,
@@ -29,6 +29,7 @@ class Column implements Arrayable
         public Closure|array|null $exportStyling = null,
         public array|string|null $classes = null,
         public Closure|null $as = null,
+        public string $alignment = 'left',
     ) {
         if (is_array($classes)) {
             $classes = Arr::flatten($classes);
@@ -55,6 +56,7 @@ class Column implements Arrayable
             $this->exportStyling,
             $this->classes,
             $this->as,
+            $this->alignment,
         );
     }
 
@@ -70,9 +72,10 @@ class Column implements Arrayable
             'label'         => $this->label,
             'can_be_hidden' => $this->canBeHidden,
             'hidden'        => $this->hidden,
-            'sortable'      => $this->sortable,
+            'sortable'      => $this->sortable !== false,
             'sorted'        => $this->sorted,
             'highlight'     => $this->highlight,
+            'alignment'     => $this->alignment,
         ];
     }
 
@@ -96,7 +99,13 @@ class Column implements Arrayable
             }
         }
 
-        return data_get($item, $this->key);
+        return data_get($item, $this->key, function () use ($item) {
+            if (!is_object($item)) {
+                return null;
+            }
+
+            return rescue(fn () => $item->{$this->key}, report: false);
+        });
     }
 
     /**
