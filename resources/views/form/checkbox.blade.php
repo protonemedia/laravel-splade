@@ -13,7 +13,7 @@
         @if(trim($slot))
             <span class="ml-2">{{ $slot }}</span>
         @else
-            <span class="ml-2">{{ $label }}</span>
+            <span class="ml-2">{!! $label !!}</span>
         @endif
     </label>
 
