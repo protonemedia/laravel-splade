@@ -371,17 +371,15 @@ class Form extends Component
         if ($relation instanceof BelongsToMany) {
             $relatedKeyName = $relation->getRelatedKeyName();
 
-            return $loadedRelation
-                ->pluck($relatedKeyName)
-                ->toArray();
+            return $loadedRelation->pluck($relatedKeyName)
+                ->all();
         }
 
         if ($relation instanceof MorphMany) {
             $parentKeyName = $relation->getLocalKeyName();
 
-            return $loadedRelation
-                ->pluck($parentKeyName)
-                ->toArray();
+            return $loadedRelation->pluck($parentKeyName)
+                ->all();
         }
 
         return [];
