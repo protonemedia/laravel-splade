@@ -27,15 +27,17 @@ class Column implements Arrayable
         public bool|Closure $exportAs,
         public Closure|string|null $exportFormat = null,
         public Closure|array|null $exportStyling = null,
-        public array|string|null $classes = null,
+        public Closure|array|string|null $classes = null,
         public Closure|null $as = null,
         public string $alignment = 'left',
     ) {
-        if (is_array($classes)) {
-            $classes = Arr::flatten($classes);
-        }
+        if (!is_callable($classes)) {
+            if (is_array($classes)) {
+                $classes = Arr::flatten($classes);
+            }
 
-        $this->classes = Arr::toCssClasses($classes);
+            $this->classes = Arr::toCssClasses($classes);
+        }
     }
 
     /**

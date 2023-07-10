@@ -55,7 +55,7 @@ trait HasColumns
         bool|callable $exportAs = true,
         callable|string|null $exportFormat = null,
         callable|array|null $exportStyling = null,
-        array|string|null $classes = null,
+        callable|array|string|null $classes = null,
         callable|null $as = null,
         string $alignment = 'left',
     ): self {
