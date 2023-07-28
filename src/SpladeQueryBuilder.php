@@ -76,7 +76,7 @@ class SpladeQueryBuilder extends SpladeTable
      *
      * @return $this
      */
-    private function setPagination(string $method, ?int $perPage = null): self
+    private function setPagination(string $method, int $perPage = null): self
     {
         $this->paginateMethod = $method;
 
@@ -133,7 +133,7 @@ class SpladeQueryBuilder extends SpladeTable
     /**
      * Formats the terms and returns the right where operator for the given search method.
      */
-    private function getTermAndWhereOperator(EloquentBuilder $builder, string $term, ?string $searchMethod = null): array
+    private function getTermAndWhereOperator(EloquentBuilder $builder, string $term, string $searchMethod = null): array
     {
         $like = 'LIKE';
 

@@ -94,9 +94,9 @@ class SpladeForm
      */
     public function confirm(
         string|bool $confirm = true,
-        ?string $text = null,
-        ?string $confirmButton = null,
-        ?string $cancelButton = null,
+        string $text = null,
+        string $confirmButton = null,
+        string $cancelButton = null,
         bool $danger = false,
         string|bool $requirePassword = false,
         bool $requirePasswordOnce = false
@@ -158,10 +158,10 @@ class SpladeForm
      */
     public function requirePassword(
         bool $requirePasswordOnce = false,
-        ?string $heading = null,
-        ?string $text = null,
-        ?string $confirmButton = null,
-        ?string $cancelButton = null,
+        string $heading = null,
+        string $text = null,
+        string $confirmButton = null,
+        string $cancelButton = null,
         bool $danger = false
     ): self {
         return $this->confirm(
@@ -202,7 +202,7 @@ class SpladeForm
      */
     public function submitOnChange(
         bool $enabled = true,
-        array|string|null $watchFields = null,
+        array|string $watchFields = null,
         bool $background = true,
         int $debounce = 500
     ): self {
@@ -294,7 +294,7 @@ class SpladeForm
      *
      * @param [type] ...$params
      */
-    public function validate(?Request $request = null, ...$params): array
+    public function validate(Request $request = null, ...$params): array
     {
         /** @var Request */
         $request = $request ?? request();

@@ -43,8 +43,8 @@ class Select extends Component
         public string $optionValue = '',
         public string $optionLabel = '',
         public string $scope = 'select',
-        public bool|null $resetOnNewRemoteUrl = null,
-        public bool|null $selectFirstRemoteOption = null,
+        public ?bool $resetOnNewRemoteUrl = null,
+        public ?bool $selectFirstRemoteOption = null,
     ) {
         if ($placeholder === true) {
             $this->placeholder = __('Search') . '...';
