@@ -26,7 +26,7 @@
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.7",
         "fakerphp/faker": "^1.9.1",
-        "laravel/dusk": "^7.0",
+        "laravel/dusk": "^7.9",
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^7.0",
         "phpunit/phpunit": "^10.0",
