@@ -197,7 +197,6 @@ class SpladeForm
      * If one or morge fieldnames are provided in $watch_fields,
      * the form will only be submitted on changes on these fields.
      *
-     * @param  array|string|null  $watchFields
      * @return $this
      */
     public function submitOnChange(
