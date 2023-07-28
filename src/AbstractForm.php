@@ -75,7 +75,7 @@ abstract class AbstractForm
      *
      * @param  mixed  ...$params
      */
-    public function validate(?Request $request = null, ...$params): array
+    public function validate(Request $request = null, ...$params): array
     {
         /** @var Request */
         $request = $request ?? request();
