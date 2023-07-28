@@ -16,15 +16,15 @@
         }
     ],
     "require": {
-        "php": "^8.0 || ^8.1 || ^8.2",
-        "illuminate/contracts": "^9.41|^10.0"
+        "php": "^8.1 || ^8.2",
+        "illuminate/contracts": "^10.16"
     },
     "require-dev": {
         "laravel/pint": "^1.0",
-        "nunomaduro/collision": "^6.0",
+        "nunomaduro/collision": "^7.0",
         "nunomaduro/larastan": "^2.0.1",
-        "orchestra/testbench": "^7.7|^8.0",
-        "phpunit/phpunit": "^9.5"
+        "orchestra/testbench": "^8.0",
+        "phpunit/phpunit": "^10.0"
     },
     "suggest": {
         "kirschbaum-development/eloquent-power-joins": "Required to enable support sorting by (nested) relationships in Splade Tables (^2.6)",
