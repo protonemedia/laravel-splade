@@ -2,18 +2,18 @@
 
 namespace ProtoneMedia\Splade\Precompilers;
 
+use ProtoneMedia\Splade\BladeHelpers;
 use ProtoneMedia\Splade\Components\SpladeComponent;
-use ProtoneMedia\Splade\CustomBladeCompiler;
 use ProtoneMedia\Splade\Http\PrepareTableCells;
 
-class CustomTableCell
+class CustomTableCell implements Precompiler
 {
     /**
      * Replaces the <x-splace-cell> component with the @cell directive.
      */
-    public function __invoke($view)
+    public function __invoke(string $view): string
     {
-        $view = preg_replace_callback(CustomBladeCompiler::regexForTag(SpladeComponent::tag('table')), function ($table) {
+        $view = preg_replace_callback(BladeHelpers::regexForTag(SpladeComponent::tag('table')), function ($table) {
             $tableHtml    = $table[0];
             $tableOpening = $table[1];
 

@@ -2,7 +2,7 @@
 
 namespace ProtoneMedia\Splade;
 
-class CustomBladeCompiler
+class BladeHelpers
 {
     /**
      * Returns a regex pattern to match an HTML tag and its contents.

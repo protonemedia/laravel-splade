@@ -3,23 +3,23 @@
 namespace ProtoneMedia\Splade\Precompilers;
 
 use Illuminate\Support\Str;
+use ProtoneMedia\Splade\BladeHelpers;
 use ProtoneMedia\Splade\Components\SpladeComponent;
-use ProtoneMedia\Splade\CustomBladeCompiler;
 
-class LazyLoading
+class LazyLoading implements Precompiler
 {
     /**
      * It adds an additional if-statement around the slot, so it's only rendered
      * when the component is lazy-loaded.
      */
-    public function __invoke($view)
+    public function __invoke(string $view): string
     {
         // Find the lazy components within the view
-        preg_match_all(CustomBladeCompiler::regexForTag(SpladeComponent::tag('lazy')), $view, $matches);
+        preg_match_all(BladeHelpers::regexForTag(SpladeComponent::tag('lazy')), $view, $matches);
 
         // Replace all lazy components with just the placeholder
         collect($matches[0] ?? [])->each(function (string $lazyComponent, $key) use ($matches, &$view) {
-            preg_match_all(CustomBladeCompiler::regexForTag('x-slot:placeholder'), $lazyComponent, $placeholderMatches);
+            preg_match_all(BladeHelpers::regexForTag('x-slot:placeholder'), $lazyComponent, $placeholderMatches);
 
             $innerLazy = Str::between($lazyComponent, $matches[1][$key], $matches[3][$key]);
 
