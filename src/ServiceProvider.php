@@ -151,9 +151,9 @@ class ServiceProvider extends BaseServiceProvider
      */
     protected function registerBladePrecompilers()
     {
-        Blade::precompiler(new CustomTableCell);
-        Blade::precompiler(new LazyLoading);
-        Blade::precompiler(new Rehydrate);
+        Blade::prepareStringsForCompilationUsing(new CustomTableCell);
+        Blade::prepareStringsForCompilationUsing(new LazyLoading);
+        Blade::prepareStringsForCompilationUsing(new Rehydrate);
     }
 
     /**
