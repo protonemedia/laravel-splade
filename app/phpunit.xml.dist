@@ -8,7 +8,7 @@
             <directory>tests/Feature</directory>
         </testsuite>
     </testsuites>
-    <source >
+    <source>
         <include>
             <directory>app</directory>
         </include>
@@ -21,6 +21,7 @@
         <env name="MAIL_MAILER" value="array"/>
         <env name="QUEUE_CONNECTION" value="sync"/>
         <env name="SESSION_DRIVER" value="array"/>
+        <env name="DEBUGBAR_ENABLED" value="false"/>
         <env name="TELESCOPE_ENABLED" value="false"/>
     </php>
 </phpunit>
