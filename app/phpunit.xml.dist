@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd" bootstrap="vendor/autoload.php" colors="true">
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="./vendor/phpunit/phpunit/phpunit.xsd" bootstrap="vendor/autoload.php" colors="true">
     <testsuites>
         <testsuite name="Unit">
-            <directory>tests/Unit</directory>
+            <directory suffix="Test.php">./tests/Unit</directory>
         </testsuite>
         <testsuite name="Feature">
-            <directory>tests/Feature</directory>
+            <directory suffix="Test.php">./tests/Feature</directory>
         </testsuite>
     </testsuites>
-    <source>
+    <coverage processUncoveredFiles="true">
         <include>
-            <directory>app</directory>
+            <directory suffix=".php">./app</directory>
         </include>
-    </source>
+    </coverage>
     <php>
         <env name="APP_ENV" value="testing"/>
         <env name="BCRYPT_ROUNDS" value="4"/>
@@ -21,7 +21,6 @@
         <env name="MAIL_MAILER" value="array"/>
         <env name="QUEUE_CONNECTION" value="sync"/>
         <env name="SESSION_DRIVER" value="array"/>
-        <env name="DEBUGBAR_ENABLED" value="false"/>
         <env name="TELESCOPE_ENABLED" value="false"/>
     </php>
 </phpunit>
