@@ -128,7 +128,7 @@ parameters:
 		-
 			message: "#^Parameter \\#2 \\$array of function implode expects array\\<string\\>, array\\<int, array\\<int, string\\>\\|string\\> given\\.$#"
 			count: 1
-			path: src/CustomBladeCompiler.php
+			path: src/BladeHelpers.php
 
 		-
 			message: "#^Method ProtoneMedia\\\\Splade\\\\EventRedirect\\:\\:jsonSerialize\\(\\) should return array but returns void\\.$#"

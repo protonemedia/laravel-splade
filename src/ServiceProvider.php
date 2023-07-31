@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use Illuminate\Support\Str;
-use Illuminate\View\Compilers\BladeCompiler;
 use Illuminate\View\ComponentAttributeBag;
 use Illuminate\View\Factory;
 use Illuminate\View\View;
@@ -38,6 +37,9 @@ use ProtoneMedia\Splade\Http\EventRedirectController;
 use ProtoneMedia\Splade\Http\FileUploadController;
 use ProtoneMedia\Splade\Http\TableBulkActionController;
 use ProtoneMedia\Splade\Http\TableExportController;
+use ProtoneMedia\Splade\Precompilers\CustomTableCell;
+use ProtoneMedia\Splade\Precompilers\LazyLoading;
+use ProtoneMedia\Splade\Precompilers\Rehydrate;
 
 class ServiceProvider extends BaseServiceProvider
 {
@@ -58,7 +60,7 @@ class ServiceProvider extends BaseServiceProvider
             $this->mergeConfigFrom($defaultSeoPath, 'splade.seo');
         }
 
-        $this->registerCustomBladeCompiler();
+        $this->registerBladePrecompilers();
     }
 
     /**
@@ -147,25 +149,11 @@ class ServiceProvider extends BaseServiceProvider
      *
      * @return void
      */
-    protected function registerCustomBladeCompiler()
+    protected function registerBladePrecompilers()
     {
-        $this->app->extend('blade.compiler', function (BladeCompiler $service, $app) {
-            return tap(new CustomBladeCompiler(
-                $app['files'],
-                $app['config']['view.compiled'],
-                $app['config']->get('view.relative_hash', false) ? $app->basePath() : '',
-                $app['config']->get('view.cache', true),
-                $app['config']->get('view.compiled_extension', 'php'),
-            ), function ($blade) use ($service) {
-                foreach ($service->getClassComponentAliases() as $alias => $component) {
-                    $blade->component($component, $alias);
-                }
-
-                foreach ($service->getCustomDirectives() as $name => $directive) {
-                    $blade->directive($name, $directive);
-                }
-            });
-        });
+        Blade::prepareStringsForCompilationUsing(new CustomTableCell);
+        Blade::prepareStringsForCompilationUsing(new LazyLoading);
+        Blade::prepareStringsForCompilationUsing(new Rehydrate);
     }
 
     /**
