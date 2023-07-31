@@ -52,10 +52,8 @@ class Head implements Arrayable, JsonSerializable
      */
     private function autoFill(): self
     {
-        if ($this->autoFillOverwrite) {
-            $this->autoFillOpenGraph();
-            $this->autoFillTwitter();
-        }
+        $this->autoFillOpenGraph($this->autoFillOverwrite);
+        $this->autoFillTwitter($this->autoFillOverwrite);
 
         return $this;
     }
