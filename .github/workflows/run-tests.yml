@@ -9,13 +9,13 @@ jobs:
       fail-fast: true
       matrix:
         php: [8.2, 8.1, 8.0]
-        laravel: [10.*, 9.*]
+        laravel: [10.0, 9.0]
         ssr: [true, false]
         dependency-version: [prefer-lowest, prefer-stable]
         include:
-          - laravel: 9.*
+          - laravel: 9.0
             testbench: 7.*
-          - laravel: 10.*
+          - laravel: 10.0
             testbench: 8.*
         exclude:
           - ssr: true
@@ -24,7 +24,7 @@ jobs:
             php: 8.1
           - ssr: true
             php: 8.0
-          - laravel: 10.*
+          - laravel: 10.0
             php: 8.0
 
     name: Test P${{ matrix.php }} - L${{ matrix.laravel }} - SSR ${{ matrix.ssr }} - ${{ matrix.dependency-version }}
@@ -77,10 +77,22 @@ jobs:
           cp public/1.jpeg storage/app/public/1.jpeg
           cp public/2.jpeg storage/app/public/2.jpeg
           touch database/database.sqlite
+          composer require laravel/framework:^${{ matrix.laravel }} --no-interaction --no-suggest
           composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction --no-suggest
-          npm run build
           php artisan storage:link
           php artisan migrate:fresh --seed
+
+      - name: Prepare L10
+        if: ${{ matrix.laravel == '10.0' }}
+        run: |
+          cd app
+          composer require spatie/phpunit-snapshot-assertions:^5.0 phpunit/phpunit:^10.0 nunomaduro/collision:^7.0 --no-interaction --no-suggest
+          composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction --no-suggest
+
+      - name: Prepare tests
+        run: |
+          cd app
+          npm run build
           php artisan dusk:chrome-driver `/opt/google/chrome/chrome --version | cut -d " " -f3 | cut -d "." -f1`
 
       - name: Start Chrome Driver
