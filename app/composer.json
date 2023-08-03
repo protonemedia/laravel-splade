@@ -11,7 +11,7 @@
         "php": "^8.0.2",
         "beyondcode/laravel-websockets": "^1.13",
         "guzzlehttp/guzzle": "^7.2",
-        "illuminate/contracts": "<9.52|<10.17",
+        "illuminate/contracts": "<9.42|<10.17",
         "kirschbaum-development/eloquent-power-joins": "^2.6",
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^3.2",
