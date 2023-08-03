@@ -87,7 +87,7 @@ jobs:
         run: |
           cd app
           rm composer.lock
-          composer require illuminate/contracts:<9.52 --no-interaction --no-suggest
+          composer require illuminate/contracts:"<9.52" --no-interaction --no-suggest
           composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction --no-suggest
 
       - name: Prepare L10
@@ -95,7 +95,7 @@ jobs:
         run: |
           cd app
           rm composer.lock
-          composer require illuminate/contracts:<10.17 spatie/phpunit-snapshot-assertions:^5.0 phpunit/phpunit:^10.0 nunomaduro/collision:^7.0 --no-interaction --no-suggest
+          composer require illuminate/contracts:"<10.17" spatie/phpunit-snapshot-assertions:^5.0 phpunit/phpunit:^10.0 nunomaduro/collision:^7.0 --no-interaction --no-suggest
           composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction --no-suggest
 
       - name: Prepare tests
