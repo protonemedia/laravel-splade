@@ -3,8 +3,8 @@
 namespace ProtoneMedia\Splade\Http;
 
 use Illuminate\Support\Str;
-use ProtoneMedia\Splade\BladeHelpers;
 use ProtoneMedia\Splade\Components\SpladeComponent;
+use ProtoneMedia\Splade\CustomBladeCompiler;
 
 class PrepareTableCells
 {
@@ -38,7 +38,7 @@ class PrepareTableCells
         string $defaultUse
     ): string {
         $cellTag   = SpladeComponent::tag('cell');
-        $cellRegex = BladeHelpers::regexForTag($cellTag);
+        $cellRegex = CustomBladeCompiler::regexForTag($cellTag);
 
         return preg_replace_callback($cellRegex, function ($cell) use ($cellTag, $defaultAs, $defaultKey, $defaultUse) {
             $cellHtml    = $cell[0];

@@ -38,6 +38,7 @@ trait HasColumns
     /**
      * Adds a new column to the table.
      *
+     * @param  bool|null  $canBeHidden
      * @param  bool  $searchable
      * @param  callable|null  $exportFormat
      * @param  callable|null  $exportStyling
