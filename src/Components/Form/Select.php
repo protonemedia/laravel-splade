@@ -65,7 +65,7 @@ class Select extends Component
             $this->validationKey = static::dottedName($name);
         }
 
-        if (!Str::startsWith($remoteUrl, '`') && !Str::endsWith($remoteUrl, '`')) {
+        if (Str::substrCount($remoteUrl, '`') < 2) {
             $this->remoteUrl = Js::from($remoteUrl);
         }
 
