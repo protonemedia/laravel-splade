@@ -126,6 +126,7 @@ jobs:
         if: ${{ matrix.laravel == '10.0' }}
         run: |
           cd app
+          rm composer.lock
           composer require spatie/phpunit-snapshot-assertions:^5.0 phpunit/phpunit:^10.0 nunomaduro/collision:^7.0 --no-interaction --no-suggest
           composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction --no-suggest
 
