@@ -50,7 +50,7 @@ abstract class PersistentComponent extends Component
      * into Splade Dynamic comments, and merges them it the
      * default data from the original view.
      */
-    public function viewData(array $originalData, HtmlString $slot, Factory $env): array
+    public function viewData(array $originalData, ComponentSlot|HtmlString $slot, Factory $env): array
     {
         $slots = Collection::make($env->getFirstSlot())->map(function (ComponentSlot $slot, $name) {
             return new ComponentSlot(
