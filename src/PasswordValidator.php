@@ -49,8 +49,6 @@ class PasswordValidator
 
     /**
      * Validate the given user's password using Laravel Fortify.
-     *
-     * @param  \Illuminate\Contracts\Auth\Authenticatable  $user
      */
     private function validateWithFortify(Authenticatable $user = null, string $password): bool
     {
@@ -61,8 +59,6 @@ class PasswordValidator
 
     /**
      * Validate the given user's password using regular Laravel Auth logic.
-     *
-     * @param  \Illuminate\Contracts\Auth\Authenticatable  $user
      */
     private function validateWithoutForfify(Authenticatable $user = null, string $password): bool
     {

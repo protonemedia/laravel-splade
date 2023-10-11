@@ -126,8 +126,6 @@ class ExistingFile implements Arrayable, JsonSerializable, Stringable
 
     /**
      * Returns an instance of ExistingFileFromDisk to load the file from a disk.
-     *
-     * @return \ProtoneMedia\Splade\FileUploads\ExistingFileFromDisk
      */
     public static function fromDisk(string $disk): ExistingFileFromDisk
     {
@@ -137,8 +135,6 @@ class ExistingFile implements Arrayable, JsonSerializable, Stringable
     /**
      * Returns an instance of ExistingFileFromDisk to load the file from a disk,
      * but without a preview.
-     *
-     * @return \ProtoneMedia\Splade\FileUploads\ExistingFileFromDisk
      */
     public static function fromDiskWithoutPreview(string $disk): ExistingFileFromDisk
     {

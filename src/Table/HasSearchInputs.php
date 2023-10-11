@@ -65,8 +65,6 @@ trait HasSearchInputs
 
     /**
      * Returns all Search Inputs, or finds on when $key is not empty.
-     *
-     * @return \Illuminate\Support\Collection|\ProtoneMedia\Splade\Table\SearchInput|null
      */
     public function searchInputs(string $key = null): Collection|SearchInput|null
     {
