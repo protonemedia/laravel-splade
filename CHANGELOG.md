@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 1.4.16 - 2023-08-03
+
+- SEO bugfix for overwriting defaults
+- Workaround for missing Remote URL
+- Fixed Dusk CI tests
+
 ## 1.4.15 - 2023-06-26
 
 - The Table component now preserves the scroll position when the sorting changes.
