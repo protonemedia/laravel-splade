@@ -203,14 +203,23 @@ class SpladeQueryBuilder extends SpladeTable
             return $this->builder->orderBy($column->key, $column->sorted);
         }
 
-        if (!in_array(\Kirschbaum\PowerJoins\PowerJoins::class, class_uses_recursive($this->builder->getModel()))) {
+        if (!trait_exists(PowerJoins::class)) {
             throw new PowerJoinsException(
                 "To order the query using a column from a relationship, please install the 'kirschbaum-development/eloquent-power-joins' package."
             );
         }
 
-        // Apply the sorting using the PowerJoins package.
-        return $this->builder->orderByLeftPowerJoins($column->key, $column->sorted);
+        $model = $this->builder->getModel();
+
+        if (method_exists($model, 'scopeOrderByLeftPowerJoins') || $model->newModelQuery()->hasGlobalMacro('orderByLeftPowerJoins')) {
+            // Apply the sorting using the PowerJoins package.
+            return $this->builder->orderByLeftPowerJoins($column->key, $column->sorted);
+        }
+
+        throw new PowerJoinsException(
+            "To order the query using a column from a relationship, make sure the Model uses the 'PowerJoins' trait."
+        );
+
     }
 
     /**
