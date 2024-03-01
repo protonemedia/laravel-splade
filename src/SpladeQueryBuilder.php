@@ -209,13 +209,18 @@ class SpladeQueryBuilder extends SpladeTable
             );
         }
 
-        if (!method_exists($this->builder->getModel(), 'scopeOrderByLeftPowerJoins')) {
+        if (!method_exists($this->builder->getModel(), 'scopeOrderByLeftPowerJoins') && !method_exists($this->builder, 'orderByLeftPowerJoins'){
             throw new PowerJoinsException(
                 "To order the query using a column from a relationship, make sure the Model uses the 'PowerJoins' trait."
             );
         }
 
         // Apply the sorting using the PowerJoins package.
+        // @deprecated The 'scopeOrderByLeftPowerJoins' method means it's using the old version of the package.
+        if (method_exists($this->builder->getModel(), 'scopeOrderByLeftPowerJoins')) {
+            return $this->builder->orderByLeftPowerJoins($column->key, $column->sorted);
+        }
+
         return $this->builder->orderByLeftPowerJoins($column->key, $column->sorted);
     }
 
