@@ -1,15 +1,18 @@
 name: run-tests
 
-on: [push, pull_request]
+on:
+  - push
+  - pull_request
 
 jobs:
   test:
     runs-on: ubuntu-latest
+
     strategy:
       fail-fast: true
       matrix:
         php: [8.2, 8.1, 8.0]
-        laravel: [10.0, 9.0]
+        laravel: [9.0, 10.0, '11.0']
         ssr: [true, false]
         dependency-version: [prefer-lowest, prefer-stable]
         include:
@@ -17,6 +20,8 @@ jobs:
             testbench: 7.*
           - laravel: 10.0
             testbench: 8.*
+          - laravel: '11.0'
+            testbench: 9.*
         exclude:
           - ssr: true
             dependency-version: prefer-lowest
@@ -25,6 +30,10 @@ jobs:
           - ssr: true
             php: 8.0
           - laravel: 10.0
+            php: 8.0
+          - laravel: '11.0'
+            php: 8.1
+          - laravel: '11.0'
             php: 8.0
 
     name: Test P${{ matrix.php }} - L${{ matrix.laravel }} - SSR ${{ matrix.ssr }} - ${{ matrix.dependency-version }}
@@ -39,7 +48,6 @@ jobs:
         env:
           cache-name: cache-node-modules
         with:
-          # npm cache files are stored in `~/.npm` on Linux/macOS
           path: ~/.npm
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
@@ -47,12 +55,12 @@ jobs:
             ${{ runner.os }}-build-
             ${{ runner.os }}-
 
-      - if: ${{ steps.cache-npm.outputs.cache-hit == 'false' }}
+      - if: "${{ steps.cache-npm.outputs.cache-hit == 'false' }}"
         name: List the state of node modules
         continue-on-error: true
         run: npm list
 
-      - name: "Install locked dependencies with npm"
+      - name: Install locked dependencies with npm
         run: |
           npm ci --ignore-scripts
 
@@ -83,7 +91,7 @@ jobs:
           php artisan migrate:fresh --seed
 
       - name: Prepare L9
-        if: ${{ matrix.laravel == '9.0' }}
+        if: "${{ matrix.laravel == '9.0' }}"
         run: |
           cd app
           rm composer.lock
@@ -91,7 +99,7 @@ jobs:
           composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction --no-suggest
 
       - name: Prepare L10
-        if: ${{ matrix.laravel == '10.0' }}
+        if: "${{ matrix.laravel == '10.0' }}"
         run: |
           cd app
           rm composer.lock
@@ -119,7 +127,7 @@ jobs:
           cd app
           sed -i -e "s|SPLADE_SSR_ENABLED=false|SPLADE_SSR_ENABLED=true|g" .env
           node bootstrap/ssr/ssr.mjs &
-        if: matrix.ssr == true
+        if: 'matrix.ssr == true'
 
       - name: Run Laravel Server
         run: |
