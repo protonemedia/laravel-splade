@@ -19,8 +19,8 @@ use ProtoneMedia\Splade\Transformer;
 
 class Form extends Component
 {
-    use ParsesJsonDataAttribute;
     use InteractsWithFormElement;
+    use ParsesJsonDataAttribute;
 
     public string $spladeId;
 

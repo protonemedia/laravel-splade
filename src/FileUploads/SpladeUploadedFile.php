@@ -21,8 +21,6 @@ class SpladeUploadedFile extends BaseUploadedFile
 
     /**
      * Sets the temporary file upload.
-     *
-     * @param  \ProtoneMedia\Splade\FileUploads\TemporaryFileUpload  $temporaryFileUpload
      */
     public function setTemporaryFileUpload(TemporaryFileUpload $temporaryFileUpload): self
     {

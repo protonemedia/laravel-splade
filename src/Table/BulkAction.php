@@ -15,11 +15,11 @@ class BulkAction
     /**
      * This class represents a bulk action within a Splade Table.
      *
-     * @param  bool|string  $confirm = '',
-     * @param  string  $confirmText = '',
-     * @param  string  $confirmButton = '',
-     * @param  string  $cancelButton = '',
-     * @param  bool  $requirePassword = '',
+     * @param  bool|string  $confirm  = '',
+     * @param  string  $confirmText  = '',
+     * @param  string  $confirmButton  = '',
+     * @param  string  $cancelButton  = '',
+     * @param  bool  $requirePassword  = '',
      */
     public function __construct(
         public string $key,
