@@ -209,7 +209,7 @@ class SpladeQueryBuilder extends SpladeTable
             );
         }
 
-        if (!method_exists($this->builder->getModel(), 'scopeOrderByLeftPowerJoins')) {
+        if (!method_exists($this->builder, 'orderByLeftPowerJoins')) {
             throw new PowerJoinsException(
                 "To order the query using a column from a relationship, make sure the Model uses the 'PowerJoins' trait."
             );
