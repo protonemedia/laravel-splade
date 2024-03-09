@@ -37,7 +37,7 @@ class SpladeQueryBuilder extends SpladeTable
      * Initializes this instance with an empty resource. The results will be
      * loaded when the Table components calls the beforeRender() method.
      */
-    public function __construct(private BaseQueryBuilder|EloquentBuilder|SpatieQueryBuilder $builder, Request $request = null)
+    public function __construct(private BaseQueryBuilder|EloquentBuilder|SpatieQueryBuilder $builder, ?Request $request = null)
     {
         parent::__construct([], $request);
     }
@@ -76,7 +76,7 @@ class SpladeQueryBuilder extends SpladeTable
      *
      * @return $this
      */
-    private function setPagination(string $method, int $perPage = null): self
+    private function setPagination(string $method, ?int $perPage = null): self
     {
         $this->paginateMethod = $method;
 
@@ -133,7 +133,7 @@ class SpladeQueryBuilder extends SpladeTable
     /**
      * Formats the terms and returns the right where operator for the given search method.
      */
-    private function getTermAndWhereOperator(EloquentBuilder $builder, string $term, string $searchMethod = null): array
+    private function getTermAndWhereOperator(EloquentBuilder $builder, string $term, ?string $searchMethod = null): array
     {
         $like = 'LIKE';
 

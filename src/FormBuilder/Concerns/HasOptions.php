@@ -9,7 +9,7 @@ trait HasOptions
     /**
      * Set an array with options
      *
-     * @param  array  $options ['value1' => 'Label 1', 'value2' => 'Label 2']
+     * @param  array  $options  ['value1' => 'Label 1', 'value2' => 'Label 2']
      * @return $this
      */
     public function options(array $options = []): self

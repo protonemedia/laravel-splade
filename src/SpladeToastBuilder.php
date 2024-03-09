@@ -10,8 +10,6 @@ class SpladeToastBuilder
 
     /**
      * Creates a new instance.
-     *
-     * @param  \ProtoneMedia\Splade\SpladeCore  $splade
      */
     public function __construct(
         private SpladeCore $splade

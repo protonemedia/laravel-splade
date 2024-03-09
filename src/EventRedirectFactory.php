@@ -36,7 +36,6 @@ class EventRedirectFactory
      *
      * @param  string  $method
      * @param  array  $parameters
-     * @return \ProtoneMedia\Splade\EventRedirect
      */
     public function __call($method, $parameters): EventRedirect
     {

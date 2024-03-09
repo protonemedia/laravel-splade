@@ -44,18 +44,18 @@ trait HasColumns
      * @return $this
      */
     public function column(
-        string $key = null,
-        string $label = null,
-        bool $canBeHidden = null,
+        ?string $key = null,
+        ?string $label = null,
+        ?bool $canBeHidden = null,
         bool $hidden = false,
         bool|Closure $sortable = false,
         bool|string $searchable = false,
-        bool $highlight = null,
+        ?bool $highlight = null,
         bool|callable $exportAs = true,
-        callable|string $exportFormat = null,
-        callable|array $exportStyling = null,
-        array|string $classes = null,
-        callable $as = null,
+        callable|string|null $exportFormat = null,
+        callable|array|null $exportStyling = null,
+        array|string|null $classes = null,
+        ?callable $as = null,
         string $alignment = 'left',
     ): self {
         $key   = $key   !== null ? $key : Str::kebab($label);
