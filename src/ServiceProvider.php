@@ -545,7 +545,6 @@ class ServiceProvider extends BaseServiceProvider
     /**
      * Adds the default transitions to the repository.
      *
-     * @param  \ProtoneMedia\Splade\TransitionRepository  $transitionRepository
      * @return void
      */
     public static function registerTransitionAnimations(TransitionRepository $transitionRepository)

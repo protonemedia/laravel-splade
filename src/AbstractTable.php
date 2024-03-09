@@ -10,8 +10,6 @@ abstract class AbstractTable
 {
     /**
      * The SpladeTable instance.
-     *
-     * @var \ProtoneMedia\Splade\SpladeTable|null
      */
     private ?SpladeTable $table = null;
 
@@ -37,8 +35,6 @@ abstract class AbstractTable
 
     /**
      * Helper method to create a new SpladeTable instance.
-     *
-     * @return \ProtoneMedia\Splade\SpladeTable
      */
     public static function build(...$arguments): SpladeTable
     {
@@ -50,8 +46,6 @@ abstract class AbstractTable
     /**
      * Creates a new SpladeTable instance with the resource or
      * query builder from the 'for()' method of this class.
-     *
-     * @return \ProtoneMedia\Splade\SpladeTable
      */
     public function make(): SpladeTable
     {
@@ -71,7 +65,6 @@ abstract class AbstractTable
     /**
      * Configure the given SpladeTable.
      *
-     * @param  \ProtoneMedia\Splade\SpladeTable  $table
      * @return void
      */
     public function configure(SpladeTable $table)
@@ -81,8 +74,6 @@ abstract class AbstractTable
 
     /**
      * Returns a TableExporter instance.
-     *
-     * @return \ProtoneMedia\Splade\TableExporter|null
      */
     public function makeExporter(int $key): ?TableExporter
     {

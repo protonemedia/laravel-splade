@@ -125,7 +125,7 @@ class SpladeMiddleware
      *
      * @return void
      */
-    public static function afterOriginalResponse(Closure $callback = null)
+    public static function afterOriginalResponse(?Closure $callback = null)
     {
         static::$afterOriginalResponseCallback = $callback;
     }

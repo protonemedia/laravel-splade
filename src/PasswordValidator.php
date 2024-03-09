@@ -49,10 +49,8 @@ class PasswordValidator
 
     /**
      * Validate the given user's password using Laravel Fortify.
-     *
-     * @param  \Illuminate\Contracts\Auth\Authenticatable  $user
      */
-    private function validateWithFortify(Authenticatable $user = null, string $password): bool
+    private function validateWithFortify(?Authenticatable $user, string $password): bool
     {
         return app(ConfirmPassword::class)(
             app(StatefulGuard::class), $user, $password
@@ -61,10 +59,8 @@ class PasswordValidator
 
     /**
      * Validate the given user's password using regular Laravel Auth logic.
-     *
-     * @param  \Illuminate\Contracts\Auth\Authenticatable  $user
      */
-    private function validateWithoutForfify(Authenticatable $user = null, string $password): bool
+    private function validateWithoutForfify(?Authenticatable $user, string $password): bool
     {
         $guard = Auth::guard(config('splade.confirm_password_guard'));
 
@@ -85,7 +81,7 @@ class PasswordValidator
     /**
      * Validates the given User and password.
      */
-    public function validate(Authenticatable $user = null, string $password, string $attribute): bool
+    public function validate(?Authenticatable $user, string $password, string $attribute): bool
     {
         if (!$user) {
             throw ValidationException::withMessages([

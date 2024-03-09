@@ -8,8 +8,8 @@ use ProtoneMedia\Splade\FormBuilder\Concerns\HasOptions;
 
 class Radios extends Component
 {
-    use HasOptions;
     use CanBeInline;
+    use HasOptions;
 
     /**
      * Renders the SpladeRadios
