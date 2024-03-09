@@ -12,7 +12,7 @@
         "beyondcode/laravel-websockets": "^1.13",
         "guzzlehttp/guzzle": "^7.2",
         "kirschbaum-development/eloquent-power-joins": "^3.0",
-        "laravel/sanctum": "^3.2",
+        "laravel/sanctum": "^3.2|^4.0",
         "laravel/tinker": "^2.7",
         "maatwebsite/excel": "^3.1",
         "monolog/monolog": "^3.0",
