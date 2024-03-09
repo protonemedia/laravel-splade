@@ -11,6 +11,13 @@ class EventTest extends DuskTestCase
 {
     use UsesWebsocketsServerTrait;
 
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        $this->markTestSkipped('Temporarily skipped until Laravel Reverb has been released.');
+    }
+
     /** @test */
     public function it_can_redirect_on_an_event()
     {
