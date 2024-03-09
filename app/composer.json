@@ -37,8 +37,7 @@
         "spatie/fractalistic": "^2.9",
         "spatie/laravel-ignition": "^1.0|^2.0",
         "spatie/laravel-ray": "^1.31",
-        "spatie/phpunit-snapshot-assertions": "^5.0",
-        "thiagocordeiro/laravel-translator": "^1.2|^2.0"
+        "spatie/phpunit-snapshot-assertions": "^5.0"
     },
     "autoload": {
         "psr-4": {
