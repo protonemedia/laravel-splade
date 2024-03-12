@@ -177,8 +177,8 @@ jobs:
         uses: nick-invision/retry@v2
         with:
           timeout_minutes: 10
-          max_attempts: 3
-          command: cd app && php artisan dusk --stop-on-error --stop-on-failure --group=table
+          max_attempts: 1
+          command: cd app && php artisan dusk --group=table
           on_retry_command: cd app && php artisan migrate:fresh --seed
         env:
           DB_PORT: ${{ job.services.mysql.ports[3306] }}
@@ -188,8 +188,8 @@ jobs:
         uses: nick-invision/retry@v2
         with:
           timeout_minutes: 10
-          max_attempts: 3
-          command: cd app && php artisan dusk --stop-on-error --stop-on-failure --group=table
+          max_attempts: 1
+          command: cd app && php artisan dusk --group=table
           on_retry_command: cd app && php artisan migrate:fresh --seed
         env:
           DB_PORT: ${{ job.services.postgres.ports[5432] }}
@@ -199,8 +199,8 @@ jobs:
         uses: nick-invision/retry@v2
         with:
           timeout_minutes: 10
-          max_attempts: 3
-          command: cd app && php artisan dusk --stop-on-error --stop-on-failure --group=table
+          max_attempts: 1
+          command: cd app && php artisan dusk --group=table
           on_retry_command: cd app && php artisan migrate:fresh --seed
 
       - name: Upload Screenshots

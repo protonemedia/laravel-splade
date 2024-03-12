@@ -2,9 +2,7 @@
 
 namespace Tests\Browser;
 
-use Illuminate\Broadcasting\Broadcasters\PusherBroadcaster;
 use Illuminate\Http\Client\ConnectionException;
-use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\Facades\Http;
 use Symfony\Component\Process\Process;
 
@@ -14,17 +12,14 @@ trait UsesWebsocketsServerTrait
 
     protected function setUpUsesWebsocketsServerTrait()
     {
-        /** @var PusherBroadcaster $connection */
-        $connection = Broadcast::connection();
+        $reverbServer = config('reverb.servers.reverb');
 
-        $settings = $connection->getPusher()->getSettings();
-
-        $url = "{$settings['scheme']}://{$settings['host']}:{$settings['port']}";
+        $url = "{$reverbServer['host']}:{$reverbServer['port']}";
 
         try {
             Http::get($url);
         } catch (ConnectionException $e) {
-            $this->websocketsServerProcess = tap(Process::fromShellCommandline('php artisan websockets:serve', base_path()))->start();
+            $this->websocketsServerProcess = tap(Process::fromShellCommandline('php artisan reverb:start', base_path()))->start();
 
             retry(10, function () use ($url) {
                 Http::get($url);
