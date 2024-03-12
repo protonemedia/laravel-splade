@@ -347,7 +347,8 @@ class SpladeMiddleware
             })
             ->each(function (string $dynamicContent, string $name) use (&$content) {
                 $rendered = Blade::render(
-                    '<x-splade-component is="dynamic-html" name="' . $name . '" />',
+                    '<x-splade-component is="dynamic-html" :name="$name" />',
+                    ['name' => $name]
                 );
 
                 $content = str_replace(
