@@ -83,7 +83,7 @@ jobs:
         run: |
           cd app
           rm composer.lock
-          composer require illuminate/contracts:^10.48.2 spatie/phpunit-snapshot-assertions:^5.0 phpunit/phpunit:^10.4 nunomaduro/collision:^7.0 --no-interaction --no-suggest
+          composer require illuminate/contracts:^10.48.2 spatie/phpunit-snapshot-assertions:^5.0 phpunit/phpunit:^10.4 nunomaduro/collision:^7.10 --no-interaction --no-suggest
           composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction --no-suggest
 
       - name: Prepare L11
@@ -91,7 +91,7 @@ jobs:
         run: |
           cd app
           rm composer.lock
-          composer require illuminate/contracts:^11.0.1 spatie/phpunit-snapshot-assertions:^5.0 phpunit/phpunit:^10.4 nunomaduro/collision:^8.2 --no-interaction --no-suggest
+          composer require illuminate/contracts:^11.0.1 spatie/phpunit-snapshot-assertions:^5.0 phpunit/phpunit:^10.4 nunomaduro/collision:^8.1 --no-interaction --no-suggest
           composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction --no-suggest
 
       - name: Prepare tests

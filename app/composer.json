@@ -29,7 +29,7 @@
         "laravel/dusk": "^7.9.2|^8.0",
         "laravel/sail": "^1.0.1",
         "mockery/mockery": "^1.4.4",
-        "nunomaduro/collision": "^7.0|^8.2",
+        "nunomaduro/collision": "^7.10|^8.1",
         "phpunit/phpunit": "^10.4",
         "protonemedia/laravel-splade": "*",
         "spatie/ignition": "^1.4.1",
