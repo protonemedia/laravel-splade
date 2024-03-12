@@ -197,8 +197,6 @@ class Select extends Component
 
     /**
      * Returns the placeholder option when necessary.
-     *
-     * @return \ProtoneMedia\Splade\FormSelectOption
      */
     public function placeholderOption(): ?FormSelectOption
     {

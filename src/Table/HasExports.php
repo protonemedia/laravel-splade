@@ -31,9 +31,9 @@ trait HasExports
      * @return $this
      */
     public function export(
-        string $label = null,
-        string $filename = null,
-        string $type = null,
+        ?string $label = null,
+        ?string $filename = null,
+        ?string $type = null,
         array $events = [],
     ): self {
         if (!class_exists(Excel::class)) {
