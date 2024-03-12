@@ -105,10 +105,10 @@ jobs:
           cd app
           ./vendor/laravel/dusk/bin/chromedriver-linux &
 
-      - name: Start Laravel Websockets
-        run: |
-          cd app
-          php artisan websockets:serve &
+      # - name: Start Laravel Websockets
+      #   run: |
+      #     cd app
+      #     php artisan websockets:serve &
 
       - name: Start SSR server
         run: |
