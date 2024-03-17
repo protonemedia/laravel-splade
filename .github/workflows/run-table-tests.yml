@@ -8,25 +8,23 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        php: [8.2, 8.1, 8.0]
-        laravel: [10.0, 9.0]
+        php: [8.3, 8.2]
+        laravel: [11.0, 10.0]
         db: [mysql, postgres, sqlite]
         ssr: [true, false]
         dependency-version: [prefer-lowest, prefer-stable]
         include:
-          - laravel: 9.0
-            testbench: 7.*
+          - laravel: 11.0
+            testbench: 9.*
           - laravel: 10.0
             testbench: 8.*
         exclude:
-          - ssr: true
-            dependency-version: prefer-lowest
-          - ssr: true
-            php: 8.1
-          - ssr: true
-            php: 8.0
+          - dependency-version: prefer-lowest
+            ssr: true
+          - php: 8.2
+            ssr: true
           - laravel: 10.0
-            php: 8.0
+            ssr: true
           - db: mysql
             ssr: true
           - db: postgres
@@ -120,14 +118,6 @@ jobs:
           cd app
           npm upgrade
           composer require laravel/framework:^${{ matrix.laravel }} --no-interaction --no-suggest
-          composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction --no-suggest
-
-      - name: Prepare L10
-        if: ${{ matrix.laravel == '10.0' }}
-        run: |
-          cd app
-          rm composer.lock
-          composer require spatie/phpunit-snapshot-assertions:^5.0 phpunit/phpunit:^10.0 nunomaduro/collision:^7.0 --no-interaction --no-suggest
           composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction --no-suggest
 
       - name: Prepare tests

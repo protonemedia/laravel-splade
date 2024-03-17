@@ -11,7 +11,7 @@ use Tests\DuskTestCase;
  */
 class PaginationTest extends DuskTestCase
 {
-    public function simpleUrls()
+    public static function simpleUrls()
     {
         return [
             ['/table/users/spatie/', 'simple'],

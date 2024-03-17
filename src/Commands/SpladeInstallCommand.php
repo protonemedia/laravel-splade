@@ -24,8 +24,8 @@ class SpladeInstallCommand extends Command
     public function handle(): int
     {
         // Check Laravel version...
-        if (version_compare(app()->version(), '10.0', '<')) {
-            $this->error('While you can still use Splade with Laravel 9, new projects should use Laravel 10.');
+        if (version_compare(app()->version(), '11.0', '>=')) {
+            $this->error('Installing Splade is only supported on Laravel 10.x. Support for Laravel 11.x will be added in a future release.');
 
             return self::FAILURE;
         }
