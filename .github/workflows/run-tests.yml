@@ -131,8 +131,8 @@ jobs:
         uses: nick-invision/retry@v2
         with:
           timeout_minutes: 10
-          max_attempts: 1
-          command: cd app && php artisan dusk --exclude-group=table
+          max_attempts: 3
+          command: cd app && php artisan dusk --stop-on-failure --stop-on-errors --exclude-group=table
           on_retry_command: cd app && php artisan migrate:fresh --seed
 
       - name: Upload Screenshots
