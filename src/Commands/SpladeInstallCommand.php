@@ -23,13 +23,6 @@ class SpladeInstallCommand extends Command
      */
     public function handle(): int
     {
-        // Check Laravel version...
-        if (version_compare(app()->version(), '11.0', '>=')) {
-            $this->error('Installing Splade is only supported on Laravel 10.x. Support for Laravel 11.x will be added in a future release.');
-
-            return self::FAILURE;
-        }
-
         $this->installRouteMiddleware();
 
         $this->installExceptionHandler();
@@ -38,15 +31,15 @@ class SpladeInstallCommand extends Command
         $this->updateNodePackages(function ($packages) {
             return [
                 '@protonemedia/laravel-splade' => '^1.4.16',
-                '@tailwindcss/forms'           => '^0.5.2',
-                '@tailwindcss/typography'      => '^0.5.2',
-                '@vitejs/plugin-vue'           => '^4.0.0',
-                'autoprefixer'                 => '^10.4.7',
-                'laravel-vite-plugin'          => '^0.7.5',
-                'postcss'                      => '^8.4.14',
-                'tailwindcss'                  => '^3.3.0',
-                'vite'                         => '^4.0.0',
-                'vue'                          => '^3.2.37',
+                '@tailwindcss/forms'           => '^0.5.7',
+                '@tailwindcss/typography'      => '^0.5.10',
+                '@vitejs/plugin-vue'           => '^5.0',
+                'autoprefixer'                 => '^10.4.16',
+                'postcss'                      => '^8.4.32',
+                'laravel-vite-plugin'          => '^1.0',
+                'tailwindcss'                  => '^3.4',
+                'vite'                         => '^5.0',
+                'vue'                          => '^3.4',
             ] + $packages;
         });
 
