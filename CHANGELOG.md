@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 1.4.18 - 2024-03-18
+
+### What's Changed
+
+* Support for installing on fresh L11 installations by @pascalbaljet in https://github.com/protonemedia/laravel-splade/pull/557
+
+**Full Changelog**: https://github.com/protonemedia/laravel-splade/compare/1.4.17...1.4.18
+
 ## 1.4.17 - 2024-03-18
 
 ### What's Changed
