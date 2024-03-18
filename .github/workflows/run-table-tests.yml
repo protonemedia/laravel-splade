@@ -168,7 +168,7 @@ jobs:
 
       - name: Execute Dusk tests (only table tests - MySQL)
         if: ${{ matrix.db == 'mysql' }}
-        uses: nick-invision/retry@v2
+        uses: nick-invision/retry@v3
         with:
           timeout_minutes: 10
           max_attempts: 3
@@ -179,7 +179,7 @@ jobs:
 
       - name: Execute Dusk tests (only table tests - PostgreSQL)
         if: ${{ matrix.db == 'postgres' }}
-        uses: nick-invision/retry@v2
+        uses: nick-invision/retry@v3
         with:
           timeout_minutes: 10
           max_attempts: 3
@@ -190,7 +190,7 @@ jobs:
 
       - name: Execute Dusk tests (only table tests - SQLite)
         if: ${{ matrix.db == 'sqlite' }}
-        uses: nick-invision/retry@v2
+        uses: nick-invision/retry@v3
         with:
           timeout_minutes: 10
           max_attempts: 3
