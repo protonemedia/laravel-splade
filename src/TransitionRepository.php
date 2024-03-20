@@ -9,7 +9,6 @@ class TransitionRepository
     /**
      * Adds an animation to this repository.
      *
-     * @param  \ProtoneMedia\Splade\TransitionAnimation  $transitionAnimation
      * @return $this
      */
     public function add(TransitionAnimation $transitionAnimation): self
@@ -40,8 +39,6 @@ class TransitionRepository
 
     /**
      * Returns the animation with the given name.
-     *
-     * @return \ProtoneMedia\Splade\TransitionAnimation
      */
     public function get(string $name): TransitionAnimation
     {

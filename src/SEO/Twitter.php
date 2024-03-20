@@ -24,18 +24,22 @@ trait Twitter
      *
      * @return void
      */
-    protected function autoFillTwitter()
+    protected function autoFillTwitter(bool $overwrite = false)
     {
         if (!config('splade.seo.twitter.auto_fill')) {
             return;
         }
 
         if ($this->title) {
-            $this->twitterTitle($this->title);
+            if ($overwrite || (!$overwrite && !$this->getMetaByName('twitter:title')->first()?->content)) {
+                $this->twitterTitle($this->title);
+            }
         }
 
         if ($meta = $this->getMetaByName('description')->first()) {
-            $this->twitterDescription($meta->content);
+            if ($overwrite || (!$overwrite && !$this->getMetaByName('twitter:description')->first()?->content)) {
+                $this->twitterDescription($meta->content);
+            }
         }
     }
 

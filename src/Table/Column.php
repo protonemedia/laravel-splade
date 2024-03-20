@@ -7,6 +7,7 @@ use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
+use Orchestra\Workbench\Recipes\AssetPublishCommand;
 
 class Column implements Arrayable
 {

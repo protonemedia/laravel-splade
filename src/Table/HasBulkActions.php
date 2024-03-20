@@ -29,9 +29,9 @@ trait HasBulkActions
      */
     public function bulkAction(
         string $label,
-        callable $each = null,
-        callable $before = null,
-        callable $after = null,
+        ?callable $each = null,
+        ?callable $before = null,
+        ?callable $after = null,
         bool|string $confirm = '',
         string $confirmText = '',
         string $confirmButton = '',

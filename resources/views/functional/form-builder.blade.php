@@ -22,6 +22,9 @@
     :restore-on-success="$form->getOption('restore_on_success')"
 
     :preserve-scroll="$form->getOption('preserve_scroll')"
+    :blob="$form->getOption('blob')"
+
+    {{ $attributes->rejectWhenBlank('id')->except('class') }}
 >
     @foreach($form->getFields() as $field)
         {!! $field->render() !!}
