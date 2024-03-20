@@ -17,10 +17,10 @@ trait HasFilters
     public function selectFilter(
         string $key,
         array $options,
-        string $label = null,
-        string $defaultValue = null,
+        ?string $label = null,
+        ?string $defaultValue = null,
         bool $noFilterOption = true,
-        string $noFilterOptionLabel = null
+        ?string $noFilterOptionLabel = null
     ): self {
         $this->filters = $this->filters->reject(function (Filter $filter) use ($key) {
             return $filter->key === $key;

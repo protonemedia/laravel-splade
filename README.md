@@ -9,7 +9,12 @@ Splade provides a **super easy** way to build ***Single Page Applications*** (SP
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/protonemedia/laravel-splade.svg)](https://packagist.org/packages/protonemedia/laravel-splade)
 [![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/protonemedia/laravel-splade/run-tests.yml?branch=main&label=tests)](https://github.com/protonemedia/laravel-splade/actions?query=workflow%3Arun-tests+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/protonemedia/laravel-splade.svg)](https://packagist.org/packages/protonemedia/laravel-splade)
+[![Splade Discord Server](https://dcbadge.vercel.app/api/server/qGJ4MkMQWm?style=flat&theme=default-inverted)](https://discord.gg/qGJ4MkMQWm)
 [![GitHub Sponsors](https://img.shields.io/github/sponsors/pascalbaljet)](https://github.com/sponsors/pascalbaljet)
+
+## Update February 23, 2024: Thoughts on Splade
+
+After 18 months, I took a week to reflect on Splade and its future. Please read my [blog post](https://protone.media/en/blog/thoughts-on-splade-i-took-a-week-off-to-look-around-and-reflect) if you're interested in Splade!
 
 ## Sponsor Splade
 

@@ -27,7 +27,7 @@ abstract class DuskTestCase extends BaseTestCase
         return new Browser($driver);
     }
 
-    public function tableUrls()
+    public static function tableUrls()
     {
         return [
             ['/table/users/spatie/'],
@@ -37,7 +37,7 @@ abstract class DuskTestCase extends BaseTestCase
         ];
     }
 
-    public function booleanDataset()
+    public static function booleanDataset()
     {
         return [[false], [true]];
     }

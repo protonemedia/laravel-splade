@@ -42,6 +42,8 @@ class SpladeCore
 
     const MODAL_TYPE_SLIDEOVER = 'slideover';
 
+    const HEADER_PREVENT_VIEW_TRANSITION = 'X-Splade-Prevent-View-Transition';
+
     private string $modalKey;
 
     private ?string $persistentLayoutKey;
@@ -115,8 +117,6 @@ class SpladeCore
 
     /**
      * Getter for the Head instance.
-     *
-     * @return \ProtoneMedia\Splade\Head
      */
     public function head(): Head
     {
@@ -267,8 +267,6 @@ class SpladeCore
 
     /**
      * Returns a new EventRefresh instance.
-     *
-     * @return \ProtoneMedia\Splade\EventRefresh
      */
     public static function refreshOnEvent(): EventRefresh
     {
@@ -277,8 +275,6 @@ class SpladeCore
 
     /**
      * Returns a new EventRedirectFactory instance.
-     *
-     * @return \ProtoneMedia\Splade\EventRedirectFactory
      */
     public static function redirectOnEvent(): EventRedirectFactory
     {
@@ -287,8 +283,6 @@ class SpladeCore
 
     /**
      * Returns a new instance of the ToastBuilder.
-     *
-     * @return \ProtoneMedia\Splade\SpladeToastBuilder
      */
     public function toastBuilder(): SpladeToastBuilder
     {
@@ -297,8 +291,6 @@ class SpladeCore
 
     /**
      * Returns a new SpladeToast instance
-     *
-     * @return \ProtoneMedia\Splade\SpladeToast
      */
     public static function toastOnEvent(string $message = ''): SpladeToast
     {
@@ -318,10 +310,8 @@ class SpladeCore
     /**
      * Returns a Closure that prevents generating a response from
      * a ValidationException when this is a Splade request.
-     *
-     * @param  callable  $renderUsing
      */
-    public static function exceptionHandler(Handler $exceptionHandler, callable $renderUsing = null): Closure
+    public static function exceptionHandler(Handler $exceptionHandler, ?callable $renderUsing = null): Closure
     {
         return Closure::bind(function (Throwable $e, $request) use ($renderUsing) {
             if ($renderUsing) {
@@ -342,7 +332,7 @@ class SpladeCore
                 if ($e instanceof AuthenticationException) {
                     // Still use request()->guest() so the "indented" URL is preserved.
                     return Splade::redirectAway(
-                        redirect()->guest($e->redirectTo() ?? route('login'))->getTargetUrl()
+                        redirect()->guest($e->redirectTo($request) ?? route('login'))->getTargetUrl()
                     );
                 }
 
@@ -354,8 +344,6 @@ class SpladeCore
     /**
      * Returns a new SpladeToast instance, optionally with the given message
      * if it isn't empty, and it uses the custom toast factory if set.
-     *
-     * @return \ProtoneMedia\Splade\SpladeToast
      */
     public function toast(string $message = ''): SpladeToast
     {
@@ -390,8 +378,6 @@ class SpladeCore
 
     /**
      * Adds a new Data Store.
-     *
-     * @param  \ProtoneMedia\Splade\DataStore  $store
      */
     public function addDataStore(DataStore $store): self
     {
@@ -464,6 +450,14 @@ class SpladeCore
     public function preserveScroll(): bool
     {
         return $this->request()->hasHeader(static::HEADER_PRESERVE_SCROLL);
+    }
+
+    /**
+     * Returns a boolean whether the next page should not be animated.
+     */
+    public function preventViewTransition(): bool
+    {
+        return $this->request()->hasHeader(static::HEADER_PREVENT_VIEW_TRANSITION);
     }
 
     /**

@@ -16,6 +16,11 @@ export default {
     inject: ["stack"],
 
     props: {
+        spladeId: {
+            type: String,
+            required: true,
+        },
+
         baseUrl: {
             type: String,
             required: false,
@@ -56,6 +61,12 @@ export default {
             type: Number,
             required: false,
             default: 0
+        },
+
+        paginationScroll: {
+            type: String,
+            required: false,
+            default: "top"
         }
     },
 
@@ -117,7 +128,11 @@ export default {
             }
 
             return selectedItemsCount;
-        }
+        },
+
+        scrollToHeadRememberKey() {
+            return `spladeTableScrollToHead-${this.spladeId}`;
+        },
     },
 
     created() {
@@ -151,9 +166,41 @@ export default {
         } else {
             this.visibleColumns = columns;
         }
+
+        if(Splade.restore(this.scrollToHeadRememberKey)) {
+            this.$nextTick(() => {
+                const tableElement = document.querySelector(`div[data-splade-id="${this.spladeId}"]`);
+
+                tableElement.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start",
+                    inline: "nearest"
+                });
+            });
+        }
+
+        Splade.forget(this.scrollToHeadRememberKey);
     },
 
     methods: {
+        navigate(url, isPagination) {
+            const headers = {
+                "X-Splade-Modal": Splade.stackType(this.stack),
+                "X-Splade-Modal-Target": this.stack,
+                "X-Splade-Prevent-View-Transition": true
+            };
+
+            if(this.paginationScroll !== "top" || !isPagination) {
+                headers["X-Splade-Preserve-Scroll"] = true;
+            }
+
+            Splade.request(url, "GET", {}, headers, false).then(() => {
+                if(!Splade.isSsr && this.paginationScroll === "head" && isPagination) {
+                    Splade.remember(this.scrollToHeadRememberKey, true);
+                }
+            });
+        },
+
         visitLink(url, type, $event) {
             if($event?.target?.tagName === "A" || $event?.target?.tagName === "BUTTON") {
                 return;
@@ -486,6 +533,7 @@ export default {
             striped: this.striped,
             toggleColumn: this.toggleColumn,
             updateQuery: this.updateQuery,
+            navigate: this.navigate,
             visit: this.visitLink,
             totalSelectedItems: this.totalSelectedItems,
             allItemsFromAllPagesAreSelected: this.allItemsFromAllPagesAreSelected,

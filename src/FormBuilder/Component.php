@@ -180,7 +180,7 @@ abstract class Component
     /**
      * Adds one or more validation rules to an input field
      *
-     * @param  mixed  ...$rules One or more rules, may be an array of strings or multiple strings
+     * @param  mixed  ...$rules  One or more rules, may be an array of strings or multiple strings
      * @return $this
      */
     public function rules(...$rules): self

@@ -8,34 +8,30 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        php: [8.2, 8.1, 8.0]
-        laravel: [10.*, 9.*]
+        php: [8.3, 8.2]
+        laravel: [11.0, 10.0]
         ssr: [true, false]
         dependency-version: [prefer-lowest, prefer-stable]
         include:
-          - laravel: 9.*
-            testbench: 7.*
-          - laravel: 10.*
+          - laravel: 11.0
+            testbench: 9.*
+          - laravel: 10.0
             testbench: 8.*
         exclude:
           - ssr: true
             dependency-version: prefer-lowest
           - ssr: true
-            php: 8.1
-          - ssr: true
-            php: 8.0
-          - laravel: 10.*
-            php: 8.0
+            php: 8.2
 
     name: Test P${{ matrix.php }} - L${{ matrix.laravel }} - SSR ${{ matrix.ssr }} - ${{ matrix.dependency-version }}
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3.5.3
+        uses: actions/checkout@v4.1.2
 
       - name: Cache node modules
         id: cache-npm
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         env:
           cache-name: cache-node-modules
         with:
@@ -77,10 +73,31 @@ jobs:
           cp public/1.jpeg storage/app/public/1.jpeg
           cp public/2.jpeg storage/app/public/2.jpeg
           touch database/database.sqlite
+          composer require laravel/framework:^${{ matrix.laravel }} --no-interaction --no-suggest
           composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction --no-suggest
-          npm run build
           php artisan storage:link
           php artisan migrate:fresh --seed
+
+      - name: Prepare L10
+        if: ${{ matrix.laravel == '10.0' }}
+        run: |
+          cd app
+          rm composer.lock
+          composer require illuminate/contracts:^10.48.2 spatie/phpunit-snapshot-assertions:^5.0 phpunit/phpunit:^10.4 nunomaduro/collision:^7.10 --no-interaction --no-suggest
+          composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction --no-suggest
+
+      - name: Prepare L11
+        if: ${{ matrix.laravel == '11.0' }}
+        run: |
+          cd app
+          rm composer.lock
+          composer require illuminate/contracts:^11.0.1 spatie/phpunit-snapshot-assertions:^5.0 phpunit/phpunit:^10.4 nunomaduro/collision:^8.1 --no-interaction --no-suggest
+          composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction --no-suggest
+
+      - name: Prepare tests
+        run: |
+          cd app
+          npm run build
           php artisan dusk:chrome-driver `/opt/google/chrome/chrome --version | cut -d " " -f3 | cut -d "." -f1`
 
       - name: Start Chrome Driver
@@ -88,10 +105,10 @@ jobs:
           cd app
           ./vendor/laravel/dusk/bin/chromedriver-linux &
 
-      - name: Start Laravel Websockets
+      - name: Start Laravel Reverb
         run: |
           cd app
-          php artisan websockets:serve &
+          php artisan reverb:start &
 
       - name: Start SSR server
         run: |
@@ -111,37 +128,37 @@ jobs:
           php artisan test
 
       - name: Execute Dusk tests (except table tests)
-        uses: nick-invision/retry@v2
+        uses: nick-invision/retry@v3
         with:
           timeout_minutes: 10
           max_attempts: 3
-          command: cd app && php artisan dusk --stop-on-error --stop-on-failure --exclude-group=table
+          command: cd app && php artisan dusk --stop-on-failure --stop-on-error --exclude-group=table
           on_retry_command: cd app && php artisan migrate:fresh --seed
 
       - name: Upload Screenshots
         if: failure()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: screenshots
           path: app/tests/Browser/screenshots
 
       - name: Upload Snapshots
         if: failure()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: snapshots
           path: app/tests/Browser/__snapshots__
 
       - name: Upload Console Logs
         if: failure()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: console
           path: app/tests/Browser/console
 
       - name: Upload Logs
         if: failure()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: logs
           path: app/storage/logs
