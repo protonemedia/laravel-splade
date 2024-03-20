@@ -29,7 +29,7 @@ class CustomBladeCompiler extends BladeCompiler
      */
     public static function regexForTag(string $tag): string
     {
-        return '/(<\s*' . $tag . '[^>]*>)(.|\n)*?(<\/' . $tag . '>)/';
+        return '/(<\s*' . $tag . '(?:"[^"]*"|\'[^\']*\'|[^\'">])*>)(.|\n)*?(<\/' . $tag . '>)/';
     }
 
     /**
