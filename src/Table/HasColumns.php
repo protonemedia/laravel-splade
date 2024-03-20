@@ -55,7 +55,7 @@ trait HasColumns
         callable|string|null $exportFormat = null,
         callable|array|null $exportStyling = null,
         callable|array|string|null $classes = null,
-        callable|null $as = null,
+        ?callable $as = null,
         string $alignment = 'left',
     ): self {
         $key   = $key   !== null ? $key : Str::kebab($label);
