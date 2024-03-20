@@ -175,9 +175,9 @@ class Form extends Component
     /**
      * Returns the resolved data but evualates it only once.
      */
-    public function resolveData(): ?object
+    public function resolveData(bool $fresh = false): ?object
     {
-        if ($this->resolvedData !== false) {
+        if (!$fresh && $this->resolvedData !== false) {
             return $this->resolvedData;
         }
 
@@ -418,7 +418,7 @@ class Form extends Component
     public function formData(): array
     {
         $data = [
-            'data' => $this->resolveData(),
+            'data' => $this->resolveData(true),
             'json' => $this->json,
         ];
 
