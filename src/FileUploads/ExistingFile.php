@@ -126,8 +126,6 @@ class ExistingFile implements Arrayable, JsonSerializable, Stringable
 
     /**
      * Returns an instance of ExistingFileFromDisk to load the file from a disk.
-     *
-     * @return \ProtoneMedia\Splade\FileUploads\ExistingFileFromDisk
      */
     public static function fromDisk(string $disk): ExistingFileFromDisk
     {
@@ -137,8 +135,6 @@ class ExistingFile implements Arrayable, JsonSerializable, Stringable
     /**
      * Returns an instance of ExistingFileFromDisk to load the file from a disk,
      * but without a preview.
-     *
-     * @return \ProtoneMedia\Splade\FileUploads\ExistingFileFromDisk
      */
     public static function fromDiskWithoutPreview(string $disk): ExistingFileFromDisk
     {
@@ -254,7 +250,7 @@ class ExistingFile implements Arrayable, JsonSerializable, Stringable
      *
      * @return string
      */
-    public function getMetadata(string $key = null)
+    public function getMetadata(?string $key = null)
     {
         return $key ? Arr::get($this->metadata, $key) : $this->metadata;
     }

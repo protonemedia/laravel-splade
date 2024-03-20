@@ -23,7 +23,7 @@ class Modal extends Component
         public bool $modal = false,
         public bool $slideover = false,
         public bool $opened = false,
-        public bool|null $closeExplicitly = null,
+        public ?bool $closeExplicitly = null,
     ) {
         if (!$modal && !$slideover) {
             $this->modal = true;

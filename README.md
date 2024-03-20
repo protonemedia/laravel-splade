@@ -12,6 +12,10 @@ Splade provides a **super easy** way to build ***Single Page Applications*** (SP
 [![Splade Discord Server](https://dcbadge.vercel.app/api/server/qGJ4MkMQWm?style=flat&theme=default-inverted)](https://discord.gg/qGJ4MkMQWm)
 [![GitHub Sponsors](https://img.shields.io/github/sponsors/pascalbaljet)](https://github.com/sponsors/pascalbaljet)
 
+## Update February 23, 2024: Thoughts on Splade
+
+After 18 months, I took a week to reflect on Splade and its future. Please read my [blog post](https://protone.media/en/blog/thoughts-on-splade-i-took-a-week-off-to-look-around-and-reflect) if you're interested in Splade!
+
 ## Sponsor Splade
 
 ❤️ We proudly support the community by developing Laravel packages and giving them away for free. If this package saves you time or if you're relying on it professionally, please consider [sponsoring the maintenance and development](https://github.com/sponsors/pascalbaljet). Keeping track of issues and pull requests takes time, but we're happy to help!
@@ -35,10 +39,6 @@ Splade gives you a massive head start when building applications. Navigate the d
 * Support for custom Blade and Vue components.
 * Support for existing Blade and Vue libraries.
 * Support for SSR (server-side rendering).
-
-## Demo App: Eddy Server Management
-
-To show off Splade's amazing capabilities, we've built a demo application that we actually use in production. The app is called **Eddy Server Management**, and it does exactly what it says on the tin: It provisions and manages servers and allows you to deploy PHP applications with zero downtime. You may find the source code on [GitHub](https://github.com/protonemedia/eddy-server-management) and the live application on [eddy.management](https://eddy.management).
 
 ## Discord, Documentation and Website
 

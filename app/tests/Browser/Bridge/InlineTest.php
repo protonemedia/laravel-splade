@@ -16,7 +16,7 @@ class InlineTest extends DuskTestCase
                 ->assertDontSeeIn('@ip', '.')
                 ->type('hostname', 'google.com')
                 ->press('Find IP')
-                ->waitForText('.', '@ip');
+                ->waitForTextIn('@ip', '.');
         });
     }
 }

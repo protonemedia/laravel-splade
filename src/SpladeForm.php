@@ -178,7 +178,7 @@ class SpladeForm
     /**
      * Prevent navigation on submit.
      *
-     * @param  string  $actionOnSuccess reset|restore
+     * @param  string  $actionOnSuccess  reset|restore
      * @return $this
      */
     public function stay(bool $stay = true, string $actionOnSuccess = ''): self
@@ -197,7 +197,6 @@ class SpladeForm
      * If one or morge fieldnames are provided in $watch_fields,
      * the form will only be submitted on changes on these fields.
      *
-     * @param  array|string|null  $watchFields
      * @return $this
      */
     public function submitOnChange(

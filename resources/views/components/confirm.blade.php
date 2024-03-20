@@ -32,7 +32,7 @@
                                             <input
                                                 type="password"
                                                 name="password"
-                                                placeholder="Password"
+                                                placeholder="{{ __('Password') }}"
                                                 v-on:change="confirm.setPassword($event.target.value)"
                                                 class="rounded-md block w-full border-0 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 disabled:opacity-50 disabled:bg-gray-50 disabled:cursor-not-allowed"
                                                 @keyup.enter="confirm.confirm"

@@ -2,6 +2,32 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 1.4.18 - 2024-03-18
+
+### What's Changed
+
+* Support for installing on fresh L11 installations by @pascalbaljet in https://github.com/protonemedia/laravel-splade/pull/557
+
+**Full Changelog**: https://github.com/protonemedia/laravel-splade/compare/1.4.17...1.4.18
+
+## 1.4.17 - 2024-03-18
+
+### What's Changed
+
+* Bump actions/checkout from 3.5.3 to 3.6.0 by @dependabot in https://github.com/protonemedia/laravel-splade/pull/512
+* Bump stefanzweifel/git-auto-commit-action from 4 to 5 by @dependabot in https://github.com/protonemedia/laravel-splade/pull/528
+* Bump actions/setup-node from 3 to 4 by @dependabot in https://github.com/protonemedia/laravel-splade/pull/530
+* Bump actions/checkout from 3.6.0 to 4.1.1 by @dependabot in https://github.com/protonemedia/laravel-splade/pull/531
+* Support for Laravel 11 and PHP 8.3 by @pascalbaljet in https://github.com/protonemedia/laravel-splade/pull/553
+
+**Full Changelog**: https://github.com/protonemedia/laravel-splade/compare/1.4.16...1.4.17
+
+## 1.4.16 - 2023-08-03
+
+- SEO bugfix for overwriting defaults
+- Workaround for missing Remote URL
+- Fixed Dusk CI tests
+
 ## 1.4.15 - 2023-06-26
 
 - The Table component now preserves the scroll position when the sorting changes.

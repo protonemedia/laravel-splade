@@ -24,9 +24,13 @@ trait OpenGraph
      *
      * @return void
      */
-    protected function autoFillOpenGraph()
+    protected function autoFillOpenGraph(bool $overwrite = false)
     {
         if (!config('splade.seo.open_graph.auto_fill')) {
+            return;
+        }
+
+        if (!$overwrite && $this->getMetaByProperty('og:title')->first()?->content) {
             return;
         }
 

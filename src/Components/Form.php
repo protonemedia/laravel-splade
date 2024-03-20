@@ -19,8 +19,8 @@ use ProtoneMedia\Splade\Transformer;
 
 class Form extends Component
 {
-    use ParsesJsonDataAttribute;
     use InteractsWithFormElement;
+    use ParsesJsonDataAttribute;
 
     public string $spladeId;
 
@@ -366,6 +366,7 @@ class Form extends Component
             return $relation->getBaseQuery()
                 ->get($relation->getRelated()->qualifyColumn($relatedKeyName))
                 ->pluck($relatedKeyName)
+                ->map(fn ($key) => (string) $key)
                 ->all();
         }
 
@@ -375,6 +376,7 @@ class Form extends Component
             return $relation->getBaseQuery()
                 ->get($relation->getQuery()->qualifyColumn($parentKeyName))
                 ->pluck($parentKeyName)
+                ->map(fn ($key) => (string) $key)
                 ->all();
         }
 

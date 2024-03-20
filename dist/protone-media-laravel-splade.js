@@ -1029,9 +1029,9 @@ function Z({ visible: e = !0, features: t = 0, ourProps: r, theirProps: n, ...i 
     return dr(o);
   if (t & 1) {
     let l = (s = a.unmount) == null || s ? 0 : 1;
-    return fe(l, { [0]() {
+    return fe(l, { 0() {
       return null;
-    }, [1]() {
+    }, 1() {
       return dr({ ...i, props: { ...a, hidden: !0, style: { display: "none" } } });
     } });
   }
@@ -1165,9 +1165,9 @@ function eu(e = document.body) {
 var Ni = ((e) => (e[e.Strict = 0] = "Strict", e[e.Loose = 1] = "Loose", e))(Ni || {});
 function tu(e, t = 0) {
   var r;
-  return e === ((r = Tt(e)) == null ? void 0 : r.body) ? !1 : fe(t, { [0]() {
+  return e === ((r = Tt(e)) == null ? void 0 : r.body) ? !1 : fe(t, { 0() {
     return e.matches(br);
-  }, [1]() {
+  }, 1() {
     let n = e;
     for (; n !== null; ) {
       if (n.matches(br))
@@ -6212,7 +6212,7 @@ const Op = /* @__PURE__ */ _e(bp, [["render", Sp]]), $p = {
       }), Cr.init(t.progress_bar);
     }
     t.suppress_compile_errors && (e.config.compilerOptions.onError = (n) => {
-      import("./CompilerErrorMessages-4a55bbec.js").then((i) => {
+      import("./CompilerErrorMessages-6b34f14b.js").then((i) => {
         console.error({
           message: i.default[n.code] || "Unknown compiler error",
           lineNumber: n.lineNumber,
