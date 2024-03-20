@@ -1,6 +1,6 @@
 {
   "name": "@protonemedia/laravel-splade",
-  "version": "1.4.16",
+  "version": "1.4.19",
   "description": "Laravel Splade: the magic of Inertia.js with the simplicity of Blade.",
   "private": false,
   "author": "Pascal Baljet <pascal@protone.media>",
