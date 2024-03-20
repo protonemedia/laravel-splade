@@ -375,22 +375,51 @@ class Form extends Component
     {
         // Eager load the relation if not, to avoid duplicate queries
         if (!$this->model->relationLoaded($relationName)) {
-            $this->model->load($relationName);
+            return $this->queryAttachedKeysFromRelation($relationName);
         }
 
-        $loadedRelation = $this->model->{$relationName};
+        $relationInstance = $this->model->{$relationName}();
 
-        // Get relationship method to check type
+        $relationValue = $this->model->{$relationName};
+
+        if ($relationInstance instanceof BelongsToMany) {
+            return $relationValue->pluck($relationInstance->getRelatedKeyName())
+                ->map(fn ($key) => (string) $key)
+                ->all();
+        }
+
+        if ($relationInstance instanceof MorphMany) {
+            return $relationValue->pluck($relationInstance->getLocalKeyName())
+                ->map(fn ($key) => (string) $key)
+                ->all();
+        }
+
+        return [];
+    }
+
+    /**
+     * Queries the attached keys from the given relationship.
+     */
+    private function queryAttachedKeysFromRelation(string $relationName): ?array
+    {
         $relation = $this->model->{$relationName}();
 
         if ($relation instanceof BelongsToMany) {
-            return $loadedRelation->pluck($relation->getRelatedKeyName())
+            $relatedKeyName = $relation->getRelatedKeyName();
+
+            return $relation->getBaseQuery()
+                ->get($relation->getRelated()->qualifyColumn($relatedKeyName))
+                ->pluck($relatedKeyName)
                 ->map(fn ($key) => (string) $key)
                 ->all();
         }
 
         if ($relation instanceof MorphMany) {
-            return $loadedRelation->pluck($relation->getLocalKeyName())
+            $parentKeyName = $relation->getLocalKeyName();
+
+            return $relation->getBaseQuery()
+                ->get($relation->getQuery()->qualifyColumn($parentKeyName))
+                ->pluck($parentKeyName)
                 ->map(fn ($key) => (string) $key)
                 ->all();
         }
