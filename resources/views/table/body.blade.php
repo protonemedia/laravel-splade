@@ -29,7 +29,15 @@
                         @click="(event) => table.visit(@js($table->rowLinks->get($itemKey)), @js($table->rowLinkType), event)"
                     @endif
                     v-show="table.columnIsVisible(@js($column->key))"
-                    class="whitespace-nowrap text-sm @if($loop->first && $hasBulkActions) pr-6 @else px-6 @endif py-4 @if($column->highlight) text-gray-900 font-medium @else text-gray-500 @endif @if($table->rowLinks->has($itemKey)) cursor-pointer @endif @php echo is_callable($column->classes) ? call_user_func($column->classes, $getColumnDataFromItem($item, $column), $item) : $column->classes; @endphp"
+                    @class([
+                        'whitespace-nowrap text-sm py-4' => true,
+                        $column->resolveClasses($item) => true,
+                        'pr-6' => $loop->first && $hasBulkActions,
+                        'px-6' => !($loop->first && $hasBulkActions),
+                        'text-gray-900 font-medium' => $column->highlight,
+                        'text-gray-500' => !$column->highlight,
+                        'cursor-pointer' => $table->rowLinks->has($itemKey),
+                    ])
                 >
                     <div class="flex flex-row items-center @if($column->alignment == 'right') justify-end @elseif($column->alignment == 'center') justify-center @else justify-start @endif">
                         @isset(${'spladeTableCell' . $column->keyHash()})

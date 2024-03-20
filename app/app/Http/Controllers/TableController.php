@@ -18,12 +18,17 @@ class TableController
         $resource = $spladeQueryBuilder ? $query : $query->paginate(10);
 
         $table = SpladeTable::for($resource)
-            ->column('name')
-            ->column('email', as: function ($email, $user) {
-                if ($email === $user->email) {
-                    return strrev($email);
-                }
-            });
+            ->column('name', classes: 'font-bold')
+            ->column(
+                'email',
+                classes: function ($data = null, $item = null) {
+                    return $data ? 'font-bold' : 'italic';
+                },
+                as: function ($email, $user) {
+                    if ($email === $user->email) {
+                        return strrev($email);
+                    }
+                });
 
         if ($spladeQueryBuilder) {
             $table->paginate(10);

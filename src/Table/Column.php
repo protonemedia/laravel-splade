@@ -7,7 +7,6 @@ use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
-use Orchestra\Workbench\Recipes\AssetPublishCommand;
 
 class Column implements Arrayable
 {
@@ -29,7 +28,7 @@ class Column implements Arrayable
         public Closure|string|null $exportFormat = null,
         public Closure|array|null $exportStyling = null,
         public Closure|array|string|null $classes = null,
-        public Closure|null $as = null,
+        public ?Closure $as = null,
         public string $alignment = 'left',
     ) {
         if (!is_callable($classes)) {
@@ -80,6 +79,28 @@ class Column implements Arrayable
             'highlight'     => $this->highlight,
             'alignment'     => $this->alignment,
         ];
+    }
+
+    /**
+     * Resolve the column classes for the given item.
+     */
+    public function resolveClasses(mixed $item = null): string
+    {
+        if (is_callable($this->classes)) {
+            $classes = call_user_func(
+                $this->classes,
+                $item ? $this->getDataFromItem($item) : null,
+                $item,
+            ) ?? '';
+
+            if (is_array($classes)) {
+                $classes = Arr::flatten($classes);
+            }
+
+            return Arr::toCssClasses($classes);
+        }
+
+        return $this->classes;
     }
 
     /**
