@@ -19,8 +19,8 @@ use ProtoneMedia\Splade\Transformer;
 
 class Form extends Component
 {
-    use ParsesJsonDataAttribute;
     use InteractsWithFormElement;
+    use ParsesJsonDataAttribute;
 
     public string $spladeId;
 
@@ -369,16 +369,14 @@ class Form extends Component
         $relation = $this->model->{$relationName}();
 
         if ($relation instanceof BelongsToMany) {
-            $relatedKeyName = $relation->getRelatedKeyName();
-
-            return $loadedRelation->pluck($relatedKeyName)
+            return $loadedRelation->pluck($relation->getRelatedKeyName())
+                ->map(fn ($key) => (string) $key)
                 ->all();
         }
 
         if ($relation instanceof MorphMany) {
-            $parentKeyName = $relation->getLocalKeyName();
-
-            return $loadedRelation->pluck($parentKeyName)
+            return $loadedRelation->pluck($relation->getLocalKeyName())
+                ->map(fn ($key) => (string) $key)
                 ->all();
         }
 

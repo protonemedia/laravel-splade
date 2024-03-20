@@ -22,9 +22,9 @@ class Select extends Component
 
     protected string $optionValue = '';
 
-    protected bool|null $resetOnNewRemoteUrl = null;
+    protected ?bool $resetOnNewRemoteUrl = null;
 
-    protected bool|null $selectFirstRemoteOption = null;
+    protected ?bool $selectFirstRemoteOption = null;
 
     public function options(array $options = []): self
     {

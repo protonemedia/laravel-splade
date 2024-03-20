@@ -264,7 +264,7 @@ class ModalTest extends DuskTestCase
         });
     }
 
-    public function sizeAndPixels()
+    public static function sizeAndPixels()
     {
         return [
             ['sm', 384],

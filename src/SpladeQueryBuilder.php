@@ -37,7 +37,7 @@ class SpladeQueryBuilder extends SpladeTable
      * Initializes this instance with an empty resource. The results will be
      * loaded when the Table components calls the beforeRender() method.
      */
-    public function __construct(private BaseQueryBuilder|EloquentBuilder|SpatieQueryBuilder $builder, Request $request = null)
+    public function __construct(private BaseQueryBuilder|EloquentBuilder|SpatieQueryBuilder $builder, ?Request $request = null)
     {
         parent::__construct([], $request);
     }
@@ -209,7 +209,7 @@ class SpladeQueryBuilder extends SpladeTable
             );
         }
 
-        if (!method_exists($this->builder->getModel(), 'scopeOrderByLeftPowerJoins')) {
+        if (!trait_uses_recursive($this->builder->getModel(), PowerJoins::class)) {
             throw new PowerJoinsException(
                 "To order the query using a column from a relationship, make sure the Model uses the 'PowerJoins' trait."
             );

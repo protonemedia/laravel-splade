@@ -21,13 +21,13 @@ use Spatie\QueryBuilder\QueryBuilder as SpatieQueryBuilder;
 
 class SpladeTable
 {
+    use Conditionable;
     use HasBulkActions;
     use HasColumns;
     use HasExports;
     use HasFilters;
     use HasResource;
     use HasSearchInputs;
-    use Conditionable;
 
     const DEFAULT_NAME = 'default';
 
@@ -60,7 +60,7 @@ class SpladeTable
      *
      * @param  mixed  $resource
      */
-    public function __construct($resource, Request $request = null)
+    public function __construct($resource, ?Request $request = null)
     {
         $this->request = $request ?: request();
 

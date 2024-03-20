@@ -43,8 +43,8 @@ class Select extends Component
         public string $optionValue = '',
         public string $optionLabel = '',
         public string $scope = 'select',
-        public bool|null $resetOnNewRemoteUrl = null,
-        public bool|null $selectFirstRemoteOption = null,
+        public ?bool $resetOnNewRemoteUrl = null,
+        public ?bool $selectFirstRemoteOption = null,
     ) {
         if ($placeholder === true) {
             $this->placeholder = __('Search') . '...';
@@ -65,7 +65,7 @@ class Select extends Component
             $this->validationKey = static::dottedName($name);
         }
 
-        if (!Str::startsWith($remoteUrl, '`') && !Str::endsWith($remoteUrl, '`')) {
+        if (Str::substrCount($remoteUrl, '`') < 2) {
             $this->remoteUrl = Js::from($remoteUrl);
         }
 
@@ -197,8 +197,6 @@ class Select extends Component
 
     /**
      * Returns the placeholder option when necessary.
-     *
-     * @return \ProtoneMedia\Splade\FormSelectOption
      */
     public function placeholderOption(): ?FormSelectOption
     {
