@@ -304,7 +304,6 @@ class SpladeForm
     /**
      * Handle server response as a blob to allow downloading files.
      *
-     * @param  bool  $blob
      * @return $this
      */
     public function blob(bool $blob = true): self
@@ -313,5 +312,4 @@ class SpladeForm
 
         return $this;
     }
-
 }
