@@ -36,10 +36,10 @@
                             'text-red-800' => $isDanger,
                             'text-blue-800' => $isInfo,
                         ])>
-                           {!! nl2br(e($title ?: $message)) !!}
+                            {{ $title->isNotEmpty() ? $title : $message }}
                         </h3>
 
-                        @if($title && $message)
+                        @if($title->isNotEmpty() && $message->isNotEmpty())
                             <div @class([
                                 'mt-2 text-sm',
                                 'text-green-700' => $isSuccess,
@@ -47,7 +47,7 @@
                                 'text-red-700' => $isDanger,
                                 'text-blue-700' => $isInfo,
                             ])>
-                                <p>{!! nl2br(e($message)) !!}</p>
+                                <p>{{ $message }}</p>
                             </div>
                         @endif
                     </div>
