@@ -3,6 +3,7 @@
 namespace ProtoneMedia\Splade;
 
 use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Support\HtmlString;
 use JsonSerializable;
 
 class SpladeToast implements Arrayable, JsonSerializable
@@ -29,14 +30,16 @@ class SpladeToast implements Arrayable, JsonSerializable
      * Creates a new toast instance.
      */
     public function __construct(
-        private string $message,
-        private string $title = '',
+        private HtmlString|string $message,
+        private HtmlString|string $title = '',
         private string $style = 'success',
         private string $positionX = 'right',
         private string $positionY = 'top',
         private bool $backdrop = false,
         private ?int $autoDismiss = null,
     ) {
+        $this->message($message);
+        $this->title($title);
     }
 
     /**
@@ -44,8 +47,16 @@ class SpladeToast implements Arrayable, JsonSerializable
      *
      * @return $this
      */
-    public function title(string $title): self
+    public function title(HtmlString|string $title = ''): self
     {
+        if ($title instanceof HtmlString && trim($title->toHtml()) === '') {
+            $title = '';
+        }
+
+        if (is_string($title)) {
+            $title = new HtmlString(nl2br(e($title)));
+        }
+
         $this->title = $title;
 
         return $this;
@@ -56,9 +67,13 @@ class SpladeToast implements Arrayable, JsonSerializable
      *
      * @return $this
      */
-    private function optionalMessage(string $message): self
+    private function optionalMessage(HtmlString|string $message = ''): self
     {
-        if (trim($message) === '') {
+        if (is_string($message) && trim($message) === '') {
+            return $this;
+        }
+
+        if ($message instanceof HtmlString && trim($message->toHtml()) === '') {
             return $this;
         }
 
@@ -70,8 +85,16 @@ class SpladeToast implements Arrayable, JsonSerializable
      *
      * @return $this
      */
-    public function message(string $message): self
+    public function message(HtmlString|string $message = ''): self
     {
+        if ($message instanceof HtmlString && trim($message->toHtml()) === '') {
+            $message = '';
+        }
+
+        if (is_string($message)) {
+            $message = new HtmlString(nl2br(e($message)));
+        }
+
         $this->message = $message;
 
         return $this;
@@ -119,7 +142,7 @@ class SpladeToast implements Arrayable, JsonSerializable
      *
      * @return $this
      */
-    public function leftTop(string $message = ''): self
+    public function leftTop(HtmlString|string $message = ''): self
     {
         return $this
             ->optionalMessage($message)
@@ -131,7 +154,7 @@ class SpladeToast implements Arrayable, JsonSerializable
      *
      * @return $this
      */
-    public function centerTop(string $message = ''): self
+    public function centerTop(HtmlString|string $message = ''): self
     {
         return $this
             ->optionalMessage($message)
@@ -143,7 +166,7 @@ class SpladeToast implements Arrayable, JsonSerializable
      *
      * @return $this
      */
-    public function rightTop(string $message = ''): self
+    public function rightTop(HtmlString|string $message = ''): self
     {
         return $this
             ->optionalMessage($message)
@@ -155,7 +178,7 @@ class SpladeToast implements Arrayable, JsonSerializable
      *
      * @return $this
      */
-    public function leftCenter(string $message = ''): self
+    public function leftCenter(HtmlString|string $message = ''): self
     {
         return $this
             ->optionalMessage($message)
@@ -167,7 +190,7 @@ class SpladeToast implements Arrayable, JsonSerializable
      *
      * @return $this
      */
-    public function center(string $message = ''): self
+    public function center(HtmlString|string $message = ''): self
     {
         return $this
             ->optionalMessage($message)
@@ -179,7 +202,7 @@ class SpladeToast implements Arrayable, JsonSerializable
      *
      * @return $this
      */
-    public function rightCenter(string $message = ''): self
+    public function rightCenter(HtmlString|string $message = ''): self
     {
         return $this
             ->optionalMessage($message)
@@ -191,7 +214,7 @@ class SpladeToast implements Arrayable, JsonSerializable
      *
      * @return $this
      */
-    public function leftBottom(string $message = ''): self
+    public function leftBottom(HtmlString|string $message = ''): self
     {
         return $this
             ->optionalMessage($message)
@@ -203,7 +226,7 @@ class SpladeToast implements Arrayable, JsonSerializable
      *
      * @return $this
      */
-    public function centerBottom(string $message = ''): self
+    public function centerBottom(HtmlString|string $message = ''): self
     {
         return $this
             ->optionalMessage($message)
@@ -215,7 +238,7 @@ class SpladeToast implements Arrayable, JsonSerializable
      *
      * @return $this
      */
-    public function rightBottom(string $message = ''): self
+    public function rightBottom(HtmlString|string $message = ''): self
     {
         return $this
             ->optionalMessage($message)
@@ -227,7 +250,7 @@ class SpladeToast implements Arrayable, JsonSerializable
      *
      * @return $this
      */
-    public function info(string $message = ''): self
+    public function info(HtmlString|string $message = ''): self
     {
         return $this
             ->optionalMessage($message)
@@ -239,7 +262,7 @@ class SpladeToast implements Arrayable, JsonSerializable
      *
      * @return $this
      */
-    public function success(string $message = ''): self
+    public function success(HtmlString|string $message = ''): self
     {
         return $this
             ->optionalMessage($message)
@@ -251,7 +274,7 @@ class SpladeToast implements Arrayable, JsonSerializable
      *
      * @return $this
      */
-    public function warning(string $message = ''): self
+    public function warning(HtmlString|string $message = ''): self
     {
         return $this
             ->optionalMessage($message)
@@ -263,7 +286,7 @@ class SpladeToast implements Arrayable, JsonSerializable
      *
      * @return $this
      */
-    public function danger(string $message = ''): self
+    public function danger(HtmlString|string $message = ''): self
     {
         return $this
             ->optionalMessage($message)
@@ -275,7 +298,7 @@ class SpladeToast implements Arrayable, JsonSerializable
      *
      * @return $this
      */
-    public function style(string $style): self
+    public function style(HtmlString|string $style): self
     {
         $this->style = $style;
 

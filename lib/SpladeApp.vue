@@ -275,15 +275,14 @@ const onHtml = (newHtml, scrollY) => {
     });
 };
 
-Splade.setOnHtml((newHtml, scrollY) => {
-    // Fallback for browsers that don't support this API:
-    if (Splade.isSsr || !document.startViewTransition || !$spladeOptions.view_transitions) {
-        onHtml(newHtml, scrollY);
-        return;
+Splade.setOnHtml((newHtml, scrollY, animate) => {
+    if (!Splade.isSsr && document.startViewTransition && $spladeOptions.view_transitions && animate) {
+        // With a transition:
+        return document.startViewTransition(() => onHtml(newHtml, scrollY));
     }
 
-    // With a transition:
-    document.startViewTransition(() => onHtml(newHtml, scrollY));
+    // SSR, no animation configruation, and fallback for unsupported browsers:
+    onHtml(newHtml, scrollY, false);
 });
 
 /**

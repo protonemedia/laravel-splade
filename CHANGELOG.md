@@ -2,6 +2,64 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 1.4.19 - 2024-03-20
+
+### What's Changed
+
+* Bump aglipanci/laravel-pint-action from 2.3.0 to 2.3.1 by @dependabot in https://github.com/protonemedia/laravel-splade/pull/562
+* Bump nick-invision/retry from 2 to 3 by @dependabot in https://github.com/protonemedia/laravel-splade/pull/558
+* Bump actions/upload-artifact from 3 to 4 by @dependabot in https://github.com/protonemedia/laravel-splade/pull/559
+* Bump actions/cache from 3 to 4 by @dependabot in https://github.com/protonemedia/laravel-splade/pull/560
+* Bump actions/checkout from 4.1.1 to 4.1.2 by @dependabot in https://github.com/protonemedia/laravel-splade/pull/561
+* fix: missing translation in confirm.blade.php by @ibrunotome in https://github.com/protonemedia/laravel-splade/pull/496
+* Add blob option for Form Builder by @jamesj2 in https://github.com/protonemedia/laravel-splade/pull/461
+* Fix select duplicate queries by @KinArnaud in https://github.com/protonemedia/laravel-splade/pull/466
+* Support for `HtmlString` in Toasts by @pascalbaljet in https://github.com/protonemedia/laravel-splade/pull/563
+* Fix formbuilder events by @jamesj2 in https://github.com/protonemedia/laravel-splade/pull/479
+* #450: updated HTML tag matching Regexp in CustomBladeCompiler.php by @majortom731 in https://github.com/protonemedia/laravel-splade/pull/451
+
+### New Contributors
+
+* @ibrunotome made their first contribution in https://github.com/protonemedia/laravel-splade/pull/496
+* @jamesj2 made their first contribution in https://github.com/protonemedia/laravel-splade/pull/461
+* @majortom731 made their first contribution in https://github.com/protonemedia/laravel-splade/pull/451
+
+**Full Changelog**: https://github.com/protonemedia/laravel-splade/compare/1.4.18...1.4.19
+
+## 1.4.18 - 2024-03-18
+
+### What's Changed
+
+* Support for installing on fresh L11 installations by @pascalbaljet in https://github.com/protonemedia/laravel-splade/pull/557
+
+**Full Changelog**: https://github.com/protonemedia/laravel-splade/compare/1.4.17...1.4.18
+
+## 1.4.17 - 2024-03-18
+
+### What's Changed
+
+* Bump actions/checkout from 3.5.3 to 3.6.0 by @dependabot in https://github.com/protonemedia/laravel-splade/pull/512
+* Bump stefanzweifel/git-auto-commit-action from 4 to 5 by @dependabot in https://github.com/protonemedia/laravel-splade/pull/528
+* Bump actions/setup-node from 3 to 4 by @dependabot in https://github.com/protonemedia/laravel-splade/pull/530
+* Bump actions/checkout from 3.6.0 to 4.1.1 by @dependabot in https://github.com/protonemedia/laravel-splade/pull/531
+* Support for Laravel 11 and PHP 8.3 by @pascalbaljet in https://github.com/protonemedia/laravel-splade/pull/553
+
+**Full Changelog**: https://github.com/protonemedia/laravel-splade/compare/1.4.16...1.4.17
+
+## 1.4.16 - 2023-08-03
+
+- SEO bugfix for overwriting defaults
+- Workaround for missing Remote URL
+- Fixed Dusk CI tests
+
+## 1.4.15 - 2023-06-26
+
+- The Table component now preserves the scroll position when the sorting changes.
+- The Link component now respects system modifiers, for example, to open a new tab.
+- There's a new `pagination-scroll` attribute on the Table component to control the scroll behavior when using pagination. Valid values are `top` (default), `head`, and `preserve`.
+- You may now disable the *Reset-button* on the Table component with the `reset-button` attribute.
+- When using View Transitions, it will prevent a transition when the page just refreshes.
+
 ## 1.4.14 - 2023-06-14
 
 - Downgraded the HeadlessUI library because of a bug in the upstream package

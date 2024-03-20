@@ -9,7 +9,6 @@ use Illuminate\Routing\Middleware\ValidateSignature;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Lang;
-use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use Illuminate\Support\Str;
@@ -546,7 +545,6 @@ class ServiceProvider extends BaseServiceProvider
     /**
      * Adds the default transitions to the repository.
      *
-     * @param  \ProtoneMedia\Splade\TransitionRepository  $transitionRepository
      * @return void
      */
     public static function registerTransitionAnimations(TransitionRepository $transitionRepository)

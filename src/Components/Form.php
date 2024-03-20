@@ -19,8 +19,8 @@ use ProtoneMedia\Splade\Transformer;
 
 class Form extends Component
 {
-    use ParsesJsonDataAttribute;
     use InteractsWithFormElement;
+    use ParsesJsonDataAttribute;
 
     public string $spladeId;
 
@@ -30,6 +30,7 @@ class Form extends Component
 
     private $json;
 
+    /** @var Model|null */
     private $model;
 
     private static $defaultGuardAttributes = true;
@@ -41,6 +42,8 @@ class Form extends Component
     private static $guardWhenCallable = null;
 
     private static $instances = [];
+
+    private $resolvedData = false;
 
     /**
      * Create a new component instance.
@@ -170,6 +173,20 @@ class Form extends Component
     }
 
     /**
+     * Returns the resolved data but evualates it only once.
+     */
+    public function resolveData(bool $fresh = false): ?object
+    {
+        if (!$fresh && $this->resolvedData !== false) {
+            return $this->resolvedData;
+        }
+
+        $this->resolvedData = $this->guardedData() ?: $this->defaultData();
+
+        return $this->resolvedData;
+    }
+
+    /**
      * This is a workaround for https://github.com/vuejs/core/issues/5339
      *
      * Is returns a boolean whether the given value is selected
@@ -183,12 +200,10 @@ class Form extends Component
             return false;
         }
 
+        /** @var Form */
         $instance = Arr::last(static::$instances);
 
-        $data = data_get(
-            $instance->guardedData() ?: $instance->defaultData(),
-            static::dottedName($name)
-        );
+        $data = data_get($instance->resolveData(), static::dottedName($name));
 
         return is_array($data)
             ? in_array($value, $data, true)
@@ -358,23 +373,19 @@ class Form extends Component
      */
     private function getAttachedKeysFromRelation(string $relationName): ?array
     {
-        $relation = $this->model->{$relationName}();
+        $relationInstance = $this->model->{$relationName}();
 
-        if ($relation instanceof BelongsToMany) {
-            $relatedKeyName = $relation->getRelatedKeyName();
+        $relationValue = $this->model->{$relationName};
 
-            return $relation->getBaseQuery()
-                ->get($relation->getRelated()->qualifyColumn($relatedKeyName))
-                ->pluck($relatedKeyName)
+        if ($relationInstance instanceof BelongsToMany) {
+            return $relationValue->pluck($relationInstance->getRelatedKeyName())
+                ->map(fn ($key) => (string) $key)
                 ->all();
         }
 
-        if ($relation instanceof MorphMany) {
-            $parentKeyName = $relation->getLocalKeyName();
-
-            return $relation->getBaseQuery()
-                ->get($relation->getQuery()->qualifyColumn($parentKeyName))
-                ->pluck($parentKeyName)
+        if ($relationInstance instanceof MorphMany) {
+            return $relationValue->pluck($relationInstance->getLocalKeyName())
+                ->map(fn ($key) => (string) $key)
                 ->all();
         }
 
@@ -401,7 +412,7 @@ class Form extends Component
     public function formData(): array
     {
         $data = [
-            'data' => $this->guardedData() ?: $this->defaultData(),
+            'data' => $this->resolveData(true),
             'json' => $this->json,
         ];
 

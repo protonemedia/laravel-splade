@@ -37,8 +37,8 @@ trait HasSearchInputs
      */
     public function searchInput(
         array|string $key,
-        string $label = null,
-        string $defaultValue = null,
+        ?string $label = null,
+        ?string $defaultValue = null,
         array $columns = []
     ): self {
         if (empty($columns)) {
@@ -65,10 +65,8 @@ trait HasSearchInputs
 
     /**
      * Returns all Search Inputs, or finds on when $key is not empty.
-     *
-     * @return \Illuminate\Support\Collection|\ProtoneMedia\Splade\Table\SearchInput|null
      */
-    public function searchInputs(string $key = null): Collection|SearchInput|null
+    public function searchInputs(?string $key = null): Collection|SearchInput|null
     {
         $filters = $this->query('filter', []);
 
@@ -121,7 +119,7 @@ trait HasSearchInputs
      *
      * @return $this
      */
-    public function withGlobalSearch(string $label = null, array $columns = []): self
+    public function withGlobalSearch(?string $label = null, array $columns = []): self
     {
         return $this->searchInput(
             key: SpladeTable::GLOBAL_SEARCH_KEY,

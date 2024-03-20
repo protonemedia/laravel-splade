@@ -178,7 +178,7 @@ class SpladeForm
     /**
      * Prevent navigation on submit.
      *
-     * @param  string  $actionOnSuccess reset|restore
+     * @param  string  $actionOnSuccess  reset|restore
      * @return $this
      */
     public function stay(bool $stay = true, string $actionOnSuccess = ''): self
@@ -197,7 +197,6 @@ class SpladeForm
      * If one or morge fieldnames are provided in $watch_fields,
      * the form will only be submitted on changes on these fields.
      *
-     * @param  array|string|null  $watchFields
      * @return $this
      */
     public function submitOnChange(
@@ -300,5 +299,17 @@ class SpladeForm
         $request = $request ?? request();
 
         return $request->validate($this->getRules(), ...$params);
+    }
+
+    /**
+     * Handle server response as a blob to allow downloading files.
+     *
+     * @return $this
+     */
+    public function blob(bool $blob = true): self
+    {
+        $this->options['blob'] = $blob;
+
+        return $this;
     }
 }

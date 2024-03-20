@@ -125,7 +125,7 @@ class SpladeMiddleware
      *
      * @return void
      */
-    public static function afterOriginalResponse(Closure $callback = null)
+    public static function afterOriginalResponse(?Closure $callback = null)
     {
         static::$afterOriginalResponseCallback = $callback;
     }
@@ -444,6 +444,7 @@ class SpladeMiddleware
             ),
             preventRefresh: $this->splade->dontRefreshPage(),
             preserveScroll: $this->splade->preserveScroll(),
+            preventViewTransition: $this->splade->preventViewTransition(),
             lazy: $this->splade->isLazyRequest(),
             rehydrate: $this->splade->isRehydrateRequest(),
             persistentLayout: $this->splade->getPersistentLayoutKey(),

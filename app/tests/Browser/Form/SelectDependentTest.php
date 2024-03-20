@@ -7,7 +7,7 @@ use Tests\DuskTestCase;
 
 class SelectDependentTest extends DuskTestCase
 {
-    public function dependentUrls()
+    public static function dependentUrls()
     {
         return [
             ['form/components/selectAsync/dependent'],

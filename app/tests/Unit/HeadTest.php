@@ -80,6 +80,38 @@ class HeadTest extends TestCase
     }
 
     /** @test */
+    public function it_can_fill_the_twitter_defaults()
+    {
+        config([
+            'splade.seo.defaults.title'       => 'Default Title',
+            'splade.seo.defaults.description' => 'Default Description',
+            'splade.seo.twitter.auto_fill'    => true,
+            'splade.seo.twitter.title'        => null,
+            'splade.seo.twitter.description'  => null,
+        ]);
+
+        $head = new Head;
+
+        $this->assertEquals($head->getMetaByName('twitter:title')->first()->content, 'Default Title');
+        $this->assertEquals($head->getMetaByName('twitter:description')->first()->content, 'Default Description');
+
+    }
+
+    /** @test */
+    public function it_can_fill_the_open_graph_defaults()
+    {
+        config([
+            'splade.seo.open_graph.auto_fill' => true,
+            'splade.seo.defaults.title'       => 'Default Title',
+            'splade.seo.open_graph.title'     => null,
+        ]);
+
+        $head = new Head;
+
+        $this->assertEquals($head->getMetaByProperty('og:title')->first()->content, 'Default Title');
+    }
+
+    /** @test */
     public function it_can_fill_the_twitter_defaults_and_then_auto_fills()
     {
         config([

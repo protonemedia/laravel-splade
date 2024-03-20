@@ -6,9 +6,11 @@
     :items-on-this-page="@js($table->totalOnThisPage())"
     :items-on-all-pages="@js($table->totalOnAllPages())"
     :base-url="@js(request()->url())"
+    :pagination-scroll="@js($paginationScroll)"
+    :splade-id="@js($spladeId = $table->getSpladeId())"
 >
     <template #default="{!! $scope !!}">
-        <div {{ $attributes->only('class') }} :class="{ 'opacity-50': table.isLoading }">
+        <div {{ $attributes->only('class') }} :class="{ 'opacity-50': table.isLoading }" data-splade-id="{{ $spladeId }}">
             @if($hasControls())
                 @include('splade::table.controls')
             @endif

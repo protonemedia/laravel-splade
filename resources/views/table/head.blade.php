@@ -12,7 +12,7 @@
                 class="@if($loop->first && $hasBulkActions) pr-6 @else px-6 @endif py-3 text-left text-xs font-medium tracking-wide text-gray-500 {{ $column->classes }}"
             >
                 @if($column->sortable)
-                    <Link keep-modal dusk="sort-{{ $column->key }}" href="{{ $sortBy($column) }}">
+                    <a @click.exact.prevent="table.navigate(@js($sortByUrl = $sortBy($column)))" dusk="sort-{{ $column->key }}" href="{{ $sortByUrl }}">
                 @endif
 
                 <span class="flex flex-row items-center @if($column->alignment == 'right') justify-end @elseif($column->alignment == 'center') justify-center @else justify-start @endif">
@@ -32,7 +32,7 @@
                 </span>
 
                 @if($column->sortable)
-                    </Link>
+                    </a>
                 @endif
             </th>
         @endforeach

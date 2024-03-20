@@ -15,19 +15,19 @@ class BulkAction
     /**
      * This class represents a bulk action within a Splade Table.
      *
-     * @param  bool|string  $confirm = '',
-     * @param  string  $confirmText = '',
-     * @param  string  $confirmButton = '',
-     * @param  string  $cancelButton = '',
-     * @param  bool  $requirePassword = '',
+     * @param  bool|string  $confirm  = '',
+     * @param  string  $confirmText  = '',
+     * @param  string  $confirmButton  = '',
+     * @param  string  $cancelButton  = '',
+     * @param  bool  $requirePassword  = '',
      */
     public function __construct(
         public string $key,
         public string $label,
         public string $tableClass,
-        public Closure|null $beforeCallback = null,
-        public Closure|null $eachCallback = null,
-        public Closure|null $afterCallback = null,
+        public ?Closure $beforeCallback = null,
+        public ?Closure $eachCallback = null,
+        public ?Closure $afterCallback = null,
         public bool|string $confirm = '',
         public string $confirmText = '',
         public string $confirmButton = '',
