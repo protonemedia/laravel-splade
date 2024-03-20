@@ -8,6 +8,7 @@ use Illuminate\Foundation\Exceptions\Handler;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use ProtoneMedia\Splade\Facades\Splade;
@@ -292,7 +293,7 @@ class SpladeCore
     /**
      * Returns a new SpladeToast instance
      */
-    public static function toastOnEvent(string $message = ''): SpladeToast
+    public static function toastOnEvent(HtmlString|string $message = ''): SpladeToast
     {
         $newToast = new SpladeToast($message);
 
@@ -300,11 +301,7 @@ class SpladeCore
             call_user_func($factory, $newToast);
         }
 
-        if (trim($message) !== '') {
-            $newToast->message($message);
-        }
-
-        return $newToast;
+        return $newToast->message($message);
     }
 
     /**
