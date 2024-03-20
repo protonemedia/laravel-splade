@@ -373,11 +373,6 @@ class Form extends Component
      */
     private function getAttachedKeysFromRelation(string $relationName): ?array
     {
-        // Eager load the relation if not, to avoid duplicate queries
-        if (!$this->model->relationLoaded($relationName)) {
-            return $this->queryAttachedKeysFromRelation($relationName);
-        }
-
         $relationInstance = $this->model->{$relationName}();
 
         $relationValue = $this->model->{$relationName};
@@ -390,36 +385,6 @@ class Form extends Component
 
         if ($relationInstance instanceof MorphMany) {
             return $relationValue->pluck($relationInstance->getLocalKeyName())
-                ->map(fn ($key) => (string) $key)
-                ->all();
-        }
-
-        return [];
-    }
-
-    /**
-     * Queries the attached keys from the given relationship.
-     */
-    private function queryAttachedKeysFromRelation(string $relationName): ?array
-    {
-        $relation = $this->model->{$relationName}();
-
-        if ($relation instanceof BelongsToMany) {
-            $relatedKeyName = $relation->getRelatedKeyName();
-
-            return $relation->getBaseQuery()
-                ->get($relation->getRelated()->qualifyColumn($relatedKeyName))
-                ->pluck($relatedKeyName)
-                ->map(fn ($key) => (string) $key)
-                ->all();
-        }
-
-        if ($relation instanceof MorphMany) {
-            $parentKeyName = $relation->getLocalKeyName();
-
-            return $relation->getBaseQuery()
-                ->get($relation->getQuery()->qualifyColumn($parentKeyName))
-                ->pluck($parentKeyName)
                 ->map(fn ($key) => (string) $key)
                 ->all();
         }
