@@ -27,15 +27,17 @@ class Column implements Arrayable
         public bool|Closure $exportAs,
         public Closure|string|null $exportFormat = null,
         public Closure|array|null $exportStyling = null,
-        public array|string|null $classes = null,
+        public Closure|array|string|null $classes = null,
         public ?Closure $as = null,
         public string $alignment = 'left',
     ) {
-        if (is_array($classes)) {
-            $classes = Arr::flatten($classes);
-        }
+        if (!is_callable($classes)) {
+            if (is_array($classes)) {
+                $classes = Arr::flatten($classes);
+            }
 
-        $this->classes = Arr::toCssClasses($classes);
+            $this->classes = Arr::toCssClasses($classes);
+        }
     }
 
     /**
@@ -77,6 +79,28 @@ class Column implements Arrayable
             'highlight'     => $this->highlight,
             'alignment'     => $this->alignment,
         ];
+    }
+
+    /**
+     * Resolve the column classes for the given item.
+     */
+    public function resolveClasses(mixed $item = null): string
+    {
+        if (is_callable($this->classes)) {
+            $classes = call_user_func(
+                $this->classes,
+                $item ? $this->getDataFromItem($item) : null,
+                $item,
+            ) ?? '';
+
+            if (is_array($classes)) {
+                $classes = Arr::flatten($classes);
+            }
+
+            return Arr::toCssClasses($classes);
+        }
+
+        return $this->classes;
     }
 
     /**
