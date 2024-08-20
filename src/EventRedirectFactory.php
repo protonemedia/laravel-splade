@@ -26,8 +26,7 @@ class EventRedirectFactory
      */
     public function __construct(
         private Redirector $redirector
-    ) {
-    }
+    ) {}
 
     /**
      * Forwards all calls to the Redirector, which will genereate

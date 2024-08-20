@@ -14,8 +14,7 @@ class QueueableCollectionWithNewModels
     public function __construct(
         public Collection $collection,
         public ModelIdentifier $existingModels
-    ) {
-    }
+    ) {}
 
     /**
      * It gets the existing models restored from the database

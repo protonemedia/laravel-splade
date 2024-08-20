@@ -10,6 +10,5 @@ class DataStore
         public bool $localStorage,
         public ?string $json = null,
         public $data = null,
-    ) {
-    }
+    ) {}
 }

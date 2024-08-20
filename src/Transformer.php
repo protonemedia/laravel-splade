@@ -21,9 +21,7 @@ class Transformer
         return $this;
     }
 
-    public function __construct(private SpladeCore $splade)
-    {
-    }
+    public function __construct(private SpladeCore $splade) {}
 
     private function canBeTransformed($value): bool
     {

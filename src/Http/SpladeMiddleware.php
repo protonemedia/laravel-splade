@@ -38,8 +38,7 @@ class SpladeMiddleware
     public function __construct(
         private SpladeCore $splade,
         private Ssr $ssr,
-    ) {
-    }
+    ) {}
 
     /**
      * Handle an incoming request.

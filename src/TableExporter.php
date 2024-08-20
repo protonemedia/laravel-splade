@@ -30,8 +30,7 @@ class TableExporter implements FromQuery, Responsable, ShouldAutoSize, WithColum
         private $fileName,
         private $writerType,
         private array $events,
-    ) {
-    }
+    ) {}
 
     /**
      * Returns the Query Builder to fetch the records.

@@ -21,8 +21,7 @@ class Group extends Component
         public string $validationKey = '',
         public bool $showErrors = true,
         public HtmlString|string $help = '',
-    ) {
-    }
+    ) {}
 
     /**
      * Get the view / contents that represent the component.

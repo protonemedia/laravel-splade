@@ -57,7 +57,7 @@ class TableExporterTest extends TestCase
         $worksheet = Mockery::mock(Worksheet::class);
         $worksheet->shouldReceive('getHighestRowAndColumn')->andReturn(['column' => 'C', 'row' => 3]);
         $worksheet->shouldReceive('setAutoFilter')->with('A1:C1');
-        $worksheet->shouldReceive('getStyle')->with('C2:C3')->andReturn($style = new Style());
+        $worksheet->shouldReceive('getStyle')->with('C2:C3')->andReturn($style = new Style);
 
         $this->assertEquals([
             'B2:B3' => ['font' => ['bold' => true]],

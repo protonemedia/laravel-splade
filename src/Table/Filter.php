@@ -18,8 +18,7 @@ class Filter implements Arrayable
         public bool $noFilterOption,
         public string $noFilterOptionLabel,
         public string $type
-    ) {
-    }
+    ) {}
 
     /**
      * Returns a clone of the instance.

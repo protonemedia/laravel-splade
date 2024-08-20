@@ -12,8 +12,7 @@ class Content extends Component
     public function __construct(
         public $html,
         public string $as = 'div'
-    ) {
-    }
+    ) {}
 
     /**
      * Get the view / contents that represent the component.

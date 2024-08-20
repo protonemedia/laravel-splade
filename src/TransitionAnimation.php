@@ -17,8 +17,7 @@ class TransitionAnimation implements Arrayable
         public string $leave,
         public string $leaveFrom,
         public string $leaveTo
-    ) {
-    }
+    ) {}
 
     /**
      * Getter for the name.

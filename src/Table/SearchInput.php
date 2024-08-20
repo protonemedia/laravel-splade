@@ -22,8 +22,7 @@ class SearchInput
         public array $columns,
         public string $label,
         public ?string $value = null,
-    ) {
-    }
+    ) {}
 
     /**
      * Returns a clone of the instance.

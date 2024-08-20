@@ -329,9 +329,7 @@ class SpladeTable
         return $this;
     }
 
-    public function performBulkAction(callable $action, array $ids)
-    {
-    }
+    public function performBulkAction(callable $action, array $ids) {}
 
     private function preventPaginationCall()
     {

@@ -126,7 +126,7 @@ class HandleSpladeFileUploads extends TransformsRequest
                 $mediaClass = config('media-library.media_model');
 
                 /** @var Media $mediaInstance */
-                $mediaInstance = new $mediaClass();
+                $mediaInstance = new $mediaClass;
                 $mediaInstance::setNewOrder($media->map->getKey()->all());
             });
     }

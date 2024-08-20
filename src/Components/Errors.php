@@ -13,8 +13,7 @@ class Errors extends Component
      */
     public function __construct(
         public string $scope = 'errors'
-    ) {
-    }
+    ) {}
 
     /**
      * Get the view / contents that represent the component.

@@ -13,8 +13,7 @@ class Meta implements Arrayable, JsonSerializable
      */
     public function __construct(
         private array $attributes
-    ) {
-    }
+    ) {}
 
     /**
      * Renders the meta tag with all attributes.

@@ -13,8 +13,7 @@ class FakeMail extends Component
     public function __construct(
         public User $user,
         public ?string $prefix = ''
-    ) {
-    }
+    ) {}
 
     public function randomize()
     {

@@ -19,8 +19,7 @@ class Export
         public string $type,
         public string $tableClass,
         public array $events,
-    ) {
-    }
+    ) {}
 
     /**
      * Generates a slug based on the label.

@@ -4,6 +4,4 @@ namespace ProtoneMedia\Splade\Bridge;
 
 use Exception;
 
-class CouldNotResolveComponentInstance extends Exception
-{
-}
+class CouldNotResolveComponentInstance extends Exception {}

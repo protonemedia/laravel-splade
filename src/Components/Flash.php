@@ -13,8 +13,7 @@ class Flash extends Component
      */
     public function __construct(
         public string $scope = 'flash'
-    ) {
-    }
+    ) {}
 
     /**
      * Get the view / contents that represent the component.

@@ -20,8 +20,7 @@ class SpladeResponseData implements Arrayable
         public bool $rehydrate,
         public ?string $persistentLayout,
         public bool $preventViewTransition
-    ) {
-    }
+    ) {}
 
     public static function make(): static
     {

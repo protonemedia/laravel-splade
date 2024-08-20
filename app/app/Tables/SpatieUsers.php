@@ -11,9 +11,7 @@ use Spatie\QueryBuilder\QueryBuilder;
 
 class SpatieUsers extends AbstractTable
 {
-    public function __construct(private string $paginateMethod)
-    {
-    }
+    public function __construct(private string $paginateMethod) {}
 
     public function for()
     {

@@ -8,9 +8,7 @@ use ProtoneMedia\Splade\SpladeTable;
 
 class SpladeUsers extends AbstractTable
 {
-    public function __construct(private string $paginateMethod)
-    {
-    }
+    public function __construct(private string $paginateMethod) {}
 
     public function for()
     {

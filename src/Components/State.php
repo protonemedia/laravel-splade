@@ -13,8 +13,7 @@ class State extends Component
      */
     public function __construct(
         public string $scope = 'state'
-    ) {
-    }
+    ) {}
 
     /**
      * Get the view / contents that represent the component.

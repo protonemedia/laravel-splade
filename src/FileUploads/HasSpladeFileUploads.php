@@ -2,6 +2,4 @@
 
 namespace ProtoneMedia\Splade\FileUploads;
 
-interface HasSpladeFileUploads
-{
-}
+interface HasSpladeFileUploads {}

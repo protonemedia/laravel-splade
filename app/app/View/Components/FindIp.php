@@ -13,8 +13,7 @@ class FindIp extends Component
         public $hostname = '',
         public $ip = '',
         public $dataTest = 'InlineDataTest'
-    ) {
-    }
+    ) {}
 
     public function find()
     {

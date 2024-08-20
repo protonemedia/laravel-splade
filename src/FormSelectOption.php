@@ -12,8 +12,7 @@ class FormSelectOption implements Arrayable
      */
     public function __construct(
         private array $attributes = []
-    ) {
-    }
+    ) {}
 
     /**
      * Returns a boolean whether the attributes array contains an 'options' key.

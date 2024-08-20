@@ -54,17 +54,11 @@ class WithVueTest extends TestCase
         {
             use WithVue;
 
-            public function foo()
-            {
-            }
+            public function foo() {}
 
-            protected function bar()
-            {
-            }
+            protected function bar() {}
 
-            private function baz()
-            {
-            }
+            private function baz() {}
         };
 
         $this->assertEquals(['foo'], $instance->_availableMethods());

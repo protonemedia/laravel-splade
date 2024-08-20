@@ -13,8 +13,7 @@ class SpladeToastBuilder
      */
     public function __construct(
         private SpladeCore $splade
-    ) {
-    }
+    ) {}
 
     /**
      * Forwards all calls the a new Toast.

@@ -17,8 +17,7 @@ class ModalWrapper extends Component
         public bool $closeButton,
         public string $name = '',
         public bool $closeExplicitly = false,
-    ) {
-    }
+    ) {}
 
     /**
      * Get the view / contents that represent the component.
