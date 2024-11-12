@@ -102,12 +102,12 @@ jobs:
         run: |
           cd app
           npm run build
-          php artisan dusk:chrome-driver `/opt/google/chrome/chrome --version | cut -d " " -f3 | cut -d "." -f1`
+          php artisan dusk:chrome-driver --detect
 
       - name: Start Chrome Driver
         run: |
           cd app
-          ./vendor/laravel/dusk/bin/chromedriver-linux &
+          ./vendor/laravel/dusk/bin/chromedriver-linux --port=9515 &
 
       - name: Start Laravel Reverb
         run: |
