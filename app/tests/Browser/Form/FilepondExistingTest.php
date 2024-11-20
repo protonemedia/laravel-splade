@@ -9,7 +9,7 @@ use Tests\DuskTestCase;
 
 class FilepondExistingTest extends DuskTestCase
 {
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 
