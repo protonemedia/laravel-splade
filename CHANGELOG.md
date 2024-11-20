@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 1.4.20 - 2024-11-20
+
+### What's Changed
+
+* Support for PHP 8.4 by @pascalbaljet in https://github.com/protonemedia/laravel-splade/pull/648
+
+**Full Changelog**: https://github.com/protonemedia/laravel-splade/compare/1.4.19...1.4.20
+
 ## 1.4.19 - 2024-03-20
 
 ### What's Changed
