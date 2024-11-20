@@ -9,7 +9,7 @@ use Tests\DuskTestCase;
 
 class FilepondTest extends DuskTestCase
 {
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -17,7 +17,7 @@ class FilepondTest extends DuskTestCase
         (new Filesystem)->cleanDirectory(storage_path('splade-temporary-file-uploads'));
     }
 
-    public function tearDown(): void
+    protected function tearDown(): void
     {
         (new Filesystem)->cleanDirectory(storage_path('app/avatars'));
         (new Filesystem)->cleanDirectory(storage_path('splade-temporary-file-uploads'));
