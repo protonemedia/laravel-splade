@@ -1,6 +1,8 @@
 name: run-stub-tests
 
-on: [push, pull_request]
+on:
+  - push
+  - pull_request
 
 jobs:
   stub-test:
@@ -11,7 +13,7 @@ jobs:
       matrix:
         os: [ubuntu-22.04, windows-latest]
         php: [8.4, 8.3, 8.2]
-        laravel: [11.0, 10.2]
+        laravel: [10.2, 11.0, '12.0']
         exclude:
           - php: 8.4
             laravel: 10.0
@@ -33,17 +35,17 @@ jobs:
 
       - name: Remove installed Splade (Unix)
         run: rm -rf vendor/protonemedia/laravel-splade
-        if: matrix.os == 'ubuntu-22.04'
+        if: "matrix.os == 'ubuntu-22.04'"
 
       - name: Remove installed Splade (Windows)
         run: rd "vendor/protonemedia/laravel-splade" /s /q
         shell: cmd
-        if: matrix.os == 'windows-latest'
+        if: "matrix.os == 'windows-latest'"
 
       - name: Checkout code
         uses: actions/checkout@v4.2.2
         with:
-          path: "vendor/protonemedia/laravel-splade"
+          path: vendor/protonemedia/laravel-splade
 
       - name: Install Splade
         run: |
@@ -59,7 +61,7 @@ jobs:
         run: |
           rm -rf node_modules/@protonemedia/laravel-splade/dist
           cp -R vendor/protonemedia/laravel-splade/dist node_modules/@protonemedia/laravel-splade/
-        if: matrix.os == 'ubuntu-22.04'
+        if: "matrix.os == 'ubuntu-22.04'"
 
       - name: Remove installed Splade and copy front-end build from Checkout (Windows)
         run: |
@@ -67,39 +69,39 @@ jobs:
           mkdir "node_modules/@protonemedia/laravel-splade/dist"
           xcopy "vendor/protonemedia/laravel-splade/dist" "node_modules/@protonemedia/laravel-splade/dist" /E /I
         shell: cmd
-        if: matrix.os == 'windows-latest'
+        if: "matrix.os == 'windows-latest'"
 
       - name: Compile assets
         run: npm run build
 
       - name: Run Laravel Server (Unix)
         run: php artisan serve &
-        if: matrix.os == 'ubuntu-22.04'
+        if: "matrix.os == 'ubuntu-22.04'"
 
       - name: Run Test (Unix)
         run: php vendor/protonemedia/laravel-splade/TestStubs.php
-        if: matrix.os == 'ubuntu-22.04'
+        if: "matrix.os == 'ubuntu-22.04'"
 
       - name: Run Laravel Server (Windows) and Run Test
         run: |
           start /b cmd /v:on /c "(php artisan serve) &"
           php vendor/protonemedia/laravel-splade/TestStubs.php
         shell: cmd
-        if: matrix.os == 'windows-latest'
+        if: "matrix.os == 'windows-latest'"
 
       - name: Start SSR server (Unix)
         run: |
           echo "SPLADE_SSR_ENABLED=true" >> .env
           node bootstrap/ssr/ssr.js &
-        if: matrix.os == 'ubuntu-22.04'
+        if: "matrix.os == 'ubuntu-22.04'"
 
       - name: Run Test command (Unix)
         run: php artisan splade:ssr-test
-        if: matrix.os == 'ubuntu-22.04'
+        if: "matrix.os == 'ubuntu-22.04'"
 
       - name: Start SSR server (Windows) and Run Test command
         run: |
           echo "SPLADE_SSR_ENABLED=true" >> .env
           node bootstrap/ssr/ssr.js &
           php artisan splade:ssr-test
-        if: matrix.os == 'windows-latest'
+        if: "matrix.os == 'windows-latest'"
