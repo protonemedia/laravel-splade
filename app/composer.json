@@ -21,7 +21,7 @@
         "psr/simple-cache": "^2.0",
         "ramsey/collection": "^1.2",
         "spatie/laravel-medialibrary": "^11.0",
-        "spatie/laravel-query-builder": "^5.0|^6.0|dev-main"
+        "spatie/laravel-query-builder": "^5.0|^6.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.7",
