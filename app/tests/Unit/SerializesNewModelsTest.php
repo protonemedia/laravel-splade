@@ -26,7 +26,7 @@ class SerializesNewModelsTest extends TestCase
         $this->serializer = invade($this->serializer);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_serializes_and_restores_existing_models()
     {
         $model = User::firstOrFail();
@@ -40,7 +40,7 @@ class SerializesNewModelsTest extends TestCase
         $this->assertTrue($model->is($restored));
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_serializes_and_restores_new_models()
     {
         $model = new User(['name' => 'John Doe']);
@@ -56,7 +56,7 @@ class SerializesNewModelsTest extends TestCase
         $this->assertEquals('John Doe', $restored->name);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_serializes_and_restores_a_collection_of_existing_models()
     {
         $models = User::limit(2)->get();
@@ -77,7 +77,7 @@ class SerializesNewModelsTest extends TestCase
         $this->assertCount(2, $restored);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_serializes_and_restores_a_collection_of_new_models()
     {
         $models = new Collection([
@@ -103,7 +103,7 @@ class SerializesNewModelsTest extends TestCase
         $this->assertEquals('Jane Doe', $restored->last()->name);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_serializes_and_restores_a_collection_of_mixed_models()
     {
         $models = new Collection([

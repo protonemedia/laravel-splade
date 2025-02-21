@@ -7,7 +7,7 @@ use Tests\DuskTestCase;
 
 class CustomTest extends DuskTestCase
 {
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_use_a_custom_component()
     {
         $this->browse(function (Browser $browser) {

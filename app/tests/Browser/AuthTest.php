@@ -7,7 +7,7 @@ use Tests\DuskTestCase;
 
 class AuthTest extends DuskTestCase
 {
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_handles_the_login_redirect()
     {
         $this->browse(function (Browser $browser) {

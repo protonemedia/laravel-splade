@@ -35,13 +35,13 @@ class TableExporterTest extends TestCase
         );
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_generate_an_array_with_the_headings()
     {
         $this->assertEquals(['Id', 'Created At', 'Updated At'], $this->exporter()->headings());
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_generate_an_array_with_the_column_formatting()
     {
         $this->assertEquals([
@@ -50,7 +50,7 @@ class TableExporterTest extends TestCase
         ], $this->exporter()->columnFormats());
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_generate_an_array_with_the_column_styling_or_use_a_callback()
     {
         /** @var MockInterface $worksheet */
@@ -66,7 +66,7 @@ class TableExporterTest extends TestCase
         $this->assertTrue($style->getFont()->getBold());
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_map_an_item()
     {
         Carbon::setTestNow(now());
@@ -84,7 +84,7 @@ class TableExporterTest extends TestCase
         $this->assertEquals(now(), $row[2]);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_return_the_event_callbacks()
     {
         $events = $this->exporter()->registerEvents();

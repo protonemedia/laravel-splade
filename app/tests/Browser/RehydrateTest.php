@@ -7,7 +7,7 @@ use Tests\DuskTestCase;
 
 class RehydrateTest extends DuskTestCase
 {
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_rehydrate_by_polling()
     {
         $this->browse(function (Browser $browser) {
@@ -34,7 +34,7 @@ class RehydrateTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_rehydrate_a_section_after_submitting_a_form()
     {
         $this->browse(function (Browser $browser) {
@@ -55,7 +55,7 @@ class RehydrateTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_rehydrate_two_sections_and_not_screw_up_the_progress_bar()
     {
         $this->browse(function (Browser $browser) {
@@ -78,7 +78,7 @@ class RehydrateTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_rehydrate_and_keep_the_global_data_store_binding()
     {
         $this->browse(function (Browser $browser) {

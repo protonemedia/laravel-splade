@@ -9,7 +9,7 @@ use Tests\TestCase;
 
 class ComponentMiddlewareTest extends TestCase
 {
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_resolves_the_route_middleware()
     {
         $service = new ComponentMiddleware;
@@ -22,7 +22,7 @@ class ComponentMiddlewareTest extends TestCase
         $this->assertEquals(HandleSpladeFileUploads::class . ':avatar', $middleware[0]);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_substitutes_the_original_bindings()
     {
         $service = new ComponentMiddleware;

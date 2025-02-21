@@ -8,7 +8,7 @@ use Tests\DuskTestCase;
 
 class MethodTest extends DuskTestCase
 {
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_call_a_php_method_without_losing_state()
     {
         $this->browse(function (Browser $browser) {
@@ -24,7 +24,7 @@ class MethodTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_call_a_php_method_with_arguments()
     {
         $this->browse(function (Browser $browser) {
@@ -40,7 +40,7 @@ class MethodTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_save_eloquent_models_and_refresh_the_state()
     {
         $this->browse(function (Browser $browser) {

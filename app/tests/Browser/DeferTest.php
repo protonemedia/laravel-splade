@@ -7,7 +7,7 @@ use Tests\DuskTestCase;
 
 class DeferTest extends DuskTestCase
 {
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_loads_the_data_from_the_api()
     {
         $this->browse(function (Browser $browser) {
@@ -19,7 +19,7 @@ class DeferTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_loads_the_data_from_a_dynamic_url()
     {
         $this->browse(function (Browser $browser) {
@@ -31,7 +31,7 @@ class DeferTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_use_the_poll_attribute_to_poll_for_new_data()
     {
         $this->browse(function (Browser $browser) {
@@ -44,7 +44,7 @@ class DeferTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_manually_wait_for_a_watched_value_to_change()
     {
         $this->browse(function (Browser $browser) {
@@ -58,7 +58,7 @@ class DeferTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_reload_the_request()
     {
         $this->browse(function (Browser $browser) {
@@ -70,7 +70,7 @@ class DeferTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_use_the_request_attribute_with_a_javascript_object()
     {
         $this->browse(function (Browser $browser) {

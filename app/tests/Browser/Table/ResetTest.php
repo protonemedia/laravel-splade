@@ -6,16 +6,11 @@ use App\Models\User;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 
-/**
- * @group table
- */
+#[\PHPUnit\Framework\Attributes\Group('table')]
 class ResetTest extends DuskTestCase
 {
-    /**
-     * @test
-     *
-     * @dataProvider tableUrls
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
+    #[\PHPUnit\Framework\Attributes\DataProvider('tableUrls')]
     public function it_can_reset_toggled_columns($url)
     {
         $this->browse(function (Browser $browser) use ($url) {
@@ -35,11 +30,8 @@ class ResetTest extends DuskTestCase
         });
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider tableUrls
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
+    #[\PHPUnit\Framework\Attributes\DataProvider('tableUrls')]
     public function it_can_reset_select_filters($url)
     {
         $this->browse(function (Browser $browser) use ($url) {
@@ -65,11 +57,8 @@ class ResetTest extends DuskTestCase
         });
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider tableUrls
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
+    #[\PHPUnit\Framework\Attributes\DataProvider('tableUrls')]
     public function it_can_reset_global_search($url)
     {
         $this->browse(function (Browser $browser) use ($url) {
@@ -95,11 +84,8 @@ class ResetTest extends DuskTestCase
         });
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider tableUrls
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
+    #[\PHPUnit\Framework\Attributes\DataProvider('tableUrls')]
     public function it_can_reset_search_inputs($url)
     {
         $this->browse(function (Browser $browser) use ($url) {
@@ -127,11 +113,8 @@ class ResetTest extends DuskTestCase
         });
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider tableUrls
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
+    #[\PHPUnit\Framework\Attributes\DataProvider('tableUrls')]
     public function it_can_reset_the_sort($url)
     {
         $this->browse(function (Browser $browser) use ($url) {
@@ -162,11 +145,8 @@ class ResetTest extends DuskTestCase
         });
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider tableUrls
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
+    #[\PHPUnit\Framework\Attributes\DataProvider('tableUrls')]
     public function it_can_reset_to_the_first_page($url)
     {
         $this->browse(function (Browser $browser) use ($url) {

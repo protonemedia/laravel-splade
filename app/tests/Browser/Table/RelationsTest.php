@@ -8,16 +8,11 @@ use App\Models\Project;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 
-/**
- * @group table
- */
+#[\PHPUnit\Framework\Attributes\Group('table')]
 class RelationsTest extends DuskTestCase
 {
-    /**
-     * @test
-     *
-     * @dataProvider booleanDataset
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
+    #[\PHPUnit\Framework\Attributes\DataProvider('booleanDataset')]
     public function it_can_search_through_a_nested_relationship($spatieQueryBuilder)
     {
         $this->browse(function (Browser $browser) use ($spatieQueryBuilder) {
@@ -38,11 +33,8 @@ class RelationsTest extends DuskTestCase
         });
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider booleanDataset
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
+    #[\PHPUnit\Framework\Attributes\DataProvider('booleanDataset')]
     public function it_can_search_through_a_nested_relationship_using_global_search($spatieQueryBuilder)
     {
         $this->browse(function (Browser $browser) use ($spatieQueryBuilder) {
@@ -74,11 +66,8 @@ class RelationsTest extends DuskTestCase
         });
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider booleanDataset
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
+    #[\PHPUnit\Framework\Attributes\DataProvider('booleanDataset')]
     public function it_can_order_by_a_relationship($spatieQueryBuilder)
     {
         if ($spatieQueryBuilder) {

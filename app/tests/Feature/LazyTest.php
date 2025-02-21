@@ -9,7 +9,7 @@ use Tests\TestCase;
 
 class LazyTest extends TestCase
 {
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_doesnt_resolve_the_lazy_data()
     {
         $this->withoutMiddleware(SpladeMiddleware::class)
@@ -20,7 +20,7 @@ class LazyTest extends TestCase
             ->assertViewHas('time', '');
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_resolves_the_lazy_data_on_lazy_loading()
     {
         Carbon::setTestNow(now());

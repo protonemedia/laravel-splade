@@ -7,7 +7,7 @@ use Tests\DuskTestCase;
 
 class PersistentLayoutTest extends DuskTestCase
 {
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_navigate_without_reloading_the_layout()
     {
         $this->browse(function (Browser $browser) {
@@ -31,7 +31,7 @@ class PersistentLayoutTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_doesnt_mess_with_nested_components()
     {
         $this->browse(function (Browser $browser) {
@@ -46,7 +46,7 @@ class PersistentLayoutTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_keep_the_dynamic_components_alive_when_navigating()
     {
         $this->browse(function (Browser $browser) {
@@ -73,7 +73,7 @@ class PersistentLayoutTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_navigate_and_keep_the_global_data_store_binding()
     {
         $this->browse(function (Browser $browser) {

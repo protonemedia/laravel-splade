@@ -7,7 +7,7 @@ use Tests\DuskTestCase;
 
 class PreloadedModalTest extends DuskTestCase
 {
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_show_a_preloaded_modal()
     {
         $this->browse(function (Browser $browser) {
@@ -29,7 +29,7 @@ class PreloadedModalTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_show_a_preloaded_modal_without_a_trigger()
     {
         $this->browse(function (Browser $browser) {
@@ -44,7 +44,7 @@ class PreloadedModalTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_show_a_preloaded_slideover()
     {
         $this->browse(function (Browser $browser) {
@@ -66,7 +66,7 @@ class PreloadedModalTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_show_a_large_preloaded_modal()
     {
         $this->browse(function (Browser $browser) {
@@ -88,7 +88,7 @@ class PreloadedModalTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_disable_closing_the_model_implicitly()
     {
         $this->browse(function (Browser $browser) {
@@ -107,7 +107,7 @@ class PreloadedModalTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_show_a_large_preloaded_slideover()
     {
         $this->browse(function (Browser $browser) {

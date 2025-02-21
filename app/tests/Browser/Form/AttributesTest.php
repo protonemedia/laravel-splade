@@ -7,7 +7,7 @@ use Tests\DuskTestCase;
 
 class AttributesTest extends DuskTestCase
 {
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_guards_the_unused_eloquent_attributes_by_default()
     {
         $this->browse(function (Browser $browser) {
@@ -24,7 +24,7 @@ class AttributesTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_guards_the_unused_fluent_attributes_by_default()
     {
         $this->browse(function (Browser $browser) {
@@ -41,7 +41,7 @@ class AttributesTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_unguard_by_attribute()
     {
         $this->browse(function (Browser $browser) {
@@ -51,7 +51,7 @@ class AttributesTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_unguard_by_default()
     {
         $this->browse(function (Browser $browser) {
@@ -61,7 +61,7 @@ class AttributesTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_fills_undefined_attributes_from_default_json_data()
     {
         $this->browse(function (Browser $browser) {
@@ -71,7 +71,7 @@ class AttributesTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_fills_undefined_attributes_from_default_php_data()
     {
         $this->browse(function (Browser $browser) {
@@ -81,7 +81,7 @@ class AttributesTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_handles_nested_numeric_keys()
     {
         $this->browse(function (Browser $browser) {

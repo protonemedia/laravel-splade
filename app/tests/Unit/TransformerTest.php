@@ -12,7 +12,7 @@ use Tests\TestCase;
 
 class TransformerTest extends TestCase
 {
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_returns_the_instance_when_no_transformer_has_been_found()
     {
         $user = User::firstOrFail();
@@ -22,7 +22,7 @@ class TransformerTest extends TestCase
         $this->assertTrue($transformer($user)->is($user));
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_throws_an_exception_when_the_transformer_is_invalid()
     {
         $user = User::firstOrFail();
@@ -40,7 +40,7 @@ class TransformerTest extends TestCase
         $this->fail('Should have thrown an exception');
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_throws_an_exception_when_a_transformer_is_missing()
     {
         $user = User::firstOrFail();
@@ -58,7 +58,7 @@ class TransformerTest extends TestCase
         $this->fail('Should have thrown an exception');
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_doesnt_throw_an_exception_when_the_transformer_is_missing_when_the_instance_cant_be_transformed()
     {
         $user = User::firstOrFail()->toArray();
@@ -72,7 +72,7 @@ class TransformerTest extends TestCase
         $this->assertEquals([$user, $user], $transformer(collect([$user, $user]))->all());
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_transform_using_a_closure()
     {
         $user = User::firstOrFail();
@@ -92,7 +92,7 @@ class TransformerTest extends TestCase
         ], $transformer($user));
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_transform_a_collection_using_a_closure()
     {
         $users = User::take(2)->get();
@@ -120,7 +120,7 @@ class TransformerTest extends TestCase
         ], $transformer($users));
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_transform_using_an_api_resource()
     {
         $user = User::firstOrFail();
@@ -135,7 +135,7 @@ class TransformerTest extends TestCase
         ], $transformer($user));
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_transform_a_collection_using_an_api_resource()
     {
         $users = User::take(2)->get();
@@ -158,7 +158,7 @@ class TransformerTest extends TestCase
         ], $transformer($users));
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_transform_an_array_using_an_api_resource()
     {
         $users = User::take(2)->get();
@@ -181,7 +181,7 @@ class TransformerTest extends TestCase
         ], $transformer($users->all()));
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_transform_using_a_fractal_transformer()
     {
         $user = User::firstOrFail();
@@ -196,7 +196,7 @@ class TransformerTest extends TestCase
         ], $transformer($user));
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_transform_a_collection_using_a_fractal_transformer()
     {
         $users = User::take(2)->get();
@@ -219,7 +219,7 @@ class TransformerTest extends TestCase
         ], $transformer($users->all()));
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_transform_using_an_instance_that_has_a_transform_method()
     {
         $user = User::firstOrFail();

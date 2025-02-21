@@ -7,7 +7,7 @@ use Tests\DuskTestCase;
 
 class TransitionTest extends DuskTestCase
 {
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_add_custom_animations()
     {
         $this->browse(function (Browser $browser) {

@@ -10,7 +10,7 @@ use Tests\TestCase;
 
 class SpladeTableTest extends TestCase
 {
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_use_a_default_sort_key()
     {
         $table = new SpladeTable([]);
@@ -28,7 +28,7 @@ class SpladeTableTest extends TestCase
         $this->assertEquals('-name', $table->defaultSortDesc('-name')->getDefaultSort());
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_prevents_double_pagination()
     {
         $table = new class extends AbstractTable

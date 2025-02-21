@@ -7,7 +7,7 @@ use Tests\DuskTestCase;
 
 class FormDownloadTest extends DuskTestCase
 {
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_download_a_file()
     {
         $this->browse(function (Browser $browser) {
@@ -28,7 +28,7 @@ class FormDownloadTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_show_validation_errors_when_expecting_a_file_download()
     {
         $this->browse(function (Browser $browser) {
@@ -39,7 +39,7 @@ class FormDownloadTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_show_server_errors_when_expecting_a_file_download()
     {
         $this->browse(function (Browser $browser) {

@@ -7,7 +7,7 @@ use Tests\DuskTestCase;
 
 class SelectRemoteTest extends DuskTestCase
 {
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_load_options_from_a_key_value_source()
     {
         $this->browse(function (Browser $browser) {
@@ -31,7 +31,7 @@ class SelectRemoteTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_load_options_from_an_array_of_objects()
     {
         $this->browse(function (Browser $browser) {

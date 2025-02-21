@@ -8,7 +8,7 @@ use Tests\DuskTestCase;
 
 class PropsTest extends DuskTestCase
 {
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_has_two_way_binding_between_vue_and_php()
     {
         $this->browse(function (Browser $browser) {

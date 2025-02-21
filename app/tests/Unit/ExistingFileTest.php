@@ -11,7 +11,7 @@ use Tests\TestCase;
 
 class ExistingFileTest extends TestCase
 {
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_load_a_file_from_a_public_disk()
     {
         $file = ExistingFile::fromDisk('public')->get('1.jpeg');
@@ -35,7 +35,7 @@ class ExistingFileTest extends TestCase
         ], $file->toArray());
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_load_a_file_from_a_public_disk_and_generate_a_temporary_url_for_the_preview()
     {
         Storage::fake('s3');
@@ -47,7 +47,7 @@ class ExistingFileTest extends TestCase
         $this->assertStringContainsString('?expiration=', $file->previewUrl);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_load_a_file_from_a_disk_without_a_preview()
     {
         $file = ExistingFile::fromDiskWithoutPreview('public')->get('1.jpeg');
@@ -70,7 +70,7 @@ class ExistingFileTest extends TestCase
         ], $file->toArray());
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_throws_an_exception_if_the_file_does_not_exist()
     {
         try {
@@ -82,7 +82,7 @@ class ExistingFileTest extends TestCase
         $this->fail('The file does not exist, but no exception was thrown.');
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_load_multiple_files_at_once()
     {
         $files = ExistingFile::fromDisk('public')->get([
@@ -96,7 +96,7 @@ class ExistingFileTest extends TestCase
         $this->assertEquals('2.jpeg', $files[1]->name);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_serialize_the_instance_and_make_an_instance_out_of_it()
     {
         $file = ExistingFile::fromDisk('public')->get('1.jpeg')->metadata([
@@ -110,7 +110,7 @@ class ExistingFileTest extends TestCase
         $this->assertEquals($file, $file2);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_load_a_file_from_the_spatie_media_library()
     {
         $user = User::firstOrFail();
@@ -122,7 +122,7 @@ class ExistingFileTest extends TestCase
         $this->assertTrue($file->getModel()->is($singleMedia));
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_load_a_file_from_the_spatie_media_library_with_a_different_preview_conversion()
     {
         $user = User::firstOrFail();
@@ -134,7 +134,7 @@ class ExistingFileTest extends TestCase
         $this->assertStringContainsString('-thumb.', $file->previewUrl);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_load_multiple_files_from_the_spatie_media_library()
     {
         $user = User::firstOrFail();

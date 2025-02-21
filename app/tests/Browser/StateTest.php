@@ -7,7 +7,7 @@ use Tests\DuskTestCase;
 
 class StateTest extends DuskTestCase
 {
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_show_errors_and_flash_and_shared_data()
     {
         $this->browse(function (Browser $browser) {

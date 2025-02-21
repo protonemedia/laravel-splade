@@ -7,7 +7,7 @@ use Tests\TestCase;
 
 class SpladeMiddlewareTest extends TestCase
 {
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_format_a_url_into_a_host_and_port_with_defaults()
     {
         $this->assertEquals('splade.dev:80', SpladeMiddleware::urlToHostAndPort('http://splade.dev'));

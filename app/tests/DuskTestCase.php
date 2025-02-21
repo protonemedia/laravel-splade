@@ -9,6 +9,7 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
 use Laravel\Dusk\TestCase as BaseTestCase;
+use PHPUnit\Framework\Attributes\BeforeClass;
 use Spatie\Snapshots\MatchesSnapshots;
 
 abstract class DuskTestCase extends BaseTestCase
@@ -61,10 +62,9 @@ abstract class DuskTestCase extends BaseTestCase
     /**
      * Prepare for Dusk test execution.
      *
-     * @beforeClass
-     *
      * @return void
      */
+    #[BeforeClass]
     public static function prepare()
     {
         if (!static::runningInSail()) {

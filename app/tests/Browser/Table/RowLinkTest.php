@@ -6,16 +6,11 @@ use App\Models\User;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 
-/**
- * @group table
- */
+#[\PHPUnit\Framework\Attributes\Group('table')]
 class RowLinkTest extends DuskTestCase
 {
-    /**
-     * @test
-     *
-     * @dataProvider booleanDataset
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
+    #[\PHPUnit\Framework\Attributes\DataProvider('booleanDataset')]
     public function it_can_make_a_row_clickable($spladeQueryBuilder)
     {
         $this->browse(function (Browser $browser) use ($spladeQueryBuilder) {
@@ -31,11 +26,8 @@ class RowLinkTest extends DuskTestCase
         });
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider booleanDataset
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
+    #[\PHPUnit\Framework\Attributes\DataProvider('booleanDataset')]
     public function it_can_make_a_row_clickable_and_open_a_modal($spladeQueryBuilder)
     {
         $this->browse(function (Browser $browser) use ($spladeQueryBuilder) {
@@ -46,11 +38,8 @@ class RowLinkTest extends DuskTestCase
         });
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider booleanDataset
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
+    #[\PHPUnit\Framework\Attributes\DataProvider('booleanDataset')]
     public function it_can_make_a_row_clickable_and_open_a_slideover($spladeQueryBuilder)
     {
         $this->browse(function (Browser $browser) use ($spladeQueryBuilder) {

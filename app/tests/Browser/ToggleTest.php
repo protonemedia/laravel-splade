@@ -7,7 +7,7 @@ use Tests\DuskTestCase;
 
 class ToggleTest extends DuskTestCase
 {
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_have_a_default_value()
     {
         $this->browse(function (Browser $browser) {
@@ -18,7 +18,7 @@ class ToggleTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_have_a_multiple_default_values()
     {
         $this->browse(function (Browser $browser) {
@@ -31,7 +31,7 @@ class ToggleTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_toggle_a_single_element()
     {
         $this->browse(function (Browser $browser) {
@@ -50,7 +50,7 @@ class ToggleTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_toggle_a_multiple_element()
     {
         $this->browse(function (Browser $browser) {

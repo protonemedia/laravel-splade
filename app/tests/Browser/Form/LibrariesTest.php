@@ -8,7 +8,7 @@ use Tests\DuskTestCase;
 
 class LibrariesTest extends DuskTestCase
 {
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_selects_the_default_values()
     {
         $this->browse(function (Browser $browser) {
@@ -25,7 +25,7 @@ class LibrariesTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_change_the_default_bound_values()
     {
         $this->browse(function (Browser $browser) {
@@ -43,7 +43,7 @@ class LibrariesTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_autosize_the_textarea()
     {
         $this->browse(function (Browser $browser) {
@@ -54,7 +54,7 @@ class LibrariesTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_use_the_choices_js_library_for_a_select_element()
     {
         $this->browse(function (Browser $browser) {
@@ -67,7 +67,7 @@ class LibrariesTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_use_the_choices_js_library_for_a_multiple_select_element()
     {
         $this->browse(function (Browser $browser) {
@@ -82,7 +82,7 @@ class LibrariesTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_provide_a_custom_set_of_php_options_to_choices_js()
     {
         $this->browse(function (Browser $browser) {
@@ -95,7 +95,7 @@ class LibrariesTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_provide_a_custom_set_of_js_options_to_choices_js()
     {
         $this->browse(function (Browser $browser) {
@@ -108,7 +108,7 @@ class LibrariesTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_use_flatpickr_to_pick_a_date()
     {
         $this->browse(function (Browser $browser) {
@@ -121,7 +121,7 @@ class LibrariesTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_use_flatpickr_to_pick_a_time()
     {
         $this->browse(function (Browser $browser) {
@@ -134,7 +134,7 @@ class LibrariesTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_use_flatpickr_to_pick_a_date_and_time()
     {
         $this->browse(function (Browser $browser) {
@@ -148,7 +148,7 @@ class LibrariesTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_use_flatpickr_to_pick_a_date_range()
     {
         $this->browse(function (Browser $browser) {
@@ -165,7 +165,7 @@ class LibrariesTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_provide_a_custom_set_of_php_options_to_flatpickr_through_the_date_attribute()
     {
         $this->browse(function (Browser $browser) {
@@ -178,7 +178,7 @@ class LibrariesTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_provide_a_custom_set_of_js_options_to_flatpickr_through_the_date_attribute()
     {
         $this->browse(function (Browser $browser) {
@@ -191,7 +191,7 @@ class LibrariesTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_provide_a_custom_set_of_php_options_to_flatpickr_through_the_time_attribute()
     {
         $this->browse(function (Browser $browser) {
@@ -204,7 +204,7 @@ class LibrariesTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_provide_a_custom_set_of_js_options_to_flatpickr_through_the_time_attribute()
     {
         $this->browse(function (Browser $browser) {
@@ -217,7 +217,7 @@ class LibrariesTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_submit_the_form_on_change()
     {
         $this->browse(function (Browser $browser) {
@@ -229,7 +229,7 @@ class LibrariesTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_use_jodit_as_a_wysiwyg_editor()
     {
         $this->browse(function (Browser $browser) {

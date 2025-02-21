@@ -7,7 +7,7 @@ use Tests\DuskTestCase;
 
 class ScriptTest extends DuskTestCase
 {
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_use_a_custom_script()
     {
         $this->browse(function (Browser $browser) {

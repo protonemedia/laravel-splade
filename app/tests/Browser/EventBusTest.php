@@ -7,7 +7,7 @@ use Tests\DuskTestCase;
 
 class EventBusTest extends DuskTestCase
 {
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_subscribe_to_an_event_with_a_custom_script()
     {
         $this->browse(function (Browser $browser) {

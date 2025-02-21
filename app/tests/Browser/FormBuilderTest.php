@@ -7,7 +7,7 @@ use Tests\DuskTestCase;
 
 class FormBuilderTest extends DuskTestCase
 {
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_generate_and_submit_a_simple_form_with_formbuilder()
     {
         $this->browse(function (Browser $browser) {
@@ -35,7 +35,7 @@ class FormBuilderTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_generate_and_submit_a_form_from_a_form_class_with_formbuilder()
     {
         $this->browse(function (Browser $browser) {
@@ -72,7 +72,7 @@ class FormBuilderTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_generate_a_form_with_formbuilder_and_bind_data_from_a_model()
     {
         $this->browse(function (Browser $browser) {
@@ -104,7 +104,7 @@ class FormBuilderTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_generate_multiple_forms_on_one_page()
     {
         $this->browse(function (Browser $browser) {
@@ -121,7 +121,7 @@ class FormBuilderTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_show_a_jodit_wysiwyg_editor()
     {
         $this->browse(function (Browser $browser) {

@@ -6,14 +6,10 @@ use App\Models\Project;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 
-/**
- * @group table
- */
+#[\PHPUnit\Framework\Attributes\Group('table')]
 class ScrollTest extends DuskTestCase
 {
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_preserve_the_scroll_value_when_sorting_the_table()
     {
         $this->browse(function (Browser $browser) {
@@ -40,9 +36,7 @@ class ScrollTest extends DuskTestCase
         });
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_change_the_scroll_behaviour_on_pagination()
     {
         $this->browse(function (Browser $browser) {

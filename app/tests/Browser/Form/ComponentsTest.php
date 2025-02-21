@@ -7,7 +7,7 @@ use Tests\DuskTestCase;
 
 class ComponentsTest extends DuskTestCase
 {
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_render_multiple_checkboxes_with_an_options_array()
     {
         $this->browse(function (Browser $browser) {
@@ -25,7 +25,7 @@ class ComponentsTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_render_multiple_radios_with_an_options_array()
     {
         $this->browse(function (Browser $browser) {
@@ -38,7 +38,7 @@ class ComponentsTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_change_the_value_of_a_checkbox_element()
     {
         $this->browse(function (Browser $browser) {

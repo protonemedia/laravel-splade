@@ -8,16 +8,11 @@ use Illuminate\Support\Facades\DB;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 
-/**
- * @group table
- */
+#[\PHPUnit\Framework\Attributes\Group('table')]
 class CaseTest extends DuskTestCase
 {
-    /**
-     * @test
-     *
-     * @dataProvider booleanDataset
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
+    #[\PHPUnit\Framework\Attributes\DataProvider('booleanDataset')]
     public function it_can_search_case_insensitive($spladeQueryBuilder)
     {
         $this->browse(function (Browser $browser) use ($spladeQueryBuilder) {
@@ -36,11 +31,8 @@ class CaseTest extends DuskTestCase
         });
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider booleanDataset
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
+    #[\PHPUnit\Framework\Attributes\DataProvider('booleanDataset')]
     public function it_can_search_case_sensitive($spladeQueryBuilder)
     {
         if (DB::connection() instanceof SQLiteConnection) {

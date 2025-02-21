@@ -7,7 +7,7 @@ use Tests\DuskTestCase;
 
 class CustomVueModelTest extends DuskTestCase
 {
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_submits_the_filled_elements()
     {
         $this->browse(function (Browser $browser) {

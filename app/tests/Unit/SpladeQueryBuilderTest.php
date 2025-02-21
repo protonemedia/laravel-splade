@@ -11,7 +11,7 @@ use Tests\TestCase;
 
 class SpladeQueryBuilderTest extends TestCase
 {
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_parse_terms()
     {
         $builder = new SpladeQueryBuilder($this->mock(Builder::class));
@@ -25,7 +25,7 @@ class SpladeQueryBuilderTest extends TestCase
         $this->assertEquals(['1'], $builder->parseTermsIntoCollection('1')->all());
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_apply_sorting_with_a_closure()
     {
         $table = SpladeTable::for(Address::class)

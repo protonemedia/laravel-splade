@@ -21,7 +21,7 @@ class ComponentStateTest extends TestCase
         ]);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_generate_and_validate_signatures()
     {
         $instance = new ComponentState;
@@ -40,7 +40,7 @@ class ComponentStateTest extends TestCase
         $this->assertFalse($instance->requestHasValidSignature($request, 'signature'));
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_throws_an_exception_when_the_component_can_not_be_resolved()
     {
         $instance = new ComponentState;
@@ -56,7 +56,7 @@ class ComponentStateTest extends TestCase
         $this->fail('The exception was not thrown.');
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_resolve_an_encrypted_component_from_the_request()
     {
         $service = new ComponentState;
@@ -74,7 +74,7 @@ class ComponentStateTest extends TestCase
         $this->assertEquals($instance, $decrypted);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_resolve_an_encrypted_component_from_the_request_and_merge_the_given_props()
     {
         $service = new ComponentState;
