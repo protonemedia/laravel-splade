@@ -12,17 +12,18 @@ jobs:
       fail-fast: true
       matrix:
         php: [8.4, 8.3, 8.2]
-        laravel: [10.0, 11.0, '12.0']
+        laravel: [10.0, 11.0, 12.0]
         db: [mysql, postgres, sqlite]
         ssr: [true, false]
         dependency-version: [prefer-lowest, prefer-stable]
         include:
+          - laravel: 12.0
+            testbench: 10.*
           - laravel: 11.0
             testbench: 9.*
           - laravel: 10.0
             testbench: 8.*
-          - laravel: '12.0'
-            testbench: 10.*
+
         exclude:
           - dependency-version: prefer-lowest
             ssr: true
@@ -144,7 +145,7 @@ jobs:
           cd app
           sed -i -e "s|SPLADE_SSR_ENABLED=false|SPLADE_SSR_ENABLED=true|g" .env
           node bootstrap/ssr/ssr.mjs &
-        if: 'matrix.ssr == true'
+        if: "matrix.ssr == true"
 
       - name: Migrate DB and Run Laravel Server (MySQL)
         run: |
