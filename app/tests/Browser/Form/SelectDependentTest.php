@@ -16,7 +16,6 @@ class SelectDependentTest extends DuskTestCase
     }
 
     #[\PHPUnit\Framework\Attributes\DataProvider('dependentUrls')]
-
     #[\PHPUnit\Framework\Attributes\Test]
     public function it_restores_the_placeholder_on_regular_selects($url)
     {
@@ -37,7 +36,6 @@ class SelectDependentTest extends DuskTestCase
     }
 
     #[\PHPUnit\Framework\Attributes\DataProvider('dependentUrls')]
-
     #[\PHPUnit\Framework\Attributes\Test]
     public function it_restores_the_placeholder_on_choices_instances($url)
     {
@@ -60,7 +58,6 @@ class SelectDependentTest extends DuskTestCase
     }
 
     #[\PHPUnit\Framework\Attributes\DataProvider('dependentUrls')]
-
     #[\PHPUnit\Framework\Attributes\Test]
     public function it_restores_the_placeholder_on_regular_multiple_select($url)
     {
@@ -81,7 +78,6 @@ class SelectDependentTest extends DuskTestCase
     }
 
     #[\PHPUnit\Framework\Attributes\DataProvider('dependentUrls')]
-
     #[\PHPUnit\Framework\Attributes\Test]
     public function it_restores_the_placeholder_on_choices_multiple_select($url)
     {
@@ -106,7 +102,6 @@ class SelectDependentTest extends DuskTestCase
     }
 
     #[\PHPUnit\Framework\Attributes\DataProvider('dependentUrls')]
-
     #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_select_the_first_remote_option($url)
     {
@@ -126,7 +121,6 @@ class SelectDependentTest extends DuskTestCase
     }
 
     #[\PHPUnit\Framework\Attributes\DataProvider('dependentUrls')]
-
     #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_reset_the_select_option_on_a_remote_url_change($url)
     {
