@@ -6,9 +6,7 @@ use App\Models\User;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 
-/**
- * @group table
- */
+#[\PHPUnit\Framework\Attributes\Group('table')]
 class PaginationTest extends DuskTestCase
 {
     public static function simpleUrls()
@@ -21,11 +19,8 @@ class PaginationTest extends DuskTestCase
         ];
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider tableUrls
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
+    #[\PHPUnit\Framework\Attributes\DataProvider('tableUrls')]
     public function it_generates_a_paginator_with_links($url)
     {
         $this->browse(function (Browser $browser) use ($url) {
@@ -85,11 +80,8 @@ class PaginationTest extends DuskTestCase
         });
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider booleanDataset
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
+    #[\PHPUnit\Framework\Attributes\DataProvider('booleanDataset')]
     public function it_disabled_the_per_page_selection_on_less_than_two_options($spladeQueryBuilder)
     {
         $this->browse(function (Browser $browser) use ($spladeQueryBuilder) {
@@ -105,11 +97,8 @@ class PaginationTest extends DuskTestCase
         });
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider simpleUrls
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
+    #[\PHPUnit\Framework\Attributes\DataProvider('simpleUrls')]
     public function it_generates_a_simple_paginator($url, $method)
     {
         $url .= $method;

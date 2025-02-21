@@ -7,7 +7,7 @@ use Tests\DuskTestCase;
 
 class ToastTest extends DuskTestCase
 {
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_show_and_dimiss_a_toast()
     {
         $this->browse(function (Browser $browser) {
@@ -26,7 +26,7 @@ class ToastTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_show_two_toasts()
     {
         $this->browse(function (Browser $browser) {
@@ -50,7 +50,7 @@ class ToastTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_show_a_toast_with_a_backdrop()
     {
         $this->browse(function (Browser $browser) {
@@ -69,7 +69,7 @@ class ToastTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_show_a_toast_with_a_message()
     {
         $this->browse(function (Browser $browser) {
@@ -85,7 +85,7 @@ class ToastTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_show_a_success_toast()
     {
         $this->browse(function (Browser $browser) {
@@ -100,7 +100,7 @@ class ToastTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_show_a_warning_toast()
     {
         $this->browse(function (Browser $browser) {
@@ -115,7 +115,7 @@ class ToastTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_show_a_danger_toast()
     {
         $this->browse(function (Browser $browser) {
@@ -130,7 +130,7 @@ class ToastTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_show_a_center_bottom_toast()
     {
         $this->browse(function (Browser $browser) {
@@ -151,7 +151,7 @@ class ToastTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_show_a_right_bottom_toast()
     {
         $this->browse(function (Browser $browser) {
@@ -166,7 +166,7 @@ class ToastTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_show_a_toast_with_two_lines()
     {
         $this->browse(function (Browser $browser) {

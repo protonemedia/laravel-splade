@@ -5,14 +5,10 @@ namespace Tests\Browser\Table;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 
-/**
- * @group table
- */
+#[\PHPUnit\Framework\Attributes\Group('table')]
 class EmptyTest extends DuskTestCase
 {
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_shows_a_text_when_no_results_have_been_found()
     {
         $this->browse(function (Browser $browser) {

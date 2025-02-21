@@ -7,7 +7,7 @@ use Tests\DuskTestCase;
 
 class TeleportTest extends DuskTestCase
 {
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_teleport_a_slot()
     {
         $this->browse(function (Browser $browser) {

@@ -7,16 +7,11 @@ use Illuminate\Support\Str;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 
-/**
- * @group table
- */
+#[\PHPUnit\Framework\Attributes\Group('table')]
 class AutoFillTest extends DuskTestCase
 {
-    /**
-     * @test
-     *
-     * @dataProvider tableUrls
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
+    #[\PHPUnit\Framework\Attributes\DataProvider('tableUrls')]
     public function it_generates_the_table_header_with_sort_buttons($url)
     {
         $this->browse(function (Browser $browser) use ($url) {
@@ -35,11 +30,8 @@ class AutoFillTest extends DuskTestCase
         });
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider tableUrls
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
+    #[\PHPUnit\Framework\Attributes\DataProvider('tableUrls')]
     public function it_generates_the_table_body_with_a_custom_action_column($url)
     {
         $this->browse(function (Browser $browser) use ($url) {

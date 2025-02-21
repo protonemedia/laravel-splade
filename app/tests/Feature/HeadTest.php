@@ -6,7 +6,7 @@ use Tests\TestCase;
 
 class HeadTest extends TestCase
 {
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_renders_the_head()
     {
         $this->get('/navigation/one')

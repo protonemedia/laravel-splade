@@ -7,7 +7,7 @@ use Tests\DuskTestCase;
 
 class FilepondValidationTest extends DuskTestCase
 {
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_validate_the_file_type()
     {
         $this->browse(function (Browser $browser) {
@@ -20,7 +20,7 @@ class FilepondValidationTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_validate_the_minimum_size()
     {
         $this->browse(function (Browser $browser) {
@@ -33,7 +33,7 @@ class FilepondValidationTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_validate_the_maximum_size()
     {
         $this->browse(function (Browser $browser) {
@@ -46,7 +46,7 @@ class FilepondValidationTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_validate_the_exact_image_size()
     {
         $this->browse(function (Browser $browser) {
@@ -73,7 +73,7 @@ class FilepondValidationTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_validate_the_minimum_image_size()
     {
         $this->browse(function (Browser $browser) {
@@ -93,7 +93,7 @@ class FilepondValidationTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_validate_the_maximum_image_size()
     {
         $this->browse(function (Browser $browser) {
@@ -113,7 +113,7 @@ class FilepondValidationTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_validate_the_minimum_resolution()
     {
         $this->browse(function (Browser $browser) {
@@ -133,7 +133,7 @@ class FilepondValidationTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_validate_the_maximum_resolution()
     {
         $this->browse(function (Browser $browser) {

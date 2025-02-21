@@ -7,7 +7,7 @@ use Tests\DuskTestCase;
 
 class FlashTest extends DuskTestCase
 {
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_interact_with_flashed_data()
     {
         $this->browse(function (Browser $browser) {

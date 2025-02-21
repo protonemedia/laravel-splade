@@ -23,7 +23,7 @@ class DummyRedirectMiddleware
 
 class WithVueTest extends TestCase
 {
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_apply_middleware()
     {
         $instance = new class
@@ -47,7 +47,7 @@ class WithVueTest extends TestCase
         $this->fail('The middleware did not throw an exception.');
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_return_public_available_methods()
     {
         $instance = new class extends Component
@@ -64,7 +64,7 @@ class WithVueTest extends TestCase
         $this->assertEquals(['foo'], $instance->_availableMethods());
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_restore_data_properties_from_an_array()
     {
         $instance = new class extends Component
@@ -108,7 +108,7 @@ class WithVueTest extends TestCase
         $this->assertEquals('secret', invade($instance)->secret);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_serialize_data_properties()
     {
         $instance = new class extends Component

@@ -11,7 +11,7 @@ class EventTest extends DuskTestCase
 {
     use UsesWebsocketsServerTrait;
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_redirect_on_an_event()
     {
         $this->browse(function (Browser $browser) {
@@ -34,7 +34,7 @@ class EventTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_refresh_on_an_event()
     {
         $this->browse(function (Browser $browser) {
@@ -59,7 +59,7 @@ class EventTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_refresh_on_an_event_while_preserving_the_scroll_position_from_the_event()
     {
         $this->browse(function (Browser $browser) {
@@ -94,7 +94,7 @@ class EventTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_refresh_on_an_event_while_preserving_the_scroll_position_from_the_template()
     {
         $this->browse(function (Browser $browser) {
@@ -129,7 +129,7 @@ class EventTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_waits_for_a_redirect_until_the_modal_is_closed()
     {
         $this->browse(function (Browser $browser) {
@@ -156,7 +156,7 @@ class EventTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_waits_for_a_refresh_until_the_modal_is_closed()
     {
         $this->browse(function (Browser $browser) {
@@ -186,7 +186,7 @@ class EventTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_show_the_event()
     {
         $this->browse(function (Browser $browser) {
@@ -210,7 +210,7 @@ class EventTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_show_a_toast()
     {
         $this->browse(function (Browser $browser) {

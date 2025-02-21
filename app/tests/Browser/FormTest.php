@@ -8,7 +8,7 @@ use Tests\DuskTestCase;
 
 class FormTest extends DuskTestCase
 {
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_show_the_errors()
     {
         $this->browse(function (Browser $browser) {
@@ -20,7 +20,7 @@ class FormTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_show_the_errors_from_a_redirect()
     {
         $this->browse(function (Browser $browser) {
@@ -32,7 +32,7 @@ class FormTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_submit_data_to_a_get_endpoint()
     {
         $this->browse(function (Browser $browser) {
@@ -47,7 +47,7 @@ class FormTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_submit_to_a_non_post_endpoint()
     {
         $this->browse(function (Browser $browser) {
@@ -59,7 +59,7 @@ class FormTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_upload_a_file()
     {
         $this->browse(function (Browser $browser) {
@@ -72,7 +72,7 @@ class FormTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_restore_the_form_after_submit()
     {
         $this->browse(function (Browser $browser) {
@@ -86,7 +86,7 @@ class FormTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_reset_the_form_after_submit()
     {
         $this->browse(function (Browser $browser) {
@@ -99,7 +99,7 @@ class FormTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_ask_to_confirm_the_submit()
     {
         $this->browse(function (Browser $browser) {
@@ -118,7 +118,7 @@ class FormTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_ask_to_confirm_the_submit_with_a_danger_button()
     {
         $this->browse(function (Browser $browser) {
@@ -137,7 +137,7 @@ class FormTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_ask_to_confirm_the_submit_with_custom_texts()
     {
         $this->browse(function (Browser $browser) {
@@ -151,7 +151,7 @@ class FormTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_ask_to_confirm_the_submit_with_a_password()
     {
         $this->browse(function (Browser $browser) {
@@ -184,7 +184,7 @@ class FormTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_check_the_password_confirmation_status()
     {
         $this->browse(function (Browser $browser) {
@@ -207,7 +207,7 @@ class FormTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_confirm_and_execute_a_callback_without_submitting()
     {
         $this->browse(function (Browser $browser) {
@@ -222,7 +222,7 @@ class FormTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_have_a_default_js_object_value()
     {
         $this->browse(function (Browser $browser) {
@@ -232,7 +232,7 @@ class FormTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_have_a_default_eloquent_value()
     {
         $this->browse(function (Browser $browser) {
@@ -242,7 +242,7 @@ class FormTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_have_a_default_array_value()
     {
         $this->browse(function (Browser $browser) {
@@ -252,7 +252,7 @@ class FormTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_have_a_default_arrayable_value()
     {
         $this->browse(function (Browser $browser) {
@@ -262,7 +262,7 @@ class FormTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_have_a_default_json_value()
     {
         $this->browse(function (Browser $browser) {
@@ -272,7 +272,7 @@ class FormTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_have_a_default_jsonable_value()
     {
         $this->browse(function (Browser $browser) {
@@ -282,7 +282,7 @@ class FormTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_have_a_default_json_serializable_value()
     {
         $this->browse(function (Browser $browser) {
@@ -292,7 +292,7 @@ class FormTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_nested_values()
     {
         $this->browse(function (Browser $browser) {
@@ -306,7 +306,7 @@ class FormTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_show_the_forms_state_and_a_progress_bar()
     {
         $this->browse(function (Browser $browser) {
@@ -325,7 +325,7 @@ class FormTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_renders_classes_on_the_form_element()
     {
         $this->browse(function (Browser $browser) {
@@ -335,7 +335,7 @@ class FormTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_submit_to_a_route_that_returns_a_view_instead_of_a_redirect()
     {
         $this->browse(function (Browser $browser) {

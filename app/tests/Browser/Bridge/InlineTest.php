@@ -7,7 +7,7 @@ use Tests\DuskTestCase;
 
 class InlineTest extends DuskTestCase
 {
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_supports_inline_templates()
     {
         $this->browse(function (Browser $browser) {

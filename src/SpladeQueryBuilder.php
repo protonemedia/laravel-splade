@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
-use Kirschbaum\PowerJoins\PowerJoins;
+use Kirschbaum\PowerJoins\EloquentJoins;
 use ProtoneMedia\Splade\Table\Column;
 use ProtoneMedia\Splade\Table\Filter;
 use ProtoneMedia\Splade\Table\PowerJoinsException;
@@ -203,17 +203,9 @@ class SpladeQueryBuilder extends SpladeTable
             return $this->builder->orderBy($column->key, $column->sorted);
         }
 
-        if (!trait_exists(PowerJoins::class)) {
-            throw new PowerJoinsException(
-                "To order the query using a column from a relationship, please install the 'kirschbaum-development/eloquent-power-joins' package."
-            );
-        }
-
-        if (!trait_uses_recursive($this->builder->getModel(), PowerJoins::class)) {
-            throw new PowerJoinsException(
-                "To order the query using a column from a relationship, make sure the Model uses the 'PowerJoins' trait."
-            );
-        }
+        class_exists(EloquentJoins::class) || throw new PowerJoinsException(
+            "To order the query using a column from a relationship, please install the 'kirschbaum-development/eloquent-power-joins' package."
+        );
 
         // Apply the sorting using the PowerJoins package.
         return $this->builder->orderByLeftPowerJoins($column->key, $column->sorted);

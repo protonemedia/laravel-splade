@@ -10,18 +10,18 @@
     "require": {
         "php": "^8.4|^8.3|^8.2",
         "guzzlehttp/guzzle": "^7.2",
-        "kirschbaum-development/eloquent-power-joins": "^3.0",
-        "laravel/framework": "^10.48.23|^11.33",
+        "kirschbaum-development/eloquent-power-joins": "^4.0",
+        "laravel/framework": "^10.48.23|^11.33|^12.0",
         "laravel/reverb": "^1.4.3",
         "laravel/sanctum": "^3.2|^4.0",
         "laravel/tinker": "^2.7",
         "maatwebsite/excel": "^3.1",
         "monolog/monolog": "^3.0",
-        "nesbot/carbon": "^2.63",
+        "nesbot/carbon": "^2.63|^3.0",
         "psr/simple-cache": "^2.0",
         "ramsey/collection": "^1.2",
         "spatie/laravel-medialibrary": "^11.0",
-        "spatie/laravel-query-builder": "^5.0"
+        "spatie/laravel-query-builder": "^5.0|^6.0|dev-main"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.7",
@@ -29,7 +29,7 @@
         "laravel/dusk": "^8.2.11",
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^7.10|^8.1",
-        "phpunit/phpunit": "^10.4",
+        "phpunit/phpunit": "^10.4|^11.5.3",
         "protonemedia/laravel-splade": "*",
         "spatie/ignition": "^1.4.1",
         "spatie/invade": "^1.1",

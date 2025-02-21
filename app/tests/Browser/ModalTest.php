@@ -7,7 +7,7 @@ use Tests\DuskTestCase;
 
 class ModalTest extends DuskTestCase
 {
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_show_a_modal()
     {
         $this->browse(function (Browser $browser) {
@@ -30,7 +30,7 @@ class ModalTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_require_the_modal_to_be_explicitly_closed()
     {
         $this->browse(function (Browser $browser) {
@@ -48,7 +48,7 @@ class ModalTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_do_nested_modals()
     {
         $this->browse(function (Browser $browser) {
@@ -76,7 +76,7 @@ class ModalTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_show_a_slideover()
     {
         $this->browse(function (Browser $browser) {
@@ -100,7 +100,7 @@ class ModalTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_show_a_slideover_on_the_left_side()
     {
         $this->browse(function (Browser $browser) {
@@ -124,7 +124,7 @@ class ModalTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_do_nested_slideover()
     {
         $this->browse(function (Browser $browser) {
@@ -165,7 +165,7 @@ class ModalTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_shows_the_form_validation_inside_the_modal()
     {
         $this->browse(function (Browser $browser) {
@@ -182,7 +182,7 @@ class ModalTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_keep_the_modal_opened_after_submit()
     {
         $this->browse(function (Browser $browser) {
@@ -199,7 +199,7 @@ class ModalTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_optionally_hide_the_close_button()
     {
         $this->browse(function (Browser $browser) {
@@ -223,11 +223,8 @@ class ModalTest extends DuskTestCase
         });
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider sizeAndPixels
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
+    #[\PHPUnit\Framework\Attributes\DataProvider('sizeAndPixels')]
     public function it_can_have_a_modal_with_different_max_widths($size, $expectedWidth)
     {
         $this->browse(function (Browser $browser) use ($size, $expectedWidth) {
@@ -244,11 +241,8 @@ class ModalTest extends DuskTestCase
         });
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider sizeAndPixels
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
+    #[\PHPUnit\Framework\Attributes\DataProvider('sizeAndPixels')]
     public function it_can_have_a_slideover_with_different_max_widths($size, $expectedWidth)
     {
         $this->browse(function (Browser $browser) use ($size, $expectedWidth) {

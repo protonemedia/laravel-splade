@@ -7,7 +7,7 @@ use Tests\DuskTestCase;
 
 class ContentTest extends DuskTestCase
 {
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_render_rendered_html()
     {
         $this->browse(function (Browser $browser) {

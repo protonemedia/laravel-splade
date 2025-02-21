@@ -16,7 +16,7 @@ class FilepondExistingTest extends DuskTestCase
         DatabaseSeeder::giveUserMedia(User::first());
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_keep_the_existing_single_media_upload()
     {
         $user = User::first();
@@ -38,7 +38,7 @@ class FilepondExistingTest extends DuskTestCase
         $this->assertTrue($user->fresh()->getFirstMedia('avatar')->is($media));
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_replace_the_existing_single_media_upload()
     {
         $user = User::first();
@@ -65,7 +65,7 @@ class FilepondExistingTest extends DuskTestCase
         $this->assertFalse($user->fresh()->getFirstMedia('avatar')->is($media));
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_delete_the_existing_single_media_upload()
     {
         $user = User::first();
@@ -91,7 +91,7 @@ class FilepondExistingTest extends DuskTestCase
         $this->assertNull($user->fresh()->getFirstMedia('avatar'));
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_keep_the_existing_multiple_media_uploads()
     {
         $user = User::first();
@@ -116,7 +116,7 @@ class FilepondExistingTest extends DuskTestCase
         $this->assertTrue($newMedia[1]->is($media[1]));
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_add_a_file_to_the_existing_multiple_media_uploads()
     {
         $user = User::first();
@@ -144,7 +144,7 @@ class FilepondExistingTest extends DuskTestCase
         $this->assertEquals('small.jpeg', $newMedia[2]->file_name);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_delete_an_existing_multiple_media_upload()
     {
         $user = User::first();
@@ -171,7 +171,7 @@ class FilepondExistingTest extends DuskTestCase
         $this->assertTrue($newMedia[0]->is($media[1]));
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_reorder_multiple_uploads()
     {
         $user = User::first();
@@ -198,7 +198,7 @@ class FilepondExistingTest extends DuskTestCase
         $this->assertEquals('1.jpeg', $newMedia[1]->file_name);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_add_and_delete_and_reorder_in_one_request()
     {
         $user = User::first();
@@ -238,7 +238,7 @@ class FilepondExistingTest extends DuskTestCase
         $this->assertEquals('2.jpeg', $newMedia[1]->file_name);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_also_reorder_with_direct_uploads()
     {
         $user = User::first();
@@ -277,7 +277,7 @@ class FilepondExistingTest extends DuskTestCase
         $this->assertEquals('dummy2.txt', $newMedia[1]->file_name);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_add_a_file_from_a_external_link()
     {
         /** @var User $user */

@@ -6,16 +6,11 @@ use App\Models\User;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 
-/**
- * @group table
- */
+#[\PHPUnit\Framework\Attributes\Group('table')]
 class DropdownTest extends DuskTestCase
 {
-    /**
-     * @test
-     *
-     * @dataProvider booleanDataset
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
+    #[\PHPUnit\Framework\Attributes\DataProvider('booleanDataset')]
     public function it_renders_the_dropdown_outside_of_the_table_wrapper($spladeQueryBuilder)
     {
         $this->browse(function (Browser $browser) use ($spladeQueryBuilder) {

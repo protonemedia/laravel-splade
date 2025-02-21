@@ -8,7 +8,7 @@ use Tests\TestCase;
 
 class HeadTest extends TestCase
 {
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_trims_the_title()
     {
         $head = new Head;
@@ -17,7 +17,7 @@ class HeadTest extends TestCase
         $this->assertEquals('Laravel Splade', $head->getTitle());
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_prepends_the_prefix()
     {
         config(['splade.seo.title_prefix' => 'Prefix']);
@@ -32,7 +32,7 @@ class HeadTest extends TestCase
         $this->assertEquals('Prefix | Laravel Splade', $head->getTitle());
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_doesnt_prepend_the_prefix_if_its_the_same_as_the_title()
     {
         config(['splade.seo.title_prefix' => 'Laravel Splade']);
@@ -48,7 +48,7 @@ class HeadTest extends TestCase
         $this->assertEquals('Laravel Splade', $head->getTitle());
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_appends_the_prefix()
     {
         config(['splade.seo.title_suffix' => 'Suffix']);
@@ -63,7 +63,7 @@ class HeadTest extends TestCase
         $this->assertEquals('Laravel Splade | Suffix', $head->getTitle());
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_doesnt_append_the_suffix_if_its_the_same_as_the_title()
     {
         config(['splade.seo.title_suffix' => 'Laravel Splade']);
@@ -79,7 +79,7 @@ class HeadTest extends TestCase
         $this->assertEquals('Laravel Splade', $head->getTitle());
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_fill_the_twitter_defaults()
     {
         config([
@@ -97,7 +97,7 @@ class HeadTest extends TestCase
 
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_fill_the_open_graph_defaults()
     {
         config([
@@ -111,7 +111,7 @@ class HeadTest extends TestCase
         $this->assertEquals($head->getMetaByProperty('og:title')->first()->content, 'Default Title');
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_fill_the_twitter_defaults_and_then_auto_fills()
     {
         config([
@@ -138,7 +138,7 @@ class HeadTest extends TestCase
         $this->assertEquals($head->getMetaByName('twitter:description')->first()->content, 'Updated Description');
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_fill_the_open_graph_defaults_and_then_auto_fills()
     {
         config([
@@ -163,7 +163,7 @@ class HeadTest extends TestCase
         $this->assertEquals($head->getMetaByProperty('og:title')->first()->content, 'Updated Title');
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_render_the_canonical_link()
     {
         $head = new Head;
@@ -172,7 +172,7 @@ class HeadTest extends TestCase
         $this->assertStringContainsString('<link rel="canonical" href="https://splade.dev">', $head->renderHead()->toHtml());
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_is_macroable()
     {
         SEO::macro('openGraphLocale', function (string $value) {

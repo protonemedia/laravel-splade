@@ -6,14 +6,10 @@ use App\Models\User;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 
-/**
- * @group table
- */
+#[\PHPUnit\Framework\Attributes\Group('table')]
 class ModalTest extends DuskTestCase
 {
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_paginate_in_a_modal_without_closing_the_modal()
     {
         $this->browse(function (Browser $browser) {
@@ -37,9 +33,7 @@ class ModalTest extends DuskTestCase
         });
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_order_in_a_modal_without_closing_the_modal()
     {
         $this->browse(function (Browser $browser) {
@@ -68,9 +62,7 @@ class ModalTest extends DuskTestCase
         });
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_search_in_a_modal_without_closing_the_modal()
     {
         $this->browse(function (Browser $browser) {

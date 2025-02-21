@@ -31,7 +31,7 @@ class ComponentControllerTest extends TestCase
         return $data;
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_aborts_when_the_request_is_incomplete()
     {
         $this->post(route('splade.withVueBridge'))
@@ -39,7 +39,7 @@ class ComponentControllerTest extends TestCase
             ->assertSee('Invalid request');
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_aborts_when_the_request_has_no_valid_signature()
     {
         $component = new DummyComponent;
@@ -53,7 +53,7 @@ class ComponentControllerTest extends TestCase
             ->assertSee('Malicious request');
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_aborts_when_it_cant_resolve_the_instance()
     {
         $component = new DummyComponent;
@@ -68,7 +68,7 @@ class ComponentControllerTest extends TestCase
             ->assertSee('Component not found');
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_applies_the_original_middleware()
     {
         $component = new DummyComponent;
@@ -82,7 +82,7 @@ class ComponentControllerTest extends TestCase
             ->assertRedirectToRoute('login');
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_makes_sure_the_component_method_exists()
     {
         $component = new DummyComponent;
@@ -98,7 +98,7 @@ class ComponentControllerTest extends TestCase
             ->assertSee('Method not found');
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_calls_the_method_without_parameters()
     {
         $component = new DummyComponent;
@@ -116,7 +116,7 @@ class ComponentControllerTest extends TestCase
         $this->assertEquals('Tailwind', $instance->name);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_calls_the_method_with_a_parameter()
     {
         $component = new DummyComponent;

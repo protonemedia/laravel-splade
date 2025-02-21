@@ -12,7 +12,7 @@ use Tests\TestCase;
 
 class CleanupTemporaryFileUploadsTest extends TestCase
 {
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_will_clean_files_older_than_one_hour()
     {
         Storage::fake('local');

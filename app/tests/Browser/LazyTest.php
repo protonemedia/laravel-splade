@@ -7,7 +7,7 @@ use Tests\DuskTestCase;
 
 class LazyTest extends DuskTestCase
 {
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_lazily_load_content()
     {
         $this->browse(function (Browser $browser) {
@@ -30,7 +30,7 @@ class LazyTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_resolve_an_external_url()
     {
         $this->browse(function (Browser $browser) {
@@ -50,7 +50,7 @@ class LazyTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_binds_the_lazy_loaded_content_to_the_global_data_store()
     {
         $this->browse(function (Browser $browser) {

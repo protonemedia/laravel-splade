@@ -25,7 +25,7 @@ class FilepondTest extends DuskTestCase
         parent::tearDown();
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_upload_a_file_using_a_regular_single_request()
     {
         $this->browse(function (Browser $browser) {
@@ -42,7 +42,7 @@ class FilepondTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_upload_multiple_files_using_a_regular_single_request()
     {
         $this->browse(function (Browser $browser) {
@@ -62,7 +62,7 @@ class FilepondTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_upload_a_temporary_file_using_controller_middleware()
     {
         $this->browse(function (Browser $browser) {
@@ -79,7 +79,7 @@ class FilepondTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_upload_multiple_temporary_files()
     {
         $this->browse(function (Browser $browser) {
@@ -99,7 +99,7 @@ class FilepondTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_upload_a_temporary_file_using_route_middleware()
     {
         $this->browse(function (Browser $browser) {
@@ -116,7 +116,7 @@ class FilepondTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_upload_a_temporary_file_using_a_form_request()
     {
         $this->browse(function (Browser $browser) {
@@ -133,7 +133,7 @@ class FilepondTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_upload_a_temporary_file_using_a_form_request_that_has_a_validation_rule_object()
     {
         $this->browse(function (Browser $browser) {
@@ -150,7 +150,7 @@ class FilepondTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_upload_a_temporary_file_using_a_form_request_and_it_clear_the_converted_files()
     {
         $this->browse(function (Browser $browser) {
@@ -168,7 +168,7 @@ class FilepondTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_use_a_custom_js_config()
     {
         $this->browse(function (Browser $browser) {
@@ -181,7 +181,7 @@ class FilepondTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_use_a_custom_php_config()
     {
         $this->browse(function (Browser $browser) {

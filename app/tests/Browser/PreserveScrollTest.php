@@ -7,7 +7,7 @@ use Tests\DuskTestCase;
 
 class PreserveScrollTest extends DuskTestCase
 {
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_preserve_to_scroll_props_on_navigation()
     {
         $this->browse(function (Browser $browser) {

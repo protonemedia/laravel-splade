@@ -7,7 +7,7 @@ use Tests\DuskTestCase;
 
 class DataStoreTest extends DuskTestCase
 {
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_has_two_way_binding_for_multiple_data_sets()
     {
         $this->browse(function (Browser $browser) {
@@ -24,7 +24,7 @@ class DataStoreTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_have_multiple_default_data_sets()
     {
         $this->browse(function (Browser $browser) {
@@ -43,7 +43,7 @@ class DataStoreTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_remember_the_state_of_the_data()
     {
         $this->browse(function (Browser $browser) {
@@ -71,7 +71,7 @@ class DataStoreTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_remember_the_state_of_the_data_in_local_storage()
     {
         $this->browse(function (Browser $browser) {

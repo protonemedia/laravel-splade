@@ -7,7 +7,7 @@ use Tests\DuskTestCase;
 
 class ErrorsTest extends DuskTestCase
 {
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_show_the_errors_from_the_session()
     {
         $this->browse(function (Browser $browser) {

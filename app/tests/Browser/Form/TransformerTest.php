@@ -8,7 +8,7 @@ use Tests\DuskTestCase;
 
 class TransformerTest extends DuskTestCase
 {
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_transform_models_and_relations()
     {
         $this->browse(function (Browser $browser) {

@@ -8,7 +8,7 @@ use Tests\TestCase;
 
 class ToastTest extends TestCase
 {
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_set_a_default_toast()
     {
         $toastA = Splade::toast('Message A')->toArray();

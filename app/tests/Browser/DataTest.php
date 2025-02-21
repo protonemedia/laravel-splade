@@ -7,7 +7,7 @@ use Tests\DuskTestCase;
 
 class DataTest extends DuskTestCase
 {
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_has_two_way_binding()
     {
         $this->browse(function (Browser $browser) {
@@ -18,7 +18,7 @@ class DataTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_have_a_default_data_set()
     {
         $this->browse(function (Browser $browser) {
@@ -34,7 +34,7 @@ class DataTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_bind_an_eloquent_model()
     {
         $this->browse(function (Browser $browser) {
@@ -44,7 +44,7 @@ class DataTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_remember_the_state_of_the_data()
     {
         $this->browse(function (Browser $browser) {
@@ -62,7 +62,7 @@ class DataTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_remember_the_state_of_the_data_with_a_default_dataset()
     {
         $this->browse(function (Browser $browser) {
@@ -80,7 +80,7 @@ class DataTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_remember_the_state_of_the_data_in_local_storage()
     {
         $this->browse(function (Browser $browser) {

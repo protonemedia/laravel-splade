@@ -8,7 +8,7 @@ use Tests\DuskTestCase;
 
 class SlotTest extends DuskTestCase
 {
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_renders_the_original_view_in_the_vue_component()
     {
         $this->browse(function (Browser $browser) {

@@ -11,7 +11,7 @@ use Tests\DuskTestCase;
 
 class RelationsTest extends DuskTestCase
 {
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_find_the_default_value_of_a_nested_relationship()
     {
         $this->browse(function (Browser $browser) {
@@ -23,7 +23,7 @@ class RelationsTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_handle_a_belongs_to_many_relationship()
     {
         $tags = Tag::query()->get();
@@ -51,7 +51,7 @@ class RelationsTest extends DuskTestCase
         $this->assertEquals($newIds, $user->tags()->get()->map->id->all());
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_handle_a_belongs_to_many_relationship_with_the_choices_library()
     {
         $tags = Tag::query()->get();
@@ -88,7 +88,7 @@ class RelationsTest extends DuskTestCase
         $this->assertEquals($newIds, $user->tags()->get()->map->id->all());
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_handle_a_morph_to_many_relationship()
     {
         $keywords = Keyword::query()->get();
@@ -116,7 +116,7 @@ class RelationsTest extends DuskTestCase
         $this->assertEquals($newIds, $user->keywords()->get()->map->id->all());
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_handle_a_relationship_with_checkboxes()
     {
         $keywords = Keyword::query()->get();
@@ -148,7 +148,7 @@ class RelationsTest extends DuskTestCase
         $this->assertEquals($newIds, $user->keywords()->get()->map->id->all());
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_have_two_forms_in_a_view_without_mixing_data()
     {
         $tags = Tag::query()->get();

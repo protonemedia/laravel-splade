@@ -1,23 +1,29 @@
 name: run-table-tests
 
-on: [push, pull_request]
+on:
+  - push
+  - pull_request
 
 jobs:
   table-test:
     runs-on: ubuntu-latest
+
     strategy:
       fail-fast: true
       matrix:
         php: [8.4, 8.3, 8.2]
-        laravel: [11.0, 10.0]
+        laravel: [10.0, 11.0, 12.0]
         db: [mysql, postgres, sqlite]
         ssr: [true, false]
         dependency-version: [prefer-lowest, prefer-stable]
         include:
+          - laravel: 12.0
+            testbench: 10.*
           - laravel: 11.0
             testbench: 9.*
           - laravel: 10.0
             testbench: 8.*
+
         exclude:
           - dependency-version: prefer-lowest
             ssr: true
@@ -68,7 +74,6 @@ jobs:
         env:
           cache-name: cache-node-modules
         with:
-          # npm cache files are stored in `~/.npm` on Linux/macOS
           path: ~/.npm
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
@@ -76,12 +81,12 @@ jobs:
             ${{ runner.os }}-build-
             ${{ runner.os }}-
 
-      - if: ${{ steps.cache-npm.outputs.cache-hit == 'false' }}
+      - if: "${{ steps.cache-npm.outputs.cache-hit == 'false' }}"
         name: List the state of node modules
         continue-on-error: true
         run: npm list
 
-      - name: "Install locked dependencies with npm"
+      - name: Install locked dependencies with npm
         run: |
           npm ci --ignore-scripts
 
@@ -99,19 +104,19 @@ jobs:
           coverage: none
 
       - name: Prepare environment file (MySQL)
-        if: ${{ matrix.db == 'mysql' }}
+        if: "${{ matrix.db == 'mysql' }}"
         run: |
           cd app
           cp .env.example.mysql .env
 
       - name: Prepare environment file (PostgreSQL)
-        if: ${{ matrix.db == 'postgres' }}
+        if: "${{ matrix.db == 'postgres' }}"
         run: |
           cd app
           cp .env.example.postgres .env
 
       - name: Prepare environment file (SQLite)
-        if: ${{ matrix.db == 'sqlite' }}
+        if: "${{ matrix.db == 'sqlite' }}"
         run: |
           cd app
           cp .env.example .env
@@ -140,7 +145,7 @@ jobs:
           cd app
           sed -i -e "s|SPLADE_SSR_ENABLED=false|SPLADE_SSR_ENABLED=true|g" .env
           node bootstrap/ssr/ssr.mjs &
-        if: matrix.ssr == true
+        if: "matrix.ssr == true"
 
       - name: Migrate DB and Run Laravel Server (MySQL)
         run: |
@@ -148,7 +153,7 @@ jobs:
           php artisan storage:link
           php artisan migrate:fresh --seed
           php artisan serve &
-        if: ${{ matrix.db == 'mysql' }}
+        if: "${{ matrix.db == 'mysql' }}"
         env:
           DB_PORT: ${{ job.services.mysql.ports[3306] }}
 
@@ -158,12 +163,12 @@ jobs:
           php artisan storage:link
           php artisan migrate:fresh --seed
           php artisan serve &
-        if: ${{ matrix.db == 'postgres' }}
+        if: "${{ matrix.db == 'postgres' }}"
         env:
           DB_PORT: ${{ job.services.postgres.ports[5432] }}
 
       - name: Migrate DB and Run Laravel Server (SQLite)
-        if: ${{ matrix.db == 'sqlite' }}
+        if: "${{ matrix.db == 'sqlite' }}"
         run: |
           cd app
           php artisan storage:link
@@ -171,7 +176,7 @@ jobs:
           php artisan serve &
 
       - name: Execute Dusk tests (only table tests - MySQL)
-        if: ${{ matrix.db == 'mysql' }}
+        if: "${{ matrix.db == 'mysql' }}"
         uses: nick-invision/retry@v3
         with:
           timeout_minutes: 10
@@ -182,7 +187,7 @@ jobs:
           DB_PORT: ${{ job.services.mysql.ports[3306] }}
 
       - name: Execute Dusk tests (only table tests - PostgreSQL)
-        if: ${{ matrix.db == 'postgres' }}
+        if: "${{ matrix.db == 'postgres' }}"
         uses: nick-invision/retry@v3
         with:
           timeout_minutes: 10
@@ -193,7 +198,7 @@ jobs:
           DB_PORT: ${{ job.services.postgres.ports[5432] }}
 
       - name: Execute Dusk tests (only table tests - SQLite)
-        if: ${{ matrix.db == 'sqlite' }}
+        if: "${{ matrix.db == 'sqlite' }}"
         uses: nick-invision/retry@v3
         with:
           timeout_minutes: 10

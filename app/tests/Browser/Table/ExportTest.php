@@ -6,12 +6,10 @@ use App\Models\Project;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 
-/**
- * @group table
- */
+#[\PHPUnit\Framework\Attributes\Group('table')]
 class ExportTest extends DuskTestCase
 {
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_export_as_excel()
     {
         $this->browse(function (Browser $browser) {
@@ -31,7 +29,7 @@ class ExportTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_export_as_csv()
     {
         $this->browse(function (Browser $browser) {

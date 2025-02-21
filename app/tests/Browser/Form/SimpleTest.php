@@ -7,7 +7,7 @@ use Tests\DuskTestCase;
 
 class SimpleTest extends DuskTestCase
 {
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_shows_validation_errors_for_each_element()
     {
         $this->browse(function (Browser $browser) {
@@ -27,7 +27,7 @@ class SimpleTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_submits_the_filled_elements()
     {
         $this->browse(function (Browser $browser) {
@@ -51,7 +51,7 @@ class SimpleTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_read_an_image()
     {
         $this->browse(function (Browser $browser) {
@@ -67,7 +67,7 @@ class SimpleTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_submit_a_value_in_the_submit_button()
     {
         $this->browse(function (Browser $browser) {

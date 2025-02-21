@@ -7,7 +7,7 @@ use Tests\DuskTestCase;
 
 class HeadTest extends DuskTestCase
 {
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_updates_the_title_and_meta_and_link_tags()
     {
         $this->browse(function (Browser $browser) {
@@ -33,7 +33,7 @@ class HeadTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_updates_the_head_when_modals_are_opened_and_closed()
     {
         $this->browse(function (Browser $browser) {
@@ -62,7 +62,7 @@ class HeadTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_has_blade_directives_to_set_the_seo()
     {
         $this->browse(function (Browser $browser) {

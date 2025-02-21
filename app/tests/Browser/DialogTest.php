@@ -7,7 +7,7 @@ use Tests\DuskTestCase;
 
 class DialogTest extends DuskTestCase
 {
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_hides_the_dialog_on_navigation()
     {
         $this->browse(function (Browser $browser) {

@@ -10,7 +10,7 @@ use Tests\TestCase;
 
 class SsrTest extends TestCase
 {
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_has_a_server_that_handles_ssr_requests()
     {
         if (!config('splade.ssr.enabled')) {
@@ -33,7 +33,7 @@ class SsrTest extends TestCase
         $this->assertStringContainsString('grid grid-cols-3 grid-flow-row-3', $data['body'] ?? '');
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_has_a_server_that_handles_ssr_requests_and_dynamic_content()
     {
         if (!config('splade.ssr.enabled')) {

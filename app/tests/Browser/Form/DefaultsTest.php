@@ -7,7 +7,7 @@ use Tests\DuskTestCase;
 
 class DefaultsTest extends DuskTestCase
 {
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_use_the_choices_library_by_default()
     {
         $this->browse(function (Browser $browser) {
@@ -18,7 +18,7 @@ class DefaultsTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_use_the_flatpickr_library_by_default_with_a_default_date_format()
     {
         $this->browse(function (Browser $browser) {
@@ -31,7 +31,7 @@ class DefaultsTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_use_the_flatpickr_library_by_default_with_a_default_time_format()
     {
         $this->browse(function (Browser $browser) {
@@ -44,7 +44,7 @@ class DefaultsTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_select_the_default_option_when_the_options_attribute_is_not_used()
     {
         $this->browse(function (Browser $browser) {

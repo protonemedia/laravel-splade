@@ -7,7 +7,7 @@ use Tests\DuskTestCase;
 
 class ValidationTest extends DuskTestCase
 {
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_escapes_the_validation_messages_by_default()
     {
         $this->browse(function (Browser $browser) {
@@ -19,7 +19,7 @@ class ValidationTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_disable_escaping_the_validation_messages()
     {
         $this->browse(function (Browser $browser) {

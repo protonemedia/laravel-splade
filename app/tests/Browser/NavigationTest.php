@@ -8,7 +8,7 @@ use Tests\DuskTestCase;
 
 class NavigationTest extends DuskTestCase
 {
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_navigate_without_reloading_the_whole_page()
     {
         $this->browse(function (Browser $browser) {
@@ -26,7 +26,7 @@ class NavigationTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_navigate_with_a_hash()
     {
         $this->browse(function (Browser $browser) {
@@ -42,7 +42,7 @@ class NavigationTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_redirect_without_reloading_the_whole_page()
     {
         $this->browse(function (Browser $browser) {
@@ -56,7 +56,7 @@ class NavigationTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_redirect_away_from_the_splade_spa()
     {
         $this->browse(function (Browser $browser) {
@@ -68,7 +68,7 @@ class NavigationTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_redirect_away_from_the_splade_spa_with_a_helper_method()
     {
         $this->browse(function (Browser $browser) {
@@ -80,7 +80,7 @@ class NavigationTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_redirect_away_from_the_splade_spa_with_the_link_component()
     {
         $this->browse(function (Browser $browser) {
@@ -92,7 +92,7 @@ class NavigationTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_use_the_back_and_forward_buttons()
     {
         $this->browse(function (Browser $browser) {
@@ -118,7 +118,7 @@ class NavigationTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_remembers_the_state_of_a_page()
     {
         $this->browse(function (Browser $browser) {
@@ -134,7 +134,7 @@ class NavigationTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_ask_to_confirm()
     {
         $this->browse(function (Browser $browser) {
@@ -153,7 +153,7 @@ class NavigationTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_ask_to_confirm_with_a_password()
     {
         $this->browse(function (Browser $browser) {
@@ -179,7 +179,7 @@ class NavigationTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_ask_to_confirm_with_custom_texts()
     {
         $this->browse(function (Browser $browser) {
@@ -193,7 +193,7 @@ class NavigationTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_shows_a_404_error()
     {
         $this->browse(function (Browser $browser) {
@@ -219,7 +219,7 @@ class NavigationTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_shows_a_500_error()
     {
         $this->browse(function (Browser $browser) {
@@ -237,7 +237,7 @@ class NavigationTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_use_a_blade_link_component()
     {
         $this->browse(function (Browser $browser) {
@@ -249,7 +249,7 @@ class NavigationTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_use_additional_attributes_on_a_blade_link_component()
     {
         $this->browse(function (Browser $browser) {
@@ -264,7 +264,7 @@ class NavigationTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_use_the_link_component_to_post_data()
     {
         $this->browse(function (Browser $browser) {
@@ -276,7 +276,7 @@ class NavigationTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_use_the_link_component_to_put_data()
     {
         $this->browse(function (Browser $browser) {
@@ -288,7 +288,7 @@ class NavigationTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_adds_a_vary_header_so_switching_between_spa_and_non_spa_wont_break()
     {
         $this->browse(function (Browser $browser) {

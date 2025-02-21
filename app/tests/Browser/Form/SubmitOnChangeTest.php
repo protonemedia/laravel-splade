@@ -7,7 +7,7 @@ use Tests\DuskTestCase;
 
 class SubmitOnChangeTest extends DuskTestCase
 {
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_submit_the_form_by_watching_value_changes()
     {
         $this->browse(function (Browser $browser) {
@@ -22,7 +22,7 @@ class SubmitOnChangeTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_submit_the_form_by_watching_a_single_value_change()
     {
         $this->browse(function (Browser $browser) {
@@ -38,7 +38,7 @@ class SubmitOnChangeTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_submit_the_form_by_watching_a_string_of_attributes()
     {
         $this->browse(function (Browser $browser) {
@@ -53,7 +53,7 @@ class SubmitOnChangeTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_submit_the_form_by_watching_an_array_of_attributes()
     {
         $this->browse(function (Browser $browser) {
@@ -68,7 +68,7 @@ class SubmitOnChangeTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_submit_the_form_by_in_the_background()
     {
         $this->browse(function (Browser $browser) {

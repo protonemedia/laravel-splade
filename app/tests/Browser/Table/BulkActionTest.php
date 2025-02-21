@@ -7,12 +7,10 @@ use App\Models\User;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 
-/**
- * @group table
- */
+#[\PHPUnit\Framework\Attributes\Group('table')]
 class BulkActionTest extends DuskTestCase
 {
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_perform_one_row()
     {
         $this->browse(function (Browser $browser) {
@@ -41,7 +39,7 @@ class BulkActionTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_perform_one_all_rows_on_the_current_page_with_a_confirmation()
     {
         $this->browse(function (Browser $browser) {
@@ -72,7 +70,7 @@ class BulkActionTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_perform_one_all_rows_on_the_current_page_with_a_password_confirmation()
     {
         $this->browse(function (Browser $browser) {
@@ -100,7 +98,7 @@ class BulkActionTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_perform_on_all_rows_of_the_filtered_result()
     {
         $this->browse(function (Browser $browser) {
@@ -134,7 +132,7 @@ class BulkActionTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_perform_one_all_rows_on_the_all_pages_with_a_custom_confirmation()
     {
         $this->browse(function (Browser $browser) {

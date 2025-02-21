@@ -8,7 +8,7 @@ use Tests\DuskTestCase;
 
 class FormLibrariesInModalTest extends DuskTestCase
 {
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_autosize_the_textarea_in_a_modal()
     {
         $this->browse(function (Browser $browser) {
@@ -23,7 +23,7 @@ class FormLibrariesInModalTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_use_the_choices_js_library_for_a_select_element()
     {
         $this->browse(function (Browser $browser) {
@@ -38,7 +38,7 @@ class FormLibrariesInModalTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_use_the_choices_js_library_for_a_multiple_select_element_in_a_modal()
     {
         $this->browse(function (Browser $browser) {
@@ -60,7 +60,7 @@ class FormLibrariesInModalTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_close_the_choices_js_library_without_selecting_an_option()
     {
         $this->browse(function (Browser $browser) {
@@ -79,7 +79,7 @@ class FormLibrariesInModalTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_use_flatpickr_to_pick_a_date()
     {
         $this->browse(function (Browser $browser) {
@@ -94,7 +94,7 @@ class FormLibrariesInModalTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_use_flatpickr_to_pick_a_time()
     {
         $this->browse(function (Browser $browser) {
@@ -109,7 +109,7 @@ class FormLibrariesInModalTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_use_flatpickr_to_pick_a_date_and_time()
     {
         $this->browse(function (Browser $browser) {
@@ -125,7 +125,7 @@ class FormLibrariesInModalTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_use_flatpickr_to_pick_a_date_range()
     {
         $this->browse(function (Browser $browser) {

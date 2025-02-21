@@ -7,7 +7,7 @@ use Tests\TestCase;
 
 class BladeDirectivesTest extends TestCase
 {
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_parses_the_expression_into_a_name_and_function()
     {
         [$name, $function] = BladeDirectives::parseTableCellDirectiveExpression("'action', \$user");
@@ -16,7 +16,7 @@ class BladeDirectivesTest extends TestCase
         $this->assertEquals('function ($user) use ($__env)', $function);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_parses_the_expression_without_a_second_argument()
     {
         [$name, $function] = BladeDirectives::parseTableCellDirectiveExpression("'action'");
@@ -25,7 +25,7 @@ class BladeDirectivesTest extends TestCase
         $this->assertEquals('function () use ($__env)', $function);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_parses_the_expression_into_a_name_and_function_and_you_can_use_the_key()
     {
         [$name, $function] = BladeDirectives::parseTableCellDirectiveExpression("'action', \$user, \$key");
@@ -34,7 +34,7 @@ class BladeDirectivesTest extends TestCase
         $this->assertEquals('function ($user, $key) use ($__env)', $function);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_parses_the_expression_into_a_name_and_function_and_use_a_variable_from_outside_the_scope()
     {
         [$name, $function] = BladeDirectives::parseTableCellDirectiveExpression("'action', [\$user], \$account");

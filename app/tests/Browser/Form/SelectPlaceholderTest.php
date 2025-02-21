@@ -9,7 +9,7 @@ use Tests\DuskTestCase;
 
 class SelectPlaceholderTest extends DuskTestCase
 {
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_have_no_placeholder_on_regular_select_elements()
     {
         $this->browse(function (Browser $browser) {
@@ -20,7 +20,7 @@ class SelectPlaceholderTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_have_a_placeholder_on_regular_select_elements_but_you_cant_select_it()
     {
         $this->browse(function (Browser $browser) {
@@ -41,7 +41,7 @@ class SelectPlaceholderTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_have_no_placeholder_on_choices_instances()
     {
         $this->browse(function (Browser $browser) {
@@ -79,7 +79,7 @@ class SelectPlaceholderTest extends DuskTestCase
         });
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_have_a_placeholder_on_choices_instances()
     {
         $this->browse(function (Browser $browser) {

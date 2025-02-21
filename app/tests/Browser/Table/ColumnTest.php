@@ -6,16 +6,11 @@ use App\Models\User;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 
-/**
- * @group table
- */
+#[\PHPUnit\Framework\Attributes\Group('table')]
 class ColumnTest extends DuskTestCase
 {
-    /**
-     * @test
-     *
-     * @dataProvider tableUrls
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
+    #[\PHPUnit\Framework\Attributes\DataProvider('tableUrls')]
     public function it_can_toggle_columns($url)
     {
         $this->browse(function (Browser $browser) use ($url) {
