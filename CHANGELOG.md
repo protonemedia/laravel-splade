@@ -2,6 +2,20 @@
 
 All notable changes to `laravel-splade` will be documented in this file.
 
+## 1.4.21 - 2025-02-23
+
+### What's Changed
+
+* Bump dependabot/fetch-metadata from 2.2.0 to 2.3.0 by @dependabot in https://github.com/protonemedia/laravel-splade/pull/649
+* Bump aglipanci/laravel-pint-action from 2.4 to 2.5 by @dependabot in https://github.com/protonemedia/laravel-splade/pull/650
+* Laravel 12.x Compatibility by @laravel-shift in https://github.com/protonemedia/laravel-splade/pull/651
+
+### New Contributors
+
+* @laravel-shift made their first contribution in https://github.com/protonemedia/laravel-splade/pull/651
+
+**Full Changelog**: https://github.com/protonemedia/laravel-splade/compare/1.4.20...1.4.21
+
 ## 1.4.20 - 2024-11-20
 
 ### What's Changed
